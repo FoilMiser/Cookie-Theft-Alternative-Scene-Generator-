@@ -1,0 +1,1068 @@
+{
+ "name": "T3_park_s18025",
+ "tier": 3,
+ "setting": "park",
+ "sky": "clear",
+ "seed": 18025,
+ "mirror": true,
+ "versions": {
+  "generator": "0.18.0",
+  "cast_builder": "0.18.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  }
+ },
+ "features": [
+  "bench",
+  "blanket",
+  "flowers"
+ ],
+ "templates": [
+  {
+   "id": "ladder_nothing",
+   "kind": "contradiction",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "picnic",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  },
+  {
+   "id": "balloon",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  }
+ ],
+ "scene_load": 3,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A grandmother is having a picnic",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "having a picnic",
+     "picnic",
+     "sitting on a blanket",
+     "sitting on the grass"
+    ]
+   },
+   "key": "picnic",
+   "elements": [
+    "picnicker_1",
+    "basket_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "picnic",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.062,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.2,
+    "domain": null,
+    "area_px": 16696
+   },
+   "b": -1.111,
+   "p0": 0.752,
+   "pm1": 0.528,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "There is a ladder",
+   "accepted": [
+    "ladder",
+    "a ladder",
+    "step ladder"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "ladder_nothing",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.45,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.03,
+    "domain": null,
+    "area_px": 8112
+   },
+   "b": -0.424,
+   "p0": 0.604,
+   "pm1": 0.36,
+   "aoi_cells": [
+    "ML",
+    "MC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the ladder",
+   "accepted": [
+    "the ladder is odd",
+    "something strange about the ladder",
+    "that ladder"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_3"
+   ],
+   "cues": [
+    "ladder_3"
+   ],
+   "effect": [
+    "ladder_3"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.45,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.03,
+    "domain": "physical",
+    "area_px": 8112
+   },
+   "b": 0.376,
+   "p0": 0.407,
+   "pm1": 0.202,
+   "aoi_cells": [
+    "ML",
+    "MC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "contradiction_explain",
+   "text": "The ladder is leaning on nothing, so it should fall over",
+   "accepted": [
+    "leaning on nothing",
+    "nothing holding it up",
+    "it should fall",
+    "not against anything",
+    "ladder standing by itself"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_3"
+   ],
+   "cues": [
+    "ladder_3"
+   ],
+   "effect": [
+    "ladder_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.45,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.03,
+    "domain": "physical",
+    "area_px": 8112
+   },
+   "b": 1.576,
+   "p0": 0.171,
+   "pm1": 0.071,
+   "aoi_cells": [
+    "ML",
+    "MC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A girl is holding a balloon",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "holding a balloon",
+     "balloon",
+     "has a balloon"
+    ]
+   },
+   "key": "balloon",
+   "elements": [
+    "balloonkid_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "balloon",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.515,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.1,
+    "domain": null,
+    "area_px": 7404
+   },
+   "b": -0.852,
+   "p0": 0.701,
+   "pm1": 0.463,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.055,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "domain": null,
+    "area_px": 16532
+   },
+   "b": -0.716,
+   "p0": 0.672,
+   "pm1": 0.429,
+   "aoi_cells": [
+    "TC",
+    "TR"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a path",
+   "accepted": [
+    "path",
+    "walkway",
+    "trail",
+    "footpath",
+    "sidewalk"
+   ],
+   "key": "path",
+   "elements": [
+    "path"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.863,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.71,
+    "domain": null,
+    "area_px": 51656
+   },
+   "b": -1.284,
+   "p0": 0.783,
+   "pm1": 0.571,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a pond",
+   "accepted": [
+    "pond",
+    "lake",
+    "water"
+   ],
+   "key": "pond",
+   "elements": [
+    "pond"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.204,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.02,
+    "domain": null,
+    "area_px": 83520
+   },
+   "b": -1.236,
+   "p0": 0.775,
+   "pm1": 0.559,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "There is a big tree",
+   "accepted": [
+    "tree",
+    "trees",
+    "big tree"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.012,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "domain": null,
+    "area_px": 63708
+   },
+   "b": -1.401,
+   "p0": 0.802,
+   "pm1": 0.599,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There is a lamp post",
+   "accepted": [
+    "lamp post",
+    "lamp",
+    "street light",
+    "light post",
+    "lamppost"
+   ],
+   "key": "lamp",
+   "elements": [
+    "lamp"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.444,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.05,
+    "domain": null,
+    "area_px": 8176
+   },
+   "b": -0.433,
+   "p0": 0.607,
+   "pm1": 0.362,
+   "aoi_cells": [
+    "TC",
+    "MC"
+   ]
+  },
+  {
+   "id": "i12",
+   "type": "entity",
+   "text": "There is a park bench",
+   "accepted": [
+    "bench",
+    "park bench",
+    "seat"
+   ],
+   "key": "bench",
+   "elements": [
+    "bench"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.161,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.39,
+    "domain": null,
+    "area_px": 12184
+   },
+   "b": -0.676,
+   "p0": 0.663,
+   "pm1": 0.42,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "entity",
+   "text": "There are flowers",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.319,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "domain": null,
+    "area_px": 23992
+   },
+   "b": -0.991,
+   "p0": 0.729,
+   "pm1": 0.498,
+   "aoi_cells": [
+    "BR"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 11,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 13
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.709,
+   "inference": 0.289
+  },
+  "theta_minus_1": {
+   "content": 0.478,
+   "inference": 0.136
+  }
+ },
+ "bands": {
+  "content_count": false,
+  "inference_units": false,
+  "contradictions": true,
+  "content_completeness": false,
+  "inference_completeness": true
+ },
+ "in_tier": false,
+ "checks": {
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": false,
+   "detail": "19 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 19,
+  "edge_density": 0.0299,
+  "png_bytes": 207925,
+  "jpeg_bytes": 146603
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    72.0,
+    12.0,
+    268.0,
+    208.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    680.0,
+    52.0,
+    1156.0,
+    168.0
+   ],
+   "area_px": 16532,
+   "visible_px": 16532,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hills",
+   "label": "Hills in the distance",
+   "role": "setting",
+   "z": -97,
+   "bbox": [
+    0.0,
+    402.0,
+    1600.0,
+    522.0
+   ],
+   "area_px": 155668,
+   "visible_px": 111880,
+   "occlusion": 0.281
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees in the distance",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Grass",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Path",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    292.0,
+    520.0,
+    558.0,
+    1000.0
+   ],
+   "area_px": 51712,
+   "visible_px": 51656,
+   "occlusion": 0.001
+  },
+  {
+   "id": "pond",
+   "label": "Pond",
+   "role": "setting",
+   "z": -70,
+   "bbox": [
+    798.0,
+    570.0,
+    1462.0,
+    730.0
+   ],
+   "area_px": 84408,
+   "visible_px": 83520,
+   "occlusion": 0.011
+  },
+  {
+   "id": "blanket",
+   "label": "Picnic blanket",
+   "role": "setting",
+   "z": -60,
+   "bbox": [
+    782.0,
+    808.0,
+    1058.0,
+    924.0
+   ],
+   "area_px": 14980,
+   "visible_px": 10852,
+   "occlusion": 0.276
+  },
+  {
+   "id": "filler_bush_b",
+   "label": "Bush",
+   "role": "filler",
+   "z": 560,
+   "bbox": [
+    694.0,
+    526.0,
+    786.0,
+    584.0
+   ],
+   "area_px": 3880,
+   "visible_px": 3880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_small",
+   "label": "Small tree",
+   "role": "setting",
+   "z": 575,
+   "bbox": [
+    1402.0,
+    394.0,
+    1578.0,
+    578.0
+   ],
+   "area_px": 22560,
+   "visible_px": 22560,
+   "occlusion": 0.0
+  },
+  {
+   "id": "lamp",
+   "label": "Lamp post",
+   "role": "setting",
+   "z": 640,
+   "bbox": [
+    644.0,
+    202.0,
+    696.0,
+    642.0
+   ],
+   "area_px": 8176,
+   "visible_px": 8176,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_l",
+   "label": "Bush",
+   "role": "filler",
+   "z": 640,
+   "bbox": [
+    1448.0,
+    596.0,
+    1568.0,
+    672.0
+   ],
+   "area_px": 6628,
+   "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_r",
+   "label": "Bush",
+   "role": "filler",
+   "z": 650,
+   "bbox": [
+    32.0,
+    606.0,
+    152.0,
+    682.0
+   ],
+   "area_px": 6628,
+   "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "ladder_3",
+   "label": "Ladder leaning on nothing",
+   "role": "scored",
+   "z": 668.89,
+   "bbox": [
+    464.0,
+    416.0,
+    560.0,
+    676.0
+   ],
+   "area_px": 8112,
+   "visible_px": 8112,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree",
+   "label": "Big tree",
+   "role": "setting",
+   "z": 760,
+   "bbox": [
+    56.0,
+    338.0,
+    344.0,
+    762.0
+   ],
+   "area_px": 63708,
+   "visible_px": 63708,
+   "occlusion": 0.0
+  },
+  {
+   "id": "bench",
+   "label": "Park bench",
+   "role": "setting",
+   "z": 830,
+   "bbox": [
+    416.0,
+    718.0,
+    624.0,
+    832.0
+   ],
+   "area_px": 12184,
+   "visible_px": 12184,
+   "occlusion": 0.0
+  },
+  {
+   "id": "picnicker_1",
+   "label": "person.rosa__sit_ground__happy__y045",
+   "role": "scored",
+   "z": 885,
+   "bbox": [
+    884.0,
+    710.0,
+    1066.0,
+    902.0
+   ],
+   "area_px": 13768,
+   "visible_px": 13004,
+   "occlusion": 0.055,
+   "asset": {
+    "variant": "person.rosa__sit_ground__happy__y045",
+    "family": "person.rosa",
+    "scale": 0.4769,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "basket_2",
+   "label": "Picnic basket",
+   "role": "scored",
+   "z": 886,
+   "bbox": [
+    1040.0,
+    820.0,
+    1116.0,
+    888.0
+   ],
+   "area_px": 3692,
+   "visible_px": 3692,
+   "occlusion": 0.0
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 936,
+   "bbox": [
+    1180.0,
+    792.0,
+    1420.0,
+    940.0
+   ],
+   "area_px": 23992,
+   "visible_px": 23992,
+   "occlusion": 0.0
+  },
+  {
+   "id": "balloonkid_4",
+   "label": "person.nia__walk_balloon__smile__y090",
+   "role": "scored",
+   "z": 943.59,
+   "bbox": [
+    634.0,
+    704.0,
+    734.0,
+    946.0
+   ],
+   "area_px": 7404,
+   "visible_px": 7404,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.nia__walk_balloon__smile__y090",
+    "family": "person.nia",
+    "scale": 0.4986,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "filler_bin_p2",
+   "label": "Bin",
+   "role": "filler",
+   "z": 980,
+   "bbox": [
+    1500.0,
+    892.0,
+    1570.0,
+    982.0
+   ],
+   "area_px": 5276,
+   "visible_px": 5276,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   18025,
+   "layout 1: accepted after 0 rejected layouts"
+  ]
+ ],
+ "layout": 0,
+ "knob": 0,
+ "regen": {
+  "base_seed": 18025,
+  "max_tries": 6,
+  "placements": 14,
+  "require_band": false,
+  "usage": {},
+  "forced": {
+   "events": [
+    "picnic",
+    "balloon"
+   ],
+   "contradictions": [
+    "ladder_nothing"
+   ]
+  },
+  "placement_rev": 16
+ },
+ "probe": true
+}

@@ -1,0 +1,285 @@
+<title>TPDB Garden Scene</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: test-booklet page — stimulus plate on the left, examiner's scoring sheet on the right; stacks on phones. */
+:root {
+  --paper: #f4f6f9;
+  --sheet: #ffffff;
+  --ink: #1b2130;
+  --muted: #5b6477;
+  --rule: #d9dee7;
+  --accent: #1d6fc0;
+  --accent-soft: #e2edf9;
+  --good: #2b7a4b;
+  --good-soft: #e1f2e7;
+  --warn: #a35f00;
+  --warn-soft: #fbefdc;
+  --font-ui: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-id: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #11141b; --sheet: #191d26; --ink: #e5e8ee; --muted: #9ba4b6; --rule: #2b313d;
+    --accent: #6eaaee; --accent-soft: #1c2a3e; --good: #64c48c; --good-soft: #17301f;
+    --warn: #e2a64c; --warn-soft: #33270f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #11141b; --sheet: #191d26; --ink: #e5e8ee; --muted: #9ba4b6; --rule: #2b313d;
+  --accent: #6eaaee; --accent-soft: #1c2a3e; --good: #64c48c; --good-soft: #17301f;
+  --warn: #e2a64c; --warn-soft: #33270f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 400 15px/1.5 var(--font-ui); }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 20px 40px; display: grid; gap: 18px; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px 24px; }
+.eyebrow { font: 500 12px/1 var(--font-id); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 6px 0 0; font-size: 26px; line-height: 1.15; font-weight: 700; text-wrap: balance; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; background: var(--sheet); padding: 3px; gap: 2px; }
+.seg button { font: inherit; font-weight: 700; color: var(--muted); background: transparent; border: 0; border-radius: 6px; padding: 7px 13px; cursor: pointer; min-width: 44px; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--sheet); }
+.seg button:hover:not([aria-pressed="true"]) { color: var(--ink); background: var(--accent-soft); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 18px; align-items: start; }
+.main > figure { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+@media (max-width: 960px) { .main { grid-template-columns: minmax(0, 1fr); } .main > figure { position: static; } }
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+.plate { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 10px; }
+#ui-scene { display: block; width: 100%; height: auto; border-radius: 4px; }
+.plate.gray #ui-scene { filter: grayscale(1); }
+#ui-scene .off { display: none; }
+#ui-scene .dim { opacity: .18; transition: opacity .15s; }
+@media (prefers-reduced-motion: reduce) { #ui-scene .dim { transition: none; } }
+figcaption { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 14px; }
+figcaption b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.sheet { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 14px; min-width: 0; }
+.sheet h2 { margin: 0; font-size: 17px; }
+.sheet p.note { margin: 0; color: var(--muted); font-size: 13.5px; }
+.score { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; }
+.meter { display: grid; gap: 5px; }
+.meter .lab { font-size: 12.5px; color: var(--muted); }
+.meter .val { font: 500 20px/1 var(--font-id); font-variant-numeric: tabular-nums; }
+.bar { height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+.ghost { font: inherit; font-size: 13px; color: var(--accent); background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 6px 10px; cursor: pointer; }
+.ghost:hover { background: var(--accent-soft); }
+ul.concepts { list-style: none; margin: 0; padding: 0; display: grid; }
+ul.concepts li { display: grid; grid-template-columns: auto 44px minmax(0, 1fr) auto; gap: 8px; align-items: start; padding: 8px 4px; border-top: 1px solid var(--rule); }
+ul.concepts li.hl { background: var(--accent-soft); }
+ul.concepts input { margin: 3px 0 0; width: 17px; height: 17px; accent-color: var(--accent); }
+.cid { font: 500 13px/1.5 var(--font-id); color: var(--muted); }
+.ctext { font-size: 14.5px; line-height: 1.4; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+.chip { font: 500 11px/1 var(--font-id); padding: 3px 6px; border-radius: 4px; background: var(--paper); color: var(--muted); border: 1px solid var(--rule); }
+.chip.new { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.chip.inf { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.find { font: 500 12px/1 var(--font-id); color: var(--accent); background: transparent; border: 1px solid var(--rule); border-radius: 5px; padding: 5px 7px; cursor: pointer; }
+.find[aria-pressed="true"] { background: var(--accent); color: var(--sheet); border-color: var(--accent); }
+.subhead { font: 500 12px/1 var(--font-id); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); padding: 12px 4px 6px; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 7px 8px; border-top: 1px solid var(--rule); white-space: nowrap; }
+th { font-weight: 700; color: var(--muted); font-size: 12px; border-top: 0; }
+tr.cur td { background: var(--accent-soft); }
+.ok { color: var(--good); font-weight: 700; }
+.off-band { color: var(--warn); font-weight: 700; }
+.t { color: var(--muted); font-size: 12px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">TPDB · Scene family 1 · Route A (SVG)</div>
+      <h1>Garden scene, four tiers</h1>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Tier" id="ui-tiers">
+        <button type="button" data-t="1">T1</button><button type="button" data-t="2">T2</button><button type="button" data-t="3">T3</button><button type="button" data-t="4">T4</button>
+      </div>
+      <div class="seg" role="group" aria-label="Color mode" id="ui-mode">
+        <button type="button" data-m="color">Color</button><button type="button" data-m="gray">Gray</button>
+      </div>
+      <div class="seg" role="group" aria-label="Overlay" id="ui-tagbtn">
+        <button type="button" data-tags="1">Tags &amp; grid</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <figure>
+      <div class="plate" id="ui-plate">%%SVG%%</div>
+      <figcaption id="ui-cap"></figcaption>
+    </figure>
+
+    <aside class="sheet" aria-label="Scoring sheet">
+      <div>
+        <h2>Score a description</h2>
+        <p class="note">Tick each concept the speaker states. Concept lists are design targets; the pilot sample decides the final main concepts.</p>
+      </div>
+      <div class="score">
+        <div class="meter"><span class="lab">Main concepts</span><span class="val" id="ui-mc">0/0</span><div class="bar"><i id="ui-mcbar"></i></div></div>
+        <div class="meter"><span class="lab">Inferences</span><span class="val" id="ui-inf">0/0</span><div class="bar"><i id="ui-infbar"></i></div></div>
+        <button type="button" class="ghost" id="ui-reset">Clear</button>
+      </div>
+      <ul class="concepts" id="ui-list"></ul>
+    </aside>
+  </div>
+
+  <section class="sheet" aria-label="Tier calibration">
+    <div>
+      <h2>Tier calibration</h2>
+      <p class="note">Counts are computed from the element tags. Targets are the bands in the tier spec. Objects exclude sky and lawn; filler objects hold the slots that later tiers fill, so clutter rises more slowly than content.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Main concepts</th><th>Inferences</th><th>Objects</th><th>Scored / filler</th><th>3×3 cells with content</th><th>Edge density</th><th>Gray PNG</th></tr></thead>
+        <tbody id="ui-table"></tbody>
+      </table>
+    </div>
+    <p class="note">Gray view uses Rec.709 luminance, the same conversion as the exported grayscale PNGs.</p>
+  </section>
+</div>
+
+<script>
+const D = %%DATA%%;
+const TARGET = { 1: [[4, 6], [0, 0]], 2: [[8, 10], [1, 1]], 3: [[12, 15], [2, 3]], 4: [[18, 22], [4, 5]] };
+const S = { tier: 1, gray: false, tags: false, ticks: new Set(), hl: null };
+const svg = document.getElementById("ui-scene");
+const overlay = document.getElementById("ui-overlay");
+const groups = [...svg.querySelectorAll(":scope > g[data-tier-min]")];
+const NS = "http://www.w3.org/2000/svg";
+const elById = Object.fromEntries(D.elements.map(e => [e.id, e]));
+
+function visibleAt(o, t) { return o.tier_min <= t && t <= o.tier_max; }
+function conceptsAt(t) {
+  return Object.entries(D.concepts).filter(([, c]) => visibleAt(c, t))
+    .sort((a, b) => (a[1].kind === b[1].kind ? a[0].localeCompare(b[0]) : a[1].kind === "mc" ? -1 : 1));
+}
+function mk(tag, attrs, parent) {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  parent.appendChild(n); return n;
+}
+
+function drawScene() {
+  const t = S.tier;
+  const hlEls = S.hl ? new Set(D.concepts[S.hl].elements) : null;
+  for (const g of groups) {
+    const e = elById[g.id];
+    g.classList.toggle("off", !visibleAt(e, t));
+    g.classList.toggle("dim", !!hlEls && !hlEls.has(g.id) && e.role !== "background");
+  }
+  document.getElementById("ui-plate").classList.toggle("gray", S.gray);
+  overlay.replaceChildren();
+  const accent = "#1d6fc0";
+  if (S.tags) {
+    for (let i = 1; i < 3; i++) {
+      mk("line", { x1: i * 1600 / 3, y1: 0, x2: i * 1600 / 3, y2: 1000, stroke: "#26262e", "stroke-width": 3, "stroke-dasharray": "14 10", opacity: .7 }, overlay);
+      mk("line", { x1: 0, y1: i * 1000 / 3, x2: 1600, y2: i * 1000 / 3, stroke: "#26262e", "stroke-width": 3, "stroke-dasharray": "14 10", opacity: .7 }, overlay);
+    }
+    ["T", "M", "B"].forEach((r, ri) => ["L", "C", "R"].forEach((c, ci) => {
+      const tx = mk("text", { x: ci * 1600 / 3 + 12, y: ri * 1000 / 3 + 30, "font-family": "IBM Plex Mono, monospace", "font-size": 22, "font-weight": 500, fill: "#26262e", opacity: .75 }, overlay);
+      tx.textContent = r + c;
+    }));
+    for (const e of D.elements) {
+      if (e.role !== "scored" || !visibleAt(e, t) || !e.bbox) continue;
+      const ids = e.concepts.filter(c => visibleAt(D.concepts[c], t));
+      if (!ids.length) continue;
+      const [x0, y0, x1, y1] = e.bbox;
+      mk("rect", { x: x0 - 4, y: y0 - 4, width: x1 - x0 + 8, height: y1 - y0 + 8, fill: "none", stroke: accent, "stroke-width": 3, rx: 6 }, overlay);
+      const label = ids.join(" ");
+      const w = label.length * 13.5 + 14;
+      const ly = Math.max(y0 - 32, 2);
+      mk("rect", { x: x0 - 4, y: ly, width: w, height: 28, fill: accent, rx: 4 }, overlay);
+      const tx = mk("text", { x: x0 + 3, y: ly + 20, "font-family": "IBM Plex Mono, monospace", "font-size": 20, "font-weight": 500, fill: "#ffffff" }, overlay);
+      tx.textContent = label;
+    }
+  }
+  if (hlEls) {
+    for (const id of hlEls) {
+      const e = elById[id];
+      if (!visibleAt(e, t) || !e.bbox) continue;
+      const [x0, y0, x1, y1] = e.bbox;
+      mk("rect", { x: x0 - 10, y: y0 - 10, width: x1 - x0 + 20, height: y1 - y0 + 20, fill: "none", stroke: accent, "stroke-width": 6, rx: 10 }, overlay);
+    }
+  }
+}
+
+function drawSheet() {
+  const t = S.tier, list = document.getElementById("ui-list");
+  list.replaceChildren();
+  let lastKind = null;
+  for (const [id, c] of conceptsAt(t)) {
+    if (c.kind !== lastKind) {
+      const h = document.createElement("li");
+      h.className = "subhead"; h.style.display = "block";
+      h.textContent = c.kind === "mc" ? "Main concepts" : "Inferences";
+      list.appendChild(h); lastKind = c.kind;
+    }
+    const li = document.createElement("li");
+    if (S.hl === id) li.className = "hl";
+    const cb = document.createElement("input");
+    cb.type = "checkbox"; cb.id = "ui-cb-" + id; cb.checked = S.ticks.has(id);
+    cb.addEventListener("change", () => { cb.checked ? S.ticks.add(id) : S.ticks.delete(id); drawScore(); });
+    const cid = document.createElement("label"); cid.className = "cid"; cid.htmlFor = cb.id; cid.textContent = id;
+    const body = document.createElement("label"); body.htmlFor = cb.id;
+    const tx = document.createElement("div"); tx.className = "ctext"; tx.textContent = c.text; body.appendChild(tx);
+    const chips = document.createElement("div"); chips.className = "chips";
+    if (c.tier_min === t && t > 1) { const k = document.createElement("span"); k.className = "chip new"; k.textContent = "new at T" + t; chips.appendChild(k); }
+    if (c.inference_type) { const k = document.createElement("span"); k.className = "chip inf"; k.textContent = c.inference_type; chips.appendChild(k); }
+    const cells = document.createElement("span"); cells.className = "chip"; cells.textContent = c.cells.join(" "); chips.appendChild(cells);
+    body.appendChild(chips);
+    const find = document.createElement("button");
+    find.type = "button"; find.className = "find"; find.textContent = "Find";
+    find.setAttribute("aria-pressed", String(S.hl === id));
+    find.setAttribute("aria-label", "Highlight " + id + " in the picture");
+    find.addEventListener("click", () => { S.hl = S.hl === id ? null : id; drawScene(); drawSheet(); });
+    li.append(cb, cid, body, find);
+    list.appendChild(li);
+  }
+  drawScore();
+}
+
+function drawScore() {
+  const cs = conceptsAt(S.tier);
+  const mc = cs.filter(([, c]) => c.kind === "mc"), inf = cs.filter(([, c]) => c.kind === "inf");
+  const mcHit = mc.filter(([id]) => S.ticks.has(id)).length, infHit = inf.filter(([id]) => S.ticks.has(id)).length;
+  document.getElementById("ui-mc").textContent = `${mcHit}/${mc.length}`;
+  document.getElementById("ui-inf").textContent = inf.length ? `${infHit}/${inf.length}` : "none";
+  document.getElementById("ui-mcbar").style.width = (mc.length ? 100 * mcHit / mc.length : 0) + "%";
+  document.getElementById("ui-infbar").style.width = (inf.length ? 100 * infHit / inf.length : 0) + "%";
+}
+
+function drawMeta() {
+  const m = D.tiers[S.tier - 1];
+  document.getElementById("ui-cap").innerHTML =
+    `<span>Tier <b>${m.tier}</b></span><span><b>${m.main_concepts}</b> main concepts</span><span><b>${m.inferences}</b> inferences</span><span><b>${m.objects}</b> drawn objects</span>`;
+  const band = (v, [lo, hi]) => `${v} <span class="${v >= lo && v <= hi ? "ok" : "off-band"}">${v >= lo && v <= hi ? "✓" : "off"}</span> <span class="t">${lo === hi ? lo : lo + "–" + hi}</span>`;
+  document.getElementById("ui-table").innerHTML = D.tiers.map(r =>
+    `<tr class="${r.tier === S.tier ? "cur" : ""}"><td><b>T${r.tier}</b></td><td>${band(r.main_concepts, TARGET[r.tier][0])}</td><td>${band(r.inferences, TARGET[r.tier][1])}</td><td>${r.objects}</td><td>${r.scored_objects} / ${r.filler_objects}</td><td>${r.scored_cells} of 9</td><td>${(r.edge_density * 100).toFixed(1)}%</td><td>${r.gray_png_kb} KB</td></tr>`).join("");
+  document.querySelectorAll("#ui-tiers button").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.t === S.tier)));
+  document.querySelectorAll("#ui-mode button").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.m === "gray") === S.gray)));
+  document.querySelector("#ui-tagbtn button").setAttribute("aria-pressed", String(S.tags));
+}
+
+function setTier(t) {
+  if (t === S.tier) return;
+  S.tier = t; S.ticks.clear();
+  if (S.hl && !visibleAt(D.concepts[S.hl], t)) S.hl = null;
+  render();
+}
+function render() { drawScene(); drawSheet(); drawMeta(); }
+
+document.querySelectorAll("#ui-tiers button").forEach(b => b.addEventListener("click", () => setTier(+b.dataset.t)));
+document.querySelectorAll("#ui-mode button").forEach(b => b.addEventListener("click", () => { S.gray = b.dataset.m === "gray"; drawScene(); drawMeta(); }));
+document.querySelector("#ui-tagbtn button").addEventListener("click", () => { S.tags = !S.tags; drawScene(); drawMeta(); });
+document.getElementById("ui-reset").addEventListener("click", () => { S.ticks.clear(); drawSheet(); });
+document.addEventListener("keydown", ev => {
+  if (ev.target.closest("input, textarea")) return;
+  if (["1", "2", "3", "4"].includes(ev.key)) setTier(+ev.key);
+});
+render();
+</script>

@@ -1,0 +1,464 @@
+<title>TPDB Scene Generator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a research-tool page. A tier ladder of generated scenes up top, one scene opened large in a
+   viewer with its scoring key beside it, then the library (templates, cast, actions) and the counts. */
+:root {
+  --bg: #f4f6f2;          /* lawn-paper neutral, slightly green */
+  --panel: #ffffff;
+  --ink: #26262e;         /* the cast's outline ink */
+  --muted: #5d6460;
+  --line: #d9ded6;
+  --accent: #16677f;      /* garden-hose teal from the asset palette */
+  --accent-soft: #d7ebf0;
+  --t1: #4e9a52; --t2: #c79a1e; --t3: #d0702c; --t4: #b2473f;   /* tier ramp: easy to hard */
+  --ok: #2f7d4f; --warn: #a8641c;
+  --hl: rgba(22, 103, 127, 0.18); --hl-line: #16677f;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161a18; --panel: #1f2421; --ink: #e8ece6; --muted: #a3aba5; --line: #333b36;
+    --accent: #5fb6cc; --accent-soft: #1d3a42; --t1: #6dbb70; --t2: #e0b443; --t3: #ec8d4a; --t4: #e0675e;
+    --ok: #6cc08e; --warn: #e3a053; --hl: rgba(95, 182, 204, 0.22); --hl-line: #7fd0e3; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161a18; --panel: #1f2421; --ink: #e8ece6; --muted: #a3aba5; --line: #333b36;
+  --accent: #5fb6cc; --accent-soft: #1d3a42; --t1: #6dbb70; --t2: #e0b443; --t3: #ec8d4a; --t4: #e0675e;
+  --ok: #6cc08e; --warn: #e3a053; --hl: rgba(95, 182, 204, 0.22); --hl-line: #7fd0e3; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15.5px; line-height: 1.55; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 4.6vw, 48px); font-weight: 700; line-height: 1.05; }
+h2 { font-size: clamp(22px, 2.6vw, 28px); font-weight: 700; margin-bottom: 6px; }
+h3 { font-size: 17px; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+.muted { color: var(--muted); }
+.mono, .num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+section { margin-top: 56px; display: grid; gap: 14px; }
+header.top { display: grid; gap: 12px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+.stats b { color: var(--ink); font-weight: 500; }
+nav.jump { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+nav.jump a { font-size: 13px; color: var(--accent); text-decoration: none; border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; background: var(--panel); }
+nav.jump a:hover, nav.jump a:focus-visible { border-color: var(--accent); outline: none; }
+
+/* tier ladder */
+.ladder { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.tier { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.tier-head { border-top: 5px solid var(--tc); padding-top: 8px; display: grid; gap: 2px; }
+.tier-head .t { font-family: var(--f-display); font-weight: 700; font-size: 20px; }
+.tier-head .spec { font-family: var(--f-mono); font-size: 12px; color: var(--muted); line-height: 1.45; }
+.thumb { all: unset; cursor: pointer; display: grid; gap: 4px; border-radius: 8px; padding: 6px; background: var(--panel); border: 1px solid var(--line); }
+.thumb img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 4px; display: block; }
+.thumb .cap { display: flex; justify-content: space-between; gap: 6px; font-size: 12.5px; }
+.thumb .cap .num { color: var(--muted); }
+.thumb[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.thumb:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
+@media (max-width: 860px) { .ladder { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 460px) { .ladder { grid-template-columns: minmax(0, 1fr); } }
+
+/* viewer */
+.viewer { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 980px) { .viewer { grid-template-columns: minmax(0, 1fr); } }
+.stage { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px; }
+.stage .pic { position: relative; }
+.stage img { width: 100%; display: block; border-radius: 4px; }
+.stage svg.ov { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.ov rect { fill: var(--hl); stroke: var(--hl-line); stroke-width: 4; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--panel); }
+.seg button { all: unset; cursor: pointer; padding: 5px 12px; font-size: 13px; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--panel); }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.meta { display: grid; gap: 12px; min-width: 0; }
+.scorecard { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 6px; }
+.metric .k { font-size: 12px; color: var(--muted); }
+.metric .v { font-family: var(--f-mono); font-size: 20px; }
+.band { position: relative; height: 10px; background: var(--line); border-radius: 5px; }
+.band .zone { position: absolute; top: 0; bottom: 0; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 5px; }
+.band .dot { position: absolute; top: -3px; width: 4px; height: 16px; background: var(--ink); border-radius: 2px; transform: translateX(-2px); }
+.band-scale { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 10.5px; color: var(--muted); }
+.pill { display: inline-block; font-family: var(--f-mono); font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.pill.ok { color: var(--ok); } .pill.bad { color: var(--warn); }
+.items { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.items .grp { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 8px 12px 4px; border-top: 1px solid var(--line); }
+.items .grp:first-child { border-top: 0; }
+.item { all: unset; display: grid; grid-template-columns: minmax(0, 1fr) 128px; gap: 10px; padding: 6px 12px; cursor: pointer; align-items: center; }
+.item:hover, .item:focus-visible, .item.on { background: var(--accent-soft); }
+.item .txt { font-size: 14px; min-width: 0; }
+.item .sub { font-size: 12px; color: var(--muted); }
+.pbar { display: grid; gap: 2px; justify-items: end; }
+.pbar .bar { width: 120px; height: 6px; background: var(--line); border-radius: 3px; position: relative; overflow: hidden; }
+.pbar .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
+.pbar .num { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.detail { font-size: 13px; color: var(--muted); background: var(--panel); border: 1px dashed var(--line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 4px; }
+.detail .mono { font-size: 12px; }
+.checks { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* generic tables / lists */
+.tbl { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td.tnote { white-space: normal; min-width: 260px; line-height: 1.45; }
+th { font-family: var(--f-mono); font-size: 11.5px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+td.num, th.num { text-align: right; }
+tr:last-child td { border-bottom: 0; }
+.cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 900px) { .cols3 { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.tlist { display: grid; gap: 7px; font-size: 13.5px; }
+.tlist .row { display: grid; gap: 1px; }
+.tlist .id { font-family: var(--f-mono); font-size: 12.5px; color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font-family: var(--f-mono); font-size: 11px; padding: 1px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--ink); }
+
+/* galleries */
+.strip { display: flex; align-items: flex-end; gap: 14px; overflow-x: auto; padding: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.strip figure { margin: 0; display: grid; justify-items: center; gap: 4px; flex: 0 0 auto; }
+.strip figcaption { font-size: 12px; color: var(--muted); text-align: center; }
+.faces { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.faces figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 4px; display: grid; gap: 2px; justify-items: center; }
+.faces img { width: 100%; height: auto; }
+.faces figcaption { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.acts { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.acts figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px; display: grid; grid-template-rows: 150px auto; gap: 4px; }
+.acts .im { display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+.acts img { max-height: 150px; width: auto; max-width: 100%; }
+.acts figcaption { font-size: 12px; line-height: 1.3; }
+.acts figcaption .mono { font-size: 10.5px; color: var(--muted); display: block; }
+.iso { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .iso { grid-template-columns: minmax(0, 1fr); } }
+.iso figure { margin: 0; display: grid; gap: 6px; }
+.iso img { width: 100%; border-radius: 6px; border: 1px solid var(--line); }
+.formula { font-family: var(--f-mono); font-size: 13px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; white-space: pre; }
+footer { margin-top: 56px; font-size: 13px; color: var(--muted); }
+.fixgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.fix { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 10px; display: grid; gap: 8px; }
+.fix .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: end; }
+.fix figure { margin: 0; display: grid; gap: 4px; justify-items: center; }
+.fix img { max-width: 100%; height: 150px; object-fit: contain; }
+.fix figcaption { font-size: 11.5px; color: var(--muted); font-family: var(--f-mono); }
+.fix .lab { font-weight: 600; font-size: 14px; }
+.fix .note { font-size: 12.5px; color: var(--muted); }
+.screen { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 14px 0 20px; }
+.screen .metric .v small { font-size: 13px; color: var(--muted); font-weight: 400; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Tiered Picture Description Battery · v0.18</div>
+    <h1>TPDB Scene Generator</h1>
+    <p>Every picture below was assembled by code from a library of rendered characters and drawn settings, aimed at one of four difficulty tiers, and scored item by item with the difficulty model's starting weights. Open any scene to see its scoring key, the predicted probability that an average healthy older adult mentions each item, and where each item sits in the picture.</p>
+    <div class="stats" id="stats"></div>
+    <nav class="jump" aria-label="Sections">
+      <a href="#scenes">Scenes</a><a href="#viewer">Viewer</a><a href="#fixes">What v0.18 fixed</a><a href="#isomorphs">Isomorph pairs</a><a href="#counts">How many scenes</a>
+      <a href="#templates">Templates</a><a href="#cast">Cast</a><a href="#actions">Actions</a><a href="#model">Model</a>
+    </nav>
+  </header>
+
+  <section id="scenes" aria-labelledby="h-scenes">
+    <div class="eyebrow">Generated set</div>
+    <h2 id="h-scenes">One scene per setting at every tier</h2>
+    <p class="muted">Each column is a tier: more content, more inference, lower predicted completeness. The figures under each picture are predicted content and inference completeness at θ = 0.</p>
+    <div class="ladder" id="ladder"></div>
+  </section>
+
+  <section id="viewer" aria-labelledby="h-viewer">
+    <div class="eyebrow">Scene viewer</div>
+    <h2 id="h-viewer"><span id="v-title">Scene</span></h2>
+    <div class="viewer">
+      <div>
+        <div class="stage">
+          <div class="pic"><img id="v-img" alt=""><svg class="ov" id="v-ov" viewBox="0 0 1600 1000" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+        </div>
+        <div class="toolbar">
+          <div class="seg" role="group" aria-label="Colour"><button id="b-col" aria-pressed="true">Colour</button><button id="b-gray" aria-pressed="false">Grayscale</button></div>
+          <div class="seg" role="group" aria-label="Regions"><button id="b-all" aria-pressed="false">Show all scored regions</button></div>
+          <span class="muted" style="font-size:13px">Hover or tap an item to outline it in the picture.</span>
+        </div>
+        <div class="detail" id="v-detail" style="margin-top:10px"></div>
+      </div>
+      <div class="meta">
+        <div class="scorecard" id="v-score"></div>
+        <div class="checks" id="v-checks"></div>
+        <div class="items" id="v-items"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fixes" aria-labelledby="h-fixes">
+    <div class="eyebrow">Inspection and blind screen</div>
+    <h2 id="h-fixes">What v0.18 fixed</h2>
+    <p class="muted">Fresh readers, who never saw the scoring key, describe every picture the way a test participant would, and separate scorers mark each scored item as mentioned, half-mentioned, missed or misread. The screen has now run on fifteen releases, v0.4 to v0.18, and once more on the unchanged v0.9 pictures with fresh readers, to measure how much the readers themselves vary. v0.18 fixes the one template that fell short of the v0.17 gate, the waver, whose raised hand met the dark line of the hedge behind her and was taken for a hand holding a string, and the oddities the v0.17 readers reported: figures of different events kept apart instead of drawn into each other, the ground behind a catcher kept clear, a dark-haired woman whose face now shows in profile, larger cats, fillers well inside the picture's edge and a duck's wake kept off people. Each weak visual was first refined on its own: cut out of a picture with nothing else around it, read blind, redrawn and read again until it read as intended, then read blind in whole test scenes before going back into the set. Probe pictures put every template in front of the readers at least three times.</p>
+    <div class="screen" id="screen"></div>
+    <h3 id="fixhead">Poses and props, before and after</h3>
+    <div class="fixgrid" id="fixgrid"></div>
+  </section>
+
+  <section id="isomorphs" aria-labelledby="h-iso">
+    <div class="eyebrow">Interchangeable forms</div>
+    <h2 id="h-iso">Isomorph pairs</h2>
+    <p class="muted">Same item types with the same chain lengths, different setting, cast and templates; predicted content and inference completeness within 0.02 of each other.</p>
+    <div id="iso"></div>
+  </section>
+
+  <section id="counts" aria-labelledby="h-counts">
+    <div class="eyebrow">Combinatorics</div>
+    <h2 id="h-counts">How many different scenes the generator can make</h2>
+    <p class="muted">Structures are template sets that fit a tier's plan and can reach its content band. Signatures are what the difficulty model sees (item types, chain lengths, scored setting entities); structures sharing a signature are candidate isomorphs. Totals multiply structures by cast assignments, expressions, facing, mirroring and optional features; positions are continuous and not counted.</p>
+    <div class="tbl"><table id="t-counts"></table></div>
+  </section>
+
+  <section id="templates" aria-labelledby="h-tpl">
+    <div class="eyebrow">Template library</div>
+    <h2 id="h-tpl">Events, inference modules and contradictions</h2>
+    <div class="cols3" id="tpl"></div>
+  </section>
+
+  <section id="cast" aria-labelledby="h-cast">
+    <div class="eyebrow">Stand-in cast</div>
+    <h2 id="h-cast">Ten people, eight animals</h2>
+    <div class="strip" id="lineup"></div>
+    <div class="strip" id="lineup45"></div>
+    <h3>Nineteen expressions</h3>
+    <div class="faces" id="faces-a"></div>
+    <div class="faces" id="faces-b"></div>
+    <h3>Animals and their poses</h3>
+    <div class="strip" id="animals"></div>
+  </section>
+
+  <section id="actions" aria-labelledby="h-acts">
+    <div class="eyebrow">Action library</div>
+    <h2 id="h-acts"><span id="n-acts"></span> actions, each with its own props and anchors</h2>
+    <p class="muted">Lower-body postures combined with upper-body activities. Props are built for the pose and parented to the hand or head, so scenes can attach water, strings, leashes and ropes to the right point. These are the actions the templates use; <span id="n-spare"></span> more stay in the cast for future templates and are left out until one uses them. Earlier drawings that a refined pose replaced have been retired from the cast.</p>
+    <div class="acts" id="acts"></div>
+  </section>
+
+  <section id="model" aria-labelledby="h-model">
+    <div class="eyebrow">Difficulty model</div>
+    <h2 id="h-model">How each item is scored</h2>
+    <div class="formula" id="formula"></div>
+    <p class="muted" id="model-notes"></p>
+  </section>
+
+  <footer>TPDB v0.18 · procedural stand-in cast (Blender) composed in SVG · weights are the spec's starting values, to be replaced by the pilot fit · the blind screen used AI readers as a stand-in for people, so it flags illegible drawing, not human difficulty.</footer>
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+const $ = (s) => document.querySelector(s);
+const el = (tag, attrs = {}, kids = []) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === "text") e.textContent = v; else if (k === "html") e.innerHTML = v; else e.setAttribute(k, v); } for (const k of [].concat(kids)) if (k) e.append(k); return e; };
+const TC = { 1: "var(--t1)", 2: "var(--t2)", 3: "var(--t3)", 4: "var(--t4)" };
+const SET = { garden: "Garden", park: "Park", street: "Street", playground: "Playground" };
+const TYPE = { entity: "Things", action: "Actions", inference: "Inferences", contradiction_notice: "Contradictions: notice", contradiction_explain: "Contradictions: explain" };
+const fmt = (x, d = 2) => x == null ? "—" : Number(x).toFixed(d);
+
+// header stats
+const nTpl = D.templates.events.length + D.templates.modules.length + D.templates.contradictions.length;
+$("#stats").innerHTML = [
+  `<span><b>${D.scenes.filter(s => !s.iso_of).length}</b> showcase scenes</span>`,
+  `<span><b>${Object.keys(SET).length}</b> settings</span>`,
+  `<span><b>${D.people.length}</b> people · <b>${D.animals.length}</b> animals</span>`,
+  `<span><b>${D.n_actions}</b> actions · <b>${D.n_expressions}</b> expressions</span>`,
+  `<span><b>${nTpl}</b> templates (${D.templates.events.length} events, ${D.templates.modules.length} inference modules, ${D.templates.contradictions.length} contradictions)</span>`,
+].join("");
+
+// ladder
+const main = D.scenes.filter(s => !s.iso_of);
+let current = null;
+const thumbs = {};
+for (const t of [1, 2, 3, 4]) {
+  const T = D.tiers[t];
+  const col = el("div", { class: "tier", style: `--tc:${TC[t]}` });
+  const pi = T.pi ? `${T.pi[0].toFixed(2)}–${T.pi[1].toFixed(2)}` : "—";
+  col.append(el("div", { class: "tier-head" }, [
+    el("div", { class: "t", text: `Tier ${t}` }),
+    el("div", { class: "spec", html: `${T.content[0]}–${T.content[1]} content items · ${T.inference[0] === T.inference[1] ? T.inference[0] : T.inference[0] + "–" + T.inference[1]} inference<br>content ${T.pc[0].toFixed(2)}–${T.pc[1].toFixed(2)} · inference ${pi}` }),
+  ]));
+  for (const s of main.filter(s => s.tier === t).sort((a, b) => Object.keys(SET).indexOf(a.setting) - Object.keys(SET).indexOf(b.setting))) {
+    const b = el("button", { class: "thumb", "aria-pressed": "false", "aria-label": `Open ${SET[s.setting]}, tier ${t}` }, [
+      el("img", { src: `img/${s.name}_t.webp`, alt: `${SET[s.setting]} scene, tier ${t}`, loading: "lazy" }),
+      el("div", { class: "cap" }, [el("span", { text: SET[s.setting] }), el("span", { class: "num", text: `${fmt(s.pred.theta_0.content)} · ${fmt(s.pred.theta_0.inference)}` })]),
+    ]);
+    b.addEventListener("click", () => { show(s.name); document.getElementById("viewer").scrollIntoView({ behavior: "smooth", block: "start" }); });
+    thumbs[s.name] = b;
+    col.append(b);
+  }
+  $("#ladder").append(col);
+}
+
+// viewer
+let gray = false, allOn = false;
+function boxesSvg(boxes) { return boxes.map(b => `<rect x="${b[0]}" y="${b[1]}" width="${b[2] - b[0]}" height="${b[3] - b[1]}" rx="10"/>`).join(""); }
+function bandBar(v, lo, hi) {
+  if (v == null || lo == null) return "";
+  const pos = (x) => `${Math.max(0, Math.min(100, x * 100))}%`;
+  return `<div class="band"><div class="zone" style="left:${pos(lo)};width:${(hi - lo) * 100}%"></div><div class="dot" style="left:${pos(v)}"></div></div><div class="band-scale"><span>0</span><span>0.5</span><span>1</span></div>`;
+}
+function show(name) {
+  const s = D.scenes.find(x => x.name === name);
+  if (!s) return;
+  current = s;
+  for (const [k, b] of Object.entries(thumbs)) b.setAttribute("aria-pressed", String(k === name));
+  $("#v-title").textContent = `${SET[s.setting]}, Tier ${s.tier}${s.iso_of ? " (isomorph)" : ""}`;
+  $("#v-img").src = `img/${s.name}${gray ? "_g" : ""}.webp`;
+  $("#v-img").alt = `Generated ${SET[s.setting]} scene, tier ${s.tier}`;
+  const T = D.tiers[s.tier];
+  const p = s.pred.theta_0, pm = s.pred.theta_minus_1;
+  $("#v-score").innerHTML = `
+    <div class="metric"><div class="k">Content completeness, θ = 0</div><div class="v">${fmt(p.content)}</div>${bandBar(p.content, T.pc[0], T.pc[1])}</div>
+    <div class="metric"><div class="k">Inference completeness, θ = 0</div><div class="v">${fmt(p.inference)}</div>${T.pi ? bandBar(p.inference, T.pi[0], T.pi[1]) : '<div class="muted" style="font-size:12px">Tier 1 has no inference items</div>'}</div>
+    <div class="metric"><div class="k">Items</div><div class="v">${s.counts.content} + ${s.counts.inference_units}</div><div class="muted" style="font-size:12px">content items + inference units (${s.counts.contradictions} contradiction${s.counts.contradictions === 1 ? "" : "s"}); scene load ${s.load}</div></div>
+    <div class="metric"><div class="k">At θ = −1 (one unit below average)</div><div class="v">${fmt(pm.content)} · ${fmt(pm.inference)}</div><div class="muted" style="font-size:12px">content · inference</div></div>`;
+  const chk = [];
+  for (const [k, v] of Object.entries(s.bands)) chk.push(`<span class="pill ${v ? "ok" : "bad"}">${k.replace(/_/g, " ")}</span>`);
+  for (const [k, v] of Object.entries(s.checks)) chk.push(`<span class="pill ${v.result ? "ok" : "bad"}" title="${(v.detail || "").replace(/"/g, "'")}">${k.replace(/_\d+/g, "").replace(/_/g, " ")}</span>`);
+  $("#v-checks").innerHTML = chk.join("");
+  const box = $("#v-items");
+  box.innerHTML = "";
+  for (const ty of Object.keys(TYPE)) {
+    const its = s.items.filter(i => i.type === ty);
+    if (!its.length) continue;
+    box.append(el("div", { class: "grp", text: TYPE[ty] }));
+    for (const it of its) {
+      const r = el("button", { class: "item", "aria-label": it.text }, [
+        el("div", { class: "txt" }, [document.createTextNode(it.text), el("div", { class: "sub", text: it.acc.slice(0, 4).join(" · ") })]),
+        el("div", { class: "pbar" }, [el("div", { class: "bar", html: `<i style="width:${(it.p0 * 100).toFixed(0)}%"></i>` }), el("div", { class: "num", text: `P ${fmt(it.p0)} · b ${it.b >= 0 ? "+" : ""}${fmt(it.b)}` })]),
+      ]);
+      const on = () => { for (const x of box.querySelectorAll(".item.on")) x.classList.remove("on"); r.classList.add("on"); $("#v-ov").innerHTML = boxesSvg(it.boxes); detail(it); };
+      r.addEventListener("mouseenter", on); r.addEventListener("focus", on); r.addEventListener("click", on);
+      box.append(r);
+    }
+  }
+  $("#v-ov").innerHTML = allOn ? boxesSvg(s.items.flatMap(i => i.boxes)) : "";
+  $("#v-detail").innerHTML = `<span><b>Templates:</b> ${s.templates.map(t => t.id.replace(/_/g, " ")).join(", ")}</span><span class="mono">seed ${s.seed} · sky ${s.sky} · mirrored ${s.mirror ? "yes" : "no"} · ${s.clutter.objects} drawn objects · edge density ${fmt(s.clutter.edge_density, 3)}</span><span>Select an item to see its features.</span>`;
+  try { localStorage.setItem("tpdb-scene", name); } catch (e) {}
+}
+function detail(it) {
+  const f = it.f;
+  $("#v-detail").innerHTML = `<span><b>${it.text}</b></span>
+    <span class="mono">type ${it.type} · chain ${f.chain} · animate ${f.animate ? "yes" : "no"} · salience z ${fmt(f.s)} (${f.area_px.toLocaleString()} px) · cues−1 ${f.r} · separation ${fmt(f.d, 3)} · zipf−4 ${fmt(f.f)}${f.domain ? " · " + f.domain : ""}</span>
+    <span class="mono">b = ${fmt(it.b)} · P(θ=0) ${fmt(it.p0)} · P(θ=−1) ${fmt(it.pm1)} · regions ${it.aoi.join(" ") || "—"}</span>
+    <span>Accepted: ${it.acc.join(" · ")}</span>`;
+}
+$("#b-col").addEventListener("click", () => { gray = false; $("#b-col").setAttribute("aria-pressed", "true"); $("#b-gray").setAttribute("aria-pressed", "false"); show(current.name); });
+$("#b-gray").addEventListener("click", () => { gray = true; $("#b-gray").setAttribute("aria-pressed", "true"); $("#b-col").setAttribute("aria-pressed", "false"); show(current.name); });
+$("#b-all").addEventListener("click", () => { allOn = !allOn; $("#b-all").setAttribute("aria-pressed", String(allOn)); show(current.name); });
+let start = main.find(s => s.tier === 3) || main[0];
+try { const k = localStorage.getItem("tpdb-scene"); if (k && D.scenes.find(s => s.name === k)) start = D.scenes.find(s => s.name === k); } catch (e) {}
+if (start) show(start.name);
+
+// fixes and the blind screen
+if (D.screen) {
+  const SS = D.screen;
+  const VS = ["v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017"].map(k => SS[k] || {}), N = SS.v018 || {};
+  const old = (xs, d) => `<small>${xs.map((x, i) => `v0.${i + 4} ${x == null ? "—" : fmt(x, d)}`).join(" · ")}</small>`;
+  const cell = (k, xs, c, d = 2) => el("div", { class: "metric" }, [el("div", { class: "k", text: k }), el("div", { class: "v", html: `${c == null ? "—" : fmt(c, d)} ${old(xs, d)}` })]);
+  for (const [k, lab] of [["entity", "Things mentioned"], ["action", "Actions mentioned"], ["inference", "Inferences stated"], ["contradiction", "Contradictions caught"], ["overall", "All items"]]) $("#screen").append(cell(lab, VS.map(x => (x.mean || {})[k]), (N.mean || {})[k]));
+  $("#screen").append(cell("Misread items", VS.map(x => x.misreads), N.misreads, 0));
+  const per = x => (x && x.pictures) ? x.oddities / x.pictures : null;
+  $("#screen").append(cell("Oddities per picture", VS.map(per), per(N), 1));
+  if (SS.gate) {
+    const g = SS.gate, tot = g.pass.length + g.too_few.length + g.fail.length;
+    $("#screen").append(el("div", { class: "metric" }, [el("div", { class: "k", text: "Templates passing the gate" }), el("div", { class: "v", html: `${g.pass.length} <small>of ${tot} screened</small>` })]));
+  }
+  if (SS.note) $("#screen").after(el("p", { class: "muted", text: SS.note }));
+  const blocks = [];
+  if ((SS.redrawn || []).length) {
+    const rows = SS.redrawn.map(w => el("tr", {}, [el("td", { class: "mono", text: w.id.replace(/_/g, " ") }), el("td", { class: "mono", text: `${fmt(w.before, 2)} (${w.before_items})` }),
+      el("td", { class: "mono", text: w.after == null ? "not drawn" : `${fmt(w.after, 2)} (${w.after_items})` }), el("td", { class: "tnote", text: w.note })]));
+    blocks.push(el("h3", { text: "The v0.17 failure, screened again" }),
+      el("p", { class: "muted", text: "Mean score of each template's scored items (items in brackets). The v0.18 column includes the probe pictures, which put every template in front of the readers at least three times." }),
+      el("div", { class: "tbl" }, [el("table", {}, [el("thead", {}, [el("tr", {}, [el("th", { text: "Template" }), el("th", { text: "v0.17" }), el("th", { text: "v0.18" }), el("th", { text: "What changed" })])]), el("tbody", {}, rows)])]));
+  }
+  if ((SS.weak || []).length) {
+    const rows = SS.weak.map(w => el("tr", {}, [el("td", { class: "mono", text: w.id.replace(/_/g, " ") }), el("td", { class: "mono", text: `${fmt(w.mean, 2)} (${w.items})` }), el("td", { class: "tnote", text: w.note })]));
+    blocks.push(el("h3", { text: "Still hard to read: the next list" }),
+      el("div", { class: "tbl" }, [el("table", {}, [el("thead", {}, [el("tr", {}, [el("th", { text: "Template" }), el("th", { text: "v0.18 mean (items)" }), el("th", { text: "What the readers saw" })])]), el("tbody", {}, rows)])]));
+  }
+  if (blocks.length) $("#fixhead").before(...blocks);
+} else { $("#screen").remove(); }
+for (const f of (D.fixes || [])) {
+  $("#fixgrid").append(el("div", { class: "fix" }, [
+    el("div", { class: "lab", text: f.label }),
+    el("div", { class: "pair" }, [
+      el("figure", {}, [el("img", { src: f.old.src, alt: `${f.label}, v0.17`, loading: "lazy" }), el("figcaption", { text: "v0.17" })]),
+      el("figure", {}, [el("img", { src: f.new.src, alt: `${f.label}, v0.18`, loading: "lazy" }), el("figcaption", { text: "v0.18" })]),
+    ]),
+    el("div", { class: "note", text: f.note }),
+  ]));
+}
+if (!(D.fixes || []).length) { $("#fixgrid").remove(); $("#fixhead").remove(); }
+
+// isomorphs
+const isoBox = $("#iso");
+const pairs = D.scenes.filter(s => s.iso_of);
+if (!pairs.length) isoBox.append(el("p", { class: "muted", text: "No isomorph pairs in this build." }));
+for (const b of pairs) {
+  const a = D.scenes.find(s => s.name === b.iso_of);
+  if (!a) continue;
+  const fig = (s) => {
+    const f = el("figure", {}, [el("img", { src: `img/${s.name}_t.webp`, alt: `${SET[s.setting]} tier ${s.tier}`, loading: "lazy" }),
+      el("figcaption", { class: "mono", style: "font-size:12.5px", text: `${SET[s.setting]} · content ${fmt(s.pred.theta_0.content, 3)} · inference ${fmt(s.pred.theta_0.inference, 3)} · ${s.templates.map(t => t.id.replace(/_/g, " ")).join(", ")}` })]);
+    f.style.cursor = "pointer";
+    f.addEventListener("click", () => { show(s.name); document.getElementById("viewer").scrollIntoView({ behavior: "smooth" }); });
+    return f;
+  };
+  isoBox.append(el("div", { class: "card" }, [
+    el("h3", { text: `Tier ${a.tier}: ${SET[a.setting]} ↔ ${SET[b.setting]}` }),
+    el("div", { class: "mono muted", style: "font-size:12.5px", text: `Δ content ${fmt(b.iso.content_diff, 3)} · Δ inference ${fmt(b.iso.inference_diff, 3)} · same item signature (${a.items.length} items)` }),
+    el("div", { class: "iso" }, [fig(a), fig(b)]),
+  ]));
+}
+
+// counts
+const ct = $("#t-counts");
+ct.innerHTML = `<thead><tr><th>Setting</th><th>Tier</th><th class="num">Structures</th><th class="num">Signatures</th><th class="num">Largest isomorph pool</th><th class="num">Cast assignments (mean)</th><th class="num">Scenes (log₁₀)</th></tr></thead>`;
+const tb = el("tbody");
+for (const r of Object.values(D.combos)) {
+  tb.append(el("tr", { html: `<td>${SET[r.setting]}</td><td>${r.tier}</td><td class="num">${r.structures.toLocaleString()}</td><td class="num">${r.signatures}</td><td class="num">${r.largest_isomorph_pool.toLocaleString()}</td><td class="num">${Math.round(r.mean_cast_assignments).toLocaleString()}</td><td class="num">10<sup>${r.log10_scenes}</sup></td>` }));
+}
+ct.append(tb);
+
+// templates
+const sigTxt = (sig) => sig.map(([t, c]) => ({ action: "A", entity: "E", inference: "I" + c, contradiction_notice: "N", contradiction_explain: "X" }[t])).join(" ");
+const col = (title, rows) => el("div", { class: "card" }, [el("h3", { text: title }), el("div", { class: "tlist" }, rows)]);
+$("#tpl").append(
+  col(`Inference modules (${D.templates.modules.length})`, D.templates.modules.map(m => el("div", { class: "row" }, [el("span", { class: "id", text: m.id.replace(/_/g, " ") }), el("span", { text: m.desc }), el("div", { class: "chips" }, [el("span", { class: "chip", text: sigTxt(m.sig) }), ...m.settings.map(x => el("span", { class: "chip", text: x }))])]))),
+  col(`Contradictions (${D.templates.contradictions.length})`, D.templates.contradictions.map(m => el("div", { class: "row" }, [el("span", { class: "id", text: m.id.replace(/_/g, " ") }), el("span", { text: m.desc }), el("div", { class: "chips" }, m.settings.map(x => el("span", { class: "chip", text: x })))]))),
+  col(`Simple events (${D.templates.events.length})`, [el("div", { class: "chips" }, D.templates.events.map(m => el("span", { class: "chip", text: m.id.replace(/_/g, " ") })))]),
+);
+
+// cast
+const strip = (id, arr, cap) => { const s = $(id); if (!arr.length) { s.remove(); return; } for (const g of arr) s.append(el("figure", {}, [el("img", { src: g.src, width: g.w, height: g.h, alt: cap(g), loading: "lazy" }), el("figcaption", { text: cap(g) })])); };
+strip("#lineup", D.gallery.lineup, g => g.label);
+strip("#lineup45", D.gallery.lineup45, g => g.label);
+strip("#animals", D.gallery.animals, g => `${g.label}, ${g.pose.replace(/_/g, " ")}`);
+const faces = (id, arr) => { for (const g of arr) $(id).append(el("figure", {}, [el("img", { src: g.src, alt: g.expr, loading: "lazy" }), el("figcaption", { text: g.expr })])); };
+faces("#faces-a", D.gallery.expr_a); faces("#faces-b", D.gallery.expr_b);
+$("#n-acts").textContent = D.n_actions;
+$("#n-spare").textContent = D.n_spare;
+for (const g of D.gallery.actions) $("#acts").append(el("figure", {}, [el("div", { class: "im" }, [el("img", { src: g.src, alt: g.desc, loading: "lazy" })]), el("figcaption", {}, [document.createTextNode(g.desc), el("span", { class: "mono", text: `${g.pose} · ${g.expr}` })])]));
+
+// model
+const W = D.weights;
+$("#formula").textContent =
+`b = ${W.b0} + type + ${W.chain}·chain ${W.animate}·animate ${W.salience}·salience ${W.redundancy}·(cues−1) + ${W.separation}·separation ${W.frequency}·(zipf−4) + domain + ${W.load}·scene load
+type: entity 0 · action +${W.type.action} · inference +${W.type.inference} · notice +${W.type.contradiction_notice} · explain +${W.type.contradiction_explain}
+domain (contradictions): physical 0 · biological ${W.domain.biological} · functional +${W.domain.functional}
+P(mention | θ) = 1 / (1 + e^(b − θ))       picture completeness = mean P over its content (or inference) items`;
+$("#model-notes").textContent = `Salience is the z-score of ln(visible area ÷ canvas area) against a fixed reference (mean ${D.salience.mu}, SD ${D.salience.sd}, taken from the Garden prototype's item library), measured from per-element masks after occlusion. Every scored element must stay at least 80% visible and span at least 3% of the canvas width, and every person must pass the legibility rules (no other element covering or sitting behind more than 10% of their head; no string, pole or other thin stroke crossing their body; nobody standing in a flower bed, sandbox or just in front of the pond), or the layout is rejected. The generator tries several layouts of the same rendered cast, then new casts, until a scene meets every row of its tier's band.`;
+</script>

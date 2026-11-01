@@ -1,0 +1,109 @@
+# Blind screen prompts
+
+The prompts given to the readers and the scorer in all fifteen screens (v0.4 to v0.18) and the v0.9 retest, with the
+picture count and paths left as placeholders. Each reader is a fresh model instance that sees only its
+own blind pictures (`vNN/blind/pic_NN.png`); the scorer sees only the descriptions and `keys.json`.
+In v0.6 four readers described 7, 6, 6 and 6 pictures. In v0.7 six readers described 7, 7, 7, 7, 7 and 6
+pictures, and the reader prompt gained one sentence (one v0.6 reader had cropped and enlarged its pictures):
+"Look at each picture as a whole, the way it opens with the Read tool: do not crop, zoom, enlarge or
+otherwise process the images."
+
+In v0.7 and v0.8 the scoring was split between two scorers with the same prompt, each given part of the
+pictures and the matching part of the key (`keys_a.json`, `keys_b.json`), writing `scores_a.json` and
+`scores_b.json`, which were merged into `scores.json`; each scorer also validated that every key item was
+scored exactly once. In v0.8 six readers described 7, 7, 7, 6, 6 and 6 pictures (39 in all), and the
+scorers took pictures 1 to 16 (240 items) and 17 to 39 (242 items). The fork tests before the screen
+(`fork_tests_v08.md`) used the same reader prompt for one picture each. In v0.9 six readers described
+7, 7, 7, 7, 7 and 6 pictures (41 in all), and the scorers took pictures 1 to 20 (256 items) and 21 to
+41 (249 items); the design tests before the screen (`design_tests_v09.md`) again used the reader prompt
+for one picture each. The v0.9 retest (`v09_retest/`) read the same 41 v0.9 pictures again with six
+new readers (7, 7, 7, 7, 7 and 6 pictures, the blind copies in `v09/blind/`) and two new scorers (pictures 1
+to 20 and 21 to 41). In v0.10 nine readers described 7, 7, 7, 6, 6, 6, 6, 6 and 6 pictures (57 in all),
+and three scorers took pictures 1 to 16 (237 items), 17 to 38 (227) and 39 to 57 (219), writing
+`scores_a.json` to `scores_c.json`; the design tests before the screen (`design_tests_v010.md`) used the
+reader prompt for one picture each. In v0.11 nine readers described 7, 7, 7, 7, 7, 7, 7, 6 and 6
+pictures (61 in all), and three scorers took pictures 1 to 17 (239 items), 18 to 38 (230) and 39 to 61 (236);
+the design tests before the screen (`design_tests_v011.md`, three rounds, fourteen pictures) used the reader
+prompt for one picture each.
+In v0.12 nine readers described 7, 7, 7, 7, 7, 7, 6, 6 and 6 pictures (60 in all), and three scorers took
+pictures 1 to 18 (219 items), 19 to 38 (238) and 39 to 60 (237). Before the screen, the isolation bench
+(`isolation_v012.md`) had readers describe single cut-outs, one template alone, with its own short prompt
+(given there), and the design tests (`design_tests_v012.md`, five rounds, nineteen pictures) used the
+reader prompt for one picture each.
+In v0.13 nine readers described 7, 7, 7, 7, 7, 7, 7, 6 and 6 pictures (61 in all), and three scorers took
+pictures 1 to 19 (248 items), 20 to 39 (231) and 40 to 61 (238), each told to check that every item of
+its share was scored. The isolation bench (`isolation_v013.md`, five rounds, 36 cut-outs) used the
+isolation prompt given in `isolation_v012.md`, and the design tests (`design_tests_v013.md`, two rounds,
+ten pictures) the reader prompt for one picture each.
+In v0.14 nine readers described 7, 7, 7, 7, 7, 6, 6, 6 and 6 pictures (59 in all), and three scorers took
+pictures 1 to 18 (237 items), 19 to 39 (226) and 40 to 59 (226). One more probe, built after a set picture was
+rebuilt so that every template stayed in three screened pictures, was read by a tenth reader and scored by a
+fourth scorer with the same prompts (picture 60, 14 items). The isolation bench (`isolation_v014.md`, four
+rounds, 52 images, two of them side-by-side readings of competing drawings) used the isolation prompt given in
+`isolation_v012.md`, and the design tests (`design_tests_v014.md`, three rounds, eleven pictures) the reader
+prompt for one picture each.
+In v0.15 nine readers described 7, 7, 7, 7, 7, 7, 7, 7 and 6 pictures (62 in all), and three scorers took
+pictures 1 to 20 (250 items), 21 to 40 (243) and 41 to 62 (245), each told to check that every item of its share
+was scored and to list the half points as well as the zeros and misreads. The isolation bench (`isolation_v015.md`, two
+rounds, 36 images) used the isolation prompt given in `isolation_v012.md`, and the design tests
+(`design_tests_v015.md`, one round, six pictures) the reader prompt for one picture each.
+In v0.16 nine readers described 8, 7, 7, 7, 7, 7, 7, 7 and 7 pictures (64 in all), and three scorers took pictures
+1 to 21 (251 items), 22 to 43 (248) and 44 to 64 (247), with the v0.15 scorer prompt (each told to check that every
+item of its share was scored and to list the half points). The isolation bench (`isolation_v016.md`, two rounds,
+26 cut-outs) used the isolation prompt given in `isolation_v012.md`, and the design tests (`design_tests_v016.md`,
+one round, six pictures) the reader prompt for one picture each.
+In v0.17 nine readers described 8, 8, 7, 7, 7, 7, 7, 7 and 7 pictures (65 in all), and three scorers took pictures
+1 to 22 (246 items), 23 to 42 (247) and 43 to 65 (255), with the same scorer prompt. The isolation bench
+(`isolation_v017.md`, two rounds, 19 cut-outs) used the isolation prompt given in `isolation_v012.md`, and the design
+tests (`design_tests_v017.md`, one round, six pictures) the reader prompt for one picture each.
+In v0.18 nine readers described 7, 7, 7, 7, 7, 7, 6, 6 and 6 pictures (60 in all), and three scorers took pictures
+1 to 18 (239 items), 19 to 39 (245) and 40 to 60 (236), with the same scorer prompt, given the file names of its share
+(`keys_a.json` to `keys_c.json`, `scores_a.json` to `scores_c.json`). The isolation bench (`isolation_v018.md`, two
+rounds, 14 cut-outs) used the isolation prompt given in `isolation_v012.md`, and the design tests
+(`design_tests_v018.md`, one round, six pictures) the reader prompt for one picture each.
+
+## Reader
+
+```
+You are taking part in a picture-description legibility check. Look at N cartoon pictures and describe them as an attentive test participant would. You must NOT open, list or search any other file or folder (no Glob, Grep, ls, or reading JSON/code) — only the N image files named below, so your descriptions stay blind to the answer key.
+
+Images (open each with the Read tool):
+/home/claude/tpdb/vision/vNN/blind/pic_01.png
+/home/claude/tpdb/vision/vNN/blind/pic_02.png
+/home/claude/tpdb/vision/vNN/blind/pic_03.png
+/home/claude/tpdb/vision/vNN/blind/pic_04.png
+/home/claude/tpdb/vision/vNN/blind/pic_05.png
+/home/claude/tpdb/vision/vNN/blind/pic_06.png
+/home/claude/tpdb/vision/vNN/blind/pic_07.png
+
+For each picture, write a file /home/claude/tpdb/vision/vNN/desc_pic_NN.md (NN = the picture number) with these sections:
+1. "Free description": 4–10 sentences telling someone who can't see the picture everything that is going on — who is there, what they are doing, anything that seems about to happen, anything that looks wrong, odd or impossible.
+2. "Inventory": one line per person or animal: where it is (left/centre/right, front/back), what it looks like (e.g. "boy in yellow shirt"), and what it is doing. Then one line per notable object (kites, balls, boxes, hats in the air, water, etc.) saying what it is and what it seems to be doing or for.
+3. "Unsure or ambiguous": anything you could not make out or that could be read two ways (say both readings), and anything that looks unintentionally strange (e.g. things floating, objects passing through people, odd shapes).
+
+Be literal about what you actually see; don't guess what a test designer intended. When done, reply with just the N file paths.
+```
+
+## Scorer
+
+```
+Score picture descriptions against an answer key, like a clinician scoring a picture-description test.
+
+Inputs (read only these files):
+- /home/claude/tpdb/vision/vNN/desc_pic_01.md … desc_pic_MM.md — blind descriptions of M cartoon pictures. Each has a free description, an inventory, and an "unsure or ambiguous" section.
+- /home/claude/tpdb/vision/vNN/keys.json — for each picture (pic_01 … pic_MM), the scored items: id, type (entity, action, inference, contradiction), the target text, and accepted phrasings.
+
+For each item decide, using the whole description file (free description + inventory + unsure section):
+- 1 = clearly mentioned with the right meaning (any wording that conveys the target; accepted phrasings are examples, not an exhaustive list)
+- 0.5 = partly (the right element seen but the action/meaning only half right, or only offered as one of two readings)
+- 0 = not mentioned
+- "misread" = the element was mentioned but read as something else (record what they said instead)
+For inference items, credit 1 only if the describer states the inferred meaning (the cause, prediction or intention), not just the visible elements. For contradiction items, credit 1 only if they say it is wrong/impossible/odd or describe the impossible fact itself.
+
+Write /home/claude/tpdb/vision/vNN/scores.json as:
+{"pic_01": {"items": {"i01": {"score": 1, "note": "short evidence or misreading"}, ...},
+            "unintended": ["oddities the describer reported that are NOT scored items, e.g. 'bike standing by itself'"]}, ...}
+Then write /home/claude/tpdb/vision/vNN/scores_summary.md: a table of mean score by item type, a list of every item scored 0 or misread (pic, id, target text, what the describer said), and a list of all unintended oddities grouped by kind.
+
+Reply with a 10-line summary: mean score by type, and the five most common failure patterns.
+```

@@ -1,0 +1,538 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tpdb:asset-manifest:0.2",
+  "title": "TPDB asset manifest",
+  "description": "One rendered asset variant (pose x expression x facing) and everything the composer needs to place, tag and trace it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "variant_id",
+    "family_id",
+    "class",
+    "labels",
+    "variant",
+    "render",
+    "files",
+    "geometry",
+    "anchors",
+    "affordances",
+    "license"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "0.1",
+        "0.2"
+      ]
+    },
+    "variant_id": {
+      "type": "string",
+      "pattern": "^(person|animal|prop|plant|structure)\\.[a-z0-9_]+__[a-z0-9_]+__[a-z0-9_]+__y[0-9]{3}$",
+      "description": "<family_id>__<pose>__<expression>__y<facing in degrees, 3 digits>"
+    },
+    "family_id": {
+      "type": "string",
+      "pattern": "^(person|animal|prop|plant|structure)\\.[a-z0-9_]+$"
+    },
+    "class": {
+      "enum": [
+        "person",
+        "animal",
+        "prop",
+        "plant",
+        "structure"
+      ]
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "everyday_name",
+        "accepted_names",
+        "animate",
+        "category"
+      ],
+      "properties": {
+        "everyday_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The word most speakers would use; drives the word-frequency feature."
+        },
+        "accepted_names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "animate": {
+          "type": "boolean"
+        },
+        "category": {
+          "type": "string",
+          "description": "Coarse class used for slot swaps, e.g. 'medium_animal', 'watering_tool'."
+        },
+        "person": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "age_group",
+            "skin_tone"
+          ],
+          "properties": {
+            "age_group": {
+              "enum": [
+                "child",
+                "teen",
+                "adult",
+                "older_adult"
+              ]
+            },
+            "skin_tone": {
+              "type": "string",
+              "description": "Key into the shared palette's skin tones."
+            },
+            "hair": {
+              "type": "string"
+            },
+            "clothing_palette": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pose",
+        "expression",
+        "yaw_deg",
+        "mirror_ok"
+      ],
+      "properties": {
+        "pose": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "expression": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "'none' for assets without a face."
+        },
+        "yaw_deg": {
+          "enum": [
+            0,
+            45,
+            90,
+            135,
+            180
+          ]
+        },
+        "mirror_ok": {
+          "type": "boolean",
+          "description": "True if a left-right flip still looks correct (no handedness cues, text or asymmetric marks)."
+        },
+        "airborne": {
+          "type": "boolean",
+          "description": "True when the pose has no ground contact (jumping, flying); the ground point is then the shadow point."
+        },
+        "props": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Props visible in this variant."
+        }
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blender_version",
+        "script_version",
+        "blend_file",
+        "blend_sha256",
+        "engine",
+        "pixels_per_meter",
+        "camera",
+        "light_rig",
+        "view_transform",
+        "outline"
+      ],
+      "properties": {
+        "blender_version": {
+          "type": "string"
+        },
+        "script_version": {
+          "type": "string"
+        },
+        "blend_file": {
+          "type": "string"
+        },
+        "blend_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "engine": {
+          "type": "string"
+        },
+        "pixels_per_meter": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "camera": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "tilt_deg"
+          ],
+          "properties": {
+            "type": {
+              "const": "ortho"
+            },
+            "tilt_deg": {
+              "type": "number"
+            }
+          }
+        },
+        "light_rig": {
+          "type": "string"
+        },
+        "view_transform": {
+          "const": "Standard"
+        },
+        "outline": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "method",
+            "width_px"
+          ],
+          "properties": {
+            "method": {
+              "enum": [
+                "lineart",
+                "freestyle",
+                "none"
+              ]
+            },
+            "width_px": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "image",
+        "mask"
+      ],
+      "properties": {
+        "image": {
+          "$ref": "#/$defs/file"
+        },
+        "mask": {
+          "$ref": "#/$defs/file"
+        },
+        "parts": {
+          "$ref": "#/$defs/file"
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ground_point_px",
+        "bbox_px",
+        "height_m",
+        "footprint_m"
+      ],
+      "properties": {
+        "ground_point_px": {
+          "$ref": "#/$defs/point"
+        },
+        "bbox_px": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "description": "[x0, y0, x1, y1] of the opaque pixels."
+        },
+        "height_m": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "footprint_m": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "depth"
+          ],
+          "properties": {
+            "width": {
+              "type": "number",
+              "minimum": 0
+            },
+            "depth": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "anchors": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z0-9_A-Z]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/anchor"
+      }
+    },
+    "affordances": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      },
+      "uniqueItems": true,
+      "description": "Actions the asset can take part in, matched by event templates (e.g. 'hold', 'be_pinched', 'emit_water')."
+    },
+    "contradiction_roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "template",
+          "role"
+        ],
+        "properties": {
+          "template": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "author"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "original",
+            "cc0",
+            "cc_by_4_0",
+            "purchased"
+          ]
+        },
+        "author": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "attribution": {
+          "type": "string"
+        }
+      }
+    },
+    "qa": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "legibility_checked": {
+          "type": "boolean"
+        },
+        "reviewed_by": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "class": {
+            "const": "person"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "labels": {
+            "required": [
+              "person"
+            ]
+          },
+          "anchors": {
+            "required": [
+              "foot_L",
+              "foot_R",
+              "hand_L_grip",
+              "hand_R_grip",
+              "eye_L",
+              "eye_R",
+              "gaze_target",
+              "head_top"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class": {
+            "const": "animal"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "anchors": {
+            "required": [
+              "gaze_target",
+              "head_top",
+              "mouth"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "class": {
+            "enum": [
+              "person",
+              "animal"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "labels": {
+            "properties": {
+              "animate": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "point": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "px",
+        "depth_m",
+        "hidden"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "contact",
+            "grip",
+            "gaze",
+            "emit",
+            "attach",
+            "surface",
+            "landmark"
+          ]
+        },
+        "px": {
+          "$ref": "#/$defs/point"
+        },
+        "depth_m": {
+          "type": "number",
+          "description": "Distance in front of (-) or behind (+) the asset's origin along the view direction."
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "True if the anchor is behind the asset's own geometry in this view."
+        },
+        "span_px": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    }
+  }
+}
