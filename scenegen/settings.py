@@ -297,12 +297,13 @@ def build_garden(features, sky):
     S.filler("bush_mid", 1010, by_ or 612, "Bush", lambda x, y: (D.bush(x, y, 0.85), (x - 66, y - 56, x + 66, y + 28)))
     # by the fence, off the path (pots standing on the stepping stones read as odd)
     S.filler("pots", 1130, 700, "Flower pots", lambda x, y: (D.pot(x, y, C["grass_dark"]) + D.pot(x + 60, y - 20, "#4fae4a"), (x - 30, y - 90, x + 90, y)), (1090, 650, 1230, 720))
-    S.filler("wheelbarrow", 920, 975, "Wheelbarrow", lambda x, y: D.wheelbarrow(x, y, 1.0, both=_rev() >= 7, bracket=_rev() >= 10, low=_rev() >= 15), (890, 940, 1080, 990))
+    S.filler("wheelbarrow", 920, 975, "Wheelbarrow", lambda x, y: D.wheelbarrow(x, y, 1.0, both=_rev() >= 7, bracket=_rev() >= 10, low=_rev() >= 15, stand=_rev() >= 18), (890, 940, 1080, 990))
     S.filler("watering_can", 1210, 960, "Watering can", lambda x, y: (D.poly([(x - 25, y - 55), (x + 25, y - 55), (x + 20, y), (x - 20, y)], C["teal"]) +
                                                                        D.stroke(D.poly_d([(x - 22, y - 35), (x - 60, y - 60)]), C["teal"], 8) +
                                                                        D.stroke(f"M {x - 15} {y - 55} Q {x} {y - 82} {x + 18} {y - 55}", C["teal"], 6), (x - 66, y - 84, x + 28, y)), (1150, 930, 1250, 975),
              # revision 6: not a second can beside someone watering with one (two cans read as odd)
-             needs=lambda sc: _rev() < 6 or not any(t.id in ("water_flowers", "water_upward") for t in sc.templates))
+             needs=lambda sc: _rev() < 6 or not any(t.id in (("water_flowers", "water_upward", "pan_watering") if _rev() >= 18
+                                                           else ("water_flowers", "water_upward")) for t in sc.templates))
     # v0.7: kibble in the bowl, so it reads as a pet's bowl and not a red disc or a frisbee
     S.filler("dog_bowl", 1100, 968, "Dog bowl", lambda x, y: (D.ell(x, y, 30, 11, C["red"]) + D.ell(x, y - 6, 24, 6, "#8a2a2a", D.OW * 0.6)
                                                          + "".join(D.circ(x + dx, y - 7 + dy, 3.4, C["wood"], D.OW * 0.35) for dx, dy in ((-12, 0), (-5, -2), (3, 1), (10, -1), (-8, 2), (6, -3), (14, 1))),

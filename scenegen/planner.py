@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.19.0"
+GENERATOR_VERSION = "0.20.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -43,7 +43,7 @@ def feasible(cls, setting, sky):
 # Prior guesses of each inference item's features (typical cue salience z, cue-effect separation,
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
-PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.19 calibration.json)
+PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.20 calibration.json)
     "blocked_hose": [("inference", 2, -0.40, 0.155, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.405, 1, "rain")],
     "cat_stalks_bird": [("inference", 1, -0.49, 0.080, 1, "cat")],
@@ -51,7 +51,7 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "kite_in_tree": [("inference", 1, -0.54, 0.245, 2, "stuck")],
     "ice_cream_drop": [("inference", 1, -1.16, 0.075, 2, "dropped")],
     "about_to_trip": [("inference", 1, 0.19, 0.091, 1, "trip")],
-    "dog_begs": [("inference", 1, -0.69, 0.099, 1, "begging")],
+    "dog_begs": [("inference", 1, -0.70, 0.095, 1, "begging")],
     "sprinkler_package": [("inference", 1, -0.27, 0.167, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
     "windy_hat": [("inference", 2, -1.23, 0.140, 1, "wind")],
@@ -65,11 +65,11 @@ for _cid, _s, _k in [("water_upward", -1.38, "water"),
                      ("floating_box", -0.38, "floating"),
                      ("square_wheel", -0.03, "wheel"),
                      ("fish_in_tree", -1.31, "fish"),
-                     ("pan_watering", -0.06, "pan"),
+                     ("pan_watering", -0.10, "pan"),
                      ("sweep_fork", 0.27, "fork"),
-                     ("bucket_hat", 0.27, "bucket"),
+                     ("bucket_hat", 0.28, "bucket"),
                      ("sitting_on_air", 0.07, "chair"),
-                     ("ladder_nothing", -0.21, "ladder"),
+                     ("ladder_nothing", -0.22, "ladder"),
                      ("dog_reading", -0.46, "newspaper")]:
     PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]
 TYPICAL_LOAD = {1: 2.5, 2: 4, 3: 5.5, 4: 8}
@@ -89,7 +89,9 @@ def prior_ps(tids, tier, load=None):
     for tid in tids:
         dom = TP.ALL_TEMPLATES[tid].domain
         for ty, h, sal, d, r, key in PRIOR.get(tid, []):
-            ft = {"type": ty, "chain": h, "animate": False, "s": sal, "r": r, "d": d, "f": DF.zipf(key) - 4, "domain": dom}
+            lex = ty in DF.CONTENT_TYPES
+            ft = {"type": ty, "chain": h, "animate": False, "s": sal, "r": r, "d": d, "f": DF.zipf(key) - 4 if lex else 0.0,
+                  "a": DF.aoa(key) if lex else DF.AOA_CENTER, "domain": dom}
             out.append(DF.logistic(-DF.item_b(ft, L)))
     return out
 
@@ -264,6 +266,17 @@ def _plan(tier, setting, seed, lib, forced, bumped):
             if {"seesaw", "bench"} <= need:
                 continue
             feats.discard("bench" if "seesaw" in need else "seesaw")
+        if SCN.PLACEMENT_REV >= 18 and setting == "garden" and "bench" in feats and any(c.id == "dog_wants_walk" for c in picked):
+            # revision 18: never the garden's bench with the dog waiting at the door: the bench stands right in front of the
+            # door, so the dog's feet were always "just behind" it (revision 15) and the dog could not be placed; in the
+            # tier-4 garden that one clash failed most attempts
+            need = set()
+            for c in picked:
+                if c.id != "dog_wants_walk":
+                    need |= c.features(setting)
+            if "bench" in need:
+                continue
+            feats.discard("bench")
         if SCN.PLACEMENT_REV >= 14 and any(c.id == "square_wheel" for c in picked):
             # revision 14: no ordinary bicycle in a rack beside the square-wheeled one (as the fillers keep away since revision 9)
             feats.discard("bicycle")
@@ -424,9 +437,16 @@ def item_features(sc, it, stats):
                 if e != c and e in stats and stats[e]["centroid"]:
                     x1, y1 = stats[e]["centroid"]
                     d = max(d, math.hypot(x1 - x0, y1 - y0) / math.hypot(D.W, D.H))
-    f = DF.zipf(it["key"]) - 4.0
+    # the key word's frequency and age of acquisition: recorded raw on every item, used only for entities and actions
+    # (v0.20: inference and contradiction items are scored on meaning, with many phrasings, so f = 0 and a is centred)
+    z_raw = DF.zipf(it["key"])
+    a_raw = DF.aoa(it["key"])
+    lex = it["type"] in DF.CONTENT_TYPES
+    f = z_raw - 4.0 if lex else 0.0
+    a = a_raw if lex else DF.AOA_CENTER
     return {"type": it["type"], "chain": it["chain"], "animate": it["animate"], "s": round(s, 3), "r": r, "d": round(d, 3),
-            "f": round(f, 2), "domain": it.get("domain"), "area_px": round(area)}
+            "f": round(f, 2), "a": round(a, 2), "zipf_raw": round(z_raw, 2), "aoa_raw": round(a_raw, 2), "domain": it.get("domain"),
+            "area_px": round(area)}
 
 
 def score(sc, items, stats):

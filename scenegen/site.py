@@ -49,40 +49,32 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v018", "v019"
+PREV, CUR = "v019", "v020"
 
-# what the v0.18 screen readers made of the templates that failed its gate, and what v0.19 changed
-# (vision/flaws_v018.md); the visuals were refined on the bench and every change read in whole test scenes first
-# (vision/isolation_v019.md, vision/design_tests_v019.md)
+# what the v0.19 screen readers made of the templates that failed its gate, and what v0.20 changed
+# (vision/flaws_v019.md); the visuals were refined on the bench and every change read in whole test scenes first
+# (vision/isolation_v020.md, vision/design_tests_v020.md)
 REDRAWN_NOTES = {
-    "about_to_trip": "In the windy tier-4 park, a teenager at the back held her open book wide: 'reading or holding an open newspaper ... or papers in the wind', and nobody predicted the trip. Now no reading walker under the windy hat's gust or at the far back, and the head bent 30 degrees again but for the dark-haired woman.",
-    "cat_stalks_bird": "On the fence, well over a cat's length from a pecking bird, the cat was 'walking along the top of the fence'. Now the bird sits perched and the cat is close to it.",
-    "pan_watering": "Beside the garden's hose reel the pan was misread as 'a dark grey hose nozzle or watering wand'. Now no hose reel in the picture, and the pan turned toward the viewer, grey inside a black rim, on a shorter handle.",
-    "run": "A runner with no marks of speed was 'striding or jogging'. Now three motion lines trail from the runner's back.",
+    "bucket_hat": "At the back of a garden probe the blue bucket read as 'a tall blue hat ... or a fez'. Now a tapered silver pail down over the head, one ridge, a grey rim and a dark wire handle.",
+    "drink_bench": "In a park isomorph a girl's white cup read as 'something white ... as if drinking or eating'. Now a red cup with a sleeve, a white lid and a yellow straw at the mouth.",
+    "ice_cream": "A teenager eating her ice cream walked toward the boy who had dropped his, 'maybe to share it'. Now no ice-cream eater, bench eater or runner in a picture with the dropped ice cream.",
+    "jump": "A boy jumping just below a bird perched on the fence read as reaching for it. Now no bird, perched or flying, above or beside a jumper's raised hands.",
 }
 
-# what the v0.19 screen readers made of the templates that read poorly (vision/flaws_v019.md)
-WEAK_NOTES = {
-    "bucket_hat": "In a probe, the bucket on the head of a man at the back of the garden read as 'a tall blue hat', 'or a fez- or chef-style hat', never called wrong. Read as 'a blue bucket upside down on his head' in its two other pictures. v0.20: the bucket's wire handle and rim drawn.",
-    "drink_bench": "In a park isomorph, a girl on a bench held 'something white ... to her mouth, as if drinking or eating'. Read as drinking from a white cup in its two other pictures. v0.20: a coloured cup with a lid and straw.",
-    "ice_cream": "In a park isomorph, a teenager 'holding her own pink ice-cream cone' walked toward the boy whose ice cream lay on the ground, 'maybe to share it'; eating only as an alternative. Read as eating in its three other pictures. v0.20: no ice-cream eater beside the dropped ice cream.",
-    "jump": "In the tier-4 garden, a boy jumping just below a bird perched on the fence read as 'jumping with his arms up near a blue bird', reaching for it. Read in full in its two other pictures. v0.20: no bird above or beside a jumper's raised hands.",
-}
-SCREEN_NOTE = ("The v0.19 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+# what the v0.20 screen readers made of the templates that read poorly (vision/flaws_v020.md): none fell below 0.9
+WEAK_NOTES = {}
+SCREEN_NOTE = ("The v0.20 screen read the set pictures and enough probe pictures that every template appeared in at least three "
                "screened pictures. Before the screen every weak visual was refined on its own: cut out of a picture with nothing else "
-               "around it, read blind, redrawn and read again (two rounds, 15 cut-outs), then read in whole test scenes (six pictures). "
-               "750 of 760 scored items had full marks and none was misread; all four v0.18 failures passed, and four templates that "
-               "had passed in full fell short, each on a single half point in one picture. A retest of the unchanged v0.9 pictures "
-               "with fresh readers moved the gate by five templates: about five templates of the gate's movement between releases "
-               "is reader variance.")
+               "around it, read blind, redrawn and read again (two rounds, 14 cut-outs), then read in whole test scenes (seven pictures). "
+               "744 of 746 scored items had full marks and none was misread; all four v0.19 failures passed, and for the first time "
+               "all 64 templates passed the gate. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five "
+               "templates: about five templates of the gate's movement between releases is reader variance.")
 
 
-FIXES = [("person.kai__walk_balloon__smile__y090", "The curly-haired boy in profile",
-          "His curls and hair covered the cheek, so in profile his head looked 'almost seen from behind'; now below the temples the hair stays behind the ear"),
-         ("person.dev__water_pan__content__y090", "The frying pan",
-          "Seen at a slant on a long thin handle it read as 'the spout and rose of a watering can'; now turned toward the viewer, grey inside a black rim, on a shorter handle"),
-         ("person.dev__walk_read_open__focused__y090", "Reading as he walks",
-          "In v0.18 every reading walker bent the head 20 degrees for the dark-haired woman's face; now 30 again, as in v0.17, for everyone else")]
+FIXES = [("person.mei__bucket_hat__content__y045", "The bucket hat",
+          "A blue bucket on top of the cap read as 'a tall blue hat ... or a fez' at the back of a garden; now a tapered silver pail down over the head, one ridge, a grey rim and a dark wire handle"),
+         ("person.rosa__sit_drink__content__y045", "A drink",
+          "A small white cup read as 'something white ... as if drinking or eating'; now a red cup with a sleeve, a white lid and a yellow straw at the mouth")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):
@@ -273,7 +265,7 @@ def build(scenes_dir, gallery_dir, combos_path, out, old_gallery=None, screen=No
                           for t in sorted(REDRAWN_NOTES, key=lambda t: b5.get(t, {}).get("mean", 9)) if t in b5]
         scr["weak"] = [{"id": t, "mean": b6[t]["mean"], "items": b6[t]["items"], "note": WEAK_NOTES.get(t, "")}
                        for t in sorted(b6, key=lambda t: b6[t]["mean"]) if b6[t]["mean"] < 0.9]
-        for k in ("v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019"):
+        for k in ("v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019", "v020"):
             scr.get(k, {}).pop("by_template", None)
         if screen and os.path.exists(os.path.join(os.path.dirname(screen), CUR, "gate.json")):
             g = json.load(open(os.path.join(os.path.dirname(screen), CUR, "gate.json")))

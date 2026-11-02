@@ -275,9 +275,12 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
     return circ(cx, cy, r, col) + circ(cx, cy, r * 0.3, C["gray"], OW * 0.6)
 
 
-def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False):
+def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False):
     """Ground point x,y under the wheel's center; f = +1 handles to the right. both = also draw the far
-    handle and leg (v0.9: with one handle showing it read as "a one-handled wheelbarrow")."""
+    handle and leg (v0.9: with one handle showing it read as "a one-handled wheelbarrow"). stand (v0.20): the tub raised
+    on a bigger wheel and two long legs (low on the grass it read as "very flat ... with no visible legs, looks tipped")."""
+    if stand and not square:
+        return _wheelbarrow_stand(x, y, s, f, both)
     r = (25 if square else 17) * s
     wy = y - r
     tub = [(x - f * 15 * s, y - 58 * s), (x + f * 90 * s, y - 58 * s), (x + f * 75 * s, y - 13 * s), (x + f * 0 * s, y - 13 * s)]
@@ -330,6 +333,33 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
     # for the square wheel set forward)
     e = (48 if bracket and square else 34) * s
     return svg, (min(x - f * e, x + f * (150 if low else 145) * s), y - 72 * s, max(x - f * e, x + f * (150 if low else 145) * s), y)
+
+
+def _wheelbarrow_stand(x, y, s, f, both):
+    """v0.20: the wheelbarrow at rest on its wheel and legs, the tub well off the ground, the handles sloping up to the
+    grips; the same footprint as before."""
+    r = 21 * s
+    wy = y - r
+    tb = y - 34 * s                     # the tub's bottom
+    tub = [(x - f * 16 * s, tb - 46 * s), (x + f * 92 * s, tb - 46 * s), (x + f * 76 * s, tb), (x + f * 6 * s, tb)]
+    h0, h1 = (x + f * 22 * s, tb - 4 * s), (x + f * 150 * s, y - 52 * s)
+    leg = lambda dx, dy: stroke(poly_d([(x + f * 84 * s + dx, tb + 2 * s + dy), (x + f * 90 * s + dx, y - 3 * s + dy)]), C["charcoal"], 6 * s)
+    foot = lambda dx, dy: stroke(poly_d([(x + f * 84 * s + dx, y - 3 * s + dy), (x + f * 97 * s + dx, y - 3 * s + dy)]), C["charcoal"], 5 * s)
+    svg = shadow(x + f * 55 * s, y, 210 * s)
+    if both:
+        dx, dy = -f * 4 * s, -5 * s
+        svg += stroke(poly_d([(h0[0] + dx, h0[1] + dy), (h1[0] + dx, h1[1] + dy)]), C["wood"], 7 * s)
+        svg += leg(dx, dy) + foot(dx, dy)
+    svg += stroke(poly_d([h0, h1]), C["wood"], 7 * s)
+    svg += wheel(x, wy, r, False)
+    svg += poly(tub, C["gray"])
+    svg += stroke(poly_d([(x + f * 40 * s, tb - 2 * s), (x + f * 66 * s, tb - 2 * s)]), C["slate"], 4 * s)
+    for bx in (x + f * 8 * s, x + f * 30 * s):
+        svg += stroke(poly_d([(bx, tb - 2 * s), (x, wy)]), C["slate"], 6 * s, OW * 0.8)
+    svg += circ(x, wy, max(4.0, r * 0.26), C["slate"], OW * 0.7) + circ(x, wy, max(1.6, r * 0.09), OUT, 0)
+    svg += leg(0, 0) + foot(0, 0)
+    e = 34 * s
+    return svg, (min(x - f * e, x + f * 152 * s), tb - 50 * s, max(x - f * e, x + f * 152 * s), y)
 
 
 def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, heavy_stand=False, front_stand=False, center_stand=False):

@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.19 cases; earlier cases in isolation_v012.md to v018.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.20 cases; earlier cases in isolation_v012.md to v019.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,29 +22,28 @@ lib = Library(lib_dir=os.environ["BENCH_LIB"]) if os.environ.get("BENCH_LIB") el
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
-    # the frying pan with no hose reel in the picture
-    "pan_a": ("garden", 19101, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
-    "pan_b": ("garden", 19102, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
-    # a runner with motion lines trailing from the back
-    "run_a": ("park", 19103, {"events": ["run"]}, "event", None),
-    "run_b": ("street", 19104, {"events": ["run"]}, "event", None),
-    # the stalking cat on the fence top, close to a perched bird
-    "fence_a": ("garden", 19105, {"modules": ["cat_stalks_bird"]}, "event", ("fencecat",)),
-    "fence_b": ("garden", 19106, {"modules": ["cat_stalks_bird"]}, "event", ("fencecat",)),
-    # water from a hose and from a sprinkler drawn unbroken
-    "hose_a": ("garden", 19107, {"events": ["hose_water"]}, "event", None),
-    "sprinkler_a": ("garden", 19108, {"modules": ["sprinkler_package"]}, "event", None),
-    # the boy with curly hair in profile, the curls cut back from his cheek
-    "kai_a": ("park", 19109, {"events": ["balloon"]}, "event", ("fam", "balloon", ["person.kai"])),
-    # the kicked ball against the toe
-    "kick_a": ("park", 19110, {"events": ["kick_ball"]}, "event", None),
-    # round 2: the pan turned toward the viewer, grey inside a black rim, on a shorter handle; the curly hair kept behind
-    # the ear below the temples; the hose brought up to the hand from in front
-    "pan_c": ("garden", 19121, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
-    "pan_d": ("garden", 19122, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
-    "kai_b": ("park", 19123, {"events": ["balloon"]}, "event", ("fam", "balloon", ["person.kai"])),
-    "kai_c": ("playground", 19124, {"modules": ["ball_in_tree"]}, "event", ("fam", "ball_in_tree", ["person.kai"])),
-    "hose_b": ("garden", 19125, {"events": ["hose_water"]}, "event", None),
+    # the bucket on the head drawn as a metal pail pulled down to the brows, rolled rim and ridges, a cap hidden under it
+    "pail_a": ("park", 20101, {"contradictions": ["bucket_hat"]}, "event", ("backrow",)),
+    "pail_b": ("park", 20102, {"contradictions": ["bucket_hat"]}, "event", None),
+    "pail_c": ("street", 20103, {"contradictions": ["bucket_hat"]}, "event", None),
+    # the drink a red takeaway cup with a white lid and a straw at the lips
+    "drink_a": ("park", 20104, {"events": ["drink_bench"]}, "event", None),
+    "drink_b": ("garden", 20105, {"events": ["drink_bench"]}, "event", None),
+    "airdrink_a": ("street", 20106, {"contradictions": ["sitting_on_air"]}, "event", None),
+    # the garden's wheelbarrow standing on its wheel and legs
+    "barrow_a": ("garden", 20107, {"events": ["sweep"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
+    "barrow_b": ("garden", 20108, {"events": ["dig"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
+    # water from a pan and a hose landing inside the bed
+    "pan_e": ("garden", 20109, {"contradictions": ["pan_watering"]}, "event", None),
+    "hose_c": ("garden", 20110, {"events": ["hose_water"]}, "event", None),
+    # the blown empty swing seat kept inside its frame
+    "swing_a": ("garden", 20111, {"modules": ["windy_hat"]}, "swing", ("el", "swing_seat")),
+    # round 2: the pail more tapered, one ridge, no lugs; the cup a quarter bigger with a thicker straw; the swing seat
+    # pushed a little downwind and tilted instead of swung out
+    "pail_d": ("park", 20101, {"contradictions": ["bucket_hat"]}, "event", ("backrow",)),
+    "pail_e": ("garden", 20122, {"contradictions": ["bucket_hat"]}, "event", None),
+    "drink_c": ("park", 20104, {"events": ["drink_bench"]}, "event", None),
+    "swing_b": ("garden", 20111, {"modules": ["windy_hat"]}, "swing", ("el", "swing_seat")),
 }
 
 

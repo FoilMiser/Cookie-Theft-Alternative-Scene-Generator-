@@ -6,13 +6,53 @@
  "seed": 11,
  "mirror": false,
  "versions": {
-  "generator": "0.19.0",
-  "cast_builder": "0.19.0",
+  "generator": "0.20.0",
+  "cast_builder": "0.20.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
    "sd": 1.41,
    "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
   }
  },
  "features": [
@@ -62,7 +102,7 @@
      "mug"
     ]
    },
-   "key": "coffee",
+   "key": "drinking",
    "elements": [
     "sitter_1"
    ],
@@ -77,16 +117,19 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.078,
+    "s": -0.071,
     "r": 0,
     "d": 0.0,
-    "f": 0.86,
+    "f": 0.71,
+    "a": 3.47,
+    "zipf_raw": 4.71,
+    "aoa_raw": 3.47,
     "domain": null,
-    "area_px": 13708
+    "area_px": 13844
    },
-   "b": -1.359,
-   "p0": 0.796,
-   "pm1": 0.589,
+   "b": -1.317,
+   "p0": 0.789,
+   "pm1": 0.579,
    "aoi_cells": [
     "BL"
    ]
@@ -122,6 +165,9 @@
     "r": 0,
     "d": 0.0,
     "f": 0.78,
+    "a": 3.68,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
     "domain": null,
     "area_px": 2856
    },
@@ -152,7 +198,7 @@
      "raking grass"
     ]
    },
-   "key": "leaves",
+   "key": "raking",
    "elements": [
     "raker_3",
     "leaves_4"
@@ -171,13 +217,16 @@
     "s": 0.301,
     "r": 0,
     "d": 0.0,
-    "f": 0.79,
+    "f": -1.05,
+    "a": 5.32,
+    "zipf_raw": 2.95,
+    "aoa_raw": 5.32,
     "domain": null,
     "area_px": 23376
    },
-   "b": -1.528,
-   "p0": 0.822,
-   "pm1": 0.629,
+   "b": -0.976,
+   "p0": 0.726,
+   "pm1": 0.494,
    "aoi_cells": [
     "MR",
     "BR"
@@ -186,17 +235,15 @@
   {
    "id": "i04",
    "type": "entity",
-   "text": "It is a sunny day",
+   "text": "There is a fence",
    "accepted": [
-    "sun",
-    "sunny",
-    "sunshine",
-    "nice day",
-    "sunny day"
+    "fence",
+    "wooden fence",
+    "gate"
    ],
-   "key": "sun",
+   "key": "fence",
    "elements": [
-    "sun"
+    "fence"
    ],
    "cues": [],
    "effect": [],
@@ -209,18 +256,23 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.092,
+    "s": 1.948,
     "r": 0,
     "d": 0.0,
-    "f": 0.97,
+    "f": 0.21,
+    "a": 6.28,
+    "zipf_raw": 4.21,
+    "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 13440
+    "area_px": 238608
    },
-   "b": -0.885,
-   "p0": 0.708,
-   "pm1": 0.471,
+   "b": -1.677,
+   "p0": 0.843,
+   "pm1": 0.663,
    "aoi_cells": [
-    "TR"
+    "ML",
+    "MC",
+    "MR"
    ]
   },
   {
@@ -250,36 +302,82 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.824,
+    "s": 1.825,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 200320
+    "area_px": 200416
    },
-   "b": -2.065,
-   "p0": 0.887,
+   "b": -2.066,
+   "p0": 0.888,
    "pm1": 0.744,
    "aoi_cells": [
     "TL",
     "ML",
     "BL"
    ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "There is a flower bed",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.373,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 25880
+   },
+   "b": -1.018,
+   "p0": 0.735,
+   "pm1": 0.504,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
   }
  ],
  "counts": {
-  "content": 5,
+  "content": 6,
   "inference_units": 0,
   "contradictions": 0,
-  "items_total": 5
+  "items_total": 6
  },
  "predicted": {
   "theta_0": {
-   "content": 0.78,
+   "content": 0.778,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.576,
+   "content": 0.571,
    "inference": null
   }
  },
@@ -308,8 +406,8 @@
  "clutter": {
   "objects": 14,
   "edge_density": 0.0379,
-  "png_bytes": 168761,
-  "jpeg_bytes": 175360
+  "png_bytes": 169578,
+  "jpeg_bytes": 175489
  },
  "signature": [
   [
@@ -322,6 +420,10 @@
   ],
   [
    "action",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -454,8 +556,8 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 200320,
-   "occlusion": 0.023
+   "visible_px": 200416,
+   "occlusion": 0.022
   },
   {
    "id": "flowers",
@@ -498,8 +600,8 @@
     206.0,
     946.0
    ],
-   "area_px": 13708,
-   "visible_px": 13708,
+   "area_px": 13844,
+   "visible_px": 13844,
    "occlusion": 0.0,
    "asset": {
     "variant": "person.leo__sit_drink__smile__y045",
@@ -642,6 +744,6 @@
   "require_band": true,
   "usage": {},
   "forced": null,
-  "placement_rev": 17
+  "placement_rev": 18
  }
 }

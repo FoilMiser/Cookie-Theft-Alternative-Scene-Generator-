@@ -119,8 +119,14 @@ class PlacementError(Exception):
 # over the stall's crates of fruit (a runner's hand on the apples looked like snatching one), and a runner and the
 # runner's motion lines clear of the stall; and searching the set, never the playground's seesaw with its bench (the
 # seesaw stands right in front of it, so with the gap from thin parts nobody could sit there).
+# 18 (v0.20): the v0.19 screen's four failures and its oddities: no ice-cream eater beside the dropped ice cream
+# (walking toward the boy who dropped his, "maybe to share it"), and no runner either ("could have bumped the child");
+# no bird above or beside a jumper's raised hands (read as reaching for it); no watering can left on the lawn beside the
+# frying pan, and the water from a can, a pan or a hose landing inside the flower bed; the garden's wheelbarrow standing
+# on its wheel and legs ("very flat ... no visible legs"); the blown empty swing seat inside its frame; the dug hole
+# clear of the path, the leaning ladder clear of the pond and animals' feet clear of the sandbox frame.
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 17
+PLACEMENT_REV = 18
 WORKER = "person.jo"
 LEISURE7 = {"about_to_trip"}
 LEISURE = {"ball_in_tree", "balloon", "bird_steals", "bucket_hat", "carry_bag", "dog_begs", "drink_bench", "ducks_bread",
@@ -312,6 +318,20 @@ class Scene:
             return False
         if p is not None and PLACEMENT_REV >= 6 and not self.bird_gap(p, bbox, ignore):
             return False
+        if p is not None and PLACEMENT_REV >= 18 and p.family.startswith("animal.bird"):
+            # revision 18: no bird over or beside a jumper's raised hands (a boy jumping below a perched bird read as
+            # reaching for it)
+            for z in getattr(self, "no_bird", ()):
+                if min(bbox[2], z[2]) > max(bbox[0], z[0]) and min(bbox[3], z[3]) > max(bbox[1], z[1]):
+                    return False
+        if p is not None and PLACEMENT_REV >= 18 and p.family.startswith("animal.") and not p.m["variant"].get("airborne") \
+                and "sandbox" not in getattr(self, "exempt", ()):
+            # revision 18: an animal's feet clear of the sandbox frame (a dog's back foot on it)
+            sb = next((e["bbox"] for e in self.S.elements if e["id"] == "sandbox" and e.get("bbox")), None)
+            if sb is not None:
+                feet = (bbox[0], bbox[3] - 0.22 * (bbox[3] - bbox[1]), bbox[2], bbox[3])
+                if min(feet[2], sb[2] + 8) > max(feet[0], sb[0] - 8) and min(feet[3], sb[3] + 6) > max(feet[1], sb[1] - 6):
+                    return False
         if p is not None and PLACEMENT_REV >= 6 and p.family.startswith("animal.dog"):
             for z in getattr(self, "no_dog", ()):
                 if min(bbox[2], z[2]) > max(bbox[0], z[0]) and min(bbox[3], z[3]) > max(bbox[1], z[1]):
@@ -441,6 +461,12 @@ class Scene:
         # revision 15: a pram's lane also takes in the ground a little behind its own line, where the tall pram passes in
         # front of whoever stands there (a pram "heading toward the birds and the man feeding them" 80 px behind it)
         back = 90 if (pose == "push" and PLACEMENT_REV >= 15) else 26
+        if pose == "run" and PLACEMENT_REV >= 18:
+            # revision 18: a runner's lane longer, and deeper behind and in front of its line (running at a bench, a woman
+            # "might come close to him or trip over his feet" 115 px behind her line; running at two children, she seemed
+            # to run "toward the jumping girl")
+            x0, x1 = sorted((front + f * 4, front + f * 300 * s))
+            return (max(0.0, x0), p.Y - 150 * s, min(float(D.W), x1), p.Y + 50 * s)
         return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 16 * s)
 
     def lanes_ok(self, *ps):
@@ -458,6 +484,15 @@ class Scene:
             if any(k in self.ev_of and e.get("bbox") and e["role"] in ("scored", "filler", "setting") and self.overlap(z, e["bbox"]) > 0
                    for k, e in self.svgs.items()):
                 return False
+            if PLACEMENT_REV >= 18 and p.v.split("__")[1] == "run":
+                # (the deeper part of a runner's lane is for people, animals and things; a structure is in the way only on
+                # the runner's own line)
+                s_ = D.sz(p.Y)
+                z = (z[0], p.Y - 26 * s_, z[2], p.Y + 16 * s_)
+                # and no flower bed or rock on that line (a runner heading straight into the park's flower bed)
+                low = tuple(e["id"] for e in self.S.elements if e["id"] == "flowers" or e["id"].startswith("filler_"))
+                if low and not self.setting_clear(z, only=low):
+                    return False
             if not self.setting_clear(z, only=self.LANE_STRUCT):
                 return False
         return True

@@ -48,14 +48,16 @@ def run(n_seeds=2, layouts=3, out="calibration.json", only=None):
                         if it["type"] in DF.INFERENCE_TYPES:
                             f = it["features"]
                             rows.append({"setting": setting, "type": it["type"], "b0": round(it["b"] - DF.WEIGHTS["load"] * L, 3),
-                                         "s": f["s"], "d": f["d"], "r": f["r"], "f": f["f"], "chain": f["chain"]})
+                                         "s": f["s"], "d": f["d"], "r": f["r"], "f": f["f"], "a": f.get("a"),
+                                         "aoa_raw": f.get("aoa_raw"), "chain": f["chain"]})
         by = {}
         for row in rows:
             by.setdefault(row["type"], []).append(row)
         res[c.id] = {t: {"n": len(v), "b0_mean": round(statistics.mean(x["b0"] for x in v), 3),
                          "b0_sd": round(statistics.pstdev(x["b0"] for x in v), 3),
                          "s_mean": round(statistics.mean(x["s"] for x in v), 3), "d_mean": round(statistics.mean(x["d"] for x in v), 3),
-                         "r": v[0]["r"], "f": v[0]["f"], "chain": v[0]["chain"]} for t, v in by.items()}
+                         "r": v[0]["r"], "f": v[0]["f"], "a": v[0]["a"], "aoa_raw": v[0]["aoa_raw"], "chain": v[0]["chain"]}
+                     for t, v in by.items()}
         print(c.id, json.dumps(res[c.id]), flush=True)
         json.dump(res, open(out, "w"), indent=1)
     return res

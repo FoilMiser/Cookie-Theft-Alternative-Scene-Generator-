@@ -1,15 +1,15 @@
-"""Fill README_v0.19.template.md with the generated set, counts, the sixteen screens and the gate.
+"""Fill README_v0.20.template.md with the generated set, counts, the seventeen screens and the gate.
 
     python vision/fill_readme.py
 Text that depends on reading the screen (the introduction's result and the screen narrative) lives in
-vision/readme_v019_text.json, written after the screen.
+vision/readme_v020_text.json, written after the screen.
 """
 import glob
 import json
 import os
 
-T = open("README_v0.19.template.md").read()
-TXT = json.load(open("vision/readme_v019_text.json")) if os.path.exists("vision/readme_v019_text.json") else {}
+T = open("README_v0.20.template.md").read()
+TXT = json.load(open("vision/readme_v020_text.json")) if os.path.exists("vision/readme_v020_text.json") else {}
 order = {"garden": 0, "park": 1, "street": 2, "playground": 3}
 
 
@@ -50,27 +50,27 @@ for c in sorted(C, key=lambda c: (order[c["setting"]], c["tier"])):
     crow.append(f"| {c['setting']} | {c['tier']} | {c['structures']:,} | {c['signatures']} | {c['largest_isomorph_pool']:,} | 10^{c['log10_scenes']} |")
 tot = sum(c["structures"] for c in C)
 T = T.replace("__COMBOS_TABLE__", "\n".join(crow) + f"\n\nIn all {tot:,} structures over four settings. Structures are template sets that fit a tier's plan and can reach its content band, counted before placement.")
-T = T.replace("__GALLERY_N__", str(len(glob.glob("assets/cast/gallery019/*.json"))))
+T = T.replace("__GALLERY_N__", str(len(glob.glob("assets/cast/gallery020/*.json"))))
 
-# ------------------------------------------------------------------ the sixteen screens and the gate
+# ------------------------------------------------------------------ the seventeen screens and the gate
 S = json.load(open("vision/screen_summary.json"))
-vs = [("v04", "v0.4"), ("v05", "v0.5"), ("v06", "v0.6"), ("v07", "v0.7"), ("v08", "v0.8"), ("v09", "v0.9"), ("v010", "v0.10"), ("v011", "v0.11"), ("v012", "v0.12"), ("v013", "v0.13"), ("v014", "v0.14"), ("v015", "v0.15"), ("v016", "v0.16"), ("v017", "v0.17"), ("v018", "v0.18"), ("v019", "v0.19")]
+vs = [("v04", "v0.4"), ("v05", "v0.5"), ("v06", "v0.6"), ("v07", "v0.7"), ("v08", "v0.8"), ("v09", "v0.9"), ("v010", "v0.10"), ("v011", "v0.11"), ("v012", "v0.12"), ("v013", "v0.13"), ("v014", "v0.14"), ("v015", "v0.15"), ("v016", "v0.16"), ("v017", "v0.17"), ("v018", "v0.18"), ("v019", "v0.19"), ("v020", "v0.20")]
 lab = [("entity", "Things"), ("action", "Actions"), ("inference", "Inferences"), ("contradiction", "Contradictions"), ("overall", "All items")]
 tr = ["| | " + " | ".join(f"{n} ({S[k]['pictures']} pictures)" for k, n in vs) + " |", "|---" * (len(vs) + 1) + "|"]
 for k, l in lab:
     tr.append(f"| {l}, mean score | " + " | ".join(format(S[v]["mean"].get(k, 0), ".2f") for v, _ in vs) + " |")
 tr.append("| Items misread | " + " | ".join(f"{S[v]['misreads']} of {S[v]['items']}" for v, _ in vs) + " |")
 tr.append("| Unintended oddities per picture | " + " | ".join(f"{S[v]['oddities'] / S[v]['pictures']:.1f}" for v, _ in vs) + " |")
-pr = S["v019"].get("probes", {})
-b6, b7 = S["v018"]["by_template"], S["v019"]["by_template"]
-REDRAWN = ["about_to_trip", "cat_stalks_bird", "pan_watering", "run", "ball_in_tree", "kick_ball", "hose_water", "sprinkler_package", "dog_begs"]
-red = ["| Template | v0.18 | v0.19 | v0.19 meaning items |", "|---|---|---|---|"]
+pr = S["v020"].get("probes", {})
+b6, b7 = S["v019"]["by_template"], S["v020"]["by_template"]
+REDRAWN = ["bucket_hat", "drink_bench", "ice_cream", "jump", "ice_cream_drop", "pan_watering", "water_flowers", "hose_water", "ladder_nothing", "dig", "run", "windy_hat", "dog_wants_walk"]
+red = ["| Template | v0.19 | v0.20 | v0.20 meaning items |", "|---|---|---|---|"]
 for t in REDRAWN:
     a, b = b6.get(t), b7.get(t)
     red.append(f"| `{t}` | " + (f"{a['mean']:.2f} ({n_items(a['items'])})" if a else "—") + " | "
                + (f"{b['mean']:.2f} ({n_items(b['items'])})" if b else "not drawn") + " | "
                + ("—" if not b or b["meaning_mean"] is None else f"{b['meaning_mean']:.2f} ({b['meaning_items']})") + " |")
-G = json.load(open("vision/v019/gate.json"))
+G = json.load(open("vision/v020/gate.json"))
 by = {st: sorted(t for t, v in G.items() if v["status"] == st) for st in ("pass", "too_few", "fail")}
 g6 = json.load(open("vision/v010/gate.json")) if os.path.exists("vision/v010/gate.json") else {}
 g7 = json.load(open("vision/v011/gate.json")) if os.path.exists("vision/v011/gate.json") else {}
@@ -83,24 +83,25 @@ g11 = json.load(open("vision/v015/gate.json")) if os.path.exists("vision/v015/ga
 g12 = json.load(open("vision/v016/gate.json")) if os.path.exists("vision/v016/gate.json") else {}
 g13 = json.load(open("vision/v017/gate.json")) if os.path.exists("vision/v017/gate.json") else {}
 g14 = json.load(open("vision/v018/gate.json")) if os.path.exists("vision/v018/gate.json") else {}
-gl = [f"| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 |", "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+g15 = json.load(open("vision/v019/gate.json")) if os.path.exists("vision/v019/gate.json") else {}
+gl = [f"| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 | v0.20 |", "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
 for st, l in (("pass", "Pass (mean at least 0.9, at least two pictures, no misread)"), ("too_few", "Read well, but in fewer than two pictures"), ("fail", "Fail")):
     cnt = lambda g: sum(1 for v in g.values() if v['status'] == st) if g else '—'
-    gl.append(f"| {l} | {cnt(g5)} | {cnt(gr)} | {cnt(g6)} | {cnt(g7)} | {cnt(g8)} | {cnt(g9)} | {cnt(g10)} | {cnt(g11)} | {cnt(g12)} | {cnt(g13)} | {cnt(g14)} | {len(by[st])} |")
-fails = ["| Template | v0.19 mean | Pictures | Misreads |", "|---|---|---|---|"] + [
+    gl.append(f"| {l} | {cnt(g5)} | {cnt(gr)} | {cnt(g6)} | {cnt(g7)} | {cnt(g8)} | {cnt(g9)} | {cnt(g10)} | {cnt(g11)} | {cnt(g12)} | {cnt(g13)} | {cnt(g14)} | {cnt(g15)} | {len(by[st])} |")
+fails = ["| Template | v0.20 mean | Pictures | Misreads |", "|---|---|---|---|"] + [
     f"| `{t}` | {G[t]['mean']:.2f} ({n_items(G[t]['items'])}) | {G[t]['pictures']} | {G[t]['misreads']} |" for t in sorted(by["fail"] + by["too_few"], key=lambda t: G[t]["mean"])]
 probes = load("probes")
-sec = ["## The sixteenth blind screen", "",
+sec = ["## The seventeenth blind screen", "",
        f"{TXT.get('readers', 'Fresh')} readers, who had never seen the key, described every picture of the new set and "
        f"{len(probes)} probe pictures; {TXT.get('scorers', 'two')} separate scorers, each given part of the pictures and the same prompt, marked each "
        "scored item against the key, exactly as in the earlier screens. "
        f"The headline figures cover the set; the probe pictures count only toward the templates they carry. Every template "
-       "appeared in at least three screened pictures, as in v0.10 to v0.18.", "",
-       "\n".join(tr), "", TXT.get("screen", ""), "", "The templates that failed the v0.18 gate and the templates whose visuals or placement were refined for its oddities (mean of each template's scored items; "
+       "appeared in at least three screened pictures, as in v0.10 to v0.19.", "",
+       "\n".join(tr), "", TXT.get("screen", ""), "", "The templates that failed the v0.19 gate and the templates whose visuals or placement were refined for its oddities (mean of each template's scored items; "
        "inference and contradiction items alone in the last column):", "", "\n".join(red), "", TXT.get("redrawn", ""), "",
        "### The legibility gate", "", "\n".join(gl), "", TXT.get("gate", ""), ""]
 if len(fails) > 2:
-    sec += ["Templates that did not pass (`vision/flaws_v019.md` gives what the readers saw and the next fix):", "", "\n".join(fails), ""]
+    sec += ["Templates that did not pass (`vision/flaws_v020.md` gives what the readers saw and the next fix):", "", "\n".join(fails), ""]
 T = T.replace("__SCREEN_SECTION__", "\n".join(s for s in sec).rstrip())
 DESIGN = TXT.get("design", "")
 REBUILD = "scenes/" + sorted(r["name"] for r in recs if r["tier"] == 3 and r["setting"] == "park" and not r.get("isomorph_of"))[0] + ".json"
@@ -110,5 +111,5 @@ T = T.replace("__DESIGN_TESTS__", DESIGN)
 T = T.replace("__REBUILD_EXAMPLE__", REBUILD)
 T = T.replace("__INSPECTION__", TXT.get("inspection", ""))
 T = T.replace("__ZIP_MB__", TXT.get("zip_mb", "150"))
-open("README_v0.19.md", "w").write(T)
-print("README_v0.19.md written")
+open("README_v0.20.md", "w").write(T)
+print("README_v0.20.md written")

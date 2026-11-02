@@ -232,6 +232,17 @@ def _lead_sag(self, d, hand, mid, Y):
 WalkDog.lead_sag = _lead_sag
 
 
+def in_bed(sc, pt):
+    """Revision 18: True if pt lies well inside the soil ellipse of a garden or park flower bed (the street's planter, a
+    box, keeps the earlier rule)."""
+    if sc.setting_id not in ("garden", "park"):
+        return True
+    b = sc.S.anchors["flowers"]["bbox"]
+    s = (b[3] - b[1]) / 136.0
+    cx, cy, rx, ry = (b[0] + b[2]) / 2, b[3] - 36 * s, (b[2] - b[0]) / 2 - 24 * s, 36 * s - 7 * s
+    return ((pt[0] - cx) / rx) ** 2 + ((pt[1] - cy) / ry) ** 2 <= 1.0
+
+
 class WaterFlowers(T):
     id = "water_flowers"
     needs = {"*": {"flowers"}}
@@ -317,6 +328,10 @@ class WaterFlowers(T):
                 # revision 4: the water lands on the soil, not in front of the bed or on the path
                 if not self.upward and SCN.PLACEMENT_REV >= 4 and not (bb[0] + 18 <= end[0] <= bb[2] - 18 and end[1] <= bb[3] - 6):
                     continue
+                # revision 18: well inside the soil of a garden or park bed (at its front edge it read as "lands at the
+                # front edge of the bed / on the grass rather than on the flowers")
+                if not self.upward and SCN.PLACEMENT_REV >= 18 and not in_bed(sc, end):
+                    continue
                 sc.assets[ep] = p
                 sc.legib_ok.add(("flowers", ep))
                 # the water lands on the flowers, so it is drawn in front of them
@@ -372,8 +387,19 @@ class HoseWater(T):
                 # (drawn behind them, half of it was hidden and the event never passed the rules)
                 bb = F["bbox"]
                 length = max(80.0, min(300.0, (bb[3] - 0.35 * (bb[3] - bb[1]) - nz[1]) / (0.85 * sz(Y))))
-                stream, sbb, _ = D.water_stream(nz, (aim[0] - nz[0], aim[1] - nz[1]), sz(Y), length, splash=True,
-                                                  style="jet" if SCN.PLACEMENT_REV >= 17 else None)
+                got = None
+                # revision 18: the jet carried on until it lands inside the bed's soil (stopped at the height of the
+                # flowers, it "lands at the front edge of the bed / on the grass")
+                for k_ in ((1.0, 1.12, 1.25, 1.4, 1.55) if SCN.PLACEMENT_REV >= 18 else (1.0,)):
+                    st_ = D.water_stream(nz, (aim[0] - nz[0], aim[1] - nz[1]), sz(Y), length * k_, splash=True,
+                                         style="jet" if SCN.PLACEMENT_REV >= 17 else None)
+                    if SCN.PLACEMENT_REV < 18 or in_bed(sc, st_[2]):
+                        got = st_
+                        break
+                if got is None:
+                    sc.remove(ep, eh)       # (this spot's waterer and hose taken back)
+                    continue
+                stream, sbb, end_ = got
                 ew = sc.svg(sc.eid("spray"), "Water spraying", stream, max(Y, F["depth"]) + 1, sbb, "scored")
             else:
                 stream, sbb, _ = D.water_stream(nz, (aim[0] - nz[0], aim[1] - nz[1]), sz(Y), 260)
@@ -386,7 +412,7 @@ class HoseWater(T):
 class Sweep(T):
     id = "sweep"
     pose = "sweep"
-    text = ("sweeping", ["sweeping", "sweeping the path", "sweeping the ground", "broom"], "broom")
+    text = ("sweeping", ["sweeping", "sweeping the path", "sweeping the ground", "broom"], "sweeping")
 
     def bind(self):
         sc = self.sc
@@ -452,7 +478,7 @@ class Rake(T):
             dx, dy = math.cos(a) * (8 + i * 3) * s, math.sin(a) * (3 + i) * s * 0.5
             leaves += D.ell(lx + dx, ly + dy, 9 * s, 5 * s, [C["leaf_green"], C["leaf_brown"], C["grass_dark"], C["khaki"]][i % 4], D.OW * 0.5, rot=a * 40)
         el = sc.svg(sc.eid("leaves"), "Pile of leaves", leaves, p.Y + 22 * s, (lx - 60 * s, ly - 20 * s, lx + 60 * s, ly + 20 * s), "scored")
-        self.act(self.p, "raking leaves", ["raking", "raking leaves", "rake", "cleaning up leaves", "raking grass"], "leaves", [ep, el])
+        self.act(self.p, "raking leaves", ["raking", "raking leaves", "rake", "cleaning up leaves", "raking grass"], "raking", [ep, el])
         return True
 
 
@@ -492,7 +518,7 @@ class Dig(T):
         mound = D.ell(hx_, my + 2 * s, 34 * s, 9 * s, C["hole"], D.OW * 0.8)
         mound += D.shape(f"M {D.P(mx - 50 * s, my)} Q {D.P(mx, my - 46 * s)} {D.P(mx + 50 * s, my)} Z", C["soil"])
         em = sc.svg(sc.eid("soil"), "Hole and pile of dirt", mound, p.Y + 10 * s, (min(mx - 50 * s, hx_ - 34 * s), my - 46 * s, max(mx + 50 * s, hx_ + 34 * s), my + 11 * s), "scored")
-        self.act(self.p, "digging", ["digging", "digging a hole", "shoveling", "using a shovel", "spade"], "shovel", [ep, em])
+        self.act(self.p, "digging", ["digging", "digging a hole", "shoveling", "using a shovel", "spade"], "digging", [ep, em])
         return True
 
 
@@ -512,6 +538,9 @@ def _dig_place10(self, ep):
         if any(sc.on_element("path", x, y) for x, y in ((hx, hy), (mx, my), (p.X, p.Y))):
             return None
         box = (min(hx - 36 * s, mx - 46 * s), my - 40 * s, max(hx + 36 * s, mx + 46 * s), my + 10 * s)
+        # revision 18: the whole hole and pile off the path (one overlapped the path's edge)
+        if SCN.PLACEMENT_REV >= 18 and not sc.setting_clear((box[0] - 10, hy - 14 * s, box[2] + 10, box[3] + 6), only=("path",)):
+            return None
         # the whole hole inside the picture (at the bottom edge its near rim was cut off by the frame)
         if hy + 12 * s > D.H - 6:
             return None
@@ -530,7 +559,7 @@ def _dig_place10(self, ep):
     svg += D.shape(f"M {D.P(mx - 46 * s, my)} Q {D.P(mx, my - 40 * s)} {D.P(mx + 46 * s, my)} Z", C["soil"])
     bb = (min(hx - 36 * s, mx - 46 * s), my - 40 * s, max(hx + 36 * s, mx + 46 * s), my + 10 * s)
     em = sc.svg(sc.eid("soil"), "Hole and pile of dirt", svg, p.Y - 1, bb, "scored")
-    self.act(self.p, "digging", ["digging", "digging a hole", "shoveling", "using a shovel", "spade"], "shovel", [ep, em])
+    self.act(self.p, "digging", ["digging", "digging a hole", "shoveling", "using a shovel", "spade"], "digging", [ep, em])
     return True
 
 
@@ -607,7 +636,7 @@ class BenchSit(T):
     uses = ("bench",)
     exclusive = ("bench",)
     pose, exprs = "sit_read", ("content", "focused")
-    text = ("reading on the bench", ["reading", "reading a book", "sitting on the bench", "sitting and reading"], "book")
+    text = ("reading on the bench", ["reading", "reading a book", "sitting on the bench", "sitting and reading"], "reading")
     kinds = None
 
     def bind(self):
@@ -643,7 +672,7 @@ class BenchSit(T):
 class DrinkBench(BenchSit):
     id = "drink_bench"
     pose, exprs = "sit_drink", ("content", "smile")
-    text = ("sitting on the bench with a drink", ["drinking", "having coffee", "drinking tea", "sitting on the bench", "cup", "mug"], "coffee")
+    text = ("sitting on the bench with a drink", ["drinking", "having coffee", "drinking tea", "sitting on the bench", "cup", "mug"], "drinking")
 
 
 class Picnic(T):
@@ -1191,10 +1220,30 @@ class Jump(T):
             cl = sc.S.anchors.get("clothesline")
             if isinstance(cl, dict):
                 accept = lambda p: not (cl["x0"] - 60 <= p.X <= cl["x1"] + 60 and p.Y < cl["depth"] + 180)
-        if not sc.try_put(ep, self.vp, self.stand_spots(), want_face=sc.rng.choice([1, -1]), accept=accept):
+        if SCN.PLACEMENT_REV >= 18:
+            # revision 18: no bird over or beside the raised hands, now or later (a boy jumping just below a bird perched
+            # on the fence read as "jumping with his arms up near a blue bird", reaching for it)
+            base = accept
+
+            def accept(p, base=base):
+                if base and not base(p):
+                    return False
+                z = self.bird_zone(p)
+                return not any(q.family.startswith("animal.bird") and min(q.bbox()[2], z[2]) > max(q.bbox()[0], z[0])
+                               and min(q.bbox()[3], z[3]) > max(q.bbox()[1], z[1]) for q in sc.assets.values())
+        p = sc.try_put(ep, self.vp, self.stand_spots(), want_face=sc.rng.choice([1, -1]), accept=accept)
+        if not p:
             return False
+        if SCN.PLACEMENT_REV >= 18:
+            sc.no_bird = list(getattr(sc, "no_bird", [])) + [self.bird_zone(p)]
         self.act(self.p, "jumping for joy", ["jumping", "jumping for joy", "excited", "happy", "cheering"], "jumping", [ep])
         return True
+
+    @staticmethod
+    def bird_zone(p):
+        b, s = p.bbox(), sz(p.Y)
+        h = b[3] - b[1]
+        return (b[0] - 130 * s, b[1] - 260 * s, b[2] + 130 * s, b[1] + 0.45 * h)
 
 
 class Photo(T):
@@ -1395,6 +1444,9 @@ FeedBirds._bird_x = _feed_bird_x
 class IceCream(T):
     id = "ice_cream"
     settings = ("park", "street", "playground")
+    # revision 18: never with the dropped ice cream (a teenager eating hers walked toward the boy who dropped his,
+    # "maybe to share it")
+    exclusive = ("drop_vs_eat",) if SCN.PLACEMENT_REV >= 18 else ()
 
     def bind(self):
         sc = self.sc
@@ -1483,6 +1535,7 @@ class PaintFence(T):
 class Run(T):
     id = "run"
     settings = ("park", "street", "playground")
+    exclusive = ("drop_vs_run",) if SCN.PLACEMENT_REV >= 18 else ()
 
     def bind(self):
         sc = self.sc
@@ -2306,7 +2359,7 @@ class PushStroller(T):
             return False
         svg, info = self.pr
         es = sc.svg(sc.eid("stroller"), "Baby stroller", svg, p.Y + 4, info["bbox"], "scored")
-        self.act(self.p, "pushing a baby in a stroller", ["pushing a stroller", "pushing a pram", "pushing a baby carriage", "baby", "walking with a baby", "buggy"], "baby", [ep, es])
+        self.act(self.p, "pushing a baby in a stroller", ["pushing a stroller", "pushing a pram", "pushing a baby carriage", "baby", "walking with a baby", "buggy"], "stroller", [ep, es])
         return True
 
 
@@ -2377,7 +2430,7 @@ class BlockedHose(T):
             self.act(self.p, "holding a hose, looking into the nozzle", ["holding a hose", "looking at the hose", "looking into the nozzle", "puzzled", "confused"], "hose", [ep, eh])
             it = self.ent(f"The {an} is standing on the hose", [f"{an} standing on the hose", f"{an} on the hose", "stepping on the hose"], an, [ea], animate=True)
             it["type"] = "action"
-            it2 = self.ent("No water is coming out", ["no water", "water isn't coming out", "hose isn't working", "nothing coming out", "hose is dry"], "water", [en])
+            it2 = self.ent("No water is coming out", ["no water", "water isn't coming out", "hose isn't working", "nothing coming out", "hose is dry"], "hose", [en])
             it2["type"] = "action"
             it2["cues"] = [en, ep]      # the drip is tiny; the man peering into the nozzle is a second cue (spec worked example)
             self.inf(f"The {an} is blocking the water by standing on the hose",
@@ -2490,7 +2543,7 @@ class RainComing(T):
             return False
         sc.checks[f"{ep}_looks_at_clouds"] = sc.gaze_ok(p, box)
         self.ent("Dark clouds are coming", ["dark clouds", "storm clouds", "clouds", "cloudy", "storm", "gray sky"], "clouds", ["clouds_dark"])
-        self.act(self.p, "pointing up at the sky", ["pointing at the sky", "pointing at the clouds", "pointing up", "looking up", "worried"], "sky", [ep])
+        self.act(self.p, "pointing up at the sky", ["pointing at the sky", "pointing at the clouds", "pointing up", "looking up", "worried"], "pointing", [ep])
         self.inf("It is about to rain", ["it's going to rain", "a storm is coming", "rain is coming", "it might rain", "going to get wet"],
                  "rain", 1, cues=["clouds_dark", ep], effect=["clouds_dark"])
         return True
@@ -3015,6 +3068,9 @@ class IceCreamDrop(T):
     id = "ice_cream_drop"
     kind = "inference"
     settings = ("park", "street", "playground")
+    # revision 18: no other ice cream eaten and no runner in the picture (the jogger "could have bumped the child and
+    # knocked the ice cream off")
+    exclusive = ("drop_vs_eat", "drop_vs_run", "drop_vs_bench_eat") if SCN.PLACEMENT_REV >= 18 else ()
     units, content = 1, 3
 
     def bind(self):
@@ -3208,7 +3264,7 @@ class AboutToTrip(T):
                 sc.keepout.append(lane)
             eo = sc.svg(sc.eid("obstacle"), f"{label} in the way", svg, oy, bb, "scored")
             n = sc.name(self.p)
-            self.act(self.p, "reading while walking", ["reading while walking", "walking and reading", "not looking where he's going", "reading a book"], "book", [ep])
+            self.act(self.p, "reading while walking", ["reading while walking", "walking and reading", "not looking where he's going", "reading a book"], "reading", [ep])
             self.ent(f"There is {label} on the ground in front of {art(n)} {n}", acc, key, [eo])
             self.inf(f"The {n} is going to trip over {label}", [f"going to trip over the {key}", "going to fall", "will bump into it", "isn't looking where they're going"],
                      "trip", 1, cues=[ep, eo], effect=[eo])
@@ -3221,7 +3277,7 @@ class DogBegs(T):
     kind = "inference"
     needs = {"*": {"bench"}}
     uses = ("bench",)
-    exclusive = ("bench", "bench_front")
+    exclusive = ("bench", "bench_front") + (("drop_vs_bench_eat",) if SCN.PLACEMENT_REV >= 18 else ())
     units, content = 1, 2
 
     def bind(self):
@@ -3268,7 +3324,7 @@ class DogBegs(T):
                 sc.assets[ed] = d
                 n, dn = sc.name(self.p), sc.name(self.d)
                 food = "an apple" if self.food == "sit_apple" else "an ice cream"
-                self.act(self.p, f"sitting on the bench eating {food}", ["eating", "sitting on the bench", f"eating {food}", "snack"], "apple" if "apple" in food else "ice cream", [ep])
+                self.act(self.p, f"sitting on the bench eating {food}", ["eating", "sitting on the bench", f"eating {food}", "snack"], "eating", [ep])
                 if SCN.PLACEMENT_REV >= 7:
                     # revision 7: the begging itself (readers saw the sitting beg as "stretching up on its hind legs to beg")
                     it = self.ent(f"A {dn} is begging beside the bench, looking up at the food", [f"{dn} begging", f"{dn} looking up", f"{dn} sitting up", f"{dn} stretching up toward the food", f"{dn} watching the food"], dn, [ed], animate=True)
@@ -3580,10 +3636,26 @@ class WindyHat(T):
             if e["id"] == "swing_seat" and e.get("svg") and "swing" in self.sc.S.anchors:
                 (ax, ay), (bx, by) = self.sc.S.anchors["swing"]["rope_top"]
                 px, py = (ax + bx) / 2, (ay + by) / 2
-                e["svg"] = f'<g transform="rotate({-16 * want} {px:.1f} {py:.1f})">{e["svg"]}</g>'
-                b = e["bbox"]
-                L = b[3] - py
-                e["bbox"] = (b[0] - 0.3 * L, b[1], b[2] + 0.3 * L, b[3])
+                if SCN.PLACEMENT_REV >= 18:
+                    # revision 18: the seat pushed a little downwind and tilted, its ropes following, so it stays inside
+                    # the frame (swung out 16 degrees it "overlaps (or passes through)" the frame's leg)
+                    A = self.sc.S.anchors["swing"]
+                    sx_, sy_ = A["seat"]
+                    w_ = A.get("seat_w", 84)
+                    cx_, cy_ = sx_ + 6 * want, sy_ + 1
+                    phi = math.radians(10 * want)
+                    ex_, ey_ = 0.5 * w_ * math.cos(phi), 0.5 * w_ * math.sin(phi)
+                    lt, rt = ((ax, ay), (bx, by)) if ax < bx else ((bx, by), (ax, ay))
+                    svg_ = D.line(lt[0], lt[1], cx_ - ex_, cy_ - ey_, D.OUT, 4) + D.line(rt[0], rt[1], cx_ + ex_, cy_ + ey_, D.OUT, 4)
+                    svg_ += f'<g transform="rotate({math.degrees(phi):.1f} {cx_:.1f} {cy_:.1f})">' + D.rect(cx_ - w_ / 2, cy_ - 4, w_, 13, C["red"], 3) + '</g>'
+                    e["svg"] = svg_
+                    b = e["bbox"]
+                    e["bbox"] = (min(b[0], cx_ - w_ / 2 - 4), b[1], max(b[2], cx_ + w_ / 2 + 4), max(b[3], cy_ + abs(ey_) + 12))
+                else:
+                    e["svg"] = f'<g transform="rotate({-16 * want} {px:.1f} {py:.1f})">{e["svg"]}</g>'
+                    b = e["bbox"]
+                    L = b[3] - py
+                    e["bbox"] = (b[0] - 0.3 * L, b[1], b[2] + 0.3 * L, b[3])
 
     def sky_breeze(self, want, avoid_x):
         """Revision 12: up to two wind lines in open sky away from the hat, clear of clouds, the sun, buildings, trees and
@@ -3699,7 +3771,7 @@ class BirdSteals(T):
             # revision 4: the beak goes into the sandwich, so the sandwich is drawn over it
             es = sc.svg(sc.eid("sandwich"), "Sandwich on the bench", sw, B["depth"] + 3.5, sbb, "scored")
             n, bn = sc.name(self.p), sc.name(self.b)
-            self.act(self.p, "reading on the bench", ["reading", "reading a book", "sitting on the bench", "not paying attention"], "book", [ep])
+            self.act(self.p, "reading on the bench", ["reading", "reading a book", "sitting on the bench", "not paying attention"], "reading", [ep])
             it = self.ent(f"A {bn} is pecking at a sandwich on the bench", [f"{bn} eating the sandwich", f"{bn} on the bench", "bird pecking", "sandwich"], "sandwich", [eb, es], animate=True)
             it["type"] = "action"
             self.inf(f"The {bn} is stealing the sandwich while the {n} is busy reading", ["the bird is stealing the food", "she doesn't notice the bird", "the bird is eating her lunch", "he isn't watching his sandwich"],
@@ -3803,7 +3875,7 @@ class LostBalloon(T):
             sc.checks[f"{ep}_looks_at_balloon"] = sc.gaze_ok(p, (bb[0] - 30, bb[1] - 30, bb[2] + 30, bb[3] + 30))
             eb = sc.svg(sc.eid("loosebal"), "Balloon floating away", svg, 1500, res, "scored")   # high in the air: drawn over everything
             n = sc.name(self.p)
-            self.act(self.p, "reaching up, upset", ["reaching up", "crying", "upset", "sad", "trying to catch the balloon"], "balloon", [ep])
+            self.act(self.p, "reaching up, upset", ["reaching up", "crying", "upset", "sad", "trying to catch the balloon"], "reaching", [ep])
             self.ent("A balloon is floating up into the sky", ["balloon flying away", "balloon in the sky", "balloon", "floating balloon"], "balloon", [eb])
             self.inf(f"The {n} let go of the balloon", ["the child lost the balloon", "the balloon got away", "let go of the string", "the balloon flew away from them"],
                      "lost", 1, cues=[eb, ep], effect=[eb])
@@ -3877,7 +3949,7 @@ def _lost_balloon_place7(self):
         eh = sc.svg(sc.eid("heldbal"), "Balloons held by the child", bunch, 1499, bbb, "scored")
         eb = sc.svg(sc.eid("loosebal"), "Balloon floating away", loose, 1500, res, "scored")
         n = sc.name(self.p)
-        self.act(self.p, "holding balloons and reaching up for one, upset", ["reaching up", "holding balloons", "upset", "sad", "trying to catch the balloon"], "balloon", [ep, eh])
+        self.act(self.p, "holding balloons and reaching up for one, upset", ["reaching up", "holding balloons", "upset", "sad", "trying to catch the balloon"], "reaching", [ep, eh])
         self.ent("A balloon is floating up into the sky", ["balloon flying away", "balloon in the sky", "balloon floating away", "floating balloon"], "balloon", [eb])
         self.inf(f"The {n} let go of one of the balloons", ["one balloon got away", "lost one of the balloons", "the balloon slipped away",
                                                            "let go of the string", "one floated away from the bunch"],
@@ -4024,14 +4096,14 @@ class SeesawHeavy(SeesawPlay):
                 sc.svg(sc.eid("kicklines"), "Motion lines by the dangling feet", kick, A["depth"] + 3, (min(xs) - 4, min(ys) - 4, max(xs) + 4, max(ys) + 4), "setting")
         if SCN.PLACEMENT_REV >= 7:
             self.act(self.a, "sitting on the low end of the seesaw, reading", ["sitting on the seesaw", "reading on the seesaw", "sitting on the low end", "reading a book"], "seesaw", [ea])
-            self.act(self.b, "stuck up in the air on the seesaw, calling out", ["up in the air", "stuck at the top", "calling out", "shouting", "scared", "can't get down"], "seesaw", [eb])
+            self.act(self.b, "stuck up in the air on the seesaw, calling out", ["up in the air", "stuck at the top", "calling out", "shouting", "scared", "can't get down"], "air", [eb])
             self.inf(f"The {an} is much heavier, so the {bn} is stuck up in the air",
                      [f"the {an} is too heavy", "the grown-up is heavier", "the child can't get down", "stuck because he is sitting on the other end",
                       "the seesaw won't go up and down", "too heavy for the seesaw", "he isn't noticing she's stuck"],
                      "heavy", 1, cues=[eb, ea], effect=[eb])
             return True
         self.act(self.a, "sitting on the low end of the seesaw", ["sitting on the seesaw", "on the seesaw", "sitting on the ground end"], "seesaw", [ea])
-        self.act(self.b, "stuck up in the air on the seesaw", ["up in the air", "stuck at the top", "on the seesaw", "scared", "can't get down"], "seesaw", [eb])
+        self.act(self.b, "stuck up in the air on the seesaw", ["up in the air", "stuck at the top", "on the seesaw", "scared", "can't get down"], "air", [eb])
         self.inf(f"The {an} is much heavier, so the {bn} is stuck up in the air",
                  [f"the {an} is too heavy", "the grown-up is heavier", "the child can't get down", "the seesaw won't go up and down", "too heavy for the seesaw"],
                  "heavy", 1, cues=[eb, ea], effect=[eb])
@@ -4494,6 +4566,10 @@ class LadderNothing(T):
     def place(self):
         sc = self.sc
         solid = [e["bbox"] for e in sc.S.elements if e["id"] in ("tree", "tree_small", "lamp", "slide", "swing", "bench", "house", "buildings") and e.get("bbox")]
+        if SCN.PLACEMENT_REV >= 18:
+            # revision 18: well clear of the bench, behind it too (its feet just behind the backrest, it could be read as
+            # "propped on or just behind the bench")
+            solid += [(b[0] - 40, b[1] - 80, b[2] + 40, b[3] + 20) for b in (e["bbox"] for e in sc.S.elements if e["id"] == "bench" and e.get("bbox"))]
         for X, Y in self.stand_spots(y_range=(sc.S.horizon + 140, 960), n=100):
             s = sz(Y) * self.k3(1.2, 1.0, 0.85)
             lean = sc.rng.choice([12, 16, -12, -16])
@@ -4501,6 +4577,9 @@ class LadderNothing(T):
             if any(sc.overlap(bb, b) > 0 for b in solid):
                 continue
             if not sc.fits(bb, limit=0.03):
+                continue
+            # revision 18: nor over the pond (its top "appears to stick up into / overlap the pond area")
+            if SCN.PLACEMENT_REV >= 18 and not sc.setting_clear((bb[0] - 12, bb[1] - 12, bb[2] + 12, bb[3]), only=("pond",)):
                 continue
             if SCN.PLACEMENT_REV >= 11:
                 # revision 11: nobody stands beside the ladder, now or later, where they could be holding it up (a

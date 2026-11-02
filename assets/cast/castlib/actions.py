@@ -951,10 +951,27 @@ def up_carry_bucket(P):
     _hang_bag(P, "R", "bucket")
 
 
+# v0.20: a red takeaway cup with a white lid and a straw at the lips (the white mug read as "something white held to her
+# mouth, as if drinking or eating")
+DRINK_V020 = True
+
+
 def up_drink(P):
-    """A big white mug held in front of the mouth and tipped toward it (reads as drinking, not a phone)."""
+    """A big white mug held in front of the mouth and tipped toward it (reads as drinking, not a phone); from v0.20 a
+    red takeaway cup with a white lid, its straw at the lips."""
     u = P.u
     m = P.lm("mouth")
+    if DRINK_V020:
+        # (round 2: a quarter bigger, the straw thicker: small at the back of a park it read as "white with a red top")
+        g = 1.25
+        C = m + Vector((0.0, -0.14, -0.17)) * u        # the cup's middle, below and in front of the mouth
+        P.arms({"R": (C + Vector((-0.06, 0.0, -0.01)) * u, (-1, 0.4, -0.8)), "L": P.rest_arm("L")})
+        P.prop("cup", cyl("cup", C + Vector((0, 0, -0.075 * g)) * u, C + Vector((0, 0, 0.065 * g)) * u, 0.040 * g * u, "red", seg=28, r1=0.052 * g * u))
+        P.prop("sleeve", cyl("sleeve", C + Vector((0, 0, -0.020 * g)) * u, C + Vector((0, 0, 0.022 * g)) * u, 0.050 * g * u, "tan", seg=28, r1=0.054 * g * u))
+        P.prop("lid", cyl("lid", C + Vector((0, 0, 0.062 * g)) * u, C + Vector((0, 0, 0.084 * g)) * u, 0.056 * g * u, "white", seg=28, r1=0.050 * g * u))
+        top = C + Vector((0, 0, 0.084 * g)) * u
+        P.prop("straw", cyl("straw", top - Vector((0, 0, 0.01)) * u, m + Vector((0.0, -0.012, -0.004)) * u, 0.011 * u, "yellow", seg=12))
+        return
     C = m + Vector((0.0, -0.105, -0.045)) * u
     F = Frame.euler(C, rx=-34)
     P.arms({"R": (F.p(-0.095 * u, 0.0, -0.02 * u), (-1, 0.4, -0.8)), "L": P.rest_arm("L")})
@@ -1255,17 +1272,47 @@ def up_fish(P):
     P.panchor("rod_tip", tip)
 
 
+# v0.20: a metal pail pulled down over the top of the head to the brows, with a rolled rim, two ridges and its wire
+# handle hanging from the lugs at the rim (the blue bucket sitting on top read as "a tall blue hat ... or a fez")
+BUCKET_V020 = "back"        # where the handle hangs: "back" of the head or "front" under the chin; None = v0.19
+
+
 def up_bucket_hat(P):
     up_hands_on_hips(P)
     u, c = P.u, P.c
     ht = P.lm("head_top")
     hc = ht - Vector((0, 0, c.HR[2] + 0.02 * c.kh))
-    rim_z = hc.z + 0.085 * c.kh
-    R = c.HR[0] * 1.10
-    P.prop("bucket", cyl("bucket", Vector((hc.x, hc.y, rim_z)), Vector((hc.x, hc.y, rim_z + 0.24 * c.kh)), R, "blue", seg=28, r1=R * 0.78), "head")
-    pts = [Vector((hc.x - R, hc.y, rim_z + 0.01 * c.kh)), Vector((hc.x - R * 1.04, hc.y - 0.03 * c.kh, rim_z - 0.06 * c.kh)),
-           Vector((hc.x - R * 0.95, hc.y - 0.06 * c.kh, rim_z - 0.10 * c.kh))]
-    P.prop("handle", tube_mesh("handle", pts, 0.008 * c.kh, "gray"), "head")
+    if not BUCKET_V020:
+        rim_z = hc.z + 0.085 * c.kh
+        R = c.HR[0] * 1.10
+        P.prop("bucket", cyl("bucket", Vector((hc.x, hc.y, rim_z)), Vector((hc.x, hc.y, rim_z + 0.24 * c.kh)), R, "blue", seg=28, r1=R * 0.78), "head")
+        pts = [Vector((hc.x - R, hc.y, rim_z + 0.01 * c.kh)), Vector((hc.x - R * 1.04, hc.y - 0.03 * c.kh, rim_z - 0.06 * c.kh)),
+               Vector((hc.x - R * 0.95, hc.y - 0.06 * c.kh, rim_z - 0.10 * c.kh))]
+        P.prop("handle", tube_mesh("handle", pts, 0.008 * c.kh, "gray"), "head")
+        return
+    k = c.kh
+    # (a cap or sun hat under the pail is hidden: the old man's cap brim stuck out from under it)
+    hat = [n for n in ("HatDome", "HatBrim", "HatButton", "HatBand", "HatPom") if n in bpy.data.objects]
+    if hat:
+        P.hides.setdefault(P.cur, []).extend(hat)
+    rim_z = hc.z + 0.050 * k
+    R = c.HR[0] * 1.20
+    H = 0.27 * k
+    top_r = R * 0.72        # (round 2: a stronger taper, one ridge and no lugs: with straight sides, two ridges and
+    #                          side lugs it read as "a cooking pot" or "a stack of metal bowls")
+    P.prop("bucket", cyl("bucket", Vector((hc.x, hc.y, rim_z)), Vector((hc.x, hc.y, rim_z + H)), R, "silver", seg=32, r1=top_r), "head")
+    P.prop("rim", cyl("rim", Vector((hc.x, hc.y, rim_z - 0.012 * k)), Vector((hc.x, hc.y, rim_z + 0.016 * k)), R * 1.07, "gray", seg=32), "head")
+    t = 0.30
+    r_ = R + (top_r - R) * t
+    z_ = rim_z + H * t
+    P.prop("ridge", cyl("ridge", Vector((hc.x, hc.y, z_ - 0.007 * k)), Vector((hc.x, hc.y, z_ + 0.007 * k)), r_ * 1.025, "gray", seg=32), "head")
+    lug_z = rim_z + 0.035 * k
+    dy = 0.13 * k if BUCKET_V020 == "back" else -0.10 * k
+    drop = 0.13 * k if BUCKET_V020 == "back" else 0.20 * k
+    pts = [Vector((hc.x - R * 1.02, hc.y, lug_z)), Vector((hc.x - R * 0.85, hc.y + dy * 0.55, lug_z - drop * 0.6)),
+           Vector((hc.x, hc.y + dy, lug_z - drop)), Vector((hc.x + R * 0.85, hc.y + dy * 0.55, lug_z - drop * 0.6)),
+           Vector((hc.x + R * 1.02, hc.y, lug_z))]
+    P.prop("handle", tube_mesh("handle", pts, 0.0085 * k, "charcoal"), "head")
 
 
 def up_trowel(P):
@@ -1342,7 +1389,7 @@ ACTIONS = [
     ("carry_bag", "stand", {}, "carry_bag", "carrying a shopping bag", ["carry", "shop"]),
     ("carry_basket", "stand", {}, "carry_basket", "carrying a basket", ["carry", "picnic"]),
     ("carry_bucket", "stand", {}, "carry_bucket", "carrying a bucket", ["carry"]),
-    ("drink", "stand", {"head_pitch": 16, "lean": -3}, "drink", "drinking from a mug", ["food"]),
+    ("drink", "stand", {"head_pitch": 16, "lean": -3}, "drink", "drinking from a cup through a straw", ["food"]),
     ("eat_ice_cream", "stand", {"head_pitch": -6}, "ice_cream", "eating an ice cream cone", ["food"]),
     ("eat_apple", "stand", {}, "apple", "eating an apple", ["food"]),
     ("look_up", "stand", {"head_pitch": 30, "lean": -4}, None, "looking up", ["look_up"]),

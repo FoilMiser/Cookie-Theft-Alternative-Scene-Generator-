@@ -4,38 +4,75 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 20015,
- "mirror": false,
+ "mirror": true,
  "versions": {
-  "generator": "0.19.0",
-  "cast_builder": "0.19.0",
+  "generator": "0.20.0",
+  "cast_builder": "0.20.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
    "sd": 1.41,
    "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
   }
  },
  "features": [
-  "bench",
-  "clothesline",
-  "flowers",
-  "laundry"
+  "flowers"
  ],
  "templates": [
   {
-   "id": "walk_dog",
+   "id": "cat_sleeping",
    "kind": "event",
    "event": "e1",
    "units": 0
   },
   {
-   "id": "cat_on_fence",
+   "id": "paint_fence",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "dog_sleeping",
+   "id": "plant_flowers",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -46,7 +83,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is walking a dog",
+   "text": "A woman is planting flowers",
    "accepted": {
     "who": [
      "woman",
@@ -56,121 +93,143 @@
      "person"
     ],
     "what": [
-     "walking a dog",
-     "walking the dog",
-     "dog on a leash",
-     "taking the dog for a walk"
+     "planting flowers",
+     "planting",
+     "gardening",
+     "kneeling in the garden"
     ]
    },
-   "key": "dog",
+   "key": "planting",
    "elements": [
-    "walker_1",
-    "dog_2",
-    "leash_3"
+    "planter_1",
+    "pot_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "walk_dog",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.285,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.1,
-    "domain": null,
-    "area_px": 22876
-   },
-   "b": -1.613,
-   "p0": 0.834,
-   "pm1": 0.649,
-   "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A cat is walking along the fence",
-   "accepted": [
-    "cat on the fence",
-    "cat walking",
-    "cat",
-    "cat on top of the fence"
-   ],
-   "key": "cat",
-   "elements": [
-    "fencecat_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "cat_on_fence",
-   "event": "e2",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.777,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.78,
-    "domain": null,
-    "area_px": 5116
-   },
-   "b": -0.985,
-   "p0": 0.728,
-   "pm1": 0.496,
-   "aoi_cells": [
-    "MR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "action",
-   "text": "A dog is sleeping",
-   "accepted": [
-    "dog sleeping",
-    "dog lying down",
-    "sleeping dog",
-    "dog resting",
-    "dog"
-   ],
-   "key": "dog",
-   "elements": [
-    "dog_sleeping_5"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "dog_sleeping",
+   "template": "plant_flowers",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.999,
+    "s": -0.06,
     "r": 0,
     "d": 0.0,
-    "f": 1.1,
+    "f": -0.19,
+    "a": 3.95,
+    "zipf_raw": 3.81,
+    "aoa_raw": 3.95,
     "domain": null,
-    "area_px": 3740
+    "area_px": 14060
    },
-   "b": -0.971,
-   "p0": 0.725,
-   "pm1": 0.493,
+   "b": -1.053,
+   "p0": 0.741,
+   "pm1": 0.513,
    "aoi_cells": [
-    "BL"
+    "MC",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A worker is painting the fence",
+   "accepted": {
+    "who": [
+     "worker",
+     "man",
+     "woman",
+     "person",
+     "gardener",
+     "delivery person"
+    ],
+    "what": [
+     "painting the fence",
+     "painting",
+     "paint roller",
+     "painting the wall"
+    ]
+   },
+   "key": "paint",
+   "elements": [
+    "painter_3",
+    "paintstripe_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "paint_fence",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.605,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.52,
+    "a": 4.45,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
+    "domain": null,
+    "area_px": 35908
+   },
+   "b": -1.599,
+   "p0": 0.832,
+   "pm1": 0.645,
+   "aoi_cells": [
+    "ML",
+    "MC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "action",
+   "text": "A cat is sleeping",
+   "accepted": [
+    "cat sleeping",
+    "cat lying down",
+    "sleeping cat",
+    "cat napping",
+    "cat curled up",
+    "cat"
+   ],
+   "key": "cat",
+   "elements": [
+    "cat_sleeping_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "cat_sleeping",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.19,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.78,
+    "a": 3.68,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
+    "domain": null,
+    "area_px": 2856
+   },
+   "b": -0.779,
+   "p0": 0.685,
+   "pm1": 0.445,
+   "aoi_cells": [
+    "BC"
    ]
   },
   {
@@ -203,6 +262,9 @@
     "r": 0,
     "d": 0.0,
     "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
     "domain": null,
     "area_px": 13440
    },
@@ -210,7 +272,7 @@
    "p0": 0.708,
    "pm1": 0.471,
    "aoi_cells": [
-    "TR"
+    "TL"
    ]
   },
   {
@@ -242,8 +304,11 @@
     "r": 0,
     "d": 0.0,
     "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19276
+    "area_px": 19280
    },
    "b": -0.77,
    "p0": 0.684,
@@ -275,19 +340,22 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.733,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43028
+    "area_px": 43040
    },
    "b": -1.262,
    "p0": 0.779,
    "pm1": 0.565,
    "aoi_cells": [
-    "TL",
-    "ML"
+    "TR",
+    "MR"
    ]
   },
   {
@@ -314,16 +382,19 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.894,
+    "s": 1.844,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
+    "a": 6.28,
+    "zipf_raw": 4.21,
+    "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 220912
+    "area_px": 205884
    },
-   "b": -1.65,
-   "p0": 0.839,
-   "pm1": 0.657,
+   "b": -1.625,
+   "p0": 0.835,
+   "pm1": 0.651,
    "aoi_cells": [
     "ML",
     "MC",
@@ -361,6 +432,9 @@
     "r": 0,
     "d": 0.0,
     "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
     "domain": null,
     "area_px": 204952
    },
@@ -368,144 +442,25 @@
    "p0": 0.888,
    "pm1": 0.745,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
-   ]
-  },
-  {
-   "id": "i09",
-   "type": "entity",
-   "text": "Clothes are hanging on the line",
-   "accepted": [
-    "clothes",
-    "laundry",
-    "washing",
-    "clothesline",
-    "clothes line",
-    "towel",
-    "pants"
-   ],
-   "key": "laundry",
-   "elements": [
-    "laundry"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.103,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.06,
-    "domain": null,
-    "area_px": 13236
-   },
-   "b": -0.607,
-   "p0": 0.647,
-   "pm1": 0.403,
-   "aoi_cells": [
-    "MC"
-   ]
-  },
-  {
-   "id": "i10",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "domain": null,
-    "area_px": 25880
-   },
-   "b": -1.018,
-   "p0": 0.735,
-   "pm1": 0.504,
-   "aoi_cells": [
-    "BL",
-    "BC"
-   ]
-  },
-  {
-   "id": "i11",
-   "type": "entity",
-   "text": "There is a bench",
-   "accepted": [
-    "bench",
-    "seat"
-   ],
-   "key": "bench",
-   "elements": [
-    "bench"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.105,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.39,
-    "domain": null,
-    "area_px": 13200
-   },
-   "b": -0.705,
-   "p0": 0.669,
-   "pm1": 0.427,
-   "aoi_cells": [
-    "BL"
+    "TR",
+    "MR",
+    "BR"
    ]
   }
  ],
  "counts": {
-  "content": 11,
+  "content": 8,
   "inference_units": 0,
   "contradictions": 0,
-  "items_total": 11
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.749,
+   "content": 0.769,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.532,
+   "content": 0.56,
    "inference": null
   }
  },
@@ -528,14 +483,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0401,
-  "png_bytes": 169902,
-  "jpeg_bytes": 184388
+  "objects": 15,
+  "edge_density": 0.0338,
+  "png_bytes": 149624,
+  "jpeg_bytes": 163954
  },
  "signature": [
   [
@@ -548,18 +503,6 @@
   ],
   [
    "action",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
    0
   ],
   [
@@ -596,9 +539,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    1352.0,
+    52.0,
     22.0,
-    1548.0,
+    248.0,
     218.0
    ],
    "area_px": 13440,
@@ -611,13 +554,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    560.0,
+    634.0,
     68.0,
-    966.0,
+    1040.0,
     202.0
    ],
-   "area_px": 19276,
-   "visible_px": 19276,
+   "area_px": 19280,
+   "visible_px": 19280,
    "occlusion": 0.0
   },
   {
@@ -638,13 +581,13 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    1254.0,
+    38.0,
     614.0,
-    1562.0,
+    346.0,
     1000.0
    ],
-   "area_px": 81244,
-   "visible_px": 80792,
+   "area_px": 81248,
+   "visible_px": 80796,
    "occlusion": 0.006
   },
   {
@@ -653,44 +596,14 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    296.0,
+    1056.0,
     176.0,
-    544.0,
+    1304.0,
     452.0
    ],
-   "area_px": 44984,
-   "visible_px": 43028,
+   "area_px": 44992,
+   "visible_px": 43040,
    "occlusion": 0.043
-  },
-  {
-   "id": "fencecat_4",
-   "label": "animal.cat_01__walk__neutral__y090",
-   "role": "scored",
-   "z": 612,
-   "bbox": [
-    1260.0,
-    326.0,
-    1368.0,
-    440.0
-   ],
-   "area_px": 5384,
-   "visible_px": 5116,
-   "occlusion": 0.05,
-   "asset": {
-    "variant": "animal.cat_01__walk__neutral__y090",
-    "family": "animal.cat_01",
-    "scale": 0.3757,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
   },
   {
    "id": "fence",
@@ -698,14 +611,29 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    298.0,
+    0.0,
     426.0,
-    1600.0,
+    1302.0,
     618.0
    ],
-   "area_px": 240896,
-   "visible_px": 220912,
-   "occlusion": 0.083
+   "area_px": 240904,
+   "visible_px": 205884,
+   "occlusion": 0.145
+  },
+  {
+   "id": "paintstripe_4",
+   "label": "Freshly painted boards",
+   "role": "scored",
+   "z": 616,
+   "bbox": [
+    460.0,
+    426.0,
+    604.0,
+    618.0
+   ],
+   "area_px": 25640,
+   "visible_px": 25556,
+   "occlusion": 0.003
   },
   {
    "id": "filler_bush_left",
@@ -713,58 +641,66 @@
    "role": "filler",
    "z": 648,
    "bbox": [
-    292.0,
+    1172.0,
     598.0,
-    428.0,
+    1308.0,
     684.0
    ],
-   "area_px": 8296,
-   "visible_px": 7496,
+   "area_px": 8292,
+   "visible_px": 7492,
    "occlusion": 0.096
   },
   {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
+   "id": "painter_3",
+   "label": "person.jo__paint__neutral__y090",
+   "role": "scored",
+   "z": 668,
    "bbox": [
-    1100.0,
-    596.0,
-    1220.0,
-    702.0
+    352.0,
+    406.0,
+    468.0,
+    672.0
    ],
-   "area_px": 8080,
-   "visible_px": 8080,
-   "occlusion": 0.0
+   "area_px": 10352,
+   "visible_px": 10352,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.jo__paint__neutral__y090",
+    "family": "person.jo",
+    "scale": 0.3965,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "worker",
+     "accepted_names": [
+      "worker",
+      "man",
+      "woman",
+      "person",
+      "gardener",
+      "delivery person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "short_cap"
+     }
+    }
+   }
   },
   {
-   "id": "clothesline",
-   "label": "Clothesline",
-   "role": "setting",
-   "z": 705,
+   "id": "painttin_5",
+   "label": "Tin of paint",
+   "role": "prop",
+   "z": 680,
    "bbox": [
-    606.0,
-    382.0,
-    976.0,
-    708.0
+    312.0,
+    634.0,
+    350.0,
+    682.0
    ],
-   "area_px": 13848,
-   "visible_px": 13368,
-   "occlusion": 0.035
-  },
-  {
-   "id": "laundry",
-   "label": "Clothes hanging on the line",
-   "role": "setting",
-   "z": 706,
-   "bbox": [
-    648.0,
-    392.0,
-    778.0,
-    524.0
-   ],
-   "area_px": 13236,
-   "visible_px": 13236,
+   "area_px": 1612,
+   "visible_px": 1612,
    "occlusion": 0.0
   },
   {
@@ -773,9 +709,9 @@
    "role": "setting",
    "z": 781,
    "bbox": [
-    0.0,
+    1258.0,
     118.0,
-    342.0,
+    1600.0,
     784.0
    ],
    "area_px": 204952,
@@ -783,38 +719,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
-   "bbox": [
-    318.0,
-    694.0,
-    572.0,
-    838.0
-   ],
-   "area_px": 25880,
-   "visible_px": 25880,
-   "occlusion": 0.0
-  },
-  {
-   "id": "walker_1",
-   "label": "person.mei__walk_dog__smile__y090",
+   "id": "planter_1",
+   "label": "person.mei__kneel_plant__neutral__y090",
    "role": "scored",
-   "z": 909.18,
+   "z": 830,
    "bbox": [
-    738.0,
-    610.0,
-    846.0,
-    914.0
+    914.0,
+    624.0,
+    1070.0,
+    836.0
    ],
-   "area_px": 14572,
-   "visible_px": 14556,
-   "occlusion": 0.001,
+   "area_px": 12512,
+   "visible_px": 11564,
+   "occlusion": 0.076,
    "asset": {
-    "variant": "person.mei__walk_dog__smile__y090",
+    "variant": "person.mei__kneel_plant__neutral__y090",
     "family": "person.mei",
-    "scale": 0.4858,
+    "scale": 0.4565,
     "mirrored": false,
     "labels": {
      "everyday_name": "woman",
@@ -835,108 +756,78 @@
    }
   },
   {
-   "id": "dog_2",
-   "label": "animal.dog_02__walk__happy__y090",
-   "role": "scored",
-   "z": 915.18,
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
    "bbox": [
-    910.0,
-    792.0,
-    1044.0,
-    918.0
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
    ],
-   "area_px": 7672,
-   "visible_px": 7600,
-   "occlusion": 0.009,
+   "area_px": 25884,
+   "visible_px": 23624,
+   "occlusion": 0.087
+  },
+  {
+   "id": "pot_2",
+   "label": "Flower pot",
+   "role": "scored",
+   "z": 837.69,
+   "bbox": [
+    1062.0,
+    774.0,
+    1110.0,
+    840.0
+   ],
+   "area_px": 2496,
+   "visible_px": 2496,
+   "occlusion": 0.0
+  },
+  {
+   "id": "cat_sleeping_6",
+   "label": "animal.cat_02__sleep_tuck__sleepy__y045",
+   "role": "scored",
+   "z": 944.47,
+   "bbox": [
+    688.0,
+    908.0,
+    760.0,
+    964.0
+   ],
+   "area_px": 2856,
+   "visible_px": 2856,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "animal.dog_02__walk__happy__y090",
-    "family": "animal.dog_02",
-    "scale": 0.488,
-    "mirrored": false,
+    "variant": "animal.cat_02__sleep_tuck__sleepy__y045",
+    "family": "animal.cat_02",
+    "scale": 0.4989,
+    "mirrored": true,
     "labels": {
-     "everyday_name": "dog",
+     "everyday_name": "cat",
      "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
+      "cat",
+      "kitten",
+      "kitty"
      ],
      "category": "small_animal"
     }
    }
   },
   {
-   "id": "leash_3",
-   "label": "Leash",
-   "role": "scored",
-   "z": 916.18,
-   "bbox": [
-    840.0,
-    754.0,
-    1006.0,
-    832.0
-   ],
-   "area_px": 720,
-   "visible_px": 720,
-   "occlusion": 0.0
-  },
-  {
-   "id": "bench",
-   "label": "Garden bench",
-   "role": "setting",
-   "z": 928,
-   "bbox": [
-    38.0,
-    804.0,
-    242.0,
-    930.0
-   ],
-   "area_px": 13200,
-   "visible_px": 13200,
-   "occlusion": 0.0
-  },
-  {
-   "id": "dog_sleeping_5",
-   "label": "animal.dog_01__sleep_ball__sleepy__y000",
-   "role": "scored",
-   "z": 959.53,
-   "bbox": [
-    396.0,
-    916.0,
-    466.0,
-    988.0
-   ],
-   "area_px": 3740,
-   "visible_px": 3740,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.dog_01__sleep_ball__sleepy__y000",
-    "family": "animal.dog_01",
-    "scale": 0.5045,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "dog",
-     "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "filler_dog_bowl",
-   "label": "Dog bowl",
+   "id": "filler_watering_can",
+   "label": "Watering can",
    "role": "filler",
-   "z": 968,
+   "z": 960,
    "bbox": [
-    1068.0,
-    954.0,
-    1132.0,
-    982.0
+    362.0,
+    884.0,
+    458.0,
+    962.0
    ],
-   "area_px": 1408,
-   "visible_px": 1408,
+   "area_px": 4404,
+   "visible_px": 4404,
    "occlusion": 0.0
   }
  ],
@@ -946,10 +837,6 @@
  ],
  "attempts": [
   [
-   19015,
-   "could not place walk_dog"
-  ],
-  [
    20015,
    "layout 1: accepted after 0 rejected layouts"
   ]
@@ -957,19 +844,19 @@
  "layout": 0,
  "knob": 0,
  "regen": {
-  "base_seed": 19015,
+  "base_seed": 20015,
   "max_tries": 6,
   "placements": 14,
   "require_band": false,
   "usage": {},
   "forced": {
    "events": [
-    "walk_dog",
-    "cat_on_fence",
-    "dog_sleeping"
+    "cat_sleeping",
+    "paint_fence",
+    "plant_flowers"
    ]
   },
-  "placement_rev": 17
+  "placement_rev": 18
  },
  "probe": true
 }

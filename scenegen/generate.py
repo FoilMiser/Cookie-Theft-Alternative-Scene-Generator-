@@ -60,7 +60,7 @@ def record(sc, fin, name):
         "seed": sc.seed,
         "mirror": sc.mirror_scene,
         "versions": {"generator": GENERATOR_VERSION, "cast_builder": lib.catalog.get("builder_version"), "weights": "spec-starting-v1",
-                     "salience_ref": DF.SALIENCE_REF},
+                     "salience_ref": DF.SALIENCE_REF, "lexical": DF.lexical_versions()},
         "features": sorted(sc.features),
         "templates": [{"id": t.id, "kind": t.kind, "event": t.ev, "units": t.units} for t in sc.templates],
         "scene_load": len(sc.events),

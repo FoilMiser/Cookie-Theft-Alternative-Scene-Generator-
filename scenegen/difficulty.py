@@ -7,21 +7,32 @@ P(produce | theta) = logistic(theta - b)
   r  independent cues - 1 (inference and contradiction items)
   d  cue-effect centroid distance / canvas diagonal (inference items)
   f  Zipf frequency of the item's key word - 4
+  a  age of acquisition of the key word (Kuperman et al. 2012 lemma ratings, years), weight 0 until the pilot
   L  scored events in the scene (template instances)
 
 The salience reference (mean and SD of ln area fraction) is fixed from the Garden prototype's
 item library (house z = +1.90, single drip z = -3.22), so scores are comparable across scenes.
 """
+import csv
+import hashlib
 import math
+import os
+from importlib.metadata import version as _pkg_version
 
 from wordfreq import zipf_frequency
 
+WORDFREQ_VERSION = _pkg_version("wordfreq")
+
 WEIGHTS = {
     "b0": -1.0,
-    "type": {"entity": 0.0, "action": 0.3, "inference": 0.6, "contradiction_notice": 0.8, "contradiction_explain": 1.4},
+    # v0.20: the key word's frequency (and age of acquisition) apply only to entities and actions; inference and
+    # contradiction items are scored on meaning, so their type weights are re-centred by -0.3 x the mean f those items had
+    # in the v0.19 set (0.709 for inferences, 0.737 for contradictions), which keeps the set's predictions where they were
+    "type": {"entity": 0.0, "action": 0.3, "inference": 0.39, "contradiction_notice": 0.58, "contradiction_explain": 1.18},
     "chain": 0.6, "animate": -0.8, "salience": -0.5, "redundancy": -0.3, "separation": 1.2, "frequency": -0.3,
     "domain": {None: 0.0, "physical": 0.0, "biological": -0.2, "functional": 0.2},
     "load": 0.12,
+    "aoa": 0.0,     # recorded on every item so the pilot can test it; no effect on any picture until then
 }
 SALIENCE_REF = {"mu": -4.65, "sd": 1.41, "source": "Garden prototype item library (house +1.90, drip -3.22)"}
 
@@ -38,10 +49,69 @@ INFERENCE_TYPES = ("inference", "contradiction_notice", "contradiction_explain")
 _ZIPF = {}
 
 
+# Age of acquisition: a verbatim excerpt of the Kuperman et al. (2012) ratings (norms/aoa_kuperman2012.tsv). A key
+# word is looked up as itself when it is rated, else as its lemma (the expanded list's Lemma_highest_PoS convention);
+# compounds through an override; the largest value over the words of a multiword key, mirroring the smallest Zipf.
+AOA_FILE = os.path.join(os.path.dirname(__file__), "norms", "aoa_kuperman2012.tsv")
+AOA_SHA256 = hashlib.sha256(open(AOA_FILE, "rb").read()).hexdigest()
+AOA_CENTER = 4.47       # mean over the item key words in use (v0.19), so the intercept stays comparable if the weight is set
+AOA_LEMMA = {"birds": "bird", "hills": "hill", "clouds": "cloud", "flowers": "flower", "footprints": "footprint", "shops": "shop",
+             "leaves": "leaf", "begging": "beg", "dropped": "drop", "floating": "float", "jumping": "jump", "running": "run",
+             "sitting": "sit", "standing": "stand", "stealing": "steal", "sweeping": "sweep", "waving": "wave",
+             "drinking": "drink", "reading": "read", "pointing": "point", "planting": "plant", "lost": "lose", "stuck": "stick",
+             "eating": "eat", "watering": "water", "feeding": "feed", "carrying": "carry", "kicking": "kick",
+             "throwing": "throw", "flying": "fly", "hanging": "hang", "digging": "dig", "raking": "rake", "reaching": "reach"}
+AOA_OVERRIDE = {"ice cream": "icecream"}
+_AOA = None
+
+
+def _aoa_table():
+    global _AOA
+    if _AOA is None:
+        with open(AOA_FILE, encoding="utf-8") as fh:
+            rows = csv.DictReader((ln for ln in fh if not ln.startswith("#")), delimiter="\t")
+            _AOA = {r["Word"]: float(r["Rating.Mean"]) for r in rows}
+    return _AOA
+
+
+def aoa(word):
+    """Age of acquisition (years) of an item's key word; an error for a word the norms do not cover."""
+    t = _aoa_table()
+    w = AOA_OVERRIDE.get(word, word)
+    vals = []
+    for part in w.split():
+        lw = part if part in t else AOA_LEMMA.get(part, part)
+        if lw not in t:
+            raise ValueError(f"no age-of-acquisition rating for key word {word!r} (looked up {lw!r})")
+        vals.append(t[lw])
+    return max(vals)
+
+
+def lexical_versions():
+    return {"wordfreq": WORDFREQ_VERSION, "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv", "aoa_sha256": AOA_SHA256,
+            "aoa_center": AOA_CENTER, "zipf_lookup": dict(ZIPF_LOOKUP), "zipf_override": dict(ZIPF_OVERRIDE),
+            "lexical_types": list(CONTENT_TYPES), "weights": {k: v for k, v in WEIGHTS.items()}}
+
+
+# v0.20: a key word is looked up in its everyday sense ("leaves" as the plural of leaf, not the verb); a multiword or
+# hyphenated key needs an explicit value (split, it took the frequency of a common part: "see-saw" 5.27 via "see"),
+# and a word wordfreq does not know is an error rather than a Zipf of 0 (f = -4)
+ZIPF_LOOKUP = {"leaves": "leaf"}
+ZIPF_OVERRIDE = {"ice cream": 4.47}     # wordfreq's estimate for the phrase (min of its words gave 4.62, "cream")
+
+
 def zipf(word):
     if word not in _ZIPF:
-        parts = word.split()
-        _ZIPF[word] = min(zipf_frequency(p, "en") for p in parts) if parts else 4.0
+        w = ZIPF_LOOKUP.get(word, word)
+        if w in ZIPF_OVERRIDE:
+            z = ZIPF_OVERRIDE[w]
+        elif " " in w or "-" in w:
+            raise ValueError(f"multiword key {word!r} needs an entry in ZIPF_OVERRIDE")
+        else:
+            z = zipf_frequency(w, "en")
+            if z <= 0:
+                raise ValueError(f"wordfreq has no frequency for key word {word!r}")
+        _ZIPF[word] = z
     return _ZIPF[word]
 
 
@@ -62,6 +132,7 @@ def item_b(feat, L, w=WEIGHTS):
     b += w["redundancy"] * feat["r"]
     b += w["separation"] * feat["d"]
     b += w["frequency"] * feat["f"]
+    b += w.get("aoa", 0.0) * (feat.get("a", AOA_CENTER) - AOA_CENTER)
     if feat["type"].startswith("contradiction"):
         b += w["domain"].get(feat.get("domain"), 0.0)
     b += w["load"] * L
@@ -82,3 +153,34 @@ def in_band(tier, pc, pi, n_content, n_units, n_contra):
           "content_completeness": pc is not None and T["pc"][0] <= pc <= T["pc"][1]}
     ok["inference_completeness"] = (pi is None and T["pi"] is None) or (pi is not None and T["pi"] is not None and T["pi"][0] <= pi <= T["pi"][1])
     return ok
+
+
+def check_aoa(path):
+    """Compare the bundled excerpt with a copy of the original norms: the BRM list (Word, Rating.Mean) or the expanded
+    51,715-word list (Word, AoA_Kup_lem), as .xlsx, .csv or .tsv. Prints every word that differs or is missing."""
+    if path.endswith(".xlsx"):
+        import openpyxl
+        ws = openpyxl.load_workbook(path, read_only=True, data_only=True).active
+        it = ws.iter_rows(values_only=True)
+        head = [str(h) for h in next(it)]
+        rows = [dict(zip(head, r)) for r in it]
+    else:
+        with open(path, encoding="utf-8-sig") as fh:
+            rows = list(csv.DictReader(fh, delimiter="\t" if path.endswith(".tsv") else ","))
+    col = "AoA_Kup_lem" if rows and "AoA_Kup_lem" in rows[0] else "Rating.Mean"
+    ref = {str(r["Word"]): r[col] for r in rows if r.get(col) not in (None, "", "NA")}
+    bad = 0
+    for w, v in sorted(_aoa_table().items()):
+        o = ref.get(w)
+        if o is None or abs(float(o) - v) > 0.005:
+            bad += 1
+            print(f"{w}: bundled {v}, {os.path.basename(path)} {o}")
+    print(f"{len(_aoa_table()) - bad} of {len(_aoa_table())} bundled ratings match {os.path.basename(path)} ({col})")
+    return bad == 0
+
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) == 3 and sys.argv[1] == "--check-aoa":
+        sys.exit(0 if check_aoa(sys.argv[2]) else 1)
+    print("usage: python -m scenegen.difficulty --check-aoa <AoA_ratings_Kuperman_et_al_BRM.xlsx | AoA_51715_words.xlsx>")

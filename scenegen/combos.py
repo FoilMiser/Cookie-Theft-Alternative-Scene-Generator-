@@ -86,6 +86,9 @@ def excl(c, setting):
     from . import scene as SCN
     if SCN.PLACEMENT_REV >= 17 and setting == "playground" and "seesaw" in c.features(setting):
         return tuple(c.exclusive) + ("bench",)
+    if SCN.PLACEMENT_REV >= 18 and setting == "garden" and c.id == "dog_wants_walk":
+        # revision 18: nor the dog waiting at the garden door with the bench in front of that door
+        return tuple(c.exclusive) + ("bench",)
     return tuple(c.exclusive)
 
 
