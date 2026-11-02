@@ -49,32 +49,39 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v019", "v020"
+PREV, CUR = "v020", "v021"
 
-# what the v0.19 screen readers made of the templates that failed its gate, and what v0.20 changed
-# (vision/flaws_v019.md); the visuals were refined on the bench and every change read in whole test scenes first
-# (vision/isolation_v020.md, vision/design_tests_v020.md)
+# the v0.20 half points and the templates whose placement revision 19 changed for the v0.20 oddities (vision/flaws_v020.md),
+# every change read in whole test scenes first (vision/design_tests_v021.md); no drawing changed, so no isolation bench
 REDRAWN_NOTES = {
-    "bucket_hat": "At the back of a garden probe the blue bucket read as 'a tall blue hat ... or a fez'. Now a tapered silver pail down over the head, one ridge, a grey rim and a dark wire handle.",
-    "drink_bench": "In a park isomorph a girl's white cup read as 'something white ... as if drinking or eating'. Now a red cup with a sleeve, a white lid and a yellow straw at the mouth.",
-    "ice_cream": "A teenager eating her ice cream walked toward the boy who had dropped his, 'maybe to share it'. Now no ice-cream eater, bench eater or runner in a picture with the dropped ice cream.",
-    "jump": "A boy jumping just below a bird perched on the fence read as reaching for it. Now no bird, perched or flying, above or beside a jumper's raised hands.",
+    "ice_cream_drop": "In the tier-4 street a girl crying over 'a dropped ice cream' was not said to have dropped it. Unchanged; now read in full in all three of its pictures.",
+    "square_wheel": "Offered 'a square wheel ... or a normal round wheel inside a square frame'. Unchanged; the same reading came back once in five pictures, so it goes to the bench for v0.22.",
+    "paint_fence": "A worker in a hi-vis vest painted a home garden's fence, and jeans hung in front of the fresh paint. Now nobody in the worker's vest in the garden, and no washing while the fence is painted.",
+    "hang_laundry": "A shirt on the line behind a head read as part of the clothes. Now heads clear of the hanging washing, and only the jeans on the line beside someone pinning up a shirt.",
+    "water_flowers": "A watering can with an unused hose reel beside it, its water landing at the bed's front edge. Now no reel or other hose in the picture, and the stream well inside the bed.",
+    "blocked_hose": "A hose with an unused watering can beside it. Now no spare can beside any hose.",
+    "dog_playing": "A full dog bowl far from any dog. Now the bowl only beside a dog or cat.",
+    "ducks_bread": "A man at the pond's rim with the cattails at his hip. Now people and animals clear of the cattails and their feet clear of the rim.",
+    "walk_dog": "A reading man and a dog walker overlapping in the busy street. Now heads and shoulders clear of figures of other events up to 80 px apart in depth (was 40).",
+    "kick_ball": "A kicked ball heading for the sandcastle. Now the kick's line clear of the sandpit and of anyone on the ground.",
 }
 
-# what the v0.20 screen readers made of the templates that read poorly (vision/flaws_v020.md): none fell below 0.9
-WEAK_NOTES = {}
-SCREEN_NOTE = ("The v0.20 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. Before the screen every weak visual was refined on its own: cut out of a picture with nothing else "
-               "around it, read blind, redrawn and read again (two rounds, 14 cut-outs), then read in whole test scenes (seven pictures). "
-               "744 of 746 scored items had full marks and none was misread; all four v0.19 failures passed, and for the first time "
-               "all 64 templates passed the gate. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five "
-               "templates: about five templates of the gate's movement between releases is reader variance.")
+# what the v0.21 screen readers made of the templates that read poorly (vision/flaws_v021.md)
+WEAK_NOTES = {
+    "pan_watering": "In the tier-4 street, held up face-on against a grey shop door at a raised planter: 'a grey watering can'. Read as a frying pan in its two garden probes.",
+    "jump": "In the tier-4 street, in front of the fruit stall and only a little above his shadow: 'stands ... with both arms up', 'cheering, celebrating, stretching or dancing'.",
+    "ladder_nothing": "On the open grass, its top just below a lamp post's foot: 'standing up at a lean ... or lying flat on the grass'.",
+}
+SCREEN_NOTE = ("The v0.21 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. No drawing changed: the v0.20 oddities were fixed with placement rules, each read first in whole "
+               "test scenes (seven pictures). 738 of 744 scored items had full marks, and the probes' oddities fell by half. One item "
+               "of the set was misread, the first since v0.11: a frying pan held against a grey shop door read as a watering can, so "
+               "with a jumper read as standing and a ladder read as maybe lying flat, 61 of 64 templates pass the gate (64 in v0.20). "
+               "A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five templates of "
+               "the gate's movement between releases is reader variance.")
 
 
-FIXES = [("person.mei__bucket_hat__content__y045", "The bucket hat",
-          "A blue bucket on top of the cap read as 'a tall blue hat ... or a fez' at the back of a garden; now a tapered silver pail down over the head, one ridge, a grey rim and a dark wire handle"),
-         ("person.rosa__sit_drink__content__y045", "A drink",
-          "A small white cup read as 'something white ... as if drinking or eating'; now a red cup with a sleeve, a white lid and a yellow straw at the mouth")]
+FIXES = []
 
 
 def webp(src, dst, size=None, gray=False, q=86):
@@ -265,7 +272,7 @@ def build(scenes_dir, gallery_dir, combos_path, out, old_gallery=None, screen=No
                           for t in sorted(REDRAWN_NOTES, key=lambda t: b5.get(t, {}).get("mean", 9)) if t in b5]
         scr["weak"] = [{"id": t, "mean": b6[t]["mean"], "items": b6[t]["items"], "note": WEAK_NOTES.get(t, "")}
                        for t in sorted(b6, key=lambda t: b6[t]["mean"]) if b6[t]["mean"] < 0.9]
-        for k in ("v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019", "v020"):
+        for k in ("v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019", "v020", "v021"):
             scr.get(k, {}).pop("by_template", None)
         if screen and os.path.exists(os.path.join(os.path.dirname(screen), CUR, "gate.json")):
             g = json.load(open(os.path.join(os.path.dirname(screen), CUR, "gate.json")))

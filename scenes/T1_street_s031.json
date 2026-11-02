@@ -6,7 +6,7 @@
  "seed": 31,
  "mirror": true,
  "versions": {
-  "generator": "0.20.0",
+  "generator": "0.21.0",
   "cast_builder": "0.20.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
@@ -60,7 +60,7 @@
  ],
  "templates": [
   {
-   "id": "birds_flying",
+   "id": "photo",
    "kind": "event",
    "event": "e1",
    "units": 0
@@ -129,43 +129,54 @@
   {
    "id": "i02",
    "type": "action",
-   "text": "A bird is flying",
-   "accepted": [
-    "bird flying",
-    "bird in the sky",
-    "bird",
-    "flying bird"
-   ],
-   "key": "bird",
+   "text": "A woman is taking a photo",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "taking a picture",
+     "taking a photo",
+     "photographing",
+     "camera"
+    ]
+   },
+   "key": "camera",
    "elements": [
-    "flyingbird_2"
+    "photographer_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "birds_flying",
+   "template": "photo",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.049,
+    "s": 0.044,
     "r": 0,
     "d": 0.0,
-    "f": 0.63,
-    "a": 3.52,
-    "zipf_raw": 4.63,
-    "aoa_raw": 3.52,
+    "f": 0.87,
+    "a": 6.0,
+    "zipf_raw": 4.87,
+    "aoa_raw": 6.0,
     "domain": null,
-    "area_px": 3484
+    "area_px": 16276
    },
-   "b": -0.925,
-   "p0": 0.716,
-   "pm1": 0.481,
+   "b": -1.543,
+   "p0": 0.824,
+   "pm1": 0.633,
    "aoi_cells": [
-    "TR"
+    "MC",
+    "BL",
+    "BC"
    ]
   },
   {
@@ -212,18 +223,17 @@
   {
    "id": "i04",
    "type": "entity",
-   "text": "There is a fruit stand",
+   "text": "There is a street lamp",
    "accepted": [
-    "fruit stand",
-    "fruit",
-    "market",
-    "stall",
-    "fruit stall",
-    "market stall"
+    "lamp post",
+    "lamp",
+    "street light",
+    "light post",
+    "lamppost"
    ],
-   "key": "fruit",
+   "key": "lamp",
    "elements": [
-    "stall"
+    "lamp"
    ],
    "cues": [],
    "effect": [],
@@ -236,20 +246,21 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.351,
+    "s": -0.376,
     "r": 0,
     "d": 0.0,
-    "f": 0.57,
-    "a": 3.63,
-    "zipf_raw": 4.57,
-    "aoa_raw": 3.63,
+    "f": 0.05,
+    "a": 4.0,
+    "zipf_raw": 4.05,
+    "aoa_raw": 4.0,
     "domain": null,
-    "area_px": 25112
+    "area_px": 9008
    },
-   "b": -1.107,
-   "p0": 0.752,
-   "pm1": 0.527,
+   "b": -0.587,
+   "p0": 0.643,
+   "pm1": 0.398,
    "aoi_cells": [
+    "TL",
     "ML",
     "BL"
    ]
@@ -267,7 +278,7 @@
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.569,
+   "content": 0.575,
    "inference": null
   }
  },
@@ -280,6 +291,10 @@
  },
  "in_tier": true,
  "checks": {
+  "photographer_2_photographs_sitter_1": {
+   "result": true,
+   "detail": ""
+  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -295,9 +310,9 @@
  },
  "clutter": {
   "objects": 15,
-  "edge_density": 0.0447,
-  "png_bytes": 148514,
-  "jpeg_bytes": 167883
+  "edge_density": 0.0466,
+  "png_bytes": 164867,
+  "jpeg_bytes": 172821
  },
  "signature": [
   [
@@ -374,36 +389,6 @@
    "label": "Paved street",
    "role": "background",
    "z": -90
-  },
-  {
-   "id": "flyingbird_2",
-   "label": "animal.bird_01__fly__neutral__y090",
-   "role": "scored",
-   "z": -50,
-   "bbox": [
-    1380.0,
-    14.0,
-    1468.0,
-    102.0
-   ],
-   "area_px": 3484,
-   "visible_px": 3484,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.bird_01__fly__neutral__y090",
-    "family": "animal.bird_01",
-    "scale": 0.4824,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "bird",
-     "accepted_names": [
-      "bird",
-      "robin",
-      "little bird"
-     ],
-     "category": "bird"
-    }
-   }
   },
   {
    "id": "lamp",
@@ -533,6 +518,43 @@
    "occlusion": 0.0
   },
   {
+   "id": "photographer_2",
+   "label": "person.mei__photo__neutral__y045",
+   "role": "scored",
+   "z": 905.03,
+   "bbox": [
+    520.0,
+    602.0,
+    616.0,
+    906.0
+   ],
+   "area_px": 16276,
+   "visible_px": 16276,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.mei__photo__neutral__y045",
+    "family": "person.mei",
+    "scale": 0.4843,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "black_bob"
+     }
+    }
+   }
+  },
+  {
    "id": "filler_bin_s",
    "label": "Bin",
    "role": "filler",
@@ -618,25 +640,26 @@
    "dog_playing": 1,
    "sweep": 1,
    "play_catch": 1,
-   "about_to_trip": 1,
    "cat_stalks_bird": 1,
-   "dog_reading": 1,
-   "bird_perched": 1,
-   "paint_fence": 1,
-   "dog_sleeping": 1,
-   "goat_grazing": 1,
-   "plant_flowers": 1,
-   "feed_birds": 1,
+   "paint_tracks": 1,
    "kite_in_tree": 1,
-   "photo": 1,
+   "birds_flying": 1,
+   "plant_flowers": 1,
+   "goat_grazing": 1,
+   "feed_birds": 1,
+   "jump": 1,
+   "lost_balloon": 1,
+   "dog_sleeping": 1,
+   "water_flowers": 1,
+   "run": 1,
+   "ducks_bread": 1,
+   "ice_cream_drop": 1,
+   "ball_in_tree": 1,
+   "carry_box": 1,
    "walk_dog": 1,
-   "dog_begs": 1,
-   "square_wheel": 1,
-   "carry_bag": 1,
-   "ice_cream": 1,
-   "fly_kite": 1
+   "carry_bag": 1
   },
   "forced": null,
-  "placement_rev": 18
+  "placement_rev": 19
  }
 }

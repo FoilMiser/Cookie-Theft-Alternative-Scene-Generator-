@@ -232,14 +232,17 @@ def _lead_sag(self, d, hand, mid, Y):
 WalkDog.lead_sag = _lead_sag
 
 
-def in_bed(sc, pt):
+def in_bed(sc, pt, deep=False):
     """Revision 18: True if pt lies well inside the soil ellipse of a garden or park flower bed (the street's planter, a
-    box, keeps the earlier rule)."""
+    box, keeps the earlier rule). Revision 19, deep: a can's water in the back two thirds of it (a shower ending in the
+    front of the bed still landed "at the front edge of the flower bed, possibly missing the flowers")."""
     if sc.setting_id not in ("garden", "park"):
         return True
     b = sc.S.anchors["flowers"]["bbox"]
     s = (b[3] - b[1]) / 136.0
     cx, cy, rx, ry = (b[0] + b[2]) / 2, b[3] - 36 * s, (b[2] - b[0]) / 2 - 24 * s, 36 * s - 7 * s
+    if deep and pt[1] > cy + 0.35 * ry:
+        return False
     return ((pt[0] - cx) / rx) ** 2 + ((pt[1] - cy) / ry) ** 2 <= 1.0
 
 
@@ -247,7 +250,9 @@ class WaterFlowers(T):
     id = "water_flowers"
     needs = {"*": {"flowers"}}
     uses = ("flowers",)
-    exclusive = ("flowers",)
+    # revision 19: no watering by can in a picture with a hose (a reel "unused right beside him"; with the blocked hose the
+    # planner dropped the reel the hose needs)
+    exclusive = ("flowers",) + (("hose_reel",) if SCN.PLACEMENT_REV >= 19 else ())
     upward = False
     pose = "water_plants"
     stream_cap = 230.0
@@ -330,7 +335,7 @@ class WaterFlowers(T):
                     continue
                 # revision 18: well inside the soil of a garden or park bed (at its front edge it read as "lands at the
                 # front edge of the bed / on the grass rather than on the flowers")
-                if not self.upward and SCN.PLACEMENT_REV >= 18 and not in_bed(sc, end):
+                if not self.upward and SCN.PLACEMENT_REV >= 18 and not in_bed(sc, end, deep=SCN.PLACEMENT_REV >= 19 and self.id == "water_flowers"):
                     continue
                 sc.assets[ep] = p
                 sc.legib_ok.add(("flowers", ep))
@@ -380,7 +385,10 @@ class HoseWater(T):
                 hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + hx) / 2 - 30, Y + 34), (hx - 85 * s_, Y + 12), (hx, hy)], s_)
             else:
                 hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + X) / 2 + 40, Y + 30), (hx + 40, hy + 120), (hx, hy)], sz(Y))
-            eh = sc.svg(sc.eid("hose"), "Garden hose", hose, Y - 1, (rx, min(hy, ry), hx + 40, Y + 45), "scored")
+            # revision 19: the hose drawn in front of the flower bed (behind it, the bed hid a fifth of it and the event
+            # could only be placed where a clothesline post pushed the waterer away from the bed)
+            hd = max(Y - 1, F["depth"] + 0.5) if SCN.PLACEMENT_REV >= 19 else Y - 1
+            eh = sc.svg(sc.eid("hose"), "Garden hose", hose, hd, (rx, min(hy, ry), hx + 40, Y + 45), "scored")
             nz, aim = p.anchor("nozzle"), p.anchor("nozzle_aim")
             if SCN.PLACEMENT_REV >= 4:
                 # revision 4: the spray reaches the soil of the bed and is drawn in front of the flowers
@@ -929,7 +937,7 @@ class HangLaundry(T):
             x0, x1 = sorted((xn, xn + f * 56 * s))
             return p, s, x0, x1
 
-        for c in (852, 842, 864, 876):
+        for c in ((852, 842, 864, 876) + ((888, 900, 830) if SCN.PLACEMENT_REV >= 19 else ())):
             for want in (1, -1):
                 # the hands pin the near shoulder of the shirt; the shirt hangs ahead of the person on
                 # the free part of the line, clear of the face, the hung clothes and the posts
@@ -937,10 +945,19 @@ class HangLaundry(T):
                 p, s, x0, x1 = pose_at(860 + c - (x0 + x1) / 2, want)
                 sl, sh = 18 * s, 88 * s
                 b = p.bbox()
-                if x0 - sl < lo or x1 + sl > hi or b[0] < 645 or b[2] > 936:
+                if x0 - sl < lo or x1 + sl > hi or b[0] < 645 or b[2] > (962 if SCN.PLACEMENT_REV >= 19 else 936):
+                    # (revision 19: she may stand just past the far post, so that facing back along the line her head is
+                    # clear of the clothes already hung)
                     continue
                 if p.Y < A["depth"] - 30 or p.Y > A["depth"] + 60 or not sc.fits(b, limit=0.2):
                     continue
+                if SCN.PLACEMENT_REV >= 19:
+                    # revision 19: her head clear of the clothes already hung (a yellow shirt behind her head "can read as part
+                    # of her clothing")
+                    lb = next((e["bbox"] for e in sc.S.elements if e["id"] == "laundry" and e.get("bbox")), None)
+                    hd = SCN.head_box(p)
+                    if lb is not None and min(hd[2], lb[2] + 8) > max(hd[0], lb[0] - 8) and min(hd[3], lb[3] + 8) > max(hd[1], lb[1] - 8):
+                        continue
                 p.z = A["depth"] + 2          # in front of the line and the hung clothes
                 sc.assets[ep] = p
                 yt = A["fn"]((x0 + x1) / 2)
@@ -1131,6 +1148,15 @@ class KickBall(T):
                     near = (min(bx_, bx_ + f * 260 * s), by_ - 40 * s, max(bx_, bx_ + f * 260 * s), p.Y + 20 * s)
                     if not sc.setting_clear(near, only=("tree", "tree_small", "sandbox", "slide", "swing", "seesaw", "bench", "lamp", "pond")):
                         return None
+                    if SCN.PLACEMENT_REV >= 19:
+                        # revision 19: further on, the ball's line clear of the sandpit and of anyone on the ground (a ball
+                        # kicked from across the playground "heading toward the girl and her sandcastle")
+                        line = (min(bx_, bx_ + f * 760 * s), by_ - 120 * s, max(bx_, bx_ + f * 760 * s), p.Y + 60 * s)
+                        if not sc.setting_clear(line, only=("sandbox",)):
+                            return None
+                        if any(sc.overlap(line, q.bbox()) > 0 for k_, q in sc.assets.items() if k_ != ep and q.family.startswith(("person.", "animal."))
+                               and not q.m["variant"].get("airborne")):
+                            return None
                 return [(self.b[0] - 17 * s, self.b[1] - 17 * s, self.b[0] + 17 * s, self.b[1] + 17 * s)]
             self.b = (fx + f * 34 * s, fy - 14 * s)
             return [(self.b[0] - 17 * s, self.b[1] - 17 * s, self.b[0] + 17 * s, self.b[1] + 17 * s)]
@@ -3360,6 +3386,9 @@ class SprinklerPackage(T):
     # v0.15 (revision 13): no sprinkler running under storm clouds (pointed out as odd)
     sky = "clear" if SCN.PLACEMENT_REV >= 13 else None
     exclusive = ("lawn_spray",) if SCN.PLACEMENT_REV >= 16 else ()
+    # revision 19: one hose per picture (the sprinkler's hose running off the picture's edge beside a second, blocked one
+    # left "unclear water source")
+    exclusive += ("hose_reel",) if SCN.PLACEMENT_REV >= 19 else ()
     units, content = 1, 2
 
     def bind(self):
@@ -3399,6 +3428,17 @@ class SprinklerPackage(T):
                     return min(b[2], ko[2]) > max(b[0], ko[0]) and min(f1, ko[3]) > max(f0, ko[1])
                 if any(in_spray(q) for q in sc.assets.values()):
                     continue
+            if SCN.PLACEMENT_REV >= 19:
+                # revision 19: and nobody already standing in front of the spray or the box (a goat just in front of the
+                # arcs read as grazing in it)
+                fz = (min(sbb[0], pbb[0]) - 10, min(sbb[1], pbb[1]), max(sbb[2], pbb[2]) + 10, max(sbb[3], pbb[3]) + 14)
+
+                def in_front(q):
+                    b = q.bbox()
+                    return (q.family.startswith("person.") or q.family.startswith("animal.")) and not q.m["variant"].get("airborne") \
+                        and q.Y > Y and min(b[2], fz[2]) > max(b[0], fz[0]) and min(b[3], fz[3]) > max(b[1], fz[1])
+                if any(in_front(q) for q in sc.assets.values() if hasattr(q, "family")):
+                    continue
             hose = ""
             if SCN.PLACEMENT_REV >= 7:
                 # revision 7: a hose from the sprinkler off the nearer side of the picture, away from the
@@ -3433,6 +3473,8 @@ class SprinklerPackage(T):
                 sc.keepout.append(band)
             if SCN.PLACEMENT_REV >= 4:      # nobody stands on the sprinkler or in its spray
                 sc.keepout.append((sbb[0] - 10, sbb[1], sbb[2] + 10, sbb[3] + 8))
+            if SCN.PLACEMENT_REV >= 19:
+                sc.sprayzones.append(((min(sbb[0], pbb[0]) - 10, min(sbb[1], pbb[1]), max(sbb[2], pbb[2]) + 10, max(sbb[3], pbb[3]) + 14), Y))
             wet = D.wet_marks(px, py, s) if SCN.PLACEMENT_REV >= 15 else D.drops(px, py - 70 * s, s, 3)
             if SCN.PLACEMENT_REV >= 15:
                 pbb = (pbb[0] - 18 * s, pbb[1], pbb[2] + 18 * s, pbb[3] + 10 * s)

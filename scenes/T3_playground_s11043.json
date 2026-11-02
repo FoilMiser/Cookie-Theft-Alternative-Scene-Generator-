@@ -1,0 +1,1413 @@
+{
+ "name": "T3_playground_s11043",
+ "tier": 3,
+ "setting": "playground",
+ "sky": "clear",
+ "seed": 11043,
+ "mirror": false,
+ "versions": {
+  "generator": "0.21.0",
+  "cast_builder": "0.20.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "sandbox",
+  "seesaw",
+  "swing"
+ ],
+ "templates": [
+  {
+   "id": "seesaw_heavy",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "about_to_trip",
+   "kind": "inference",
+   "event": "e2",
+   "units": 1
+  },
+  {
+   "id": "fly_kite",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  },
+  {
+   "id": "birds_flying",
+   "kind": "event",
+   "event": "e4",
+   "units": 0
+  },
+  {
+   "id": "cat_sleeping",
+   "kind": "event",
+   "event": "e5",
+   "units": 0
+  }
+ ],
+ "scene_load": 5,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A man is sitting on the low end of the seesaw, reading",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "sitting on the seesaw",
+     "reading on the seesaw",
+     "sitting on the low end",
+     "reading a book"
+    ]
+   },
+   "key": "seesaw",
+   "elements": [
+    "heavyend_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "seesaw_heavy",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.091,
+    "r": 0,
+    "d": 0.0,
+    "f": -1.53,
+    "a": 4.81,
+    "zipf_raw": 2.47,
+    "aoa_raw": 4.81,
+    "domain": null,
+    "area_px": 13448
+   },
+   "b": -0.395,
+   "p0": 0.597,
+   "pm1": 0.353,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A girl is stuck up in the air on the seesaw, calling out",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "up in the air",
+     "stuck at the top",
+     "calling out",
+     "shouting",
+     "scared",
+     "can't get down"
+    ]
+   },
+   "key": "air",
+   "elements": [
+    "stuckkid_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "seesaw_heavy",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.76,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.37,
+    "a": 3.94,
+    "zipf_raw": 5.37,
+    "aoa_raw": 3.94,
+    "domain": null,
+    "area_px": 5236
+   },
+   "b": -0.931,
+   "p0": 0.717,
+   "pm1": 0.483,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The man is much heavier, so the girl is stuck up in the air",
+   "accepted": [
+    "the man is too heavy",
+    "the grown-up is heavier",
+    "the child can't get down",
+    "stuck because he is sitting on the other end",
+    "the seesaw won't go up and down",
+    "too heavy for the seesaw",
+    "he isn't noticing she's stuck"
+   ],
+   "key": "heavy",
+   "elements": [
+    "stuckkid_2",
+    "heavyend_1"
+   ],
+   "cues": [
+    "stuckkid_2",
+    "heavyend_1"
+   ],
+   "effect": [
+    "stuckkid_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "seesaw_heavy",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.76,
+    "r": 1,
+    "d": 0.187,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.96,
+    "aoa_raw": 4.05,
+    "domain": null,
+    "area_px": 5236
+   },
+   "b": 0.894,
+   "p0": 0.29,
+   "pm1": 0.131,
+   "aoi_cells": [
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A teenager is reading while walking",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "reading while walking",
+     "walking and reading",
+     "not looking where he's going",
+     "reading a book"
+    ]
+   },
+   "key": "reading",
+   "elements": [
+    "reader_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.124,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
+    "domain": null,
+    "area_px": 18224
+   },
+   "b": -1.304,
+   "p0": 0.787,
+   "pm1": 0.575,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "entity",
+   "text": "There is a box on the ground in front of a teenager",
+   "accepted": [
+    "box",
+    "crate",
+    "a box in the way"
+   ],
+   "key": "box",
+   "elements": [
+    "obstacle_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.718,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 5560
+   },
+   "b": -0.353,
+   "p0": 0.587,
+   "pm1": 0.344,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "inference",
+   "text": "The teenager is going to trip over a box",
+   "accepted": [
+    "going to trip over the box",
+    "going to fall",
+    "will bump into it",
+    "isn't looking where they're going"
+   ],
+   "key": "trip",
+   "elements": [
+    "reader_4",
+    "obstacle_5"
+   ],
+   "cues": [
+    "reader_4",
+    "obstacle_5"
+   ],
+   "effect": [
+    "obstacle_5"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.124,
+    "r": 1,
+    "d": 0.089,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.22,
+    "domain": null,
+    "area_px": 18224
+   },
+   "b": 0.335,
+   "p0": 0.417,
+   "pm1": 0.208,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "action",
+   "text": "A child is flying a kite",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "flying a kite",
+     "kite"
+    ]
+   },
+   "key": "kite",
+   "elements": [
+    "kiteflyer_6",
+    "kite_7"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "fly_kite",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.292,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.45,
+    "a": 4.58,
+    "zipf_raw": 3.55,
+    "aoa_raw": 4.58,
+    "domain": null,
+    "area_px": 10136
+   },
+   "b": -0.619,
+   "p0": 0.65,
+   "pm1": 0.406,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "ML"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "action",
+   "text": "A bird is flying",
+   "accepted": [
+    "bird flying",
+    "bird in the sky",
+    "bird",
+    "flying bird"
+   ],
+   "key": "bird",
+   "elements": [
+    "flyingbird_8"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "birds_flying",
+   "event": "e4",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.049,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.63,
+    "a": 3.52,
+    "zipf_raw": 4.63,
+    "aoa_raw": 3.52,
+    "domain": null,
+    "area_px": 3484
+   },
+   "b": -0.565,
+   "p0": 0.638,
+   "pm1": 0.393,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "action",
+   "text": "A cat is sleeping",
+   "accepted": [
+    "cat sleeping",
+    "cat lying down",
+    "sleeping cat",
+    "cat napping",
+    "cat curled up",
+    "cat"
+   ],
+   "key": "cat",
+   "elements": [
+    "cat_sleeping_9"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "cat_sleeping",
+   "event": "e5",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.19,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.78,
+    "a": 3.68,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
+    "domain": null,
+    "area_px": 2856
+   },
+   "b": -0.539,
+   "p0": 0.632,
+   "pm1": 0.387,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.645,
+   "p0": 0.656,
+   "pm1": 0.412,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.012,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 15048
+   },
+   "b": -0.442,
+   "p0": 0.609,
+   "pm1": 0.364,
+   "aoi_cells": [
+    "TC",
+    "TR"
+   ]
+  },
+  {
+   "id": "i12",
+   "type": "entity",
+   "text": "There is a slide",
+   "accepted": [
+    "slide",
+    "playground slide",
+    "slide"
+   ],
+   "key": "slide",
+   "elements": [
+    "slide"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.288,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.3,
+    "a": 4.79,
+    "zipf_raw": 4.3,
+    "aoa_raw": 4.79,
+    "domain": null,
+    "area_px": 22968
+   },
+   "b": -0.634,
+   "p0": 0.653,
+   "pm1": 0.41,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "entity",
+   "text": "There is a swing set",
+   "accepted": [
+    "swing",
+    "swings",
+    "swing set"
+   ],
+   "key": "swing",
+   "elements": [
+    "swing"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.304,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.34,
+    "a": 4.16,
+    "zipf_raw": 4.34,
+    "aoa_raw": 4.16,
+    "domain": null,
+    "area_px": 23472
+   },
+   "b": -0.654,
+   "p0": 0.658,
+   "pm1": 0.414,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i14",
+   "type": "entity",
+   "text": "There is a sandbox",
+   "accepted": [
+    "sandbox",
+    "sandpit",
+    "sand pit",
+    "sand"
+   ],
+   "key": "sand",
+   "elements": [
+    "sandbox"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.588,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.44,
+    "a": 4.63,
+    "zipf_raw": 4.44,
+    "aoa_raw": 4.63,
+    "domain": null,
+    "area_px": 35040
+   },
+   "b": -0.826,
+   "p0": 0.696,
+   "pm1": 0.457,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 12,
+  "inference_units": 2,
+  "contradictions": 0,
+  "items_total": 14
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.657,
+   "inference": 0.354
+  },
+  "theta_minus_1": {
+   "content": 0.416,
+   "inference": 0.17
+  }
+ },
+ "bands": {
+  "content_count": true,
+  "inference_units": true,
+  "contradictions": true,
+  "content_completeness": true,
+  "inference_completeness": true
+ },
+ "in_tier": true,
+ "checks": {
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": true,
+   "detail": "21 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 21,
+  "edge_density": 0.0394,
+  "png_bytes": 208259,
+  "jpeg_bytes": 177483
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    142.0,
+    12.0,
+    338.0,
+    208.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    690.0,
+    42.0,
+    1140.0,
+    154.0
+   ],
+   "area_px": 15048,
+   "visible_px": 15048,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees behind the playground",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Grass",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "sandbox",
+   "label": "Sandbox",
+   "role": "setting",
+   "z": -60,
+   "bbox": [
+    226.0,
+    840.0,
+    574.0,
+    956.0
+   ],
+   "area_px": 36428,
+   "visible_px": 35040,
+   "occlusion": 0.038
+  },
+  {
+   "id": "flyingbird_8",
+   "label": "animal.bird_01__fly__neutral__y090",
+   "role": "scored",
+   "z": -50,
+   "bbox": [
+    360.0,
+    124.0,
+    448.0,
+    212.0
+   ],
+   "area_px": 3484,
+   "visible_px": 3484,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_01__fly__neutral__y090",
+    "family": "animal.bird_01",
+    "scale": 0.4824,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "robin",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
+  },
+  {
+   "id": "fence",
+   "label": "Railing around the playground",
+   "role": "setting",
+   "z": 618,
+   "bbox": [
+    0.0,
+    482.0,
+    1600.0,
+    620.0
+   ],
+   "area_px": 91648,
+   "visible_px": 72836,
+   "occlusion": 0.205
+  },
+  {
+   "id": "kiteflyer_6",
+   "label": "person.kai__fly_kite__smile__y090",
+   "role": "scored",
+   "z": 642.12,
+   "bbox": [
+    86.0,
+    476.0,
+    152.0,
+    646.0
+   ],
+   "area_px": 4632,
+   "visible_px": 4628,
+   "occlusion": 0.001,
+   "asset": {
+    "variant": "person.kai__fly_kite__smile__y090",
+    "family": "person.kai",
+    "scale": 0.3869,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "filler_bin_pl",
+   "label": "Bin",
+   "role": "filler",
+   "z": 650,
+   "bbox": [
+    532.0,
+    582.0,
+    588.0,
+    652.0
+   ],
+   "area_px": 3212,
+   "visible_px": 3212,
+   "occlusion": 0.0
+  },
+  {
+   "id": "swing_seat",
+   "label": "Empty swing seat",
+   "role": "setting",
+   "z": 689,
+   "bbox": [
+    736.0,
+    438.0,
+    804.0,
+    618.0
+   ],
+   "area_px": 2372,
+   "visible_px": 2316,
+   "occlusion": 0.024
+  },
+  {
+   "id": "swing",
+   "label": "Swing set",
+   "role": "setting",
+   "z": 690,
+   "bbox": [
+    606.0,
+    424.0,
+    934.0,
+    700.0
+   ],
+   "area_px": 23472,
+   "visible_px": 23472,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree",
+   "label": "Big tree",
+   "role": "setting",
+   "z": 700,
+   "bbox": [
+    1324.0,
+    298.0,
+    1596.0,
+    702.0
+   ],
+   "area_px": 57704,
+   "visible_px": 57704,
+   "occlusion": 0.0
+  },
+  {
+   "id": "slide",
+   "label": "Slide",
+   "role": "setting",
+   "z": 720,
+   "bbox": [
+    168.0,
+    462.0,
+    552.0,
+    726.0
+   ],
+   "area_px": 22968,
+   "visible_px": 22968,
+   "occlusion": 0.0
+  },
+  {
+   "id": "seesaw",
+   "label": "Seesaw",
+   "role": "setting",
+   "z": 860,
+   "bbox": [
+    982.0,
+    664.0,
+    1388.0,
+    870.0
+   ],
+   "area_px": 14152,
+   "visible_px": 10960,
+   "occlusion": 0.226
+  },
+  {
+   "id": "heavyend_1",
+   "label": "person.dev__seesaw_low_read__neutral__y090",
+   "role": "scored",
+   "z": 862,
+   "bbox": [
+    976.0,
+    692.0,
+    1106.0,
+    896.0
+   ],
+   "area_px": 13448,
+   "visible_px": 13448,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.dev__seesaw_low_read__neutral__y090",
+    "family": "person.dev",
+    "scale": 0.4683,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
+     }
+    }
+   }
+  },
+  {
+   "id": "stuckkid_2",
+   "label": "person.nia__seesaw_stuck_call__calling__y090",
+   "role": "scored",
+   "z": 862,
+   "bbox": [
+    1332.0,
+    588.0,
+    1386.0,
+    762.0
+   ],
+   "area_px": 5268,
+   "visible_px": 5236,
+   "occlusion": 0.006,
+   "asset": {
+    "variant": "person.nia__seesaw_stuck_call__calling__y090",
+    "family": "person.nia",
+    "scale": 0.4683,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "kicklines_3",
+   "label": "Motion lines by the dangling feet",
+   "role": "setting",
+   "z": 863,
+   "bbox": [
+    1328.0,
+    742.0,
+    1382.0,
+    766.0
+   ],
+   "area_px": 196,
+   "visible_px": 196,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pail_pl",
+   "label": "Sand pail and spade",
+   "role": "filler",
+   "z": 912,
+   "bbox": [
+    484.0,
+    870.0,
+    536.0,
+    914.0
+   ],
+   "area_px": 1388,
+   "visible_px": 1388,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_rock_pl",
+   "label": "Rock",
+   "role": "filler",
+   "z": 940,
+   "bbox": [
+    110.0,
+    904.0,
+    188.0,
+    942.0
+   ],
+   "area_px": 2476,
+   "visible_px": 2476,
+   "occlusion": 0.0
+  },
+  {
+   "id": "cat_sleeping_9",
+   "label": "animal.cat_02__sleep_tuck__sleepy__y045",
+   "role": "scored",
+   "z": 957.2,
+   "bbox": [
+    1328.0,
+    920.0,
+    1400.0,
+    976.0
+   ],
+   "area_px": 2856,
+   "visible_px": 2856,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.cat_02__sleep_tuck__sleepy__y045",
+    "family": "animal.cat_02",
+    "scale": 0.5036,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "cat",
+     "accepted_names": [
+      "cat",
+      "kitten",
+      "kitty"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "reader_4",
+   "label": "person.leo__walk_read_open__neutral__y090",
+   "role": "scored",
+   "z": 977.4,
+   "bbox": [
+    680.0,
+    678.0,
+    830.0,
+    982.0
+   ],
+   "area_px": 18224,
+   "visible_px": 18224,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__walk_read_open__neutral__y090",
+    "family": "person.leo",
+    "scale": 0.5111,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "obstacle_5",
+   "label": "a box in the way",
+   "role": "scored",
+   "z": 978.23,
+   "bbox": [
+    804.0,
+    912.0,
+    888.0,
+    980.0
+   ],
+   "area_px": 5560,
+   "visible_px": 5560,
+   "occlusion": 0.0
+  },
+  {
+   "id": "kite_7",
+   "label": "Kite",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    148.0,
+    118.0,
+    596.0,
+    492.0
+   ],
+   "area_px": 5508,
+   "visible_px": 5508,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   43,
+   "could not place about_to_trip; could not place rain_coming; could not place run"
+  ],
+  [
+   1043,
+   "could not place about_to_trip; could not place fly_kite; could not place ice_cream; could not place play_catch"
+  ],
+  [
+   2043,
+   "could not place fly_kite; could not place run"
+  ],
+  [
+   3043,
+   "could not place play_catch"
+  ],
+  [
+   4043,
+   "could not place kite_in_tree; could not place play_catch"
+  ],
+  [
+   5043,
+   "could not place kite_in_tree"
+  ],
+  [
+   6043,
+   "could not place ice_cream; could not place play_catch"
+  ],
+  [
+   7043,
+   "18 drawn objects (tier band 20-30); could not place bucket_hat; could not place photo"
+  ],
+  [
+   8043,
+   "could not place kite_in_tree"
+  ],
+  [
+   9043,
+   "could not place play_catch; could not place run"
+  ],
+  [
+   10043,
+   "could not place play_catch; could not place run"
+  ],
+  [
+   11043,
+   "layout 2: accepted after 1 rejected layouts"
+  ]
+ ],
+ "layout": 1,
+ "knob": 0,
+ "regen": {
+  "base_seed": 43,
+  "max_tries": 24,
+  "placements": 14,
+  "require_band": true,
+  "usage": {
+   "cat_sleeping": 1,
+   "drink_bench": 1,
+   "rake": 1,
+   "dog_wants_walk": 1,
+   "dog_playing": 1,
+   "sweep": 1,
+   "play_catch": 1,
+   "cat_stalks_bird": 2,
+   "paint_tracks": 1,
+   "kite_in_tree": 1,
+   "birds_flying": 1,
+   "plant_flowers": 1,
+   "goat_grazing": 1,
+   "feed_birds": 2,
+   "jump": 2,
+   "lost_balloon": 2,
+   "dog_sleeping": 1,
+   "water_flowers": 1,
+   "run": 1,
+   "ducks_bread": 1,
+   "ice_cream_drop": 2,
+   "ball_in_tree": 2,
+   "carry_box": 1,
+   "walk_dog": 1,
+   "carry_bag": 2,
+   "photo": 1,
+   "read_bench": 1,
+   "push_stroller": 2,
+   "balloon": 2,
+   "wave": 1,
+   "dog_begs": 1,
+   "rain_coming": 1,
+   "square_wheel": 1,
+   "ice_cream": 1,
+   "bird_perched": 2,
+   "about_to_trip": 1,
+   "bird_steals": 1,
+   "pan_watering": 1,
+   "sandbox": 1,
+   "kick_ball": 1
+  },
+  "forced": null,
+  "placement_rev": 19
+ }
+}

@@ -86,7 +86,7 @@ def sky_layer(S, sky, horizon, sun_at=(1450, 120), clouds=((640, 120, 0.7), (900
 
 
 # ======================================================================= garden
-def laundry_svg(blow=0, lines=True):
+def laundry_svg(blow=0, lines=True, short=False):
     """The jeans and the striped towel pegged on the garden line. blow (v0.14, -1 or 1): swung out with a gust, the hems
     lifted and carried downwind, with short wind lines past them (hanging straight down in a gust that blew a hat away,
     "the washing on the line is not moving at all"). v0.15: a fraction of that for a breeze (a kite flying beside
@@ -97,6 +97,12 @@ def laundry_svg(blow=0, lines=True):
         x0 = 652
         laundry += D.poly([(x0, line_y(x0)), (x0 + 58, line_y(x0 + 58)), (x0 + 60, line_y(x0) + 120), (x0 + 36, line_y(x0) + 120),
                            (x0 + 29, line_y(x0) + 40), (x0 + 22, line_y(x0) + 120), (x0 - 2, line_y(x0) + 120)], C["blue"])
+        if short:
+            # v0.21: the jeans alone, so the person pinning up a shirt has no towel behind her head ("a yellow shirt on the
+            # line behind the woman's head can read as part of her clothing")
+            for px in (656, 704):
+                laundry += D.rect(px - 3, line_y(px) - 9, 7, 16, C["wood_light"], 1, D.OW * 0.6)
+            return laundry
         x0 = 724
         laundry += D.rect(x0, line_y(x0 + 25) - 2, 52, 92, C["yellow"], 3)
         for k_ in range(3):
@@ -252,8 +258,9 @@ def build_garden(features, sky):
         S.blocked.append((920, 680, 980, 730))
         S.anchors["clothesline"] = {"x0": 650, "x1": 930, "fn": line_y, "depth": 705}
     if "laundry" in features and "clothesline" in features:
-        laundry = laundry_svg()
-        S.add("laundry", "Clothes hanging on the line", laundry, 706, "setting", (650, 396, 780, 560),
+        short = _rev() >= 19 and "laundry_short" in features
+        laundry = laundry_svg(short=short)
+        S.add("laundry", "Clothes hanging on the line", laundry, 706, "setting", (650, 396, 715, 520) if short else (650, 396, 780, 560),
               entity=E("Clothes are hanging on the line", ["clothes", "laundry", "washing", "clothesline", "clothes line", "towel", "pants"], "laundry"))
     if "swing" in features:
         # v0.15: the frame stands 55 px further from the path (its right legs stood on the paving: "the swing set's legs
@@ -302,13 +309,18 @@ def build_garden(features, sky):
                                                                        D.stroke(D.poly_d([(x - 22, y - 35), (x - 60, y - 60)]), C["teal"], 8) +
                                                                        D.stroke(f"M {x - 15} {y - 55} Q {x} {y - 82} {x + 18} {y - 55}", C["teal"], 6), (x - 66, y - 84, x + 28, y)), (1150, 930, 1250, 975),
              # revision 6: not a second can beside someone watering with one (two cans read as odd)
-             needs=lambda sc: _rev() < 6 or not any(t.id in (("water_flowers", "water_upward", "pan_watering") if _rev() >= 18
+             # (revision 18: nor beside the frying pan; revision 19: nor beside a hose, "both a hose and an unused watering can")
+             needs=lambda sc: _rev() < 6 or not any(t.id in (("water_flowers", "water_upward", "pan_watering", "hose_water", "blocked_hose", "sprinkler_package") if _rev() >= 19
+                                                           else ("water_flowers", "water_upward", "pan_watering") if _rev() >= 18
                                                            else ("water_flowers", "water_upward")) for t in sc.templates))
     # v0.7: kibble in the bowl, so it reads as a pet's bowl and not a red disc or a frisbee
     S.filler("dog_bowl", 1100, 968, "Dog bowl", lambda x, y: (D.ell(x, y, 30, 11, C["red"]) + D.ell(x, y - 6, 24, 6, "#8a2a2a", D.OW * 0.6)
                                                          + "".join(D.circ(x + dx, y - 7 + dy, 3.4, C["wood"], D.OW * 0.35) for dx, dy in ((-12, 0), (-5, -2), (3, 1), (10, -1), (-8, 2), (6, -3), (14, 1))),
                                                          (x - 32, y - 14, x + 32, y + 12)), (1070, 950, 1130, 985),
-             needs=lambda sc: any(f.startswith(("animal.dog", "animal.cat")) for f in sc.fams))
+             # revision 19: and only beside one ("a full food bowl with no pet near it", "far from the dog")
+             needs=lambda sc: any(f.startswith(("animal.dog", "animal.cat")) for f in sc.fams) and
+                              (_rev() < 19 or any(a.family.startswith(("animal.dog", "animal.cat")) and not a.m["variant"].get("airborne")
+                                                  and abs(a.X - 1100) < 260 and abs(a.Y - 968) < 170 for a in sc.assets.values())))
     if "clothesline" in features:
         S.filler("basket", 890, 708, "Laundry basket", lambda x, y: D.laundry_basket(x, y), (840, 690, 945, 720))
     return S

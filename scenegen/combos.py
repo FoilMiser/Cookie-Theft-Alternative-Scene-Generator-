@@ -89,6 +89,9 @@ def excl(c, setting):
     if SCN.PLACEMENT_REV >= 18 and setting == "garden" and c.id == "dog_wants_walk":
         # revision 18: nor the dog waiting at the garden door with the bench in front of that door
         return tuple(c.exclusive) + ("bench",)
+    if SCN.PLACEMENT_REV >= 19 and setting == "garden" and c.id in ("paint_fence", "paint_tracks"):
+        # revision 19: nor a fence being painted behind the washing line
+        return tuple(c.exclusive) + ("clothesline",)
     return tuple(c.exclusive)
 
 

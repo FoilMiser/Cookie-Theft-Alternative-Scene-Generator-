@@ -125,9 +125,27 @@ class PlacementError(Exception):
 # frying pan, and the water from a can, a pan or a hose landing inside the flower bed; the garden's wheelbarrow standing
 # on its wheel and legs ("very flat ... no visible legs"); the blown empty swing seat inside its frame; the dug hole
 # clear of the path, the leaning ladder clear of the pond and animals' feet clear of the sandbox frame.
+# 19 (v0.21): the v0.20 screen's oddities: no road worker in the hi-vis vest in a home garden; a dog bowl only beside a
+# dog or cat; heads clear of the washing on the line, and no fence painted behind it; no hose reel beside a watering
+# can, no spare can beside a hose, one hose per picture, and a can's water further into the bed; people and animals
+# clear of the pond's cattails and rim; figures of different events up to about 80 px apart in depth kept off each
+# other's heads; and a kick's line clear of the sandpit and of people further off.
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 18
+PLACEMENT_REV = 19
 WORKER = "person.jo"
+
+
+def head_box(p):
+    """Revision 19: the box round a person's head, from the head-top, eye and mouth anchors (the raised arms left out)."""
+    b = p.bbox()
+    h = b[3] - b[1]
+    if not (p.has_anchor("head_top") and p.has_anchor("mouth")):
+        return (b[0], b[1], b[2], b[1] + 0.25 * h)
+    ht, mo = p.anchor("head_top"), p.anchor("mouth")
+    xs = [ht[0], mo[0]] + [p.anchor(k)[0] for k in ("eye_L", "eye_R") if p.has_anchor(k)]
+    cx = (min(xs) + max(xs)) / 2
+    w = max(0.16 * h, max(xs) - min(xs) + 0.08 * h)
+    return (cx - w / 2, ht[1], cx + w / 2, mo[1] + 0.05 * h)
 LEISURE7 = {"about_to_trip"}
 LEISURE = {"ball_in_tree", "balloon", "bird_steals", "bucket_hat", "carry_bag", "dog_begs", "drink_bench", "ducks_bread",
            "feed_birds", "fishing", "fly_kite", "hang_laundry", "ice_cream", "ice_cream_drop", "jump", "kick_ball", "kite_in_tree",
@@ -205,6 +223,7 @@ class Scene:
         self.stalk_spans = []   # revision 12: the ground between a stalking cat and its bird, kept free of strings
         self.keepout = []       # revision 4: ground boxes no one's feet may stand in (a sprinkler and its spray)
         self.airzones = []      # revision 4: boxes of air no person or animal may enter (around a floating box)
+        self.sprayzones = []    # revision 19: (box, depth) of a sprinkler's spray: no person or animal in front of it
         self.no_dog = []        # revision 6: ground no dog may enter (around a stalking cat)
         self.groundzones = []   # revision 9: boxes nothing placed later may enter, drawn objects included (around the dropped ice cream)
         self.point_lines = []   # revision 14: a pointing hand's line to what it points at, kept clear of people and animals
@@ -226,6 +245,10 @@ class Scene:
             avoid = tuple(avoid) + (WORKER,)
         # revision 7: nor reading a book as he walks along (the worker "reading or writing in a small red book")
         if PLACEMENT_REV >= 7 and getattr(self, "binding", None) in LEISURE7:
+            avoid = tuple(avoid) + (WORKER,)
+        # revision 19: nor anywhere in the home garden (painting the fence or pointing at the clouds, "a road worker in a
+        # hi-vis vest ... out of place in a home garden")
+        if PLACEMENT_REV >= 19 and self.setting_id == "garden":
             avoid = tuple(avoid) + (WORKER,)
         pool = [f for f in self.lib.people(kinds) if f not in self.fams and f not in avoid]
         if not pool:
@@ -332,6 +355,24 @@ class Scene:
                 feet = (bbox[0], bbox[3] - 0.22 * (bbox[3] - bbox[1]), bbox[2], bbox[3])
                 if min(feet[2], sb[2] + 8) > max(feet[0], sb[0] - 8) and min(feet[3], sb[3] + 6) > max(feet[1], sb[1] - 6):
                     return False
+        if p is not None and PLACEMENT_REV >= 19 and (p.family.startswith("person.") or p.family.startswith("animal.")) \
+                and not p.m["variant"].get("airborne") and "__swim__" not in p.v and not self.clear_of_pond_v19(bbox, p):
+            return False
+        if p is not None and PLACEMENT_REV >= 19 and p.family.startswith("person.") and "laundry" not in getattr(self, "exempt", ()):
+            # revision 19: a head clear of the washing on the line (a shirt behind a man's head read as "part of his
+            # outfit")
+            lb = next((e["bbox"] for e in self.S.elements if e["id"] == "laundry" and e.get("bbox")), None)
+            if lb is not None:
+                hd = head_box(p)
+                if min(hd[2], lb[2] + 10) > max(hd[0], lb[0] - 10) and min(hd[3], lb[3] + 10) > max(hd[1], lb[1] - 10):
+                    return False
+        if p is not None and PLACEMENT_REV >= 19 and (p.family.startswith("person.") or p.family.startswith("animal.")) \
+                and not p.m["variant"].get("airborne"):
+            # revision 19: nobody standing in front of a sprinkler's spray (a goat just in front of the arcs looked as if it
+            # were grazing in the spray)
+            for k, ky in getattr(self, "sprayzones", ()):
+                if p.Y > ky and min(bbox[2], k[2]) > max(bbox[0], k[0]) and min(bbox[3], k[3]) > max(bbox[1], k[1]):
+                    return False
         if p is not None and PLACEMENT_REV >= 6 and p.family.startswith("animal.dog"):
             for z in getattr(self, "no_dog", ()):
                 if min(bbox[2], z[2]) > max(bbox[0], z[0]) and min(bbox[3], z[3]) > max(bbox[1], z[1]):
@@ -424,6 +465,16 @@ class Scene:
                 # revision 16: and figures of different events at the same depth stand apart, not in each other (a man
                 # reading as he walked and a catcher beside him were "squashed together, one partly inside the other")
                 return False
+            if PLACEMENT_REV >= 19 and abs(a.Y - p.Y) < 80 * D.sz(p.Y):
+                # revision 19: and up to about 80 px apart in depth, the nearer figure off the farther one's head and shoulders
+                # (a dog walker 60 px in front of a reading man "overlap closely"; a goat behind a man "attached to his
+                # shoulder")
+                far_q, near_b = (a, bbox) if a.Y < p.Y else (p, ab)
+                fb = far_q.bbox()
+                hd = head_box(far_q) if far_q.family.startswith("person.") else (fb[0], fb[1], fb[2], fb[1] + 0.35 * (fb[3] - fb[1]))
+                hd = (hd[0], hd[1], hd[2], hd[3] + 0.12 * (fb[3] - fb[1]))      # and the shoulders
+                if min(near_b[2], hd[2]) > max(near_b[0], hd[0]) and min(near_b[3], hd[3]) > max(near_b[1], hd[1]):
+                    return False
         if PLACEMENT_REV >= 15 and "bench" not in getattr(self, "exempt", ()):
             # revision 15: and no feet on, under or just behind a bench of the setting at the same depth (a man whose feet
             # met the bench's back edge was "standing behind it or partly overlapping it"; a dog by the door "on the
@@ -649,6 +700,24 @@ class Scene:
             if b[0] - 10 < fx < b[2] + 10 and b[3] - 30 < box[3] < b[3] + 28:
                 return False
         return True
+
+    def clear_of_pond_v19(self, box, p):
+        """Revision 19: a person or animal clear of the pond's cattails (one "poking up just behind the young person's head",
+        others "at his hip"), and with the feet not on or inside its rim at the sides either ("overlaps the right edge of the
+        pond ... he may be standing in or at the water")."""
+        A = self.S.anchors.get("pond")
+        if not A or "center" not in A:
+            return True
+        (cx, cy), rx, ry = A["center"], A["rx"], A["ry"]
+        base = cy + 0.25 * ry
+        for d0, d1 in ((-0.92, -0.86), (0.88, 0.93)):
+            z = (cx + d0 * rx - 26, base - 64, cx + d1 * rx + 26, base + 8)
+            if min(box[2], z[2]) > max(box[0], z[0]) and min(box[3], z[3]) > max(box[1], z[1]):
+                return False
+        if "pond" in getattr(self, "exempt", ()):
+            return True
+        fx, fy = (box[0] + box[2]) / 2, box[3]
+        return ((fx - cx) / (rx * 1.08)) ** 2 + ((fy - cy) / (ry * 1.25)) ** 2 > 1.0
 
     def clear_of_house_edges(self, box, margin=18):
         """Revision 9: a person stands either wholly in front of the house wall or clear of it, never across

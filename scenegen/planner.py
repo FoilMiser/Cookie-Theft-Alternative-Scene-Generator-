@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.20.0"
+GENERATOR_VERSION = "0.21.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -43,8 +43,8 @@ def feasible(cls, setting, sky):
 # Prior guesses of each inference item's features (typical cue salience z, cue-effect separation,
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
-PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.20 calibration.json)
-    "blocked_hose": [("inference", 2, -0.40, 0.155, 2, "water")],
+PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.21 calibration.json)
+    "blocked_hose": [("inference", 2, -0.40, 0.152, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.405, 1, "rain")],
     "cat_stalks_bird": [("inference", 1, -0.49, 0.080, 1, "cat")],
     "ball_in_tree": [("inference", 1, -0.75, 0.141, 1, "stuck")],
@@ -54,10 +54,10 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "dog_begs": [("inference", 1, -0.70, 0.095, 1, "begging")],
     "sprinkler_package": [("inference", 1, -0.27, 0.167, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
-    "windy_hat": [("inference", 2, -1.23, 0.140, 1, "wind")],
+    "windy_hat": [("inference", 2, -1.24, 0.140, 1, "wind")],
     "bird_steals": [("inference", 2, -1.40, 0.051, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.05, 0.130, 2, "lost")],
-    "ducks_bread": [("inference", 1, -1.41, 0.011, 1, "hungry")],
+    "ducks_bread": [("inference", 1, -1.39, 0.018, 1, "hungry")],
     "seesaw_heavy": [("inference", 1, -0.76, 0.188, 1, "heavy")],
     "dog_wants_walk": [("inference", 1, -0.75, 0.157, 2, "walk")],
 }
@@ -65,9 +65,9 @@ for _cid, _s, _k in [("water_upward", -1.38, "water"),
                      ("floating_box", -0.38, "floating"),
                      ("square_wheel", -0.03, "wheel"),
                      ("fish_in_tree", -1.31, "fish"),
-                     ("pan_watering", -0.10, "pan"),
-                     ("sweep_fork", 0.27, "fork"),
-                     ("bucket_hat", 0.28, "bucket"),
+                     ("pan_watering", -0.08, "pan"),
+                     ("sweep_fork", 0.26, "fork"),
+                     ("bucket_hat", 0.29, "bucket"),
                      ("sitting_on_air", 0.07, "chair"),
                      ("ladder_nothing", -0.22, "ladder"),
                      ("dog_reading", -0.46, "newspaper")]:
@@ -257,6 +257,10 @@ def _plan(tier, setting, seed, lib, forced, bumped):
         if SCN.PLACEMENT_REV >= 17 and any(c.id == "pan_watering" for c in picked):
             # revision 17: no hose reel as scenery beside the frying pan either (it read as "a hose nozzle")
             feats.discard("hose_reel")
+        if SCN.PLACEMENT_REV >= 19 and any(c.id in ("water_flowers", "water_upward", "sprinkler_package") for c in picked):
+            # revision 19: nor beside a watering can ("waters by can while a hose reel sits unused right beside him"), nor
+            # beside the sprinkler, whose own hose runs off the picture ("a second hose")
+            feats.discard("hose_reel")
         if SCN.PLACEMENT_REV >= 17 and setting == "playground" and {"seesaw", "bench"} <= feats:
             # revision 17: never the playground's seesaw and its bench together: the seesaw stands right in front of the
             # bench, its raised end across a sitter's legs, so with the gap kept from thin parts no one could sit there
@@ -277,9 +281,32 @@ def _plan(tier, setting, seed, lib, forced, bumped):
             if "bench" in need:
                 continue
             feats.discard("bench")
+        if SCN.PLACEMENT_REV >= 19 and setting == "garden" and {"clothesline", "laundry"} & feats \
+                and any(c.id in ("paint_fence", "paint_tracks") for c in picked):
+            # revision 19: no washing on the line in front of a fence being painted ("could get paint on it"; jeans on the line
+            # "hard to separate" from the blue boards behind them)
+            need = set()
+            for c in picked:
+                need |= c.features(setting)
+            if {"clothesline", "laundry"} & need:
+                continue
+            feats -= {"clothesline", "laundry"}
+        if SCN.PLACEMENT_REV >= 19 and setting == "garden" and {"clothesline", "laundry"} & feats \
+                and any(c.id == "hose_water" for c in picked):
+            # revision 19: nor beside someone hosing the flowers: she stands just in front of the line, and with heads kept
+            # clear of the washing (above) there was nowhere left for her
+            need = set()
+            for c in picked:
+                need |= c.features(setting)
+            if {"clothesline", "laundry"} & need:
+                continue
+            feats -= {"clothesline", "laundry"}
         if SCN.PLACEMENT_REV >= 14 and any(c.id == "square_wheel" for c in picked):
             # revision 14: no ordinary bicycle in a rack beside the square-wheeled one (as the fillers keep away since revision 9)
             feats.discard("bicycle")
+        if SCN.PLACEMENT_REV >= 19 and "laundry" in feats and any(c.id == "hang_laundry" for c in picked):
+            # revision 19: only the jeans already on the line beside someone pinning up a shirt (see settings.laundry_svg)
+            feats.add("laundry_short")
         if "laundry" in feats:
             feats.add("clothesline")
         if "clothesline" in feats:
