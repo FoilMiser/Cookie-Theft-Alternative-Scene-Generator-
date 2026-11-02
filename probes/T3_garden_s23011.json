@@ -1,0 +1,1069 @@
+{
+ "name": "T3_garden_s23011",
+ "tier": 3,
+ "setting": "garden",
+ "sky": "clear",
+ "seed": 23011,
+ "mirror": false,
+ "versions": {
+  "generator": "0.23.0",
+  "cast_builder": "0.23.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "bench",
+  "flowers",
+  "hose_reel"
+ ],
+ "templates": [
+  {
+   "id": "bucket_hat",
+   "kind": "contradiction",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "hose_water",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  },
+  {
+   "id": "fly_kite",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  }
+ ],
+ "scene_load": 3,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A teenager is watering the flowers with a hose",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "watering with a hose",
+     "spraying water",
+     "hosing the flowers",
+     "watering the garden"
+    ]
+   },
+   "key": "hose",
+   "elements": [
+    "hoser_1",
+    "hose_2",
+    "spray_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "hose_water",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.206,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.27,
+    "a": 5.33,
+    "zipf_raw": 3.73,
+    "aoa_raw": 5.33,
+    "domain": null,
+    "area_px": 20460
+   },
+   "b": -1.162,
+   "p0": 0.762,
+   "pm1": 0.54,
+   "aoi_cells": [
+    "MC",
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A man is standing with hands on hips",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "standing",
+     "standing there",
+     "hands on hips"
+    ]
+   },
+   "key": "standing",
+   "elements": [
+    "buckethead_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "bucket_hat",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.349,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.86,
+    "a": 4.39,
+    "zipf_raw": 4.86,
+    "aoa_raw": 4.39,
+    "domain": null,
+    "area_px": 25040
+   },
+   "b": -1.573,
+   "p0": 0.828,
+   "pm1": 0.639,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person has on their head",
+   "accepted": [
+    "funny hat",
+    "something on his head",
+    "that's strange"
+   ],
+   "key": "bucket",
+   "elements": [
+    "buckethead_4"
+   ],
+   "cues": [
+    "buckethead_4"
+   ],
+   "effect": [
+    "buckethead_4"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "functional",
+   "template": "bucket_hat",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": 0.349,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 25040
+   },
+   "b": -0.035,
+   "p0": 0.509,
+   "pm1": 0.276,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "contradiction_explain",
+   "text": "The person is wearing a bucket as a hat",
+   "accepted": [
+    "bucket on the head",
+    "wearing a bucket",
+    "a bucket is not a hat"
+   ],
+   "key": "bucket",
+   "elements": [
+    "buckethead_4"
+   ],
+   "cues": [
+    "buckethead_4"
+   ],
+   "effect": [
+    "buckethead_4"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "bucket_hat",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.349,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 25040
+   },
+   "b": 1.165,
+   "p0": 0.238,
+   "pm1": 0.103,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A girl is flying a kite",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "flying a kite",
+     "kite"
+    ]
+   },
+   "key": "kite",
+   "elements": [
+    "kiteflyer_5",
+    "kite_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "fly_kite",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.196,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.45,
+    "a": 4.58,
+    "zipf_raw": 3.55,
+    "aoa_raw": 4.58,
+    "domain": null,
+    "area_px": 11600
+   },
+   "b": -0.907,
+   "p0": 0.712,
+   "pm1": 0.477,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TR"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 19276
+   },
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.733,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 43028
+   },
+   "b": -1.262,
+   "p0": 0.779,
+   "pm1": 0.565,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a fence",
+   "accepted": [
+    "fence",
+    "wooden fence",
+    "gate"
+   ],
+   "key": "fence",
+   "elements": [
+    "fence"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.93,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 6.28,
+    "zipf_raw": 4.21,
+    "aoa_raw": 6.28,
+    "domain": null,
+    "area_px": 232692
+   },
+   "b": -1.668,
+   "p0": 0.841,
+   "pm1": 0.661,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "It is the back yard of a house",
+   "accepted": [
+    "house",
+    "home",
+    "backyard",
+    "back yard",
+    "yard",
+    "garden"
+   ],
+   "key": "house",
+   "elements": [
+    "house"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.84,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
+    "domain": null,
+    "area_px": 204952
+   },
+   "b": -2.073,
+   "p0": 0.888,
+   "pm1": 0.745,
+   "aoi_cells": [
+    "TL",
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There is a bench",
+   "accepted": [
+    "bench",
+    "seat"
+   ],
+   "key": "bench",
+   "elements": [
+    "bench"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.105,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.39,
+    "a": 4.21,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.21,
+    "domain": null,
+    "area_px": 13200
+   },
+   "b": -0.705,
+   "p0": 0.669,
+   "pm1": 0.427,
+   "aoi_cells": [
+    "BL"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 9,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.764,
+   "inference": 0.373
+  },
+  "theta_minus_1": {
+   "content": 0.552,
+   "inference": 0.189
+  }
+ },
+ "bands": {
+  "content_count": false,
+  "inference_units": false,
+  "contradictions": true,
+  "content_completeness": false,
+  "inference_completeness": true
+ },
+ "in_tier": false,
+ "checks": {
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": false,
+   "detail": "18 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 18,
+  "edge_density": 0.042,
+  "png_bytes": 204478,
+  "jpeg_bytes": 194625
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    1352.0,
+    22.0,
+    1548.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    560.0,
+    68.0,
+    966.0,
+    202.0
+   ],
+   "area_px": 19276,
+   "visible_px": 19276,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees beyond the fence",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Lawn",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Paved path to the gate",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    1254.0,
+    614.0,
+    1562.0,
+    1000.0
+   ],
+   "area_px": 81244,
+   "visible_px": 74988,
+   "occlusion": 0.077
+  },
+  {
+   "id": "tree",
+   "label": "Tree behind the fence",
+   "role": "setting",
+   "z": 440,
+   "bbox": [
+    296.0,
+    176.0,
+    544.0,
+    452.0
+   ],
+   "area_px": 44984,
+   "visible_px": 43028,
+   "occlusion": 0.043
+  },
+  {
+   "id": "fence",
+   "label": "Wooden fence with a gate",
+   "role": "setting",
+   "z": 615,
+   "bbox": [
+    298.0,
+    426.0,
+    1600.0,
+    618.0
+   ],
+   "area_px": 240896,
+   "visible_px": 232692,
+   "occlusion": 0.034
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    946.0,
+    602.0,
+    1074.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    1100.0,
+    596.0,
+    1220.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    0.0,
+    118.0,
+    342.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hoser_1",
+   "label": "person.leo__hose_spray__neutral__y090",
+   "role": "scored",
+   "z": 830,
+   "bbox": [
+    570.0,
+    554.0,
+    684.0,
+    836.0
+   ],
+   "area_px": 11780,
+   "visible_px": 11696,
+   "occlusion": 0.007,
+   "asset": {
+    "variant": "person.leo__hose_spray__neutral__y090",
+    "family": "person.leo",
+    "scale": 0.4565,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    318.0,
+    694.0,
+    572.0,
+    838.0
+   ],
+   "area_px": 25880,
+   "visible_px": 22804,
+   "occlusion": 0.119
+  },
+  {
+   "id": "hose_2",
+   "label": "Garden hose",
+   "role": "scored",
+   "z": 836.5,
+   "bbox": [
+    294.0,
+    672.0,
+    626.0,
+    874.0
+   ],
+   "area_px": 6752,
+   "visible_px": 5980,
+   "occlusion": 0.114
+  },
+  {
+   "id": "spray_3",
+   "label": "Water spraying",
+   "role": "scored",
+   "z": 837,
+   "bbox": [
+    454.0,
+    658.0,
+    574.0,
+    802.0
+   ],
+   "area_px": 2784,
+   "visible_px": 2784,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 870,
+   "bbox": [
+    270.0,
+    788.0,
+    346.0,
+    876.0
+   ],
+   "area_px": 4956,
+   "visible_px": 4956,
+   "occlusion": 0.0
+  },
+  {
+   "id": "kiteflyer_5",
+   "label": "person.nia__fly_kite__smile__y090",
+   "role": "scored",
+   "z": 919.2,
+   "bbox": [
+    1402.0,
+    740.0,
+    1472.0,
+    922.0
+   ],
+   "area_px": 5732,
+   "visible_px": 5724,
+   "occlusion": 0.001,
+   "asset": {
+    "variant": "person.nia__fly_kite__smile__y090",
+    "family": "person.nia",
+    "scale": 0.4895,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
+   "bbox": [
+    38.0,
+    804.0,
+    242.0,
+    930.0
+   ],
+   "area_px": 13200,
+   "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    896.0,
+    892.0,
+    1078.0,
+    980.0
+   ],
+   "area_px": 8788,
+   "visible_px": 8788,
+   "occlusion": 0.0
+  },
+  {
+   "id": "buckethead_4",
+   "label": "person.ben__bucket_hat__smile__y045",
+   "role": "scored",
+   "z": 976.03,
+   "bbox": [
+    748.0,
+    596.0,
+    858.0,
+    980.0
+   ],
+   "area_px": 25040,
+   "visible_px": 25040,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ben__bucket_hat__smile__y045",
+    "family": "person.ben",
+    "scale": 0.5106,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "kite_6",
+   "label": "Kite",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    1056.0,
+    118.0,
+    1408.0,
+    756.0
+   ],
+   "area_px": 5876,
+   "visible_px": 5876,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   23011,
+   "layout 1: accepted after 0 rejected layouts"
+  ]
+ ],
+ "layout": 0,
+ "knob": 0,
+ "regen": {
+  "base_seed": 23011,
+  "max_tries": 6,
+  "placements": 14,
+  "require_band": false,
+  "usage": {},
+  "forced": {
+   "events": [
+    "hose_water",
+    "fly_kite"
+   ],
+   "contradictions": [
+    "bucket_hat"
+   ]
+  },
+  "placement_rev": 21
+ },
+ "probe": true
+}

@@ -136,6 +136,8 @@ def collect_tree(root, version, tag, scenes, probes):
                 add_file(os.path.join(src_dir, sub, f) if sub != '.' else os.path.join(src_dir, f), rel_here + f)
 
     add_file(f'README_v{version}.md', 'README.md')
+    if os.path.exists(os.path.join(root, 'RUNBOOK.md')):
+        add_file('RUNBOOK.md', 'RUNBOOK.md')          # v0.23: how a release is made
     for f in ('combos.json', 'calibration.json'):
         add_file(f, f)
     if os.path.exists(os.path.join(root, f'package_v{tag}.sh')):
@@ -158,6 +160,8 @@ def collect_tree(root, version, tag, scenes, probes):
     add_tree(f'site{tag}', 'site')
     add_tree('garden', 'garden')
     add_tree('vision', 'vision')
+    if os.path.isdir(os.path.join(root, 'tools')):
+        add_tree('tools', 'tools')                    # v0.23: the release-cycle scripts (RUNBOOK.md)
     return [it for rel, it in sorted(items.items()) if not excluded(rel)]
 
 

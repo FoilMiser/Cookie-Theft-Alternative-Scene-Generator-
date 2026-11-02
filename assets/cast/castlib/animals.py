@@ -361,6 +361,42 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
         # v0.9: begging, sitting square with the haunches and tail on the ground, the body leaning
         # less steeply, the head tipped right up toward the food (the upright sit read as rearing up,
         # standing and looking up as just watching)
+        style = os.environ.get("TPDB_BEG", "A3")   # v0.23: A3 (bench A and A2: "sits up ... as if begging" in all four)
+        if style == "A3":
+            # as A2, the tail curled tight round the near haunch instead of laid out on the ground behind (laid out, the
+            # sitting dog's "lower body stretches long and flat ... like a kangaroo")
+            body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=0.0, tail=(-0.55, 0.45, -0.70), neck=(0, -0.20, 1), head_pitch=38)
+            rig.aim_dir("tail2", (-0.35, -0.90, -0.05))
+            fz = chest_z * 0.62
+            legs({"L": (0.065, -0.17, fz), "R": (-0.065, -0.17, fz)}, {"L": (0.10, -0.06, 0.035), "R": (-0.10, -0.04, 0.035)},
+                 fhint=(0, -0.2, -1), bhint=(0, -1, 0.35))
+            return
+        if style == "A2":
+            # v0.23 bench round 2: as A, with the hind legs folded under the haunches instead of stretched forward (A's hind
+            # paws out in front read "as if kneeling", "legs stretched forward like a person")
+            body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=0.0, tail=(0.35, 0.75, -0.55), neck=(0, -0.20, 1), head_pitch=38)
+            rig.aim_dir("tail2", (0.55, -0.80, -0.05))
+            fz = chest_z * 0.62
+            legs({"L": (0.065, -0.17, fz), "R": (-0.065, -0.17, fz)}, {"L": (0.10, -0.06, 0.035), "R": (-0.10, -0.04, 0.035)},
+                 fhint=(0, -0.2, -1), bhint=(0, -1, 0.35))
+            return
+        if style == "A":
+            # v0.23 bench A: sitting up on the haunches, both front paws lifted and folded at the chest, the tail curled
+            # forward along the ground (the v0.9 slope, its tail stretched out behind, read "as if half-lying")
+            body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=0.0, tail=(0.35, 0.75, -0.55), neck=(0, -0.20, 1), head_pitch=38)
+            rig.aim_dir("tail2", (0.55, -0.80, -0.05))
+            fz = chest_z * 0.62
+            legs({"L": (0.065, -0.17, fz), "R": (-0.065, -0.17, fz)}, {"L": (0.11, -0.17, 0.035), "R": (-0.11, -0.15, 0.035)},
+                 fhint=(0, -0.2, -1), bhint=(0, -0.3, 1))
+            return
+        if style == "B":
+            # v0.23 bench B: sitting square and upright as in sit(), the near front paw lifted toward the food, the head
+            # tipped up, the tail curled forward beside the haunch
+            body(hip_drop=0.25, hip_back=-0.12, chest_drop=-0.05, tail=(0.35, 0.75, -0.55), neck=(0, -0.22, 1), head_pitch=38)
+            rig.aim_dir("tail2", (0.55, -0.80, -0.05))
+            legs({"L": (0.075, -0.165, 0.04), "R": (-0.075, -0.24, chest_z * 0.45)}, {"L": (0.10, 0.00, 0.035), "R": (-0.10, 0.02, 0.035)},
+                 fhint=(0, 0.3, 0.1), bhint=(0, -1, 0.35))
+            return
         body(hip_drop=0.30, hip_back=-0.10, chest_drop=0.07, tail=(0.25, 0.95, -0.45), neck=(0, -0.30, 1), head_pitch=40)
         legs({"L": (0.075, -0.215, 0.04), "R": (-0.075, -0.215, 0.04)}, {"L": (0.10, 0.01, 0.035), "R": (-0.10, 0.03, 0.035)},
              fhint=(0, 0.3, 0.1), bhint=(0, -1, 0.35))

@@ -9,6 +9,9 @@ from mathutils import Quaternion, Vector
 from .core import Rig, anchor, cyl, ellipsoid, link, mat, skin_like, skin_object, tube, tube_mesh, upd, _mesh_object
 from .face import Face, build_people_face, people_expression_states
 
+# v0.23 (TPDB_HEAD; the release builds with B): the older man's fringe of hair kept to the back, and a fuller nose
+HEAD_STYLE = __import__("os").environ.get("TPDB_HEAD", "B")   # v0.23: B (bench: both readers had him walking the right way)
+
 
 def person_skeleton(kind):
     if kind == "child":
@@ -317,7 +320,11 @@ def build_person(spec):
         ellipsoid(f"Ear_{sd}", hc + Vector((sg * HR[0] * 0.97, 0.005, -0.012 * kh)), (0.016 * kh, 0.026 * kh, 0.034 * kh), spec["skin"], rig, "head")
     face = Face(rig, "head", hc, HR, kh)
     eye_dx, eye_z = 0.060 * kh, 0.010 * kh
-    ellipsoid("Nose", face.at(0, eye_z - 0.040 * kh, -0.004 * kh), (0.020 * kh, 0.018 * kh, 0.016 * kh), spec["skin"], rig, "head")
+    if HEAD_STYLE == "B" and spec.get("hair") == "bald_ring":
+        # v0.23 bench B: a fuller nose standing out from the face, so a profile shows which way the face is turned
+        ellipsoid("Nose", face.at(0, eye_z - 0.044 * kh, 0.010 * kh), (0.026 * kh, 0.030 * kh, 0.022 * kh), spec["skin"], rig, "head")
+    else:
+        ellipsoid("Nose", face.at(0, eye_z - 0.040 * kh, -0.004 * kh), (0.020 * kh, 0.018 * kh, 0.016 * kh), spec["skin"], rig, "head")
     build_hair(spec, rig, hc, HR, kh)
     build_facial_hair(spec, rig, face, eye_z, kh)
     build_hat(spec, rig, hc, HR, kh)
@@ -422,6 +429,13 @@ def build_hair(spec, rig, hc, HR, k):
             # behind the ears only (hair over the ear read as an earmuff or a pad), from the hat line
             # down to the nape, with a scalloped lower edge
             a = math.atan2(c.x, c.y)
+            if HEAD_STYLE in ("A", "B"):
+                # v0.23 bench: a narrower crescent kept to the back of the head, behind the ear and above the nape (in
+                # profile the wide grey patch behind the ear read as "a beard" or "a face mask" on a face turned the
+                # other way)
+                low = -0.55 + 0.05 * math.sin(a * 9.0)
+                back = 0.42 - 0.10 * max(0.0, c.z)
+                return c.y > back and low < c.z < 0.22
             low = -0.82 + 0.06 * math.sin(a * 9.0)
             back = 0.16 - 0.10 * max(0.0, c.z)          # the front edge leans back toward the crown
             return c.y > back and low < c.z < 0.24

@@ -586,6 +586,11 @@ def up_water_can(P):
 
 
 PAN_V019 = True
+# v0.23 bench styles (TPDB_PAN; the release builds with D): "B" the arm held out from the body and the whole handle showing
+# between the hand and the pan; "C" as B with the pan tipped forward to pour; "D" the pan seen from above at a slant,
+# deeper, on a thicker handle about as long as the pan is wide (both bench readers: "a frying pan or saucepan"); "E" the
+# v0.19 face-on pan on that handle ("the sprinkler head (rose) of a watering can ... or a frying pan"); "v19" the v0.19 pan
+PAN_STYLE = __import__("os").environ.get("TPDB_PAN", "D")   # v0.23: D, chosen on the bench (isolation_v023.md)
 
 
 def up_water_pan(P):
@@ -593,6 +598,9 @@ def up_water_pan(P):
     -X), so it reads as a round pan with a silver inside; edge-on it read as a hose wand."""
     u = P.u
     pel = P.lm("pelvis")
+    if PAN_STYLE in ("B", "C", "D", "E"):
+        _water_pan_v23(P, PAN_STYLE)
+        return
     P.arms({"R": (pel + Vector((-0.20, -0.24, 0.20)) * u, (-1, 0.5, -0.3)), "L": P.rest_arm("L")})
     g = P.grip("R")
     R = 0.15 * u
@@ -616,6 +624,33 @@ def up_water_pan(P):
         P.prop("pan", cyl("pan", c - n * 0.030 * u, c + n * 0.030 * u, R * 0.88, "charcoal", seg=36, r1=R))
         P.prop("panin", cyl("panin", c + n * 0.026 * u, c + n * 0.031 * u, R * 0.90, "slate", seg=36))
     rim = c + Vector((0, -R * 0.95, -0.02 * u))
+    P.panchor("spout", rim)
+    P.panchor("spout_aim", rim + Vector((0, -0.30, -0.14)) * u)
+
+
+def _water_pan_v23(P, style):
+    """v0.23: the pan held out from the body by the end of its handle, the whole handle showing between the hand and the
+    pan (held close, the hand over a short handle, a v0.22 reader saw "a grey, round watering can ... no spout or handle")."""
+    u = P.u
+    pel = P.lm("pelvis")
+    P.arms({"R": (pel + Vector((-0.22, -0.40, 0.25)) * u, (-1, 0.5, -0.3)), "L": P.rest_arm("L")})
+    g = P.grip("R")
+    R = 0.15 * u
+    d = nrm((-0.06, -1.0, -0.10))                       # the handle runs forward from the fist, a little down
+    # B, C: a long handle (0.25) showing beyond the fist; D, E (round 2): a handle about as long as the pan is wide, thicker
+    L = (0.25 if style in ("B", "C") else 0.14) * u
+    hr = (0.022 if style in ("B", "C") else 0.028) * u
+    depth = 0.045 * u if style == "D" else 0.034 * u
+    c = g + d * (L + R * 0.96)
+    n = {"B": (-0.72, -0.18, 0.67), "C": (-0.70, -0.46, 0.55), "D": (-0.40, -0.12, 0.91), "E": (-0.72, -0.18, 0.67)}[style]
+    n = nrm(n)
+    P.prop("grip", cyl("grip", g - d * 0.05 * u, g + d * 0.05 * u, hr + 0.007 * u, "charcoal"))
+    P.prop("handle", cyl("handle", g + d * 0.04 * u, c - d * R * 0.90, hr, "charcoal"))
+    P.prop("pan", cyl("pan", c - n * depth, c + n * depth, R * 0.86, "charcoal", seg=36, r1=R))
+    P.prop("panin", cyl("panin", c + n * (depth - 0.004 * u), c + n * (depth + 0.001 * u), R * 0.84, "gray", seg=36))
+    # the pour leaves the far rim, the one tipped down and forward
+    far = (d - n * d.dot(n)).normalized()
+    rim = c + far * R * 0.95 + Vector((0, 0, -0.02 * u))
     P.panchor("spout", rim)
     P.panchor("spout_aim", rim + Vector((0, -0.30, -0.14)) * u)
 

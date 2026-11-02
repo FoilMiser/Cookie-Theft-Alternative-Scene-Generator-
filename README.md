@@ -1,120 +1,113 @@
-# TPDB v0.22: a square wheel with nothing round in it, jumpers at the front, ladders against the hedge, read a nineteenth time
+# TPDB v0.23: a frying pan that looks like one, a dog that begs, an older man who faces his way, read a twentieth time
 
-v0.21 ended with an eighteenth blind legibility screen: 738 of 744 scored items in the set had full marks, and 61 of 64
-templates passed the gate. One item was misread, the first in the set since v0.11: in the tier-4 street a woman watering a
-planter box with a frying pan, held up against a slate-grey shop door, read as "watering ... with a grey watering can". Two
-more templates fell short of the gate on a half point each: a teenager jumping for joy in front of the fruit stall read as
-standing "with both arms up, smiling", and a ladder leaning on nothing, its top just below a lamp post's foot, read as
-"standing up at a lean ... or lying flat on the grass". The barrow's square wheel took a half point for the second screen
-running ("a square dark frame with a spoked wheel inside it rather than a plain round wheel"). The readers also reported
-small oddities, none of them misreadings: a sprinkler's hose rising "straight up out of the bottom edge like a stiff pipe",
-and stories the pictures did not mean to tell (a boy about to trip over a wheelbarrow's handles, a reading walker who "may
-step on the sleeping cat" further along her path, a runner "heading straight for the flower bed", a kicked ball "flying
-toward the woman and the washing").
+v0.22 ended with a nineteenth blind legibility screen: no item of the set was misread, 285 of its 287 scored items had full
+marks, and 63 of 64 templates passed the gate. The one that fell short was the frying pan, for the second screen running:
+out of the street, it read as a frying pan in two of its three garden probes and as "a grey, round watering can" in the
+third, held close in front of the flowers with its handle hidden ("I could not clearly see a spout or handle"). Two
+inferences in the tier-4 street took a half point each: a dog with a paw raised in front of a man eating ice cream,
+"perhaps hoping for some ... or just walking by", and a reading walker whose box lay "to the side of / slightly ahead of"
+her. The readers also reported oddities, none of them misreadings: the older man's grey ring of hair, seen in profile, read
+as "a beard" or "a face mask", so that he seemed to walk the other way, in the tier-4 park toward a sleeping cat on the
+path behind him; a runner and a woman with a pram heading toward each other; a duck at an angler's float that "might go for
+the bait"; and a wheelbarrow's stand "like a boot".
 
-v0.22 works through that list. The two that are about how things look, the square wheel and the leaning ladder, went to
-the isolation bench first, where the wheel was redrawn three ways and read blind on its own; the rest are placement rules
-(revision 20). All of them were then read blind in whole test scenes among other events, the set was regenerated, and it
-was screened a nineteenth time.
+v0.23 works through that list. The four that are about how things look (the pan, the begging dog, the older man's profile
+and the barrow's leg) went to the isolation bench first, in two rounds, where each was drawn two or more ways and read blind
+on its own; the rest are placement rules (revision 21). All of them were then read blind in whole test scenes among other
+events, the set was regenerated, and it was screened a twentieth time.
 
-Every v0.21 shortfall that revision 20 and the bench addressed read in full in the nineteenth screen: the jumper as jumping in all three of its pictures, the ladder leaning on nothing as standing by itself in all three, and the redrawn square wheel as square ("its wheel is square, which wouldn't roll"), with no reader seeing a round wheel inside it. No sprinkler hose rose from the bottom edge, no foot stood on a wheelbarrow's handles, and no kick was aimed at anyone. No item of the set was misread, its contradictions are back to 1.00, and 285 of its 287 scored items had full marks (0.997 over all items; 0.989 in v0.21). One template still falls short of the gate: the frying pan, now out of the street, read as a frying pan in two of its three garden probes and as "a grey, round watering can" in the third, held close in front of the flowers with its handle hidden. 63 of 64 templates pass (61 in v0.21). `vision/flaws_v022.md` sends the pan to the isolation bench for v0.23, with the older man's profile head, whose grey ring of hair read as a beard and turned his walk the other way.
+The twentieth screen is the first in which every scored item had full marks: all 729 items of the 65 pictures, the set's 283 and the probes' 446, and no misread. All 64 templates pass the gate (63 in v0.22). The frying pan, redrawn on the bench, read as a frying pan in all three of its pictures after misreads in v0.21 and v0.22; the begging dog, sitting up with its paws at its chest, as begging in all three; and the reading walker's obstacle, now a full step ahead, as a trip in all three. No runner and walker were about to collide, no duck went for an angler's float, and no reader saw a boot under a wheelbarrow. The screen is now at its ceiling and no longer separates the templates; what the readers still reported are oddities, and `vision/flaws_v023.md` lists them for v0.24: above all a sleeping cat on the path just behind a walking man's back foot, again read as something he "could trip over".
 
 Everything is built by code and reproducible: the cast is modeled and posed in Blender (Python
 `bpy`, Blender 5.2.3 LTS), and the scenes are composed in SVG by the generator in `scenegen/`.
 
 ## What was fixed
 
-| What the v0.21 readers saw | v0.22 |
+| What the v0.22 readers saw | v0.23 |
 |---|---|
-| The frying pan held up face-on at a raised planter box in the street, against the grey shop door: "a grey watering can" (the misread) | No watering with the frying pan in the street. It waters a flower bed on the ground, where it read as a frying pan in both v0.21 probes and in the v0.22 design test |
-| A teenager with both arms up in front of the fruit stall: "cheering, celebrating, stretching or dancing" | A jumper clear of standing structures behind the feet, and in the front half of the ground (at least 200 px below the horizon), where the drawn gap above the shadow is large enough to read. At the back of the design tests two jumpers were still hedged; brought to the front, both read as "clearly jumping" |
-| A ladder on the open grass, its top just below a lamp post's foot: "standing up at a lean ... or lying flat on the grass" | The ladder's top up past the lawn's far edge, against the hedge or the hills, and 30 px clear of other uprights. On the bench and in the design test it read as standing by itself, never as lying flat |
-| The barrow's square wheel: "a square dark frame with a spoked wheel inside it rather than a plain round wheel" (second screen running) | Redrawn with nothing round in it: the open square tyre with eight straight spokes from a square hub to its corners and the middles of its sides, and a square axle plate. The bench chose it over a solid square plate and a square with a cross, which readers took for "a metal plate or box" and "a window frame or grate" |
-| The sprinkler's hose "rises straight up out of the bottom edge like a stiff pipe" (two probes) | The sprinkler's hose never leaves by the picture's bottom edge; it lies along the grass to a side edge |
-| A reading walker who "may step on the sleeping cat" further along her path, or "may also trip over the bicycle" | Nothing of another event further along a reading walker's way, up to 380 px past her obstacle |
-| The boy with the ice cream "about to trip over / run into the wheelbarrow handles" | Nobody's feet over a thing of another event on the ground (the wheelbarrow, the reading walker's obstacle) |
-| A runner 400 px short of the flower bed "heading straight for the flower bed and about to trample it" | No flower bed or rock anywhere on a runner's line, up to the picture's edge |
-| A kicked ball "flying toward the woman and the washing" | The kick's line clear of people further back (320 px behind the ball's line, was 120) |
+| The frying pan held close in front of the flowers, its short handle under the hand: "a grey, round watering can ... a watering can, a bucket or even a stone" (the misread) | Redrawn on the bench (builder 0.23.0): the pan held out from the body, seen from above at a slant so that its depth shows, on a thicker handle about as long as the pan is wide. Both bench readers called it "a frying pan or saucepan"; face-on on a long handle, two other drawings read as "the sprinkler head (rose) of a watering can" or a hose wand |
+| A dog with one paw raised, its body sloping down to a tail laid along the ground: "perhaps hoping for some ... or just walking by", "as if it were half-lying" | Redrawn on the bench: sitting up on its haunches, both front paws folded at the chest, the head tipped up to the food, the tail curled round the haunch. All four bench readers: "sits up ... begging" |
+| The older man in profile, his grey ring of hair behind the ear read as "a beard" or "a face mask", so he seemed to face the other way | Redrawn on the bench: the grey kept to the back of the head and a fuller nose standing out from the face. Both bench readers had him walking the right way |
+| The wheelbarrow's thick dark leg and the foot running forward from it: "a small dark boot" | A thin strut with no foot; no bench reader saw a boot |
+| A reading walker's box 25 px ahead of her leading foot, "to the side of / slightly ahead of" her | The obstacle a full step ahead (45 to 85 px) of her leading toe, squarely on her line |
+| A runner and a woman with a pram heading toward each other, "might bump into each other" | No runner and other mover facing each other on one line (within 90 px in depth), and a runner 50 px clear of any mover beside her |
+| A duck "swimming close to the float, so the duck might go for the bait or get tangled in the line" | No duck within 60 px of an angler's float or line, and none facing a float |
 
-Left as they were, as notes for the pilot: hoses that are hard to follow at a glance, contact read loosely (a slide's chute
-ending "a little above the grass", a seesaw sitter over the plank's end), goats in a garden or park, figures and faces (the
-cast is a stand-in), sizes at the back, and the older ones (leaves under no tree, a stall with nobody at it, bicycle wheels
-as "solid black discs").
+Left as they were, as notes for the pilot: hoses that are hard to follow at a glance, an angler's upper body over the pond
+with his feet on the bank, a dog's red bandana read as a hat or a bow, sizes at the back, goats in a garden or park, and
+the older ones (wind under a clear sky, a stall with nobody at it, sweeping a path with nothing on it).
 
 ## The isolation bench
 
-The square wheel and the ladder were each forced alone into a picture, cut out with little else around it and read blind
-by fresh readers (`vision/isolation_v022.md`, eight cut-outs, six readers). Three square wheels with nothing round in them
-were each read twice: a solid plate (A), the open square with a cross (B), and the open square with eight straight spokes
-(C). No reader saw a round wheel inside a square in any of them, and all six called the wheel strange because it could not
-roll; but A was offered as "a metal box or plate" and B as "a window frame or grate" in both of their readings, while C
-led both readings as a wheel. C is the v0.22 wheel. The ladder with its top up against the hedge read twice as standing on
-its own at a slant, "physically odd", and never as lying on the grass.
+Each visual was forced alone into a picture, cut out with little else around it and read blind by fresh readers
+(`vision/isolation_v023.md`, two rounds, 20 cut-outs, ten readers). The bench casts were built from the same cast library
+with the variants switched on (`TPDB_PAN`, `TPDB_BEG`, `TPDB_HEAD`); the release cast builds with the chosen ones. Four
+frying pans were read twice each: held out by a long handle face-on (B) or tipped to pour (C), they were offered as "the
+sprinkler head of a watering can with a very long spout" or "a hose watering wand"; the v0.19 face-on pan on a shorter
+handle (E) as "the sprinkler head (rose) of a watering can ... or even a frying pan"; seen from above at a slant, deeper,
+on a thicker handle about as long as the pan is wide (D), it led both readings as "a frying pan or saucepan". D is the v0.23
+pan. The begging dog sitting up with its paws raised read as begging in all four of its cut-outs, though two readers saw
+its lower body "stretched long and flat"; the tail laid behind it is now curled round the haunch. The older man with the
+grey kept to the back of his head and a fuller nose was read walking the right way twice; with the grey alone narrowed,
+once. The barrow's strut with a small foot was still "a bit like a boot" once; with no foot, "a short gray support leg".
 
 ## Design tests
 
-After the bench, the new wheel and the rules of revision 20 were read blind in whole test scenes among other events (`vision/design_tests_v022.md`, two rounds, eight pictures): a tier-4 street with the square-wheeled bicycle, a jumper and the dropped ice cream; a tier-4 park with the reading walker, a sleeping cat placed after her, the barrow's new wheel and a runner; a garden with the sprinkler and a kick; a garden with the frying pan over a flower bed on the ground and a jumper; a park with the ladder against the hedge; and a tier-4 playground with the reading walker, the bicycle and a sleeping dog. Every rule read as meant but one. The bucket lay "right in her path, so she looks about to trip", the cat "curled up asleep", not linked to her; the barrow's "wheel is drawn as a square, which would be impossible to roll"; the sprinkler's hose came "in from off the left edge"; the pan "looks more like a frying pan or saucepan than a watering can"; the ladder "leans slightly with nothing to lean against". But the two jumpers at the back of the street and the playground, clear of the stall and the fence, were still hedged between jumping and standing with arms raised, while the one at the front of the garden was "jumping in the air". A jumper's lift is drawn to scale, so revision 20 also keeps a jumper in the front half of the ground; rebuilt there, both read as "clearly jumping".
+After the bench, the new drawings and the rules of revision 21 were read blind in whole test scenes among other events (`vision/design_tests_v023.md`, two rounds, eight pictures): a garden with the new frying pan beside a dig and a dog walker; a tier-4 park with the older man and his bag, the reading walker, the begging dog, a sleeping cat and the duck feeding; a tier-4 street with the begging dog, the reading walker, a runner, a pram and the square-wheeled bicycle; a playground with a runner and a pram; a park with an angler and a duck; and a garden with the barrow on its strut beside the blocked hose. The pan read as "a frying pan or saucepan rather than a watering can, which seems odd"; the dog "sits up on its hind legs ... begging for the ice cream" in both its pictures; both reading walkers looked "about to trip over" their boxes; and the older man was seen facing the way he walked. Two pictures told stories they were not meant to: a runner whose lane ended just short of a cat stalking a bird behind her line seemed to run "toward the cat and bird, perhaps to stop the cat", and a duck facing the angler's float "may be about to swim over to it". Revision 21 therefore also deepens a runner's lane behind her line and turns every duck away from a float; rebuilt, the runner was no longer tied to the cat and the duck to the float. In the rebuilt playground the runner passed "almost touching" a man with a pram, so a runner also keeps clear of any mover beside her; that last rule was not read again before the set was built.
 
-## Placement revision 20
+## Placement revision 21
 
-Every record stores the placement revision it was made with. v0.22 pictures use revision 20, which adds the rules above
-to those of revisions 1 to 19: no frying pan in the street; a jumper clear of standing structures behind and in the front
-half of the ground; a leaning ladder's top above the lawn's far edge and clear of other uprights; nobody's feet over a thing
-of another event on the ground; nothing further along a reading walker's way past her obstacle; no flower bed or rock on a
-runner's line to the picture's edge; the kick's line clear of people further back; and no sprinkler hose off the picture's
-bottom edge. The barrow draws the square wheel the bench chose.
+Every record stores the placement revision it was made with. v0.23 pictures use revision 21, which adds the rules above
+to those of revisions 1 to 20: the reading walker's obstacle a full step ahead of her leading toe; no runner and other
+mover heading straight at each other on one line, and a runner clear of any mover beside her; a runner's lane deeper
+behind her line (220 px, was 150); and no duck at an angler's float or line, nor facing a float. The cast is builder
+0.23.0 (the pan, the begging dog and the older man's head); the barrow's leg is drawn by the scene composer.
 
-Building and inspecting the set and the probes found one more thing, fixed before the screen. In a garden probe a begging dog stood 40 px in front of a sprinkler's hose, and the hose was drawn running under its body, as if the dog stood on it; the sprinkler's hose now keeps clear of the legs of anyone just in front of it, not only of their feet. The two other pictures with a sprinkler, one of them in the set, rebuild exactly under the new rule; the probe could not be placed again in a garden in eight seeds, and was rebuilt in the park with the same three templates. The tier-4 street was the hardest cell to place under revision 20: it came on the 11th seed of a second search, after the showcase seed and 32 other seeds of up to 40 casts each had failed.
+Building and inspecting the set and the probes found nothing more to fix. The tier-4 garden, park and playground placed again on their v0.22 seeds with the same events, the older man's new profile in two of them, and the tier-4 street came from the showcase pass (attempt 21 of its seed), where in v0.22 it had needed 33 failed seeds. The tier-3 park and playground made no isomorph under revision 21 in 41 tries over ten seeds, so the set's isomorphs are three at tier 2, one at tier 3 and one at tier 4.
 
-The planner's difficulty priors are the calibration measured on the v0.22 templates (`calibration.json`), with f = 0 and
-a = 4.47 for every inference and contradiction, as in v0.20 and v0.21. The sprinkler's cue salience moved by +0.27 (its hose now off a side edge), the ladder's by -0.15 (its top against the hedge; measured in 3 scenes) and the frying pan's by +0.11 (measured in 9 scenes, none in the street); every other template's by at most 0.01.
+The planner's difficulty priors are the calibration measured on the v0.23 templates (`calibration.json`), with f = 0 and
+a = 4.47 for every inference and contradiction, as in v0.20 to v0.22. The begging dog's cue salience moved by -0.06 with its new pose; every other template's by at most 0.012.
 
-## The nineteenth blind screen
+## The twentieth blind screen
 
-Nine fresh readers, who had never seen the key, described every picture of the new set and 44 probe pictures; three separate scorers, each given part of the pictures and the same prompt, marked each scored item against the key, exactly as in the earlier screens. The headline figures cover the set; the probe pictures count only toward the templates they carry. Every template appeared in at least three screened pictures, as in v0.10 to v0.21.
+Nine fresh readers, who had never seen the key, described every picture of the new set and 44 probe pictures; three separate scorers, each given part of the pictures and the same prompt, marked each scored item against the key, exactly as in the earlier screens. The headline figures cover the set; the probe pictures count only toward the templates they carry. Every template appeared in at least three screened pictures, as in v0.10 to v0.22.
 
-| | v0.4 (15 pictures) | v0.5 (21 pictures) | v0.6 (20 pictures) | v0.7 (21 pictures) | v0.8 (20 pictures) | v0.9 (21 pictures) | v0.10 (21 pictures) | v0.11 (21 pictures) | v0.12 (21 pictures) | v0.13 (21 pictures) | v0.14 (21 pictures) | v0.15 (21 pictures) | v0.16 (21 pictures) | v0.17 (21 pictures) | v0.18 (21 pictures) | v0.19 (21 pictures) | v0.20 (21 pictures) | v0.21 (21 pictures) | v0.22 (21 pictures) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Things, mean score | 0.98 | 0.98 | 1.00 | 1.00 | 0.99 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 |
-| Actions, mean score | 0.87 | 0.92 | 0.95 | 0.93 | 0.97 | 0.95 | 0.98 | 0.98 | 0.99 | 0.99 | 1.00 | 0.98 | 1.00 | 1.00 | 0.98 | 0.99 | 1.00 | 1.00 | 1.00 |
-| Inferences, mean score | 0.86 | 0.72 | 0.86 | 0.85 | 0.83 | 0.91 | 0.92 | 0.95 | 0.96 | 0.94 | 0.96 | 0.95 | 0.99 | 1.00 | 0.95 | 0.96 | 0.98 | 1.00 | 0.97 |
-| Contradictions, mean score | 1.00 | 0.75 | 0.91 | 0.82 | 1.00 | 0.95 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.84 | 1.00 |
-| All items, mean score | 0.93 | 0.91 | 0.95 | 0.94 | 0.97 | 0.96 | 0.98 | 0.99 | 0.99 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 1.00 |
-| Items misread | 5 of 206 | 8 of 284 | 5 of 279 | 4 of 283 | 1 of 266 | 1 of 284 | 0 of 285 | 1 of 285 | 0 of 284 | 0 of 287 | 0 of 283 | 0 of 283 | 0 of 282 | 0 of 285 | 0 of 280 | 0 of 283 | 0 of 286 | 1 of 285 | 0 of 287 |
-| Unintended oddities per picture | 6.6 | 1.8 | 2.8 | 2.5 | 1.5 | 2.3 | 1.5 | 1.0 | 1.5 | 2.1 | 1.3 | 1.4 | 1.1 | 1.3 | 1.9 | 1.3 | 1.2 | 1.1 | 1.2 |
+| | v0.4 (15 pictures) | v0.5 (21 pictures) | v0.6 (20 pictures) | v0.7 (21 pictures) | v0.8 (20 pictures) | v0.9 (21 pictures) | v0.10 (21 pictures) | v0.11 (21 pictures) | v0.12 (21 pictures) | v0.13 (21 pictures) | v0.14 (21 pictures) | v0.15 (21 pictures) | v0.16 (21 pictures) | v0.17 (21 pictures) | v0.18 (21 pictures) | v0.19 (21 pictures) | v0.20 (21 pictures) | v0.21 (21 pictures) | v0.22 (21 pictures) | v0.23 (21 pictures) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Things, mean score | 0.98 | 0.98 | 1.00 | 1.00 | 0.99 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 |
+| Actions, mean score | 0.87 | 0.92 | 0.95 | 0.93 | 0.97 | 0.95 | 0.98 | 0.98 | 0.99 | 0.99 | 1.00 | 0.98 | 1.00 | 1.00 | 0.98 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 |
+| Inferences, mean score | 0.86 | 0.72 | 0.86 | 0.85 | 0.83 | 0.91 | 0.92 | 0.95 | 0.96 | 0.94 | 0.96 | 0.95 | 0.99 | 1.00 | 0.95 | 0.96 | 0.98 | 1.00 | 0.97 | 1.00 |
+| Contradictions, mean score | 1.00 | 0.75 | 0.91 | 0.82 | 1.00 | 0.95 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.84 | 1.00 | 1.00 |
+| All items, mean score | 0.93 | 0.91 | 0.95 | 0.94 | 0.97 | 0.96 | 0.98 | 0.99 | 0.99 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 1.00 | 1.00 |
+| Items misread | 5 of 206 | 8 of 284 | 5 of 279 | 4 of 283 | 1 of 266 | 1 of 284 | 0 of 285 | 1 of 285 | 0 of 284 | 0 of 287 | 0 of 283 | 0 of 283 | 0 of 282 | 0 of 285 | 0 of 280 | 0 of 283 | 0 of 286 | 1 of 285 | 0 of 287 | 0 of 283 |
+| Unintended oddities per picture | 6.6 | 1.8 | 2.8 | 2.5 | 1.5 | 2.3 | 1.5 | 1.0 | 1.5 | 2.1 | 1.3 | 1.4 | 1.1 | 1.3 | 1.9 | 1.3 | 1.2 | 1.1 | 1.2 | 1.0 |
 
-Across all 65 pictures 4 of 755 scored items fell short of full marks (6 of 744 in v0.21): two half points in the set, and one misread in the probes, on both of its contradiction items. The two half points are both in the tier-4 street, from the same reader, each an inference offered as one of two readings: a dog with a paw raised in front of a man eating ice cream on a bench, "perhaps hoping for some ... or just walking by", and a reading walker whose box lay "to the side of / slightly ahead of" her, who "might trip over it, or ... might simply walk past it". In the probes, the frying pan held close in front of a flower bed was "a grey, round watering can ... a watering can, a bucket or even a stone" ("I saw nothing that looks impossible"). Two scorers gave no half point at all and listed eight and nine hedged items they credited in full. Unintended oddities were 25 in the set (24 in v0.21) and rose in the probes from 34 to 54, most of them small remarks on drawing. What the readers noticed: the older man's grey ring of hair, seen in profile, as a beard or a face mask, so that the way he faced was unclear (four probes) and, in the tier-4 park, he seemed to walk toward the sleeping cat behind him ("he might trip over it or step on it"); a runner and a woman with a pram heading toward each other in the tier-2 playground; a duck close to an angler's float that "might go for the bait" (two probes); a wheelbarrow's stand "like a boot" (two probes); hoses' bulges and bends; and the older ones (goats, wind under a clear sky, a stall with nobody at it).
+Across all 65 pictures every scored item had full marks (751 of 755 in v0.22), and none was misread. The three scorers credited between six and twelve items each in full whose description also offered a second reading or left out part of the key's wording ("calling out", "upset", "can't roll"), and listed them; a stricter scorer would have given some of them half points. Unintended oddities fell from 25 to 21 in the set and from 54 to 42 in the probes. What the readers noticed: in the tier-4 park a sleeping cat on the path about 50 px behind a walking man's back foot, "right by his feet, so he could trip over it or step on it"; a small girl on playground equipment "slightly in front of" the slide chute or the seesaw plank (six probes); water from the blocked hose about to spray "into the woman's face"; figures at the back drawn large; and the older ones (goats, wind lines with nothing blowing, a hole in the middle of the lawn, the teenager read as a woman).
 
-The three templates that fell short of the gate in v0.21, the square wheel and the templates whose placement revision 20 changed (mean of each template's scored items; inference and contradiction items alone in the last column):
+The v0.22 failure and half points, and the templates whose drawing or placement v0.23 changed (mean of each template's scored items; inference and contradiction items alone in the last column):
 
-| Template | v0.21 | v0.22 | v0.22 meaning items |
+| Template | v0.22 | v0.23 | v0.23 meaning items |
 |---|---|---|---|
-| `pan_watering` | 0.78 (9 items) | 0.78 (9 items) | 0.67 (6) |
-| `jump` | 0.83 (3 items) | 1.00 (3 items) | — |
-| `ladder_nothing` | 0.89 (9 items) | 1.00 (9 items) | 1.00 (6) |
-| `square_wheel` | 0.97 (15 items) | 1.00 (9 items) | 1.00 (6) |
-| `about_to_trip` | 1.00 (12 items) | 0.96 (12 items) | 0.88 (4) |
+| `pan_watering` | 0.78 (9 items) | 1.00 (9 items) | 1.00 (6) |
+| `dog_begs` | 0.94 (9 items) | 1.00 (9 items) | 1.00 (3) |
+| `about_to_trip` | 0.96 (12 items) | 1.00 (9 items) | 1.00 (3) |
+| `carry_bag` | 1.00 (3 items) | 1.00 (3 items) | — |
 | `run` | 1.00 (3 items) | 1.00 (3 items) | — |
-| `kick_ball` | 1.00 (3 items) | 1.00 (3 items) | — |
-| `sprinkler_package` | 1.00 (9 items) | 1.00 (9 items) | 1.00 (3) |
+| `fishing` | 1.00 (3 items) | 1.00 (3 items) | — |
+| `ducks_swimming` | 1.00 (3 items) | 1.00 (3 items) | — |
+| `ducks_bread` | 1.00 (9 items) | 1.00 (9 items) | 1.00 (3) |
 
-The three v0.21 failures and the square wheel all read in full except the frying pan: the jumper at 1.00 over three pictures (0.833 in v0.21), the ladder leaning on nothing at 1.00 over nine items (0.889), and the square wheel at 1.00 over nine (0.967), in its new drawing in one probe and on the bicycle in two set pictures. The frying pan stayed at 0.778: out of the street, it was misread once in a garden instead. Of the templates whose placement revision 20 changed, the runner, the kick and the sprinkler read in full; the reading walker took one half point in the tier-4 street, where her box lay a little to the side of her line (0.958 over 12 items).
+Every template in the table read in full. The frying pan rose from 0.78 to 1.00 over nine items, its contradiction items read in all three pictures ("a frying pan is a strange thing to water with"); the begging dog from 0.94 to 1.00; and the reading walker from 0.96 to 1.00. The older man carrying a bag was read as an older man in a cap walking the way he faced; one reader gave him "grey hair and beard" for his moustache, none a mask. The runner, the angler and the ducks, whose placement revision 21 changed, read in full with no extra story about them.
 
 ### The legibility gate
 
-| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 | v0.20 | v0.21 | v0.22 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Pass (mean at least 0.9, at least two pictures, no misread) | 54 | 59 | 59 | 59 | 63 | 61 | 63 | 61 | 63 | 63 | 60 | 60 | 64 | 61 | 63 |
-| Read well, but in fewer than two pictures | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Fail | 10 | 5 | 5 | 5 | 1 | 3 | 1 | 3 | 1 | 1 | 4 | 4 | 0 | 3 | 1 |
+| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 | v0.20 | v0.21 | v0.22 | v0.23 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Pass (mean at least 0.9, at least two pictures, no misread) | 54 | 59 | 59 | 59 | 63 | 61 | 63 | 61 | 63 | 63 | 60 | 60 | 64 | 61 | 63 | 64 |
+| Read well, but in fewer than two pictures | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Fail | 10 | 5 | 5 | 5 | 1 | 3 | 1 | 3 | 1 | 1 | 4 | 4 | 0 | 3 | 1 | 0 |
 
-Every template was screened in at least three pictures (54 in three, 6 in four, 1 in five, 3 in six), and 63 of 64 pass. The one that falls short is the frying pan, for the second screen running, both times with its handle hard to see: held up face-on at a raised planter in the v0.21 street, and held close in front of the flowers in a v0.22 garden probe. The street rule removed one cause; the drawing itself goes to the bench in v0.23. About five templates of the gate's movement between screens is reader variance (the v0.9 retest).
-
-Templates that did not pass (`vision/flaws_v022.md` gives what the readers saw and the next fix):
-
-| Template | v0.22 mean | Pictures | Misreads |
-|---|---|---|---|
-| `pan_watering` | 0.78 (9 items) | 3 | 2 |
+Every template was screened in at least three pictures (56 in three, 4 in four, 3 in five, 1 in six), and all 64 pass, as in v0.20. With every item at full marks, the gate no longer separates the templates: the v0.9 retest put its reader variance at about five templates between screens, and the pilot with people is the test of difficulty that can.
 
 ## The generated set
 
@@ -123,28 +116,28 @@ Templates that did not pass (`vision/flaws_v022.md` gives what the readers saw a
 | Scene | Content items | Inference units (contradictions) | Scene load | Content completeness | Inference completeness | Drawn objects | Edge density | Templates |
 |---|---|---|---|---|---|---|---|---|
 | T1_garden_s011 | 6 | 0 (0) | 3 | 0.778 | — | 14 | 0.038 | cat sleeping, drink bench, rake |
-| T1_park_s021 | 4 | 0 (0) | 3 | 0.773 | — | 18 | 0.027 | goat grazing, plant flowers, feed birds |
-| T1_street_s031 | 4 | 0 (0) | 2 | 0.781 | — | 12 | 0.043 | read bench, water flowers |
+| T1_park_s021 | 5 | 0 (0) | 3 | 0.767 | — | 18 | 0.027 | goat grazing, feed birds, jump |
+| T1_street_s031 | 4 | 0 (0) | 2 | 0.779 | — | 15 | 0.047 | photo, read bench |
 | T1_playground_s041 | 4 | 0 (0) | 2 | 0.771 | — | 14 | 0.032 | sandbox, kick ball |
 | T2_garden_s012 | 8 | 1 (0) | 4 | 0.711 | 0.393 | 18 | 0.039 | dog wants walk, dog playing, sweep, play catch |
-| T2_park_s4022 | 8 | 1 (0) | 3 | 0.710 | 0.420 | 20 | 0.024 | kite in tree, photo, walk dog |
-| T2_park_s9118_iso (isomorph of T2_street_s032) | 8 | 1 (0) | 3 | 0.707 | 0.386 | 19 | 0.024 | ball in tree, picnic, dog sleeping |
-| T2_street_s032 | 8 | 1 (0) | 3 | 0.710 | 0.376 | 16 | 0.048 | lost balloon, carry box, carry bag |
-| T2_street_s9109_iso (isomorph of T2_park_s4022) | 8 | 1 (0) | 3 | 0.707 | 0.418 | 16 | 0.046 | lost balloon, feed birds, run |
-| T2_playground_s2042 | 8 | 1 (0) | 4 | 0.686 | 0.373 | 16 | 0.030 | cat stalks bird, push stroller, run, seesaw |
-| T3_garden_s3013 | 12 | 3 (1) | 6 | 0.640 | 0.308 | 21 | 0.041 | blocked hose, about to trip, sitting on air, bird perched, paint fence, dog sleeping |
-| T3_garden_s7102_iso (isomorph of T3_street_s133) | 12 | 3 (1) | 5 | 0.650 | 0.306 | 20 | 0.041 | cat stalks bird, lost balloon, floating box, drink bench, rake |
-| T3_park_s11023 | 12 | 2 (0) | 5 | 0.641 | 0.354 | 21 | 0.031 | sprinkler package, ice cream drop, balloon, birds flying, fly kite |
-| T3_street_s133 | 12 | 3 (1) | 5 | 0.650 | 0.316 | 20 | 0.052 | dog begs, ball in tree, square wheel, ice cream, wave |
-| T3_street_s7104_iso (isomorph of T3_park_s11023) | 12 | 2 (0) | 5 | 0.639 | 0.367 | 20 | 0.050 | about to trip, ice cream drop, push stroller, feed birds, balloon |
-| T3_playground_s5043 | 12 | 3 (0) | 6 | 0.651 | 0.298 | 20 | 0.036 | cat stalks bird, bird steals, rain coming, sandbox, carry box, cat sleeping |
+| T2_garden_s16118_iso (isomorph of T2_playground_s042) | 9 | 1 (0) | 4 | 0.712 | 0.393 | 18 | 0.042 | sprinkler package, carry box, plant flowers, play catch |
+| T2_park_s3022 | 8 | 1 (0) | 4 | 0.710 | 0.364 | 22 | 0.029 | lost balloon, dog sleeping, water flowers, run |
+| T2_park_s7109_iso (isomorph of T2_street_s1032) | 8 | 1 (0) | 4 | 0.716 | 0.380 | 19 | 0.032 | sprinkler package, carry box, drink bench, walk dog |
+| T2_street_s1032 | 8 | 1 (0) | 4 | 0.713 | 0.368 | 18 | 0.048 | lost balloon, push stroller, balloon, wave |
+| T2_street_s7109_iso (isomorph of T2_park_s3022) | 8 | 1 (0) | 4 | 0.711 | 0.356 | 20 | 0.052 | ball in tree, water flowers, wave, ice cream |
+| T2_playground_s042 | 9 | 1 (0) | 4 | 0.711 | 0.397 | 17 | 0.031 | kite in tree, dog playing, wave, play catch |
+| T3_garden_s4013 | 12 | 3 (0) | 5 | 0.641 | 0.305 | 23 | 0.037 | cat stalks bird, paint tracks, kite in tree, birds flying, plant flowers |
+| T3_garden_s17102_iso (isomorph of T3_street_s3133) | 12 | 2 (1) | 5 | 0.662 | 0.325 | 20 | 0.041 | kite in tree, bucket hat, kick ball, bird perched, paint fence |
+| T3_park_s3023 | 12 | 3 (0) | 6 | 0.638 | 0.282 | 24 | 0.032 | ducks bread, ice cream drop, ball in tree, carry box, walk dog, carry bag |
+| T3_street_s3133 | 12 | 2 (1) | 5 | 0.656 | 0.332 | 20 | 0.053 | about to trip, sweep fork, bird perched, ice cream, carry box |
+| T3_playground_s2043 | 12 | 2 (1) | 6 | 0.670 | 0.307 | 22 | 0.041 | dog begs, sitting on air, fly kite, sandbox, photo, walk dog |
 | T4_garden_s327962 | 18 | 5 (2) | 8 | 0.569 | 0.236 | 29 | 0.044 | paint tracks, lost balloon, cat stalks bird, dog reading, fish in tree, read bench, birds flying, cat sleeping |
 | T4_park_s242971 | 18 | 5 (1) | 8 | 0.584 | 0.238 | 29 | 0.035 | ball in tree, lost balloon, bird steals, ducks bread, dog reading, ice cream, carry bag, cat sleeping |
-| T4_park_s15111_iso (isomorph of T4_playground_s391818) | 18 | 5 (2) | 9 | 0.570 | 0.210 | 28 | 0.036 | about to trip, bird steals, ball in tree, dog reading, water upward, bird perched, balloon, jump, walk dog |
-| T4_street_s87941 | 18 | 5 (2) | 9 | 0.592 | 0.240 | 27 | 0.060 | ball in tree, about to trip, dog begs, sitting on air, square wheel, ice cream, feed birds, water flowers, carry bag |
+| T4_park_s11111_iso (isomorph of T4_street_s21034) | 18 | 5 (2) | 8 | 0.588 | 0.213 | 33 | 0.039 | windy hat, ice cream drop, bird steals, dog reading, pan watering, bird perched, carry box, picnic |
+| T4_street_s21034 | 18 | 5 (2) | 8 | 0.576 | 0.215 | 27 | 0.056 | windy hat, ice cream drop, bird steals, dog reading, bucket hat, carry bag, jump, birds flying |
 | T4_playground_s391818 | 18 | 5 (2) | 9 | 0.559 | 0.227 | 27 | 0.043 | ball in tree, bird steals, lost balloon, dog reading, sitting on air, jump, dog sleeping, birds flying, ice cream |
 
-Isomorph pairs differ by at most 0.011 in content and 0.017 in inference completeness, with identical item signatures.
+Isomorph pairs differ by at most 0.012 in content and 0.012 in inference completeness, with identical item signatures.
 
 ## How many pictures the generator can make
 
@@ -152,20 +145,20 @@ Isomorph pairs differ by at most 0.011 in content and 0.017 in inference complet
 |---|---|---|---|---|---|
 | garden | 1 | 2,447 | 9 | 1,905 | 10^10.0 |
 | garden | 2 | 26,666 | 27 | 11,977 | 10^12.7 |
-| garden | 3 | 2,497,856 | 296 | 338,691 | 10^18.2 |
+| garden | 3 | 2,497,856 | 296 | 338,691 | 10^18.4 |
 | garden | 4 | 78,307,591 | 565 | 6,485,763 | 10^23.4 |
 | park | 1 | 4,402 | 9 | 3,594 | 10^9.3 |
 | park | 2 | 46,656 | 24 | 20,579 | 10^11.6 |
 | park | 3 | 5,825,387 | 236 | 1,027,898 | 10^17.1 |
-| park | 4 | 335,129,874 | 376 | 44,950,328 | 10^23.1 |
+| park | 4 | 335,129,874 | 376 | 44,950,328 | 10^23.0 |
 | street | 1 | 952 | 9 | 682 | 10^9.5 |
 | street | 2 | 7,433 | 24 | 2,952 | 10^11.8 |
 | street | 3 | 440,799 | 220 | 70,459 | 10^17.2 |
-| street | 4 | 7,157,106 | 330 | 947,071 | 10^22.4 |
+| street | 4 | 7,157,106 | 330 | 947,071 | 10^22.3 |
 | playground | 1 | 1,700 | 11 | 1,150 | 10^9.6 |
 | playground | 2 | 13,970 | 24 | 5,733 | 10^12.5 |
 | playground | 3 | 749,671 | 183 | 113,624 | 10^17.9 |
-| playground | 4 | 10,690,061 | 232 | 1,352,842 | 10^21.8 |
+| playground | 4 | 10,690,061 | 232 | 1,352,842 | 10^21.9 |
 
 In all 440,902,571 structures over four settings. Structures are template sets that fit a tier's plan and can reach its content band, counted before placement.
 
@@ -185,56 +178,57 @@ from frequency when choosing the pilot's pictures). Before the pilot, check the 
 |---|---|
 | `assets/render_assets.py` | Renderer 0.4.0 (per-pose `hide` lists for swapped body parts) |
 | `assets/validate_assets.py` | Checks for every rendered variant |
-| `assets/cast/castlib/` | Cast library: `core.py`, `face.py`, `people.py`, `actions.py` (77 actions), `animals.py`, `specs.py`; unchanged since v0.20 |
+| `assets/cast/castlib/` | Cast library: `core.py`, `face.py`, `people.py`, `actions.py` (77 actions), `animals.py`, `specs.py`; v0.23 redraws the frying pan, the begging dog and the older man's head, and keeps the bench variants behind `TPDB_PAN`, `TPDB_BEG` and `TPDB_HEAD` |
 | `assets/cast/gapcheck.py` | Finds body parts that come apart in any pose |
 | `assets/cast/render_set.py` | Renders a list of variants |
-| `assets/cast/out022/` | The 18 `.blend` families (builder 0.20.0, unchanged), their render configs and `cast_catalog.json` |
-| `assets/cast/lib022/` | Every variant the generated scenes and probes use, carried over from `lib021` or rendered from `out022` where first needed |
-| `assets/cast/gallery022/` | Gallery renders: every action the templates use, every animal pose, lineups, expressions (170, all pass the validator) |
-| `scenegen/` | The generator (0.22.0, placement revision 20); `draw.py` holds the square wheel's three bench drawings (`SQUARE_STYLE20`); `difficulty.py` (the item model, `zipf`, `aoa`); `norms/aoa_kuperman2012.tsv` (the AoA excerpt); `reach.py` lists the poses the templates can ask for |
-| `scenes/` | The v0.22 set: SVG, colour PNG, grayscale PNG, thumbnail and JSON record per picture |
+| `assets/cast/out023/` | The 18 `.blend` families (builder 0.23.0), their render configs and `cast_catalog.json` |
+| `assets/cast/lib023/` | Every variant the generated scenes and probes use, carried over from `lib022` where the cast did not change or rendered from `out023` |
+| `assets/cast/gallery023/` | Gallery renders: every action the templates use, every animal pose, lineups, expressions (170, all pass the validator) |
+| `scenegen/` | The generator (0.23.0, placement revision 21); `draw.py` holds the square wheel's three bench drawings (`SQUARE_STYLE20`) and the barrow's two bench legs (`LEG23`); `difficulty.py` (the item model, `zipf`, `aoa`); `norms/aoa_kuperman2012.tsv` (the AoA excerpt); `reach.py` lists the poses the templates can ask for |
+| `scenes/` | The v0.23 set: SVG, colour PNG, grayscale PNG, thumbnail and JSON record per picture |
 | `probes/` | Probe pictures that put every template in front of the readers at least three times; screened, not part of the set |
 | `site/` | The showcase page |
-| `vision/` | The isolation bench (`isolation_bench.py`, `isolation_v012.md` to `isolation_v022.md` and their rounds; none in v0.21), flaw lists (`flaws_v04.md` to `flaws_v022.md`), the test-retest (`retest_v09.md`, `v09_retest/`), the design tests (`fork_tests_v08.md`, `design_tests_v09.md` to `design_tests_v022.md`), screen tools and prompts (`screen_prompts.md`), the keys, descriptions and scores of all nineteen screens, `screen_summary.json`, `gate.json` |
+| `vision/` | The isolation bench (`isolation_bench.py`, `isolation_v012.md` to `isolation_v023.md` and their rounds; none in v0.21), flaw lists (`flaws_v04.md` to `flaws_v023.md`), the test-retest (`retest_v09.md`, `v09_retest/`), the design tests (`fork_tests_v08.md`, `design_tests_v09.md` to `design_tests_v023.md`), screen tools and prompts (`screen_prompts.md`), the keys, descriptions and scores of all twenty screens, `screen_summary.json`, `gate.json` |
 | `combos.json`, `calibration.json` | Combination counts; measured inference difficulty per template (also the planner's priors) |
 | `garden/` | The v0.3 Garden prototype, kept for comparison |
+| `RUNBOOK.md`, `tools/cycle/` | How each release is made, step by step, and the scripts that build, search, verify, prune and screen a release (new in v0.23, so that a fresh session can make the next one) |
 
 ## How to run
 
 ```bash
 pip install bpy==5.2.3 cairosvg pillow numpy scipy wordfreq==3.1.1 jsonschema --break-system-packages
 
-cd assets/cast && python build_cast.py out022 && cd ../..           # build the cast (about a minute)
-cd assets/cast && python gapcheck.py out022 person.kai && cd ../..  # check one character's poses for parts that come apart
+cd assets/cast && python build_cast.py out023 && cd ../..           # build the cast (about a minute)
+cd assets/cast && python gapcheck.py out023 person.kai && cd ../..  # check one character's poses for parts that come apart
 python -m scenegen.generate --tier 3 --setting playground --seed 7 --out scenes
-python -m scenegen.generate --from-record scenes/T3_park_s11023.json --out /tmp/check   # exact rebuild
+python -m scenegen.generate --from-record scenes/T3_park_s3023.json --out /tmp/check   # exact rebuild
 python -m scenegen.reach --out reach.json                          # the poses the templates can ask for
 
 python -m scenegen.batch showcase --out scenes
 python -m scenegen.calibrate --out calibration.json
 python -m scenegen.difficulty --check-aoa <the original Kuperman et al. file>   # compare the bundled AoA rows
 python -m scenegen.combos --out combos.json
-python vision/isolation_bench.py /tmp/bench sqA_g sqB_g sqC_g ladder_a   # one template alone, cropped
-python vision/prepare_screen.py scenes,probes vision/v022   # then describe and score: vision/screen_prompts.md
+BENCH_CAST=<a cast built with TPDB_PAN=D> python vision/isolation_bench.py /tmp/bench panD_1 begA_1 strut_1   # one template alone, cropped
+python vision/prepare_screen.py scenes,probes vision/v023   # then describe and score: vision/screen_prompts.md
 python vision/summarize_screen.py vision/v04:<v0.4 scenes> vision/v05:<v0.5 scenes> vision/v06:<v0.6 scenes,probes> \
     vision/v07:<v0.7 scenes,probes> vision/v08:<v0.8 scenes,probes> vision/v09:<v0.9 scenes,probes> \
     vision/v010:<v0.10 scenes,probes> vision/v011:<v0.11 scenes,probes> vision/v012:<v0.12 scenes,probes> \
     vision/v013:<v0.13 scenes,probes> vision/v014:<v0.14 scenes,probes> vision/v015:<v0.15 scenes,probes> \
     vision/v016:<v0.16 scenes,probes> vision/v017:<v0.17 scenes,probes> vision/v018:<v0.18 scenes,probes> \
     vision/v019:<v0.19 scenes,probes> vision/v020:<v0.20 scenes,probes> vision/v021:<v0.21 scenes,probes> \
-    vision/v022:scenes,probes
-python vision/gate.py vision/v022 scenes,probes
-python -m scenegen.site --scenes scenes --gallery assets/cast/gallery022 --old-gallery <v0.21 renders of the same variants> \
+    vision/v022:<v0.22 scenes,probes> vision/v023:scenes,probes
+python vision/gate.py vision/v023 scenes,probes
+python -m scenegen.site --scenes scenes --gallery assets/cast/gallery023 --old-gallery <v0.22 renders of the same variants> \
     --combos combos.json --screen vision/screen_summary.json --out site
-python3 package_release.py 0.22 --single   # the release as one zip, tpdb_v0.22.zip
+python3 package_release.py 0.23 --single   # the release as one zip, tpdb_v0.23.zip
 ```
 
-The release is one zip, `tpdb_v0.22.zip`, about 151 MB. Google Drive does not virus-scan a file over 100 MB, so it asks
+The release is one zip, `tpdb_v0.23.zip`, about 157 MB. Google Drive does not virus-scan a file over 100 MB, so it asks
 to confirm the download ("can't scan this file for viruses"); the file downloads as normal after that.
 `package_release.py` checks, file by file, that the zip holds every file of the release. Without `--single` it writes the
 same release as zip parts under 50 MB each, with the README and the set's pictures beside them, for browsing in Drive.
 
-Exact rebuilds hold within a release: a v0.21 record rebuilds with the v0.21 package.
+Exact rebuilds hold within a release: a v0.22 record rebuilds with the v0.22 package.
 
 ## Known limits
 
@@ -242,28 +236,24 @@ Exact rebuilds hold within a release: a v0.21 record rebuilds with the v0.21 pac
   until the pilot fit.
 - The blind screen used AI readers. It is a filter for illegible drawing; the pilot with people
   remains the test of difficulty.
-- One template falls under the legibility gate after the v0.22 screen: the frying pan, for the second screen running.
-  Out of the street it read as a frying pan in two of its three garden probes and was misread once more as "a grey,
-  round watering can", held close in front of the flowers with its handle hidden. 63 of 64 pass. `vision/flaws_v022.md`
-  gives what the readers saw and the list for v0.23.
+- No template falls under the legibility gate after the v0.23 screen, and no item of the 65 pictures fell short of full
+  marks: 64 of 64 pass, as in v0.20. The screen is at its ceiling and no longer separates the templates. `vision/flaws_v023.md`
+  lists the oddities the readers reported for v0.24.
 - The retest of the v0.9 pictures (`vision/retest_v09.md`) put the gate's reader variance at about five
   templates between screens. A template with one to three items per picture fails on a single picture
   where something next to it pulls the reading away: the gate is a filter, not a measurement.
-- Scores are at the ceiling: across 65 pictures only 4 of 755 scored items fell short of full marks (two half points,
-  and the frying pan's two contradiction items misread in one probe). AI readers describe exhaustively, so the screen cannot rank templates by difficulty;
+- Scores are at the ceiling: across 65 pictures all 729 scored items had full marks (4 of 755 fell short in v0.22). AI readers describe exhaustively, so the screen cannot rank templates by difficulty;
   that is the pilot's job.
 - Scorers differ on hedges: some give full marks when the description commits to the key's reading and
   only the "unsure" section offers another, some give a half point. The prompt allows both; two v0.17 scorers
   counted 6 and 13 such items they credited in full, a v0.18 scorer listed seven judgment calls, a v0.19 scorer six,
-  a v0.20 scorer seven, a v0.21 scorer nine and v0.22 scorers two, eight and nine, enough to move a template across the gate.
+  a v0.20 scorer seven, a v0.21 scorer nine, v0.22 scorers two, eight and nine, and v0.23 scorers six to twelve, enough to move a template across the gate.
 - Tier-4 pictures are the hardest to place, and revisions 14 to 20 make them harder (walkers' and runners'
   lanes, pointing lines, feet off benches and off other events' things, the photographer's line of sight, the waver's
   clear hand, body gaps, the gap from thin parts, heads clear of figures up to 80 px apart in depth, the ground clear
-  past a reading walker's obstacle, jumpers in the front half). All four tier-4 pictures came from wide seed searches
-  with no template-variety steering, as in v0.15 to v0.21: the garden and the playground on the 5th and the 21st
-  seed of new searches, the park on the v0.21 seed (which with the v0.22 priors draws other events), and the street,
-  the hardest, on the 11th seed of a second search, after the showcase seed and 32 others of up to 40 casts each failed
-  (a third search ran beside it).
+  past a reading walker's obstacle, jumpers in the front half, an obstacle a full step ahead, runners clear of other movers, ducks off a float). The
+  tier-4 garden, park and playground came again on their v0.22 seeds, with the same events, and the tier-4 street from
+  the showcase pass (attempt 21 of its seed; in v0.22 the street needed 33 failed seeds before one placed).
   Their records rebuild them exactly.
 - The square-wheeled bicycle still stands on its own: four stands have been tried on the bench, and each
   read as something else (pedals, legs) or not at all.
@@ -279,14 +269,14 @@ Exact rebuilds hold within a release: a v0.21 record rebuilds with the v0.21 pac
   fringe or skirt would be a new rig.
 - The isolation bench reads one template cut out of its picture. A visual that reads alone can still be
   misread among other events, so the bench comes before the test scenes and the screen, never instead of them.
-- The planner's priors come from the v0.22 calibration, with f = 0 and a at its centre for every inference and
-  contradiction, as in v0.20 and v0.21: the sprinkler's cue salience moved by +0.27 (its hose off a side edge), the
-  ladder's by -0.15 (its top against the hedge; measured in 3 scenes), the frying pan's by +0.11 (measured in 9 scenes,
-  none in the street), every other template's by at most 0.01.
-- Exact rebuilds hold within a release: the v0.22 placement rules (revision 20) and the redrawn square wheel change
-  where events go, what the planner picks and how the barrow looks, so a v0.21 record rebuilds with the v0.21 package.
-- Every variant comes from the v0.20 cast unchanged (builder 0.20.0, copied to `out022`); the library keeps only the
-  363 variants the v0.22 set and probes use.
+- The planner's priors come from the v0.23 calibration, with f = 0 and a at its centre for every inference and
+  contradiction, as in v0.20 to v0.22: the begging dog's cue salience moved by -0.06 (its new pose), every other
+  template's by at most 0.012.
+- Exact rebuilds hold within a release: the v0.23 cast (builder 0.23.0) and placement rules (revision 21) change how the
+  pan, the begging dog and the older man look and where events go, so a v0.22 record rebuilds with the v0.22 package.
+- Every variant comes from the v0.23 cast (builder 0.23.0, `out023`): the variants of the families and poses v0.23 did
+  not change were carried over from `lib022`, the rest rendered anew; the library keeps only the 390 variants the v0.23
+  set and probes use. The bench variants (`TPDB_PAN`, `TPDB_BEG`, `TPDB_HEAD`) stay in the cast library, off by default.
 - Age of acquisition is recorded at weight 0, so it moves nothing until the pilot's pre-registered test says it
   should. The bundled ratings are a verbatim excerpt of Kuperman et al. (2012) under CC BY-NC-ND 3.0, taken from a
   copy in the lftk package; they have not yet been checked against the original file at crr.ugent.be.
@@ -301,5 +291,7 @@ Exact rebuilds hold within a release: a v0.21 record rebuilds with the v0.21 pac
 - The top third of park and playground pictures is still mostly sky.
 - A filler closer than 24 px to the picture's side edge is now moved 30 px inside it, and no reader said one
   was cut off; the sun can still sit partly off the top edge, where the backdrop draws it.
+- The tier-3 park and playground made no isomorph under revision 21 (41 tries over ten seeds), so the v0.23 isomorphs are three at tier 2,
+  one at tier 3 and one at tier 4.
 - The cast is a stand-in. Final character art would replace the models; rigs, poses, faces,
   anchors and manifests carry over.

@@ -376,6 +376,11 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
     return svg, (min(x - f * e, x + f * (150 if low else 145) * s), y - 72 * s, max(x - f * e, x + f * (150 if low else 145) * s), y)
 
 
+# v0.23: the filler wheelbarrow's leg as a thin strut with no foot (see _wheelbarrow_stand; chosen on the bench over a strut
+# with a small flat foot, which one reader still saw "a bit like a boot")
+LEG23 = "strut"
+
+
 def _wheelbarrow_stand(x, y, s, f, both):
     """v0.20: the wheelbarrow at rest on its wheel and legs, the tub well off the ground, the handles sloping up to the
     grips; the same footprint as before."""
@@ -386,6 +391,15 @@ def _wheelbarrow_stand(x, y, s, f, both):
     h0, h1 = (x + f * 22 * s, tb - 4 * s), (x + f * 150 * s, y - 52 * s)
     leg = lambda dx, dy: stroke(poly_d([(x + f * 84 * s + dx, tb + 2 * s + dy), (x + f * 90 * s + dx, y - 3 * s + dy)]), C["charcoal"], 6 * s)
     foot = lambda dx, dy: stroke(poly_d([(x + f * 84 * s + dx, y - 3 * s + dy), (x + f * 97 * s + dx, y - 3 * s + dy)]), C["charcoal"], 5 * s)
+    if LEG23 == "strut":
+        # v0.23 bench round 2: the strut alone, no foot
+        leg = lambda dx, dy: stroke(poly_d([(x + f * 82 * s + dx, tb - 2 * s + dy), (x + f * 87 * s + dx, y - 1 * s + dy)]), C["slate"], 3.6 * s)
+        foot = lambda dx, dy: ""
+    elif LEG23:
+        # v0.23: a thin metal strut with a small flat foot centred under it (the thick dark leg and the foot running forward
+        # from its bottom made an L that two v0.22 readers saw as "a small dark boot")
+        leg = lambda dx, dy: stroke(poly_d([(x + f * 82 * s + dx, tb - 2 * s + dy), (x + f * 88 * s + dx, y - 3 * s + dy)]), C["slate"], 3.6 * s)
+        foot = lambda dx, dy: stroke(poly_d([(x + f * 83 * s + dx, y - 2 * s + dy), (x + f * 93 * s + dx, y - 2 * s + dy)]), C["slate"], 3.0 * s)
     svg = shadow(x + f * 55 * s, y, 210 * s)
     if both:
         dx, dy = -f * 4 * s, -5 * s

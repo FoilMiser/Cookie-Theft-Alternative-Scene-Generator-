@@ -140,8 +140,14 @@ class PlacementError(Exception):
 # off the bottom of the picture ("like a stiff pipe"), nor across the legs of anyone just in front of it (added after
 # inspecting the probes: a begging dog drawn as if standing on it). A jumper also stays in the front half of the ground
 # (design tests: at the back the gap under the feet was too small to read).
+# 21 (v0.23): the v0.22 screen's oddities: the reading walker's obstacle a full step ahead of her leading toe (25 px ahead
+# it lay "to the side of / slightly ahead of" her); no runner and other mover heading straight at each other on one line
+# (a runner and a woman with a pram "might bump into each other"); no duck at an angler's float or on the line ("might go
+# for the bait or get tangled in the line"). After the design tests: a runner's lane deeper behind her line (a cat stalking a
+# bird just outside it was what she seemed to run at), and no duck facing an angler's float; and after their second round, a
+# runner 50 px clear of any other mover beside her on her line (running past a man with a pram, "almost touching").
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 20
+PLACEMENT_REV = 21
 WORKER = "person.jo"
 
 
@@ -234,6 +240,7 @@ class Scene:
         self.keepout = []       # revision 4: ground boxes no one's feet may stand in (a sprinkler and its spray)
         self.airzones = []      # revision 4: boxes of air no person or animal may enter (around a floating box)
         self.sprayzones = []    # revision 19: (box, depth) of a sprinkler's spray: no person or animal in front of it
+        self.floats, self.fish_lines = [], []   # revision 21: anglers' floats and lines, kept clear of ducks
         self.groundthings = []  # revision 20: (box, owner) things of an event lying or standing on the ground: no one else's feet on them
         self.no_dog = []        # revision 6: ground no dog may enter (around a stalking cat)
         self.groundzones = []   # revision 9: boxes nothing placed later may enter, drawn objects included (around the dropped ice cream)
@@ -391,6 +398,14 @@ class Scene:
             own = getattr(self, "placing", None)
             if self.feet_on_things(bbox, own):
                 return False
+        if p is not None and PLACEMENT_REV >= 21 and p.family.startswith("person.") and not self.headon_ok(p):
+            # revision 21: no runner and other mover heading straight at each other on one line (a runner and a woman
+            # pushing a pram 60 px apart in depth, facing each other, "might bump into each other if neither moves")
+            return False
+        if p is not None and PLACEMENT_REV >= 21 and p.family.startswith("animal.duck") and not self.clear_of_floats(bbox, p):
+            # revision 21: no duck at an angler's float or line ("the duck might go for the bait or get tangled in the line"),
+            # and none facing the float ("the duck is facing toward the float, so it may be about to swim over to it")
+            return False
         if p is not None and PLACEMENT_REV >= 6 and p.family.startswith("animal.dog"):
             for z in getattr(self, "no_dog", ()):
                 if min(bbox[2], z[2]) > max(bbox[0], z[0]) and min(bbox[3], z[3]) > max(bbox[1], z[1]):
@@ -535,7 +550,10 @@ class Scene:
             # "might come close to him or trip over his feet" 115 px behind her line; running at two children, she seemed
             # to run "toward the jumping girl")
             x0, x1 = sorted((front + f * 4, front + f * 300 * s))
-            return (max(0.0, x0), p.Y - 150 * s, min(float(D.W), x1), p.Y + 50 * s)
+            # revision 21: deeper still behind (a runner whose lane ended 25 px short of a cat stalking a bird behind her line
+            # seemed to be running "toward the cat and bird, perhaps to stop the cat")
+            back = 220 if PLACEMENT_REV >= 21 else 150
+            return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 50 * s)
         return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 16 * s)
 
     def feet_on_things(self, bbox, own=None, pad=8):
@@ -548,6 +566,59 @@ class Scene:
             if min(feet[2], b[2] + pad) > max(feet[0], b[0] - pad) and min(feet[3], b[3] + pad) > max(feet[1], b[1] - pad):
                 return True
         return False
+
+    def headon_ok(self, p):
+        """Revision 21: a runner and anyone else moving (walking, pushing, running) do not face each other on one line."""
+        pose = p.v.split("__")[1]
+        if pose not in WALK_POSES:
+            return True
+        f = p.facing()
+        if not f:
+            return True
+        s = D.sz(p.Y)
+        for k, q in self.assets.items():
+            if q is p or k not in self.ev_of or not getattr(q, "family", "").startswith("person."):
+                continue
+            pq = q.v.split("__")[1]
+            if pq not in WALK_POSES or "run" not in (pose, pq):
+                continue
+            if abs(q.Y - p.Y) < 60 * s:
+                # and a runner keeps a clear gap from any other mover beside her on her line (running past a man with a pram
+                # "side by side and almost touching but moving in opposite directions")
+                a_, b_ = p.bbox(), q.bbox()
+                if max(a_[0], b_[0]) - min(a_[2], b_[2]) < 50 * s:
+                    return False
+            fq = q.facing()
+            if not fq or (fq > 0) == (f > 0):
+                continue
+            if abs(q.Y - p.Y) > 90 * s:
+                continue
+            if (q.X - p.X) * f > 0:          # the other is ahead of this one, and (facing back) this one ahead of it
+                return False
+        return True
+
+    def clear_of_floats(self, bbox, p=None, gap=60):
+        """Revision 21: a box clear of every angler's float and line (floats: (x, y) points, lines: (a, b) segments); a duck
+        given as p also faces away from every float."""
+        g = (bbox[0] - gap, bbox[1] - gap * 0.6, bbox[2] + gap, bbox[3] + gap * 0.6)
+        for (x, y) in getattr(self, "floats", ()):
+            if g[0] <= x <= g[2] and g[1] <= y <= g[3]:
+                return False
+            if p is not None and self.faces_toward(p, x):
+                return False
+        for a, b in getattr(self, "fish_lines", ()):
+            n = max(2, int(math.hypot(b[0] - a[0], b[1] - a[1]) / 10))
+            if any(bbox[0] - 14 <= a[0] + (b[0] - a[0]) * t / n <= bbox[2] + 14 and bbox[1] - 14 <= a[1] + (b[1] - a[1]) * t / n <= bbox[3] + 14
+                   for t in range(n + 1)):
+                return False
+        return True
+
+    @staticmethod
+    def faces_toward(p, x):
+        """Revision 21: p (an animal or person) is turned toward the point at image x."""
+        f = p.facing()
+        b = p.bbox()
+        return bool(f) and (x - (b[0] + b[2]) / 2) * f > 0
 
     def lanes_ok(self, *ps):
         """Revision 14: each walker's lane is clear of other events' people, animals and things, and of standing

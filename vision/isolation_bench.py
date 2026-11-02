@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.22 cases; earlier cases in isolation_v012.md to v020.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -17,23 +17,39 @@ from scenegen.planner import USAGE
 OUT = _OUT0
 ONLY = set(sys.argv[2:])
 os.makedirs(OUT, exist_ok=True)
-lib = Library(lib_dir=os.environ["BENCH_LIB"]) if os.environ.get("BENCH_LIB") else Library()
+lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH_CAST") else {}), **({"lib_dir": os.environ["BENCH_LIB"]} if os.environ.get("BENCH_LIB") else {}))
 
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
-    # v0.22: the barrow's square wheel drawn three ways, nothing round inside it (sq<style>_<setting>; the style letter sets
-    # draw.SQUARE_STYLE20): A a solid grey plate in a thick dark tyre, a square hub and four bolts; B the open square with a
-    # cross of two bars to the middles of its sides; C the open square with eight straight spokes from a square hub
-    "sqA_g": ("garden", 22101, {"contradictions": ["square_wheel"]}, "event", None),
-    "sqB_g": ("garden", 22102, {"contradictions": ["square_wheel"]}, "event", None),
-    "sqC_g": ("garden", 22103, {"contradictions": ["square_wheel"]}, "event", None),
-    "sqA_p": ("park", 22104, {"contradictions": ["square_wheel"]}, "event", None),
-    "sqB_p": ("park", 22105, {"contradictions": ["square_wheel"]}, "event", None),
-    "sqC_p": ("park", 22106, {"contradictions": ["square_wheel"]}, "event", None),
-    # the ladder leaning on nothing, its top up past the lawn's far edge and clear of other uprights (revision 20)
-    "ladder_a": ("park", 22107, {"contradictions": ["ladder_nothing"]}, "event", None),
-    "ladder_b": ("park", 22108, {"contradictions": ["ladder_nothing"]}, "event", None),
+    # v0.23 round 1 (BENCH_CAST/BENCH_LIB name the bench cast: out_b1 = pan B, beg A, head A; out_b2 = pan C, head B)
+    # the frying pan held out by the end of its handle, over a flower bed: B face toward the viewer, C tipped to pour
+    "panB_1": ("garden", 23101, {"contradictions": ["pan_watering"]}, "event", None),
+    "panB_2": ("garden", 23102, {"contradictions": ["pan_watering"]}, "event", None),
+    "panC_1": ("garden", 23103, {"contradictions": ["pan_watering"]}, "event", None),
+    "panC_2": ("garden", 23104, {"contradictions": ["pan_watering"]}, "event", None),
+    # the dog begging, sitting up on its haunches with both front paws folded at the chest
+    "begA_1": ("street", 23105, {"modules": ["dog_begs"]}, "event", None),
+    "begA_2": ("park", 23106, {"modules": ["dog_begs"]}, "event", None),
+    # the older man walking in profile: A the grey fringe kept to the back of the head; B also a fuller nose
+    "headA_1": ("park", 23107, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "headA_2": ("street", 23108, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "headB_1": ("park", 23109, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "headB_2": ("street", 23110, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    # the garden's wheelbarrow on a thin strut with a small flat foot (draw.LEG23)
+    "leg_1": ("garden", 23111, {"events": ["rake"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
+    "leg_2": ("garden", 23112, {"events": ["sweep"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
+    # round 2 (out_b3 = pan D, beg A2; out_b4 = pan E): D the pan seen from above at a slant, deeper, on a handle about as
+    # long as the pan is wide; E as the v0.19 pan (face toward the viewer) on that shorter, thicker handle, held out;
+    # the beg with the hind legs folded under; the barrow's strut with no foot (draw.LEG23 = "strut")
+    "panD_1": ("garden", 23201, {"contradictions": ["pan_watering"]}, "event", None),
+    "panD_2": ("garden", 23202, {"contradictions": ["pan_watering"]}, "event", None),
+    "panE_1": ("garden", 23203, {"contradictions": ["pan_watering"]}, "event", None),
+    "panE_2": ("garden", 23204, {"contradictions": ["pan_watering"]}, "event", None),
+    "begA2_1": ("street", 23205, {"modules": ["dog_begs"]}, "event", None),
+    "begA2_2": ("park", 23206, {"modules": ["dog_begs"]}, "event", None),
+    "strut_1": ("garden", 23207, {"events": ["rake"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
+    "strut_2": ("garden", 23208, {"events": ["sweep"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
 }
 
 
@@ -100,6 +116,7 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         continue
     if name.startswith("sq"):
         _D.SQUARE_STYLE20 = name[2]
+    _D.LEG23 = "strut" if name.startswith("strut") else name.startswith("leg")
     rec = None
     for k in range(40):
         USAGE.clear()

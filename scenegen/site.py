@@ -49,38 +49,36 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v021", "v022"
+PREV, CUR = "v022", "v023"
 
-# the v0.21 templates that fell short of the gate, the square wheel's second half point, and the templates whose placement
-# revision 20 changed for the v0.21 oddities (vision/flaws_v021.md); the wheel and the ladder went to the isolation bench
-# first (vision/isolation_v022.md), and every change was read in whole test scenes (vision/design_tests_v022.md)
+# the v0.22 failure (the frying pan), its two half points and the templates whose drawing or placement v0.23 changed for the
+# v0.22 oddities (vision/flaws_v022.md); the drawings went to the isolation bench first (vision/isolation_v023.md), and every
+# change was read in whole test scenes (vision/design_tests_v023.md)
 REDRAWN_NOTES = {
-    "pan_watering": "Held up face-on at a raised planter against a grey shop door in the street, it read as 'a grey watering can' (the misread). Now never in the street: it waters a flower bed on the ground.",
-    "jump": "A jumper in front of the fruit stall read as standing with arms up. Now clear of standing structures behind, and in the front half of the ground, where the gap above the shadow is large enough to read.",
-    "ladder_nothing": "Its top just below a lamp post's foot: 'standing up at a lean ... or lying flat'. Now its top up against the hedge or the hills, clear of other uprights.",
-    "square_wheel": "'A square dark frame with a spoked wheel inside it', two screens running. Redrawn on the bench with nothing round in it: eight straight spokes from a square hub.",
-    "about_to_trip": "A reading walker 'may step on the sleeping cat' further along her path. Now nothing of another event further along her way past her obstacle.",
-    "run": "A runner 400 px short of the flower bed was 'about to trample it'. Now no flower bed or rock anywhere on a runner's line.",
-    "kick_ball": "A kicked ball 'flying toward the woman and the washing'. Now the kick's line clear of people further back.",
-    "sprinkler_package": "Its hose 'rises straight up out of the bottom edge like a stiff pipe'. Now the hose leaves by a side edge, along the grass.",
+    "pan_watering": "Held close in front of the flowers, its handle hidden: 'a grey, round watering can'. Redrawn on the bench: held out, seen at a slant so its depth shows, on a thicker handle ('a frying pan or saucepan').",
+    "dog_begs": "A dog with a paw raised, its body sloping to a tail on the ground: 'perhaps hoping for some ... or just walking by'. Redrawn on the bench: sitting up, front paws folded at the chest.",
+    "about_to_trip": "The box 25 px ahead of her foot, 'to the side of / slightly ahead of' her. Now a full step ahead of her leading toe, squarely on her line.",
+    "carry_bag": "The older man's grey hair in profile read as a beard, so he seemed to walk the other way. Redrawn on the bench: the grey kept to the back of the head, a fuller nose.",
+    "run": "A runner and a woman with a pram heading at each other, 'might bump into each other'. Now no runner facing another mover on her line, and a runner clear of any mover beside her.",
+    "fishing": "A duck close to the float 'might go for the bait'. Now no duck at a float or line, and none facing a float.",
 }
 
-# what the v0.22 screen readers made of the templates that read poorly (vision/flaws_v022.md)
+# what the v0.23 screen readers made of the templates that read poorly (vision/flaws_v023.md)
 WEAK_NOTES = {
-    "pan_watering": "Out of the street, held close in front of a garden's flowers with its handle hidden: 'a grey, round watering can'. Read as a frying pan in its other two probes, where the handle showed.",
 }
-SCREEN_NOTE = ("The v0.22 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The square wheel and the leaning ladder went to the isolation bench first, and every change was "
-               "read in whole test scenes. No item of the set was misread, and 285 of its 287 items had full marks: the jumper, the "
-               "ladder and the redrawn square wheel all read in full. The frying pan, now out of the street, was misread once more in "
-               "a garden probe, so 63 of 64 templates pass the gate (61 in v0.21). A retest of the unchanged v0.9 pictures with "
-               "fresh readers moved the gate by five templates: about five templates of the gate's movement between releases is "
-               "reader variance.")
+SCREEN_NOTE = ("The v0.23 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The frying pan, the begging dog, the older man's profile and the barrow's leg went to the "
+               "isolation bench first, and every change was read in whole test scenes. For the first time every scored item of "
+               "the 65 pictures had full marks, and all 64 templates pass the gate. The screen is now at its ceiling: AI readers "
+               "describe exhaustively, so it filters illegible drawing but cannot rank the templates by difficulty, which is "
+               "the pilot's job. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: "
+               "about five templates of the gate's movement between releases is reader variance.")
 
 
-FIXES = [("crop:scenes_v021/T4_garden_s13111_iso.png@684,786,966,912>probes/T3_garden_s22017.png@654,830,944,960", "Square wheel",
-          "v0.21: an open square round a round hub, read in two screens as 'a square frame with a spoked wheel inside it'. "
-          "v0.22: nothing round in it, eight straight spokes from a square hub, chosen over two other drawings on the isolation bench.")]
+FIXES = [("animal.dog_01__beg__happy__y090", "Begging dog", "v0.22: sitting with the body sloping to a tail laid on the ground ('or just walking by'). v0.23: sitting up on the haunches, front paws folded at the chest, the tail curled round."),
+         ("person.dev__water_pan__content__y090", "Frying pan", "v0.22: face-on on a short handle, held close ('a grey, round watering can'). v0.23: held out, seen at a slant so its depth shows, on a thicker handle ('a frying pan or saucepan')."),
+         ("portrait:person.tomas__kneel_plant__neutral__y090", "Older man in profile", "v0.22: a wide grey ring of hair behind the ear, read as 'a beard' or 'a face mask'. v0.23: the grey kept to the back of the head, a fuller nose."),
+         ("crop:probes_v022/T3_garden_s22010.png@500,862,726,990>scenes/T3_garden_s4013.png@500,862,726,990", "Wheelbarrow leg", "v0.22: a thick dark leg with a foot running forward ('a small dark boot'). v0.23: a thin strut with no foot.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):

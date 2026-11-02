@@ -1377,6 +1377,17 @@ class Fishing(T):
                         sc.remove(ep)
                         continue
                     sc.airzones.append(lz)
+                if SCN.PLACEMENT_REV >= 21:
+                    # revision 21: no duck at the float or on the line, now or later ("a duck swimming close to the float, so the
+                    # duck might go for the bait or get tangled in the line")
+                    if any(getattr(q_, "family", "").startswith("animal.duck") and
+                           ((lambda b: b[0] - 60 <= wx <= b[2] + 60 and b[1] - 36 <= wy <= b[3] + 36)(q_.bbox()) or sc.faces_toward(q_, wx))
+                           for k_, q_ in sc.assets.items() if k_ != ep):
+                        sc.remove(ep)
+                        sc.airzones.pop()
+                        continue
+                    sc.floats.append((wx, wy))
+                    sc.fish_lines.append(((tx, ty), (wx, wy)))
                 line = f'<path d="M {D.P(tx, ty)} Q {D.P(wx, (ty + wy) / 2)} {D.P(wx, wy)}" fill="none" stroke="{D.OUT}" stroke-width="2"/>'
                 line += D.circ(wx, wy - 4, 6, C["red"], D.OW * 0.6)
                 line += f'<ellipse cx="{wx:.1f}" cy="{wy + 4:.1f}" rx="18" ry="5" fill="none" stroke="{C["white"]}" stroke-width="2.5"/>'
@@ -3271,18 +3282,29 @@ class AboutToTrip(T):
                 if feet:
                     # (never behind the walker's own ground line, which kept it off the walkable ground at the back)
                     oy = max(Y, max(feet, key=lambda q: q[0] * want)[1])
+            col = sc.rng.choice([C["blue"], C["red"]]) if self.obj == "bucket" else None
+            gap = sc.rng.uniform(45, 85) * s if SCN.PLACEMENT_REV >= 21 else 0.0
+
+            def draw_obj(ox):
+                if self.obj == "bucket":
+                    svg, bb = D.bucket(ox, oy, s * 0.95, col)
+                    return svg, bb, "a bucket", ["bucket", "pail"], "bucket"
+                if self.obj == "ball":
+                    r = 24 * s
+                    return D.ball(ox, oy - r, r, C["red"]), (ox - r, oy - 2 * r, ox + r, oy), "a ball", ["ball", "a ball on the ground"], "ball"
+                svg, bb = D.crate(ox, oy, s * 0.7)
+                return svg, bb, "a box", ["box", "crate", "a box in the way"], "box"
+            svg, bb, label, acc, key = draw_obj(ox)
+            if SCN.PLACEMENT_REV >= 21:
+                # revision 21: the obstacle a full step ahead of the leading toe, squarely on her line (25 px ahead of it, the box
+                # lay "to the side of / slightly ahead of" her: "she might trip over it, or ... simply walk past it")
+                feet = [p.anchor(k) for k in ("foot_L", "foot_R") if p.has_anchor(k)]
+                toe = max((q[0] for q in feet), key=lambda v: v * want) if feet else (p.bbox()[2] if want > 0 else p.bbox()[0])
+                near = bb[0] if want > 0 else bb[2]
+                ox += toe + want * gap - near
+                svg, bb, label, acc, key = draw_obj(ox)
             if not sc.S.walkable(ox, oy):
                 continue
-            if self.obj == "bucket":
-                svg, bb = D.bucket(ox, oy, s * 0.95, sc.rng.choice([C["blue"], C["red"]]))
-                label, acc, key = "a bucket", ["bucket", "pail"], "bucket"
-            elif self.obj == "ball":
-                r = 24 * s
-                svg, bb = D.ball(ox, oy - r, r, C["red"]), (ox - r, oy - 2 * r, ox + r, oy)
-                label, acc, key = "a ball", ["ball", "a ball on the ground"], "ball"
-            else:
-                svg, bb = D.crate(ox, oy, s * 0.7)
-                label, acc, key = "a box", ["box", "crate", "a box in the way"], "box"
             if not sc.fits(bb, limit=0.05):
                 continue
             # revision 8: the obstacle clear of the clothesline too (a bucket by its post went with the washing)

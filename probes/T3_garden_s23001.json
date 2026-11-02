@@ -1,0 +1,999 @@
+{
+ "name": "T3_garden_s23001",
+ "tier": 3,
+ "setting": "garden",
+ "sky": "clear",
+ "seed": 23001,
+ "mirror": true,
+ "versions": {
+  "generator": "0.23.0",
+  "cast_builder": "0.23.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "clothesline",
+  "flowers",
+  "laundry",
+  "laundry_short"
+ ],
+ "templates": [
+  {
+   "id": "water_upward",
+   "kind": "contradiction",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "dig",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  },
+  {
+   "id": "hang_laundry",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  }
+ ],
+ "scene_load": 3,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A grandmother is hanging up laundry",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "hanging laundry",
+     "hanging clothes",
+     "hanging up the washing",
+     "pinning clothes",
+     "clothesline"
+    ]
+   },
+   "key": "laundry",
+   "elements": [
+    "hanger_1",
+    "shirt_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "hang_laundry",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.095,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
+    "domain": null,
+    "area_px": 17480
+   },
+   "b": -1.206,
+   "p0": 0.77,
+   "pm1": 0.551,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A man is watering the flowers",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "watering the flowers",
+     "watering the plants",
+     "watering can"
+    ]
+   },
+   "key": "flowers",
+   "elements": [
+    "waterer_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.072,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 16928
+   },
+   "b": -1.368,
+   "p0": 0.797,
+   "pm1": 0.591,
+   "aoi_cells": [
+    "MC",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the water from the watering can",
+   "accepted": [
+    "the water is weird",
+    "something's wrong with the water",
+    "that's not right"
+   ],
+   "key": "water",
+   "elements": [
+    "water_4"
+   ],
+   "cues": [
+    "water_4"
+   ],
+   "effect": [
+    "water_4"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.265,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 2572
+   },
+   "b": 0.572,
+   "p0": 0.361,
+   "pm1": 0.172,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "contradiction_explain",
+   "text": "The water is going up into the air instead of falling down onto the flowers",
+   "accepted": [
+    "water going up",
+    "water going the wrong way",
+    "water should fall down",
+    "water flowing upward"
+   ],
+   "key": "water",
+   "elements": [
+    "water_4"
+   ],
+   "cues": [
+    "water_4"
+   ],
+   "effect": [
+    "water_4"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.265,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 2572
+   },
+   "b": 1.772,
+   "p0": 0.145,
+   "pm1": 0.059,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A woman is digging",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "digging",
+     "digging a hole",
+     "shoveling",
+     "using a shovel",
+     "spade"
+    ]
+   },
+   "key": "digging",
+   "elements": [
+    "digger_5",
+    "soil_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dig",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.035,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.01,
+    "a": 4.19,
+    "zipf_raw": 3.99,
+    "aoa_raw": 4.19,
+    "domain": null,
+    "area_px": 16072
+   },
+   "b": -1.155,
+   "p0": 0.76,
+   "pm1": 0.539,
+   "aoi_cells": [
+    "ML",
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 19280
+   },
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.734,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 43040
+   },
+   "b": -1.262,
+   "p0": 0.779,
+   "pm1": 0.565,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a fence",
+   "accepted": [
+    "fence",
+    "wooden fence",
+    "gate"
+   ],
+   "key": "fence",
+   "elements": [
+    "fence"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.852,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 6.28,
+    "zipf_raw": 4.21,
+    "aoa_raw": 6.28,
+    "domain": null,
+    "area_px": 208188
+   },
+   "b": -1.629,
+   "p0": 0.836,
+   "pm1": 0.652,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "It is the back yard of a house",
+   "accepted": [
+    "house",
+    "home",
+    "backyard",
+    "back yard",
+    "yard",
+    "garden"
+   ],
+   "key": "house",
+   "elements": [
+    "house"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.84,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
+    "domain": null,
+    "area_px": 204952
+   },
+   "b": -2.073,
+   "p0": 0.888,
+   "pm1": 0.745,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 8,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 10
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.778,
+   "inference": 0.253
+  },
+  "theta_minus_1": {
+   "content": 0.57,
+   "inference": 0.115
+  }
+ },
+ "bands": {
+  "content_count": false,
+  "inference_units": false,
+  "contradictions": true,
+  "content_completeness": false,
+  "inference_completeness": false
+ },
+ "in_tier": false,
+ "checks": {
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": false,
+   "detail": "16 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 16,
+  "edge_density": 0.0367,
+  "png_bytes": 181743,
+  "jpeg_bytes": 173661
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    52.0,
+    22.0,
+    248.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    634.0,
+    68.0,
+    1040.0,
+    202.0
+   ],
+   "area_px": 19280,
+   "visible_px": 19280,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees beyond the fence",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Lawn",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Paved path to the gate",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    38.0,
+    614.0,
+    346.0,
+    1000.0
+   ],
+   "area_px": 81248,
+   "visible_px": 80796,
+   "occlusion": 0.006
+  },
+  {
+   "id": "tree",
+   "label": "Tree behind the fence",
+   "role": "setting",
+   "z": 440,
+   "bbox": [
+    1056.0,
+    176.0,
+    1304.0,
+    452.0
+   ],
+   "area_px": 44992,
+   "visible_px": 43040,
+   "occlusion": 0.043
+  },
+  {
+   "id": "fence",
+   "label": "Wooden fence with a gate",
+   "role": "setting",
+   "z": 615,
+   "bbox": [
+    0.0,
+    426.0,
+    1302.0,
+    618.0
+   ],
+   "area_px": 240904,
+   "visible_px": 208188,
+   "occlusion": 0.136
+  },
+  {
+   "id": "clothesline",
+   "label": "Clothesline",
+   "role": "setting",
+   "z": 705,
+   "bbox": [
+    624.0,
+    382.0,
+    994.0,
+    708.0
+   ],
+   "area_px": 13848,
+   "visible_px": 13332,
+   "occlusion": 0.037
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    886.0,
+    392.0,
+    952.0,
+    524.0
+   ],
+   "area_px": 7652,
+   "visible_px": 7652,
+   "occlusion": 0.0
+  },
+  {
+   "id": "shirt_2",
+   "label": "Shirt being pinned up",
+   "role": "scored",
+   "z": 706.5,
+   "bbox": [
+    698.0,
+    408.0,
+    798.0,
+    508.0
+   ],
+   "area_px": 6916,
+   "visible_px": 6584,
+   "occlusion": 0.048
+  },
+  {
+   "id": "hanger_1",
+   "label": "person.rosa__hang_washing__neutral__y090",
+   "role": "scored",
+   "z": 707,
+   "bbox": [
+    776.0,
+    408.0,
+    870.0,
+    680.0
+   ],
+   "area_px": 10896,
+   "visible_px": 10896,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__hang_washing__neutral__y090",
+    "family": "person.rosa",
+    "scale": 0.4102,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "soil_6",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 768.27,
+   "bbox": [
+    322.0,
+    756.0,
+    460.0,
+    786.0
+   ],
+   "area_px": 2632,
+   "visible_px": 2140,
+   "occlusion": 0.187
+  },
+  {
+   "id": "digger_5",
+   "label": "person.mei__dig_lift__determined__y045",
+   "role": "scored",
+   "z": 769.27,
+   "bbox": [
+    412.0,
+    520.0,
+    556.0,
+    780.0
+   ],
+   "area_px": 13932,
+   "visible_px": 13932,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.mei__dig_lift__determined__y045",
+    "family": "person.mei",
+    "scale": 0.434,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "black_bob"
+     }
+    }
+   }
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    1258.0,
+    118.0,
+    1600.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
+   ],
+   "area_px": 25884,
+   "visible_px": 22708,
+   "occlusion": 0.123
+  },
+  {
+   "id": "waterer_3",
+   "label": "person.ben__water_plants__smile__y090",
+   "role": "scored",
+   "z": 931.0,
+   "bbox": [
+    984.0,
+    602.0,
+    1114.0,
+    934.0
+   ],
+   "area_px": 17000,
+   "visible_px": 16928,
+   "occlusion": 0.004,
+   "asset": {
+    "variant": "person.ben__water_plants__smile__y090",
+    "family": "person.ben",
+    "scale": 0.4939,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "water_4",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 932.0,
+   "bbox": [
+    1106.0,
+    638.0,
+    1216.0,
+    798.0
+   ],
+   "area_px": 2572,
+   "visible_px": 2572,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8784,
+   "visible_px": 8784,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   23001,
+   "layout 5: accepted after 4 rejected layouts"
+  ]
+ ],
+ "layout": 4,
+ "knob": 0,
+ "regen": {
+  "base_seed": 23001,
+  "max_tries": 6,
+  "placements": 14,
+  "require_band": false,
+  "usage": {},
+  "forced": {
+   "events": [
+    "dig",
+    "hang_laundry"
+   ],
+   "contradictions": [
+    "water_upward"
+   ]
+  },
+  "placement_rev": 21
+ },
+ "probe": true
+}
