@@ -585,6 +585,9 @@ def up_water_can(P):
     P.panchor("spout_aim", s1 + d * 0.33 * u)
 
 
+PAN_V019 = True
+
+
 def up_water_pan(P):
     """Watering with a frying pan. The pan's open face is turned toward the viewer (character's right,
     -X), so it reads as a round pan with a silver inside; edge-on it read as a hose wand."""
@@ -596,11 +599,22 @@ def up_water_pan(P):
     c = g + Vector((-0.02, -0.20, -0.03)) * u + Vector((0, -R, 0))
     # seen from above at a slant: the dark inside as an ellipse inside a deep rim (face-on, a silver
     # inside read as a magnifying glass)
-    n = nrm((-0.55, -0.20, 0.81))
-    P.prop("handle", cyl("handle", g + Vector((0, 0.05, 0.0)) * u, c + Vector((0, R * 0.92, 0.02 * u)), 0.020 * u, "charcoal"))
-    P.prop("grip", cyl("grip", g + Vector((0, 0.05, 0.0)) * u, g + Vector((0, -0.06, 0.0)) * u, 0.025 * u, "brown"))
-    P.prop("pan", cyl("pan", c - n * 0.030 * u, c + n * 0.030 * u, R * 0.88, "charcoal", seg=36, r1=R))
-    P.prop("panin", cyl("panin", c + n * 0.026 * u, c + n * 0.031 * u, R * 0.90, "slate", seg=36))
+    if PAN_V019:
+        # v0.19: turned further toward the viewer with a grey inside under a black rim, and a shorter, stouter handle (on the
+        # bench the squashed dark dish on a long thin handle read "(a) a frying pan ... or (b) the spout and rose of a
+        # watering can")
+        c = g + Vector((-0.02, -0.16, -0.03)) * u + Vector((0, -R, 0))
+        n = nrm((-0.72, -0.18, 0.67))
+        P.prop("handle", cyl("handle", g + Vector((0, 0.05, 0.0)) * u, c + Vector((0, R * 0.92, 0.02 * u)), 0.026 * u, "charcoal"))
+        P.prop("grip", cyl("grip", g + Vector((0, 0.05, 0.0)) * u, g + Vector((0, -0.06, 0.0)) * u, 0.030 * u, "brown"))
+        P.prop("pan", cyl("pan", c - n * 0.034 * u, c + n * 0.034 * u, R * 0.86, "charcoal", seg=36, r1=R))
+        P.prop("panin", cyl("panin", c + n * 0.030 * u, c + n * 0.035 * u, R * 0.84, "gray", seg=36))
+    else:
+        n = nrm((-0.55, -0.20, 0.81))
+        P.prop("handle", cyl("handle", g + Vector((0, 0.05, 0.0)) * u, c + Vector((0, R * 0.92, 0.02 * u)), 0.020 * u, "charcoal"))
+        P.prop("grip", cyl("grip", g + Vector((0, 0.05, 0.0)) * u, g + Vector((0, -0.06, 0.0)) * u, 0.025 * u, "brown"))
+        P.prop("pan", cyl("pan", c - n * 0.030 * u, c + n * 0.030 * u, R * 0.88, "charcoal", seg=36, r1=R))
+        P.prop("panin", cyl("panin", c + n * 0.026 * u, c + n * 0.031 * u, R * 0.90, "slate", seg=36))
     rim = c + Vector((0, -R * 0.95, -0.02 * u))
     P.panchor("spout", rim)
     P.panchor("spout_aim", rim + Vector((0, -0.30, -0.14)) * u)
@@ -1284,6 +1298,9 @@ UPPER = {
 # v0.18: the reading walker's head bent 20 degrees, not 30 (bent further, the dark-haired woman's face was hidden: "no
 # visible face", "only a skin-coloured profile edge under dark hair")
 WALK_READ_PITCH = -20
+# v0.19: everyone else back at 30 degrees, as in v0.17, when every reading walker read as reading in six pictures (at 20
+# the windy park's reader held "an open newspaper", "papers in the wind"); the bob keeps 20 for its face
+WALK_READ_PITCH_OTHERS = -30
 
 # name: (lower, lower_args, upper, description, tags)
 #   description = how a healthy speaker would say it ("<who> is ...")
@@ -1438,6 +1455,8 @@ def make_people_actions(rig, ctx):
     if os.environ.get("TPDB_PEXP_ONLY"):
         acts = [a for a in acts if a[0].startswith("exp") or a[0] in ("stand", "walk")]
     for name, lower, largs, upper, desc, tags in acts:
+        if name == "walk_read_open" and ctx.spec.get("hair") != "bob":
+            largs = dict(largs, head_pitch=WALK_READ_PITCH_OTHERS)
         P.build(name, lower, upper, lower_args=largs, description=desc, tags=tags, airborne="airborne" in tags)
     rig.reset()
     return P

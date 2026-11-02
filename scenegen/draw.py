@@ -686,9 +686,10 @@ def paw_prints(pts, s_fn, col=None):
     return svg
 
 
-def sprinkler(x, y, s=1.0, toward=1, reach=260, land=None):
+def sprinkler(x, y, s=1.0, toward=1, reach=260, land=None, solid=False):
     """land (v0.17): the point the longest arc comes down on (the soaked box's lid); the two shorter arcs fall on the
-    grass short of it."""
+    grass short of it. solid (v0.19): unbroken arcs, outlined, with drops breaking off them (dashed arcs read as "a
+    dotted trajectory rather than water")."""
     svg = ell(x, y - 6 * s, 20 * s, 8 * s, C["slate"]) + rect(x - 4 * s, y - 34 * s, 8 * s, 28 * s, C["charcoal"], 2 * s)
     svg += circ(x, y - 36 * s, 6 * s, C["gray"], OW * 0.6)
     arcs = ""
@@ -702,6 +703,17 @@ def sprinkler(x, y, s=1.0, toward=1, reach=260, land=None):
                 # the ground they "stop in mid-air")
                 ex, ey = x + (land[0] - x) * d, y + 4 * s
                 arcs += drops(ex, ey - 12 * s, s * 0.7, 2, 14)
+        if solid:
+            q0, q1, q2 = (x, y - 38 * s), ((x + ex) / 2, y - h * s), (ex, ey)
+            d_ = f"M {P(*q0)} Q {P(*q1)} {P(*q2)}"
+            arcs += f'<path d="{d_}" fill="none" stroke="{OUT}" stroke-width="{4.2 * s + 2.2:.1f}" stroke-linecap="round"/>'
+            arcs += f'<path d="{d_}" fill="none" stroke="{C["water_light"]}" stroke-width="{4.2 * s:.1f}" stroke-linecap="round"/>'
+            for t in (0.58, 0.76):
+                u = 1 - t
+                qx = u * u * q0[0] + 2 * u * t * q1[0] + t * t * q2[0]
+                qy = u * u * q0[1] + 2 * u * t * q1[1] + t * t * q2[1]
+                arcs += circ(qx + toward * 4 * s, qy - 9 * s, 2.4 * s, C["water_light"], OW * 0.4)
+            continue
         arcs += f'<path d="M {P(x, y - 38 * s)} Q {P((x + ex) / 2, y - h * s)} {P(ex, ey)}" fill="none" stroke="{C["water"]}" stroke-width="{3.5 * s + 1:.1f}" stroke-dasharray="{10 * s:.1f} {8 * s:.1f}" stroke-linecap="round"/>'
     far = land[0] if land is not None else x + toward * reach * s
     return svg, arcs, (min(x, far) - 10, y - 200 * s, max(x, far) + 10, y)
@@ -788,6 +800,48 @@ def water_stream(p0, direction, s=1.0, length=170, upward=False, spread=0.0, spl
             svg += f'<path d="M {glint}" fill="none" stroke="{C["white"]}" stroke-width="{1.8 * s:.1f}" stroke-linecap="round" stroke-opacity="0.85"/>'
             svg += drops(end[0], end[1] + 8 * s, s * 1.0, 3, 14)
         return svg, (min(xs) - 22 * s, min(ys) - 22 * s, max(xs) + 22 * s, max(ys) + 26 * s), end
+    if style == "jet" and not upward:
+        # v0.19 (revision 17): a hose's jet: an unbroken ribbon of water, wide at the nozzle and thinning as it arcs down,
+        # with a white glint and drops breaking off its last third (dashed, it read as "a dashed line with gaps (could
+        # read as a dotted line)"; one even-width line had read as "a solid bent tube")
+        c1 = (p0[0] + dx * L * 0.45, p0[1] + dy * L * 0.45)
+        end = (p0[0] + dx * L * 0.70, p0[1] + L * 0.85)
+        c2 = (end[0] - dx * L * 0.05, end[1] - L * 0.35)
+
+        def bez(t, a=p0, b=c1, c=c2, d=end):
+            u = 1 - t
+            return (u ** 3 * a[0] + 3 * u * u * t * b[0] + 3 * u * t * t * c[0] + t ** 3 * d[0],
+                    u ** 3 * a[1] + 3 * u * u * t * b[1] + 3 * u * t * t * c[1] + t ** 3 * d[1])
+        left, right = [], []
+        N = 28
+        for k in range(N + 1):
+            t = k / N
+            x0, y0 = bez(t)
+            x1, y1 = bez(min(1.0, t + 0.01))
+            tx_, ty_ = x1 - x0, y1 - y0
+            nn = math.hypot(tx_, ty_) or 1
+            nx, ny = -ty_ / nn, tx_ / nn
+            # (widening as it goes, as a jet spreads: one even thin line read as "a thin second tube or wire")
+            w = (8.0 + 6.0 * t) * s / 2
+            left.append((x0 + nx * w, y0 + ny * w))
+            right.append((x0 - nx * w, y0 - ny * w))
+        ribbon = "M " + " L ".join(P(*q) for q in left + right[::-1]) + " Z"
+        svg = f'<path d="{ribbon}" fill="{C["water_light"]}" stroke="{OUT}" stroke-width="{OW * 0.55:.1f}" stroke-linejoin="round"/>'
+        glint = " ".join(P(*bez(k / 24)) for k in range(1, 16))
+        svg += f'<path d="M {glint}" fill="none" stroke="{C["white"]}" stroke-width="{1.8 * s:.1f}" stroke-linecap="round" stroke-opacity="0.85"/>'
+        # drops spraying off both sides of the arc's second half
+        for t, off, side in ((0.48, 11, 1), (0.58, 13, -1), (0.66, 14, 1), (0.76, 15, -1), (0.84, 15, 1), (0.92, 14, -1)):
+            x0, y0 = bez(t)
+            x1, y1 = bez(t + 0.01)
+            nn = math.hypot(x1 - x0, y1 - y0) or 1
+            nx, ny = -(y1 - y0) / nn, (x1 - x0) / nn
+            if ny > 0:
+                nx, ny = -nx, -ny
+            svg += circ(x0 + side * nx * off * s, y0 + side * ny * off * s, 2.8 * s, C["water_light"], OW * 0.45)
+        svg += drops(end[0], end[1] + (-10 if splash else 12) * s, s * 1.2, 3, 18)
+        xs = [p0[0], c1[0], c2[0], end[0]]
+        ys = [p0[1], c1[1], c2[1], end[1]]
+        return svg, (min(xs) - 16, min(ys) - 22 * s, max(xs) + 16, max(ys) + 22 * s), end
     if upward and solid:
         # v0.10: the water leaves the spout already rising, like a pour turned upside down (starting
         # down toward the flowers and curving up, it read as a spray arcing over them)

@@ -80,7 +80,16 @@ def entities_available(setting, feats, sky, consumed):
     return len([e for e in inst.entities if e not in consumed])
 
 
-def event_dp(allowed, n_lo, n_hi):
+def excl(c, setting):
+    """A template's exclusive resources; from revision 17 the playground's seesaw templates also take the bench (the
+    planner never puts the seesaw and the bench in front of which it stands in one picture)."""
+    from . import scene as SCN
+    if SCN.PLACEMENT_REV >= 17 and setting == "playground" and "seesaw" in c.features(setting):
+        return tuple(c.exclusive) + ("bench",)
+    return tuple(c.exclusive)
+
+
+def event_dp(allowed, n_lo, n_hi, ex=lambda e: e.exclusive):
     """Count event subsets by (size, content) with at most one event per exclusive resource and at
     most two animal events."""
     st = {(0, 0, 0, frozenset()): 1}
@@ -89,12 +98,12 @@ def event_dp(allowed, n_lo, n_hi):
         for (n, an, cont, res), cnt in st.items():
             if n >= n_hi:
                 continue
-            if set(e.exclusive) & res:
+            if set(ex(e)) & res:
                 continue
             a2 = an + (1 if is_animal_event(e) else 0)
             if a2 > 2:
                 continue
-            key = (n + 1, a2, cont + e.content, res | frozenset(e.exclusive))
+            key = (n + 1, a2, cont + e.content, res | frozenset(ex(e)))
             nxt[key] = nxt.get(key, 0) + cnt
         st = nxt
     out = Counter()
@@ -119,16 +128,16 @@ def structures(setting, tier):
                     has_rain = any(c.id == "rain_coming" for c in mset)
                     if (sky == "dark") != has_rain:
                         continue
-                    res = [r for c in mset for r in c.exclusive]
+                    res = [r for c in mset for r in excl(c, setting)]
                     if len(res) != len(set(res)):
                         continue
                     for cset in itertools.combinations(cons, n_con):
-                        res2 = res + [r for c in cset for r in c.exclusive]
+                        res2 = res + [r for c in cset for r in excl(c, setting)]
                         if len(res2) != len(set(res2)):
                             continue
                         base = list(mset) + list(cset)
-                        allowed = [e for e in evs if not set(e.exclusive) & set(res2)]
-                        dp = event_dp(allowed, plan["events"][0], plan["load_max"] - units)
+                        allowed = [e for e in evs if not set(excl(e, setting)) & set(res2)]
+                        dp = event_dp(allowed, plan["events"][0], plan["load_max"] - units, lambda e: excl(e, setting))
                         for (n_ev, ev_content), cnt in dp.items():
                             content = sum(c.content for c in base) + ev_content
                             if content <= hi_c:

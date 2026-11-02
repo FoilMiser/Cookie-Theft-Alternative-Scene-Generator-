@@ -390,6 +390,12 @@ def _blob_chain(name, pts, radii, matkey, rig, bone="head"):
 
 BOB_SIDE_FRONT = 0.30
 BOB_HAIRLINE = 0.60
+# v0.19: no curls over the front half of the head below the hairline (curls on the cheeks hid a profile's face: a boy's
+# head looked "almost seen from behind while the body is side-on"; a kicker's face "faces left ... as if kicking backward")
+CURLY_FRONT = 0.0
+CURLY_HAIRLINE = 0.55
+CURLY_SIDE_BACK = 0.10
+CURLY_TEMPLE = 0.30
 
 
 def build_hair(spec, rig, hc, HR, k):
@@ -399,7 +405,9 @@ def build_hair(spec, rig, hc, HR, k):
     if style in ("short", "long", "bun", "ponytail", "puffs"):
         _shell("Hair", hcx, HR, 0.012 * k, lambda c: _face_window(c, 0.46), col, rig, k)
     elif style == "curly":
-        _shell("Hair", hcx, HR, 0.012 * k, lambda c: _face_window(c, 0.50), col, rig, k)
+        # (v0.19: below the temples the hair stays behind the ear, so a profile shows the cheek; covering the side of the
+        # head, the curly boy in profile "could be looking away ... or be seen from behind at an angle")
+        _shell("Hair", hcx, HR, 0.012 * k, lambda c: _face_window(c, 0.50) and (c.y > CURLY_SIDE_BACK or c.z > CURLY_TEMPLE), col, rig, k)
     elif style == "bob":
         # (v0.18: the side panels stop short of the cheek, so a profile shows the face; covering it, the woman in profile
         # read as having "no visible face; head is a round dark shape")
@@ -438,7 +446,9 @@ def build_hair(spec, rig, hc, HR, k):
             th = rnd.uniform(0, 2 * math.pi)
             ph = rnd.uniform(0.15, 1.25)
             d = Vector((math.cos(th) * math.sin(ph), math.sin(th) * math.sin(ph), math.cos(ph)))
-            if d.y < -0.35 and d.z < 0.55:
+            if d.y < CURLY_FRONT and d.z < CURLY_HAIRLINE:
+                continue
+            if d.y < CURLY_SIDE_BACK and d.z < CURLY_TEMPLE:
                 continue
             ellipsoid(f"Curl{i}", hc + Vector((d.x * HR[0], d.y * HR[1], d.z * HR[2])) * 1.0 + d * 0.012 * k,
                       (0.042 * k,) * 3, col, rig, "head", seg=12, rings=8)

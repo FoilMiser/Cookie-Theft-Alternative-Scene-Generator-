@@ -1,6 +1,6 @@
 # Blind screen prompts
 
-The prompts given to the readers and the scorer in all fifteen screens (v0.4 to v0.18) and the v0.9 retest, with the
+The prompts given to the readers and the scorer in all sixteen screens (v0.4 to v0.19) and the v0.9 retest, with the
 picture count and paths left as placeholders. Each reader is a fresh model instance that sees only its
 own blind pictures (`vNN/blind/pic_NN.png`); the scorer sees only the descriptions and `keys.json`.
 In v0.6 four readers described 7, 6, 6 and 6 pictures. In v0.7 six readers described 7, 7, 7, 7, 7 and 6
@@ -61,6 +61,11 @@ In v0.18 nine readers described 7, 7, 7, 7, 7, 7, 6, 6 and 6 pictures (60 in all
 (`keys_a.json` to `keys_c.json`, `scores_a.json` to `scores_c.json`). The isolation bench (`isolation_v018.md`, two
 rounds, 14 cut-outs) used the isolation prompt given in `isolation_v012.md`, and the design tests
 (`design_tests_v018.md`, one round, six pictures) the reader prompt for one picture each.
+In v0.19 nine readers described 8, 8, 7, 7, 7, 7, 7, 7 and 7 pictures (65 in all), and three scorers took pictures
+1 to 22 (253 items), 23 to 43 (258) and 44 to 65 (249), with the same scorer prompt, given the file names of its share.
+The isolation bench (`isolation_v019.md`, two rounds, 15 cut-outs) used the isolation prompt given in
+`isolation_v012.md`, and the design tests (`design_tests_v019.md`, one round, six pictures) the reader prompt for one
+picture each.
 
 ## Reader
 

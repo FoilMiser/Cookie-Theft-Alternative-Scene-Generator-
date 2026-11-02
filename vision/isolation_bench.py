@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.18 cases; earlier cases in isolation_v012.md to v017.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.19 cases; earlier cases in isolation_v012.md to v018.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,23 +22,29 @@ lib = Library(lib_dir=os.environ["BENCH_LIB"]) if os.environ.get("BENCH_LIB") el
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
-    # the dark-haired woman in profile, her bob's side hair cut back from the cheek: catching, and reading as she walks
-    "catch_a": ("garden", 18101, {"events": ["play_catch"]}, "event", ("fam", "play_catch", ["person.mei"])),
-    "catch_b": ("playground", 18102, {"events": ["play_catch"]}, "event", ("fam", "play_catch", ["person.mei"])),
-    "readwalk_a": ("park", 18103, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.mei"])),
-    "readwalk_b": ("street", 18104, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.mei"])),
-    # the larger cats: asleep near someone, and stalking a bird
-    "catsleep_a": ("garden", 18105, {"events": ["cat_sleeping", "rake"]}, "full", None),
-    "catsleep_b": ("park", 18106, {"events": ["cat_sleeping", "ice_cream"]}, "full", None),
-    "stalk_a": ("park", 18107, {"modules": ["cat_stalks_bird"]}, "event", None),
-    "stalk_b": ("garden", 18108, {"modules": ["cat_stalks_bird"]}, "event", None),
-    # round 2: the bob's hairline raised and its side hair behind the ear; the cats larger again
-    "readwalk_c": ("street", 18121, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.mei"])),
-    "readwalk_d": ("garden", 18122, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.mei"])),
-    "catch_c": ("park", 18123, {"events": ["play_catch"]}, "event", ("fam", "play_catch", ["person.mei"])),
-    "catsleep_c": ("garden", 18124, {"events": ["cat_sleeping", "read_bench"]}, "full", None),
-    "catsleep_d": ("playground", 18125, {"events": ["cat_sleeping", "sandbox"]}, "full", None),
-    "stalk_c": ("garden", 18126, {"modules": ["cat_stalks_bird"]}, "event", None),
+    # the frying pan with no hose reel in the picture
+    "pan_a": ("garden", 19101, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
+    "pan_b": ("garden", 19102, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
+    # a runner with motion lines trailing from the back
+    "run_a": ("park", 19103, {"events": ["run"]}, "event", None),
+    "run_b": ("street", 19104, {"events": ["run"]}, "event", None),
+    # the stalking cat on the fence top, close to a perched bird
+    "fence_a": ("garden", 19105, {"modules": ["cat_stalks_bird"]}, "event", ("fencecat",)),
+    "fence_b": ("garden", 19106, {"modules": ["cat_stalks_bird"]}, "event", ("fencecat",)),
+    # water from a hose and from a sprinkler drawn unbroken
+    "hose_a": ("garden", 19107, {"events": ["hose_water"]}, "event", None),
+    "sprinkler_a": ("garden", 19108, {"modules": ["sprinkler_package"]}, "event", None),
+    # the boy with curly hair in profile, the curls cut back from his cheek
+    "kai_a": ("park", 19109, {"events": ["balloon"]}, "event", ("fam", "balloon", ["person.kai"])),
+    # the kicked ball against the toe
+    "kick_a": ("park", 19110, {"events": ["kick_ball"]}, "event", None),
+    # round 2: the pan turned toward the viewer, grey inside a black rim, on a shorter handle; the curly hair kept behind
+    # the ear below the temples; the hose brought up to the hand from in front
+    "pan_c": ("garden", 19121, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
+    "pan_d": ("garden", 19122, {"contradictions": ["pan_watering"]}, "event", ("noreel",)),
+    "kai_b": ("park", 19123, {"events": ["balloon"]}, "event", ("fam", "balloon", ["person.kai"])),
+    "kai_c": ("playground", 19124, {"modules": ["ball_in_tree"]}, "event", ("fam", "ball_in_tree", ["person.kai"])),
+    "hose_b": ("garden", 19125, {"events": ["hose_water"]}, "event", None),
 }
 
 
@@ -48,7 +54,7 @@ def crop_box(rec, what, tids=()):
         ids = {i for it in rec["items"] if it.get("template") in tids for i in it["elements"]}
         # plus everything the event drew (setting-role svgs keyed to it are listed in the record too)
         boxes = [els[i]["bbox"] for i in ids if i in els and els[i].get("bbox")]
-        boxes += [e["bbox"] for e in rec["elements"] if e.get("bbox") and e["id"].startswith(("toyball", "wavelines", "gusts", "seeds", "dustpan", "crownleaves"))]
+        boxes += [e["bbox"] for e in rec["elements"] if e.get("bbox") and e["id"].startswith(("toyball", "wavelines", "gusts", "seeds", "dustpan", "crownleaves", "speedlines"))]
         if "kite_in_tree" in tids:
             # the whole crown the kite hangs from
             boxes += [e["bbox"] for e in rec["elements"] if e.get("bbox") and e["id"] == "tree"]
@@ -85,6 +91,10 @@ def accepted(rec, rule):
                 any(e["id"] == "clothesline" for e in rec["elements"])
         if rule[0] == "railbird":
             return any(it.get("template") == "bird_perched" and "fence" in it["text"] for it in rec["items"])
+        if rule[0] == "noreel":
+            return not any(e["id"] == "hose_reel" for e in rec["elements"])
+        if rule[0] == "fencecat":
+            return any(it.get("template") == "cat_stalks_bird" and "on the fence" in it["text"] for it in rec["items"])
         if rule[0] == "backrow":
             return any(e.get("asset", {}).get("family", "").startswith("person.") and e["bbox"][3] < 700 for e in rec["elements"] if e.get("bbox"))
     if rule == "kidwave":

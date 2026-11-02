@@ -1,0 +1,1357 @@
+{
+ "name": "T3_garden_s13013",
+ "tier": 3,
+ "setting": "garden",
+ "sky": "clear",
+ "seed": 13013,
+ "mirror": false,
+ "versions": {
+  "generator": "0.19.0",
+  "cast_builder": "0.19.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  }
+ },
+ "features": [
+  "flowers"
+ ],
+ "templates": [
+  {
+   "id": "about_to_trip",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "sprinkler_package",
+   "kind": "inference",
+   "event": "e2",
+   "units": 1
+  },
+  {
+   "id": "cat_stalks_bird",
+   "kind": "inference",
+   "event": "e3",
+   "units": 1
+  },
+  {
+   "id": "bird_perched",
+   "kind": "event",
+   "event": "e4",
+   "units": 0
+  },
+  {
+   "id": "fly_kite",
+   "kind": "event",
+   "event": "e5",
+   "units": 0
+  },
+  {
+   "id": "walk_dog",
+   "kind": "event",
+   "event": "e6",
+   "units": 0
+  }
+ ],
+ "scene_load": 6,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A cat is crouching low on the fence",
+   "accepted": [
+    "cat crouching",
+    "cat hiding",
+    "cat sneaking",
+    "cat ready to pounce",
+    "cat watching"
+   ],
+   "key": "cat",
+   "elements": [
+    "stalkcat_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "cat_stalks_bird",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.952,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.78,
+    "domain": null,
+    "area_px": 3996
+   },
+   "b": -0.538,
+   "p0": 0.631,
+   "pm1": 0.387,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A bird is sitting on the fence",
+   "accepted": [
+    "bird",
+    "bird eating",
+    "bird pecking",
+    "little bird"
+   ],
+   "key": "bird",
+   "elements": [
+    "stalkbird_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "cat_stalks_bird",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.627,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.63,
+    "domain": null,
+    "area_px": 1544
+   },
+   "b": -0.155,
+   "p0": 0.539,
+   "pm1": 0.3,
+   "aoi_cells": [
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The cat is about to catch the bird",
+   "accepted": [
+    "the cat wants to catch the bird",
+    "the cat is going to pounce",
+    "the cat is hunting the bird",
+    "the cat is stalking the bird"
+   ],
+   "key": "cat",
+   "elements": [
+    "stalkcat_1",
+    "stalkbird_2"
+   ],
+   "cues": [
+    "stalkcat_1",
+    "stalkbird_2"
+   ],
+   "effect": [
+    "stalkbird_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "cat_stalks_bird",
+   "event": "e3",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.952,
+    "r": 1,
+    "d": 0.083,
+    "f": 0.78,
+    "domain": null,
+    "area_px": 3996
+   },
+   "b": 0.962,
+   "p0": 0.276,
+   "pm1": 0.123,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A teenager is reading while walking",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "reading while walking",
+     "walking and reading",
+     "not looking where he's going",
+     "reading a book"
+    ]
+   },
+   "key": "book",
+   "elements": [
+    "reader_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.101,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.43,
+    "domain": null,
+    "area_px": 17636
+   },
+   "b": -1.26,
+   "p0": 0.779,
+   "pm1": 0.565,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "entity",
+   "text": "There is a bucket on the ground in front of a teenager",
+   "accepted": [
+    "bucket",
+    "pail"
+   ],
+   "key": "bucket",
+   "elements": [
+    "obstacle_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.08,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.07,
+    "domain": null,
+    "area_px": 3336
+   },
+   "b": 0.239,
+   "p0": 0.441,
+   "pm1": 0.225,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "inference",
+   "text": "The teenager is going to trip over a bucket",
+   "accepted": [
+    "going to trip over the bucket",
+    "going to fall",
+    "will bump into it",
+    "isn't looking where they're going"
+   ],
+   "key": "trip",
+   "elements": [
+    "reader_3",
+    "obstacle_4"
+   ],
+   "cues": [
+    "reader_3",
+    "obstacle_4"
+   ],
+   "effect": [
+    "obstacle_4"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.101,
+    "r": 1,
+    "d": 0.082,
+    "f": 0.9,
+    "domain": null,
+    "area_px": 17636
+   },
+   "b": 0.398,
+   "p0": 0.402,
+   "pm1": 0.198,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "action",
+   "text": "A sprinkler is spraying water",
+   "accepted": [
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
+   ],
+   "key": "sprinkler",
+   "elements": [
+    "sprinkler_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": -0.19,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "domain": null,
+    "area_px": 11696
+   },
+   "b": 0.4,
+   "p0": 0.401,
+   "pm1": 0.198,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.497,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "domain": null,
+    "area_px": 7592
+   },
+   "b": -0.17,
+   "p0": 0.542,
+   "pm1": 0.304,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_5",
+    "package_6"
+   ],
+   "cues": [
+    "sprinkler_5",
+    "package_6"
+   ],
+   "effect": [
+    "package_6"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.19,
+    "r": 1,
+    "d": 0.162,
+    "f": 0.54,
+    "domain": null,
+    "area_px": 11696
+   },
+   "b": 0.747,
+   "p0": 0.321,
+   "pm1": 0.148,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "action",
+   "text": "A bird is sitting on the fence",
+   "accepted": [
+    "bird",
+    "bird on the fence",
+    "little bird",
+    "bird sitting",
+    "bird singing"
+   ],
+   "key": "bird",
+   "elements": [
+    "bird_7"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "bird_perched",
+   "event": "e4",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.634,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.63,
+    "domain": null,
+    "area_px": 1528
+   },
+   "b": -0.152,
+   "p0": 0.538,
+   "pm1": 0.3,
+   "aoi_cells": [
+    "MR"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "action",
+   "text": "A girl is flying a kite",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "flying a kite",
+     "kite"
+    ]
+   },
+   "key": "kite",
+   "elements": [
+    "kiteflyer_8",
+    "kite_9"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "fly_kite",
+   "event": "e5",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.198,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.45,
+    "domain": null,
+    "area_px": 11580
+   },
+   "b": -0.546,
+   "p0": 0.633,
+   "pm1": 0.388,
+   "aoi_cells": [
+    "TC",
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i12",
+   "type": "action",
+   "text": "A woman is walking a dog",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "walking a dog",
+     "walking the dog",
+     "dog on a leash",
+     "taking the dog for a walk"
+    ]
+   },
+   "key": "dog",
+   "elements": [
+    "walker_10",
+    "dog_11",
+    "leash_12"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "walk_dog",
+   "event": "e6",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.386,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "domain": null,
+    "area_px": 26376
+   },
+   "b": -1.303,
+   "p0": 0.786,
+   "pm1": 0.575,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.733,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "domain": null,
+    "area_px": 43028
+   },
+   "b": -0.902,
+   "p0": 0.711,
+   "pm1": 0.476,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i14",
+   "type": "entity",
+   "text": "There is a fence",
+   "accepted": [
+    "fence",
+    "wooden fence",
+    "gate"
+   ],
+   "key": "fence",
+   "elements": [
+    "fence"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.944,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "domain": null,
+    "area_px": 237304
+   },
+   "b": -1.315,
+   "p0": 0.788,
+   "pm1": 0.578,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i15",
+   "type": "entity",
+   "text": "It is the back yard of a house",
+   "accepted": [
+    "house",
+    "home",
+    "backyard",
+    "back yard",
+    "yard",
+    "garden"
+   ],
+   "key": "house",
+   "elements": [
+    "house"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.84,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.71,
+    "domain": null,
+    "area_px": 204952
+   },
+   "b": -1.713,
+   "p0": 0.847,
+   "pm1": 0.671,
+   "aoi_cells": [
+    "TL",
+    "ML",
+    "BL"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 12,
+  "inference_units": 3,
+  "contradictions": 0,
+  "items_total": 15
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.636,
+   "inference": 0.333
+  },
+  "theta_minus_1": {
+   "content": 0.414,
+   "inference": 0.157
+  }
+ },
+ "bands": {
+  "content_count": true,
+  "inference_units": true,
+  "contradictions": true,
+  "content_completeness": true,
+  "inference_completeness": true
+ },
+ "in_tier": true,
+ "checks": {
+  "stalkcat_1_looks_at_bird": {
+   "result": true,
+   "detail": ""
+  },
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": true,
+   "detail": "21 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 21,
+  "edge_density": 0.0455,
+  "png_bytes": 242760,
+  "jpeg_bytes": 206738
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ],
+  [
+   "inference",
+   1
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    1352.0,
+    22.0,
+    1548.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    560.0,
+    68.0,
+    966.0,
+    202.0
+   ],
+   "area_px": 19276,
+   "visible_px": 19276,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees beyond the fence",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Lawn",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Paved path to the gate",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    1254.0,
+    614.0,
+    1562.0,
+    1000.0
+   ],
+   "area_px": 81244,
+   "visible_px": 76300,
+   "occlusion": 0.061
+  },
+  {
+   "id": "tree",
+   "label": "Tree behind the fence",
+   "role": "setting",
+   "z": 440,
+   "bbox": [
+    296.0,
+    176.0,
+    544.0,
+    452.0
+   ],
+   "area_px": 44984,
+   "visible_px": 43028,
+   "occlusion": 0.043
+  },
+  {
+   "id": "stalkcat_1",
+   "label": "animal.cat_02__stalk_paw__alert__y090",
+   "role": "scored",
+   "z": 612,
+   "bbox": [
+    810.0,
+    374.0,
+    948.0,
+    444.0
+   ],
+   "area_px": 4212,
+   "visible_px": 3996,
+   "occlusion": 0.051,
+   "asset": {
+    "variant": "animal.cat_02__stalk_paw__alert__y090",
+    "family": "animal.cat_02",
+    "scale": 0.3757,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "cat",
+     "accepted_names": [
+      "cat",
+      "kitten",
+      "kitty"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "stalkbird_2",
+   "label": "animal.bird_02__perch__neutral__y090",
+   "role": "scored",
+   "z": 612,
+   "bbox": [
+    1016.0,
+    386.0,
+    1084.0,
+    438.0
+   ],
+   "area_px": 1548,
+   "visible_px": 1544,
+   "occlusion": 0.003,
+   "asset": {
+    "variant": "animal.bird_02__perch__neutral__y090",
+    "family": "animal.bird_02",
+    "scale": 0.3757,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "bluebird",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
+  },
+  {
+   "id": "bird_7",
+   "label": "animal.bird_01__perch__neutral__y090",
+   "role": "scored",
+   "z": 612,
+   "bbox": [
+    1322.0,
+    386.0,
+    1390.0,
+    438.0
+   ],
+   "area_px": 1548,
+   "visible_px": 1528,
+   "occlusion": 0.013,
+   "asset": {
+    "variant": "animal.bird_01__perch__neutral__y090",
+    "family": "animal.bird_01",
+    "scale": 0.3757,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "robin",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
+  },
+  {
+   "id": "fence",
+   "label": "Wooden fence with a gate",
+   "role": "setting",
+   "z": 615,
+   "bbox": [
+    298.0,
+    426.0,
+    1600.0,
+    618.0
+   ],
+   "area_px": 240896,
+   "visible_px": 237304,
+   "occlusion": 0.015
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    292.0,
+    598.0,
+    428.0,
+    684.0
+   ],
+   "area_px": 8296,
+   "visible_px": 7496,
+   "occlusion": 0.096
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    1100.0,
+    596.0,
+    1220.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    0.0,
+    118.0,
+    342.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    318.0,
+    694.0,
+    572.0,
+    838.0
+   ],
+   "area_px": 25880,
+   "visible_px": 25108,
+   "occlusion": 0.03
+  },
+  {
+   "id": "kiteflyer_8",
+   "label": "person.nia__fly_kite__smile__y090",
+   "role": "scored",
+   "z": 895.36,
+   "bbox": [
+    1342.0,
+    720.0,
+    1412.0,
+    900.0
+   ],
+   "area_px": 5608,
+   "visible_px": 5600,
+   "occlusion": 0.001,
+   "asset": {
+    "variant": "person.nia__fly_kite__smile__y090",
+    "family": "person.nia",
+    "scale": 0.4807,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "sprinkler_5",
+   "label": "Sprinkler spraying",
+   "role": "scored",
+   "z": 941.64,
+   "bbox": [
+    0.0,
+    808.0,
+    644.0,
+    970.0
+   ],
+   "area_px": 11804,
+   "visible_px": 11696,
+   "occlusion": 0.009
+  },
+  {
+   "id": "package_6",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 951.64,
+   "bbox": [
+    584.0,
+    884.0,
+    698.0,
+    964.0
+   ],
+   "area_px": 7592,
+   "visible_px": 7592,
+   "occlusion": 0.0
+  },
+  {
+   "id": "reader_3",
+   "label": "person.leo__walk_read_open__neutral__y090",
+   "role": "scored",
+   "z": 951.98,
+   "bbox": [
+    784.0,
+    658.0,
+    932.0,
+    956.0
+   ],
+   "area_px": 17636,
+   "visible_px": 17636,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__walk_read_open__neutral__y090",
+    "family": "person.leo",
+    "scale": 0.5017,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "obstacle_4",
+   "label": "a bucket in the way",
+   "role": "scored",
+   "z": 952.8,
+   "bbox": [
+    760.0,
+    882.0,
+    816.0,
+    956.0
+   ],
+   "area_px": 3336,
+   "visible_px": 3336,
+   "occlusion": 0.0
+  },
+  {
+   "id": "walker_10",
+   "label": "person.ana__walk_dog__smile__y090",
+   "role": "scored",
+   "z": 974.49,
+   "bbox": [
+    964.0,
+    652.0,
+    1082.0,
+    978.0
+   ],
+   "area_px": 17148,
+   "visible_px": 17132,
+   "occlusion": 0.001,
+   "asset": {
+    "variant": "person.ana__walk_dog__smile__y090",
+    "family": "person.ana",
+    "scale": 0.51,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin2",
+      "hair": "long_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "dog_11",
+   "label": "animal.dog_02__walk__neutral__y090",
+   "role": "scored",
+   "z": 980.49,
+   "bbox": [
+    1146.0,
+    850.0,
+    1288.0,
+    984.0
+   ],
+   "area_px": 8528,
+   "visible_px": 8448,
+   "occlusion": 0.009,
+   "asset": {
+    "variant": "animal.dog_02__walk__neutral__y090",
+    "family": "animal.dog_02",
+    "scale": 0.5122,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_12",
+   "label": "Leash",
+   "role": "scored",
+   "z": 981.49,
+   "bbox": [
+    1074.0,
+    808.0,
+    1248.0,
+    894.0
+   ],
+   "area_px": 796,
+   "visible_px": 796,
+   "occlusion": 0.0
+  },
+  {
+   "id": "kite_9",
+   "label": "Kite",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    976.0,
+    80.0,
+    1348.0,
+    736.0
+   ],
+   "area_px": 5980,
+   "visible_px": 5980,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   13,
+   "could not place wave"
+  ],
+  [
+   1013,
+   "could not place dog_begs"
+  ],
+  [
+   2013,
+   "could not place play_catch"
+  ],
+  [
+   3013,
+   "could not place play_catch; could not place rain_coming"
+  ],
+  [
+   4013,
+   "could not place paint_fence"
+  ],
+  [
+   5013,
+   "could not place lost_balloon; could not place sweep_fork"
+  ],
+  [
+   6013,
+   "could not place dog_begs"
+  ],
+  [
+   7013,
+   "17 drawn objects (tier band 20-30); 18 drawn objects (tier band 20-30); 19 drawn objects (tier band 20-30); could not place play_catch"
+  ],
+  [
+   8013,
+   "legibility: paintstripe_7 overlaps jumper_13's head (17%); legibility: paintstripe_7 touches jumper_13's head or hand; legibility: painttin_8 touches reader_11's head or hand; out of band: {\"content_completeness\": false, \"inference_completeness\": false} pc=0.670 pi=0.273; out of band: {\"inference_completeness\": false} pc=0.667 pi=0.269; out of band: {\"inference_completeness\": false} pc=0.667 pi=0.271; out of band: {\"inference_completeness\": false} pc=0.668 pi=0.272; out of band: {\"inference_completeness\": false} pc=0.668 pi=0.273; out of band: {\"inference_completeness\": false} pc=0.669 pi=0.27"
+  ],
+  [
+   9013,
+   "could not place paint_fence"
+  ],
+  [
+   10013,
+   "could not place fly_kite; could not place paint_tracks; paintstripe_4 occluded 28%"
+  ],
+  [
+   11013,
+   "could not place kite_in_tree"
+  ],
+  [
+   12013,
+   "could not place play_catch; could not place rain_coming; could not place wave"
+  ],
+  [
+   13013,
+   "layout 2: accepted after 1 rejected layouts"
+  ]
+ ],
+ "layout": 1,
+ "knob": 0,
+ "regen": {
+  "base_seed": 13,
+  "max_tries": 24,
+  "placements": 14,
+  "require_band": true,
+  "usage": {
+   "cat_sleeping": 1,
+   "drink_bench": 1,
+   "rake": 1,
+   "dog_wants_walk": 1,
+   "dog_playing": 1,
+   "sweep": 1,
+   "play_catch": 1
+  },
+  "forced": null,
+  "placement_rev": 17
+ }
+}

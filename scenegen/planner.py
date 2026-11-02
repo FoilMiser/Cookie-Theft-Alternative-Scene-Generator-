@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.18.0"
+GENERATOR_VERSION = "0.19.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -43,16 +43,16 @@ def feasible(cls, setting, sky):
 # Prior guesses of each inference item's features (typical cue salience z, cue-effect separation,
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
-PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.18 calibration.json)
+PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.19 calibration.json)
     "blocked_hose": [("inference", 2, -0.40, 0.155, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.405, 1, "rain")],
     "cat_stalks_bird": [("inference", 1, -0.49, 0.080, 1, "cat")],
-    "ball_in_tree": [("inference", 1, -0.75, 0.157, 1, "stuck")],
+    "ball_in_tree": [("inference", 1, -0.75, 0.141, 1, "stuck")],
     "kite_in_tree": [("inference", 1, -0.54, 0.245, 2, "stuck")],
     "ice_cream_drop": [("inference", 1, -1.16, 0.075, 2, "dropped")],
     "about_to_trip": [("inference", 1, 0.19, 0.091, 1, "trip")],
-    "dog_begs": [("inference", 1, -0.65, 0.070, 1, "begging")],
-    "sprinkler_package": [("inference", 1, -0.46, 0.186, 1, "wet")],
+    "dog_begs": [("inference", 1, -0.69, 0.099, 1, "begging")],
+    "sprinkler_package": [("inference", 1, -0.27, 0.167, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
     "windy_hat": [("inference", 2, -1.23, 0.140, 1, "wind")],
     "bird_steals": [("inference", 2, -1.40, 0.051, 1, "stealing")],
@@ -65,7 +65,7 @@ for _cid, _s, _k in [("water_upward", -1.38, "water"),
                      ("floating_box", -0.38, "floating"),
                      ("square_wheel", -0.03, "wheel"),
                      ("fish_in_tree", -1.31, "fish"),
-                     ("pan_watering", -0.07, "pan"),
+                     ("pan_watering", -0.06, "pan"),
                      ("sweep_fork", 0.27, "fork"),
                      ("bucket_hat", 0.27, "bucket"),
                      ("sitting_on_air", 0.07, "chair"),
@@ -252,6 +252,18 @@ def _plan(tier, setting, seed, lib, forced, bumped):
             # revision 15: the content balance no longer adds an empty picnic blanket either (one lay under a
             # sprinkler's spray with nobody on it)
             feats.discard("blanket")
+        if SCN.PLACEMENT_REV >= 17 and any(c.id == "pan_watering" for c in picked):
+            # revision 17: no hose reel as scenery beside the frying pan either (it read as "a hose nozzle")
+            feats.discard("hose_reel")
+        if SCN.PLACEMENT_REV >= 17 and setting == "playground" and {"seesaw", "bench"} <= feats:
+            # revision 17: never the playground's seesaw and its bench together: the seesaw stands right in front of the
+            # bench, its raised end across a sitter's legs, so with the gap kept from thin parts no one could sit there
+            need = set()
+            for c in picked:
+                need |= c.features(setting)
+            if {"seesaw", "bench"} <= need:
+                continue
+            feats.discard("bench" if "seesaw" in need else "seesaw")
         if SCN.PLACEMENT_REV >= 14 and any(c.id == "square_wheel" for c in picked):
             # revision 14: no ordinary bicycle in a rack beside the square-wheeled one (as the fillers keep away since revision 9)
             feats.discard("bicycle")

@@ -49,36 +49,40 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v017", "v018"
+PREV, CUR = "v018", "v019"
 
-# what the v0.17 screen readers made of the template that failed its gate, and what v0.18 changed
-# (vision/flaws_v017.md); the placement rule was read in whole test scenes first (vision/design_tests_v018.md)
+# what the v0.18 screen readers made of the templates that failed its gate, and what v0.19 changed
+# (vision/flaws_v018.md); the visuals were refined on the bench and every change read in whole test scenes first
+# (vision/isolation_v019.md, vision/design_tests_v019.md)
 REDRAWN_NOTES = {
-    "wave": "A small girl far back in the tier-4 park, her raised hand on the dark outline of the hedge line behind her: 'a string she is holding ... or just a wave'. Now the waving hand and its motion arcs stand only against plain ground, wall or sky, clear of every line of the backdrop, and no waver stands at the far back.",
+    "about_to_trip": "In the windy tier-4 park, a teenager at the back held her open book wide: 'reading or holding an open newspaper ... or papers in the wind', and nobody predicted the trip. Now no reading walker under the windy hat's gust or at the far back, and the head bent 30 degrees again but for the dark-haired woman.",
+    "cat_stalks_bird": "On the fence, well over a cat's length from a pecking bird, the cat was 'walking along the top of the fence'. Now the bird sits perched and the cat is close to it.",
+    "pan_watering": "Beside the garden's hose reel the pan was misread as 'a dark grey hose nozzle or watering wand'. Now no hose reel in the picture, and the pan turned toward the viewer, grey inside a black rim, on a shorter handle.",
+    "run": "A runner with no marks of speed was 'striding or jogging'. Now three motion lines trail from the runner's back.",
 }
 
-# what the v0.18 screen readers made of the templates that read poorly (vision/flaws_v018.md)
+# what the v0.19 screen readers made of the templates that read poorly (vision/flaws_v019.md)
 WEAK_NOTES = {
-    "about_to_trip": "In the windy tier-4 park, a teenager at the back holding her open book wide: 'walks along reading or holding an open newspaper', 'could be ... struggling to hold papers in the wind'; the bucket ahead of her had 'no obvious owner or purpose'. Read in full in its three other pictures, and in all six in v0.17. v0.19: no reading walker in a windy picture or at the far back.",
-    "cat_stalks_bird": "In the tier-4 garden, the cat on the fence top read as 'walking along the top of the fence ... toward the blue bird', stalking only 'possibly'. Read in full on the grass in its two other pictures. v0.19: on a fence, the cat closer to its bird, and the bird perched rather than pecking.",
-    "pan_watering": "In a probe, the pan held nearly edge-on beside a hose reel was misread as 'a dark grey hose nozzle or watering wand ... not attached to any hose'. Read as a frying pan in its two other pictures. v0.19: no hose reel beside the pan waterer, and the pan turned to show its inside.",
-    "run": "In a probe, a woman running on the grass read as 'striding or jogging'. Read as running in its two other pictures. v0.19: motion lines behind the runner.",
+    "bucket_hat": "In a probe, the bucket on the head of a man at the back of the garden read as 'a tall blue hat', 'or a fez- or chef-style hat', never called wrong. Read as 'a blue bucket upside down on his head' in its two other pictures. v0.20: the bucket's wire handle and rim drawn.",
+    "drink_bench": "In a park isomorph, a girl on a bench held 'something white ... to her mouth, as if drinking or eating'. Read as drinking from a white cup in its two other pictures. v0.20: a coloured cup with a lid and straw.",
+    "ice_cream": "In a park isomorph, a teenager 'holding her own pink ice-cream cone' walked toward the boy whose ice cream lay on the ground, 'maybe to share it'; eating only as an alternative. Read as eating in its three other pictures. v0.20: no ice-cream eater beside the dropped ice cream.",
+    "jump": "In the tier-4 garden, a boy jumping just below a bird perched on the fence read as 'jumping with his arms up near a blue bird', reaching for it. Read in full in its two other pictures. v0.20: no bird above or beside a jumper's raised hands.",
 }
-SCREEN_NOTE = ("The v0.18 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+SCREEN_NOTE = ("The v0.19 screen read the set pictures and enough probe pictures that every template appeared in at least three "
                "screened pictures. Before the screen every weak visual was refined on its own: cut out of a picture with nothing else "
-               "around it, read blind, redrawn and read again (two rounds, 14 cut-outs), then read in whole test scenes (six pictures). "
-               "710 of 720 scored items had full marks and one, in a probe, was misread; the v0.17 failure, the waver, passed in all "
-               "four of its pictures, and four templates that had passed in full fell short, each in one picture. A retest of the "
-               "unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five templates of the gate's "
-               "movement between releases is reader variance.")
+               "around it, read blind, redrawn and read again (two rounds, 15 cut-outs), then read in whole test scenes (six pictures). "
+               "750 of 760 scored items had full marks and none was misread; all four v0.18 failures passed, and four templates that "
+               "had passed in full fell short, each on a single half point in one picture. A retest of the unchanged v0.9 pictures "
+               "with fresh readers moved the gate by five templates: about five templates of the gate's movement between releases "
+               "is reader variance.")
 
-# before (v0.17) and after (v0.18): the same variant rendered from both casts
-FIXES = [("person.mei__hose_spray__content__y090", "The dark-haired woman in profile",
-          "Her bob covered the cheek, so in profile she had 'no visible face; head is a round dark shape'; now the side hair runs behind the ear and the hairline is higher"),
-         ("person.mei__walk_read_open__focused__y090", "Reading as she walks",
-          "Head bent 30 degrees over the book, only 'a skin-coloured profile edge under dark hair' showed; now bent 20 degrees, with the new bob"),
-         ("person.mei__stand__neutral__y000", "The new bob from the front",
-          "The same woman from the front: the bob now stops above the ears")]
+
+FIXES = [("person.kai__walk_balloon__smile__y090", "The curly-haired boy in profile",
+          "His curls and hair covered the cheek, so in profile his head looked 'almost seen from behind'; now below the temples the hair stays behind the ear"),
+         ("person.dev__water_pan__content__y090", "The frying pan",
+          "Seen at a slant on a long thin handle it read as 'the spout and rose of a watering can'; now turned toward the viewer, grey inside a black rim, on a shorter handle"),
+         ("person.dev__walk_read_open__focused__y090", "Reading as he walks",
+          "In v0.18 every reading walker bent the head 20 degrees for the dark-haired woman's face; now 30 again, as in v0.17, for everyone else")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):
@@ -269,7 +273,7 @@ def build(scenes_dir, gallery_dir, combos_path, out, old_gallery=None, screen=No
                           for t in sorted(REDRAWN_NOTES, key=lambda t: b5.get(t, {}).get("mean", 9)) if t in b5]
         scr["weak"] = [{"id": t, "mean": b6[t]["mean"], "items": b6[t]["items"], "note": WEAK_NOTES.get(t, "")}
                        for t in sorted(b6, key=lambda t: b6[t]["mean"]) if b6[t]["mean"] < 0.9]
-        for k in ("v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018"):
+        for k in ("v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019"):
             scr.get(k, {}).pop("by_template", None)
         if screen and os.path.exists(os.path.join(os.path.dirname(screen), CUR, "gate.json")):
             g = json.load(open(os.path.join(os.path.dirname(screen), CUR, "gate.json")))

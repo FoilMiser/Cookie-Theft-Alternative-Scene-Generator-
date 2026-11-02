@@ -1,24 +1,27 @@
-Four templates fall under the legibility gate after the v0.18 screen, each in a single picture, all four
-  read in full in v0.17: the reading walker in the windy tier-4 park ("reading or holding an open newspaper",
-  no trip predicted), the stalking cat on the tier-4 garden's fence (read as walking), the frying pan in a
-  probe beside a hose reel (misread as "a hose nozzle or watering wand") and a runner in a probe ("striding
-  or jogging"). `vision/flaws_v018.md` gives what the readers saw and the next fixes.
+Four templates fall under the legibility gate after the v0.19 screen, each on a single half point in one
+  picture (the bucket hat on two), all four read in full in v0.18: the bucket on the head of a man at the back of a
+  garden probe ("a tall blue hat ... or a fez"), a girl's drink on a bench in a park isomorph ("something white ...
+  as if drinking or eating"), a teenager's ice cream beside the boy who dropped his ("maybe to share it") and a boy
+  jumping just below a perched bird (read as reaching for it). `vision/flaws_v019.md` gives what the readers saw and
+  the next fixes.
 - The retest of the v0.9 pictures (`vision/retest_v09.md`) put the gate's reader variance at about five
   templates between screens. A template with one to three items per picture fails on a single picture
   where something next to it pulls the reading away: the gate is a filter, not a measurement.
-- Scores are at the ceiling: across 60 pictures only 10 of 720 scored items fell short of full marks, and
-  one was misread. AI readers describe exhaustively, so the screen cannot rank templates by difficulty;
+- Scores are at the ceiling: across 65 pictures only 10 of 760 scored items fell short of full marks, all by
+  half a point, and none was misread. AI readers describe exhaustively, so the screen cannot rank templates by difficulty;
   that is the pilot's job.
 - Scorers differ on hedges: some give full marks when the description commits to the key's reading and
   only the "unsure" section offers another, some give a half point. The prompt allows both; two v0.17 scorers
-  counted 6 and 13 such items they credited in full and a v0.18 scorer listed seven judgment calls, enough
-  to move a template across the gate.
-- Tier-4 pictures are the hardest to place, and revisions 14 to 16 make them harder (walkers' lanes,
-  pointing lines, feet off benches, the photographer's line of sight, the waver's clear hand, body gaps).
-  The tier-4 garden, playground and street pictures came from wider seed searches with no template-variety
-  steering, as in v0.15 to v0.17; the tier-4 park came from the batch's own seed search past the showcase
-  seed. Their records rebuild them exactly. Two of the four gate failures were in tier-4 set pictures, where
-  many events meet, and a third beside the garden's hose reel.
+  counted 6 and 13 such items they credited in full, a v0.18 scorer listed seven judgment calls and a v0.19
+  scorer six, enough to move a template across the gate.
+- Tier-4 pictures are the hardest to place, and revisions 14 to 17 make them harder (walkers' lanes,
+  pointing lines, feet off benches, the photographer's line of sight, the waver's clear hand, body gaps, the
+  gap from thin parts). With that gap no one could sit on the playground's bench behind its seesaw, and no busy
+  playground was placed in 88 seed searches of 40 casts each until revision 17 stopped planning the two together. The tier-4
+  garden, playground and street pictures came from wider seed searches with no template-variety steering, as in
+  v0.15 to v0.18; the tier-4 park came from the batch's own seed search past the showcase seed. Their records
+  rebuild them exactly. One of the four gate failures was in a tier-4 set picture, where many events meet, and
+  two in isomorphs.
 - The square-wheeled bicycle still stands on its own: four stands have been tried on the bench, and each
   read as something else (pedals, legs) or not at all.
 - The low kick's direction is ambiguous when the kicker's hair hides the face; the teenager kicks first,
@@ -28,19 +31,21 @@ Four templates fall under the legibility gate after the v0.18 screen, each in a 
 - The body check (`assets/cast/gapcheck.py`) finds parts that come apart, not parts that pass through one
   another: a hand inside a hip or a lobe of skirt inside the bell is allowed, and only the outline drawn
   in the render shows whether the join looks right.
-- The wind reaches the hat, the washing, an empty swing, the tree and the sky, but not hair or clothes: the
-  cast is posed and rendered in 3D, and a blowing fringe or skirt would be a new rig.
+- The wind reaches the hat, the washing, an empty swing, the tree and the sky, but not hair or clothes, nor the
+  bushes and flowers (three v0.19 probe readers noticed): the cast is posed and rendered in 3D, and a blowing
+  fringe or skirt would be a new rig.
 - The isolation bench reads one template cut out of its picture. A visual that reads alone can still be
   misread among other events, so the bench comes before the test scenes and the screen, never instead of them.
-- The planner's priors come from the v0.18 calibration, which differs from v0.17's only in the stalking cat's
-  inference (the cat redrawn larger) and by at most 0.002 on every other template.
-- Exact rebuilds hold within a release: the v0.18 placement rules (revision 16), the larger cats and the
-  dark-haired woman's new hair change where events go and how they look, so a v0.17 record rebuilds with the
-  v0.17 package.
-- Variants whose pose did not change are carried over from the v0.17 library; rendered again from the
-  v0.18 cast they come out the same, or within a few levels of grey at anti-aliased edges.
-- The sleeping cat, 1.4 times its v0.17 size, still read as "small" in one probe; drawn larger, the standing
-  and stalking cats would come out as big as the small white dog. Its size is a note for the pilot.
+- The planner's priors come from the v0.19 calibration: the soaked box's inference, its sprinkler's arcs now
+  unbroken, came out more salient, the begging dog's and the ball in the tree's moved by at most 0.06, and every
+  other template by at most 0.011.
+- Exact rebuilds hold within a release: the v0.19 placement rules (revision 17), the redrawn pan and the
+  curly-haired boy's hair change where events go and how they look, so a v0.18 record rebuilds with the
+  v0.18 package.
+- Variants whose pose did not change are carried over from the v0.18 library; rendered again from the
+  v0.19 cast they come out the same, or within a few levels of grey at anti-aliased edges.
+- The sleeping cat, 1.4 times its v0.17 size, read as "small" in one v0.18 probe and drew no remark in its four
+  v0.19 pictures; drawn larger, the standing and stalking cats would come out as big as the small white dog.
 - Twenty-seven actions in the cast are used by no template; they are kept for later templates and left
   out of the gallery and the screen, so they have never been read blind.
 - Edge density is not part of the isomorph rule. Street pictures stay the busiest, so a street

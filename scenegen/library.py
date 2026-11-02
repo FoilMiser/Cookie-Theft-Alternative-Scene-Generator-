@@ -19,8 +19,8 @@ from .draw import OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out018")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib018")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out019")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib019")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 
 

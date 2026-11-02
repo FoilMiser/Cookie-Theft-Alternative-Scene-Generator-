@@ -1,0 +1,1470 @@
+{
+ "name": "T3_street_s7133",
+ "tier": 3,
+ "setting": "street",
+ "sky": "dark",
+ "seed": 7133,
+ "mirror": false,
+ "versions": {
+  "generator": "0.19.0",
+  "cast_builder": "0.19.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  }
+ },
+ "features": [
+  "bench",
+  "bicycle",
+  "flowers",
+  "stall"
+ ],
+ "templates": [
+  {
+   "id": "rain_coming",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "ice_cream_drop",
+   "kind": "inference",
+   "event": "e2",
+   "units": 1
+  },
+  {
+   "id": "sitting_on_air",
+   "kind": "contradiction",
+   "event": "e3",
+   "units": 1
+  },
+  {
+   "id": "read_bench",
+   "kind": "event",
+   "event": "e4",
+   "units": 0
+  },
+  {
+   "id": "photo",
+   "kind": "event",
+   "event": "e5",
+   "units": 0
+  },
+  {
+   "id": "water_flowers",
+   "kind": "event",
+   "event": "e6",
+   "units": 0
+  }
+ ],
+ "scene_load": 6,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A child is reading on the bench",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "sitting and reading"
+    ]
+   },
+   "key": "book",
+   "elements": [
+    "sitter_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "read_bench",
+   "event": "e4",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.61,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.43,
+    "domain": null,
+    "area_px": 6476
+   },
+   "b": -0.904,
+   "p0": 0.712,
+   "pm1": 0.476,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A grandfather is watering the flowers",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "watering the flowers",
+     "watering the plants",
+     "watering the garden",
+     "watering can"
+    ]
+   },
+   "key": "flowers",
+   "elements": [
+    "waterer_2",
+    "water_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "water_flowers",
+   "event": "e6",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.156,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "domain": null,
+    "area_px": 12276
+   },
+   "b": -0.894,
+   "p0": 0.71,
+   "pm1": 0.474,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "action",
+   "text": "A girl is holding an empty cone, looking down at the ice cream on the ground, upset",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "holding an empty cone",
+     "looking at the dropped ice cream",
+     "sad",
+     "upset",
+     "empty cone",
+     "crying"
+    ]
+   },
+   "key": "cone",
+   "elements": [
+    "conekid_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ice_cream_drop",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.512,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.17,
+    "domain": null,
+    "area_px": 7432
+   },
+   "b": -0.473,
+   "p0": 0.616,
+   "pm1": 0.371,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "entity",
+   "text": "Ice cream is lying on the ground",
+   "accepted": [
+    "ice cream on the ground",
+    "dropped ice cream",
+    "ice cream fell",
+    "ice cream",
+    "scoop on the ground"
+   ],
+   "key": "ice cream",
+   "elements": [
+    "splat_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "ice_cream_drop",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.14,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.62,
+    "domain": null,
+    "area_px": 3068
+   },
+   "b": 0.104,
+   "p0": 0.474,
+   "pm1": 0.249,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A dog is licking the ice cream",
+   "accepted": [
+    "dog eating the ice cream",
+    "dog licking it",
+    "dog sniffing the ice cream"
+   ],
+   "key": "dog",
+   "elements": [
+    "lickdog_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ice_cream_drop",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.242,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "domain": null,
+    "area_px": 10876
+   },
+   "b": -0.989,
+   "p0": 0.729,
+   "pm1": 0.497,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "inference",
+   "text": "The girl dropped the ice cream",
+   "accepted": [
+    "the girl dropped the ice cream",
+    "the ice cream fell off the cone",
+    "dropped it",
+    "lost the ice cream"
+   ],
+   "key": "dropped",
+   "elements": [
+    "splat_6",
+    "conekid_4",
+    "lickdog_5"
+   ],
+   "cues": [
+    "splat_6",
+    "conekid_4",
+    "lickdog_5"
+   ],
+   "effect": [
+    "splat_6"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "ice_cream_drop",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -1.14,
+    "r": 2,
+    "d": 0.072,
+    "f": 0.73,
+    "domain": null,
+    "area_px": 3068
+   },
+   "b": 0.757,
+   "p0": 0.319,
+   "pm1": 0.147,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "action",
+   "text": "A teenager is sitting and having a drink",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "sitting and having a drink",
+     "sitting",
+     "having a drink",
+     "drinking"
+    ]
+   },
+   "key": "sitting",
+   "elements": [
+    "airsitter_7"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "sitting_on_air",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.161,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.86,
+    "domain": null,
+    "area_px": 12184
+   },
+   "b": -0.958,
+   "p0": 0.723,
+   "pm1": 0.49,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with how the person is sitting",
+   "accepted": [
+    "something odd about how they're sitting",
+    "that person looks strange",
+    "something's missing"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_7"
+   ],
+   "cues": [
+    "airsitter_7"
+   ],
+   "effect": [
+    "airsitter_7"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.161,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.69,
+    "domain": "physical",
+    "area_px": 12184
+   },
+   "b": 0.394,
+   "p0": 0.403,
+   "pm1": 0.199,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "contradiction_explain",
+   "text": "The person is sitting on nothing: there is no chair or bench under them",
+   "accepted": [
+    "sitting on nothing",
+    "there's no chair",
+    "sitting in the air",
+    "invisible chair",
+    "nothing to sit on"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_7"
+   ],
+   "cues": [
+    "airsitter_7"
+   ],
+   "effect": [
+    "airsitter_7"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.161,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.69,
+    "domain": "physical",
+    "area_px": 12184
+   },
+   "b": 1.593,
+   "p0": 0.169,
+   "pm1": 0.07,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "Dark clouds are coming",
+   "accepted": [
+    "dark clouds",
+    "storm clouds",
+    "clouds",
+    "cloudy",
+    "storm",
+    "gray sky"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_dark"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.843,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "domain": null,
+    "area_px": 50244
+   },
+   "b": -0.75,
+   "p0": 0.679,
+   "pm1": 0.438,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "action",
+   "text": "A man is pointing up at the sky",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "pointing at the sky",
+     "pointing at the clouds",
+     "pointing up",
+     "looking up",
+     "worried"
+    ]
+   },
+   "key": "sky",
+   "elements": [
+    "skywatcher_8"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.098,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.72,
+    "domain": null,
+    "area_px": 17572
+   },
+   "b": -1.045,
+   "p0": 0.74,
+   "pm1": 0.511,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i12",
+   "type": "inference",
+   "text": "It is about to rain",
+   "accepted": [
+    "it's going to rain",
+    "a storm is coming",
+    "rain is coming",
+    "it might rain",
+    "going to get wet"
+   ],
+   "key": "rain",
+   "elements": [
+    "clouds_dark",
+    "skywatcher_8"
+   ],
+   "cues": [
+    "clouds_dark",
+    "skywatcher_8"
+   ],
+   "effect": [
+    "clouds_dark"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.843,
+    "r": 1,
+    "d": 0.46,
+    "f": 0.71,
+    "domain": null,
+    "area_px": 50244
+   },
+   "b": 0.537,
+   "p0": 0.369,
+   "pm1": 0.177,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "action",
+   "text": "A grandmother is taking a photo",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "taking a picture",
+     "taking a photo",
+     "photographing",
+     "camera"
+    ]
+   },
+   "key": "camera",
+   "elements": [
+    "photographer_9"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "photo",
+   "event": "e5",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.253,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.87,
+    "domain": null,
+    "area_px": 10708
+   },
+   "b": -0.915,
+   "p0": 0.714,
+   "pm1": 0.479,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i14",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.093,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "domain": null,
+    "area_px": 71400
+   },
+   "b": -1.081,
+   "p0": 0.747,
+   "pm1": 0.52,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i15",
+   "type": "entity",
+   "text": "There is a street lamp",
+   "accepted": [
+    "lamp post",
+    "lamp",
+    "street light",
+    "light post",
+    "lamppost"
+   ],
+   "key": "lamp",
+   "elements": [
+    "lamp"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.376,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.05,
+    "domain": null,
+    "area_px": 9008
+   },
+   "b": -0.107,
+   "p0": 0.527,
+   "pm1": 0.29,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i16",
+   "type": "entity",
+   "text": "There is a bicycle",
+   "accepted": [
+    "bike",
+    "bicycle",
+    "cycle"
+   ],
+   "key": "bike",
+   "elements": [
+    "bicycle"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.213,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.53,
+    "domain": null,
+    "area_px": 11328
+   },
+   "b": -0.333,
+   "p0": 0.582,
+   "pm1": 0.339,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "BL",
+    "BC"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 12,
+  "inference_units": 3,
+  "contradictions": 1,
+  "items_total": 16
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.663,
+   "inference": 0.315
+  },
+  "theta_minus_1": {
+   "content": 0.428,
+   "inference": 0.148
+  }
+ },
+ "bands": {
+  "content_count": true,
+  "inference_units": true,
+  "contradictions": true,
+  "content_completeness": true,
+  "inference_completeness": true
+ },
+ "in_tier": true,
+ "checks": {
+  "skywatcher_8_looks_at_clouds": {
+   "result": false,
+   "detail": ""
+  },
+  "photographer_9_photographs_waterer_2": {
+   "result": true,
+   "detail": ""
+  },
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": true,
+   "detail": "21 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 21,
+  "edge_density": 0.0519,
+  "png_bytes": 272028,
+  "jpeg_bytes": 195611
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "clouds_dark",
+   "label": "Dark clouds rolling in",
+   "role": "scored",
+   "z": -98,
+   "bbox": [
+    412.0,
+    0.0,
+    1182.0,
+    140.0
+   ],
+   "area_px": 51392,
+   "visible_px": 50244,
+   "occlusion": 0.022
+  },
+  {
+   "id": "buildings",
+   "label": "Row of shops",
+   "role": "setting",
+   "z": -95,
+   "bbox": [
+    0.0,
+    114.0,
+    1600.0,
+    602.0
+   ],
+   "area_px": 693612,
+   "visible_px": 592700,
+   "occlusion": 0.145
+  },
+  {
+   "id": "ground",
+   "label": "Paved street",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "photographer_9",
+   "label": "person.rosa__photo__neutral__y045",
+   "role": "scored",
+   "z": 654.64,
+   "bbox": [
+    630.0,
+    408.0,
+    708.0,
+    656.0
+   ],
+   "area_px": 10708,
+   "visible_px": 10708,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__photo__neutral__y045",
+    "family": "person.rosa",
+    "scale": 0.3915,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "flowers",
+   "label": "Flower planter",
+   "role": "setting",
+   "z": 660,
+   "bbox": [
+    948.0,
+    586.0,
+    1052.0,
+    662.0
+   ],
+   "area_px": 6832,
+   "visible_px": 6092,
+   "occlusion": 0.108
+  },
+  {
+   "id": "bicycle",
+   "label": "Parked bicycle",
+   "role": "setting",
+   "z": 690,
+   "bbox": [
+    458.0,
+    588.0,
+    622.0,
+    694.0
+   ],
+   "area_px": 11328,
+   "visible_px": 11328,
+   "occlusion": 0.0
+  },
+  {
+   "id": "waterer_2",
+   "label": "person.tomas__water_plants__neutral__y090",
+   "role": "scored",
+   "z": 690,
+   "bbox": [
+    858.0,
+    426.0,
+    962.0,
+    694.0
+   ],
+   "area_px": 11300,
+   "visible_px": 11276,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.tomas__water_plants__neutral__y090",
+    "family": "person.tomas",
+    "scale": 0.4046,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "water_3",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 691,
+   "bbox": [
+    956.0,
+    574.0,
+    1018.0,
+    640.0
+   ],
+   "area_px": 1000,
+   "visible_px": 1000,
+   "occlusion": 0.0
+  },
+  {
+   "id": "lamp",
+   "label": "Street lamp",
+   "role": "setting",
+   "z": 700,
+   "bbox": [
+    1092.0,
+    220.0,
+    1148.0,
+    702.0
+   ],
+   "area_px": 9008,
+   "visible_px": 9008,
+   "occlusion": 0.0
+  },
+  {
+   "id": "stall",
+   "label": "Fruit stand",
+   "role": "setting",
+   "z": 720,
+   "bbox": [
+    1272.0,
+    502.0,
+    1528.0,
+    722.0
+   ],
+   "area_px": 25520,
+   "visible_px": 19360,
+   "occlusion": 0.241
+  },
+  {
+   "id": "bench",
+   "label": "Bench",
+   "role": "setting",
+   "z": 770,
+   "bbox": [
+    662.0,
+    664.0,
+    858.0,
+    772.0
+   ],
+   "area_px": 10840,
+   "visible_px": 8512,
+   "occlusion": 0.215
+  },
+  {
+   "id": "sitter_1",
+   "label": "person.kai__sit_read__neutral__y045",
+   "role": "scored",
+   "z": 773,
+   "bbox": [
+    708.0,
+    606.0,
+    792.0,
+    768.0
+   ],
+   "area_px": 6476,
+   "visible_px": 6476,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.kai__sit_read__neutral__y045",
+    "family": "person.kai",
+    "scale": 0.4354,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "skywatcher_8",
+   "label": "person.dev__point_up__worried__y045",
+   "role": "scored",
+   "z": 785.19,
+   "bbox": [
+    1330.0,
+    478.0,
+    1462.0,
+    788.0
+   ],
+   "area_px": 17572,
+   "visible_px": 17572,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.dev__point_up__worried__y045",
+    "family": "person.dev",
+    "scale": 0.4399,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
+     }
+    }
+   }
+  },
+  {
+   "id": "tree",
+   "label": "Street tree",
+   "role": "setting",
+   "z": 800,
+   "bbox": [
+    152.0,
+    362.0,
+    448.0,
+    808.0
+   ],
+   "area_px": 71400,
+   "visible_px": 71400,
+   "occlusion": 0.0
+  },
+  {
+   "id": "airsitter_7",
+   "label": "person.leo__sit_drink__focused__y045",
+   "role": "scored",
+   "z": 844.81,
+   "bbox": [
+    34.0,
+    628.0,
+    160.0,
+    858.0
+   ],
+   "area_px": 12184,
+   "visible_px": 12184,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__sit_drink__focused__y045",
+    "family": "person.leo",
+    "scale": 0.462,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "filler_bin_s",
+   "label": "Bin",
+   "role": "filler",
+   "z": 930,
+   "bbox": [
+    1206.0,
+    844.0,
+    1274.0,
+    932.0
+   ],
+   "area_px": 4992,
+   "visible_px": 4992,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pot_s",
+   "label": "Flower pot",
+   "role": "filler",
+   "z": 950,
+   "bbox": [
+    1508.0,
+    862.0,
+    1572.0,
+    952.0
+   ],
+   "area_px": 4456,
+   "visible_px": 4456,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_cafe_b",
+   "label": "Caf\u00e9 table and chairs",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    390.0,
+    862.0,
+    570.0,
+    970.0
+   ],
+   "area_px": 8280,
+   "visible_px": 8280,
+   "occlusion": 0.0
+  },
+  {
+   "id": "conekid_4",
+   "label": "person.nia__cone_dropped__sad__y045",
+   "role": "scored",
+   "z": 967.14,
+   "bbox": [
+    716.0,
+    782.0,
+    790.0,
+    968.0
+   ],
+   "area_px": 7432,
+   "visible_px": 7432,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.nia__cone_dropped__sad__y045",
+    "family": "person.nia",
+    "scale": 0.5073,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "splat_6",
+   "label": "Ice cream on the ground",
+   "role": "scored",
+   "z": 976.95,
+   "bbox": [
+    778.0,
+    946.0,
+    884.0,
+    996.0
+   ],
+   "area_px": 3068,
+   "visible_px": 3068,
+   "occlusion": 0.0
+  },
+  {
+   "id": "lickdog_5",
+   "label": "animal.dog_01__sniff__happy__y090",
+   "role": "scored",
+   "z": 977.95,
+   "bbox": [
+    848.0,
+    830.0,
+    1042.0,
+    984.0
+   ],
+   "area_px": 10876,
+   "visible_px": 10876,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.dog_01__sniff__happy__y090",
+    "family": "animal.dog_01",
+    "scale": 0.5113,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "filler_pot_s2",
+   "label": "Flower pot",
+   "role": "filler",
+   "z": 980,
+   "bbox": [
+    28.0,
+    890.0,
+    92.0,
+    982.0
+   ],
+   "area_px": 4616,
+   "visible_px": 4616,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   133,
+   "could not place water_flowers"
+  ],
+  [
+   1133,
+   "could not place water_flowers"
+  ],
+  [
+   2133,
+   "could not place play_catch; could not place push_stroller"
+  ],
+  [
+   3133,
+   "could not place play_catch; could not place push_stroller"
+  ],
+  [
+   4133,
+   "could not place play_catch; could not place push_stroller"
+  ],
+  [
+   5133,
+   "could not place water_flowers"
+  ],
+  [
+   6133,
+   "could not place water_flowers"
+  ],
+  [
+   7133,
+   "layout 4: accepted after 3 rejected layouts"
+  ]
+ ],
+ "layout": 3,
+ "knob": 0,
+ "regen": {
+  "base_seed": 133,
+  "max_tries": 24,
+  "placements": 14,
+  "require_band": true,
+  "usage": {
+   "cat_sleeping": 1,
+   "drink_bench": 1,
+   "rake": 1,
+   "dog_wants_walk": 1,
+   "dog_playing": 1,
+   "sweep": 1,
+   "play_catch": 1,
+   "about_to_trip": 1,
+   "sprinkler_package": 1,
+   "cat_stalks_bird": 1,
+   "bird_perched": 1,
+   "fly_kite": 1,
+   "walk_dog": 1,
+   "goat_grazing": 1,
+   "plant_flowers": 1,
+   "feed_birds": 1,
+   "kite_in_tree": 1,
+   "carry_box": 1,
+   "dog_sleeping": 1,
+   "dig": 1,
+   "ball_in_tree": 1,
+   "lost_balloon": 1,
+   "dog_begs": 1,
+   "ice_cream": 1,
+   "balloon": 1,
+   "ducks_swimming": 1,
+   "birds_flying": 1,
+   "jump": 1,
+   "run": 1,
+   "ice_cream_drop": 1,
+   "carry_bag": 1,
+   "wave": 1
+  },
+  "forced": null,
+  "placement_rev": 17
+ }
+}

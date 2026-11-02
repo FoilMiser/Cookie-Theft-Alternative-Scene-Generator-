@@ -108,8 +108,19 @@ class PlacementError(Exception):
 # kept clear, fillers well inside the frame, and a duck's wake kept off figures; inspecting the set added no sprinkler
 # under the storm clouds of a rain warning, a fishing line and its float kept off figures, and no picnic in a picture
 # with the soaked box.
+# 17 (v0.19): the v0.18 screen's four failures and its oddities: no reader walking with a book under a gust of wind and
+# none at the far back (open pages beside wind lines read as "a newspaper ... or papers in the wind"), the stalking cat on
+# the fence close to a bird perched there (well over a cat's length off, it read as walking along the fence), no hose
+# reel beside the frying pan (beside a reel it read as "a hose nozzle"), motion lines behind a runner ("striding or
+# jogging"); a gap between a person and the thin parts of standing structures and the stall's legs (a woman "tightly
+# overlapping the lamp post", a photographer "inside the swing frame"), the begging dog clear of the eater's legs, the
+# child under a ball stuck in a tree, the kicked ball just ahead of the foot, the painted boards in front of the brush,
+# and water from a hose or sprinkler drawn unbroken (dashed, it was "a dotted line"); inspecting the set added no hand
+# over the stall's crates of fruit (a runner's hand on the apples looked like snatching one), and a runner and the
+# runner's motion lines clear of the stall; and searching the set, never the playground's seesaw with its bench (the
+# seesaw stands right in front of it, so with the gap from thin parts nobody could sit there).
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 16
+PLACEMENT_REV = 17
 WORKER = "person.jo"
 LEISURE7 = {"about_to_trip"}
 LEISURE = {"ball_in_tree", "balloon", "bird_steals", "bucket_hat", "carry_bag", "dog_begs", "drink_bench", "ducks_bread",
@@ -636,6 +647,7 @@ class Scene:
         import numpy as np
         U, TH = structure_masks(self.S, getattr(self, "exempt", ()))
         m = K.asset_mask(p, False)
+        m_full = m
         if U is None:
             if PLACEMENT_REV < 4:
                 return True
@@ -689,7 +701,36 @@ class Scene:
             return False
         if PLACEMENT_REV >= 4 and not self.legs_clear(p, legs_m):
             return False
+        if PLACEMENT_REV >= 17:
+            # revision 17: a gap between a person and the thin parts (poles, legs, rails) of standing structures the
+            # event does not use: a woman "tightly overlapping the lamp post", a photographer "inside the swing frame"
+            from scipy.ndimage import binary_dilation
+            if int((TH & binary_dilation(m_full, iterations=4)).sum()) > 4:
+                return False
+            if not self.clear_of_stall(p):
+                return False
         return int((TH & m).sum()) <= cross_px
+
+    def clear_of_stall(self, p):
+        """Revision 17: nobody stands among the market stall's legs: anyone across its width stands well in front of it
+        (a man against the stall's back legs)."""
+        if "stall" in getattr(self, "exempt", ()):
+            return True
+        bb = p.bbox()
+        for e in self.S.elements:
+            if e["id"] == "stall" and e.get("bbox"):
+                b = e["bbox"]
+                if min(bb[2], b[2] + 8) > max(bb[0], b[0] - 8) and bb[3] < b[3] + 40 * D.sz(b[3]):
+                    return False
+                # no hand over the crates of fruit (a runner's hand on the apples looked like snatching one)
+                s_ = D.sz(b[3])
+                top = b[3] - 96 * s_
+                for h in ("hand_L_grip", "hand_R_grip"):
+                    if p.has_anchor(h):
+                        hx, hy = p.anchor(h)
+                        if b[0] - 10 <= hx <= b[2] + 10 and top - 40 * s_ - 8 <= hy <= top + 6:
+                            return False
+        return True
 
     def legs_clear(self, p, legs):
         """Revision 4: no standing structure drawn in front of a person may cover their legs or feet
