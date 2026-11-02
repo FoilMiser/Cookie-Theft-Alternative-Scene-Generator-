@@ -130,8 +130,18 @@ class PlacementError(Exception):
 # can, no spare can beside a hose, one hose per picture, and a can's water further into the bed; people and animals
 # clear of the pond's cattails and rim; figures of different events up to about 80 px apart in depth kept off each
 # other's heads; and a kick's line clear of the sandpit and of people further off.
+# 20 (v0.22): the v0.21 screen's three failures and its oddities: no frying pan in the street (held against a grey shop
+# door at a planter it read as "a grey watering can"); a jumper clear of standing structures behind (in front of the
+# fruit stall he read as standing with his arms up); a leaning ladder whose top rises above the lawn's far edge, clear of
+# other uprights' feet (on open grass it read as "standing ... or lying flat"); nobody's feet over another event's thing
+# on the ground (a boy's foot on a wheelbarrow's handles: "about to trip over" them); nothing on the ground ahead of a
+# reading walker past the obstacle meant for her (a sleeping cat, a bicycle), no flower bed or rock anywhere on a
+# runner's line, and a kick's line clear of people further back too; and a sprinkler's hose that never runs straight
+# off the bottom of the picture ("like a stiff pipe"), nor across the legs of anyone just in front of it (added after
+# inspecting the probes: a begging dog drawn as if standing on it). A jumper also stays in the front half of the ground
+# (design tests: at the back the gap under the feet was too small to read).
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 19
+PLACEMENT_REV = 20
 WORKER = "person.jo"
 
 
@@ -224,6 +234,7 @@ class Scene:
         self.keepout = []       # revision 4: ground boxes no one's feet may stand in (a sprinkler and its spray)
         self.airzones = []      # revision 4: boxes of air no person or animal may enter (around a floating box)
         self.sprayzones = []    # revision 19: (box, depth) of a sprinkler's spray: no person or animal in front of it
+        self.groundthings = []  # revision 20: (box, owner) things of an event lying or standing on the ground: no one else's feet on them
         self.no_dog = []        # revision 6: ground no dog may enter (around a stalking cat)
         self.groundzones = []   # revision 9: boxes nothing placed later may enter, drawn objects included (around the dropped ice cream)
         self.point_lines = []   # revision 14: a pointing hand's line to what it points at, kept clear of people and animals
@@ -373,6 +384,13 @@ class Scene:
             for k, ky in getattr(self, "sprayzones", ()):
                 if p.Y > ky and min(bbox[2], k[2]) > max(bbox[0], k[0]) and min(bbox[3], k[3]) > max(bbox[1], k[1]):
                     return False
+        if p is not None and PLACEMENT_REV >= 20 and (p.family.startswith("person.") or p.family.startswith("animal.")) \
+                and not p.m["variant"].get("airborne"):
+            # revision 20: nobody's feet on another event's thing on the ground (a boy's foot over a wheelbarrow's handles
+            # read as "about to trip over / run into" them)
+            own = getattr(self, "placing", None)
+            if self.feet_on_things(bbox, own):
+                return False
         if p is not None and PLACEMENT_REV >= 6 and p.family.startswith("animal.dog"):
             for z in getattr(self, "no_dog", ()):
                 if min(bbox[2], z[2]) > max(bbox[0], z[0]) and min(bbox[3], z[3]) > max(bbox[1], z[1]):
@@ -520,6 +538,17 @@ class Scene:
             return (max(0.0, x0), p.Y - 150 * s, min(float(D.W), x1), p.Y + 50 * s)
         return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 16 * s)
 
+    def feet_on_things(self, bbox, own=None, pad=8):
+        """Revision 20: the feet box of a figure's bbox meets a thing of another event on the ground."""
+        h = bbox[3] - bbox[1]
+        feet = (bbox[0], bbox[3] - 0.14 * h, bbox[2], bbox[3] + 4)
+        for b, who in getattr(self, "groundthings", ()):
+            if who is own:
+                continue
+            if min(feet[2], b[2] + pad) > max(feet[0], b[0] - pad) and min(feet[3], b[3] + pad) > max(feet[1], b[1] - pad):
+                return True
+        return False
+
     def lanes_ok(self, *ps):
         """Revision 14: each walker's lane is clear of other events' people, animals and things, and of standing
         structures (a pram "heads straight into the lamp post")."""
@@ -542,7 +571,13 @@ class Scene:
                 z = (z[0], p.Y - 26 * s_, z[2], p.Y + 16 * s_)
                 # and no flower bed or rock on that line (a runner heading straight into the park's flower bed)
                 low = tuple(e["id"] for e in self.S.elements if e["id"] == "flowers" or e["id"].startswith("filler_"))
-                if low and not self.setting_clear(z, only=low):
+                zl = z
+                if PLACEMENT_REV >= 20:
+                    # revision 20: anywhere on that line up to the picture's edge (a runner 400 px short of the flower bed
+                    # was "heading straight for the flower bed and about to trample it")
+                    f_ = p.facing() or 1
+                    zl = (z[0], z[1], float(D.W), z[3]) if f_ > 0 else (0.0, z[1], z[2], z[3])
+                if low and not self.setting_clear(zl, only=low):
                     return False
             if not self.setting_clear(z, only=self.LANE_STRUCT):
                 return False

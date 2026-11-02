@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.21.0"
+GENERATOR_VERSION = "0.22.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -43,16 +43,16 @@ def feasible(cls, setting, sky):
 # Prior guesses of each inference item's features (typical cue salience z, cue-effect separation,
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
-PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.21 calibration.json)
+PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.22 calibration.json)
     "blocked_hose": [("inference", 2, -0.40, 0.152, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.405, 1, "rain")],
     "cat_stalks_bird": [("inference", 1, -0.49, 0.080, 1, "cat")],
     "ball_in_tree": [("inference", 1, -0.75, 0.141, 1, "stuck")],
     "kite_in_tree": [("inference", 1, -0.54, 0.245, 2, "stuck")],
     "ice_cream_drop": [("inference", 1, -1.16, 0.075, 2, "dropped")],
-    "about_to_trip": [("inference", 1, 0.19, 0.091, 1, "trip")],
+    "about_to_trip": [("inference", 1, 0.20, 0.091, 1, "trip")],
     "dog_begs": [("inference", 1, -0.70, 0.095, 1, "begging")],
-    "sprinkler_package": [("inference", 1, -0.27, 0.167, 1, "wet")],
+    "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
     "windy_hat": [("inference", 2, -1.24, 0.140, 1, "wind")],
     "bird_steals": [("inference", 2, -1.40, 0.051, 1, "stealing")],
@@ -63,13 +63,13 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
 }
 for _cid, _s, _k in [("water_upward", -1.38, "water"),
                      ("floating_box", -0.38, "floating"),
-                     ("square_wheel", -0.03, "wheel"),
+                     ("square_wheel", -0.02, "wheel"),
                      ("fish_in_tree", -1.31, "fish"),
-                     ("pan_watering", -0.08, "pan"),
+                     ("pan_watering", 0.03, "pan"),
                      ("sweep_fork", 0.26, "fork"),
                      ("bucket_hat", 0.29, "bucket"),
                      ("sitting_on_air", 0.07, "chair"),
-                     ("ladder_nothing", -0.22, "ladder"),
+                     ("ladder_nothing", -0.36, "ladder"),
                      ("dog_reading", -0.46, "newspaper")]:
     PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]
 TYPICAL_LOAD = {1: 2.5, 2: 4, 3: 5.5, 4: 8}

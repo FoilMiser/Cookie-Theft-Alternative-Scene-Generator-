@@ -49,39 +49,38 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v020", "v021"
+PREV, CUR = "v021", "v022"
 
-# the v0.20 half points and the templates whose placement revision 19 changed for the v0.20 oddities (vision/flaws_v020.md),
-# every change read in whole test scenes first (vision/design_tests_v021.md); no drawing changed, so no isolation bench
+# the v0.21 templates that fell short of the gate, the square wheel's second half point, and the templates whose placement
+# revision 20 changed for the v0.21 oddities (vision/flaws_v021.md); the wheel and the ladder went to the isolation bench
+# first (vision/isolation_v022.md), and every change was read in whole test scenes (vision/design_tests_v022.md)
 REDRAWN_NOTES = {
-    "ice_cream_drop": "In the tier-4 street a girl crying over 'a dropped ice cream' was not said to have dropped it. Unchanged; now read in full in all three of its pictures.",
-    "square_wheel": "Offered 'a square wheel ... or a normal round wheel inside a square frame'. Unchanged; the same reading came back once in five pictures, so it goes to the bench for v0.22.",
-    "paint_fence": "A worker in a hi-vis vest painted a home garden's fence, and jeans hung in front of the fresh paint. Now nobody in the worker's vest in the garden, and no washing while the fence is painted.",
-    "hang_laundry": "A shirt on the line behind a head read as part of the clothes. Now heads clear of the hanging washing, and only the jeans on the line beside someone pinning up a shirt.",
-    "water_flowers": "A watering can with an unused hose reel beside it, its water landing at the bed's front edge. Now no reel or other hose in the picture, and the stream well inside the bed.",
-    "blocked_hose": "A hose with an unused watering can beside it. Now no spare can beside any hose.",
-    "dog_playing": "A full dog bowl far from any dog. Now the bowl only beside a dog or cat.",
-    "ducks_bread": "A man at the pond's rim with the cattails at his hip. Now people and animals clear of the cattails and their feet clear of the rim.",
-    "walk_dog": "A reading man and a dog walker overlapping in the busy street. Now heads and shoulders clear of figures of other events up to 80 px apart in depth (was 40).",
-    "kick_ball": "A kicked ball heading for the sandcastle. Now the kick's line clear of the sandpit and of anyone on the ground.",
+    "pan_watering": "Held up face-on at a raised planter against a grey shop door in the street, it read as 'a grey watering can' (the misread). Now never in the street: it waters a flower bed on the ground.",
+    "jump": "A jumper in front of the fruit stall read as standing with arms up. Now clear of standing structures behind, and in the front half of the ground, where the gap above the shadow is large enough to read.",
+    "ladder_nothing": "Its top just below a lamp post's foot: 'standing up at a lean ... or lying flat'. Now its top up against the hedge or the hills, clear of other uprights.",
+    "square_wheel": "'A square dark frame with a spoked wheel inside it', two screens running. Redrawn on the bench with nothing round in it: eight straight spokes from a square hub.",
+    "about_to_trip": "A reading walker 'may step on the sleeping cat' further along her path. Now nothing of another event further along her way past her obstacle.",
+    "run": "A runner 400 px short of the flower bed was 'about to trample it'. Now no flower bed or rock anywhere on a runner's line.",
+    "kick_ball": "A kicked ball 'flying toward the woman and the washing'. Now the kick's line clear of people further back.",
+    "sprinkler_package": "Its hose 'rises straight up out of the bottom edge like a stiff pipe'. Now the hose leaves by a side edge, along the grass.",
 }
 
-# what the v0.21 screen readers made of the templates that read poorly (vision/flaws_v021.md)
+# what the v0.22 screen readers made of the templates that read poorly (vision/flaws_v022.md)
 WEAK_NOTES = {
-    "pan_watering": "In the tier-4 street, held up face-on against a grey shop door at a raised planter: 'a grey watering can'. Read as a frying pan in its two garden probes.",
-    "jump": "In the tier-4 street, in front of the fruit stall and only a little above his shadow: 'stands ... with both arms up', 'cheering, celebrating, stretching or dancing'.",
-    "ladder_nothing": "On the open grass, its top just below a lamp post's foot: 'standing up at a lean ... or lying flat on the grass'.",
+    "pan_watering": "Out of the street, held close in front of a garden's flowers with its handle hidden: 'a grey, round watering can'. Read as a frying pan in its other two probes, where the handle showed.",
 }
-SCREEN_NOTE = ("The v0.21 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. No drawing changed: the v0.20 oddities were fixed with placement rules, each read first in whole "
-               "test scenes (seven pictures). 738 of 744 scored items had full marks, and the probes' oddities fell by half. One item "
-               "of the set was misread, the first since v0.11: a frying pan held against a grey shop door read as a watering can, so "
-               "with a jumper read as standing and a ladder read as maybe lying flat, 61 of 64 templates pass the gate (64 in v0.20). "
-               "A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five templates of "
-               "the gate's movement between releases is reader variance.")
+SCREEN_NOTE = ("The v0.22 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The square wheel and the leaning ladder went to the isolation bench first, and every change was "
+               "read in whole test scenes. No item of the set was misread, and 285 of its 287 items had full marks: the jumper, the "
+               "ladder and the redrawn square wheel all read in full. The frying pan, now out of the street, was misread once more in "
+               "a garden probe, so 63 of 64 templates pass the gate (61 in v0.21). A retest of the unchanged v0.9 pictures with "
+               "fresh readers moved the gate by five templates: about five templates of the gate's movement between releases is "
+               "reader variance.")
 
 
-FIXES = []
+FIXES = [("crop:scenes_v021/T4_garden_s13111_iso.png@684,786,966,912>probes/T3_garden_s22017.png@654,830,944,960", "Square wheel",
+          "v0.21: an open square round a round hub, read in two screens as 'a square frame with a spoked wheel inside it'. "
+          "v0.22: nothing round in it, eight straight spokes from a square hub, chosen over two other drawings on the isolation bench.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):
@@ -125,6 +124,21 @@ def fix_pairs(old_dir, new_dir, gimg):
     news = {os.path.basename(f)[:-5]: f for f in glob.glob(os.path.join(new_dir, "*.json"))}
     for key, label, note in FIXES:
         a = b = None
+        if key.startswith("crop:"):
+            # v0.22: a drawing of the scene composer (not a cast render), cut from an old and a new picture
+            tiles = []
+            for tag, spec in zip(("old", "new"), key[5:].split(">")):
+                path, box = spec.split("@")
+                if not os.path.exists(path):
+                    break
+                bx = [int(v) for v in box.split(",")]
+                name = f"fix_{tag}_{os.path.basename(path)[:-4]}.webp"
+                im = Image.open(path).convert("RGB").crop(tuple(bx))
+                im.save(os.path.join(gimg, name), "WEBP", quality=90, method=6)
+                tiles.append({"src": f"img/g/{name}", "w": im.width, "h": im.height})
+            if len(tiles) == 2:
+                out.append({"label": label, "note": note, "old": tiles[0], "new": tiles[1]})
+            continue
         if key.startswith("pair:"):
             a, b = key[5:].split(">")
             if a not in olds or b not in news:

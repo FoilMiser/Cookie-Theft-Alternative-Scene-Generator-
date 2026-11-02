@@ -1151,7 +1151,9 @@ class KickBall(T):
                     if SCN.PLACEMENT_REV >= 19:
                         # revision 19: further on, the ball's line clear of the sandpit and of anyone on the ground (a ball
                         # kicked from across the playground "heading toward the girl and her sandcastle")
-                        line = (min(bx_, bx_ + f * 760 * s), by_ - 120 * s, max(bx_, bx_ + f * 760 * s), p.Y + 60 * s)
+                        line = (min(bx_, bx_ + f * 760 * s), by_ - (320 if SCN.PLACEMENT_REV >= 20 else 120) * s, max(bx_, bx_ + f * 760 * s), p.Y + 60 * s)
+                        # (revision 20: higher up the picture too: a ball kicked across a garden "flying toward the woman and
+                        # the washing" behind)
                         if not sc.setting_clear(line, only=("sandbox",)):
                             return None
                         if any(sc.overlap(line, q.bbox()) > 0 for k_, q in sc.assets.items() if k_ != ep and q.family.startswith(("person.", "animal."))
@@ -1257,7 +1259,21 @@ class Jump(T):
                 z = self.bird_zone(p)
                 return not any(q.family.startswith("animal.bird") and min(q.bbox()[2], z[2]) > max(q.bbox()[0], z[0])
                                and min(q.bbox()[3], z[3]) > max(q.bbox()[1], z[1]) for q in sc.assets.values())
-        p = sc.try_put(ep, self.vp, self.stand_spots(), want_face=sc.rng.choice([1, -1]), accept=accept)
+        if SCN.PLACEMENT_REV >= 20:
+            # revision 20: no standing structure behind the jumper (in front of the fruit stall, his feet over its table
+            # legs, a teenager jumping for joy read as standing "with both arms up ... cheering, stretching or dancing")
+            base20 = accept
+
+            def accept(p, base=base20):
+                if base and not base(p):
+                    return False
+                b, s_ = p.bbox(), sz(p.Y)
+                return sc.setting_clear((b[0] - 24 * s_, b[1], b[2] + 24 * s_, b[3] + 40 * s_), only=sc.LANE_STRUCT + ("house", "planter"))
+        # (revision 20: and in the front half of the ground, where the gap under the feet is big enough to see: at the back,
+        # by the playground's fence or the street's shop fronts, the jump read as "jumping or cheering ... or just a loosely
+        # placed shadow"; in front it read as "jumping in the air with both arms raised" in the test scenes)
+        spots = self.stand_spots(y_range=(sc.S.horizon + 200, 970)) if SCN.PLACEMENT_REV >= 20 else self.stand_spots()
+        p = sc.try_put(ep, self.vp, spots, want_face=sc.rng.choice([1, -1]), accept=accept)
         if not p:
             return False
         if SCN.PLACEMENT_REV >= 18:
@@ -3282,7 +3298,21 @@ class AboutToTrip(T):
                 # and in front of no bench, stall or other structure (a box drawn over a bench's back read as on the bench)
                 if not sc.air_clear((bb[0] - 10, bb[1], bb[2] + 10, bb[3] + 26)):
                     continue
+            beyond = None
+            if SCN.PLACEMENT_REV >= 20:
+                # revision 20: and nothing else on the ground further along her way, now or later (past the bucket, readers
+                # had a reading walker "step on the sleeping cat" or "trip over the bicycle" too)
+                far = bb[2] if want > 0 else bb[0]
+                x0_, x1_ = sorted((far, far + want * 380 * s))
+                beyond = (max(0.0, x0_), Y - 110 * s, min(float(D.W), x1_), Y + 40 * s)
+                if any(sc.overlap(b, beyond) > 0 for _, b, _ in sc.scored_boxes(ignore=(ep,))):
+                    continue
+                if not sc.setting_clear(beyond, only=sc.LANE_STRUCT):
+                    continue
             sc.assets[ep] = p
+            if beyond is not None:
+                sc.lanes.append((beyond, self))
+                sc.groundthings.append((bb, self))
             if SCN.PLACEMENT_REV >= 7:
                 # and nobody placed later stands beside the obstacle or in the lane (a kicker placed next
                 # to the bucket made it hers)
@@ -3457,6 +3487,9 @@ class SprinklerPackage(T):
                 if SCN.PLACEMENT_REV >= 13 and _crosses_path(sc, pts):
                     # revision 13: the hose never runs across a path (a hose across the paving "could trip" someone);
                     # it runs off the bottom of the picture instead, or the sprinkler goes elsewhere
+                    # (revision 20: no longer off the bottom, where it rose from the edge "like a stiff pipe": elsewhere)
+                    if SCN.PLACEMENT_REV >= 20:
+                        continue
                     yb = D.H + 20
                     n = max(2, int((yb - Y) / 120))
                     pts = [(x0, Y - 4 * sk)] + [(x0 - toward * (14 * sk if i % 2 else 0) - toward * 30 * sk * i / n, Y + (yb - Y) * i / n)
@@ -3465,6 +3498,10 @@ class SprinklerPackage(T):
                         continue
                     band = (min(q[0] for q in pts) - 10 * sk, Y - 10 * sk, max(q[0] for q in pts) + 10 * sk, yb)
                 feet = lambda q: (q.bbox()[0], q.bbox()[3] - 0.15 * (q.bbox()[3] - q.bbox()[1]), q.bbox()[2], q.bbox()[3])
+                if SCN.PLACEMENT_REV >= 20:
+                    # revision 20: nor across the legs of anyone in front of it (a begging dog 40 px in front of the hose
+                    # was drawn with the hose running under its body, as if standing on it)
+                    feet = lambda q: (q.bbox()[0], q.bbox()[3] - 0.4 * (q.bbox()[3] - q.bbox()[1]), q.bbox()[2], q.bbox()[3] + 4)
                 if any(sc.overlap(feet(q), band) > 0 for q in sc.assets.values()):
                     continue
                 hose = D.hose_path(pts, sk * 0.8)
@@ -4238,6 +4275,15 @@ class PanWatering(WaterFlowers):
     # revision 17: no hose and no hose reel in the picture (beside the reel the pan read as "a hose nozzle or watering wand")
     exclusive = ("flowers",) + (("hose_reel",) if SCN.PLACEMENT_REV >= 17 else ())
 
+    @classmethod
+    def feasible(cls, setting, sky):
+        # revision 20: not in the street, where the planter stands in front of a slate-grey shop door: held up against it
+        # at the planter's height, the pan read as "a grey watering can" (in the garden and the park, over a flower bed on
+        # the ground, it read as a frying pan in every screened picture)
+        if SCN.PLACEMENT_REV >= 20 and setting == "street":
+            return False
+        return super().feasible(setting, sky)
+
     def items(self, ep, ew):
         self.act(self.p, "watering the flowers", ["watering the flowers", "watering the plants", "pouring water"], "flowers", [ep, ew])
         self.contra("Something is wrong with what the person is watering with",
@@ -4483,7 +4529,8 @@ class SquareWheel(T):
             s = sz(Y)
             f = sc.rng.choice([1, -1])
             if self.thing == "wheelbarrow":
-                svg, bb = D.wheelbarrow(X, Y, s * self.k3(1.5, 1.25, 1.05), square=True, f=f, both=SCN.PLACEMENT_REV >= 7, bracket=SCN.PLACEMENT_REV >= 10, low=SCN.PLACEMENT_REV >= 15)
+                svg, bb = D.wheelbarrow(X, Y, s * self.k3(1.5, 1.25, 1.05), square=True, f=f, both=SCN.PLACEMENT_REV >= 7, bracket=SCN.PLACEMENT_REV >= 10, low=SCN.PLACEMENT_REV >= 15,
+                                        v20=SCN.PLACEMENT_REV >= 20)
                 acc, key = ["wheelbarrow", "cart", "barrow"], "wheelbarrow"
             else:
                 # (revision 12: its stand drawn in front, light grey against the dark square wheel; behind the wheel it went unseen
@@ -4508,6 +4555,13 @@ class SquareWheel(T):
                 # people stand by (a barrow's handles over a blanket, a bicycle's wheel over the sandbox's frame)
                 if not sc.setting_clear((bb[0] - 10, bb[1], bb[2] + 10, bb[3] + 12), only=("sandbox", "blanket", "pond")):
                     continue
+            if SCN.PLACEMENT_REV >= 20:
+                # revision 20: nobody's feet on it (a boy's foot over its handles: "about to trip over / run into" them)
+                own = getattr(sc, "placing", None)
+                if any(self._feet_over(q, bb) for q in sc.assets.values()
+                       if q.family.startswith(("person.", "animal.")) and not q.m["variant"].get("airborne")):
+                    continue
+                sc.groundthings.append((bb, own))
             ew = sc.svg(sc.eid("square"), f"{self.thing.capitalize()} with square wheels", svg, Y, bb, "scored")
             self.ent(f"There is {art(self.thing)} {self.thing}", acc, key, [ew])
             self.contra(f"Something is wrong with the {self.thing}",
@@ -4515,6 +4569,14 @@ class SquareWheel(T):
                         ["something's wrong with the wheels", "funny wheels", f"weird {key}"], ["square wheels", "the wheels aren't round", "it can't roll"], "wheel", [ew])
             return True
         return False
+
+
+    @staticmethod
+    def _feet_over(q, bb, pad=8):
+        b = q.bbox()
+        h = b[3] - b[1]
+        feet = (b[0], b[3] - 0.14 * h, b[2], b[3] + 4)
+        return min(feet[2], bb[2] + pad) > max(feet[0], bb[0] - pad) and min(feet[3], bb[3] + pad) > max(feet[1], bb[1] - pad)
 
 
 class FishInTree(T):
@@ -4612,11 +4674,18 @@ class LadderNothing(T):
             # revision 18: well clear of the bench, behind it too (its feet just behind the backrest, it could be read as
             # "propped on or just behind the bench")
             solid += [(b[0] - 40, b[1] - 80, b[2] + 40, b[3] + 20) for b in (e["bbox"] for e in sc.S.elements if e["id"] == "bench" and e.get("bbox"))]
-        for X, Y in self.stand_spots(y_range=(sc.S.horizon + 140, 960), n=100):
+        if SCN.PLACEMENT_REV >= 20:
+            # revision 20: well clear of every other upright, its top too (on the open lawn, its top just below a lamp post's
+            # foot, a ladder read as "standing up at a lean ... or lying flat on the grass")
+            solid = [(b[0] - 30, b[1] - 30, b[2] + 30, b[3] + 30) for b in solid]
+        for X, Y in self.stand_spots(y_range=(sc.S.horizon + 140, 960), n=200 if SCN.PLACEMENT_REV >= 20 else 100):
             s = sz(Y) * self.k3(1.2, 1.0, 0.85)
             lean = sc.rng.choice([12, 16, -12, -16])
             svg, bb = D.ladder(X, Y, s, lean=lean)
             if any(sc.overlap(bb, b) > 0 for b in solid):
+                continue
+            # revision 20: and its top up past the lawn's far edge, against the hedge and hills, so it plainly stands
+            if SCN.PLACEMENT_REV >= 20 and bb[1] > sc.S.horizon - 20:
                 continue
             if not sc.fits(bb, limit=0.03):
                 continue

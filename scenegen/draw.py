@@ -246,8 +246,44 @@ def blanket(cx, cy, s=1.0):
     return svg, (min(p[0] for p in pts), min(p[1] for p in pts), max(p[0] for p in pts), max(p[1] for p in pts))
 
 
+# v0.22: the barrow's square wheel without anything round inside it (an open square with eight spokes round a round hub read
+# twice as "a square dark frame with a spoked wheel inside it"). Three were read on the bench: "A", a solid square wheel, a
+# grey plate inside a thick dark tyre, a square hub and four bolts ("a separate metal box or plate" in both readings); "B",
+# the open square tyre with a cross of two bars to the middles of its sides ("a small square window frame or grate"); and
+# "C", the open square with eight straight spokes from a square hub to its corners and the middles of its sides, which led
+# both readings as a wheel ("a dark wheel with a small square hub ... drawn the wrong shape"). C is used
+SQUARE_STYLE20 = "C"
+
+
 def wheel(cx, cy, r, square=False, col=None, v12=None):
     col = col or C["charcoal"]
+    if square and v12 == "barrow20":
+        t = max(3.5, r * 0.30)
+        style = SQUARE_STYLE20
+        box_ = f'x="{cx - r + t / 2:.1f}" y="{cy - r + t / 2:.1f}" width="{2 * r - t:.1f}" height="{2 * r - t:.1f}" stroke-linejoin="miter"'
+        if style == "A":
+            svg = f'<rect {box_} fill="{C["gray"]}" stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} fill="none" stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
+            h = r * 0.26
+            svg += rect(cx - h, cy - h, 2 * h, 2 * h, C["charcoal"], 0, OW * 0.6)
+            for ax, ay in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
+                svg += circ(cx + ax * (r - t) * 0.55, cy + ay * (r - t) * 0.55, max(1.4, r * 0.06), C["slate"], 0)
+            return svg
+        if style == "C":
+            # eight straight spokes from a square hub to the corners and the middles of the sides
+            w = max(1.8, r * 0.085)
+            svg = ""
+            for ax, ay in ((1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)):
+                svg += line(cx, cy, cx + ax * (r - t * 0.6), cy + ay * (r - t * 0.6), OUT, w)
+            svg += f'<rect {box_} fill="none" stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} fill="none" stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
+            h = r * 0.24
+            return svg + rect(cx - h, cy - h, 2 * h, 2 * h, C["charcoal"], 0, OW * 0.6)
+        w = max(2.4, r * 0.14)
+        svg = ""
+        for x0, y0, x1, y1 in ((cx - r + t * 0.6, cy, cx + r - t * 0.6, cy), (cx, cy - r + t * 0.6, cx, cy + r - t * 0.6)):
+            svg += line(x0, y0, x1, y1, OUT, w + OW * 1.2) + line(x0, y0, x1, y1, C["slate"], w)
+        svg += f'<rect {box_} fill="none" stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} fill="none" stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
+        h = r * 0.22
+        return svg + rect(cx - h, cy - h, 2 * h, 2 * h, C["charcoal"], 0, OW * 0.6)
     if square and v12:
         # v0.12: an open square wheel with sharp corners: eight thin spokes set off the diagonals, the ground
         # showing between them, a thin tyre over their ends and a round hub. Four spokes on the diagonals
@@ -275,7 +311,7 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
     return circ(cx, cy, r, col) + circ(cx, cy, r * 0.3, C["gray"], OW * 0.6)
 
 
-def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False):
+def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False, v20=False):
     """Ground point x,y under the wheel's center; f = +1 handles to the right. both = also draw the far
     handle and leg (v0.9: with one handle showing it read as "a one-handled wheelbarrow"). stand (v0.20): the tub raised
     on a bigger wheel and two long legs (low on the grass it read as "very flat ... with no visible legs, looks tipped")."""
@@ -315,7 +351,7 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
     if bracket:
         # v0.12: the wheel tucked under the front of the tub, the tub drawn over its top (drawn in front of
         # the tub, a square wheel read as a crate standing in front of the barrow)
-        svg += wheel(wx, wy, r, square, v12="barrow")
+        svg += wheel(wx, wy, r, square, v12="barrow20" if v20 else "barrow")
         svg += poly(tub, C["gray"])
     else:
         svg += poly(tub, C["gray"])
@@ -328,7 +364,12 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
         ty = (y - 13 * s) - (12 * s if square else 0)
         for bx in (x + f * 4 * s, x + f * 26 * s):
             svg += stroke(poly_d([(bx, ty - 2 * s), (wx, wy)]), C["slate"], 6 * s, OW * 0.8)
-        svg += circ(wx, wy, max(4.0, r * 0.26), C["slate"], OW * 0.7) + circ(wx, wy, max(1.6, r * 0.09), OUT, 0)
+        if v20 and square:
+            # v0.22: a square axle plate, nothing round at the wheel's middle
+            a_ = max(4.0, r * 0.26)
+            svg += rect(wx - a_, wy - a_, 2 * a_, 2 * a_, C["slate"], 0, OW * 0.7) + rect(wx - a_ * 0.35, wy - a_ * 0.35, a_ * 0.7, a_ * 0.7, OUT, 0, 0)
+        else:
+            svg += circ(wx, wy, max(4.0, r * 0.26), C["slate"], OW * 0.7) + circ(wx, wy, max(1.6, r * 0.09), OUT, 0)
     # (the wheel end reaches 32 px past x on the side away from the handles, whichever way it faces; 46 px
     # for the square wheel set forward)
     e = (48 if bracket and square else 34) * s

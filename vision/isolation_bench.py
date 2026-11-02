@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.20 cases; earlier cases in isolation_v012.md to v019.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.22 cases; earlier cases in isolation_v012.md to v020.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,28 +22,18 @@ lib = Library(lib_dir=os.environ["BENCH_LIB"]) if os.environ.get("BENCH_LIB") el
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
-    # the bucket on the head drawn as a metal pail pulled down to the brows, rolled rim and ridges, a cap hidden under it
-    "pail_a": ("park", 20101, {"contradictions": ["bucket_hat"]}, "event", ("backrow",)),
-    "pail_b": ("park", 20102, {"contradictions": ["bucket_hat"]}, "event", None),
-    "pail_c": ("street", 20103, {"contradictions": ["bucket_hat"]}, "event", None),
-    # the drink a red takeaway cup with a white lid and a straw at the lips
-    "drink_a": ("park", 20104, {"events": ["drink_bench"]}, "event", None),
-    "drink_b": ("garden", 20105, {"events": ["drink_bench"]}, "event", None),
-    "airdrink_a": ("street", 20106, {"contradictions": ["sitting_on_air"]}, "event", None),
-    # the garden's wheelbarrow standing on its wheel and legs
-    "barrow_a": ("garden", 20107, {"events": ["sweep"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
-    "barrow_b": ("garden", 20108, {"events": ["dig"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
-    # water from a pan and a hose landing inside the bed
-    "pan_e": ("garden", 20109, {"contradictions": ["pan_watering"]}, "event", None),
-    "hose_c": ("garden", 20110, {"events": ["hose_water"]}, "event", None),
-    # the blown empty swing seat kept inside its frame
-    "swing_a": ("garden", 20111, {"modules": ["windy_hat"]}, "swing", ("el", "swing_seat")),
-    # round 2: the pail more tapered, one ridge, no lugs; the cup a quarter bigger with a thicker straw; the swing seat
-    # pushed a little downwind and tilted instead of swung out
-    "pail_d": ("park", 20101, {"contradictions": ["bucket_hat"]}, "event", ("backrow",)),
-    "pail_e": ("garden", 20122, {"contradictions": ["bucket_hat"]}, "event", None),
-    "drink_c": ("park", 20104, {"events": ["drink_bench"]}, "event", None),
-    "swing_b": ("garden", 20111, {"modules": ["windy_hat"]}, "swing", ("el", "swing_seat")),
+    # v0.22: the barrow's square wheel drawn three ways, nothing round inside it (sq<style>_<setting>; the style letter sets
+    # draw.SQUARE_STYLE20): A a solid grey plate in a thick dark tyre, a square hub and four bolts; B the open square with a
+    # cross of two bars to the middles of its sides; C the open square with eight straight spokes from a square hub
+    "sqA_g": ("garden", 22101, {"contradictions": ["square_wheel"]}, "event", None),
+    "sqB_g": ("garden", 22102, {"contradictions": ["square_wheel"]}, "event", None),
+    "sqC_g": ("garden", 22103, {"contradictions": ["square_wheel"]}, "event", None),
+    "sqA_p": ("park", 22104, {"contradictions": ["square_wheel"]}, "event", None),
+    "sqB_p": ("park", 22105, {"contradictions": ["square_wheel"]}, "event", None),
+    "sqC_p": ("park", 22106, {"contradictions": ["square_wheel"]}, "event", None),
+    # the ladder leaning on nothing, its top up past the lawn's far edge and clear of other uprights (revision 20)
+    "ladder_a": ("park", 22107, {"contradictions": ["ladder_nothing"]}, "event", None),
+    "ladder_b": ("park", 22108, {"contradictions": ["ladder_nothing"]}, "event", None),
 }
 
 
@@ -104,9 +94,12 @@ def accepted(rec, rule):
     return True
 
 
+from scenegen import draw as _D
 for name, (st, seed, forced, what, rule) in BENCH.items():
     if ONLY and name not in ONLY:
         continue
+    if name.startswith("sq"):
+        _D.SQUARE_STYLE20 = name[2]
     rec = None
     for k in range(40):
         USAGE.clear()

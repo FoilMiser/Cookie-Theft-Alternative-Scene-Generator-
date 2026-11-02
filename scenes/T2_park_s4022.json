@@ -1,0 +1,1051 @@
+{
+ "name": "T2_park_s4022",
+ "tier": 2,
+ "setting": "park",
+ "sky": "clear",
+ "seed": 4022,
+ "mirror": true,
+ "versions": {
+  "generator": "0.22.0",
+  "cast_builder": "0.20.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [],
+ "templates": [
+  {
+   "id": "kite_in_tree",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "photo",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  },
+  {
+   "id": "walk_dog",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  }
+ ],
+ "scene_load": 3,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A child is holding a kite string",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "holding a kite",
+     "flying a kite",
+     "pulling the string",
+     "sad",
+     "upset"
+    ]
+   },
+   "key": "kite",
+   "elements": [
+    "kitekid_1",
+    "kitestring_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "kite_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.416,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.45,
+    "a": 4.58,
+    "zipf_raw": 3.55,
+    "aoa_raw": 4.58,
+    "domain": null,
+    "area_px": 8504
+   },
+   "b": -0.797,
+   "p0": 0.689,
+   "pm1": 0.449,
+   "aoi_cells": [
+    "ML",
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "A kite is caught in the tree",
+   "accepted": [
+    "kite in the tree",
+    "kite",
+    "kite stuck"
+   ],
+   "key": "kite",
+   "elements": [
+    "kiteintree_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "kite_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.531,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.45,
+    "a": 4.58,
+    "zipf_raw": 3.55,
+    "aoa_raw": 4.58,
+    "domain": null,
+    "area_px": 7236
+   },
+   "b": -0.239,
+   "p0": 0.559,
+   "pm1": 0.318,
+   "aoi_cells": [
+    "ML"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The kite got stuck in the tree",
+   "accepted": [
+    "the kite is stuck in the tree",
+    "the kite got caught",
+    "they can't get the kite down",
+    "the kite is tangled in the branches"
+   ],
+   "key": "stuck",
+   "elements": [
+    "kiteintree_2",
+    "kitestring_3",
+    "kitekid_1"
+   ],
+   "cues": [
+    "kiteintree_2",
+    "kitestring_3",
+    "kitekid_1"
+   ],
+   "effect": [
+    "kiteintree_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "kite_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.531,
+    "r": 2,
+    "d": 0.257,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.68,
+    "aoa_raw": 3.89,
+    "domain": null,
+    "area_px": 7236
+   },
+   "b": 0.324,
+   "p0": 0.42,
+   "pm1": 0.21,
+   "aoi_cells": [
+    "ML",
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A grandfather is walking a dog",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "walking a dog",
+     "walking the dog",
+     "dog on a leash",
+     "taking the dog for a walk"
+    ]
+   },
+   "key": "dog",
+   "elements": [
+    "walker_4",
+    "dog_5",
+    "leash_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "walk_dog",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.336,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 24572
+   },
+   "b": -1.638,
+   "p0": 0.837,
+   "pm1": 0.654,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A woman is taking a photo",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "taking a picture",
+     "taking a photo",
+     "photographing",
+     "camera"
+    ]
+   },
+   "key": "camera",
+   "elements": [
+    "photographer_7"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "photo",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.086,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.87,
+    "a": 6.0,
+    "zipf_raw": 4.87,
+    "aoa_raw": 6.0,
+    "domain": null,
+    "area_px": 17268
+   },
+   "b": -1.444,
+   "p0": 0.809,
+   "pm1": 0.609,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.055,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 16532
+   },
+   "b": -0.716,
+   "p0": 0.672,
+   "pm1": 0.429,
+   "aoi_cells": [
+    "TC",
+    "TR"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a big tree",
+   "accepted": [
+    "tree",
+    "trees",
+    "big tree"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.92,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 55976
+   },
+   "b": -1.355,
+   "p0": 0.795,
+   "pm1": 0.588,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a lamp post",
+   "accepted": [
+    "lamp post",
+    "lamp",
+    "street light",
+    "light post",
+    "lamppost"
+   ],
+   "key": "lamp",
+   "elements": [
+    "lamp"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.444,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.05,
+    "a": 4.0,
+    "zipf_raw": 4.05,
+    "aoa_raw": 4.0,
+    "domain": null,
+    "area_px": 8176
+   },
+   "b": -0.433,
+   "p0": 0.607,
+   "pm1": 0.362,
+   "aoi_cells": [
+    "TC",
+    "MC"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 8,
+  "inference_units": 1,
+  "contradictions": 0,
+  "items_total": 9
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.71,
+   "inference": 0.42
+  },
+  "theta_minus_1": {
+   "content": 0.485,
+   "inference": 0.21
+  }
+ },
+ "bands": {
+  "content_count": true,
+  "inference_units": true,
+  "contradictions": true,
+  "content_completeness": true,
+  "inference_completeness": true
+ },
+ "in_tier": true,
+ "checks": {
+  "photographer_7_photographs_kitekid_1": {
+   "result": true,
+   "detail": ""
+  },
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": true,
+   "detail": "20 drawn objects (tier band 16-24)"
+  }
+ },
+ "clutter": {
+  "objects": 20,
+  "edge_density": 0.0244,
+  "png_bytes": 209138,
+  "jpeg_bytes": 132510
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    72.0,
+    12.0,
+    268.0,
+    208.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    680.0,
+    52.0,
+    1156.0,
+    168.0
+   ],
+   "area_px": 16532,
+   "visible_px": 16532,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hills",
+   "label": "Hills in the distance",
+   "role": "setting",
+   "z": -97,
+   "bbox": [
+    0.0,
+    402.0,
+    1600.0,
+    522.0
+   ],
+   "area_px": 155668,
+   "visible_px": 115100,
+   "occlusion": 0.261
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees in the distance",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Grass",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Path",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    292.0,
+    520.0,
+    558.0,
+    1000.0
+   ],
+   "area_px": 51712,
+   "visible_px": 51500,
+   "occlusion": 0.004
+  },
+  {
+   "id": "pond",
+   "label": "Pond",
+   "role": "setting",
+   "z": -70,
+   "bbox": [
+    798.0,
+    570.0,
+    1462.0,
+    730.0
+   ],
+   "area_px": 84408,
+   "visible_px": 68296,
+   "occlusion": 0.191
+  },
+  {
+   "id": "filler_bush_b",
+   "label": "Bush",
+   "role": "filler",
+   "z": 560,
+   "bbox": [
+    694.0,
+    526.0,
+    786.0,
+    584.0
+   ],
+   "area_px": 3880,
+   "visible_px": 3880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_small",
+   "label": "Small tree",
+   "role": "setting",
+   "z": 575,
+   "bbox": [
+    1402.0,
+    394.0,
+    1578.0,
+    578.0
+   ],
+   "area_px": 22560,
+   "visible_px": 22560,
+   "occlusion": 0.0
+  },
+  {
+   "id": "lamp",
+   "label": "Lamp post",
+   "role": "setting",
+   "z": 640,
+   "bbox": [
+    644.0,
+    202.0,
+    696.0,
+    642.0
+   ],
+   "area_px": 8176,
+   "visible_px": 8176,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_l",
+   "label": "Bush",
+   "role": "filler",
+   "z": 640,
+   "bbox": [
+    1448.0,
+    596.0,
+    1568.0,
+    672.0
+   ],
+   "area_px": 6628,
+   "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_r",
+   "label": "Bush",
+   "role": "filler",
+   "z": 650,
+   "bbox": [
+    32.0,
+    606.0,
+    152.0,
+    682.0
+   ],
+   "area_px": 6628,
+   "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bin",
+   "label": "Bin",
+   "role": "filler",
+   "z": 652,
+   "bbox": [
+    594.0,
+    584.0,
+    650.0,
+    654.0
+   ],
+   "area_px": 3228,
+   "visible_px": 3228,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree",
+   "label": "Big tree",
+   "role": "setting",
+   "z": 760,
+   "bbox": [
+    56.0,
+    338.0,
+    344.0,
+    762.0
+   ],
+   "area_px": 63708,
+   "visible_px": 55976,
+   "occlusion": 0.121
+  },
+  {
+   "id": "kiteintree_2",
+   "label": "Kite caught in the tree",
+   "role": "scored",
+   "z": 760.5,
+   "bbox": [
+    152.0,
+    362.0,
+    276.0,
+    518.0
+   ],
+   "area_px": 7344,
+   "visible_px": 7236,
+   "occlusion": 0.015
+  },
+  {
+   "id": "photographer_7",
+   "label": "person.ana__photo__neutral__y045",
+   "role": "scored",
+   "z": 886.68,
+   "bbox": [
+    882.0,
+    580.0,
+    982.0,
+    890.0
+   ],
+   "area_px": 17268,
+   "visible_px": 17268,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ana__photo__neutral__y045",
+    "family": "person.ana",
+    "scale": 0.4775,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin2",
+      "hair": "long_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "walker_4",
+   "label": "person.tomas__walk_dog__smile__y090",
+   "role": "scored",
+   "z": 900.74,
+   "bbox": [
+    1128.0,
+    588.0,
+    1240.0,
+    906.0
+   ],
+   "area_px": 16240,
+   "visible_px": 16224,
+   "occlusion": 0.001,
+   "asset": {
+    "variant": "person.tomas__walk_dog__smile__y090",
+    "family": "person.tomas",
+    "scale": 0.4827,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "dog_5",
+   "label": "animal.dog_02__walk__happy__y090",
+   "role": "scored",
+   "z": 906.74,
+   "bbox": [
+    1302.0,
+    784.0,
+    1436.0,
+    910.0
+   ],
+   "area_px": 7672,
+   "visible_px": 7604,
+   "occlusion": 0.009,
+   "asset": {
+    "variant": "animal.dog_02__walk__happy__y090",
+    "family": "animal.dog_02",
+    "scale": 0.4849,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_6",
+   "label": "Leash",
+   "role": "scored",
+   "z": 907.74,
+   "bbox": [
+    1234.0,
+    740.0,
+    1398.0,
+    824.0
+   ],
+   "area_px": 744,
+   "visible_px": 744,
+   "occlusion": 0.0
+  },
+  {
+   "id": "kitekid_1",
+   "label": "person.kai__fly_kite__puzzled__y090",
+   "role": "scored",
+   "z": 908.54,
+   "bbox": [
+    498.0,
+    700.0,
+    580.0,
+    914.0
+   ],
+   "area_px": 7244,
+   "visible_px": 7232,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.kai__fly_kite__puzzled__y090",
+    "family": "person.kai",
+    "scale": 0.4856,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "kitestring_3",
+   "label": "Kite string",
+   "role": "scored",
+   "z": 909.04,
+   "bbox": [
+    204.0,
+    422.0,
+    502.0,
+    730.0
+   ],
+   "area_px": 1272,
+   "visible_px": 1272,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_rock",
+   "label": "Rock",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    712.0,
+    914.0,
+    808.0,
+    962.0
+   ],
+   "area_px": 3740,
+   "visible_px": 3740,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   22,
+   "could not place carry_box; could not place dig; soil_9 occluded 22%; soil_9 occluded 23%"
+  ],
+  [
+   1022,
+   "could not place walk_dog"
+  ],
+  [
+   2022,
+   "estimate out of band (knob 0) pc~0.697 pi~0.5; estimate out of band (knob 1) pc~0.696 pi~0.5; estimate out of band (knob 1) pc~0.697 pi~0.499; estimate out of band (knob 1) pc~0.698 pi~0.504; estimate out of band (knob 1) pc~0.7 pi~0.5; estimate out of band (knob 1) pc~0.7 pi~0.504; estimate out of band (knob 1) pc~0.7 pi~0.506; estimate out of band (knob 1) pc~0.701 pi~0.497; estimate out of band (knob 1) pc~0.701 pi~0.501; estimate out of band (knob 1) pc~0.701 pi~0.503; estimate out of band (knob 1) pc~0.701 pi~0.505; estimate out of band (knob 1) pc~0.701 pi~0.506; estimate out of band (kn"
+  ],
+  [
+   3022,
+   "could not place push_stroller; could not place run"
+  ],
+  [
+   4022,
+   "layout 1: accepted after 0 rejected layouts"
+  ]
+ ],
+ "layout": 0,
+ "knob": 0,
+ "regen": {
+  "base_seed": 22,
+  "max_tries": 24,
+  "placements": 14,
+  "require_band": true,
+  "usage": {
+   "cat_sleeping": 1,
+   "drink_bench": 1,
+   "rake": 1,
+   "dog_wants_walk": 1,
+   "dog_playing": 1,
+   "sweep": 1,
+   "play_catch": 1,
+   "blocked_hose": 1,
+   "about_to_trip": 1,
+   "sitting_on_air": 1,
+   "bird_perched": 1,
+   "paint_fence": 1,
+   "dog_sleeping": 1,
+   "goat_grazing": 1,
+   "plant_flowers": 1,
+   "feed_birds": 1
+  },
+  "forced": null,
+  "placement_rev": 20
+ }
+}
