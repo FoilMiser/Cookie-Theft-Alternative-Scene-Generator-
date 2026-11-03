@@ -21,6 +21,8 @@ The twentieth screen is the first in which every scored item had full marks: all
 Everything is built by code and reproducible: the cast is modeled and posed in Blender (Python
 `bpy`, Blender 5.2.3 LTS), and the scenes are composed in SVG by the generator in `scenegen/`.
 
+Source and release history: https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator- (each release is one commit; `RUNBOOK.md` there says how a release is made).
+
 ## What was fixed
 
 | What the v0.22 readers saw | v0.23 |

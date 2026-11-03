@@ -1,7 +1,7 @@
 # TPDB release runbook
 
 How each release from v0.12 to v0.23 was made, written so that a fresh session can make the next one (v0.24) from this
-repository. The README describes the package; this file describes the work. The scripts named here are in
+repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
 ## Standing rules (from Sam)
