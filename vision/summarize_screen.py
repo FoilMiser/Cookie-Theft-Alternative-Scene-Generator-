@@ -6,8 +6,10 @@ Each argument is a screen folder, optionally followed by the folder(s) holding i
 (needed for the per-template breakdown). Probe pictures (records marked "probe") count toward the
 per-template breakdown only; the headline figures cover the set.
 """
+import glob
 import json
 import os
+import re
 import sys
 
 TYPES = {"entity": "entity", "action": "action", "inference": "inference",
@@ -44,6 +46,16 @@ def by_template(d, dirs, scores):
                 "meaning_items": len(o["meaning"]),
                 "meaning_mean": round(sum(o["meaning"]) / len(o["meaning"]), 3) if o["meaning"] else None}
             for t, o in sorted(out.items())}
+
+
+def remarks(d):
+    """The readers' own remarks per picture: the bullets of each description's "unsure" section, counted directly, over every
+    screened picture. Unlike the oddities, it does not depend on how much a scorer logs (v0.24: 83% of them, v0.23: 22%)."""
+    n = []
+    for f in glob.glob(os.path.join(d, "desc_pic_*.md")):
+        parts = re.split(r"(?i)unsure or ambiguous", open(f, encoding="utf-8").read(), maxsplit=1)
+        n.append(len(re.findall(r"(?m)^\s*(?:[-*]|\d+\.)\s", parts[1])) if len(parts) > 1 else 0)
+    return round(sum(n) / len(n), 2) if n else None
 
 
 def summarize(d, scenes_dir=None):
@@ -85,6 +97,8 @@ out.pop("note", None)
 for arg in args:
     d, _, sd = arg.partition(":")
     out[os.path.basename(d.rstrip("/"))] = summarize(d, sd or None)
+for k, v in out.items():
+    v["remarks"] = remarks(os.path.join(os.path.dirname(path), k))
 out["note"] = ("Readers were AI models given only the picture (no key); a separate model scored their descriptions. "
                "Contradictions are scored as caught when the reader called the thing wrong or impossible.")
 json.dump(out, open(path, "w", newline="\n"), indent=1)

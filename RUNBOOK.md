@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.24 was made, written so that a fresh session can make the next one (v0.25) from this
+How each release from v0.12 to v0.25 was made, written so that a fresh session can make the next one (v0.26) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -177,3 +177,13 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - The tier-4 searches take far less than hours on 12 threads: run one per cell side by side, then several per cell for the slow ones.
 - Compare the oddity row with care: scorers differ in how much they log (`vision/flaws_v024.md`). The readers' remarks can be counted
   directly from `desc_pic_NN.md`, and a control reader on the previous release's pictures tells readers from pictures.
+- From v0.25 the scorer prompt caps "unintended" at three per picture, so the logged row no longer compares across that line, and
+  `summarize_screen.py` records the remarks row for every screen. Use `--add` (`summarize.sh` does), which keeps the earlier screens.
+- When an object reads as something thin or small, look first at which way it faces: the bag and the roller both showed their narrow edge
+  to a figure in profile, and turning them did what no amount of redrawing had.
+- A template this release did not touch can still fall under the gate. Read what the readers wrote, and weigh it against the retest's
+  five templates of variance, before calling it a regression or noise.
+- Before packaging, run `python tools/cycle/check_quotes.py`: it looks for every quotation in the new prose in what the readers and
+  scorers wrote. Then check each count against its file too, without `head` or a remembered number: v0.25's first draft said "5 in six"
+  for three in six and two in seven, and took a count from the v0.24 screen as its own.
+- Write Python patches with the Write tool, not a heredoc, which turned `\n` into real newlines. Keep a release's patches in `tpdb_work/`.

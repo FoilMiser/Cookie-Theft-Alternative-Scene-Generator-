@@ -347,7 +347,7 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
     if bracket:
         # v0.12: a ground shadow like the people's ("the wheelbarrow casts no visible shadow, while the
         # people and the dog do")
-        svg = shadow(x + f * 52 * s, y, 200 * s) + svg
+        svg = shadow(x + f * 52 * s, y, BARROW_SHADOW25 * s) + svg
     if bracket:
         # v0.12: the wheel tucked under the front of the tub, the tub drawn over its top (drawn in front of
         # the tub, a square wheel read as a crate standing in front of the barrow)
@@ -384,6 +384,14 @@ LEG23 = "strut"
 # seesaw as it was (raised 10 or 18 px, riders "overlap the plank" or "float slightly above the seat"), the slide at 0 ("looks
 # seated on the slide"; at 8 "slightly above or in front of" it, at -8 "hover just above" it).
 RIDE24 = {"seesaw": 0, "slide": 0}
+# v0.25 bench (isolation_v025.md): the width of the wheelbarrow's shadow, 200 and 210 before ("a large dark oval extending well
+# beyond it", four v0.24 probes; at 160 it "looks slightly lifted"); the sandwich bird's size ("about as big as the sandwich", "a
+# blue kettle or jug"; at 0.68 "a glove or bag"); and the newspaper dog's paws ("white gloved hands", three pictures): "O" white
+# ovals with toes over the paper, "A" ovals in the dog's own colour, "B" with toes (both "stuck onto" the paper, "detached from
+# the arms"), "C" no ovals, the paper behind the dog so its own paws rest on it.
+BARROW_SHADOW25 = 130
+BIRD25 = 0.8
+PAW25 = "C"
 
 
 def _wheelbarrow_stand(x, y, s, f, both):
@@ -405,7 +413,7 @@ def _wheelbarrow_stand(x, y, s, f, both):
         # from its bottom made an L that two v0.22 readers saw as "a small dark boot")
         leg = lambda dx, dy: stroke(poly_d([(x + f * 82 * s + dx, tb - 2 * s + dy), (x + f * 88 * s + dx, y - 3 * s + dy)]), C["slate"], 3.6 * s)
         foot = lambda dx, dy: stroke(poly_d([(x + f * 83 * s + dx, y - 2 * s + dy), (x + f * 93 * s + dx, y - 2 * s + dy)]), C["slate"], 3.0 * s)
-    svg = shadow(x + f * 55 * s, y, 210 * s)
+    svg = shadow(x + f * 55 * s, y, BARROW_SHADOW25 * s)
     if both:
         dx, dy = -f * 4 * s, -5 * s
         svg += stroke(poly_d([(h0[0] + dx, h0[1] + dy), (h1[0] + dx, h1[1] + dy)]), C["wood"], 7 * s)

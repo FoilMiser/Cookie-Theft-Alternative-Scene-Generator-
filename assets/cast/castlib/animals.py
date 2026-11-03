@@ -279,7 +279,9 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
         # thin, it read as a fox's or a kangaroo's)
         rig.aim_dir("tail2", (0.55, -0.80, -0.05))
         fz = chest_z * 0.72
-        legs({"L": (0.065, -0.25, fz), "R": (-0.065, -0.25, fz)}, {"L": (0.11, -0.17, 0.035), "R": (-0.11, -0.15, 0.035)},
+        # v0.25: the paws at different heights, so both show on the paper in profile (level, one hid the other: "only one paw
+        # clearly touches it", on the bench)
+        legs({"L": (0.065, -0.25, fz + 0.055), "R": (-0.065, -0.25, fz - 0.055)}, {"L": (0.11, -0.17, 0.035), "R": (-0.11, -0.15, 0.035)},
              fhint=(0, 0.4, -1), bhint=(0, -0.3, 1))
 
     def sleep():

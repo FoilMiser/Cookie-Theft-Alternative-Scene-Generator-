@@ -69,6 +69,9 @@ for rnd in range(80):
         # v0.17 (revision 15): a photographer needs someone to photograph
         forced["events"].append({"park": "ice_cream", "street": "read_bench", "playground": "ice_cream"}[setting])
     forced = {k: v for k, v in forced.items() if v}
+    if forced.get("events") == ["wave"]:
+        # a wave needs someone to wave at, so it cannot be probed alone
+        forced["events"] = ["wave", "sweep", "carry_box"] if setting == "garden" else ["wave", "walk_dog", "ice_cream"]
     seed += 1
     USAGE.clear()
     rec, sc, fin = build_one(lib, 3, setting, seed, OUT, forced=forced, require_band=False, max_tries=6, log=lambda *a: None)

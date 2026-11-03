@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.25, v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,31 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.25 (BENCH_CAST/BENCH_LIB name the bench cast: out_A = bag A and roller A, out_B = bag B and roller B)
+    "bagA_1": ("park", 25101, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "bagA_2": ("street", 25102, {"events": ["carry_bag"]}, "event", None),
+    "bagB_1": ("park", 25101, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "bagB_2": ("street", 25102, {"events": ["carry_bag"]}, "event", None),
+    "rolA_1": ("garden", 25103, {"events": ["paint_fence"]}, "event", None),
+    "rolA_2": ("garden", 25104, {"events": ["paint_fence"]}, "event", None),
+    "rolB_1": ("garden", 25103, {"events": ["paint_fence"]}, "event", None),
+    "rolB_2": ("garden", 25104, {"events": ["paint_fence"]}, "event", None),
+    # draw.BARROW_SHADOW25: A 130 px wide, B 160 (v0.24: 200)
+    "barA_1": ("garden", 25105, {"events": ["rake"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
+    "barB_1": ("garden", 25105, {"events": ["rake"]}, "filler_wheelbarrow", ("el", "filler_wheelbarrow")),
+    # draw.PAW25: the newspaper dog's paws on the tan dog and the white one
+    "pawA_1": ("park", 25106, {"contradictions": ["dog_reading"]}, "event", ("fam", "dog_reading", ["animal.dog_01"])),
+    "pawA_2": ("street", 25110, {"modules": ["ice_cream_drop"], "contradictions": ["dog_reading"]}, "dog_reading", ("fam", "dog_reading", ["animal.dog_02"])),
+    "pawB_1": ("park", 25106, {"contradictions": ["dog_reading"]}, "event", ("fam", "dog_reading", ["animal.dog_01"])),
+    "pawB_2": ("street", 25110, {"modules": ["ice_cream_drop"], "contradictions": ["dog_reading"]}, "dog_reading", ("fam", "dog_reading", ["animal.dog_02"])),
+    # round 2: the paper behind the dog, its own paws on it
+    "pawC_1": ("park", 25106, {"contradictions": ["dog_reading"]}, "event", ("fam", "dog_reading", ["animal.dog_01"])),
+    "pawC_2": ("street", 25110, {"modules": ["ice_cream_drop"], "contradictions": ["dog_reading"]}, "dog_reading", ("fam", "dog_reading", ["animal.dog_02"])),
+    # draw.BIRD25: A 0.8 of its size, B 0.68
+    "birA_1": ("park", 25108, {"modules": ["bird_steals"]}, "event", None),
+    "birA_2": ("street", 25109, {"modules": ["bird_steals"]}, "event", None),
+    "birB_1": ("park", 25108, {"modules": ["bird_steals"]}, "event", None),
+    "birB_2": ("street", 25109, {"modules": ["bird_steals"]}, "event", None),
     # v0.24 (BENCH_CAST/BENCH_LIB name the bench cast: out_tA = cap, out_tB = backpack; none = the v0.23 teenager)
     # the teenager, kicking and with a child at play: never called a teenager in the v0.23 screen
     "teenO_1": ("playground", 24101, {"events": ["kick_ball"]}, "event", ("fam", "kick_ball", ["person.leo"])),
@@ -138,6 +163,9 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         _D.SQUARE_STYLE20 = name[2]
     _D.LEG23 = "strut" if name.startswith("strut") else name.startswith("leg")
     _D.RIDE24 = {"seesaw": {"seeA": 10, "seeB": 18}.get(name[:4], 0), "slide": {"sliA": 0, "sliB": -8, "sliU": 0, "sliH": 0}.get(name[:4], 8)}
+    _D.BARROW_SHADOW25 = {"barA": 130, "barB": 160}.get(name[:4], _D.BARROW_SHADOW25)
+    _D.PAW25 = {"pawA": "A", "pawB": "B", "pawC": "C"}.get(name[:4], _D.PAW25)
+    _D.BIRD25 = {"birA": 0.8, "birB": 0.68}.get(name[:4], _D.BIRD25)
     rec = None
     for k in range(40):
         USAGE.clear()
@@ -157,7 +185,7 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     try:
         if what == "event":
             box = crop_box(rec, "event", [t for v in forced.values() for t in v])
-        elif what in ("wave",):
+        elif what in ("wave", "dog_reading"):
             box = crop_box(rec, "event", [what])
         else:
             box = crop_box(rec, what)

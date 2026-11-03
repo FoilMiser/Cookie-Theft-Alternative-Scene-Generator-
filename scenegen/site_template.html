@@ -160,12 +160,12 @@ footer { margin-top: 56px; font-size: 13px; color: var(--muted); }
 
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">Tiered Picture Description Battery · v0.24</div>
+    <div class="eyebrow">Tiered Picture Description Battery · v0.25</div>
     <h1>TPDB Scene Generator</h1>
     <p>Every picture below was assembled by code from a library of rendered characters and drawn settings, aimed at one of four difficulty tiers, and scored item by item with the difficulty model's starting weights. Open any scene to see its scoring key, the predicted probability that an average healthy older adult mentions each item, and where each item sits in the picture.</p>
     <div class="stats" id="stats"></div>
     <nav class="jump" aria-label="Sections">
-      <a href="#scenes">Scenes</a><a href="#viewer">Viewer</a><a href="#fixes">What v0.24 fixed</a><a href="#isomorphs">Isomorph pairs</a><a href="#counts">How many scenes</a>
+      <a href="#scenes">Scenes</a><a href="#viewer">Viewer</a><a href="#fixes">What v0.25 fixed</a><a href="#isomorphs">Isomorph pairs</a><a href="#counts">How many scenes</a>
       <a href="#templates">Templates</a><a href="#cast">Cast</a><a href="#actions">Actions</a><a href="#model">Model</a>
     </nav>
   </header>
@@ -202,8 +202,8 @@ footer { margin-top: 56px; font-size: 13px; color: var(--muted); }
 
   <section id="fixes" aria-labelledby="h-fixes">
     <div class="eyebrow">Inspection and blind screen</div>
-    <h2 id="h-fixes">What v0.24 fixed</h2>
-    <p class="muted">Fresh readers, who never saw the scoring key, describe every picture the way a test participant would, and separate scorers mark each scored item as mentioned, half-mentioned, missed or misread. The screen has now run on twenty-one releases, v0.4 to v0.24, and once more on the unchanged v0.9 pictures with fresh readers, to measure how much the readers themselves vary. v0.23 reached the ceiling, every item at full marks, and left only oddities: a sleeping cat right behind a walking man's foot, a teenager no reader called a teenager, and figures at the back drawn as large as those in front. v0.24 redraws the teenager and the slide's arms, each chosen on the isolation bench from two or more drawings, and adds placement rules: sleeping animals clear of any walker's feet, and nobody in the last strip of ground before the horizon in the park and on the playground. The bench also ruled one out: raising the seesaw's riders read worse. Each change was read blind in whole test scenes first, then the set was rebuilt. Probe pictures put every template in front of the readers at least three times.</p>
+    <h2 id="h-fixes">What v0.25 fixed</h2>
+    <p class="muted">Fresh readers, who never saw the scoring key, describe every picture the way a test participant would, and separate scorers mark each scored item as mentioned, half-mentioned, missed or misread. The screen has now run on twenty-two releases, v0.4 to v0.25, and once more on the unchanged v0.9 pictures with fresh readers, to measure how much the readers themselves vary. v0.24 left one template short of the gate, a shopping bag seen edge-on and read as "something yellow", and a list of oddities: a wheelbarrow's oversized shadow, a bird as big as the sandwich it stole, a newspaper dog's "white gloved hands" and a paint roller that hardly touched the fence. v0.25 redraws all five, each chosen on the isolation bench from two or more drawings and read blind in whole test scenes before the set was rebuilt. Three other templates fell short this time, none of them changed. Probe pictures put every template in front of the readers at least three times.</p>
     <div class="screen" id="screen"></div>
     <h3 id="fixhead">Redrawn, before and after</h3>
     <div class="fixgrid" id="fixgrid"></div>
@@ -255,7 +255,7 @@ footer { margin-top: 56px; font-size: 13px; color: var(--muted); }
     <p class="muted" id="model-notes"></p>
   </section>
 
-  <footer>TPDB v0.24 · procedural stand-in cast (Blender) composed in SVG · weights are the spec's starting values, to be replaced by the pilot fit · the blind screen used AI readers as a stand-in for people, so it flags illegible drawing, not human difficulty.</footer>
+  <footer>TPDB v0.25 · procedural stand-in cast (Blender) composed in SVG · weights are the spec's starting values, to be replaced by the pilot fit · the blind screen used AI readers as a stand-in for people, so it flags illegible drawing, not human difficulty.</footer>
 </div>
 
 <script>
@@ -365,13 +365,14 @@ if (start) show(start.name);
 // fixes and the blind screen
 if (D.screen) {
   const SS = D.screen;
-  const VS = ["v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019", "v020", "v021", "v022", "v023"].map(k => SS[k] || {}), N = SS.v024 || {};
+  const VS = ["v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019", "v020", "v021", "v022", "v023", "v024"].map(k => SS[k] || {}), N = SS.v025 || {};
   const old = (xs, d) => `<small>${xs.map((x, i) => `v0.${i + 4} ${x == null ? "—" : fmt(x, d)}`).join(" · ")}</small>`;
   const cell = (k, xs, c, d = 2) => el("div", { class: "metric" }, [el("div", { class: "k", text: k }), el("div", { class: "v", html: `${c == null ? "—" : fmt(c, d)} ${old(xs, d)}` })]);
   for (const [k, lab] of [["entity", "Things mentioned"], ["action", "Actions mentioned"], ["inference", "Inferences stated"], ["contradiction", "Contradictions caught"], ["overall", "All items"]]) $("#screen").append(cell(lab, VS.map(x => (x.mean || {})[k]), (N.mean || {})[k]));
   $("#screen").append(cell("Misread items", VS.map(x => x.misreads), N.misreads, 0));
   const per = x => (x && x.pictures) ? x.oddities / x.pictures : null;
-  $("#screen").append(cell("Oddities per picture", VS.map(per), per(N), 1));
+  $("#screen").append(cell("Oddities logged per picture", VS.map(per), per(N), 1));
+  $("#screen").append(cell("Readers' remarks per picture", VS.map(x => x.remarks), N.remarks, 1));
   if (SS.gate) {
     const g = SS.gate, tot = g.pass.length + g.too_few.length + g.fail.length;
     $("#screen").append(el("div", { class: "metric" }, [el("div", { class: "k", text: "Templates passing the gate" }), el("div", { class: "v", html: `${g.pass.length} <small>of ${tot} screened</small>` })]));
@@ -381,14 +382,14 @@ if (D.screen) {
   if ((SS.redrawn || []).length) {
     const rows = SS.redrawn.map(w => el("tr", {}, [el("td", { class: "mono", text: w.id.replace(/_/g, " ") }), el("td", { class: "mono", text: `${fmt(w.before, 2)} (${w.before_items})` }),
       el("td", { class: "mono", text: w.after == null ? "not drawn" : `${fmt(w.after, 2)} (${w.after_items})` }), el("td", { class: "tnote", text: w.note })]));
-    blocks.push(el("h3", { text: "The bench's redrawings and the rules of revision 22, screened again" }),
-      el("p", { class: "muted", text: "Mean score of each template's scored items (items in brackets). The v0.24 column includes the probe pictures, which put every template in front of the readers at least three times." }),
-      el("div", { class: "tbl" }, [el("table", {}, [el("thead", {}, [el("tr", {}, [el("th", { text: "Template" }), el("th", { text: "v0.23" }), el("th", { text: "v0.24" }), el("th", { text: "What changed" })])]), el("tbody", {}, rows)])]));
+    blocks.push(el("h3", { text: "The bench's redrawings, screened again" }),
+      el("p", { class: "muted", text: "Mean score of each template's scored items (items in brackets). The v0.25 column includes the probe pictures, which put every template in front of the readers at least three times." }),
+      el("div", { class: "tbl" }, [el("table", {}, [el("thead", {}, [el("tr", {}, [el("th", { text: "Template" }), el("th", { text: "v0.24" }), el("th", { text: "v0.25" }), el("th", { text: "What changed" })])]), el("tbody", {}, rows)])]));
   }
   if ((SS.weak || []).length) {
     const rows = SS.weak.map(w => el("tr", {}, [el("td", { class: "mono", text: w.id.replace(/_/g, " ") }), el("td", { class: "mono", text: `${fmt(w.mean, 2)} (${w.items})` }), el("td", { class: "tnote", text: w.note })]));
     blocks.push(el("h3", { text: "Still hard to read: the next list" }),
-      el("div", { class: "tbl" }, [el("table", {}, [el("thead", {}, [el("tr", {}, [el("th", { text: "Template" }), el("th", { text: "v0.24 mean (items)" }), el("th", { text: "What the readers saw" })])]), el("tbody", {}, rows)])]));
+      el("div", { class: "tbl" }, [el("table", {}, [el("thead", {}, [el("tr", {}, [el("th", { text: "Template" }), el("th", { text: "v0.25 mean (items)" }), el("th", { text: "What the readers saw" })])]), el("tbody", {}, rows)])]));
   }
   if (blocks.length) $("#fixhead").before(...blocks);
 } else { $("#screen").remove(); }
@@ -396,8 +397,8 @@ for (const f of (D.fixes || [])) {
   $("#fixgrid").append(el("div", { class: "fix" }, [
     el("div", { class: "lab", text: f.label }),
     el("div", { class: "pair" }, [
-      el("figure", {}, [el("img", { src: f.old.src, alt: `${f.label}, v0.23`, loading: "lazy" }), el("figcaption", { text: "v0.23" })]),
-      el("figure", {}, [el("img", { src: f.new.src, alt: `${f.label}, v0.24`, loading: "lazy" }), el("figcaption", { text: "v0.24" })]),
+      el("figure", {}, [el("img", { src: f.old.src, alt: `${f.label}, v0.24`, loading: "lazy" }), el("figcaption", { text: "v0.24" })]),
+      el("figure", {}, [el("img", { src: f.new.src, alt: `${f.label}, v0.25`, loading: "lazy" }), el("figcaption", { text: "v0.25" })]),
     ]),
     el("div", { class: "note", text: f.note }),
   ]));

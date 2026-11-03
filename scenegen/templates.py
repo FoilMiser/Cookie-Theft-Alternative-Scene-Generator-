@@ -3849,7 +3849,9 @@ class BirdSteals(T):
             fx = (B["x0"] + (B["x1"] - B["x0"]) * (frac + side * 0.38))
             fy = B["seat_y"] - 2
             sty = 6 if SCN.PLACEMENT_REV >= 6 else 5
-            ss = s * (0.8 if SCN.PLACEMENT_REV >= 8 else 1.0)      # revision 8: the bold sandwich looked outsized
+            # revision 8: the bold sandwich looked outsized; revision 23: smaller still with the smaller bird ("very large compared
+            # with the man and the bird", overlapping his thigh)
+            ss = s * (0.72 if SCN.PLACEMENT_REV >= 23 else 0.8 if SCN.PLACEMENT_REV >= 8 else 1.0)
             sw, sbb = D.sandwich(fx, fy, ss, style=sty)
             b = sc.placed(self.vb, fx + side * 34 * s, fy, sc.mirror_for(self.vb, -side), depth_y=B["depth"] + 4, eid=eb)
             if SCN.PLACEMENT_REV >= 4:
@@ -3857,6 +3859,8 @@ class BirdSteals(T):
                 # bird looks down, so its facing is taken from where the beak is
                 for mir in (False, True):
                     b = sc.placed(self.vb, fx + side * 60 * s, fy, mir, depth_y=B["depth"] + 4, eid=eb)
+                    if SCN.PLACEMENT_REV >= 23:
+                        b.k *= D.BIRD25
                     if (b.anchor("mouth")[0] - b.X) * side < 0:
                         break
                 # the bird's front edge meets the sandwich's near end, so the lowered beak is at it
@@ -4771,11 +4775,17 @@ class DogReading(T):
                 col = d.color_at("paw_FL")
                 if SCN.PLACEMENT_REV >= 9:
                     col = C["white"]        # revision 9: white paws, like the feet (dark grey ones read as hands)
-                if SCN.PLACEMENT_REV >= 7:
+                if SCN.PLACEMENT_REV >= 23 and D.PAW25 != "O":
+                    col = {"animal.dog_01": C["tan"]}.get(d.family, C["white"])
+                if SCN.PLACEMENT_REV >= 23 and D.PAW25 == "C":
+                    pass                    # revision 23: the dog's own paws rest on the paper, which is drawn behind it
+                elif SCN.PLACEMENT_REV >= 7:
                     # revision 7: paws with toes, gripping the edge (plain round paws read as ring-binder holes)
                     for dy in (-8, 18):
                         cx_, cy_ = px + f * 1 * s, py + dy * s
                         svg += D.ell(cx_, cy_, 10 * s, 7.5 * s, col, D.OW * 0.8)
+                        if SCN.PLACEMENT_REV >= 23 and D.PAW25 == "A":
+                            continue
                         svg += "".join(D.line(cx_ + f * 3 * s, cy_ + t * s, cx_ + f * 9 * s, cy_ + t * 1.3 * s, D.OUT, 1.8 * s) for t in (-3.5, 0, 3.5))
                 else:
                     svg += "".join(D.ell(px + f * 1 * s, py + dy * s, 8 * s, 6.5 * s, col, D.OW * 0.8) for dy in (-8, 18))
@@ -4793,7 +4803,7 @@ class DogReading(T):
         if not d:
             return False
         svg, bb = self.np
-        en = sc.svg(sc.eid("newspaper"), "Newspaper held by the dog", svg, d.Y + 1, bb, "scored")
+        en = sc.svg(sc.eid("newspaper"), "Newspaper held by the dog", svg, d.Y - 1 if SCN.PLACEMENT_REV >= 23 and D.PAW25 == "C" else d.Y + 1, bb, "scored")
         dn = sc.name(self.d)
         it = self.ent(f"A {dn} is sitting up holding a newspaper", [f"{dn} sitting", f"{dn} with a newspaper", f"{dn} holding a paper"], "dog", [ed, en], animate=True)
         it["type"] = "action"

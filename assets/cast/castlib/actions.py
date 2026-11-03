@@ -964,12 +964,25 @@ def up_carry_box(P):
     P.prop("tape", box("tape", C + Vector((0, 0, 0.131)) * u, (0.36 * u, 0.06 * u, 0.004 * u), "cream"))
 
 
+BAG_STYLE = __import__("os").environ.get("TPDB_BAG", "A")        # v0.25: A, chosen on the bench (isolation_v025.md); see _hang_bag
+ROLLER_STYLE = __import__("os").environ.get("TPDB_ROLLER", "A")  # v0.25: A, chosen on the bench (isolation_v025.md); see up_paint
+
+
 def _hang_bag(P, sd, kind):
     u = P.u
     P.arms({sd: _hang_from(P, sd), ("L" if sd == "R" else "R"): P.rest_arm("L" if sd == "R" else "R")})
     g = P.grip(sd)
     bone = f"hand_{sd}"
-    if kind == "bag":
+    if kind == "bag" and BAG_STYLE in ("A", "B"):
+        # v0.25 bench (TPDB_BAG): the broad face along the walker's line, so a profile shows it (across the body, only its
+        # narrow edge showed: "very long and thin for a shopping bag, could be a tag, folded paper"), with dark handles rising
+        # to the hand in a V. A as tall as it is wide; B wider and shorter
+        w, h = (0.25, 0.27) if BAG_STYLE == "A" else (0.33, 0.23)
+        top = g - Vector((0, 0, 0.12 * u))
+        P.prop("bag", box("bag", top - Vector((0, 0, h / 2 * u)), (0.10 * u, w * u, h * u), "yellow"), bone)
+        for y in (-0.075, 0.075):
+            P.prop(f"strap{'a' if y < 0 else 'b'}", tube_mesh("strap", [top + Vector((0, y * u, 0)), g + Vector((0, y * 0.2 * u, 0.01 * u))], 0.010 * u, "charcoal"), bone)
+    elif kind == "bag":
         top = g - Vector((0, 0, 0.09 * u))
         P.prop("bag", box("bag", top - Vector((0, 0, 0.14 * u)), (0.24 * u, 0.11 * u, 0.28 * u), "yellow"), bone)
         for x in (-0.06, 0.06):
@@ -1184,6 +1197,15 @@ def up_paint(P):
     _pole_grips(P, T, head, 0.42, 0.10, hintL=(1, 0.3, -0.6), hintR=(-1, 0.3, -0.6))
     d = (head - T).normalized()
     P.prop("pole", cyl("pole", T - d * 0.05 * u, head - d * 0.04 * u, 0.014 * u, "wood"))
+    if ROLLER_STYLE in ("A", "B"):
+        # v0.25 bench (TPDB_ROLLER): the roller upright, its side to the viewer, a T on the end of the pole (its axis along the
+        # line of sight left only its round end in view: "a small pale oval", "hardly seems to touch the fence"). B longer and fatter
+        hl, rr = (0.15, 0.052) if ROLLER_STYLE == "A" else (0.19, 0.065)
+        c = head + Vector((0, -0.05 * u, 0))
+        P.prop("frame", cyl("frame", head - d * 0.04 * u, c, 0.012 * u, "gray"))
+        P.prop("roller", cyl("roller", c + Vector((0, 0, -hl * u)), c + Vector((0, 0, hl * u)), rr * u, "blue"))
+        P.panchor("roller", c + Vector((0, -rr * u, 0)))
+        return
     P.prop("frame", cyl("frame", head - Vector((0.13 * u, 0, 0)) - d * 0.04 * u, head - d * 0.04 * u, 0.008 * u, "gray"))
     P.prop("roller", cyl("roller", head + Vector((-0.12 * u, -0.03 * u, 0)), head + Vector((0.12 * u, -0.03 * u, 0)), 0.042 * u, "blue"))
     P.panchor("roller", head + Vector((0, -0.06 * u, 0)))

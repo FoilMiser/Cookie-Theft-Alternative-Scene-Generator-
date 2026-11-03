@@ -150,8 +150,11 @@ class PlacementError(Exception):
 # him (a cat 50 px behind a walking man's back foot, "right by his feet, so he could trip over it or step on it"); and in
 # the park and on the playground, nobody on the ground in the last strip before the horizon (a figure there was "drawn as
 # large as foreground people ... as if walking on the hilltop", four pictures, all with the feet within 75 px of it).
+# 23 (v0.25): the v0.24 screen's oddities, each chosen on the bench (vision/isolation_v025.md): the bird at the sandwich 0.8 of its
+# size and the sandwich smaller with it ("about as big as the sandwich", "a blue kettle or jug"); and the newspaper drawn behind the
+# dog with no paws painted over it, so the dog's own paws rest on it ("white gloved hands", "stuck onto" the paper).
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 22
+PLACEMENT_REV = 23
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

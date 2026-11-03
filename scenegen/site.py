@@ -49,37 +49,37 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v023", "v024"
+PREV, CUR = "v024", "v025"
 
-# the templates whose drawing or placement v0.24 changed for the v0.23 oddities (vision/flaws_v023.md); the drawings went to the
-# isolation bench first (vision/isolation_v024.md), and every change was read in whole test scenes (vision/design_tests_v024.md)
+# the templates whose drawing v0.25 changed for the v0.24 screen (vision/flaws_v024.md); each went to the isolation bench first
+# (vision/isolation_v025.md) and was read in whole test scenes (vision/design_tests_v025.md)
 REDRAWN_NOTES = {
-    "kick_ball": "The teenager, never called a teenager in v0.23: 'a woman with a brown ponytail'. Redrawn on the bench: shorter, a larger head, short hair and a red cap worn backwards. Named a boy in all 25 of his pictures, a woman in none.",
-    "play_catch": "The teenager again, as above. His direction still read: 'has just thrown the ball'.",
-    "slide": "Arms raised across the face in profile: 'holding her head or hair'. Redrawn on the bench: both arms up and ahead, the near one under the chin, and the seat on the chute's middle: 'looks seated on the slide'.",
-    "cat_sleeping": "A sleeping cat 50 px behind a walking man's back foot: 'right by his feet, so he could trip over it or step on it'. Now clear of any walker's feet on both sides; no reader put a sleeper at anyone's feet.",
-    "dog_sleeping": "Under the same rule as the sleeping cat; no reader put it at anyone's feet.",
-    "windy_hat": "The teenager now wears a cap, so the windy-hat picture, which casts someone bareheaded, leaves him out.",
+    "carry_bag": "The gate's one failure: 'carrying something yellow', 'very long and thin ... could be a tag, folded paper'. A profile showed the bag's narrow edge. Redrawn on the bench with its broad face to the viewer and dark handles: 'a yellow shopping bag'.",
+    "paint_fence": "A roller that 'hardly seems to touch the fence', 'a small pale oval'. Its axis ran along the line of sight. Now upright, a T on the pole: 'a long-handled paint roller'.",
+    "paint_tracks": "The same roller, and the wheelbarrow's shadow, 'a large dark oval extending well beyond it', now 130 px wide (was 210).",
+    "bird_steals": "'About as big as the sandwich', 'a blue kettle or jug'. The bird at 0.8 of its size and the sandwich smaller with it; no reader said kettle.",
+    "dog_reading": "'White gloved hands'. No paws painted over the paper now: it is drawn behind the dog, whose own paws rest on it. No reader said gloves.",
 }
 
-# what the v0.24 screen readers made of the templates that read poorly (vision/flaws_v024.md)
+# what the v0.25 screen readers made of the templates that read poorly (vision/flaws_v025.md)
 WEAK_NOTES = {
-    "carry_bag": "The older man's long, narrow yellow bag: 'carrying something yellow', 'a shopping bag seen edge-on' or a folded newspaper, in two pictures from one reader; the same bag read in full in two others. Unchanged since v0.23, so this may be reader variance. On the list for v0.25.",
+    "dog_wants_walk": "A dog by the door with the lead in its mouth 'with its eyes shut', its wish for a walk never stated. Read in full in v0.24. For v0.26: a face with its eyes open.",
+    "sweep": "An older man 'as if sweeping', who 'could be sweeping, or pausing to watch'. Read in full in v0.24. For v0.26: something on the path to sweep.",
+    "ducks_bread": "'Swimming towards the food': the direction read, the purpose only implied, twice. Read in full in v0.24. Probably scoring variance.",
 }
-SCREEN_NOTE = ("The v0.24 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The teenager, the slide's arms and the riders' seats went to the isolation bench first, and every "
-               "change was read in whole test scenes. 799 of 805 items had full marks, none was misread, and 63 of 64 templates pass "
-               "the gate. Oddities per picture rose about fivefold, and most of that is the scoring and not the pictures: this release's "
-               "scorers logged 83% of what the readers reported, v0.23's 22%, under the same prompt, and a current reader given eight "
-               "unchanged v0.23 pictures reported 15% more than the old readers had, so that row does not compare across this release. AI readers describe exhaustively, "
-               "so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job. A retest "
-               "of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five templates of the "
-               "gate's movement between releases is reader variance.")
+SCREEN_NOTE = ("The v0.25 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The bag, the roller, the barrow's shadow, the bird and the newspaper dog's paws went to the isolation bench "
+               "first, and every change was read in whole test scenes. 779 of 785 items had full marks and none was misread. 61 of 64 templates "
+               "pass the gate, down from 63: the bag now passes in full, and three others fall short, none of them changed by this release and each "
+               "in full in v0.24. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five templates of the "
+               "gate's movement between releases is reader variance. Oddities now come in two rows, as scorers differ in how much they log; readers' remarks, "
+               "counted directly, rose again, so this release removed named complaints and did not bring the total down. AI readers describe "
+               "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("person.leo__throw_ball__smile__y090", "Teenager", "v0.23: 'a woman with a brown ponytail', 13 items. v0.24: shorter, a larger head, short hair and a red cap worn backwards. Named a boy in all 25 of his pictures, a woman in none."),
-         ("person.kai__slide_down__happy__y090", "Child on the slide", "v0.23: arms raised across the face, 'holding her head or hair'. v0.24: both arms up and ahead, clear of the face."),
-         ("crop:scenes_v023/T4_park_s242971.png@1040,830,1400,990>scenes/T4_park_s242971.png@780,830,1140,990", "Sleeping cat", "v0.23: 50 px behind a walking man's back foot, 'he could trip over it or step on it'. v0.24: clear of any walker's feet, here on the same seed.")]
+FIXES = [("person.jo__walk_bag__smile__y090", "Shopping bag", "v0.24: seen edge-on in profile, 'very long and thin ... could be a tag, folded paper' (0.75, the gate's one failure). v0.25: its broad face to the viewer, with dark handles: 'a yellow shopping bag' (1.00)."),
+         ("person.ben__paint__neutral__y090", "Paint roller", "v0.24: its axis along the line of sight, 'a small pale oval' that 'hardly seems to touch the fence'. v0.25: upright, a T on the pole: 'a long-handled paint roller'."),
+         ("crop:scenes_v024/T4_park_s242971.png@526,746,742,902>scenes/T4_park_s242971.png@654,790,876,952", "Newspaper dog", "v0.24: ovals painted over the paper, 'white gloved hands'. v0.25: the paper behind the dog, its own paws on it. Here on the same seed.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):

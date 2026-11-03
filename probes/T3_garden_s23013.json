@@ -6,8 +6,8 @@
  "seed": 23013,
  "mirror": true,
  "versions": {
-  "generator": "0.24.0",
-  "cast_builder": "0.24.0",
+  "generator": "0.25.0",
+  "cast_builder": "0.25.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -68,7 +68,7 @@
    "units": 1
   },
   {
-   "id": "sitting_on_air",
+   "id": "square_wheel",
    "kind": "contradiction",
    "event": "e2",
    "units": 1
@@ -85,14 +85,14 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandfather is watering the flowers with a hose",
+   "text": "A man is watering the flowers with a hose",
    "accepted": {
     "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
     ],
     "what": [
      "watering with a hose",
@@ -118,7 +118,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.271,
+    "s": 0.275,
     "r": 0,
     "d": 0.0,
     "f": -0.27,
@@ -126,9 +126,9 @@
     "zipf_raw": 3.73,
     "aoa_raw": 5.33,
     "domain": null,
-    "area_px": 22424
+    "area_px": 22556
    },
-   "b": -1.195,
+   "b": -1.196,
    "p0": 0.768,
    "pm1": 0.549,
    "aoi_cells": [
@@ -139,51 +139,41 @@
   },
   {
    "id": "i02",
-   "type": "action",
-   "text": "A man is sitting and having a drink",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "sitting and having a drink",
-     "sitting",
-     "having a drink",
-     "drinking"
-    ]
-   },
-   "key": "sitting",
+   "type": "entity",
+   "text": "There is a wheelbarrow",
+   "accepted": [
+    "wheelbarrow",
+    "cart",
+    "barrow"
+   ],
+   "key": "wheelbarrow",
    "elements": [
-    "airsitter_4"
+    "square_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "sitting_on_air",
+   "template": "square_wheel",
    "event": "e2",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": 0.068,
+    "animate": false,
+    "s": -0.072,
     "r": 0,
     "d": 0.0,
-    "f": 0.86,
-    "a": 3.47,
-    "zipf_raw": 4.86,
-    "aoa_raw": 3.47,
+    "f": -1.34,
+    "a": 6.78,
+    "zipf_raw": 2.66,
+    "aoa_raw": 6.78,
     "domain": null,
-    "area_px": 16840
+    "area_px": 13824
    },
-   "b": -1.432,
-   "p0": 0.807,
-   "pm1": 0.606,
+   "b": -0.202,
+   "p0": 0.55,
+   "pm1": 0.31,
    "aoi_cells": [
     "BC"
    ]
@@ -191,44 +181,44 @@
   {
    "id": "i03",
    "type": "contradiction_notice",
-   "text": "Something is wrong with how the person is sitting",
+   "text": "Something is wrong with the wheelbarrow",
    "accepted": [
-    "something odd about how they're sitting",
-    "that person looks strange",
-    "something's missing"
+    "something's wrong with the wheels",
+    "funny wheels",
+    "weird wheelbarrow"
    ],
-   "key": "chair",
+   "key": "wheel",
    "elements": [
-    "airsitter_4"
+    "square_4"
    ],
    "cues": [
-    "airsitter_4"
+    "square_4"
    ],
    "effect": [
-    "airsitter_4"
+    "square_4"
    ],
    "chain": 0,
    "animate": false,
    "domain": "physical",
-   "template": "sitting_on_air",
+   "template": "square_wheel",
    "event": "e2",
    "features": {
     "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": 0.068,
+    "s": -0.072,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.69,
-    "aoa_raw": 3.43,
+    "zipf_raw": 4.5,
+    "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 16840
+    "area_px": 13824
    },
-   "b": -0.094,
-   "p0": 0.523,
-   "pm1": 0.288,
+   "b": -0.024,
+   "p0": 0.506,
+   "pm1": 0.274,
    "aoi_cells": [
     "BC"
    ]
@@ -236,46 +226,44 @@
   {
    "id": "i04",
    "type": "contradiction_explain",
-   "text": "The person is sitting on nothing: there is no chair or bench under them",
+   "text": "The wheelbarrow has square wheels, so it could not roll",
    "accepted": [
-    "sitting on nothing",
-    "there's no chair",
-    "sitting in the air",
-    "invisible chair",
-    "nothing to sit on"
+    "square wheels",
+    "the wheels aren't round",
+    "it can't roll"
    ],
-   "key": "chair",
+   "key": "wheel",
    "elements": [
-    "airsitter_4"
+    "square_4"
    ],
    "cues": [
-    "airsitter_4"
+    "square_4"
    ],
    "effect": [
-    "airsitter_4"
+    "square_4"
    ],
    "chain": 1,
    "animate": false,
    "domain": "physical",
-   "template": "sitting_on_air",
+   "template": "square_wheel",
    "event": "e2",
    "features": {
     "type": "contradiction_explain",
     "chain": 1,
     "animate": false,
-    "s": 0.068,
+    "s": -0.072,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.69,
-    "aoa_raw": 3.43,
+    "zipf_raw": 4.5,
+    "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 16840
+    "area_px": 13824
    },
-   "b": 1.106,
-   "p0": 0.249,
-   "pm1": 0.109,
+   "b": 1.176,
+   "p0": 0.236,
+   "pm1": 0.102,
    "aoi_cells": [
     "BC"
    ]
@@ -361,7 +349,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.088,
+    "s": 0.14,
     "r": 0,
     "d": 0.0,
     "f": 0.2,
@@ -369,14 +357,14 @@
     "zipf_raw": 4.2,
     "aoa_raw": 4.55,
     "domain": null,
-    "area_px": 13508
+    "area_px": 18636
    },
-   "b": -1.156,
-   "p0": 0.761,
-   "pm1": 0.539,
+   "b": -1.27,
+   "p0": 0.781,
+   "pm1": 0.567,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "ML",
+    "BL"
    ]
   },
   {
@@ -413,7 +401,7 @@
     "animate": false,
     "s": 1.001,
     "r": 1,
-    "d": 0.255,
+    "d": 0.49,
     "f": 0.0,
     "a": 4.47,
     "zipf_raw": 4.71,
@@ -421,14 +409,15 @@
     "domain": null,
     "area_px": 62768
    },
-   "b": -0.144,
-   "p0": 0.536,
-   "pm1": 0.298,
+   "b": 0.137,
+   "p0": 0.466,
+   "pm1": 0.243,
    "aoi_cells": [
     "TL",
     "TC",
     "TR",
-    "MC"
+    "ML",
+    "BL"
    ]
   },
   {
@@ -496,7 +485,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.852,
+    "s": 1.877,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -504,11 +493,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 208376
+    "area_px": 215908
    },
-   "b": -1.629,
-   "p0": 0.836,
-   "pm1": 0.652,
+   "b": -1.642,
+   "p0": 0.838,
+   "pm1": 0.655,
    "aoi_cells": [
     "ML",
     "MC",
@@ -613,12 +602,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.793,
-   "inference": 0.436
+   "content": 0.764,
+   "inference": 0.403
   },
   "theta_minus_1": {
-   "content": 0.589,
-   "inference": 0.232
+   "content": 0.556,
+   "inference": 0.206
   }
  },
  "bands": {
@@ -649,15 +638,11 @@
  },
  "clutter": {
   "objects": 14,
-  "edge_density": 0.038,
-  "png_bytes": 207171,
-  "jpeg_bytes": 182968
+  "edge_density": 0.0386,
+  "png_bytes": 189197,
+  "jpeg_bytes": 183047
  },
  "signature": [
-  [
-   "action",
-   0
-  ],
   [
    "action",
    0
@@ -672,6 +657,10 @@
   ],
   [
    "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -745,8 +734,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "visible_px": 65192,
+   "occlusion": 0.198
   },
   {
    "id": "tree",
@@ -775,45 +764,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 208376,
-   "occlusion": 0.135
-  },
-  {
-   "id": "skywatcher_5",
-   "label": "person.ana__point_up__worried__y045",
-   "role": "scored",
-   "z": 690.2,
-   "bbox": [
-    568.0,
-    422.0,
-    682.0,
-    692.0
-   ],
-   "area_px": 13508,
-   "visible_px": 13508,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ana__point_up__worried__y045",
-    "family": "person.ana",
-    "scale": 0.4047,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
-     }
-    }
-   }
+   "visible_px": 215908,
+   "occlusion": 0.104
   },
   {
    "id": "house",
@@ -832,37 +784,37 @@
   },
   {
    "id": "hoser_1",
-   "label": "person.tomas__hose_spray__smile__y090",
+   "label": "person.ben__hose_spray__smile__y090",
    "role": "scored",
    "z": 830,
    "bbox": [
     926.0,
-    530.0,
-    1036.0,
+    524.0,
+    1038.0,
     836.0
    ],
-   "area_px": 13412,
-   "visible_px": 13316,
+   "area_px": 13416,
+   "visible_px": 13320,
    "occlusion": 0.007,
    "asset": {
-    "variant": "person.tomas__hose_spray__smile__y090",
-    "family": "person.tomas",
+    "variant": "person.ben__hose_spray__smile__y090",
+    "family": "person.ben",
     "scale": 0.4565,
     "mirrored": false,
     "labels": {
-     "everyday_name": "grandfather",
+     "everyday_name": "man",
      "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
      ],
      "category": "adult_person",
      "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
      }
     }
    }
@@ -879,8 +831,8 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 22472,
-   "occlusion": 0.132
+   "visible_px": 22292,
+   "occlusion": 0.139
   },
   {
    "id": "hose_2",
@@ -889,12 +841,12 @@
    "z": 836.5,
    "bbox": [
     978.0,
-    660.0,
+    656.0,
     1306.0,
     874.0
    ],
-   "area_px": 6856,
-   "visible_px": 6084,
+   "area_px": 6892,
+   "visible_px": 6116,
    "occlusion": 0.113
   },
   {
@@ -903,13 +855,13 @@
    "role": "scored",
    "z": 837,
    "bbox": [
-    1032.0,
-    642.0,
-    1164.0,
+    1034.0,
+    638.0,
+    1170.0,
     802.0
    ],
-   "area_px": 3024,
-   "visible_px": 3024,
+   "area_px": 3120,
+   "visible_px": 3120,
    "occlusion": 0.0
   },
   {
@@ -958,41 +910,56 @@
    "occlusion": 0.0
   },
   {
-   "id": "airsitter_4",
-   "label": "person.ben__sit_drink__focused__y045",
+   "id": "skywatcher_5",
+   "label": "person.ana__point_up__worried__y045",
    "role": "scored",
-   "z": 925.98,
+   "z": 883.37,
    "bbox": [
-    672.0,
-    670.0,
-    818.0,
-    938.0
+    66.0,
+    568.0,
+    200.0,
+    886.0
    ],
-   "area_px": 16840,
-   "visible_px": 16840,
+   "area_px": 18636,
+   "visible_px": 18636,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.ben__sit_drink__focused__y045",
-    "family": "person.ben",
-    "scale": 0.492,
+    "variant": "person.ana__point_up__worried__y045",
+    "family": "person.ana",
+    "scale": 0.4762,
     "mirrored": false,
     "labels": {
-     "everyday_name": "man",
+     "everyday_name": "woman",
      "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
+      "woman",
+      "lady",
+      "mother",
+      "mom",
       "person"
      ],
      "category": "adult_person",
      "person": {
       "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
+      "skin_tone": "skin2",
+      "hair": "long_dark"
      }
     }
    }
+  },
+  {
+   "id": "square_4",
+   "label": "Wheelbarrow with square wheels",
+   "role": "scored",
+   "z": 899.73,
+   "bbox": [
+    648.0,
+    808.0,
+    902.0,
+    908.0
+   ],
+   "area_px": 13824,
+   "visible_px": 13824,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -1021,10 +988,10 @@
     "rain_coming"
    ],
    "contradictions": [
-    "sitting_on_air"
+    "square_wheel"
    ]
   },
-  "placement_rev": 22
+  "placement_rev": 23
  },
  "probe": true
 }

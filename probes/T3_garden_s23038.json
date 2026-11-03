@@ -6,8 +6,8 @@
  "seed": 23038,
  "mirror": true,
  "versions": {
-  "generator": "0.24.0",
-  "cast_builder": "0.24.0",
+  "generator": "0.25.0",
+  "cast_builder": "0.25.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,10 +62,10 @@
  ],
  "templates": [
   {
-   "id": "goat_grazing",
-   "kind": "event",
+   "id": "sitting_on_air",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -73,47 +73,148 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A goat is eating grass",
-   "accepted": [
-    "goat eating",
-    "goat eating grass",
-    "goat grazing",
-    "goat"
-   ],
-   "key": "goat",
+   "text": "A man is sitting and reading",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "sitting and reading",
+     "sitting",
+     "reading",
+     "reading a book"
+    ]
+   },
+   "key": "sitting",
    "elements": [
-    "goat_grazing_1"
+    "airsitter_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "goat_grazing",
+   "template": "sitting_on_air",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.325,
+    "s": 0.109,
     "r": 0,
     "d": 0.0,
-    "f": 0.02,
-    "a": 5.21,
-    "zipf_raw": 4.02,
-    "aoa_raw": 5.21,
+    "f": 0.86,
+    "a": 3.47,
+    "zipf_raw": 4.86,
+    "aoa_raw": 3.47,
     "domain": null,
-    "area_px": 9680
+    "area_px": 17848
    },
-   "b": -1.224,
-   "p0": 0.773,
-   "pm1": 0.556,
+   "b": -1.692,
+   "p0": 0.844,
+   "pm1": 0.666,
    "aoi_cells": [
     "BC"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with how the person is sitting",
+   "accepted": [
+    "something odd about how they're sitting",
+    "that person looks strange",
+    "something's missing"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_1"
+   ],
+   "cues": [
+    "airsitter_1"
+   ],
+   "effect": [
+    "airsitter_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": 0.109,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 17848
+   },
+   "b": -0.355,
+   "p0": 0.588,
+   "pm1": 0.344,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is sitting on nothing: there is no chair or bench under them",
+   "accepted": [
+    "sitting on nothing",
+    "there's no chair",
+    "sitting in the air",
+    "invisible chair",
+    "nothing to sit on"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_1"
+   ],
+   "cues": [
+    "airsitter_1"
+   ],
+   "effect": [
+    "airsitter_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.109,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 17848
+   },
+   "b": 0.845,
+   "p0": 0.3,
+   "pm1": 0.136,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -156,7 +257,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -198,7 +299,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -239,7 +340,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -283,7 +384,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -326,7 +427,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -372,7 +473,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -415,7 +516,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a bench",
    "accepted": [
@@ -457,18 +558,18 @@
  ],
  "counts": {
   "content": 9,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 9
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.776,
-   "inference": null
+   "content": 0.784,
+   "inference": 0.444
   },
   "theta_minus_1": {
-   "content": 0.571,
-   "inference": null
+   "content": 0.584,
+   "inference": 0.24
   }
  },
  "bands": {
@@ -490,18 +591,26 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0378,
-  "png_bytes": 138051,
-  "jpeg_bytes": 175346
+  "objects": 15,
+  "edge_density": 0.0375,
+  "png_bytes": 147788,
+  "jpeg_bytes": 176568
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -737,50 +846,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "goat_grazing_1",
-   "label": "animal.goat_01__graze__neutral__y090",
-   "role": "scored",
-   "z": 912.21,
-   "bbox": [
-    686.0,
-    790.0,
-    848.0,
-    916.0
-   ],
-   "area_px": 9792,
-   "visible_px": 9680,
-   "occlusion": 0.011,
-   "asset": {
-    "variant": "animal.goat_01__graze__neutral__y090",
-    "family": "animal.goat_01",
-    "scale": 0.4869,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "goat",
-     "accepted_names": [
-      "goat",
-      "kid"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "grasstuft_2",
-   "label": "Grass at the goat's mouth",
-   "role": "setting",
-   "z": 914.21,
-   "bbox": [
-    706.0,
-    884.0,
-    748.0,
-    916.0
-   ],
-   "area_px": 740,
-   "visible_px": 740,
-   "occlusion": 0.0
-  },
-  {
    "id": "bench",
    "label": "Garden bench",
    "role": "setting",
@@ -794,6 +859,43 @@
    "area_px": 13200,
    "visible_px": 13200,
    "occlusion": 0.0
+  },
+  {
+   "id": "airsitter_1",
+   "label": "person.dev__sit_read__neutral__y045",
+   "role": "scored",
+   "z": 931.28,
+   "bbox": [
+    688.0,
+    680.0,
+    836.0,
+    946.0
+   ],
+   "area_px": 17848,
+   "visible_px": 17848,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.dev__sit_read__neutral__y045",
+    "family": "person.dev",
+    "scale": 0.494,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
+     }
+    }
+   }
   },
   {
    "id": "filler_watering_can",
@@ -830,11 +932,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "goat_grazing"
+   "contradictions": [
+    "sitting_on_air"
    ]
   },
-  "placement_rev": 22
+  "placement_rev": 23
  },
  "probe": true
 }

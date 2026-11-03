@@ -1,0 +1,2099 @@
+{
+ "name": "T4_street_s16111_iso",
+ "tier": 4,
+ "setting": "street",
+ "sky": "clear",
+ "seed": 16111,
+ "mirror": false,
+ "versions": {
+  "generator": "0.25.0",
+  "cast_builder": "0.25.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "bench",
+  "flowers",
+  "stall"
+ ],
+ "templates": [
+  {
+   "id": "lost_balloon",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "ball_in_tree",
+   "kind": "inference",
+   "event": "e2",
+   "units": 1
+  },
+  {
+   "id": "bird_steals",
+   "kind": "inference",
+   "event": "e3",
+   "units": 1
+  },
+  {
+   "id": "square_wheel",
+   "kind": "contradiction",
+   "event": "e4",
+   "units": 1
+  },
+  {
+   "id": "dog_reading",
+   "kind": "contradiction",
+   "event": "e5",
+   "units": 1
+  },
+  {
+   "id": "birds_flying",
+   "kind": "event",
+   "event": "e6",
+   "units": 0
+  },
+  {
+   "id": "ice_cream",
+   "kind": "event",
+   "event": "e7",
+   "units": 0
+  },
+  {
+   "id": "carry_box",
+   "kind": "event",
+   "event": "e8",
+   "units": 0
+  },
+  {
+   "id": "water_flowers",
+   "kind": "event",
+   "event": "e9",
+   "units": 0
+  }
+ ],
+ "scene_load": 9,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A man is reading on the bench",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "not paying attention"
+    ]
+   },
+   "key": "reading",
+   "elements": [
+    "benchreader_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "bird_steals",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.106,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
+    "domain": null,
+    "area_px": 13172
+   },
+   "b": -0.709,
+   "p0": 0.67,
+   "pm1": 0.428,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A bird is pecking at a sandwich on the bench",
+   "accepted": [
+    "bird eating the sandwich",
+    "bird on the bench",
+    "bird pecking",
+    "sandwich"
+   ],
+   "key": "sandwich",
+   "elements": [
+    "thief_2",
+    "sandwich_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "bird_steals",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.207,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.13,
+    "a": 4.79,
+    "zipf_raw": 4.13,
+    "aoa_raw": 4.79,
+    "domain": null,
+    "area_px": 2788
+   },
+   "b": 0.145,
+   "p0": 0.464,
+   "pm1": 0.241,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The bird is stealing the sandwich while the man is busy reading",
+   "accepted": [
+    "the bird is stealing the food",
+    "she doesn't notice the bird",
+    "the bird is eating her lunch",
+    "he isn't watching his sandwich"
+   ],
+   "key": "stealing",
+   "elements": [
+    "thief_2",
+    "benchreader_1"
+   ],
+   "cues": [
+    "thief_2",
+    "benchreader_1"
+   ],
+   "effect": [
+    "sandwich_3"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "bird_steals",
+   "event": "e3",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -1.757,
+    "r": 1,
+    "d": 0.047,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.23,
+    "aoa_raw": 6.17,
+    "domain": null,
+    "area_px": 1284
+   },
+   "b": 2.305,
+   "p0": 0.091,
+   "pm1": 0.035,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A grandfather is watering the flowers",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "watering the flowers",
+     "watering the plants",
+     "watering the garden",
+     "watering can"
+    ]
+   },
+   "key": "flowers",
+   "elements": [
+    "waterer_4",
+    "water_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "water_flowers",
+   "event": "e9",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.156,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 12280
+   },
+   "b": -0.534,
+   "p0": 0.63,
+   "pm1": 0.386,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A teenager is pointing up at the tree",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "pointing at the tree",
+     "reaching up",
+     "looking up at the tree",
+     "sad",
+     "upset"
+    ]
+   },
+   "key": "tree",
+   "elements": [
+    "treekid_8"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ball_in_tree",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.079,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 17096
+   },
+   "b": -0.715,
+   "p0": 0.672,
+   "pm1": 0.429,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "There is a ball up in the tree",
+   "accepted": [
+    "ball in the tree",
+    "ball",
+    "ball up in the branches"
+   ],
+   "key": "ball",
+   "elements": [
+    "ballintree_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "ball_in_tree",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.746,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 2.9,
+    "zipf_raw": 5.04,
+    "aoa_raw": 2.9,
+    "domain": null,
+    "area_px": 5340
+   },
+   "b": 0.141,
+   "p0": 0.465,
+   "pm1": 0.242,
+   "aoi_cells": [
+    "ML"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "inference",
+   "text": "The teenager's ball is stuck in the tree",
+   "accepted": [
+    "the ball got stuck in the tree",
+    "the ball is stuck",
+    "they can't get the ball down",
+    "the ball is caught in the tree"
+   ],
+   "key": "stuck",
+   "elements": [
+    "ballintree_6",
+    "treekid_8"
+   ],
+   "cues": [
+    "ballintree_6",
+    "treekid_8"
+   ],
+   "effect": [
+    "ballintree_6"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "ball_in_tree",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.746,
+    "r": 1,
+    "d": 0.136,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.68,
+    "aoa_raw": 3.89,
+    "domain": null,
+    "area_px": 5340
+   },
+   "b": 1.306,
+   "p0": 0.213,
+   "pm1": 0.091,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "action",
+   "text": "A girl is holding balloons and reaching up for one, upset",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "reaching up",
+     "holding balloons",
+     "upset",
+     "sad",
+     "trying to catch the balloon"
+    ]
+   },
+   "key": "reaching",
+   "elements": [
+    "balloonlost_9",
+    "heldbal_10"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "lost_balloon",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.014,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 4.89,
+    "zipf_raw": 4.46,
+    "aoa_raw": 4.89,
+    "domain": null,
+    "area_px": 15004
+   },
+   "b": -0.551,
+   "p0": 0.634,
+   "pm1": 0.39,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "A balloon is floating up into the sky",
+   "accepted": [
+    "balloon flying away",
+    "balloon in the sky",
+    "balloon floating away",
+    "floating balloon"
+   ],
+   "key": "balloon",
+   "elements": [
+    "loosebal_11"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "lost_balloon",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.032,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.1,
+    "a": 4.37,
+    "zipf_raw": 3.9,
+    "aoa_raw": 4.37,
+    "domain": null,
+    "area_px": 3568
+   },
+   "b": 0.626,
+   "p0": 0.348,
+   "pm1": 0.164,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "inference",
+   "text": "The girl let go of one of the balloons",
+   "accepted": [
+    "one balloon got away",
+    "lost one of the balloons",
+    "the balloon slipped away",
+    "let go of the string",
+    "one floated away from the bunch"
+   ],
+   "key": "lost",
+   "elements": [
+    "loosebal_11",
+    "balloonlost_9",
+    "heldbal_10"
+   ],
+   "cues": [
+    "loosebal_11",
+    "balloonlost_9",
+    "heldbal_10"
+   ],
+   "effect": [
+    "loosebal_11"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "lost_balloon",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -1.032,
+    "r": 2,
+    "d": 0.125,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.39,
+    "aoa_raw": 5.78,
+    "domain": null,
+    "area_px": 3568
+   },
+   "b": 1.136,
+   "p0": 0.243,
+   "pm1": 0.106,
+   "aoi_cells": [
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There is a bicycle",
+   "accepted": [
+    "bike",
+    "bicycle"
+   ],
+   "key": "bike",
+   "elements": [
+    "square_12"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "square_wheel",
+   "event": "e4",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.006,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.53,
+    "a": 4.79,
+    "zipf_raw": 4.53,
+    "aoa_raw": 4.79,
+    "domain": null,
+    "area_px": 15172
+   },
+   "b": -0.076,
+   "p0": 0.519,
+   "pm1": 0.284,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i12",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the bicycle",
+   "accepted": [
+    "something's wrong with the wheels",
+    "funny wheels",
+    "weird bike"
+   ],
+   "key": "wheel",
+   "elements": [
+    "square_12"
+   ],
+   "cues": [
+    "square_12"
+   ],
+   "effect": [
+    "square_12"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "square_wheel",
+   "event": "e4",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.006,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.5,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 15172
+   },
+   "b": 0.663,
+   "p0": 0.34,
+   "pm1": 0.159,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "contradiction_explain",
+   "text": "The bicycle has square wheels, so it could not roll",
+   "accepted": [
+    "square wheels",
+    "the wheels aren't round",
+    "it can't roll"
+   ],
+   "key": "wheel",
+   "elements": [
+    "square_12"
+   ],
+   "cues": [
+    "square_12"
+   ],
+   "effect": [
+    "square_12"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "square_wheel",
+   "event": "e4",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.006,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.5,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 15172
+   },
+   "b": 1.863,
+   "p0": 0.134,
+   "pm1": 0.054,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i14",
+   "type": "action",
+   "text": "A dog is sitting up holding a newspaper",
+   "accepted": [
+    "dog sitting",
+    "dog with a newspaper",
+    "dog holding a paper"
+   ],
+   "key": "dog",
+   "elements": [
+    "readingdog_13",
+    "newspaper_14"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_reading",
+   "event": "e5",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.019,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 14900
+   },
+   "b": -0.74,
+   "p0": 0.677,
+   "pm1": 0.435,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i15",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the dog",
+   "accepted": [
+    "the dog is strange",
+    "something odd about the dog",
+    "that's funny"
+   ],
+   "key": "newspaper",
+   "elements": [
+    "readingdog_13",
+    "newspaper_14"
+   ],
+   "cues": [
+    "readingdog_13",
+    "newspaper_14"
+   ],
+   "effect": [
+    "readingdog_13",
+    "newspaper_14"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "biological",
+   "template": "dog_reading",
+   "event": "e5",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.356,
+    "r": 1,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.6,
+    "aoa_raw": 5.78,
+    "domain": "biological",
+    "area_px": 9264
+   },
+   "b": 0.338,
+   "p0": 0.416,
+   "pm1": 0.208,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i16",
+   "type": "contradiction_explain",
+   "text": "The dog is reading a newspaper, but dogs can't read",
+   "accepted": [
+    "dog reading",
+    "dogs can't read",
+    "a dog reading the paper",
+    "reading the newspaper"
+   ],
+   "key": "newspaper",
+   "elements": [
+    "readingdog_13",
+    "newspaper_14"
+   ],
+   "cues": [
+    "readingdog_13",
+    "newspaper_14"
+   ],
+   "effect": [
+    "readingdog_13",
+    "newspaper_14"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "biological",
+   "template": "dog_reading",
+   "event": "e5",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.356,
+    "r": 1,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.6,
+    "aoa_raw": 5.78,
+    "domain": "biological",
+    "area_px": 9264
+   },
+   "b": 1.538,
+   "p0": 0.177,
+   "pm1": 0.073,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i17",
+   "type": "action",
+   "text": "A bird is flying",
+   "accepted": [
+    "bird flying",
+    "bird in the sky",
+    "bird",
+    "flying bird"
+   ],
+   "key": "bird",
+   "elements": [
+    "flyingbird_15"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "birds_flying",
+   "event": "e6",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.049,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.63,
+    "a": 3.52,
+    "zipf_raw": 4.63,
+    "aoa_raw": 3.52,
+    "domain": null,
+    "area_px": 3484
+   },
+   "b": -0.085,
+   "p0": 0.521,
+   "pm1": 0.286,
+   "aoi_cells": [
+    "TR"
+   ]
+  },
+  {
+   "id": "i18",
+   "type": "action",
+   "text": "A child is eating an ice cream",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "eating ice cream",
+     "ice cream cone",
+     "having an ice cream",
+     "eating a cone"
+    ]
+   },
+   "key": "ice cream",
+   "elements": [
+    "icecream_16"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ice_cream",
+   "event": "e7",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.594,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.47,
+    "a": 3.33,
+    "zipf_raw": 4.47,
+    "aoa_raw": 3.33,
+    "domain": null,
+    "area_px": 6624
+   },
+   "b": -0.264,
+   "p0": 0.566,
+   "pm1": 0.324,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i19",
+   "type": "action",
+   "text": "A grandmother is carrying a box",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "carrying a box",
+     "holding a box",
+     "moving a box",
+     "box"
+    ]
+   },
+   "key": "box",
+   "elements": [
+    "carrier_17"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "carry_box",
+   "event": "e8",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.148,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 12424
+   },
+   "b": -0.658,
+   "p0": 0.659,
+   "pm1": 0.415,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i20",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.103,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13224
+   },
+   "b": -0.159,
+   "p0": 0.54,
+   "pm1": 0.301,
+   "aoi_cells": [
+    "TR"
+   ]
+  },
+  {
+   "id": "i21",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.137,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 12608
+   },
+   "b": 0.101,
+   "p0": 0.475,
+   "pm1": 0.25,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i22",
+   "type": "entity",
+   "text": "It is a street with shops",
+   "accepted": [
+    "shops",
+    "stores",
+    "buildings",
+    "street",
+    "town",
+    "city",
+    "shop"
+   ],
+   "key": "shops",
+   "elements": [
+    "buildings"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 2.599,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.34,
+    "a": 5.78,
+    "zipf_raw": 4.34,
+    "aoa_raw": 5.78,
+    "domain": null,
+    "area_px": 597348
+   },
+   "b": -1.321,
+   "p0": 0.789,
+   "pm1": 0.58,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR",
+    "ML",
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i23",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.037,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 66060
+   },
+   "b": -0.693,
+   "p0": 0.667,
+   "pm1": 0.424,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i24",
+   "type": "entity",
+   "text": "There is a street lamp",
+   "accepted": [
+    "lamp post",
+    "lamp",
+    "street light",
+    "light post",
+    "lamppost"
+   ],
+   "key": "lamp",
+   "elements": [
+    "lamp"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.376,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.05,
+    "a": 4.0,
+    "zipf_raw": 4.05,
+    "aoa_raw": 4.0,
+    "domain": null,
+    "area_px": 9008
+   },
+   "b": 0.253,
+   "p0": 0.437,
+   "pm1": 0.222,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i25",
+   "type": "entity",
+   "text": "There is a fruit stand",
+   "accepted": [
+    "fruit stand",
+    "fruit",
+    "market",
+    "stall",
+    "fruit stall",
+    "market stall"
+   ],
+   "key": "fruit",
+   "elements": [
+    "stall"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.274,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.57,
+    "a": 3.63,
+    "zipf_raw": 4.57,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 22516
+   },
+   "b": -0.228,
+   "p0": 0.557,
+   "pm1": 0.316,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 18,
+  "inference_units": 5,
+  "contradictions": 2,
+  "items_total": 25
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.572,
+   "inference": 0.231
+  },
+  "theta_minus_1": {
+   "content": 0.34,
+   "inference": 0.104
+  }
+ },
+ "bands": {
+  "content_count": true,
+  "inference_units": true,
+  "contradictions": true,
+  "content_completeness": true,
+  "inference_completeness": true
+ },
+ "in_tier": true,
+ "checks": {
+  "treekid_8_looks_at_ball": {
+   "result": false,
+   "detail": ""
+  },
+  "balloonlost_9_looks_at_balloon": {
+   "result": false,
+   "detail": ""
+  },
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": true,
+   "detail": "27 drawn objects (tier band 26-38)"
+  }
+ },
+ "clutter": {
+  "objects": 27,
+  "edge_density": 0.0573,
+  "png_bytes": 311668,
+  "jpeg_bytes": 217252
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ],
+  [
+   "inference",
+   1
+  ],
+  [
+   "inference",
+   2
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    1372.0,
+    0.0,
+    1568.0,
+    178.0
+   ],
+   "area_px": 13224,
+   "visible_px": 13224,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    556.0,
+    16.0,
+    1034.0,
+    112.0
+   ],
+   "area_px": 12608,
+   "visible_px": 12608,
+   "occlusion": 0.0
+  },
+  {
+   "id": "buildings",
+   "label": "Row of shops",
+   "role": "setting",
+   "z": -95,
+   "bbox": [
+    0.0,
+    114.0,
+    1600.0,
+    602.0
+   ],
+   "area_px": 693612,
+   "visible_px": 597348,
+   "occlusion": 0.139
+  },
+  {
+   "id": "ground",
+   "label": "Paved street",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "flyingbird_15",
+   "label": "animal.bird_01__fly__neutral__y090",
+   "role": "scored",
+   "z": -50,
+   "bbox": [
+    1230.0,
+    44.0,
+    1318.0,
+    132.0
+   ],
+   "area_px": 3484,
+   "visible_px": 3484,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_01__fly__neutral__y090",
+    "family": "animal.bird_01",
+    "scale": 0.4824,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "robin",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
+  },
+  {
+   "id": "flowers",
+   "label": "Flower planter",
+   "role": "setting",
+   "z": 660,
+   "bbox": [
+    948.0,
+    586.0,
+    1052.0,
+    662.0
+   ],
+   "area_px": 6832,
+   "visible_px": 6132,
+   "occlusion": 0.102
+  },
+  {
+   "id": "waterer_4",
+   "label": "person.tomas__water_plants__smile__y090",
+   "role": "scored",
+   "z": 690,
+   "bbox": [
+    878.0,
+    426.0,
+    982.0,
+    694.0
+   ],
+   "area_px": 11304,
+   "visible_px": 11280,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.tomas__water_plants__smile__y090",
+    "family": "person.tomas",
+    "scale": 0.4046,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "water_5",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 691,
+   "bbox": [
+    976.0,
+    574.0,
+    1038.0,
+    640.0
+   ],
+   "area_px": 1000,
+   "visible_px": 1000,
+   "occlusion": 0.0
+  },
+  {
+   "id": "lamp",
+   "label": "Street lamp",
+   "role": "setting",
+   "z": 700,
+   "bbox": [
+    1092.0,
+    220.0,
+    1148.0,
+    702.0
+   ],
+   "area_px": 9008,
+   "visible_px": 9008,
+   "occlusion": 0.0
+  },
+  {
+   "id": "carrier_17",
+   "label": "person.rosa__walk_box__smile__y090",
+   "role": "scored",
+   "z": 709.12,
+   "bbox": [
+    532.0,
+    454.0,
+    636.0,
+    712.0
+   ],
+   "area_px": 12424,
+   "visible_px": 12424,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__walk_box__smile__y090",
+    "family": "person.rosa",
+    "scale": 0.4117,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "stall",
+   "label": "Fruit stand",
+   "role": "setting",
+   "z": 720,
+   "bbox": [
+    1272.0,
+    502.0,
+    1528.0,
+    722.0
+   ],
+   "area_px": 25520,
+   "visible_px": 22516,
+   "occlusion": 0.118
+  },
+  {
+   "id": "filler_crates",
+   "label": "Crates",
+   "role": "filler",
+   "z": 760,
+   "bbox": [
+    1474.0,
+    696.0,
+    1556.0,
+    762.0
+   ],
+   "area_px": 5248,
+   "visible_px": 5248,
+   "occlusion": 0.0
+  },
+  {
+   "id": "bench",
+   "label": "Bench",
+   "role": "setting",
+   "z": 770,
+   "bbox": [
+    662.0,
+    664.0,
+    858.0,
+    772.0
+   ],
+   "area_px": 10840,
+   "visible_px": 5988,
+   "occlusion": 0.448
+  },
+  {
+   "id": "benchreader_1",
+   "label": "person.ben__sit_read__neutral__y045",
+   "role": "scored",
+   "z": 773,
+   "bbox": [
+    692.0,
+    566.0,
+    822.0,
+    802.0
+   ],
+   "area_px": 13540,
+   "visible_px": 13172,
+   "occlusion": 0.027,
+   "asset": {
+    "variant": "person.ben__sit_read__neutral__y045",
+    "family": "person.ben",
+    "scale": 0.4354,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "sandwich_3",
+   "label": "Sandwich on the bench",
+   "role": "scored",
+   "z": 773.5,
+   "bbox": [
+    762.0,
+    682.0,
+    840.0,
+    718.0
+   ],
+   "area_px": 1592,
+   "visible_px": 1504,
+   "occlusion": 0.055
+  },
+  {
+   "id": "thief_2",
+   "label": "animal.bird_02__peck__neutral__y090",
+   "role": "scored",
+   "z": 774,
+   "bbox": [
+    810.0,
+    666.0,
+    862.0,
+    716.0
+   ],
+   "area_px": 1284,
+   "visible_px": 1284,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_02__peck__neutral__y090",
+    "family": "animal.bird_02",
+    "scale": 0.3486,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "bluebird",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
+  },
+  {
+   "id": "icecream_16",
+   "label": "person.kai__walk_ice_cream__smile__y090",
+   "role": "scored",
+   "z": 786.56,
+   "bbox": [
+    1348.0,
+    600.0,
+    1440.0,
+    790.0
+   ],
+   "area_px": 6624,
+   "visible_px": 6624,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.kai__walk_ice_cream__smile__y090",
+    "family": "person.kai",
+    "scale": 0.4404,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "tree",
+   "label": "Street tree",
+   "role": "setting",
+   "z": 800,
+   "bbox": [
+    152.0,
+    362.0,
+    448.0,
+    808.0
+   ],
+   "area_px": 71400,
+   "visible_px": 66060,
+   "occlusion": 0.075
+  },
+  {
+   "id": "crownleaves_7",
+   "label": "Leaves on the tree",
+   "role": "background",
+   "z": 800.3
+  },
+  {
+   "id": "ballintree_6",
+   "label": "Ball stuck in the tree",
+   "role": "scored",
+   "z": 800.5,
+   "bbox": [
+    180.0,
+    504.0,
+    284.0,
+    584.0
+   ],
+   "area_px": 5340,
+   "visible_px": 5340,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pot_s",
+   "label": "Flower pot",
+   "role": "filler",
+   "z": 950,
+   "bbox": [
+    1508.0,
+    862.0,
+    1572.0,
+    952.0
+   ],
+   "area_px": 4456,
+   "visible_px": 4456,
+   "occlusion": 0.0
+  },
+  {
+   "id": "newspaper_14",
+   "label": "Newspaper held by the dog",
+   "role": "scored",
+   "z": 959.74,
+   "bbox": [
+    474.0,
+    856.0,
+    562.0,
+    932.0
+   ],
+   "area_px": 6132,
+   "visible_px": 5636,
+   "occlusion": 0.081
+  },
+  {
+   "id": "readingdog_13",
+   "label": "animal.dog_01__sit_up_hold__neutral__y090",
+   "role": "scored",
+   "z": 960.74,
+   "bbox": [
+    550.0,
+    822.0,
+    678.0,
+    966.0
+   ],
+   "area_px": 9264,
+   "visible_px": 9264,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.dog_01__sit_up_hold__neutral__y090",
+    "family": "animal.dog_01",
+    "scale": 0.5049,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "treekid_8",
+   "label": "person.leo__point_up__puzzled__y045",
+   "role": "scored",
+   "z": 961.82,
+   "bbox": [
+    138.0,
+    664.0,
+    272.0,
+    964.0
+   ],
+   "area_px": 17096,
+   "visible_px": 17096,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__point_up__puzzled__y045",
+    "family": "person.leo",
+    "scale": 0.5053,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "square_12",
+   "label": "Bicycle with square wheels",
+   "role": "scored",
+   "z": 962.83,
+   "bbox": [
+    722.0,
+    824.0,
+    948.0,
+    970.0
+   ],
+   "area_px": 15172,
+   "visible_px": 15172,
+   "occlusion": 0.0
+  },
+  {
+   "id": "balloonlost_9",
+   "label": "person.nia__balloon_reach__scared__y045",
+   "role": "scored",
+   "z": 970.45,
+   "bbox": [
+    1078.0,
+    782.0,
+    1184.0,
+    972.0
+   ],
+   "area_px": 7852,
+   "visible_px": 7836,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.nia__balloon_reach__scared__y045",
+    "family": "person.nia",
+    "scale": 0.5085,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "filler_pot_s2",
+   "label": "Flower pot",
+   "role": "filler",
+   "z": 980,
+   "bbox": [
+    28.0,
+    890.0,
+    92.0,
+    982.0
+   ],
+   "area_px": 4616,
+   "visible_px": 4616,
+   "occlusion": 0.0
+  },
+  {
+   "id": "heldbal_10",
+   "label": "Balloons held by the child",
+   "role": "scored",
+   "z": 1499,
+   "bbox": [
+    998.0,
+    670.0,
+    1106.0,
+    864.0
+   ],
+   "area_px": 7168,
+   "visible_px": 7168,
+   "occlusion": 0.0
+  },
+  {
+   "id": "loosebal_11",
+   "label": "Balloon floating away",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    1186.0,
+    598.0,
+    1246.0,
+    758.0
+   ],
+   "area_px": 3568,
+   "visible_px": 3568,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "isomorph_of": "T4_playground_s1224004",
+ "knob": 0,
+ "regen": {
+  "isomorph_of": "T4_playground_s1224004",
+  "seed": 14111,
+  "placement_rev": 23
+ },
+ "isomorph_check": {
+  "same_signature": true,
+  "content_diff": 0.011,
+  "inference_diff": 0.004,
+  "clutter_A": {
+   "objects": 27,
+   "edge_density": 0.0455,
+   "png_bytes": 275466,
+   "jpeg_bytes": 200900
+  },
+  "clutter_B": {
+   "objects": 27,
+   "edge_density": 0.0573,
+   "png_bytes": 311668,
+   "jpeg_bytes": 217252
+  },
+  "attempts": [
+   "could not place feed_birds",
+   "could not place lost_balloon",
+   "could not place lost_balloon",
+   "could not place lost_balloon",
+   "could not place jump",
+   "could not place feed_birds",
+   "could not place feed_birds",
+   "could not place jump",
+   "no free animal of kind ['songbird']",
+   "could not place carry_box",
+   "could not place lost_balloon",
+   "knob 0: dc=0.011 di=0.004"
+  ]
+ }
+}

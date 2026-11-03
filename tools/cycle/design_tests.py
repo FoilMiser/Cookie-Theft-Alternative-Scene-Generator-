@@ -11,19 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a busy park: the older man carrying a bag and a sleeping cat (kept clear of his feet on both sides), people kept out of
-    # the strip of ground before the horizon, the reading walker, the ducks
-    ("park", 4, 24401, {"modules": ["about_to_trip", "ducks_bread"], "events": ["carry_bag", "cat_sleeping", "ice_cream"]}, "tomascarry"),
-    # a playground with the riders on the seesaw and the teenager kicking
-    ("playground", 3, 24402, {"events": ["seesaw", "kick_ball", "walk_dog", "wave"]}, "teen"),
-    # a park with the teenager's ice cream, a sleeping dog among walkers and a runner
-    ("park", 3, 24403, {"events": ["ice_cream", "dog_sleeping", "walk_dog", "run"]}, "teen"),
-    # a busy street with the teenager, a hat blowing off someone else, a bucket for a hat (over the teenager's cap, if cast)
-    ("street", 4, 24404, {"modules": ["windy_hat"], "contradictions": ["bucket_hat"], "events": ["carry_box", "ice_cream", "photo"]}, "teen"),
-    # a garden with the teenager playing catch and a sleeping cat beside someone walking
-    ("garden", 3, 24405, {"events": ["play_catch", "cat_sleeping", "carry_box", "walk_dog"]}, "teen"),
-    # a playground with the other child on the slide, a sleeping dog and a pram
-    ("playground", 2, 24406, {"events": ["slide", "dog_sleeping", "push_stroller", "wave"]}, "nia_slide"),
+    # a busy park: the older man's new bag, the sandwich bird, the newspaper dog with its own paws on the paper
+    ("park", 4, 25401, {"modules": ["bird_steals", "ducks_bread"], "contradictions": ["dog_reading"], "events": ["carry_bag", "ice_cream"]}, "tomascarry"),
+    # a street with someone else carrying the bag, a box carrier beside them, and the sandwich bird
+    ("street", 3, 25402, {"modules": ["bird_steals"], "events": ["carry_bag", "carry_box", "photo"]}, None),
+    # a garden with the painted fence and its roller, and the wheelbarrow's shadow
+    ("garden", 3, 25403, {"events": ["paint_fence", "rake", "walk_dog"]}, "filler_wheelbarrow"),
+    # the paw-printed fence in a garden with the barrow and a dig
+    ("garden", 3, 25404, {"modules": ["paint_tracks"], "events": ["dig", "sweep"]}, "filler_wheelbarrow"),
+    # a busy street: the white newspaper dog, the bag, the sandwich bird and the dropped ice cream
+    ("street", 4, 25405, {"modules": ["bird_steals", "ice_cream_drop"], "contradictions": ["dog_reading"], "events": ["carry_bag"]}, None),
+    # the square-wheeled barrow, whose own shadow also changed, beside a painter
+    ("garden", 3, 25406, {"contradictions": ["square_wheel"], "events": ["paint_fence", "plant_flowers"]}, None),
 ]
 
 
