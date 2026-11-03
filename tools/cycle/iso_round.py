@@ -2,7 +2,7 @@
 
     python iso_round.py <bench_dir> <round_dir> <prompt_dir> <tag> name1 name2 ...
 
-Images are shuffled and numbered iso_01..; map.json keeps the names; each reader gets two images that come
+Images are shuffled and numbered iso_01..; map.json keeps the names; each reader gets ISO_PER images (default two) that come
 from different bench cases (and different templates where possible)."""
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -23,13 +23,17 @@ for i, n in enumerate(order, 1):
     mp[k] = n
 json.dump(mp, open(os.path.join(rnd, "map.json"), "w"), indent=1)
 keys = list(mp)
-# pair images whose case names share no prefix (so one reader never sees two takes of the same thing)
+# group images whose case names share no prefix (so one reader never sees two takes of the same thing)
+PER = int(os.environ.get("ISO_PER", "2"))
 pairs, left = [], keys[:]
 while left:
-    a = left.pop(0)
-    pa = mp[a][:3]
-    j = next((i for i, b in enumerate(left) if mp[b][:3] != pa), 0 if left else None)
-    pairs.append([a] + ([left.pop(j)] if j is not None else []))
+    g = [left.pop(0)]
+    while len(g) < PER:
+        j = next((i for i, b in enumerate(left) if mp[b][:3] not in {mp[x][:3] for x in g}), None)
+        if j is None:
+            break
+        g.append(left.pop(j))
+    pairs.append(g)
 TEXT = """You are taking part in a picture-legibility check. You will see {n} small cut-out{s}, each taken from a different cartoon picture. You must NOT open, list or search any other file or folder (no Glob, Grep, ls, or reading JSON/code) — only the image files named below, so your reading stays blind. Look at each cut-out as a whole, the way it opens with the Read tool: do not crop, zoom, enlarge or otherwise process the images. Treat each cut-out on its own; they are unrelated.
 
 Images (open each with the Read tool):

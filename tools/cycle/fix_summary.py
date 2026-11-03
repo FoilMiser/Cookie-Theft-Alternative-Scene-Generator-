@@ -5,12 +5,12 @@ from cfg import ROOT, WORK, TAG, PREV  # noqa: E402
 import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
-OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4), ("playground", 3)}
-NOTES = {("garden", 4): "the v0.24 seed, which placed again under revision 23 with the same events",
-         ("park", 4): "the v0.24 seed, which placed again under revision 23 with the same events",
-         ("street", 4): "three searches side by side, with 13 failed seeds across them",
-         ("playground", 4): "two searches side by side, with 3 failed seeds across them",
-         ("playground", 3): "the showcase seed and twelve more failed under template-variety steering; without it, it placed at once"}
+OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
+NOTES = {("garden", 4): "the v0.25 seed, which placed again under revision 24",
+         ("park", 4): "the v0.25 seed and fifteen more failed under revision 24 before this one placed",
+         ("street", 4): "the v0.25 seed, which placed again under revision 24",
+         ("playground", 4): "two searches side by side, with 89 failed seeds across them; this was the last seed of the second list",
+         ("playground", 3): "the showcase seed and six more failed before this one placed"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

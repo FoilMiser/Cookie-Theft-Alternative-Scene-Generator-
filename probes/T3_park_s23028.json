@@ -6,8 +6,8 @@
  "seed": 23028,
  "mirror": true,
  "versions": {
-  "generator": "0.25.0",
-  "cast_builder": "0.25.0",
+  "generator": "0.26.0",
+  "cast_builder": "0.26.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,19 +60,19 @@
  ],
  "templates": [
   {
-   "id": "fishing",
-   "kind": "event",
+   "id": "windy_hat",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "ducks_swimming",
+   "id": "fishing",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "photo",
+   "id": "push_stroller",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -83,14 +83,14 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandfather is fishing",
+   "text": "A woman is fishing",
    "accepted": {
     "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
     ],
     "what": [
      "fishing",
@@ -110,12 +110,12 @@
    "animate": true,
    "domain": null,
    "template": "fishing",
-   "event": "e1",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.034,
+    "s": -0.018,
     "r": 0,
     "d": 0.0,
     "f": 0.47,
@@ -123,11 +123,11 @@
     "zipf_raw": 4.47,
     "aoa_raw": 4.72,
     "domain": null,
-    "area_px": 16056
+    "area_px": 14924
    },
-   "b": -1.298,
-   "p0": 0.785,
-   "pm1": 0.574,
+   "b": -1.272,
+   "p0": 0.781,
+   "pm1": 0.568,
    "aoi_cells": [
     "MC",
     "MR",
@@ -137,101 +137,204 @@
   {
    "id": "i02",
    "type": "action",
-   "text": "A duck is swimming in the pond",
-   "accepted": [
-    "duck",
-    "duck swimming",
-    "ducks",
-    "duck in the pond",
-    "duck in the water"
-   ],
-   "key": "duck",
+   "text": "A grandmother is reaching up for a hat",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "reaching for the hat",
+     "trying to catch the hat",
+     "surprised",
+     "reaching up"
+    ]
+   },
+   "key": "hat",
    "elements": [
-    "duck_3"
+    "hatperson_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "ducks_swimming",
-   "event": "e2",
+   "template": "windy_hat",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.4,
+    "s": -0.21,
     "r": 0,
     "d": 0.0,
-    "f": 0.21,
-    "a": 3.5,
-    "zipf_raw": 4.21,
-    "aoa_raw": 3.5,
+    "f": 0.53,
+    "a": 3.33,
+    "zipf_raw": 4.53,
+    "aoa_raw": 3.33,
     "domain": null,
-    "area_px": 2124
+    "area_px": 11384
    },
-   "b": -0.503,
-   "p0": 0.623,
-   "pm1": 0.378,
+   "b": -1.194,
+   "p0": 0.767,
+   "pm1": 0.548,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "ML"
    ]
   },
   {
    "id": "i03",
+   "type": "entity",
+   "text": "A hat is flying through the air",
+   "accepted": [
+    "hat in the air",
+    "hat flying",
+    "flying hat",
+    "cap",
+    "hat"
+   ],
+   "key": "hat",
+   "elements": [
+    "flyinghat_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "windy_hat",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.599,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.53,
+    "a": 3.33,
+    "zipf_raw": 4.53,
+    "aoa_raw": 3.33,
+    "domain": null,
+    "area_px": 1604
+   },
+   "b": 0.0,
+   "p0": 0.5,
+   "pm1": 0.269,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "The wind blew the grandmother's hat off",
+   "accepted": [
+    "the wind blew the hat off",
+    "it's windy",
+    "the hat blew away",
+    "the wind took the hat"
+   ],
+   "key": "wind",
+   "elements": [
+    "flyinghat_6",
+    "hatperson_3"
+   ],
+   "cues": [
+    "flyinghat_6",
+    "hatperson_3"
+   ],
+   "effect": [
+    "flyinghat_6"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "windy_hat",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -1.599,
+    "r": 1,
+    "d": 0.102,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.84,
+    "aoa_raw": 3.89,
+    "domain": null,
+    "area_px": 1604
+   },
+   "b": 1.572,
+   "p0": 0.172,
+   "pm1": 0.071,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i05",
    "type": "action",
-   "text": "A woman is taking a photo",
+   "text": "A man is pushing a baby in a stroller",
    "accepted": {
     "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
+     "man",
+     "guy",
+     "father",
+     "dad",
      "person"
     ],
     "what": [
-     "taking a picture",
-     "taking a photo",
-     "photographing",
-     "camera"
+     "pushing a stroller",
+     "pushing a pram",
+     "pushing a baby carriage",
+     "baby",
+     "walking with a baby",
+     "buggy"
     ]
    },
-   "key": "camera",
+   "key": "stroller",
    "elements": [
-    "photographer_4"
+    "pusher_8",
+    "stroller_9"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "photo",
+   "template": "push_stroller",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.016,
+    "s": 0.584,
     "r": 0,
     "d": 0.0,
-    "f": 0.87,
-    "a": 6.0,
-    "zipf_raw": 4.87,
-    "aoa_raw": 6.0,
+    "f": -0.92,
+    "a": 7.84,
+    "zipf_raw": 3.08,
+    "aoa_raw": 7.84,
     "domain": null,
-    "area_px": 15648
+    "area_px": 34852
    },
-   "b": -1.409,
-   "p0": 0.804,
-   "pm1": 0.601,
+   "b": -1.156,
+   "p0": 0.761,
+   "pm1": 0.539,
    "aoi_cells": [
-    "ML",
     "BL"
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -274,7 +377,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -317,7 +420,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -340,7 +443,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.124,
+    "s": 1.146,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -348,11 +451,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 74584
+    "area_px": 76976
    },
-   "b": -1.196,
-   "p0": 0.768,
-   "pm1": 0.549,
+   "b": -1.207,
+   "p0": 0.77,
+   "pm1": 0.552,
    "aoi_cells": [
     "MC",
     "MR",
@@ -361,7 +464,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -403,7 +506,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -447,7 +550,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a park bench",
    "accepted": [
@@ -490,19 +593,19 @@
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 0,
+  "content": 10,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.715,
-   "inference": null
+   "content": 0.703,
+   "inference": 0.172
   },
   "theta_minus_1": {
-   "content": 0.487,
-   "inference": null
+   "content": 0.476,
+   "inference": 0.071
   }
  },
  "bands": {
@@ -514,8 +617,8 @@
  },
  "in_tier": false,
  "checks": {
-  "photographer_4_photographs_fisher_1": {
-   "result": true,
+  "hatperson_3_looks_at_hat": {
+   "result": false,
    "detail": ""
   },
   "occlusion_and_size": {
@@ -527,15 +630,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": false,
-   "detail": "19 drawn objects (tier band 20-30)"
+   "result": true,
+   "detail": "23 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 19,
-  "edge_density": 0.0253,
-  "png_bytes": 174569,
-  "jpeg_bytes": 126834
+  "objects": 23,
+  "edge_density": 0.0273,
+  "png_bytes": 213351,
+  "jpeg_bytes": 141437
  },
  "signature": [
   [
@@ -573,6 +676,14 @@
   [
    "entity",
    0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   2
   ]
  ],
  "elements": [
@@ -624,8 +735,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 114648,
-   "occlusion": 0.264
+   "visible_px": 108440,
+   "occlusion": 0.303
   },
   {
    "id": "tree_line",
@@ -651,8 +762,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 37980,
-   "occlusion": 0.266
+   "visible_px": 34424,
+   "occlusion": 0.334
   },
   {
    "id": "pond",
@@ -666,8 +777,8 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 74584,
-   "occlusion": 0.116
+   "visible_px": 76976,
+   "occlusion": 0.088
   },
   {
    "id": "line_2",
@@ -675,14 +786,44 @@
    "role": "scored",
    "z": -65,
    "bbox": [
-    1170.0,
-    472.0,
-    1220.0,
+    1160.0,
+    486.0,
+    1210.0,
     676.0
    ],
-   "area_px": 824,
-   "visible_px": 816,
-   "occlusion": 0.01
+   "area_px": 812,
+   "visible_px": 812,
+   "occlusion": 0.0
+  },
+  {
+   "id": "breeze_4",
+   "label": "Wind lines",
+   "role": "setting",
+   "z": 0,
+   "bbox": [
+    1328.0,
+    76.0,
+    1486.0,
+    116.0
+   ],
+   "area_px": 1368,
+   "visible_px": 1368,
+   "occlusion": 0.0
+  },
+  {
+   "id": "breeze_5",
+   "label": "Wind lines",
+   "role": "setting",
+   "z": 0,
+   "bbox": [
+    818.0,
+    240.0,
+    976.0,
+    280.0
+   ],
+   "area_px": 1320,
+   "visible_px": 1320,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bush_b",
@@ -712,6 +853,74 @@
    ],
    "area_px": 22560,
    "visible_px": 22560,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hatperson_3",
+   "label": "person.rosa__reach_up__surprised__y045",
+   "role": "scored",
+   "z": 623.13,
+   "bbox": [
+    358.0,
+    372.0,
+    470.0,
+    624.0
+   ],
+   "area_px": 11384,
+   "visible_px": 11384,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__reach_up__surprised__y045",
+    "family": "person.rosa",
+    "scale": 0.3798,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "flyinghat_6",
+   "label": "Hat blowing away",
+   "role": "scored",
+   "z": 624.13,
+   "bbox": [
+    302.0,
+    286.0,
+    368.0,
+    344.0
+   ],
+   "area_px": 1604,
+   "visible_px": 1604,
+   "occlusion": 0.0
+  },
+  {
+   "id": "gusts_7",
+   "label": "Wind lines and blowing leaves",
+   "role": "setting",
+   "z": 624.13,
+   "bbox": [
+    360.0,
+    312.0,
+    590.0,
+    368.0
+   ],
+   "area_px": 3016,
+   "visible_px": 3016,
    "occlusion": 0.0
   },
   {
@@ -745,21 +954,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_bush_r",
-   "label": "Bush",
-   "role": "filler",
-   "z": 650,
-   "bbox": [
-    32.0,
-    606.0,
-    152.0,
-    682.0
-   ],
-   "area_px": 6628,
-   "visible_px": 6628,
-   "occlusion": 0.0
-  },
-  {
    "id": "filler_bin",
    "label": "Bin",
    "role": "filler",
@@ -773,36 +967,6 @@
    "area_px": 3228,
    "visible_px": 3228,
    "occlusion": 0.0
-  },
-  {
-   "id": "duck_3",
-   "label": "animal.duck_01__swim__neutral__y090",
-   "role": "scored",
-   "z": 676,
-   "bbox": [
-    1318.0,
-    620.0,
-    1394.0,
-    678.0
-   ],
-   "area_px": 2124,
-   "visible_px": 2124,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.duck_01__swim__neutral__y090",
-    "family": "animal.duck_01",
-    "scale": 0.3994,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "duck",
-     "accepted_names": [
-      "duck",
-      "duckling",
-      "bird"
-     ],
-     "category": "water_bird"
-    }
-   }
   },
   {
    "id": "tree",
@@ -836,59 +1000,22 @@
   },
   {
    "id": "fisher_1",
-   "label": "person.tomas__fish__smile__y090",
+   "label": "person.mei__fish__neutral__y090",
    "role": "scored",
    "z": 835,
    "bbox": [
-    872.0,
-    472.0,
-    1172.0,
+    870.0,
+    486.0,
+    1160.0,
     840.0
    ],
-   "area_px": 15240,
-   "visible_px": 15240,
+   "area_px": 14112,
+   "visible_px": 14112,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.tomas__fish__smile__y090",
-    "family": "person.tomas",
-    "scale": 0.4583,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "grandfather",
-     "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
-     }
-    }
-   }
-  },
-  {
-   "id": "photographer_4",
-   "label": "person.mei__photo__smile__y045",
-   "role": "scored",
-   "z": 880.78,
-   "bbox": [
-    320.0,
-    584.0,
-    416.0,
-    884.0
-   ],
-   "area_px": 15648,
-   "visible_px": 15648,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.mei__photo__smile__y045",
+    "variant": "person.mei__fish__neutral__y090",
     "family": "person.mei",
-    "scale": 0.4753,
+    "scale": 0.4583,
     "mirrored": false,
     "labels": {
      "everyday_name": "woman",
@@ -937,6 +1064,58 @@
    "area_px": 5276,
    "visible_px": 5276,
    "occlusion": 0.0
+  },
+  {
+   "id": "pusher_8",
+   "label": "person.ben__push__smile__y090",
+   "role": "scored",
+   "z": 981.61,
+   "bbox": [
+    274.0,
+    646.0,
+    434.0,
+    986.0
+   ],
+   "area_px": 19512,
+   "visible_px": 19128,
+   "occlusion": 0.02,
+   "asset": {
+    "variant": "person.ben__push__smile__y090",
+    "family": "person.ben",
+    "scale": 0.5126,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "stroller_9",
+   "label": "Baby stroller",
+   "role": "scored",
+   "z": 985.61,
+   "bbox": [
+    126.0,
+    780.0,
+    296.0,
+    988.0
+   ],
+   "area_px": 15724,
+   "visible_px": 15724,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -946,10 +1125,10 @@
  "attempts": [
   [
    23028,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 6: accepted after 5 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 5,
  "knob": 0,
  "regen": {
   "base_seed": 23028,
@@ -960,11 +1139,13 @@
   "forced": {
    "events": [
     "fishing",
-    "ducks_swimming",
-    "photo"
+    "push_stroller"
+   ],
+   "modules": [
+    "windy_hat"
    ]
   },
-  "placement_rev": 23
+  "placement_rev": 24
  },
  "probe": true
 }

@@ -26,6 +26,7 @@ fails = collections.Counter()
 solo = set()      # templates whose group failed: probed alone from then on
 MAXG = 3
 DUCKS = {"ducks_bread", "ducks_swimming"}
+alone = set()     # templates already probed on their own
 for rnd in range(80):
     short = [t for t in cls if cnt[t] < NEED and fails[t] < 3]
     if not short:
@@ -68,6 +69,12 @@ for rnd in range(80):
     if pick == ["photo"]:
         # v0.17 (revision 15): a photographer needs someone to photograph
         forced["events"].append({"park": "ice_cream", "street": "read_bench", "playground": "ice_cream"}[setting])
+    elif len(pick) == 1 and pick[0] in alone:
+        # v0.26: one template alone a second time looks the same as the first (two seesaw probes: "This picture looks the same as
+        # picture 61"), so the second has company
+        forced["events"].append({"garden": "sweep", "park": "ice_cream", "street": "read_bench", "playground": "ice_cream"}[setting])
+    elif len(pick) == 1:
+        alone.add(pick[0])
     forced = {k: v for k, v in forced.items() if v}
     if forced.get("events") == ["wave"]:
         # a wave needs someone to wave at, so it cannot be probed alone

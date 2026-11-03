@@ -86,6 +86,11 @@ def build_person(spec):
 
     B = dict(chest=1.0, waist=1.0, hips=1.0, depth=1.0, belly=0.0, limbs=1.0)
     B.update(spec.get("build", {}))
+    if __import__("os").environ.get("TPDB_BODY", "O") == "A":
+        # v0.26 bench: fuller from the side (nearly every cut-out of the first round: "the torso is extremely thin from the side", "very long,
+        # thin legs"). Tried and left: the readers' words did not move (isolation_v026.md)
+        B["depth"] *= 1.22
+        B["limbs"] *= 1.12
     pel, ch, nk = J["pelvis"], J["chest"], J["neck"]
     top, bottom = spec.get("top", "tee"), spec.get("bottom", "pants")
     long_sleeve = top in ("long", "hoodie", "cardigan") or spec.get("sleeves") == "long"
@@ -510,7 +515,12 @@ def build_hat(spec, rig, hc, HR, k):
     dome_c = hc + Vector((0, 0.004 * k, 0.020 * k))
     # the dome sits above the brows at the front and lower at the back
     _shell("HatDome", dome_c, R, 0.0, lambda c: c.z > 0.56 - 0.34 * (c.y + 1) / 2, col, rig, k, thick=0.010, subsurf=1)
-    if hat == "cap":
+    if hat == "cap" and spec.get("brim_short"):
+        # v0.26 bench (TPDB_OLD=C): a short peak tipped up, so it does not sit over the eye in profile
+        ellipsoid("HatBrim", hc + Vector((0, -R[1] * 0.92, R[2] * 0.66)), (0.105 * k, 0.060 * k, 0.011 * k), col, rig, "head",
+                  rot=Quaternion((1, 0, 0), 0.10))
+        ellipsoid("HatButton", dome_c + Vector((0, 0, R[2] * 1.0)), (0.012 * k,) * 3, col, rig, "head")
+    elif hat == "cap":
         ellipsoid("HatBrim", hc + Vector((0, -R[1] * 0.88, R[2] * 0.56)), (0.110 * k, 0.095 * k, 0.012 * k), col, rig, "head",
                   rot=Quaternion((1, 0, 0), -0.12))
         ellipsoid("HatButton", dome_c + Vector((0, 0, R[2] * 1.0)), (0.012 * k,) * 3, col, rig, "head")

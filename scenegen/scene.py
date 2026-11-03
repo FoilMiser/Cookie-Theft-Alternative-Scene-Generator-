@@ -153,8 +153,13 @@ class PlacementError(Exception):
 # 23 (v0.25): the v0.24 screen's oddities, each chosen on the bench (vision/isolation_v025.md): the bird at the sandwich 0.8 of its
 # size and the sandwich smaller with it ("about as big as the sandwich", "a blue kettle or jug"); and the newspaper drawn behind the
 # dog with no paws painted over it, so the dog's own paws rest on it ("white gloved hands", "stuck onto" the paper).
+# 24 (v0.26): the v0.25 screen, each drawing chosen on the bench (vision/isolation_v026.md): a heap of leaves at the sweeper's broom ("no visible
+# rubbish or leaf pile for the old man to sweep"); the dog at the door with open eyes ("with its eyes shut", its wish never stated); a heaped
+# sandcastle, back from the sandbox's front rim ("a cardboard or wooden model", "its base seems to overlap the wooden frame"); bread-coloured
+# crumbs ("small stones or tiny fish"); a pale photo on the newspaper with no outline ("a dark square ... something the paw is holding"); and
+# nobody up against a lamp post, in front of it or beside it ("the post looks almost as if it grows out of his shoulder").
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 23
+PLACEMENT_REV = 24
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
@@ -488,6 +493,15 @@ class Scene:
                 return False
         if p is None or not (p.family.startswith("person.") or p.family.startswith("animal.")):
             return True
+        if PLACEMENT_REV >= 24 and p.family.startswith("person."):
+            # revision 24: nobody up against a lamp post, in front of it or beside it, whatever the depth ("the post looks almost as if
+            # it grows out of his shoulder", "she almost looks attached to it", "her foot and the post's base are almost touching")
+            for e in self.S.elements:
+                if e["id"] == "lamp" and e.get("bbox"):
+                    cx = (e["bbox"][0] + e["bbox"][2]) / 2
+                    m = 8 + 22 * D.sz(p.Y)
+                    if bbox[0] - m < cx < bbox[2] + m:
+                        return False
         g = (bbox[0] - 34, bbox[1] - 34, bbox[2] + 34, bbox[3] + 34)
         for a, b, who in getattr(self, "point_lines", ()):
             if who is own:

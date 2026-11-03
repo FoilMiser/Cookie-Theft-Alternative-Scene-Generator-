@@ -54,12 +54,34 @@ PEOPLE = {
 # Each candidate is shorter, with a larger head: A a cap worn backwards, B the ponytail and a school backpack. v0.24: A,
 # chosen on the bench (isolation_v024.md: "a boy or young man", "a teenager or a slim adult"; B's pack read as "a second
 # ball" or "shield-like", and B stayed "a girl or young woman"). TPDB_TEEN=O builds the v0.23 teenager.
-TEEN_STYLE = os.environ.get("TPDB_TEEN", "A")
+TEEN_STYLE = os.environ.get("TPDB_TEEN", "D")
 TEEN_BUILD = dict(scale=0.88, head_scale=1.09, build=dict(chest=0.90, waist=0.90, depth=0.94, limbs=0.92))
 if TEEN_STYLE == "A":
     PEOPLE["person.leo"].update(TEEN_BUILD, hair="short", hat="cap_back", hat_col="red")
 elif TEEN_STYLE == "B":
     PEOPLE["person.leo"].update(TEEN_BUILD, backpack="orange")
+elif TEEN_STYLE == "C":
+    # v0.26 bench: a beanie has no peak to point the wrong way (seven v0.25 pictures remarked that the backwards peak points away
+    # from his face, twice "the head is on the wrong way round")
+    PEOPLE["person.leo"].update(TEEN_BUILD, hair="short", hat="beanie", hat_col="red", band_col="red")
+elif TEEN_STYLE == "D":
+    # v0.26 bench: the cap worn forwards, its peak the way he faces. v0.26: D (isolation_v026.md: "a boy or young man" in "a red baseball
+    # cap", and no reader had his head the wrong way round). TPDB_TEEN=A builds the v0.24 and v0.25 teenager.
+    PEOPLE["person.leo"].update(TEEN_BUILD, hair="short", hat="cap", hat_col="red")
+
+# v0.26 bench (TPDB_OLD): the older man's head, the v0.25 screen's most repeated remark, in ten of his 21 pictures ("the older
+# man's face is hard to read": a cap peak on one side, grey hair on the other, "something like an ear in the middle", "no clear
+# eyes"; the crescent of hair "could be sideburns, a beard or an ear"). A: no cap, bald with the white fringe. B: no cap, short
+# white hair. C: the cap kept, a shorter peak, short white hair under it, so there is no patch. v0.26: C, on the bench
+# (isolation_v026.md: "an older man with grey hair and a blue-grey flat cap"; A's fringe was "a strap or bandage", and B's hair "a smooth
+# grey cap"). TPDB_OLD=O builds the v0.25 man.
+OLD_STYLE = os.environ.get("TPDB_OLD", "C")
+if OLD_STYLE == "A":
+    PEOPLE["person.tomas"].update(hat=None)
+elif OLD_STYLE == "B":
+    PEOPLE["person.tomas"].update(hat=None, hair="buzz")
+elif OLD_STYLE == "C":
+    PEOPLE["person.tomas"].update(hair="buzz", brim_short=True)
 
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",

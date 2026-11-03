@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.25 was made, written so that a fresh session can make the next one (v0.26) from this
+How each release from v0.12 to v0.26 was made, written so that a fresh session can make the next one (v0.27) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -187,3 +187,9 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   scorers wrote. Then check each count against its file too, without `head` or a remembered number: v0.25's first draft said "5 in six"
   for three in six and two in seven, and took a count from the v0.24 screen as its own.
 - Write Python patches with the Write tool, not a heredoc, which turned `\n` into real newlines. Keep a release's patches in `tpdb_work/`.
+- A count of what readers wrote needs its negatives taken out. The remarks counter took "Nothing is floating ..." bullets for remarks, and a published
+  11% rise was 5%. When a counter is fixed, recount every screen, say what the published figures were, and recheck anything derived from them (the v0.24 control went from 15% to 18%).
+- A bench that reads one thing alone does not read it against its neighbours in the library. The fan of bristles was chosen with one reader's "broom or rake" on the
+  table, and the heap of leaves gave it `rake`'s other cue: the screen's one misread. When a redraw adds a cue, read it beside the template that already has that cue.
+- Writes to the exFAT drive fail now and then with `OSError 22`, and the file is intact: `tpdb_work/psub.py` retries.
+- The tier-4 isomorph can take hundreds of tries (676 in v0.26): run several seed lists side by side from the start. `iso_t4.py` stops each as soon as one exists.

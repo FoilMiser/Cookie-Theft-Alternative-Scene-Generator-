@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.25, v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.26, v0.25, v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,46 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.26 (BENCH_CAST/BENCH_LIB name the bench cast: out_A = old A, teen C, reading dog A, feed A; out_B = old B, teen D, reading dog B,
+    # feed B; out_C = old C)
+    "oldA_1": ("park", 26101, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.tomas"])),
+    "oldA_2": ("street", 26102, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "oldB_1": ("park", 26101, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.tomas"])),
+    "oldB_2": ("street", 26102, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "oldC_1": ("park", 26101, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.tomas"])),
+    "oldC_2": ("street", 26102, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "rdgA_1": ("park", 26106, {"contradictions": ["dog_reading"]}, "event", ("fam", "dog_reading", ["animal.dog_01"])),
+    "rdgA_2": ("street", 26110, {"modules": ["ice_cream_drop"], "contradictions": ["dog_reading"]}, "dog_reading", ("fam", "dog_reading", ["animal.dog_02"])),
+    "rdgB_1": ("park", 26106, {"contradictions": ["dog_reading"]}, "event", ("fam", "dog_reading", ["animal.dog_01"])),
+    "rdgB_2": ("street", 26110, {"modules": ["ice_cream_drop"], "contradictions": ["dog_reading"]}, "dog_reading", ("fam", "dog_reading", ["animal.dog_02"])),
+    "teeC_1": ("playground", 26121, {"events": ["kick_ball"]}, "event", ("fam", "kick_ball", ["person.leo"])),
+    "teeC_2": ("park", 26122, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.leo"])),
+    "teeD_1": ("playground", 26121, {"events": ["kick_ball"]}, "event", ("fam", "kick_ball", ["person.leo"])),
+    "teeD_2": ("park", 26122, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.leo"])),
+    # draw.SWEEP26: A leaves, B dust
+    "swpA_1": ("garden", 26131, {"events": ["sweep"]}, "event", None),
+    "swpA_2": ("street", 26132, {"events": ["sweep"]}, "event", None),
+    "swpB_1": ("garden", 26131, {"events": ["sweep"]}, "event", None),
+    "swpB_2": ("street", 26132, {"events": ["sweep"]}, "event", None),
+    "wanN_1": ("garden", 26141, {"modules": ["dog_wants_walk"]}, (0, 470, 420, 890), None),
+    "wanN_2": ("garden", 26142, {"modules": ["dog_wants_walk"]}, (0, 470, 420, 890), None),
+    "fedA_1": ("park", 26151, {"modules": ["ducks_bread"]}, "event", None),
+    "fedA_2": ("park", 26152, {"events": ["feed_birds"]}, "event", None),
+    "fedB_1": ("park", 26151, {"modules": ["ducks_bread"]}, "event", None),
+    "fedB_2": ("park", 26152, {"events": ["feed_birds"]}, "event", None),
+    "casA_1": ("playground", 26161, {"events": ["sandbox"]}, "event", None),
+    "casA_2": ("playground", 26162, {"events": ["sandbox"]}, "event", None),
+    # round 2 (out_E = the winners, a fan broom, the reading dog's tail up; out_F = out_E and fuller bodies)
+    "swpC_1": ("garden", 26131, {"events": ["sweep"]}, "event", None),
+    "swpC_2": ("street", 26132, {"events": ["sweep"]}, "event", None),
+    "rdgC_1": ("park", 26106, {"contradictions": ["dog_reading"]}, "event", ("fam", "dog_reading", ["animal.dog_01"])),
+    "rdgC_2": ("street", 26110, {"modules": ["ice_cream_drop"], "contradictions": ["dog_reading"]}, "dog_reading", ("fam", "dog_reading", ["animal.dog_02"])),
+    "bodO_1": ("street", 26102, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "bodO_2": ("garden", 26171, {"events": ["water_flowers"]}, "event", None),
+    "bodO_3": ("playground", 26172, {"events": ["play_catch"]}, "event", None),
+    "bodA_1": ("street", 26102, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "bodA_2": ("garden", 26171, {"events": ["water_flowers"]}, "event", None),
+    "bodA_3": ("playground", 26172, {"events": ["play_catch"]}, "event", None),
     # v0.25 (BENCH_CAST/BENCH_LIB name the bench cast: out_A = bag A and roller A, out_B = bag B and roller B)
     "bagA_1": ("park", 25101, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
     "bagA_2": ("street", 25102, {"events": ["carry_bag"]}, "event", None),
@@ -104,7 +144,7 @@ def crop_box(rec, what, tids=()):
         ids = {i for it in rec["items"] if it.get("template") in tids for i in it["elements"]}
         # plus everything the event drew (setting-role svgs keyed to it are listed in the record too)
         boxes = [els[i]["bbox"] for i in ids if i in els and els[i].get("bbox")]
-        boxes += [e["bbox"] for e in rec["elements"] if e.get("bbox") and e["id"].startswith(("toyball", "wavelines", "gusts", "seeds", "dustpan", "crownleaves", "speedlines"))]
+        boxes += [e["bbox"] for e in rec["elements"] if e.get("bbox") and e["id"].startswith(("sweepheap", "toyball", "wavelines", "gusts", "seeds", "dustpan", "crownleaves", "speedlines"))]
         if "kite_in_tree" in tids:
             # the whole crown the kite hangs from
             boxes += [e["bbox"] for e in rec["elements"] if e.get("bbox") and e["id"] == "tree"]
@@ -166,6 +206,7 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     _D.BARROW_SHADOW25 = {"barA": 130, "barB": 160}.get(name[:4], _D.BARROW_SHADOW25)
     _D.PAW25 = {"pawA": "A", "pawB": "B", "pawC": "C"}.get(name[:4], _D.PAW25)
     _D.BIRD25 = {"birA": 0.8, "birB": 0.68}.get(name[:4], _D.BIRD25)
+    _D.SWEEP26 = {"swpA": "A", "swpB": "B"}.get(name[:4], _D.SWEEP26)
     rec = None
     for k in range(40):
         USAGE.clear()
@@ -183,7 +224,9 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         print(name, rec["name"], "full", flush=True)
         continue
     try:
-        if what == "event":
+        if isinstance(what, tuple):
+            box = what
+        elif what == "event":
             box = crop_box(rec, "event", [t for v in forced.values() for t in v])
         elif what in ("wave", "dog_reading"):
             box = crop_box(rec, "event", [what])

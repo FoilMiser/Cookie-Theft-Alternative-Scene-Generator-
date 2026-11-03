@@ -1223,7 +1223,45 @@ def sandbox(cx, cy, s=1.0, w=330, d=88):
     return svg, {"center": (cx, cy - d / 2), "inner": inner, "bbox": (cx - w / 2, cy - d, cx + w / 2, cy + 18 * s)}
 
 
-def sandcastle(x, y, s=1.0):
+# v0.26 bench: what the sweeper has swept (all four v0.25 pictures of `sweep` had "no visible rubbish or leaf pile for the old man
+# to sweep"): "A" a heap of leaves at the broom's head, "B" a heap of dust and grit, "O" nothing. v0.26: A, on the bench
+# (isolation_v026.md: "sweeping up leaves"; B was "a dustpan-like shape", "a small rock or mound")
+SWEEP26 = "A"
+
+
+def sweep_heap(x, y, s=1.0, f=1, style="A"):
+    """A small heap ahead of the broom's head, on the ground at y."""
+    bb = (x - 40 * s, y - 34 * s, x + 40 * s, y + 6 * s)
+    if style == "B":
+        svg = (f'<path d="M {P(x - 36 * s, y + 3 * s)} q {36 * s:.1f} {-48 * s:.1f} {72 * s:.1f} 0 z" fill="{C["gray"]}" '
+               f'stroke="{OUT}" stroke-width="{OW * 0.6:.1f}" stroke-linejoin="round"/>')
+        for k, (dx, dy) in enumerate(((-18, -2), (-9, -9), (2, -5), (11, -11), (20, -2), (-1, 0), (9, 1), (-25, 1), (-3, -16), (5, -19))):
+            svg += f'<circle cx="{x + dx * s:.1f}" cy="{y + dy * s:.1f}" r="{(1.6 + (k % 3) * 0.6) * s:.1f}" fill="{C["brown"] if k % 2 else C["charcoal"]}"/>'
+        return svg, bb
+    svg = ""
+    cols = (C["orange"], C["brown"], C["yellow"], C["red"], C["wood"], C["orange"], C["yellow"], C["brown"], C["orange"], C["wood"], C["red"], C["yellow"])
+    pts = ((-30, 0, 12), (-14, 1, -28), (2, 2, 18), (18, 1, -14), (32, 0, 30), (-22, -8, -20), (-6, -9, 24), (10, -9, -34), (24, -7, 10), (-11, -17, 8), (6, -18, -18), (-2, -26, 30))
+    for (dx, dy, rot), c in zip(pts, cols):
+        svg += f'<ellipse cx="{x + dx * s:.1f}" cy="{y + dy * s:.1f}" rx="{11 * s:.1f}" ry="{5.5 * s:.1f}" fill="{c}" stroke="{OUT}" stroke-width="{OW * 0.45:.1f}" ' \
+               f'transform="rotate({rot} {x + dx * s:.1f} {y + dy * s:.1f})"/>'
+    return svg, bb
+
+
+def sandcastle(x, y, s=1.0, heaped=False):
+    if heaped:
+        # v0.26 bench: heaped sand with bucket-shaped towers ("very straight, boxy edges ... a cardboard or wooden model")
+        sd = C["sand_dark"]
+        svg = f'<path d="M {P(x - 42 * s, y)} Q {P(x - 40 * s, y - 26 * s)} {P(x - 22 * s, y - 32 * s)} Q {P(x, y - 38 * s)} {P(x + 22 * s, y - 32 * s)} Q {P(x + 40 * s, y - 26 * s)} {P(x + 42 * s, y)} Z" fill="{sd}" stroke="{OUT}" stroke-width="{OW * 0.8:.1f}" stroke-linejoin="round"/>'
+        for tx, ty, th, tw in ((-24, -24, 34, 12), (22, -24, 26, 11), (-1, -32, 44, 13)):
+            tp = y + ty * s - th * s
+            svg += (f'<path d="M {P(x + (tx - tw) * s, y + ty * s)} L {P(x + (tx - tw * 0.72) * s, tp)} Q {P(x + tx * s, tp - 7 * s)} {P(x + (tx + tw * 0.72) * s, tp)} '
+                    f'L {P(x + (tx + tw) * s, y + ty * s)} Q {P(x + tx * s, y + (ty + 5) * s)} {P(x + (tx - tw) * s, y + ty * s)} Z" fill="{sd}" stroke="{OUT}" stroke-width="{OW * 0.7:.1f}" stroke-linejoin="round"/>')
+        for dx, dy in ((-30, -7), (-14, -16), (6, -9), (28, -11), (16, -21), (-5, -24), (-34, -14), (33, -5)):
+            svg += f'<circle cx="{x + dx * s:.1f}" cy="{y + dy * s:.1f}" r="{1.5 * s:.1f}" fill="{OUT}" fill-opacity="0.35"/>'
+        top = y - 83 * s
+        svg += stroke(poly_d([(x - 1 * s, top), (x - 1 * s, top - 20 * s)]), OUT, 1.5 * s, 0)
+        svg += poly([(x - 1 * s, top - 20 * s), (x + 13 * s, top - 15 * s), (x - 1 * s, top - 10 * s)], C["red"], OW * 0.5)
+        return svg, (x - 44 * s, top - 22 * s, x + 44 * s, y)
     svg = rect(x - 34 * s, y - 34 * s, 68 * s, 34 * s, C["sand_dark"], 2 * s)
     for dx in (-22, 0, 22):
         svg += rect(x + dx * s - 9 * s, y - 52 * s, 18 * s, 20 * s, C["sand_dark"], 1 * s, OW * 0.7)
@@ -1317,7 +1355,12 @@ def newspaper(x, y, s=1.0, f=1, style=6):
             top = y - h / 2 + (6 * s if side * f > 0 else 3 * s) + 4 * s
             svg += rect(xa, top, xb - xa, 7 * s, OUT, 0)                       # headline bar
             if side == -f:
-                svg += rect(xa, top + 11 * s, (xb - xa) * 0.55, 17 * s, C["rock"], 1.5)      # photo
+                if style >= 8:
+                    # v0.26: a pale photo with no outline (the darker one was "a dark square ... a dark object or something the paw is
+                    # holding", three pictures)
+                    svg += rect(xa, top + 11 * s, (xb - xa) * 0.55, 17 * s, "#dcdbd2", 1.5, 0)
+                else:
+                    svg += rect(xa, top + 11 * s, (xb - xa) * 0.55, 17 * s, C["rock"], 1.5)      # photo
                 cols = [(xa + (xb - xa) * 0.62, xb)]
                 rows = [(top + 12 * s + k * 5 * s) for k in range(4)]
                 for (c0, c1) in cols:

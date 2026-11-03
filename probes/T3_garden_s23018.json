@@ -6,8 +6,8 @@
  "seed": 23018,
  "mirror": true,
  "versions": {
-  "generator": "0.25.0",
-  "cast_builder": "0.25.0",
+  "generator": "0.26.0",
+  "cast_builder": "0.26.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,25 +56,23 @@
   }
  },
  "features": [
-  "clothesline",
-  "laundry",
-  "laundry_short"
+  "bench"
  ],
  "templates": [
   {
-   "id": "fly_kite",
-   "kind": "event",
+   "id": "kite_in_tree",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "hang_laundry",
+   "id": "read_bench",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "cat_on_fence",
+   "id": "rake",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -85,60 +83,59 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is hanging up laundry",
+   "text": "A grandmother is reading on the bench",
    "accepted": {
     "who": [
-     "woman",
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
      "lady",
-     "mother",
-     "mom",
-     "person"
+     "woman"
     ],
     "what": [
-     "hanging laundry",
-     "hanging clothes",
-     "hanging up the washing",
-     "pinning clothes",
-     "clothesline"
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "sitting and reading"
     ]
    },
-   "key": "laundry",
+   "key": "reading",
    "elements": [
-    "hanger_1",
-    "shirt_2"
+    "sitter_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "hang_laundry",
+   "template": "read_bench",
    "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.082,
+    "s": 0.034,
     "r": 0,
     "d": 0.0,
-    "f": 0.06,
-    "a": 6.05,
-    "zipf_raw": 4.06,
-    "aoa_raw": 6.05,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
     "domain": null,
-    "area_px": 17164
+    "area_px": 16048
    },
-   "b": -1.199,
-   "p0": 0.768,
-   "pm1": 0.55,
+   "b": -1.499,
+   "p0": 0.817,
+   "pm1": 0.622,
    "aoi_cells": [
-    "MC"
+    "BR"
    ]
   },
   {
    "id": "i02",
    "type": "action",
-   "text": "A girl is flying a kite",
+   "text": "A girl is holding a kite string",
    "accepted": {
     "who": [
      "girl",
@@ -148,27 +145,30 @@
      "daughter"
     ],
     "what": [
+     "holding a kite",
      "flying a kite",
-     "kite"
+     "pulling the string",
+     "sad",
+     "upset"
     ]
    },
    "key": "kite",
    "elements": [
-    "kiteflyer_3",
-    "kite_4"
+    "kitekid_2",
+    "kitestring_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "fly_kite",
+   "template": "kite_in_tree",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.272,
+    "s": -0.599,
     "r": 0,
     "d": 0.0,
     "f": -0.45,
@@ -176,61 +176,169 @@
     "zipf_raw": 3.55,
     "aoa_raw": 4.58,
     "domain": null,
-    "area_px": 10420
+    "area_px": 6576
    },
-   "b": -0.869,
-   "p0": 0.705,
-   "pm1": 0.467,
+   "b": -0.705,
+   "p0": 0.669,
+   "pm1": 0.427,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
+    "MC",
+    "MR",
+    "BC"
    ]
   },
   {
    "id": "i03",
-   "type": "action",
-   "text": "A cat is walking along the fence",
+   "type": "entity",
+   "text": "A kite is caught in the tree",
    "accepted": [
-    "cat on the fence",
-    "cat walking",
-    "cat",
-    "cat on top of the fence"
+    "kite in the tree",
+    "kite",
+    "kite stuck"
    ],
-   "key": "cat",
+   "key": "kite",
    "elements": [
-    "fencecat_5"
+    "kiteintree_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "kite_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.531,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.45,
+    "a": 4.58,
+    "zipf_raw": 3.55,
+    "aoa_raw": 4.58,
+    "domain": null,
+    "area_px": 7236
+   },
+   "b": -0.239,
+   "p0": 0.559,
+   "pm1": 0.318,
+   "aoi_cells": [
+    "TR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "The kite got stuck in the tree",
+   "accepted": [
+    "the kite is stuck in the tree",
+    "the kite got caught",
+    "they can't get the kite down",
+    "the kite is tangled in the branches"
+   ],
+   "key": "stuck",
+   "elements": [
+    "kiteintree_3",
+    "kitestring_4",
+    "kitekid_2"
+   ],
+   "cues": [
+    "kiteintree_3",
+    "kitestring_4",
+    "kitekid_2"
+   ],
+   "effect": [
+    "kiteintree_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "kite_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.531,
+    "r": 2,
+    "d": 0.314,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.68,
+    "aoa_raw": 3.89,
+    "domain": null,
+    "area_px": 7236
+   },
+   "b": 0.392,
+   "p0": 0.403,
+   "pm1": 0.199,
+   "aoi_cells": [
+    "TR",
+    "MC",
+    "MR",
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A teenager is raking leaves",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "raking",
+     "raking leaves",
+     "rake",
+     "cleaning up leaves",
+     "raking grass"
+    ]
+   },
+   "key": "raking",
+   "elements": [
+    "raker_5",
+    "leaves_6"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "cat_on_fence",
+   "template": "rake",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.803,
+    "s": 0.107,
     "r": 0,
     "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "f": -1.05,
+    "a": 5.32,
+    "zipf_raw": 2.95,
+    "aoa_raw": 5.32,
     "domain": null,
-    "area_px": 4928
+    "area_px": 17792
    },
-   "b": -0.973,
-   "p0": 0.726,
-   "pm1": 0.493,
+   "b": -0.879,
+   "p0": 0.707,
+   "pm1": 0.47,
    "aoi_cells": [
-    "MR"
+    "MC",
+    "BL",
+    "BC"
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -273,7 +381,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -315,48 +423,7 @@
    ]
   },
   {
-   "id": "i06",
-   "type": "entity",
-   "text": "There is a tree",
-   "accepted": [
-    "tree",
-    "trees"
-   ],
-   "key": "tree",
-   "elements": [
-    "tree"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.694,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.85,
-    "a": 3.57,
-    "zipf_raw": 4.85,
-    "aoa_raw": 3.57,
-    "domain": null,
-    "area_px": 40684
-   },
-   "b": -1.242,
-   "p0": 0.776,
-   "pm1": 0.56,
-   "aoi_cells": [
-    "TR",
-    "MR"
-   ]
-  },
-  {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -379,7 +446,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.863,
+    "s": 1.947,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -387,11 +454,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 211696
+    "area_px": 238204
    },
-   "b": -1.635,
-   "p0": 0.837,
-   "pm1": 0.654,
+   "b": -1.677,
+   "p0": 0.843,
+   "pm1": 0.663,
    "aoi_cells": [
     "ML",
     "MC",
@@ -399,7 +466,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -425,7 +492,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.84,
+    "s": 1.826,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
@@ -433,11 +500,11 @@
     "zipf_raw": 5.71,
     "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 204952
+    "area_px": 200712
    },
-   "b": -2.073,
+   "b": -2.066,
    "p0": 0.888,
-   "pm1": 0.745,
+   "pm1": 0.744,
    "aoi_cells": [
     "TR",
     "MR",
@@ -445,7 +512,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -490,18 +557,18 @@
  ],
  "counts": {
   "content": 9,
-  "inference_units": 0,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.758,
-   "inference": null
+   "content": 0.734,
+   "inference": 0.403
   },
   "theta_minus_1": {
-   "content": 0.543,
-   "inference": null
+   "content": 0.518,
+   "inference": 0.199
   }
  },
  "bands": {
@@ -523,14 +590,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "16 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0387,
-  "png_bytes": 173659,
-  "jpeg_bytes": 179742
+  "objects": 16,
+  "edge_density": 0.039,
+  "png_bytes": 187831,
+  "jpeg_bytes": 184224
  },
  "signature": [
   [
@@ -568,6 +635,10 @@
   [
    "entity",
    0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -631,8 +702,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 76160,
-   "occlusion": 0.063
+   "visible_px": 80796,
+   "occlusion": 0.006
   },
   {
    "id": "tree",
@@ -646,38 +717,23 @@
     452.0
    ],
    "area_px": 44992,
-   "visible_px": 40684,
-   "occlusion": 0.096
+   "visible_px": 35408,
+   "occlusion": 0.213
   },
   {
-   "id": "fencecat_5",
-   "label": "animal.cat_02__walk__neutral__y090",
+   "id": "kiteintree_3",
+   "label": "Kite caught in the tree",
    "role": "scored",
-   "z": 612,
+   "z": 450.5,
    "bbox": [
-    1080.0,
-    328.0,
-    1186.0,
-    438.0
+    1132.0,
+    190.0,
+    1256.0,
+    348.0
    ],
-   "area_px": 5120,
-   "visible_px": 4928,
-   "occlusion": 0.037,
-   "asset": {
-    "variant": "animal.cat_02__walk__neutral__y090",
-    "family": "animal.cat_02",
-    "scale": 0.3757,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
+   "area_px": 7312,
+   "visible_px": 7236,
+   "occlusion": 0.01
   },
   {
    "id": "fence",
@@ -691,23 +747,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 211696,
-   "occlusion": 0.121
-  },
-  {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
-   ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
+   "visible_px": 238204,
+   "occlusion": 0.011
   },
   {
    "id": "filler_pots",
@@ -725,88 +766,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "clothesline",
-   "label": "Clothesline",
-   "role": "setting",
-   "z": 705,
-   "bbox": [
-    624.0,
-    382.0,
-    994.0,
-    708.0
-   ],
-   "area_px": 13848,
-   "visible_px": 12344,
-   "occlusion": 0.109
-  },
-  {
-   "id": "laundry",
-   "label": "Clothes hanging on the line",
-   "role": "setting",
-   "z": 706,
-   "bbox": [
-    822.0,
-    392.0,
-    980.0,
-    504.0
-   ],
-   "area_px": 11384,
-   "visible_px": 9440,
-   "occlusion": 0.171
-  },
-  {
-   "id": "shirt_2",
-   "label": "Shirt being pinned up",
-   "role": "scored",
-   "z": 706.5,
-   "bbox": [
-    698.0,
-    408.0,
-    798.0,
-    510.0
-   ],
-   "area_px": 7092,
-   "visible_px": 6820,
-   "occlusion": 0.038
-  },
-  {
-   "id": "hanger_1",
-   "label": "person.mei__hang_washing__neutral__y090",
-   "role": "scored",
-   "z": 707,
-   "bbox": [
-    778.0,
-    408.0,
-    872.0,
-    680.0
-   ],
-   "area_px": 10344,
-   "visible_px": 10344,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.mei__hang_washing__neutral__y090",
-    "family": "person.mei",
-    "scale": 0.4102,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
-  },
-  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -818,27 +777,27 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
+   "visible_px": 200712,
+   "occlusion": 0.021
   },
   {
-   "id": "kiteflyer_3",
-   "label": "person.nia__fly_kite__smile__y090",
+   "id": "kitekid_2",
+   "label": "person.nia__fly_kite__puzzled__y090",
    "role": "scored",
-   "z": 788.44,
+   "z": 823.83,
    "bbox": [
-    114.0,
-    626.0,
-    180.0,
-    792.0
+    818.0,
+    656.0,
+    886.0,
+    828.0
    ],
-   "area_px": 4716,
-   "visible_px": 4708,
+   "area_px": 5020,
+   "visible_px": 5008,
    "occlusion": 0.002,
    "asset": {
-    "variant": "person.nia__fly_kite__smile__y090",
+    "variant": "person.nia__fly_kite__puzzled__y090",
     "family": "person.nia",
-    "scale": 0.4411,
+    "scale": 0.4542,
     "mirrored": false,
     "labels": {
      "everyday_name": "girl",
@@ -859,6 +818,21 @@
    }
   },
   {
+   "id": "kitestring_4",
+   "label": "Kite string",
+   "role": "scored",
+   "z": 824.33,
+   "bbox": [
+    880.0,
+    250.0,
+    1186.0,
+    680.0
+   ],
+   "area_px": 1568,
+   "visible_px": 1568,
+   "occlusion": 0.0
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -874,6 +848,112 @@
    "occlusion": 0.0
   },
   {
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
+   "bbox": [
+    1358.0,
+    804.0,
+    1562.0,
+    930.0
+   ],
+   "area_px": 13200,
+   "visible_px": 8768,
+   "occlusion": 0.336
+  },
+  {
+   "id": "sitter_1",
+   "label": "person.rosa__sit_read__neutral__y045",
+   "role": "scored",
+   "z": 931,
+   "bbox": [
+    1390.0,
+    698.0,
+    1526.0,
+    950.0
+   ],
+   "area_px": 16048,
+   "visible_px": 16048,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__sit_read__neutral__y045",
+    "family": "person.rosa",
+    "scale": 0.4939,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "raker_5",
+   "label": "person.leo__rake__neutral__y045",
+   "role": "scored",
+   "z": 932.16,
+   "bbox": [
+    532.0,
+    648.0,
+    622.0,
+    960.0
+   ],
+   "area_px": 16196,
+   "visible_px": 15892,
+   "occlusion": 0.019,
+   "asset": {
+    "variant": "person.leo__rake__neutral__y045",
+    "family": "person.leo",
+    "scale": 0.4943,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "leaves_6",
+   "label": "Pile of leaves",
+   "role": "scored",
+   "z": 955.05,
+   "bbox": [
+    476.0,
+    932.0,
+    580.0,
+    964.0
+   ],
+   "area_px": 1900,
+   "visible_px": 1900,
+   "occlusion": 0.0
+  },
+  {
    "id": "filler_watering_can",
    "label": "Watering can",
    "role": "filler",
@@ -886,36 +966,6 @@
    ],
    "area_px": 4404,
    "visible_px": 4404,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
-   "bbox": [
-    522.0,
-    892.0,
-    704.0,
-    980.0
-   ],
-   "area_px": 8772,
-   "visible_px": 8772,
-   "occlusion": 0.0
-  },
-  {
-   "id": "kite_4",
-   "label": "Kite",
-   "role": "scored",
-   "z": 1500,
-   "bbox": [
-    174.0,
-    94.0,
-    550.0,
-    642.0
-   ],
-   "area_px": 5712,
-   "visible_px": 5712,
    "occlusion": 0.0
   }
  ],
@@ -939,12 +989,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "fly_kite",
-    "hang_laundry",
-    "cat_on_fence"
+    "read_bench",
+    "rake"
+   ],
+   "modules": [
+    "kite_in_tree"
    ]
   },
-  "placement_rev": 23
+  "placement_rev": 24
  },
  "probe": true
 }

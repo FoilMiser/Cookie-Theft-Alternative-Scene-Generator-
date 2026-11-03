@@ -441,10 +441,23 @@ class Sweep(T):
         if not (SCN.PLACEMENT_REV >= 6 and A):
             cands += self.stand_spots()
         ep = sc.eid("sweeper")
-        p = sc.try_put(ep, self.vp, cands, want_face=sc.rng.choice([1, -1]))
+        rev24 = SCN.PLACEMENT_REV >= 24 and D.SWEEP26 != "O" and type(self) is Sweep
+
+        def heap(q):
+            # revision 24: something swept, at the broom's head, on the ground (all four v0.25 pictures: "no visible rubbish or leaf
+            # pile for the old man to sweep"; one reader "could be sweeping, or pausing to watch")
+            tx, _ = q.anchor("broom_tip")
+            s_ = sz(q.Y)
+            f_ = 1 if tx > q.X else -1
+            return D.sweep_heap(tx + f_ * 34 * s_, q.Y + 6 * s_, s_, f_, D.SWEEP26)
+        accept = (lambda q: sc.fits(heap(q)[1], limit=0.05, ignore=(ep,))) if rev24 else None
+        p = sc.try_put(ep, self.vp, cands, want_face=sc.rng.choice([1, -1]), accept=accept)
         if not p:
             return False
         self.items(ep)
+        if rev24:
+            hs, hb = heap(p)
+            sc.svg(sc.eid("sweepheap"), "What has been swept", hs, p.Y + 2, hb, "scored")
         return True
 
     def items(self, ep):
@@ -2262,7 +2275,7 @@ class SandboxPlay(T):
             cx_ = X + f * 120 * s
             if not (xl - 30 <= cx_ <= xr + 30):
                 continue
-            castle, cbb = D.sandcastle(cx_, Y + 6 * s, s)
+            castle, cbb = D.sandcastle(cx_, Y + 6 * s, s, heaped=SCN.PLACEMENT_REV >= 24)
             pail, pbb = D.sand_pail(X - f * 80 * s, Y + 10 * s, s * 0.9)
             sc.assets[ep] = p
             ec = sc.svg(sc.eid("sandcastle"), "Sandcastle", castle + pail, Y + 6, (min(cbb[0], pbb[0]), cbb[1], max(cbb[2], pbb[2]), Y + 12 * s), "scored")
@@ -2274,7 +2287,8 @@ class SandboxPlay(T):
 def _sandbox_place_building(self, A, ep, inner):
     """Revision 6: the child kneels in the sandbox with the castle right under the spade."""
     sc = self.sc
-    y0, y1 = inner[0][1] + 30, inner[2][1] - 4
+    # (revision 24: and back from the front rim, castle and all: "its base seems to overlap the wooden frame")
+    y0, y1 = inner[0][1] + 30, inner[2][1] - (26 if SCN.PLACEMENT_REV >= 24 else 4)
     for _ in range(60):
         Y = sc.rng.uniform(y0, y1)
         t = (Y - inner[0][1]) / max(1, inner[3][1] - inner[0][1])
@@ -2292,7 +2306,7 @@ def _sandbox_place_building(self, A, ep, inner):
         cx_ = tx + f * 26 * cs
         if not (xl - 20 <= cx_ <= xr + 20):
             continue
-        castle, cbb = D.sandcastle(cx_, Y + 4 * s, cs)
+        castle, cbb = D.sandcastle(cx_, Y + 4 * s, cs, heaped=SCN.PLACEMENT_REV >= 24)
         if SCN.PLACEMENT_REV >= 11:
             # revision 11: the child and the castle wholly inside the sand, clear of the frame (a child whose
             # legs reached over the edge: "unclear whether kneeling inside it or on the rim")
@@ -4116,7 +4130,9 @@ class DucksBread(T):
                         continue
                     sc.airzones.append(wz)
                 sc.assets[ed] = d
-                crumbs = "".join(D.ell(sx + want * (30 + i * 22), sy + 30 + (i % 2) * 18 + i * 10, 6, 4, C["wood_light"], D.OW * 0.5) for i in range(5))
+                # (revision 24: bread-coloured; the orange-brown bits "could be food ... or small stones or tiny fish")
+                crumb_c = C["cream"] if SCN.PLACEMENT_REV >= 24 else C["wood_light"]
+                crumbs = "".join(D.ell(sx + want * (30 + i * 22), sy + 30 + (i % 2) * 18 + i * 10, 6, 4, crumb_c, D.OW * 0.5) for i in range(5))
                 # the wake trails behind the duck, on the side away from the shore it swims to
                 wake = f'<path d="M {D.P(dx + want * 30, dy + 4)} q {want * 30:.1f} 6 {want * 60:.1f} 14 M {D.P(dx + want * 30, dy + 8)} q {want * 26:.1f} 14 {want * 50:.1f} 26" fill="none" stroke="{C["white"]}" stroke-width="3"/>'
                 if SCN.PLACEMENT_REV >= 8:
@@ -4124,7 +4140,7 @@ class DucksBread(T):
                     # "swimming toward the food" was not said to be coming to eat it)
                     db = d.bbox()
                     front = db[0] if want > 0 else db[2]
-                    crumbs += "".join(D.ell(front - want * (8 + i * 15), dy - 3 + (i % 2) * 4, 6, 3.5, C["wood_light"], D.OW * 0.5) for i in range(3))
+                    crumbs += "".join(D.ell(front - want * (8 + i * 15), dy - 3 + (i % 2) * 4, 6, 3.5, crumb_c, D.OW * 0.5) for i in range(3))
                 ec = sc.svg(sc.eid("crumbs"), "Bread crumbs flying toward the water", crumbs + wake, -64, (min(sx, dx) - 40, sy, max(sx, dx) + 40, dy + 30), "scored")
                 if SCN.PLACEMENT_REV >= 4:      # the wake now trails on the far side of the duck
                     sc.svgs[ec]["bbox"] = (min(sx, dx - 100), sy, max(sx, dx + 100), dy + 30)
@@ -4233,7 +4249,9 @@ class DogWantsWalk(T):
         # revision 6: the larger brown dog (the small white dog sitting at the door read as a cat)
         self.d = sc.animal(["dog"], prefer=("animal.dog_01",) if SCN.PLACEMENT_REV >= 6 else ())
         # facing the viewer: compact, so it fits on the step in front of the door
-        self.vd = sc.need(self.d, "sit", sc.rng.choice(["happy", "neutral"]), 0)
+        # revision 24: open eyes (the happy face closes them: "with its eyes shut", "its eyes are shut, which could mean happy or asleep",
+        # and its wish for a walk went unstated, the gate's lowest template in v0.25)
+        self.vd = sc.need(self.d, "sit", "neutral" if SCN.PLACEMENT_REV >= 24 else sc.rng.choice(["happy", "neutral"]), 0)
 
     def place(self):
         sc = self.sc
@@ -4771,7 +4789,7 @@ class DogReading(T):
                 k = s * 1.05
                 # the paper's near edge sits just under the paws; one paw grips its upper part, the other
                 # its lower part, drawn over the paper
-                svg, bb = D.newspaper(px + f * (74 * k / 2 - 5 * s), py + 8 * s, k, f, style=7 if SCN.PLACEMENT_REV >= 7 else 6)
+                svg, bb = D.newspaper(px + f * (74 * k / 2 - 5 * s), py + 8 * s, k, f, style=8 if SCN.PLACEMENT_REV >= 24 else 7 if SCN.PLACEMENT_REV >= 7 else 6)
                 col = d.color_at("paw_FL")
                 if SCN.PLACEMENT_REV >= 9:
                     col = C["white"]        # revision 9: white paws, like the feet (dark grey ones read as hands)

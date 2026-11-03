@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a busy park: the older man's new bag, the sandwich bird, the newspaper dog with its own paws on the paper
-    ("park", 4, 25401, {"modules": ["bird_steals", "ducks_bread"], "contradictions": ["dog_reading"], "events": ["carry_bag", "ice_cream"]}, "tomascarry"),
-    # a street with someone else carrying the bag, a box carrier beside them, and the sandwich bird
-    ("street", 3, 25402, {"modules": ["bird_steals"], "events": ["carry_bag", "carry_box", "photo"]}, None),
-    # a garden with the painted fence and its roller, and the wheelbarrow's shadow
-    ("garden", 3, 25403, {"events": ["paint_fence", "rake", "walk_dog"]}, "filler_wheelbarrow"),
-    # the paw-printed fence in a garden with the barrow and a dig
-    ("garden", 3, 25404, {"modules": ["paint_tracks"], "events": ["dig", "sweep"]}, "filler_wheelbarrow"),
-    # a busy street: the white newspaper dog, the bag, the sandwich bird and the dropped ice cream
-    ("street", 4, 25405, {"modules": ["bird_steals", "ice_cream_drop"], "contradictions": ["dog_reading"], "events": ["carry_bag"]}, None),
-    # the square-wheeled barrow, whose own shadow also changed, beside a painter
-    ("garden", 3, 25406, {"contradictions": ["square_wheel"], "events": ["paint_fence", "plant_flowers"]}, None),
+    # a busy park: the older man's head, the tan newspaper dog, the ducks and the brown bag
+    ("park", 4, 26401, {"modules": ["ducks_bread"], "contradictions": ["dog_reading"], "events": ["carry_bag", "ice_cream"]}, "tomascarry"),
+    # a street: the swept leaves, the teenager's cap, a photographer, the lamp post keeping clear of them all
+    ("street", 3, 26402, {"events": ["sweep", "carry_box", "photo"]}, "teen"),
+    # a garden: the dog at the door with open eyes, the swept leaves on the path
+    ("garden", 3, 26403, {"modules": ["dog_wants_walk"], "events": ["sweep", "kick_ball"]}, None),
+    # a playground: the sandcastle, the older man on the seesaw
+    ("playground", 3, 26404, {"modules": ["seesaw_heavy"], "events": ["sandbox"]}, None),
+    # a busy street: the white newspaper dog, the swept leaves, the dropped ice cream
+    ("street", 4, 26405, {"modules": ["ice_cream_drop", "about_to_trip"], "contradictions": ["dog_reading"], "events": ["sweep"]}, None),
+    # a park: the bird feeder's brown bag, the fisherman, a dog walker by the lamp
+    ("park", 3, 26406, {"events": ["feed_birds", "fishing", "walk_dog"]}, None),
 ]
 
 

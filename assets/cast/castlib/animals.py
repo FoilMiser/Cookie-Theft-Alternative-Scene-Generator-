@@ -274,10 +274,21 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
     def sit_up_hold():
         # sitting up on the haunches, front legs raised to hold something in front of the chest,
         # head bent down over it (a dog "reading" with its paws on the paper)
-        body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=0.0, tail=(0.35, 0.75, -0.55), neck=(0, -0.45, 1), head_pitch=-34)
+        # v0.26 bench (TPDB_READDOG): the head bent over the paper showed only its round back and an ear in profile ("could be taken
+        # for a monkey, an otter, or a person in a costume", "a person in a spacesuit or a small robot"). A: the head up, its muzzle and
+        # eye in profile above the paper. B: and turned a little to the viewer. v0.26: B, on the bench (isolation_v026.md: "a brown-and-tan
+        # cartoon dog", and no animal but a dog; A's was once "a weasel or an otter").
+        _rd = __import__("os").environ.get("TPDB_READDOG", "B")
+        _rn, _rp, _rt = {"A": ((0, -0.30, 1), -8, 0), "B": ((0, -0.30, 1), -8, -28)}.get(_rd, ((0, -0.45, 1), -34, 0))
+        body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=0.0, tail=(0.35, 0.75, -0.55), neck=_rn, head_pitch=_rp, head_turn=_rt)
         # v0.11: the tail curled forward along the ground beside the haunch (straight out behind, long and
         # thin, it read as a fox's or a kangaroo's)
         rig.aim_dir("tail2", (0.55, -0.80, -0.05))
+        if __import__("os").environ.get("TPDB_RDTAIL", "A") == "A":
+            # v0.26, chosen on the bench: the tail up behind (along the ground, "the rear end spreads out into a flat, pointed shape that could
+            # be the tail or a haunch"; isolation_v026.md)
+            rig.aim_dir("tail1", (0.10, 0.90, 0.25))
+            rig.aim_dir("tail2", (0.0, 0.25, 1.0))
         fz = chest_z * 0.72
         # v0.25: the paws at different heights, so both show on the paper in profile (level, one hid the other: "only one paw
         # clearly touches it", on the bench)

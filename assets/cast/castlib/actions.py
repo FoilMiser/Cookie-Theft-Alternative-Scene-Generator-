@@ -729,9 +729,18 @@ def _broom_tool(P, H, T, tool):
     u = P.u
     d = (T - H).normalized()
     if tool == "broom":
+        P.panchor("broom_tip", H - d * 0.07 * u)
         P.prop("stick", cyl("stick", H + d * 0.08 * u, T + d * 0.06 * u, 0.016 * u, "wood"))
         q = Vector((0, 0, 1)).rotation_difference(d)
-        P.prop("bristles", cyl("bristles", H - d * 0.07 * u, H + d * 0.09 * u, 0.115 * u, "yellow", seg=4, r1=0.05 * u))
+        if __import__("os").environ.get("TPDB_BROOM", "A") == "A":
+            # v0.26, chosen on the bench: a fan of bristles, each outlined, with its flat face to the viewer (the plain yellow wedge had "no
+            # visible bristles" and read as "a dustpan or scraper", in all four cut-outs of the first round; isolation_v026.md)
+            ncam = nrm((-0.72, -0.62, 0.0))
+            wb = ncam.cross(d).normalized()
+            for i in range(-3, 4):
+                P.prop(f"bristle{i + 3}", cyl(f"bristle{i + 3}", H - d * 0.08 * u + wb * (i * 0.048 * u), H + d * 0.09 * u + wb * (i * 0.014 * u), 0.027 * u, "yellow", seg=8, r1=0.014 * u))
+        else:
+            P.prop("bristles", cyl("bristles", H - d * 0.07 * u, H + d * 0.09 * u, 0.115 * u, "yellow", seg=4, r1=0.05 * u))
         P.prop("band", cyl("band", H + d * 0.07 * u, H + d * 0.11 * u, 0.04 * u, "red"))
     elif tool == "dinner_fork":
         # v0.7: a giant dining fork, not a garden fork. Its flat face is turned toward the viewer (the
@@ -1249,14 +1258,35 @@ def up_flowers(P):
                                       rot=Quaternion((0, 1, 0), a)))
 
 
+# v0.26 bench (TPDB_FEED): what the feeder holds, in six v0.25 pictures "a paper bag, a cup or a carton". O the cream bag with a
+# rolled top. A a slice of bread, its broad face along the feeder's line so that a profile shows it. B a brown paper bag. v0.26: B, on
+# the bench (isolation_v026.md: "a brown paper bag"; A was "a paper bag or packet", "a couple of sheets of paper").
+FEED_STYLE = __import__("os").environ.get("TPDB_FEED", "B")
+
+
+def _feed_prop(P, gL):
+    u = P.u
+    if FEED_STYLE == "A":
+        # held by its lower edge, most of it above the fingers
+        c = gL + Vector((0, -0.01 * u, 0.09 * u))
+        P.prop("seedbag", box("seedbag", c, (0.05 * u, 0.25 * u, 0.25 * u), "tan", bevel=0.025 * u), "hand_L")
+        P.prop("seedtop", box("seedtop", c, (0.075 * u, 0.205 * u, 0.205 * u), "cream", bevel=0.018 * u), "hand_L")
+        return
+    if FEED_STYLE == "B":
+        P.prop("seedbag", box("seedbag", gL - Vector((0, 0, 0.09 * u)), (0.12 * u, 0.17 * u, 0.22 * u), "wood_light", bevel=0.008 * u), "hand_L")
+        P.prop("seedtop", box("seedtop", gL + Vector((0, 0, 0.03 * u)), (0.125 * u, 0.175 * u, 0.035 * u), "wood", bevel=0.006 * u), "hand_L")
+        return
+    # a big paper bag of seed with a rolled top (a small box read as a brush or a sanding block)
+    P.prop("seedbag", box("seedbag", gL - Vector((0, 0, 0.07 * u)), (0.15 * u, 0.10 * u, 0.20 * u), "cream", bevel=0.01 * u), "hand_L")
+    P.prop("seedtop", box("seedtop", gL + Vector((0, 0, 0.035 * u)), (0.155 * u, 0.105 * u, 0.03 * u), "tan", bevel=0.008 * u), "hand_L")
+
+
 def up_feed_birds(P):
     u = P.u
     pel = P.lm("pelvis")
     P.arms({"R": (pel + Vector((-0.14, -0.40, 0.14)) * u, (-1, 0.4, -0.6)), "L": (pel + Vector((0.10, -0.22, 0.14)) * u, (1, 0.4, -0.6))})
     gL = P.grip("L")
-    # a big paper bag of seed with a rolled top (a small box read as a brush or a sanding block)
-    P.prop("seedbag", box("seedbag", gL - Vector((0, 0, 0.07 * u)), (0.15 * u, 0.10 * u, 0.20 * u), "cream", bevel=0.01 * u), "hand_L")
-    P.prop("seedtop", box("seedtop", gL + Vector((0, 0, 0.035 * u)), (0.155 * u, 0.105 * u, 0.03 * u), "tan", bevel=0.008 * u), "hand_L")
+    _feed_prop(P, gL)
     P.panchor("seed_from", P.grip("R") - Vector((0, 0, 0.02 * u)))
 
 
@@ -1267,8 +1297,7 @@ def up_feed_birds_low(P):
     pel = P.lm("pelvis")
     P.arms({"R": (pel + Vector((-0.12, -0.34, 0.02)) * u, (-1, 0.4, -0.3)), "L": (pel + Vector((0.10, -0.20, 0.10)) * u, (1, 0.4, -0.6))})
     gL = P.grip("L")
-    P.prop("seedbag", box("seedbag", gL - Vector((0, 0, 0.07 * u)), (0.15 * u, 0.10 * u, 0.20 * u), "cream", bevel=0.01 * u), "hand_L")
-    P.prop("seedtop", box("seedtop", gL + Vector((0, 0, 0.035 * u)), (0.155 * u, 0.105 * u, 0.03 * u), "tan", bevel=0.008 * u), "hand_L")
+    _feed_prop(P, gL)
     P.hand("R", "open", palm=(0, 0, -1))
     P.panchor("seed_from", P.grip("R") - Vector((0, 0, 0.03 * u)))
 

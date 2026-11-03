@@ -50,11 +50,14 @@ def by_template(d, dirs, scores):
 
 def remarks(d):
     """The readers' own remarks per picture: the bullets of each description's "unsure" section, counted directly, over every
-    screened picture. Unlike the oddities, it does not depend on how much a scorer logs (v0.24: 83% of them, v0.23: 22%)."""
+    screened picture. Unlike the oddities, it does not depend on how much a scorer logs (v0.24: 83% of them, v0.23: 22%).
+    v0.26: a bullet that only says nothing is wrong is no remark ("Nothing is floating or passing through anything else": 25 of
+    v0.25's 428, 2 of v0.24's 408, which made v0.25's rise look like 11% where the remarks themselves rose 5%)."""
     n = []
     for f in glob.glob(os.path.join(d, "desc_pic_*.md")):
         parts = re.split(r"(?i)unsure or ambiguous", open(f, encoding="utf-8").read(), maxsplit=1)
-        n.append(len(re.findall(r"(?m)^\s*(?:[-*]|\d+\.)\s", parts[1])) if len(parts) > 1 else 0)
+        bullets = re.findall(r"(?m)^\s*(?:[-*]|\d+\.)\s+(.*)$", parts[1]) if len(parts) > 1 else []
+        n.append(sum(1 for b in bullets if not re.match(r"(?i)(nothing|no (other )?(object|thing|element)s?\b|i see nothing|apart from\b.*nothing)", b.lstrip("*_ "))))
     return round(sum(n) / len(n), 2) if n else None
 
 

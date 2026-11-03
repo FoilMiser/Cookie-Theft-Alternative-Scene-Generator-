@@ -1,31 +1,34 @@
-Three templates fall under the legibility gate after the v0.25 screen, none of them changed by this release: `dog_wants_walk`
-  (0.83), `sweep` (0.88) and `ducks_bread` (0.89). 61 of 64 pass. `vision/flaws_v025.md` lists them and the oddities for v0.26.
+Five templates fall under the legibility gate after the v0.26 screen: `sweep` (0.67, with one misread, on this release's own redraw), and
+  `ice_cream` (0.83), `photo` (0.83), `about_to_trip` (0.89) and `sprinkler_package` (0.89), none of which it changed. 59 of 64 pass.
+  `vision/flaws_v026.md` lists them and the oddities for v0.27.
 - The oddities come in two rows. Readers' remarks per picture are counted directly from their descriptions and compare across
-  screens, with the caveat that current readers write about 15% more than the v0.23 readers on the same pictures (`vision/v024/control/`,
-  one reader and eight pictures). The scorers' logged oddities do not compare: v0.23's logged 22% of the remarks, v0.24's 83%, and
-  v0.25's prompt caps them at three per picture. Earlier screens did not record which model read them; v0.24's and v0.25's ran on Claude Opus 5.5.
-- No reader says "teenager": the v0.24 redraw is read as a boy or a man, which the key mostly accepts. It moved him from a woman to a
-  boy, not to the key's own word.
+  screens, with the caveat that current readers write about 18% more than the v0.23 readers on the same pictures (`vision/v024/control/`,
+  one reader and eight pictures). The row was recounted in v0.26, as the counter had taken bullets saying nothing is wrong for remarks, so its
+  figures differ from those published up to v0.25. The scorers' logged oddities do not compare: v0.23's logged 25% of the remarks, v0.24's 83%, and
+  from v0.25 the prompt caps them at three per picture. Earlier screens did not record which model read them; v0.24's to v0.26's ran on Claude Opus 5.5.
+- No reader says "teenager": he is read as a boy, a boy or young man, or a person, which the key mostly accepts. The v0.24 redraw moved him
+  from a woman to a boy, and v0.26's cap worn forwards moved him no further toward the key's own word.
 - The retest of the v0.9 pictures (`vision/retest_v09.md`) put the gate's reader variance at about five
   templates between screens. A template with one to three items per picture fails on a single picture
   where something next to it pulls the reading away: the gate is a filter, not a measurement.
-- Scores are near the ceiling: across 68 pictures 779 of 785 scored items had full marks (799 of 805 in v0.24). AI readers describe
+- Scores are near the ceiling: across 67 pictures 743 of 752 scored items had full marks (779 of 785 in v0.25). AI readers describe
   exhaustively, so the screen cannot rank templates by difficulty; that is the pilot's job.
 - Scorers differ on hedges: some give full marks when the description commits to the key's reading and
   only the "unsure" section offers another, some give a half point. The prompt allows both; two v0.17 scorers
   counted 6 and 13 such items they credited in full, a v0.18 scorer listed seven judgment calls, a v0.19 scorer six,
-  a v0.20 scorer seven, a v0.21 scorer nine, v0.22 scorers two, eight and nine, v0.23 scorers six to twelve, a v0.24 scorer eleven, and all three v0.25 scorers listed such calls, enough to move a template across the gate.
-- Tier-4 pictures are the hardest to place, and revisions 14 to 22 make them harder (walkers' and runners' lanes, pointing
+  a v0.20 scorer seven, a v0.21 scorer nine, v0.22 scorers two, eight and nine, v0.23 scorers six to twelve, a v0.24 scorer eleven, and all three scorers of v0.25 and of v0.26 listed such calls, enough to move a template across the gate. A misread is a call too: the
+  rake in picture 37 could have been marked as sweeping half right.
+- Tier-4 pictures are the hardest to place, and revisions 14 to 24 make them harder (walkers' and runners' lanes, pointing
   lines, feet off benches and off other events' things, the photographer's line of sight, the waver's clear hand, body gaps, the gap
   from thin parts, heads clear of figures up to 80 px apart in depth, the ground clear past a reading walker's obstacle, jumpers in the
   front half, an obstacle a full step ahead, runners clear of other movers, ducks off a float, sleepers clear of walkers' feet, nobody in
-  the strip before the horizon). The tier-4 garden and park came again on their v0.24 seeds; the street took 13 failed seeds across three
-  searches side by side, the playground 3 across two. Their records rebuild them exactly.
+  the strip before the horizon, a person's box off the lamp post). The tier-4 garden and street came again on their v0.25 seeds; the park took 16
+  failed seeds, and the playground 89 across two searches, on the last seed of the second list, where v0.25's took 3. Why the playground got so much
+  harder was not traced. Their records rebuild them exactly.
 - The square-wheeled bicycle still stands on its own: four stands have been tried on the bench, and each
   read as something else (pedals, legs) or not at all.
 - The low kick's direction is ambiguous when the kicker's hair hides the face; the teenager kicks first,
-  and the kick read in full in all its screened pictures. His cap worn backwards was read as such, and one design-test reader
-  noted it "could be misread as him facing left".
+  and the kick read in full in all its screened pictures. His cap now points the way he faces, but two readers still took it for sideways or backwards.
 - The stuck girl on the seesaw always calls out, but no reader mentioned it: the tilt, the man's weight and
   the motion lines at her feet carry the reading.
 - The body check (`assets/cast/gapcheck.py`) finds parts that come apart, not parts that pass through one
@@ -36,15 +39,17 @@ Three templates fall under the legibility gate after the v0.25 screen, none of t
   fringe or skirt would be a new rig.
 - The isolation bench reads one template cut out of its picture. A visual that reads alone can still be
   misread among other events, so the bench comes before the test scenes and the screen, never instead of them.
-- The planner's priors come from the v0.25 calibration, with f = 0 and a at its centre for every inference and contradiction, as in
-  v0.20 to v0.24: the bird at the sandwich's cue salience moved by -0.32 with its smaller size, the newspaper dog's by +0.08, every other
-  template's by at most 0.001.
-- Exact rebuilds hold within a release, on the pinned Pillow: the v0.25 cast (builder 0.25.0) and placement rules (revision 23) change how
-  the bag, the roller, the bird and the newspaper dog look, so a v0.24 record rebuilds with the v0.24 package.
-- Every variant comes from the v0.25 cast (builder 0.25.0, `out025`): the variants of the families and poses v0.25 did not change were
-  carried over from `lib024`, the rest rendered anew. Some carried variants date from Linux renders, which differ from an installed Blender's
-  only in sub-pixel anti-aliasing on the outlines. The library keeps only the 372 variants the v0.25 set and probes use. The bench
-  variants (`TPDB_BAG`, `TPDB_ROLLER`, `TPDB_TEEN`, `TPDB_SLIDE`, `draw.RIDE24`, `draw.PAW25`) stay in the code.
+- The planner's priors come from the v0.26 calibration, with f = 0 and a at its centre for every inference and contradiction, as in
+  v0.20 to v0.25: the ducks' bread's cue salience moved by +0.025, the newspaper dog's by +0.024, the bucket hat's by -0.010, the trip's by -0.005,
+  and every other template's by less than 0.002.
+- Exact rebuilds hold within a release, on the pinned Pillow: the v0.26 cast (builder 0.26.0) and placement rules (revision 24) change how
+  the older man, the teenager, the newspaper dog, the feeder, the broom and the sandcastle look, so a v0.25 record rebuilds with the v0.25 package.
+- Every variant comes from the v0.26 cast (builder 0.26.0, `out026`): the variants of the families and poses v0.26 did not change were
+  carried over from `lib025`, the rest rendered anew. Some carried variants date from Linux renders, which differ from an installed Blender's
+  only in sub-pixel anti-aliasing on the outlines. The library keeps only the 393 variants the v0.26 set and probes use. The bench
+  variants (`TPDB_OLD`, `TPDB_TEEN`, `TPDB_READDOG`, `TPDB_RDTAIL`, `TPDB_FEED`, `TPDB_BROOM`, `TPDB_BODY`, `draw.SWEEP26`) stay in the code.
+- The figures are narrow from the side, and nearly every v0.26 bench cut-out said so. A body 22% deeper with limbs 12% thicker did not move the
+  readers' words, so it was left (`TPDB_BODY`); a real change to their proportions is a larger job than one bench round.
 - Age of acquisition is recorded at weight 0, so it moves nothing until the pilot's pre-registered test says it
   should. The bundled ratings are a verbatim excerpt of Kuperman et al. (2012) under CC BY-NC-ND 3.0, taken from a
   copy in the lftk package; they have not yet been checked against the original file at crr.ugent.be.
@@ -60,6 +65,7 @@ Three templates fall under the legibility gate after the v0.25 screen, none of t
 - A filler closer than 24 px to the picture's side edge is now moved 30 px inside it, and no reader said one
   was cut off; the sun can still sit partly off the top edge, where the backdrop draws it.
 - The strip before the horizon leaves the playground less room: the tier-3 playground placed only without template-variety steering in
-  v0.24 and v0.25. The v0.25 isomorphs are two at tier 2, two at tier 3 and one at tier 4.
+  v0.24 and v0.25, and with it in v0.26 after seven failed seeds. The v0.26 isomorphs are two at tier 2, two at tier 3 and one at tier 4; the tier-4 one
+  took 676 failed attempts.
 - The strip applies to the park and the playground, not the street, where the back row stands at the shop fronts: one design-test
   reader still found a woman there "large compared with the door".

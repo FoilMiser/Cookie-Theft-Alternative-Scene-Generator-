@@ -6,8 +6,8 @@
  "seed": 23042,
  "mirror": false,
  "versions": {
-  "generator": "0.25.0",
-  "cast_builder": "0.25.0",
+  "generator": "0.26.0",
+  "cast_builder": "0.26.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,7 +62,7 @@
  ],
  "templates": [
   {
-   "id": "sprinkler_package",
+   "id": "paint_tracks",
    "kind": "inference",
    "event": "e1",
    "units": 1
@@ -73,138 +73,198 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A sprinkler is spraying water",
-   "accepted": [
-    "sprinkler",
-    "water spraying",
-    "sprinkler is on"
-   ],
-   "key": "sprinkler",
+   "text": "A teenager is painting the fence",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "painting the fence",
+     "painting",
+     "paint roller",
+     "painting the wall"
+    ]
+   },
+   "key": "paint",
    "elements": [
-    "sprinkler_1"
+    "painter_1",
+    "paintstripe_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "sprinkler_package",
+   "template": "paint_fence",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": 0.004,
+    "animate": true,
+    "s": 0.56,
     "r": 0,
     "d": 0.0,
-    "f": -0.95,
-    "a": 5.53,
-    "zipf_raw": 3.05,
-    "aoa_raw": 5.53,
+    "f": 0.52,
+    "a": 4.45,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
     "domain": null,
-    "area_px": 15388
+    "area_px": 33704
    },
-   "b": -0.297,
-   "p0": 0.574,
-   "pm1": 0.331,
+   "b": -1.816,
+   "p0": 0.86,
+   "pm1": 0.693,
    "aoi_cells": [
-    "BL",
-    "BC"
+    "ML",
+    "MC"
    ]
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "A package is sitting on the grass",
+   "type": "action",
+   "text": "A dog is walking away from the paint",
    "accepted": [
-    "package",
-    "box",
-    "parcel",
-    "delivery"
+    "dog walking",
+    "dog",
+    "dog with paint on its feet"
    ],
-   "key": "package",
+   "key": "dog",
    "elements": [
-    "package_2"
+    "paintdog_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "paint_tracks",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.712,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 5608
+   },
+   "b": -1.354,
+   "p0": 0.795,
+   "pm1": 0.588,
+   "aoi_cells": [
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "entity",
+   "text": "There are paw prints in paint on the grass",
+   "accepted": [
+    "paw prints",
+    "footprints",
+    "paint prints",
+    "blue prints",
+    "tracks"
+   ],
+   "key": "footprints",
+   "elements": [
+    "prints_6",
+    "tray_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "sprinkler_package",
+   "template": "paint_tracks",
    "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.514,
+    "s": -1.182,
     "r": 0,
     "d": 0.0,
-    "f": 0.46,
-    "a": 6.61,
-    "zipf_raw": 4.46,
-    "aoa_raw": 6.61,
+    "f": -0.71,
+    "a": 5.78,
+    "zipf_raw": 3.29,
+    "aoa_raw": 5.78,
     "domain": null,
-    "area_px": 7416
+    "area_px": 2888
    },
-   "b": -0.761,
-   "p0": 0.682,
-   "pm1": 0.441,
+   "b": -0.076,
+   "p0": 0.519,
+   "pm1": 0.284,
    "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "inference",
-   "text": "The package is going to get soaked",
-   "accepted": [
-    "the package is getting wet",
-    "the box will get wet",
-    "the water will ruin the package",
-    "someone should move the package"
-   ],
-   "key": "wet",
-   "elements": [
-    "sprinkler_1",
-    "package_2"
-   ],
-   "cues": [
-    "sprinkler_1",
-    "package_2"
-   ],
-   "effect": [
-    "package_2"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "sprinkler_package",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": 0.004,
-    "r": 1,
-    "d": 0.221,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.54,
-    "aoa_raw": 2.47,
-    "domain": null,
-    "area_px": 15388
-   },
-   "b": 0.073,
-   "p0": 0.482,
-   "pm1": 0.255,
-   "aoi_cells": [
-    "BL",
     "BC"
    ]
   },
   {
    "id": "i04",
+   "type": "inference",
+   "text": "The dog stepped in the paint and left footprints",
+   "accepted": [
+    "the dog walked through the paint",
+    "the dog stepped in the tray",
+    "the dog made the footprints",
+    "paint on the dog's paws"
+   ],
+   "key": "paint",
+   "elements": [
+    "paintdog_4",
+    "prints_6",
+    "tray_5"
+   ],
+   "cues": [
+    "paintdog_4",
+    "prints_6",
+    "tray_5"
+   ],
+   "effect": [
+    "prints_6"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "paint_tracks",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -0.712,
+    "r": 2,
+    "d": 0.15,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
+    "domain": null,
+    "area_px": 5608
+   },
+   "b": 0.646,
+   "p0": 0.344,
+   "pm1": 0.162,
+   "aoi_cells": [
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -247,7 +307,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -289,7 +349,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -330,7 +390,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -374,7 +434,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i09",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -397,7 +457,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.934,
+    "s": 1.834,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -405,11 +465,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 233792
+    "area_px": 203220
    },
-   "b": -1.91,
-   "p0": 0.871,
-   "pm1": 0.713,
+   "b": -1.86,
+   "p0": 0.865,
+   "pm1": 0.703,
    "aoi_cells": [
     "ML",
     "MC",
@@ -417,7 +477,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i10",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -463,7 +523,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i11",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -506,7 +566,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i12",
    "type": "entity",
    "text": "There is a bench",
    "accepted": [
@@ -547,19 +607,19 @@
   }
  ],
  "counts": {
-  "content": 10,
+  "content": 11,
   "inference_units": 1,
   "contradictions": 0,
-  "items_total": 11
+  "items_total": 12
  },
  "predicted": {
   "theta_0": {
-   "content": 0.746,
-   "inference": 0.482
+   "content": 0.762,
+   "inference": 0.344
   },
   "theta_minus_1": {
-   "content": 0.536,
-   "inference": 0.255
+   "content": 0.558,
+   "inference": 0.162
   }
  },
  "bands": {
@@ -567,7 +627,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -581,16 +641,20 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "19 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0397,
-  "png_bytes": 133686,
-  "jpeg_bytes": 180295
+  "objects": 19,
+  "edge_density": 0.0374,
+  "png_bytes": 145932,
+  "jpeg_bytes": 175564
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -633,7 +697,7 @@
   ],
   [
    "inference",
-   1
+   2
   ]
  ],
  "elements": [
@@ -727,23 +791,23 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 233792,
-   "occlusion": 0.029
+   "visible_px": 203220,
+   "occlusion": 0.156
   },
   {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
+   "id": "paintstripe_2",
+   "label": "Freshly painted boards",
+   "role": "scored",
+   "z": 616,
    "bbox": [
-    946.0,
-    602.0,
-    1074.0,
-    682.0
+    490.0,
+    426.0,
+    634.0,
+    618.0
    ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
+   "area_px": 25636,
+   "visible_px": 24996,
+   "occlusion": 0.025
   },
   {
    "id": "filler_bush_left",
@@ -776,18 +840,131 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
+   "id": "painter_1",
+   "label": "person.leo__paint__smile__y090",
+   "role": "scored",
+   "z": 668,
    "bbox": [
-    1100.0,
-    596.0,
-    1220.0,
-    702.0
+    618.0,
+    434.0,
+    726.0,
+    670.0
    ],
-   "area_px": 8080,
-   "visible_px": 8080,
+   "area_px": 8708,
+   "visible_px": 8708,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__paint__smile__y090",
+    "family": "person.leo",
+    "scale": 0.3965,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "painttin_3",
+   "label": "Tin of paint",
+   "role": "prop",
+   "z": 680,
+   "bbox": [
+    730.0,
+    634.0,
+    768.0,
+    682.0
+   ],
+   "area_px": 1612,
+   "visible_px": 1460,
+   "occlusion": 0.094
+  },
+  {
+   "id": "tray_5",
+   "label": "Paint tray",
+   "role": "scored",
+   "z": 693.04,
+   "bbox": [
+    740.0,
+    674.0,
+    818.0,
+    696.0
+   ],
+   "area_px": 1448,
+   "visible_px": 1412,
+   "occlusion": 0.025
+  },
+  {
+   "id": "prints_6",
+   "label": "Paint paw prints",
+   "role": "scored",
+   "z": 694.04,
+   "bbox": [
+    792.0,
+    694.0,
+    994.0,
+    746.0
+   ],
+   "area_px": 1476,
+   "visible_px": 1476,
+   "occlusion": 0.0
+  },
+  {
+   "id": "paintdog_4",
+   "label": "animal.dog_02__walk__happy__y090",
+   "role": "scored",
+   "z": 743.12,
+   "bbox": [
+    1002.0,
+    634.0,
+    1122.0,
+    746.0
+   ],
+   "area_px": 5956,
+   "visible_px": 5608,
+   "occlusion": 0.058,
+   "asset": {
+    "variant": "animal.dog_02__walk__happy__y090",
+    "family": "animal.dog_02",
+    "scale": 0.4243,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "paintpaws_7",
+   "label": "Paint on the dog's paws",
+   "role": "setting",
+   "z": 746.12,
+   "bbox": [
+    1006.0,
+    730.0,
+    1100.0,
+    748.0
+   ],
+   "area_px": 484,
+   "visible_px": 484,
    "occlusion": 0.0
   },
   {
@@ -821,21 +998,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "sprinkler_1",
-   "label": "Sprinkler spraying",
-   "role": "scored",
-   "z": 926.09,
-   "bbox": [
-    0.0,
-    794.0,
-    896.0,
-    954.0
-   ],
-   "area_px": 15476,
-   "visible_px": 15388,
-   "occlusion": 0.006
-  },
-  {
    "id": "bench",
    "label": "Garden bench",
    "role": "setting",
@@ -851,18 +1013,33 @@
    "occlusion": 0.0
   },
   {
-   "id": "package_2",
-   "label": "Package on the grass",
-   "role": "scored",
-   "z": 936.09,
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
    "bbox": [
-    836.0,
-    870.0,
-    950.0,
-    948.0
+    1142.0,
+    884.0,
+    1238.0,
+    962.0
    ],
-   "area_px": 7416,
-   "visible_px": 7416,
+   "area_px": 4400,
+   "visible_px": 4400,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    896.0,
+    892.0,
+    1078.0,
+    980.0
+   ],
+   "area_px": 8776,
+   "visible_px": 8776,
    "occlusion": 0.0
   }
  ],
@@ -886,10 +1063,10 @@
   "usage": {},
   "forced": {
    "modules": [
-    "sprinkler_package"
+    "paint_tracks"
    ]
   },
-  "placement_rev": 23
+  "placement_rev": 24
  },
  "probe": true
 }

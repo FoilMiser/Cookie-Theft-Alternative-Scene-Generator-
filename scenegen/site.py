@@ -49,37 +49,41 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v024", "v025"
+PREV, CUR = "v025", "v026"
 
-# the templates whose drawing v0.25 changed for the v0.24 screen (vision/flaws_v024.md); each went to the isolation bench first
-# (vision/isolation_v025.md) and was read in whole test scenes (vision/design_tests_v025.md)
+# the templates whose drawing v0.26 changed for the v0.25 screen (vision/flaws_v025.md); each went to the isolation bench first
+# (vision/isolation_v026.md) and was read in whole test scenes (vision/design_tests_v026.md)
 REDRAWN_NOTES = {
-    "carry_bag": "The gate's one failure: 'carrying something yellow', 'very long and thin ... could be a tag, folded paper'. A profile showed the bag's narrow edge. Redrawn on the bench with its broad face to the viewer and dark handles: 'a yellow shopping bag'.",
-    "paint_fence": "A roller that 'hardly seems to touch the fence', 'a small pale oval'. Its axis ran along the line of sight. Now upright, a T on the pole: 'a long-handled paint roller'.",
-    "paint_tracks": "The same roller, and the wheelbarrow's shadow, 'a large dark oval extending well beyond it', now 130 px wide (was 210).",
-    "bird_steals": "'About as big as the sandwich', 'a blue kettle or jug'. The bird at 0.8 of its size and the sandwich smaller with it; no reader said kettle.",
-    "dog_reading": "'White gloved hands'. No paws painted over the paper now: it is drawn behind the dog, whose own paws rest on it. No reader said gloves.",
+    "sweep": "Nothing to sweep, so a heap of leaves at the broom, which worked: 'sweeping up a pile of autumn leaves'. And a fan of bristles, as the old wedge was 'a dustpan or scraper' on the bench, which did not: one reader saw 'a long yellow-headed rake'. Worse than v0.25, by this release's own redraw.",
+    "dog_wants_walk": "'With its eyes shut', the wish never stated. The neutral face only: 'as if it is asking to go for a walk'.",
+    "dog_reading": "'A monkey, an otter, or a person in a costume', 'a person in a spacesuit or a small robot'. Its head up and turned a little to the viewer, its tail up: only ever a dog now.",
+    "feed_birds": "'A paper bag, a cup or a carton'. Now a brown paper bag: 'a brown paper bag' or 'a paper bag' for every feeder.",
+    "ducks_bread": "'Swimming towards the food', its purpose only implied. The same brown bag and bread-coloured crumbs; read in full.",
+    "sandbox": "'Very straight, boxy edges ... a cardboard or wooden model'. Heaped sand with bucket-shaped towers: 'a sandcastle with three towers and a small red flag'.",
 }
 
-# what the v0.25 screen readers made of the templates that read poorly (vision/flaws_v025.md)
+# what the v0.26 screen readers made of the templates that read poorly (vision/flaws_v026.md)
 WEAK_NOTES = {
-    "dog_wants_walk": "A dog by the door with the lead in its mouth 'with its eyes shut', its wish for a walk never stated. Read in full in v0.24. For v0.26: a face with its eyes open.",
-    "sweep": "An older man 'as if sweeping', who 'could be sweeping, or pausing to watch'. Read in full in v0.24. For v0.26: something on the path to sweep.",
-    "ducks_bread": "'Swimming towards the food': the direction read, the purpose only implied, twice. Read in full in v0.24. Probably scoring variance.",
+    "sweep": "This release's fan of bristles: 'a long yellow-headed rake', the screen's one misread. The two other readers said sweeping. First on the v0.27 list: a broom head that cannot be a rake.",
+    "ice_cream": "The same bearded man twice, the cone held up before his face: 'looking at or eating it'. Not changed by this release; read in full in v0.25. For v0.27: the cone at the mouth.",
+    "photo": "'Binoculars or a camera', one half mark on one item. Not changed by this release; read in full in v0.25.",
+    "about_to_trip": "All three readers put the obstacle off the walker's line: it 'lies slightly off his line'. Not changed by this release; read in full in v0.25. For v0.27: a placement rule.",
+    "sprinkler_package": "Both half marks in one picture: 'a wooden crate standing in a puddle'. Not changed by this release; read in full in v0.25. Probably reader variance.",
 }
-SCREEN_NOTE = ("The v0.25 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The bag, the roller, the barrow's shadow, the bird and the newspaper dog's paws went to the isolation bench "
-               "first, and every change was read in whole test scenes. 779 of 785 items had full marks and none was misread. 61 of 64 templates "
-               "pass the gate, down from 63: the bag now passes in full, and three others fall short, none of them changed by this release and each "
-               "in full in v0.24. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five templates of the "
-               "gate's movement between releases is reader variance. Oddities now come in two rows, as scorers differ in how much they log; readers' remarks, "
-               "counted directly, rose again, so this release removed named complaints and did not bring the total down. AI readers describe "
+SCREEN_NOTE = ("The v0.26 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The older man's head, the newspaper dog, the teenager's cap, the swept leaves, the broom, the dog at the door, the feeder's bag "
+               "and the sandcastle went to the isolation bench first, and every change was read in whole test scenes. 743 of 752 items had full marks and one was misread. "
+               "59 of 64 templates pass the gate, down from 61: two of v0.25's three failures now read in full, the third, the broom, got worse by this release's own redraw, and four others "
+               "fall short on one or two half marks, none of them changed and each in full in v0.25. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five "
+               "templates of the gate's movement between releases is reader variance. Readers' remarks, counted directly, fell for the first time since v0.23. That row was recounted for every screen in v0.26, as the counter "
+               "had taken bullets saying nothing is wrong for remarks: the rise published with v0.25 as 11% was 5%. AI readers describe "
                "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("person.jo__walk_bag__smile__y090", "Shopping bag", "v0.24: seen edge-on in profile, 'very long and thin ... could be a tag, folded paper' (0.75, the gate's one failure). v0.25: its broad face to the viewer, with dark handles: 'a yellow shopping bag' (1.00)."),
-         ("person.ben__paint__neutral__y090", "Paint roller", "v0.24: its axis along the line of sight, 'a small pale oval' that 'hardly seems to touch the fence'. v0.25: upright, a T on the pole: 'a long-handled paint roller'."),
-         ("crop:scenes_v024/T4_park_s242971.png@526,746,742,902>scenes/T4_park_s242971.png@654,790,876,952", "Newspaper dog", "v0.24: ovals painted over the paper, 'white gloved hands'. v0.25: the paper behind the dog, its own paws on it. Here on the same seed.")]
+FIXES = [("person.tomas__stand__neutral__y045", "Older man's head", "v0.25: 'the older man's face is hard to read', in ten of his 21 pictures. v0.26: the cap's peak shorter and tipped up, short white hair under it: 'an older man with grey hair and a blue-grey flat cap'."),
+         ("animal.dog_01__sit_up_hold__neutral__y090", "Newspaper dog", "v0.25: 'a monkey, an otter, or a person in a costume'. v0.26: its head up and turned a little to the viewer, its tail up: only ever a dog in five pictures."),
+         ("person.leo__stand__neutral__y045", "Teenager's cap", "v0.25: worn backwards, twice a head 'the wrong way round'. v0.26: worn forwards. Two readers still took it for sideways or backwards."),
+         ("crop:scenes_v025/T4_street_s820995.png@1120,410,1300,730>scenes/T4_street_s820995.png@1100,380,1280,700", "Sweeping", "v0.25: 'no visible rubbish or leaf pile'. v0.26: a heap of leaves, which worked, and a fan of bristles, which one reader took for 'a long yellow-headed rake'. Here on the same seed.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):

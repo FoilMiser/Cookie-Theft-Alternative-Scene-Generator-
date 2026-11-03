@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.25.0"
+GENERATOR_VERSION = "0.26.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -50,15 +50,15 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "ball_in_tree": [("inference", 1, -0.75, 0.141, 1, "stuck")],
     "kite_in_tree": [("inference", 1, -0.54, 0.245, 2, "stuck")],
     "ice_cream_drop": [("inference", 1, -1.16, 0.075, 2, "dropped")],
-    "about_to_trip": [("inference", 1, 0.20, 0.102, 1, "trip")],
+    "about_to_trip": [("inference", 1, 0.19, 0.102, 1, "trip")],
     "dog_begs": [("inference", 1, -0.76, 0.082, 1, "begging")],
     "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
     "windy_hat": [("inference", 2, -1.24, 0.143, 1, "wind")],
     "bird_steals": [("inference", 2, -1.72, 0.046, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.05, 0.130, 2, "lost")],
-    "ducks_bread": [("inference", 1, -1.39, 0.018, 1, "hungry")],
-    "seesaw_heavy": [("inference", 1, -0.76, 0.187, 1, "heavy")],
+    "ducks_bread": [("inference", 1, -1.36, 0.018, 1, "hungry")],
+    "seesaw_heavy": [("inference", 1, -0.76, 0.188, 1, "heavy")],
     "dog_wants_walk": [("inference", 1, -0.75, 0.157, 2, "walk")],
 }
 for _cid, _s, _k in [("water_upward", -1.38, "water"),
@@ -67,10 +67,10 @@ for _cid, _s, _k in [("water_upward", -1.38, "water"),
                      ("fish_in_tree", -1.31, "fish"),
                      ("pan_watering", 0.04, "pan"),
                      ("sweep_fork", 0.25, "fork"),
-                     ("bucket_hat", 0.29, "bucket"),
+                     ("bucket_hat", 0.28, "bucket"),
                      ("sitting_on_air", 0.07, "chair"),
                      ("ladder_nothing", -0.36, "ladder"),
-                     ("dog_reading", -0.38, "newspaper")]:
+                     ("dog_reading", -0.36, "newspaper")]:
     PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]
 TYPICAL_LOAD = {1: 2.5, 2: 4, 3: 5.5, 4: 8}
 

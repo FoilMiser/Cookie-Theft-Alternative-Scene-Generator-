@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23015,
- "mirror": true,
+ "mirror": false,
  "versions": {
-  "generator": "0.25.0",
-  "cast_builder": "0.25.0",
+  "generator": "0.26.0",
+  "cast_builder": "0.26.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,24 +56,26 @@
   }
  },
  "features": [
-  "feeder",
-  "flowers"
+  "clothesline",
+  "hose_reel",
+  "laundry",
+  "laundry_short"
  ],
  "templates": [
   {
-   "id": "fish_in_tree",
-   "kind": "contradiction",
+   "id": "hang_laundry",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   },
   {
-   "id": "jump",
+   "id": "fly_kite",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "goat_grazing",
+   "id": "cat_on_fence",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -83,139 +85,62 @@
  "items": [
   {
    "id": "i01",
-   "type": "entity",
-   "text": "There is a fish",
-   "accepted": [
-    "fish",
-    "a fish",
-    "goldfish"
-   ],
-   "key": "fish",
+   "type": "action",
+   "text": "A grandmother is hanging up laundry",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "hanging laundry",
+     "hanging clothes",
+     "hanging up the washing",
+     "pinning clothes",
+     "clothesline"
+    ]
+   },
+   "key": "laundry",
    "elements": [
-    "treefish_1"
+    "hanger_1",
+    "shirt_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "fish_in_tree",
+   "template": "hang_laundry",
    "event": "e1",
    "features": {
-    "type": "entity",
+    "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": -1.312,
+    "animate": true,
+    "s": 0.094,
     "r": 0,
     "d": 0.0,
-    "f": 0.9,
-    "a": 4.05,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 2404
+    "area_px": 17476
    },
-   "b": -0.254,
-   "p0": 0.563,
-   "pm1": 0.322,
+   "b": -1.205,
+   "p0": 0.769,
+   "pm1": 0.551,
    "aoi_cells": [
-    "TR"
+    "MC"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong in the tree",
-   "accepted": [
-    "something in the tree",
-    "the tree looks odd",
-    "what's that in the tree"
-   ],
-   "key": "fish",
-   "elements": [
-    "treefish_1"
-   ],
-   "cues": [
-    "treefish_1"
-   ],
-   "effect": [
-    "treefish_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "biological",
-   "template": "fish_in_tree",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -1.312,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
-    "domain": "biological",
-    "area_px": 2404
-   },
-   "b": 0.396,
-   "p0": 0.402,
-   "pm1": 0.198,
-   "aoi_cells": [
-    "TR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_explain",
-   "text": "A fish is sitting up in the tree, but fish live in water",
-   "accepted": [
-    "fish in a tree",
-    "fish can't live in trees",
-    "fish belong in water"
-   ],
-   "key": "fish",
-   "elements": [
-    "treefish_1"
-   ],
-   "cues": [
-    "treefish_1"
-   ],
-   "effect": [
-    "treefish_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "biological",
-   "template": "fish_in_tree",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -1.312,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
-    "domain": "biological",
-    "area_px": 2404
-   },
-   "b": 1.596,
-   "p0": 0.169,
-   "pm1": 0.069,
-   "aoi_cells": [
-    "TR"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "action",
-   "text": "A girl is jumping for joy",
+   "text": "A girl is flying a kite",
    "accepted": {
     "who": [
      "girl",
@@ -225,89 +150,89 @@
      "daughter"
     ],
     "what": [
-     "jumping",
-     "jumping for joy",
-     "excited",
-     "happy",
-     "cheering"
+     "flying a kite",
+     "kite"
     ]
    },
-   "key": "jumping",
+   "key": "kite",
    "elements": [
-    "jumper_2"
+    "kiteflyer_3",
+    "kite_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "jump",
+   "template": "fly_kite",
    "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.536,
+    "s": -0.177,
     "r": 0,
     "d": 0.0,
-    "f": 0.23,
-    "a": 2.84,
-    "zipf_raw": 4.23,
-    "aoa_raw": 2.84,
+    "f": -0.45,
+    "a": 4.58,
+    "zipf_raw": 3.55,
+    "aoa_raw": 4.58,
     "domain": null,
-    "area_px": 7180
+    "area_px": 11920
    },
-   "b": -0.941,
-   "p0": 0.719,
-   "pm1": 0.485,
+   "b": -0.916,
+   "p0": 0.714,
+   "pm1": 0.479,
    "aoi_cells": [
-    "BC"
+    "TR",
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i03",
    "type": "action",
-   "text": "A goat is eating grass",
+   "text": "A cat is walking along the fence",
    "accepted": [
-    "goat eating",
-    "goat eating grass",
-    "goat grazing",
-    "goat"
+    "cat on the fence",
+    "cat walking",
+    "cat",
+    "cat on top of the fence"
    ],
-   "key": "goat",
+   "key": "cat",
    "elements": [
-    "goat_grazing_3"
+    "fencecat_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "goat_grazing",
+   "template": "cat_on_fence",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.613,
+    "s": -0.784,
     "r": 0,
     "d": 0.0,
-    "f": 0.02,
-    "a": 5.21,
-    "zipf_raw": 4.02,
-    "aoa_raw": 5.21,
+    "f": 0.78,
+    "a": 3.68,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
     "domain": null,
-    "area_px": 6448
+    "area_px": 5064
    },
-   "b": -0.84,
-   "p0": 0.698,
-   "pm1": 0.46,
+   "b": -0.982,
+   "p0": 0.728,
+   "pm1": 0.496,
    "aoi_cells": [
-    "MC"
+    "ML"
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -346,11 +271,11 @@
    "p0": 0.708,
    "pm1": 0.471,
    "aoi_cells": [
-    "TL"
+    "TR"
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -382,7 +307,7 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19280
+    "area_px": 19276
    },
    "b": -0.77,
    "p0": 0.684,
@@ -392,7 +317,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -414,7 +339,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.693,
+    "s": 0.672,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -422,62 +347,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 40636
+    "area_px": 39452
    },
-   "b": -1.242,
-   "p0": 0.776,
-   "pm1": 0.56,
-   "aoi_cells": [
-    "TR",
-    "MR"
-   ]
-  },
-  {
-   "id": "i09",
-   "type": "entity",
-   "text": "There is a bird feeder",
-   "accepted": [
-    "bird feeder",
-    "feeder",
-    "birdhouse",
-    "bird house",
-    "bird table"
-   ],
-   "key": "feeder",
-   "elements": [
-    "feeder"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.432,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.54,
-    "a": 7.29,
-    "zipf_raw": 3.46,
-    "aoa_raw": 7.29,
-    "domain": null,
-    "area_px": 8324
-   },
-   "b": -0.262,
-   "p0": 0.565,
-   "pm1": 0.323,
+   "b": -1.231,
+   "p0": 0.774,
+   "pm1": 0.557,
    "aoi_cells": [
     "TL",
     "ML"
    ]
   },
   {
-   "id": "i10",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -500,7 +381,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.922,
+    "s": 1.862,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -508,11 +389,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 230004
+    "area_px": 211376
    },
-   "b": -1.664,
-   "p0": 0.841,
-   "pm1": 0.66,
+   "b": -1.634,
+   "p0": 0.837,
+   "pm1": 0.653,
    "aoi_cells": [
     "ML",
     "MC",
@@ -520,7 +401,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -560,13 +441,13 @@
    "p0": 0.888,
    "pm1": 0.745,
    "aoi_cells": [
-    "TR",
-    "MR",
-    "BR"
+    "TL",
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i12",
+   "id": "i09",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -590,7 +471,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.373,
+    "s": 0.367,
     "r": 0,
     "d": 0.0,
     "f": 0.64,
@@ -598,31 +479,31 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 25884
+    "area_px": 25664
    },
-   "b": -1.018,
-   "p0": 0.735,
+   "b": -1.015,
+   "p0": 0.734,
    "pm1": 0.504,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "BL",
+    "BC"
    ]
   }
  ],
  "counts": {
-  "content": 10,
-  "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 12
+  "content": 9,
+  "inference_units": 0,
+  "contradictions": 0,
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.718,
-   "inference": 0.285
+   "content": 0.759,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.497,
-   "inference": 0.134
+   "content": 0.544,
+   "inference": null
   }
  },
  "bands": {
@@ -630,7 +511,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -644,14 +525,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "19 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0373,
-  "png_bytes": 152002,
-  "jpeg_bytes": 174856
+  "objects": 19,
+  "edge_density": 0.0392,
+  "png_bytes": 180805,
+  "jpeg_bytes": 183075
  },
  "signature": [
   [
@@ -663,19 +544,7 @@
    0
   ],
   [
-   "contradiction_explain",
-   1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
+   "action",
    0
   ],
   [
@@ -716,9 +585,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    52.0,
+    1352.0,
     22.0,
-    248.0,
+    1548.0,
     218.0
    ],
    "area_px": 13440,
@@ -731,13 +600,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    634.0,
+    560.0,
     68.0,
-    1040.0,
+    966.0,
     202.0
    ],
-   "area_px": 19280,
-   "visible_px": 19280,
+   "area_px": 19276,
+   "visible_px": 19276,
    "occlusion": 0.0
   },
   {
@@ -758,14 +627,14 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    38.0,
+    1254.0,
     614.0,
-    346.0,
+    1562.0,
     1000.0
    ],
-   "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "area_px": 81244,
+   "visible_px": 74816,
+   "occlusion": 0.079
   },
   {
    "id": "tree",
@@ -773,29 +642,44 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    1056.0,
+    296.0,
     176.0,
-    1304.0,
+    544.0,
     452.0
    ],
-   "area_px": 44992,
-   "visible_px": 40636,
-   "occlusion": 0.097
+   "area_px": 44984,
+   "visible_px": 39452,
+   "occlusion": 0.123
   },
   {
-   "id": "treefish_1",
-   "label": "Fish sitting in the tree",
+   "id": "fencecat_5",
+   "label": "animal.cat_01__walk__happy__y090",
    "role": "scored",
-   "z": 450.6,
+   "z": 612,
    "bbox": [
-    1122.0,
-    298.0,
-    1206.0,
-    336.0
+    382.0,
+    326.0,
+    490.0,
+    440.0
    ],
-   "area_px": 2404,
-   "visible_px": 2404,
-   "occlusion": 0.0
+   "area_px": 5388,
+   "visible_px": 5064,
+   "occlusion": 0.06,
+   "asset": {
+    "variant": "animal.cat_01__walk__happy__y090",
+    "family": "animal.cat_01",
+    "scale": 0.3757,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "cat",
+     "accepted_names": [
+      "cat",
+      "kitten",
+      "kitty"
+     ],
+     "category": "small_animal"
+    }
+   }
   },
   {
    "id": "fence",
@@ -803,29 +687,14 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    0.0,
+    298.0,
     426.0,
-    1302.0,
+    1600.0,
     618.0
    ],
-   "area_px": 240904,
-   "visible_px": 230004,
-   "occlusion": 0.045
-  },
-  {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    526.0,
-    602.0,
-    654.0,
-    682.0
-   ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
+   "area_px": 240896,
+   "visible_px": 211376,
+   "occlusion": 0.123
   },
   {
    "id": "filler_bush_left",
@@ -833,73 +702,14 @@
    "role": "filler",
    "z": 648,
    "bbox": [
-    1172.0,
+    292.0,
     598.0,
-    1308.0,
+    428.0,
     684.0
    ],
-   "area_px": 8292,
-   "visible_px": 7492,
+   "area_px": 8296,
+   "visible_px": 7496,
    "occlusion": 0.096
-  },
-  {
-   "id": "feeder",
-   "label": "Bird table on a post",
-   "role": "setting",
-   "z": 652,
-   "bbox": [
-    318.0,
-    302.0,
-    392.0,
-    662.0
-   ],
-   "area_px": 8324,
-   "visible_px": 8324,
-   "occlusion": 0.0
-  },
-  {
-   "id": "goat_grazing_3",
-   "label": "animal.goat_01__graze__neutral__y090",
-   "role": "scored",
-   "z": 666.11,
-   "bbox": [
-    882.0,
-    566.0,
-    1014.0,
-    670.0
-   ],
-   "area_px": 6508,
-   "visible_px": 6448,
-   "occlusion": 0.009,
-   "asset": {
-    "variant": "animal.goat_01__graze__neutral__y090",
-    "family": "animal.goat_01",
-    "scale": 0.3957,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "goat",
-     "accepted_names": [
-      "goat",
-      "kid"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "grasstuft_4",
-   "label": "Grass at the goat's mouth",
-   "role": "setting",
-   "z": 668.11,
-   "bbox": [
-    966.0,
-    644.0,
-    1000.0,
-    670.0
-   ],
-   "area_px": 488,
-   "visible_px": 488,
-   "occlusion": 0.0
   },
   {
    "id": "filler_pots",
@@ -907,9 +717,9 @@
    "role": "filler",
    "z": 700,
    "bbox": [
-    380.0,
+    1100.0,
     596.0,
-    500.0,
+    1220.0,
     702.0
    ],
    "area_px": 8080,
@@ -917,14 +727,97 @@
    "occlusion": 0.0
   },
   {
+   "id": "clothesline",
+   "label": "Clothesline",
+   "role": "setting",
+   "z": 705,
+   "bbox": [
+    606.0,
+    382.0,
+    976.0,
+    708.0
+   ],
+   "area_px": 13848,
+   "visible_px": 12348,
+   "occlusion": 0.108
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    620.0,
+    392.0,
+    778.0,
+    504.0
+   ],
+   "area_px": 11380,
+   "visible_px": 9504,
+   "occlusion": 0.165
+  },
+  {
+   "id": "shirt_2",
+   "label": "Shirt being pinned up",
+   "role": "scored",
+   "z": 706.5,
+   "bbox": [
+    802.0,
+    408.0,
+    902.0,
+    508.0
+   ],
+   "area_px": 6916,
+   "visible_px": 6580,
+   "occlusion": 0.049
+  },
+  {
+   "id": "hanger_1",
+   "label": "person.rosa__hang_washing__neutral__y090",
+   "role": "scored",
+   "z": 707,
+   "bbox": [
+    730.0,
+    408.0,
+    824.0,
+    680.0
+   ],
+   "area_px": 10896,
+   "visible_px": 10896,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__hang_washing__neutral__y090",
+    "family": "person.rosa",
+    "scale": 0.4102,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
    "z": 781,
    "bbox": [
-    1258.0,
+    0.0,
     118.0,
-    1600.0,
+    342.0,
     784.0
    ],
    "area_px": 204952,
@@ -937,34 +830,49 @@
    "role": "setting",
    "z": 836,
    "bbox": [
-    1028.0,
+    318.0,
     694.0,
-    1282.0,
+    572.0,
     838.0
    ],
-   "area_px": 25884,
-   "visible_px": 25884,
+   "area_px": 25880,
+   "visible_px": 25664,
+   "occlusion": 0.008
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 870,
+   "bbox": [
+    270.0,
+    788.0,
+    346.0,
+    876.0
+   ],
+   "area_px": 4956,
+   "visible_px": 4956,
    "occlusion": 0.0
   },
   {
-   "id": "jumper_2",
-   "label": "person.nia__jump_tuck__laughing__y045",
+   "id": "kiteflyer_3",
+   "label": "person.nia__fly_kite__smile__y090",
    "role": "scored",
-   "z": 895.07,
+   "z": 931.08,
    "bbox": [
-    794.0,
-    684.0,
-    886.0,
-    866.0
+    1376.0,
+    750.0,
+    1448.0,
+    934.0
    ],
-   "area_px": 7180,
-   "visible_px": 7180,
-   "occlusion": 0.0,
+   "area_px": 5964,
+   "visible_px": 5956,
+   "occlusion": 0.001,
    "asset": {
-    "variant": "person.nia__jump_tuck__laughing__y045",
+    "variant": "person.nia__fly_kite__smile__y090",
     "family": "person.nia",
-    "scale": 0.4806,
-    "mirrored": false,
+    "scale": 0.4939,
+    "mirrored": true,
     "labels": {
      "everyday_name": "girl",
      "accepted_names": [
@@ -989,13 +897,13 @@
    "role": "filler",
    "z": 960,
    "bbox": [
-    362.0,
+    1142.0,
     884.0,
-    458.0,
+    1238.0,
     962.0
    ],
-   "area_px": 4404,
-   "visible_px": 4404,
+   "area_px": 4400,
+   "visible_px": 4400,
    "occlusion": 0.0
   },
   {
@@ -1004,13 +912,28 @@
    "role": "filler",
    "z": 975,
    "bbox": [
-    522.0,
+    896.0,
     892.0,
-    704.0,
+    1078.0,
     980.0
    ],
-   "area_px": 8772,
-   "visible_px": 8772,
+   "area_px": 8776,
+   "visible_px": 8776,
+   "occlusion": 0.0
+  },
+  {
+   "id": "kite_4",
+   "label": "Kite",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    1030.0,
+    106.0,
+    1380.0,
+    766.0
+   ],
+   "area_px": 5964,
+   "visible_px": 5964,
    "occlusion": 0.0
   }
  ],
@@ -1034,14 +957,12 @@
   "usage": {},
   "forced": {
    "events": [
-    "jump",
-    "goat_grazing"
-   ],
-   "contradictions": [
-    "fish_in_tree"
+    "hang_laundry",
+    "fly_kite",
+    "cat_on_fence"
    ]
   },
-  "placement_rev": 23
+  "placement_rev": 24
  },
  "probe": true
 }
