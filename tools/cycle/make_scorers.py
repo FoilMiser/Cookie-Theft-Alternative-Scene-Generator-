@@ -1,4 +1,4 @@
-"""make_scorers.py : write the three scorer prompts (pictures 1-22, 23-43, 44-65 by default) and split keys.json into keys_a/b/c.
+"""make_scorers.py : write the three scorer prompts (three equal parts of the pictures by default) and split keys.json into keys_a/b/c.
 
     python make_scorers.py [A-B,C-D,E-F]
 Writes <WORK>/v<TAG>prompts/scorer_<a|b|c>.txt and <ROOT>/vision/v<TAG>/keys_<a|b|c>.json."""
@@ -7,9 +7,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from cfg import ROOT, WORK, TAG  # noqa: E402
 
 V = os.path.join(ROOT, "vision", "v" + TAG)
-spans = [tuple(int(x) for x in p.split("-")) for p in (sys.argv[1] if len(sys.argv) > 1 else "1-22,23-43,44-65").split(",")]
 tpl = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts", "scorer_template.txt")).read()
 keys = json.load(open(os.path.join(V, "keys.json")))
+n = len(keys)
+cuts = [0, n // 3, 2 * n // 3, n]
+spans = [tuple(int(x) for x in p.split("-")) for p in sys.argv[1].split(",")] if len(sys.argv) > 1 else [(cuts[i] + 1, cuts[i + 1]) for i in range(3)]
 out = os.path.join(WORK, f"v{TAG}prompts")
 os.makedirs(out, exist_ok=True)
 for t, (a, b) in zip("abcdef", spans):

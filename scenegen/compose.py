@@ -1,6 +1,7 @@
 """Compose a scene to SVG/PNG and measure it: masks, visible areas, occlusion, AOI cells, clutter."""
 import io
 
+from . import cairo_compat  # noqa: F401  (before cairosvg)
 import cairosvg
 import numpy as np
 from PIL import Image

@@ -328,6 +328,16 @@ def build_person(spec):
     build_hair(spec, rig, hc, HR, kh)
     build_facial_hair(spec, rig, face, eye_z, kh)
     build_hat(spec, rig, hc, HR, kh)
+    if spec.get("backpack"):
+        # v0.24 bench (TPDB_TEEN=B): a school backpack on the chest bone, with a pocket and two straps over the shoulders
+        bz = (J["chest"] - 0.02) * S
+        ellipsoid("Backpack", Vector((0, 0.185 * S, bz)), (0.125 * S, 0.075 * S, 0.175 * S), spec["backpack"], rig, "chest")
+        ellipsoid("BackpackPocket", Vector((0, 0.255 * S, bz - 0.05 * S)), (0.085 * S, 0.028 * S, 0.075 * S), spec.get("backpack2", "charcoal"), rig, "chest")
+        for sd, sg in (("L", 1), ("R", -1)):
+            _blob_chain(f"BackpackStrap_{sd}", [Vector((sg * 0.10 * S, 0.13 * S, (J["sh_z"] + 0.02) * S)), Vector((sg * 0.105 * S, 0.0, (J["sh_z"] + 0.088) * S)),
+                                                Vector((sg * 0.11 * S, -0.135 * S, J["sh_z"] * S)), Vector((sg * 0.125 * S, -0.150 * S, (J["chest"] - 0.06) * S)),
+                                                Vector((sg * 0.165 * S, -0.065 * S, (J["chest"] - 0.14) * S))],
+                        [(0.026 * S, 0.010 * S)] * 5, spec.get("backpack2", "charcoal"), rig, bone="chest")
     build_people_face(face, eye_dx, eye_z, kh, glasses=spec.get("glasses", False))
 
     for sd, sg in (("L", 1), ("R", -1)):
@@ -503,6 +513,11 @@ def build_hat(spec, rig, hc, HR, k):
     if hat == "cap":
         ellipsoid("HatBrim", hc + Vector((0, -R[1] * 0.88, R[2] * 0.56)), (0.110 * k, 0.095 * k, 0.012 * k), col, rig, "head",
                   rot=Quaternion((1, 0, 0), -0.12))
+        ellipsoid("HatButton", dome_c + Vector((0, 0, R[2] * 1.0)), (0.012 * k,) * 3, col, rig, "head")
+    elif hat == "cap_back":
+        # v0.24 bench (TPDB_TEEN=A): a cap worn backwards, the brim over the nape
+        ellipsoid("HatBrim", hc + Vector((0, R[1] * 0.90, R[2] * 0.44)), (0.105 * k, 0.095 * k, 0.012 * k), col, rig, "head",
+                  rot=Quaternion((1, 0, 0), -0.30))
         ellipsoid("HatButton", dome_c + Vector((0, 0, R[2] * 1.0)), (0.012 * k,) * 3, col, rig, "head")
     elif hat == "sun":
         ellipsoid("HatBrim", hc + Vector((0, 0.004 * k, R[2] * 0.52)), (R[0] * 1.85, R[1] * 1.85, 0.012 * k), col, rig, "head")

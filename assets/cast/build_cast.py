@@ -21,6 +21,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.dirname(HERE))
+import blender_run  # noqa: E402
+
+blender_run.ensure(__file__)
 
 import bpy  # noqa: E402
 
@@ -31,7 +35,7 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.23.0"
+BUILDER_VERSION = "0.24.0"
 
 
 def write_config(out_dir, fam, cls, labels, poses, expressions, states, affordances, prop_objects=(), extra=None):

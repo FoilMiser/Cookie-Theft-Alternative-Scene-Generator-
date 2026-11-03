@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.23.0"
+GENERATOR_VERSION = "0.24.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -43,7 +43,7 @@ def feasible(cls, setting, sky):
 # Prior guesses of each inference item's features (typical cue salience z, cue-effect separation,
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
-PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.23 calibration.json)
+PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.22 calibration.json)
     "blocked_hose": [("inference", 2, -0.40, 0.152, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.405, 1, "rain")],
     "cat_stalks_bird": [("inference", 1, -0.49, 0.080, 1, "cat")],
@@ -54,7 +54,7 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "dog_begs": [("inference", 1, -0.76, 0.082, 1, "begging")],
     "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
-    "windy_hat": [("inference", 2, -1.24, 0.140, 1, "wind")],
+    "windy_hat": [("inference", 2, -1.24, 0.143, 1, "wind")],
     "bird_steals": [("inference", 2, -1.40, 0.051, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.05, 0.130, 2, "lost")],
     "ducks_bread": [("inference", 1, -1.39, 0.018, 1, "hungry")],
@@ -66,7 +66,7 @@ for _cid, _s, _k in [("water_upward", -1.38, "water"),
                      ("square_wheel", -0.02, "wheel"),
                      ("fish_in_tree", -1.31, "fish"),
                      ("pan_watering", 0.04, "pan"),
-                     ("sweep_fork", 0.26, "fork"),
+                     ("sweep_fork", 0.25, "fork"),
                      ("bucket_hat", 0.29, "bucket"),
                      ("sitting_on_air", 0.07, "chair"),
                      ("ladder_nothing", -0.36, "ladder"),

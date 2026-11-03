@@ -140,11 +140,16 @@ def collect_tree(root, version, tag, scenes, probes):
         add_file('RUNBOOK.md', 'RUNBOOK.md')          # v0.23: how a release is made
     for f in ('combos.json', 'calibration.json'):
         add_file(f, f)
+    for f in ('requirements.txt', '.gitignore', '.gitattributes'):
+        if os.path.exists(os.path.join(root, f)):
+            add_file(f, f)                            # v0.24: how the repository is set up
     if os.path.exists(os.path.join(root, f'package_v{tag}.sh')):
         add_file(f'package_v{tag}.sh', f'package_v{tag}.sh')
     items['package_release.py'] = file_item(os.path.abspath(__file__), 'package_release.py')
     for f in ('render_assets.py', 'validate_assets.py', 'asset_manifest.schema.json', 'palette.json'):
         add_file(f'assets/{f}', f'assets/{f}')
+    if os.path.exists(os.path.join(root, 'assets/blender_run.py')):
+        add_file('assets/blender_run.py', 'assets/blender_run.py')   # v0.24: bpy scripts inside an installed Blender
     for f in ('build_cast.py', 'render_set.py', 'sheet.py', 'gapcheck.py'):
         add_file(f'assets/cast/{f}', f'assets/cast/{f}')
     add_tree('assets/cast/castlib', 'assets/cast/castlib')
@@ -517,7 +522,8 @@ def main():
     prefix = f'tpdb_v{a.version}'
     outdir = os.path.abspath(a.out or os.path.join(HERE, f'release_v{a.version}_drive'))
     try:
-        os.nice(10)                                   # the machine is shared; stay out of the way
+        if hasattr(os, "nice"):
+            os.nice(10)                                   # the machine is shared; stay out of the way
     except OSError:
         pass
 

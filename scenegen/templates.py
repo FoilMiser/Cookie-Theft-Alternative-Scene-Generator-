@@ -2177,7 +2177,8 @@ class SeesawPlay(T):
         placed = []
         for eid, v, end, want in ((ea, va, "left", 1), (eb, vb, "right", -1)):
             p = sc.placed(v, 0, 0, sc.mirror_for(v, want), depth_y=A["depth"] + 2, eid=eid)
-            p.move_anchor_to("seat", info["seats"][end])
+            seat = info["seats"][end]
+            p.move_anchor_to("seat", (seat[0], seat[1] - D.RIDE24["seesaw"] * s) if SCN.PLACEMENT_REV >= 22 else seat)
             if not sc.fits(p.bbox(), limit=0.15):
                 return None
             if SCN.PLACEMENT_REV >= 7 and p.has_anchor("foot_L") and p.has_anchor("foot_R"):
@@ -2364,7 +2365,8 @@ class SlidePlay(T):
             f = 1 if x1 > x0 else -1
             for t in (0.48, 0.40, 0.56):
                 p = sc.placed(self.vp, 0, 0, sc.mirror_for(self.vp, f), depth_y=A["depth"] + 1, eid=ep)
-                p.move_anchor_to("seat", (x0 + (x1 - x0) * t, y0 + (y1 - y0) * t + (8 if SCN.PLACEMENT_REV >= 9 else 3) * sz(A["depth"])))
+                drop = D.RIDE24["slide"] if SCN.PLACEMENT_REV >= 22 else 8 if SCN.PLACEMENT_REV >= 9 else 3
+                p.move_anchor_to("seat", (x0 + (x1 - x0) * t, y0 + (y1 - y0) * t + drop * sz(A["depth"])))
                 if sc.fits(p.bbox(), limit=0.2):
                     break
             else:
@@ -3632,7 +3634,8 @@ class WindyHat(T):
         sc = self.sc
         # revision 6: someone bareheaded loses the hat (a man still wearing his own cap read as the
         # owner of neither)
-        self.p = sc.person(GROWN, avoid=("person.jo", "person.tomas") if SCN.PLACEMENT_REV >= 6 else ())
+        # (revision 22: the teenager now wears a cap too)
+        self.p = sc.person(GROWN, avoid=("person.jo", "person.tomas", "person.leo") if SCN.PLACEMENT_REV >= 22 else ("person.jo", "person.tomas") if SCN.PLACEMENT_REV >= 6 else ())
         self.vp = sc.need(self.p, "reach_up", sc.rng.choice(["surprised", "scared"]), 45)
 
     def place(self):
@@ -3651,6 +3654,8 @@ class WindyHat(T):
                 # revision 12: not the colour of a cap someone in the picture is wearing (a blue cap blowing away beside a
                 # man in a blue-grey cap "might have been meant as his")
                 worn = {"person.tomas": C["blue"], "person.jo": C["orange"]}
+                if SCN.PLACEMENT_REV >= 22:
+                    worn["person.leo"] = C["red"]
                 cols = [c_ for c_ in cols if c_ not in {worn[f] for f in sc.fams if f in worn}] or cols
             svg, bb = D.cap(cx, cy, s * self.k3(1.45, 1.1, 0.85), sc.rng.choice(cols), rot=want * 35)
             if not sc.fits(bb, limit=0.05):

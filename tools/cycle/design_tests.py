@@ -11,25 +11,30 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a garden with the frying pan (the v0.23 pan, seen at a slant on a shorter handle) beside other work
-    ("garden", 3, 23401, {"contradictions": ["pan_watering"], "events": ["dig", "walk_dog", "rake"]}, "pan"),
-    # a busy park: the older man carrying a bag (his v0.23 profile) near a sleeping cat, the reading walker and her
-    # obstacle a full step ahead, the begging dog, the duck feeding
-    ("park", 4, 23402, {"modules": ["about_to_trip", "dog_begs", "ducks_bread"], "events": ["carry_bag", "cat_sleeping", "ice_cream"]}, "tomascarry"),
-    # a busy street: the begging dog, the reading walker, a runner, a pram, the square-wheeled bicycle
-    ("street", 4, 23403, {"modules": ["about_to_trip", "dog_begs"], "contradictions": ["square_wheel"], "events": ["run", "push_stroller", "feed_birds"]}, None),
-    # a playground with a runner and a pram (not heading at each other), the seesaw and the cat stalking a bird
-    ("playground", 2, 23404, {"modules": ["cat_stalks_bird"], "events": ["run", "push_stroller", "seesaw"]}, None),
-    # a park with an angler and the ducks (none at his float), a photographer
-    ("park", 3, 23405, {"events": ["fishing", "ducks_swimming", "photo", "walk_dog"]}, None),
-    # a garden with the wheelbarrow standing on its strut, the blocked hose and the washing
-    ("garden", 3, 23406, {"modules": ["blocked_hose"], "events": ["hang_laundry", "sweep", "cat_sleeping"]}, "filler_wheelbarrow"),
+    # a busy park: the older man carrying a bag and a sleeping cat (kept clear of his feet on both sides), people kept out of
+    # the strip of ground before the horizon, the reading walker, the ducks
+    ("park", 4, 24401, {"modules": ["about_to_trip", "ducks_bread"], "events": ["carry_bag", "cat_sleeping", "ice_cream"]}, "tomascarry"),
+    # a playground with the riders on the seesaw and the teenager kicking
+    ("playground", 3, 24402, {"events": ["seesaw", "kick_ball", "walk_dog", "wave"]}, "teen"),
+    # a park with the teenager's ice cream, a sleeping dog among walkers and a runner
+    ("park", 3, 24403, {"events": ["ice_cream", "dog_sleeping", "walk_dog", "run"]}, "teen"),
+    # a busy street with the teenager, a hat blowing off someone else, a bucket for a hat (over the teenager's cap, if cast)
+    ("street", 4, 24404, {"modules": ["windy_hat"], "contradictions": ["bucket_hat"], "events": ["carry_box", "ice_cream", "photo"]}, "teen"),
+    # a garden with the teenager playing catch and a sleeping cat beside someone walking
+    ("garden", 3, 24405, {"events": ["play_catch", "cat_sleeping", "carry_box", "walk_dog"]}, "teen"),
+    # a playground with the other child on the slide, a sleeping dog and a pram
+    ("playground", 2, 24406, {"events": ["slide", "dog_sleeping", "push_stroller", "wave"]}, "nia_slide"),
 ]
 
 
 def ok(rec, rule):
     if rule is None:
         return True
+    if rule == "teen":
+        return any(e.get("asset", {}).get("family") == "person.leo" for e in rec["elements"])
+    if rule == "nia_slide":
+        els = {e["id"]: e for e in rec["elements"]}
+        return any(it.get("template") == "slide" and any(els.get(i, {}).get("asset", {}).get("family") == "person.nia" for i in it["elements"]) for it in rec["items"])
     if rule == "railbird":
         return any(it.get("template") == "bird_perched" and "fence" in it["text"] for it in rec["items"])
     if rule == "wave":

@@ -21,10 +21,15 @@ import math
 import os
 import sys
 
-import bpy
-import numpy as np
-from bpy_extras.object_utils import world_to_camera_view
-from mathutils import Vector
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import blender_run  # noqa: E402
+
+blender_run.ensure(__file__)
+
+import bpy  # noqa: E402
+import numpy as np  # noqa: E402
+from bpy_extras.object_utils import world_to_camera_view  # noqa: E402
+from mathutils import Vector  # noqa: E402
 
 SCRIPT_VERSION = "0.4.0"
 PPM = 400.0            # pixels per meter
@@ -74,7 +79,9 @@ def parse_args(argv):
     ap.add_argument("--out", required=True)
     ap.add_argument("--samples", type=int, default=32)
     ap.add_argument("--no-cel", action="store_true", help="Keep the file's own materials instead of converting to two-tone cel.")
-    return ap.parse_args(argv)
+    args = ap.parse_args(argv)
+    args.out = os.path.abspath(args.out)   # an installed Blender saves a relative render path somewhere else than Python looks
+    return args
 
 
 # ------------------------------------------------------------ scene setup

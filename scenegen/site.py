@@ -49,36 +49,37 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v022", "v023"
+PREV, CUR = "v023", "v024"
 
-# the v0.22 failure (the frying pan), its two half points and the templates whose drawing or placement v0.23 changed for the
-# v0.22 oddities (vision/flaws_v022.md); the drawings went to the isolation bench first (vision/isolation_v023.md), and every
-# change was read in whole test scenes (vision/design_tests_v023.md)
+# the templates whose drawing or placement v0.24 changed for the v0.23 oddities (vision/flaws_v023.md); the drawings went to the
+# isolation bench first (vision/isolation_v024.md), and every change was read in whole test scenes (vision/design_tests_v024.md)
 REDRAWN_NOTES = {
-    "pan_watering": "Held close in front of the flowers, its handle hidden: 'a grey, round watering can'. Redrawn on the bench: held out, seen at a slant so its depth shows, on a thicker handle ('a frying pan or saucepan').",
-    "dog_begs": "A dog with a paw raised, its body sloping to a tail on the ground: 'perhaps hoping for some ... or just walking by'. Redrawn on the bench: sitting up, front paws folded at the chest.",
-    "about_to_trip": "The box 25 px ahead of her foot, 'to the side of / slightly ahead of' her. Now a full step ahead of her leading toe, squarely on her line.",
-    "carry_bag": "The older man's grey hair in profile read as a beard, so he seemed to walk the other way. Redrawn on the bench: the grey kept to the back of the head, a fuller nose.",
-    "run": "A runner and a woman with a pram heading at each other, 'might bump into each other'. Now no runner facing another mover on her line, and a runner clear of any mover beside her.",
-    "fishing": "A duck close to the float 'might go for the bait'. Now no duck at a float or line, and none facing a float.",
+    "kick_ball": "The teenager, never called a teenager in v0.23: 'a woman with a brown ponytail'. Redrawn on the bench: shorter, a larger head, short hair and a red cap worn backwards. Named a boy in all 25 of his pictures, a woman in none.",
+    "play_catch": "The teenager again, as above. His direction still read: 'has just thrown the ball'.",
+    "slide": "Arms raised across the face in profile: 'holding her head or hair'. Redrawn on the bench: both arms up and ahead, the near one under the chin, and the seat on the chute's middle: 'looks seated on the slide'.",
+    "cat_sleeping": "A sleeping cat 50 px behind a walking man's back foot: 'right by his feet, so he could trip over it or step on it'. Now clear of any walker's feet on both sides; no reader put a sleeper at anyone's feet.",
+    "dog_sleeping": "Under the same rule as the sleeping cat; no reader put it at anyone's feet.",
+    "windy_hat": "The teenager now wears a cap, so the windy-hat picture, which casts someone bareheaded, leaves him out.",
 }
 
-# what the v0.23 screen readers made of the templates that read poorly (vision/flaws_v023.md)
+# what the v0.24 screen readers made of the templates that read poorly (vision/flaws_v024.md)
 WEAK_NOTES = {
+    "carry_bag": "The older man's long, narrow yellow bag: 'carrying something yellow', 'a shopping bag seen edge-on' or a folded newspaper, in two pictures from one reader; the same bag read in full in two others. Unchanged since v0.23, so this may be reader variance. On the list for v0.25.",
 }
-SCREEN_NOTE = ("The v0.23 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The frying pan, the begging dog, the older man's profile and the barrow's leg went to the "
-               "isolation bench first, and every change was read in whole test scenes. For the first time every scored item of "
-               "the 65 pictures had full marks, and all 64 templates pass the gate. The screen is now at its ceiling: AI readers "
-               "describe exhaustively, so it filters illegible drawing but cannot rank the templates by difficulty, which is "
-               "the pilot's job. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: "
-               "about five templates of the gate's movement between releases is reader variance.")
+SCREEN_NOTE = ("The v0.24 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The teenager, the slide's arms and the riders' seats went to the isolation bench first, and every "
+               "change was read in whole test scenes. 799 of 805 items had full marks, none was misread, and 63 of 64 templates pass "
+               "the gate. Oddities per picture rose about fivefold, and most of that is the scoring and not the pictures: this release's "
+               "scorers logged 83% of what the readers reported, v0.23's 22%, under the same prompt, and a current reader given eight "
+               "unchanged v0.23 pictures reported 15% more than the old readers had, so that row does not compare across this release. AI readers describe exhaustively, "
+               "so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job. A retest "
+               "of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five templates of the "
+               "gate's movement between releases is reader variance.")
 
 
-FIXES = [("animal.dog_01__beg__happy__y090", "Begging dog", "v0.22: sitting with the body sloping to a tail laid on the ground ('or just walking by'). v0.23: sitting up on the haunches, front paws folded at the chest, the tail curled round."),
-         ("person.dev__water_pan__content__y090", "Frying pan", "v0.22: face-on on a short handle, held close ('a grey, round watering can'). v0.23: held out, seen at a slant so its depth shows, on a thicker handle ('a frying pan or saucepan')."),
-         ("portrait:person.tomas__kneel_plant__neutral__y090", "Older man in profile", "v0.22: a wide grey ring of hair behind the ear, read as 'a beard' or 'a face mask'. v0.23: the grey kept to the back of the head, a fuller nose."),
-         ("crop:probes_v022/T3_garden_s22010.png@500,862,726,990>scenes/T3_garden_s4013.png@500,862,726,990", "Wheelbarrow leg", "v0.22: a thick dark leg with a foot running forward ('a small dark boot'). v0.23: a thin strut with no foot.")]
+FIXES = [("person.leo__throw_ball__smile__y090", "Teenager", "v0.23: 'a woman with a brown ponytail', 13 items. v0.24: shorter, a larger head, short hair and a red cap worn backwards. Named a boy in all 25 of his pictures, a woman in none."),
+         ("person.kai__slide_down__happy__y090", "Child on the slide", "v0.23: arms raised across the face, 'holding her head or hair'. v0.24: both arms up and ahead, clear of the face."),
+         ("crop:scenes_v023/T4_park_s242971.png@1040,830,1400,990>scenes/T4_park_s242971.png@780,830,1140,990", "Sleeping cat", "v0.23: 50 px behind a walking man's back foot, 'he could trip over it or step on it'. v0.24: clear of any walker's feet, here on the same seed.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):
@@ -218,7 +219,8 @@ def build(scenes_dir, gallery_dir, combos_path, out, old_gallery=None, screen=No
         })
     # gallery
     gal = {"actions": [], "animals": [], "lineup": [], "lineup45": [], "expr_a": [], "expr_b": []}
-    cat = json.load(open(os.path.join(HERE, "..", "assets", "cast", "out018", "cast_catalog.json")))
+    from .library import CAST_DIR
+    cat = json.load(open(os.path.join(CAST_DIR, "cast_catalog.json")))
     from .reach import reachable
     used_poses = set(reachable()) | {"stand"}
     n_used = sum(1 for a in cat["actions"] if a in used_poses)

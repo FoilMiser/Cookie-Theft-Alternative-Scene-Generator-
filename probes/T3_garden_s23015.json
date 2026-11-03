@@ -1,0 +1,1063 @@
+{
+ "name": "T3_garden_s23015",
+ "tier": 3,
+ "setting": "garden",
+ "sky": "clear",
+ "seed": 23015,
+ "mirror": true,
+ "versions": {
+  "generator": "0.24.0",
+  "cast_builder": "0.24.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "feeder",
+  "flowers"
+ ],
+ "templates": [
+  {
+   "id": "sprinkler_package",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "floating_box",
+   "kind": "contradiction",
+   "event": "e2",
+   "units": 1
+  },
+  {
+   "id": "cat_on_fence",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  }
+ ],
+ "scene_load": 3,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A sprinkler is spraying water",
+   "accepted": [
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
+   ],
+   "key": "sprinkler",
+   "elements": [
+    "sprinkler_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": 0.11,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
+    "domain": null,
+    "area_px": 17864
+   },
+   "b": -0.11,
+   "p0": 0.527,
+   "pm1": 0.291,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.49,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
+    "domain": null,
+    "area_px": 7664
+   },
+   "b": -0.533,
+   "p0": 0.63,
+   "pm1": 0.385,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_1",
+    "package_2"
+   ],
+   "cues": [
+    "sprinkler_1",
+    "package_2"
+   ],
+   "effect": [
+    "package_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.11,
+    "r": 1,
+    "d": 0.261,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
+    "domain": null,
+    "area_px": 17864
+   },
+   "b": 0.308,
+   "p0": 0.424,
+   "pm1": 0.213,
+   "aoi_cells": [
+    "BL",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "entity",
+   "text": "There is a wooden box",
+   "accepted": [
+    "box",
+    "crate",
+    "wooden box"
+   ],
+   "key": "box",
+   "elements": [
+    "floatbox_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "floating_box",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.408,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 8608
+   },
+   "b": -0.748,
+   "p0": 0.679,
+   "pm1": 0.437,
+   "aoi_cells": [
+    "TL",
+    "TC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the box",
+   "accepted": [
+    "the box is weird",
+    "something odd about the box",
+    "that box"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_3"
+   ],
+   "cues": [
+    "floatbox_3"
+   ],
+   "effect": [
+    "floatbox_3"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.408,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 8608
+   },
+   "b": 0.144,
+   "p0": 0.464,
+   "pm1": 0.242,
+   "aoi_cells": [
+    "TL",
+    "TC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "contradiction_explain",
+   "text": "The box is floating in the air with nothing holding it up",
+   "accepted": [
+    "floating box",
+    "box in the air",
+    "nothing holding it up",
+    "box should fall"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_3"
+   ],
+   "cues": [
+    "floatbox_3"
+   ],
+   "effect": [
+    "floatbox_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.408,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 8608
+   },
+   "b": 1.344,
+   "p0": 0.207,
+   "pm1": 0.088,
+   "aoi_cells": [
+    "TL",
+    "TC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "action",
+   "text": "A cat is walking along the fence",
+   "accepted": [
+    "cat on the fence",
+    "cat walking",
+    "cat",
+    "cat on top of the fence"
+   ],
+   "key": "cat",
+   "elements": [
+    "fencecat_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "cat_on_fence",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.777,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.78,
+    "a": 3.68,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
+    "domain": null,
+    "area_px": 5116
+   },
+   "b": -0.985,
+   "p0": 0.728,
+   "pm1": 0.496,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 19280
+   },
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.734,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 43040
+   },
+   "b": -1.262,
+   "p0": 0.779,
+   "pm1": 0.565,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There is a bird feeder",
+   "accepted": [
+    "bird feeder",
+    "feeder",
+    "birdhouse",
+    "bird house",
+    "bird table"
+   ],
+   "key": "feeder",
+   "elements": [
+    "feeder"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.432,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.54,
+    "a": 7.29,
+    "zipf_raw": 3.46,
+    "aoa_raw": 7.29,
+    "domain": null,
+    "area_px": 8324
+   },
+   "b": -0.262,
+   "p0": 0.565,
+   "pm1": 0.323,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i12",
+   "type": "entity",
+   "text": "There is a fence",
+   "accepted": [
+    "fence",
+    "wooden fence",
+    "gate"
+   ],
+   "key": "fence",
+   "elements": [
+    "fence"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.939,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 6.28,
+    "zipf_raw": 4.21,
+    "aoa_raw": 6.28,
+    "domain": null,
+    "area_px": 235496
+   },
+   "b": -1.673,
+   "p0": 0.842,
+   "pm1": 0.662,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "entity",
+   "text": "It is the back yard of a house",
+   "accepted": [
+    "house",
+    "home",
+    "backyard",
+    "back yard",
+    "yard",
+    "garden"
+   ],
+   "key": "house",
+   "elements": [
+    "house"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.84,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
+    "domain": null,
+    "area_px": 204952
+   },
+   "b": -2.073,
+   "p0": 0.888,
+   "pm1": 0.745,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i14",
+   "type": "entity",
+   "text": "There is a flower bed",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.373,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 25884
+   },
+   "b": -1.018,
+   "p0": 0.735,
+   "pm1": 0.504,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 11,
+  "inference_units": 2,
+  "contradictions": 1,
+  "items_total": 14
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.706,
+   "inference": 0.365
+  },
+  "theta_minus_1": {
+   "content": 0.484,
+   "inference": 0.181
+  }
+ },
+ "bands": {
+  "content_count": false,
+  "inference_units": true,
+  "contradictions": true,
+  "content_completeness": false,
+  "inference_completeness": true
+ },
+ "in_tier": false,
+ "checks": {
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": false,
+   "detail": "13 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 13,
+  "edge_density": 0.0377,
+  "png_bytes": 140220,
+  "jpeg_bytes": 174392
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    52.0,
+    22.0,
+    248.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    634.0,
+    68.0,
+    1040.0,
+    202.0
+   ],
+   "area_px": 19280,
+   "visible_px": 19280,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees beyond the fence",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Lawn",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Paved path to the gate",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    38.0,
+    614.0,
+    346.0,
+    1000.0
+   ],
+   "area_px": 81248,
+   "visible_px": 80796,
+   "occlusion": 0.006
+  },
+  {
+   "id": "tree",
+   "label": "Tree behind the fence",
+   "role": "setting",
+   "z": 440,
+   "bbox": [
+    1056.0,
+    176.0,
+    1304.0,
+    452.0
+   ],
+   "area_px": 44992,
+   "visible_px": 43040,
+   "occlusion": 0.043
+  },
+  {
+   "id": "fencecat_4",
+   "label": "animal.cat_01__walk__happy__y090",
+   "role": "scored",
+   "z": 612,
+   "bbox": [
+    900.0,
+    326.0,
+    1008.0,
+    440.0
+   ],
+   "area_px": 5388,
+   "visible_px": 5116,
+   "occlusion": 0.05,
+   "asset": {
+    "variant": "animal.cat_01__walk__happy__y090",
+    "family": "animal.cat_01",
+    "scale": 0.3757,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "cat",
+     "accepted_names": [
+      "cat",
+      "kitten",
+      "kitty"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "fence",
+   "label": "Wooden fence with a gate",
+   "role": "setting",
+   "z": 615,
+   "bbox": [
+    0.0,
+    426.0,
+    1302.0,
+    618.0
+   ],
+   "area_px": 240904,
+   "visible_px": 235496,
+   "occlusion": 0.022
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
+  },
+  {
+   "id": "feeder",
+   "label": "Bird table on a post",
+   "role": "setting",
+   "z": 652,
+   "bbox": [
+    318.0,
+    302.0,
+    392.0,
+    662.0
+   ],
+   "area_px": 8324,
+   "visible_px": 8324,
+   "occlusion": 0.0
+  },
+  {
+   "id": "floatbox_3",
+   "label": "Box floating in the air",
+   "role": "scored",
+   "z": 750.66,
+   "bbox": [
+    500.0,
+    238.0,
+    620.0,
+    336.0
+   ],
+   "area_px": 8608,
+   "visible_px": 8608,
+   "occlusion": 0.0
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    1258.0,
+    118.0,
+    1600.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
+   ],
+   "area_px": 25884,
+   "visible_px": 25884,
+   "occlusion": 0.0
+  },
+  {
+   "id": "sprinkler_1",
+   "label": "Sprinkler spraying",
+   "role": "scored",
+   "z": 941.2,
+   "bbox": [
+    548.0,
+    808.0,
+    1600.0,
+    970.0
+   ],
+   "area_px": 17968,
+   "visible_px": 17864,
+   "occlusion": 0.006
+  },
+  {
+   "id": "package_2",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 951.2,
+   "bbox": [
+    496.0,
+    884.0,
+    610.0,
+    964.0
+   ],
+   "area_px": 7664,
+   "visible_px": 7664,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   23015,
+   "layout 2: accepted after 1 rejected layouts"
+  ]
+ ],
+ "layout": 1,
+ "knob": 0,
+ "regen": {
+  "base_seed": 23015,
+  "max_tries": 6,
+  "placements": 14,
+  "require_band": false,
+  "usage": {},
+  "forced": {
+   "events": [
+    "cat_on_fence"
+   ],
+   "modules": [
+    "sprinkler_package"
+   ],
+   "contradictions": [
+    "floating_box"
+   ]
+  },
+  "placement_rev": 22
+ },
+ "probe": true
+}

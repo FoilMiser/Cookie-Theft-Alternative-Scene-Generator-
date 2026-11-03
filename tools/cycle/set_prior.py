@@ -26,5 +26,5 @@ new = ("PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word);
        + "\n".join(inf_lines) + "\n}\nfor _cid, _s, _k in [" + ",\n                     ".join(con) + "]:\n"
        + '    PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]\n')
 s = s[:a] + new + s[b:]
-open(p, "w").write(s)
+open(p, "w", newline="\n").write(s)
 print(new)

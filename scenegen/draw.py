@@ -379,6 +379,11 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
 # v0.23: the filler wheelbarrow's leg as a thin strut with no foot (see _wheelbarrow_stand; chosen on the bench over a strut
 # with a small flat foot, which one reader still saw "a bit like a boot")
 LEG23 = "strut"
+# v0.24 bench: px (at the front row's scale) a rider sits above the seesaw's seat point, and below the middle of the slide's
+# chute. Riders read "slightly in front of" the plank and the chute in seven v0.23 pictures. Chosen (isolation_v024.md): the
+# seesaw as it was (raised 10 or 18 px, riders "overlap the plank" or "float slightly above the seat"), the slide at 0 ("looks
+# seated on the slide"; at 8 "slightly above or in front of" it, at -8 "hover just above" it).
+RIDE24 = {"seesaw": 0, "slide": 0}
 
 
 def _wheelbarrow_stand(x, y, s, f, both):

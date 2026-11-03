@@ -6,8 +6,8 @@
  "seed": 23001,
  "mirror": true,
  "versions": {
-  "generator": "0.23.0",
-  "cast_builder": "0.23.0",
+  "generator": "0.24.0",
+  "cast_builder": "0.24.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,14 +56,15 @@
   }
  },
  "features": [
+  "bench",
   "clothesline",
-  "flowers",
+  "feeder",
   "laundry",
-  "laundry_short"
+  "swing"
  ],
  "templates": [
   {
-   "id": "water_upward",
+   "id": "sweep_fork",
    "kind": "contradiction",
    "event": "e1",
    "units": 1
@@ -75,7 +76,7 @@
    "units": 0
   },
   {
-   "id": "hang_laundry",
+   "id": "swing",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -86,61 +87,58 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is hanging up laundry",
+   "text": "A girl is on the swing",
    "accepted": {
     "who": [
-     "grandmother",
-     "grandma",
-     "old woman",
-     "older woman",
-     "lady",
-     "woman"
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
     ],
     "what": [
-     "hanging laundry",
-     "hanging clothes",
-     "hanging up the washing",
-     "pinning clothes",
-     "clothesline"
+     "on the swing",
+     "swinging",
+     "playing on the swing",
+     "sitting on a swing"
     ]
    },
-   "key": "laundry",
+   "key": "swing",
    "elements": [
-    "hanger_1",
-    "shirt_2"
+    "swinger_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "hang_laundry",
+   "template": "swing",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.095,
+    "s": -0.743,
     "r": 0,
     "d": 0.0,
-    "f": 0.06,
-    "a": 6.05,
-    "zipf_raw": 4.06,
-    "aoa_raw": 6.05,
+    "f": 0.34,
+    "a": 4.16,
+    "zipf_raw": 4.34,
+    "aoa_raw": 4.16,
     "domain": null,
-    "area_px": 17480
+    "area_px": 5368
    },
-   "b": -1.206,
-   "p0": 0.77,
-   "pm1": 0.551,
+   "b": -0.871,
+   "p0": 0.705,
+   "pm1": 0.468,
    "aoi_cells": [
-    "MC"
+    "BL"
    ]
   },
   {
    "id": "i02",
    "type": "action",
-   "text": "A man is watering the flowers",
+   "text": "A man is sweeping",
    "accepted": {
     "who": [
      "man",
@@ -150,149 +148,151 @@
      "person"
     ],
     "what": [
-     "watering the flowers",
-     "watering the plants",
-     "watering can"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "cleaning"
     ]
    },
-   "key": "flowers",
+   "key": "sweeping",
    "elements": [
-    "waterer_3"
+    "sweeper_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "water_upward",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.072,
+    "s": 0.334,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 16928
+    "area_px": 24516
    },
-   "b": -1.368,
-   "p0": 0.797,
-   "pm1": 0.591,
+   "b": -1.244,
+   "p0": 0.776,
+   "pm1": 0.561,
    "aoi_cells": [
-    "MC",
-    "BC",
-    "BR"
+    "ML",
+    "BL"
    ]
   },
   {
    "id": "i03",
    "type": "contradiction_notice",
-   "text": "Something is wrong with the water from the watering can",
+   "text": "Something is wrong with what the person is sweeping with",
    "accepted": [
-    "the water is weird",
-    "something's wrong with the water",
-    "that's not right"
+    "the broom is strange",
+    "something's wrong with the broom",
+    "that's odd",
+    "a fork is not for sweeping"
    ],
-   "key": "water",
+   "key": "fork",
    "elements": [
-    "water_4"
+    "sweeper_3"
    ],
    "cues": [
-    "water_4"
+    "sweeper_3"
    ],
    "effect": [
-    "water_4"
+    "sweeper_3"
    ],
    "chain": 0,
    "animate": false,
-   "domain": "physical",
-   "template": "water_upward",
+   "domain": "functional",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
     "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": -1.265,
+    "s": 0.334,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": "physical",
-    "area_px": 2572
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 24516
    },
-   "b": 0.572,
-   "p0": 0.361,
-   "pm1": 0.172,
+   "b": -0.027,
+   "p0": 0.507,
+   "pm1": 0.274,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "ML",
+    "BL"
    ]
   },
   {
    "id": "i04",
    "type": "contradiction_explain",
-   "text": "The water is going up into the air instead of falling down onto the flowers",
+   "text": "The person is sweeping with a giant fork instead of a broom",
    "accepted": [
-    "water going up",
-    "water going the wrong way",
-    "water should fall down",
-    "water flowing upward"
+    "sweeping with a fork",
+    "a fork instead of a broom",
+    "you can't sweep with a fork",
+    "a giant fork",
+    "a huge dinner fork"
    ],
-   "key": "water",
+   "key": "fork",
    "elements": [
-    "water_4"
+    "sweeper_3"
    ],
    "cues": [
-    "water_4"
+    "sweeper_3"
    ],
    "effect": [
-    "water_4"
+    "sweeper_3"
    ],
    "chain": 1,
    "animate": false,
-   "domain": "physical",
-   "template": "water_upward",
+   "domain": "functional",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
     "type": "contradiction_explain",
     "chain": 1,
     "animate": false,
-    "s": -1.265,
+    "s": 0.334,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": "physical",
-    "area_px": 2572
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 24516
    },
-   "b": 1.772,
-   "p0": 0.145,
-   "pm1": 0.059,
+   "b": 1.173,
+   "p0": 0.236,
+   "pm1": 0.102,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "ML",
+    "BL"
    ]
   },
   {
    "id": "i05",
    "type": "action",
-   "text": "A woman is digging",
+   "text": "A grandfather is digging",
    "accepted": {
     "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
     ],
     "what": [
      "digging",
@@ -318,7 +318,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.035,
+    "s": 0.171,
     "r": 0,
     "d": 0.0,
     "f": -0.01,
@@ -326,14 +326,13 @@
     "zipf_raw": 3.99,
     "aoa_raw": 4.19,
     "domain": null,
-    "area_px": 16072
+    "area_px": 19464
    },
-   "b": -1.155,
-   "p0": 0.76,
-   "pm1": 0.539,
+   "b": -1.223,
+   "p0": 0.773,
+   "pm1": 0.556,
    "aoi_cells": [
-    "ML",
-    "BL",
+    "MC",
     "BC"
    ]
   },
@@ -466,6 +465,50 @@
   {
    "id": "i09",
    "type": "entity",
+   "text": "There is a bird feeder",
+   "accepted": [
+    "bird feeder",
+    "feeder",
+    "birdhouse",
+    "bird house",
+    "bird table"
+   ],
+   "key": "feeder",
+   "elements": [
+    "feeder"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.432,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.54,
+    "a": 7.29,
+    "zipf_raw": 3.46,
+    "aoa_raw": 7.29,
+    "domain": null,
+    "area_px": 8324
+   },
+   "b": -0.262,
+   "p0": 0.565,
+   "pm1": 0.323,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
    "text": "There is a fence",
    "accepted": [
     "fence",
@@ -487,7 +530,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.852,
+    "s": 1.819,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -495,11 +538,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 208188
+    "area_px": 198960
    },
-   "b": -1.629,
-   "p0": 0.836,
-   "pm1": 0.652,
+   "b": -1.612,
+   "p0": 0.834,
+   "pm1": 0.648,
    "aoi_cells": [
     "ML",
     "MC",
@@ -507,7 +550,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i11",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -551,30 +594,158 @@
     "MR",
     "BR"
    ]
+  },
+  {
+   "id": "i12",
+   "type": "entity",
+   "text": "Clothes are hanging on the line",
+   "accepted": [
+    "clothes",
+    "laundry",
+    "washing",
+    "clothesline",
+    "clothes line",
+    "towel",
+    "pants"
+   ],
+   "key": "laundry",
+   "elements": [
+    "laundry"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.103,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
+    "domain": null,
+    "area_px": 13232
+   },
+   "b": -0.607,
+   "p0": 0.647,
+   "pm1": 0.403,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "entity",
+   "text": "There is a flower bed",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.373,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 25884
+   },
+   "b": -1.018,
+   "p0": 0.735,
+   "pm1": 0.504,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i14",
+   "type": "entity",
+   "text": "There is a bench",
+   "accepted": [
+    "bench",
+    "seat"
+   ],
+   "key": "bench",
+   "elements": [
+    "bench"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.105,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.39,
+    "a": 4.21,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.21,
+    "domain": null,
+    "area_px": 13200
+   },
+   "b": -0.705,
+   "p0": 0.669,
+   "pm1": 0.427,
+   "aoi_cells": [
+    "BR"
+   ]
   }
  ],
  "counts": {
-  "content": 8,
+  "content": 12,
   "inference_units": 1,
   "contradictions": 1,
-  "items_total": 10
+  "items_total": 14
  },
  "predicted": {
   "theta_0": {
-   "content": 0.778,
-   "inference": 0.253
+   "content": 0.73,
+   "inference": 0.372
   },
   "theta_minus_1": {
-   "content": 0.57,
-   "inference": 0.115
+   "content": 0.51,
+   "inference": 0.188
   }
  },
  "bands": {
-  "content_count": false,
+  "content_count": true,
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -587,15 +758,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "result": true,
+   "detail": "20 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0367,
-  "png_bytes": 181743,
-  "jpeg_bytes": 173661
+  "objects": 20,
+  "edge_density": 0.0467,
+  "png_bytes": 225437,
+  "jpeg_bytes": 208182
  },
  "signature": [
   [
@@ -616,6 +787,22 @@
   ],
   [
    "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -700,8 +887,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "visible_px": 51960,
+   "occlusion": 0.36
   },
   {
    "id": "tree",
@@ -730,8 +917,38 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 208188,
-   "occlusion": 0.136
+   "visible_px": 198960,
+   "occlusion": 0.174
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
+  },
+  {
+   "id": "feeder",
+   "label": "Bird table on a post",
+   "role": "setting",
+   "z": 652,
+   "bbox": [
+    158.0,
+    302.0,
+    232.0,
+    662.0
+   ],
+   "area_px": 8324,
+   "visible_px": 8324,
+   "occlusion": 0.0
   },
   {
    "id": "clothesline",
@@ -745,8 +962,8 @@
     708.0
    ],
    "area_px": 13848,
-   "visible_px": 13332,
-   "occlusion": 0.037
+   "visible_px": 13372,
+   "occlusion": 0.034
   },
   {
    "id": "laundry",
@@ -754,119 +971,14 @@
    "role": "setting",
    "z": 706,
    "bbox": [
-    886.0,
+    822.0,
     392.0,
     952.0,
     524.0
    ],
-   "area_px": 7652,
-   "visible_px": 7652,
+   "area_px": 13232,
+   "visible_px": 13232,
    "occlusion": 0.0
-  },
-  {
-   "id": "shirt_2",
-   "label": "Shirt being pinned up",
-   "role": "scored",
-   "z": 706.5,
-   "bbox": [
-    698.0,
-    408.0,
-    798.0,
-    508.0
-   ],
-   "area_px": 6916,
-   "visible_px": 6584,
-   "occlusion": 0.048
-  },
-  {
-   "id": "hanger_1",
-   "label": "person.rosa__hang_washing__neutral__y090",
-   "role": "scored",
-   "z": 707,
-   "bbox": [
-    776.0,
-    408.0,
-    870.0,
-    680.0
-   ],
-   "area_px": 10896,
-   "visible_px": 10896,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.rosa__hang_washing__neutral__y090",
-    "family": "person.rosa",
-    "scale": 0.4102,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "grandmother",
-     "accepted_names": [
-      "grandmother",
-      "grandma",
-      "old woman",
-      "older woman",
-      "lady",
-      "woman"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin1",
-      "hair": "gray_bun"
-     }
-    }
-   }
-  },
-  {
-   "id": "soil_6",
-   "label": "Hole and pile of dirt",
-   "role": "scored",
-   "z": 768.27,
-   "bbox": [
-    322.0,
-    756.0,
-    460.0,
-    786.0
-   ],
-   "area_px": 2632,
-   "visible_px": 2140,
-   "occlusion": 0.187
-  },
-  {
-   "id": "digger_5",
-   "label": "person.mei__dig_lift__determined__y045",
-   "role": "scored",
-   "z": 769.27,
-   "bbox": [
-    412.0,
-    520.0,
-    556.0,
-    780.0
-   ],
-   "area_px": 13932,
-   "visible_px": 13932,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.mei__dig_lift__determined__y045",
-    "family": "person.mei",
-    "scale": 0.434,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
   },
   {
    "id": "house",
@@ -884,6 +996,58 @@
    "occlusion": 0.0
   },
   {
+   "id": "soil_6",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 833.47,
+   "bbox": [
+    600.0,
+    820.0,
+    746.0,
+    852.0
+   ],
+   "area_px": 2768,
+   "visible_px": 2224,
+   "occlusion": 0.197
+  },
+  {
+   "id": "digger_5",
+   "label": "person.tomas__dig_lift__determined__y045",
+   "role": "scored",
+   "z": 834.47,
+   "bbox": [
+    692.0,
+    558.0,
+    852.0,
+    846.0
+   ],
+   "area_px": 17240,
+   "visible_px": 17240,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.tomas__dig_lift__determined__y045",
+    "family": "person.tomas",
+    "scale": 0.4581,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -895,27 +1059,109 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 22708,
-   "occlusion": 0.123
+   "visible_px": 25884,
+   "occlusion": 0.0
   },
   {
-   "id": "waterer_3",
-   "label": "person.ben__water_plants__smile__y090",
-   "role": "scored",
-   "z": 931.0,
+   "id": "swingseat_2",
+   "label": "Swing seat and ropes",
+   "role": "setting",
+   "z": 844,
    "bbox": [
-    984.0,
-    602.0,
-    1114.0,
-    934.0
+    376.0,
+    474.0,
+    524.0,
+    784.0
    ],
-   "area_px": 17000,
-   "visible_px": 16928,
-   "occlusion": 0.004,
+   "area_px": 4496,
+   "visible_px": 3048,
+   "occlusion": 0.322
+  },
+  {
+   "id": "swinger_1",
+   "label": "person.nia__sit_swing__happy__y000",
+   "role": "scored",
+   "z": 845,
+   "bbox": [
+    390.0,
+    664.0,
+    452.0,
+    810.0
+   ],
+   "area_px": 5368,
+   "visible_px": 5368,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.ben__water_plants__smile__y090",
+    "variant": "person.nia__sit_swing__happy__y000",
+    "family": "person.nia",
+    "scale": 0.462,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "swing",
+   "label": "Swing set",
+   "role": "setting",
+   "z": 846,
+   "bbox": [
+    276.0,
+    458.0,
+    568.0,
+    856.0
+   ],
+   "area_px": 35772,
+   "visible_px": 35772,
+   "occlusion": 0.0
+  },
+  {
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
+   "bbox": [
+    1358.0,
+    804.0,
+    1562.0,
+    930.0
+   ],
+   "area_px": 13200,
+   "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "sweeper_3",
+   "label": "person.ben__sweep_giant_fork__neutral__y045",
+   "role": "scored",
+   "z": 941.12,
+   "bbox": [
+    38.0,
+    616.0,
+    226.0,
+    946.0
+   ],
+   "area_px": 24824,
+   "visible_px": 24516,
+   "occlusion": 0.012,
+   "asset": {
+    "variant": "person.ben__sweep_giant_fork__neutral__y045",
     "family": "person.ben",
-    "scale": 0.4939,
+    "scale": 0.4976,
     "mirrored": false,
     "labels": {
      "everyday_name": "man",
@@ -936,18 +1182,18 @@
    }
   },
   {
-   "id": "water_4",
-   "label": "Water from the can",
-   "role": "scored",
-   "z": 932.0,
+   "id": "sweptpile_4",
+   "label": "Swept-up dust and grit",
+   "role": "setting",
+   "z": 942.12,
    "bbox": [
-    1106.0,
-    638.0,
-    1216.0,
-    798.0
+    128.0,
+    886.0,
+    376.0,
+    950.0
    ],
-   "area_px": 2572,
-   "visible_px": 2572,
+   "area_px": 5296,
+   "visible_px": 5296,
    "occlusion": 0.0
   },
   {
@@ -973,10 +1219,10 @@
  "attempts": [
   [
    23001,
-   "layout 5: accepted after 4 rejected layouts"
+   "layout 7: accepted after 6 rejected layouts"
   ]
  ],
- "layout": 4,
+ "layout": 6,
  "knob": 0,
  "regen": {
   "base_seed": 23001,
@@ -987,13 +1233,13 @@
   "forced": {
    "events": [
     "dig",
-    "hang_laundry"
+    "swing"
    ],
    "contradictions": [
-    "water_upward"
+    "sweep_fork"
    ]
   },
-  "placement_rev": 21
+  "placement_rev": 22
  },
  "probe": true
 }

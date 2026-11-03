@@ -6,8 +6,8 @@
  "seed": 23050,
  "mirror": false,
  "versions": {
-  "generator": "0.23.0",
-  "cast_builder": "0.23.0",
+  "generator": "0.24.0",
+  "cast_builder": "0.24.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,15 +56,15 @@
   }
  },
  "features": [
-  "sandbox",
+  "seesaw",
   "slide"
  ],
  "templates": [
   {
-   "id": "sandbox",
-   "kind": "event",
+   "id": "seesaw_heavy",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -72,7 +72,59 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is building a sandcastle in the sandbox",
+   "text": "A grandfather is sitting on the low end of the seesaw, reading",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "sitting on the seesaw",
+     "reading on the seesaw",
+     "sitting on the low end",
+     "reading a book"
+    ]
+   },
+   "key": "seesaw",
+   "elements": [
+    "heavyend_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "seesaw_heavy",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.106,
+    "r": 0,
+    "d": 0.0,
+    "f": -1.53,
+    "a": 4.81,
+    "zipf_raw": 2.47,
+    "aoa_raw": 4.81,
+    "domain": null,
+    "area_px": 13176
+   },
+   "b": -0.868,
+   "p0": 0.704,
+   "pm1": 0.467,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A girl is stuck up in the air on the seesaw, calling out",
    "accepted": {
     "who": [
      "girl",
@@ -82,49 +134,102 @@
      "daughter"
     ],
     "what": [
-     "building a sandcastle",
-     "making a sandcastle",
-     "playing in the sand",
-     "playing in the sandbox",
-     "digging in the sand",
-     "sandcastle"
+     "up in the air",
+     "stuck at the top",
+     "calling out",
+     "shouting",
+     "scared",
+     "can't get down"
     ]
    },
-   "key": "sandcastle",
+   "key": "air",
    "elements": [
-    "sandkid_1",
-    "sandcastle_2"
+    "stuckkid_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "sandbox",
+   "template": "seesaw_heavy",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.391,
+    "s": -0.76,
     "r": 0,
     "d": 0.0,
-    "f": -1.73,
-    "a": 5.42,
-    "zipf_raw": 2.27,
-    "aoa_raw": 5.42,
+    "f": 1.37,
+    "a": 3.94,
+    "zipf_raw": 5.37,
+    "aoa_raw": 3.94,
     "domain": null,
-    "area_px": 8816
+    "area_px": 5236
    },
-   "b": -0.665,
-   "p0": 0.66,
-   "pm1": 0.417,
+   "b": -1.411,
+   "p0": 0.804,
+   "pm1": 0.601,
    "aoi_cells": [
-    "BL"
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i02",
+   "id": "i03",
+   "type": "inference",
+   "text": "The grandfather is much heavier, so the girl is stuck up in the air",
+   "accepted": [
+    "the grandfather is too heavy",
+    "the grown-up is heavier",
+    "the child can't get down",
+    "stuck because he is sitting on the other end",
+    "the seesaw won't go up and down",
+    "too heavy for the seesaw",
+    "he isn't noticing she's stuck"
+   ],
+   "key": "heavy",
+   "elements": [
+    "stuckkid_2",
+    "heavyend_1"
+   ],
+   "cues": [
+    "stuckkid_2",
+    "heavyend_1"
+   ],
+   "effect": [
+    "stuckkid_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "seesaw_heavy",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.76,
+    "r": 1,
+    "d": 0.187,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.96,
+    "aoa_raw": 4.05,
+    "domain": null,
+    "area_px": 5236
+   },
+   "b": 0.414,
+   "p0": 0.398,
+   "pm1": 0.196,
+   "aoi_cells": [
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -167,7 +272,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -210,7 +315,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a railing around the playground",
    "accepted": [
@@ -233,7 +338,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.173,
+    "s": 1.172,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -241,9 +346,9 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 79992
+    "area_px": 79892
    },
-   "b": -1.53,
+   "b": -1.529,
    "p0": 0.822,
    "pm1": 0.629,
    "aoi_cells": [
@@ -253,7 +358,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -295,7 +400,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a slide",
    "accepted": [
@@ -338,19 +443,19 @@
   }
  ],
  "counts": {
-  "content": 6,
-  "inference_units": 0,
+  "content": 7,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 6
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.756,
-   "inference": null
+   "content": 0.769,
+   "inference": 0.398
   },
   "theta_minus_1": {
-   "content": 0.539,
-   "inference": null
+   "content": 0.555,
+   "inference": 0.196
   }
  },
  "bands": {
@@ -377,11 +482,15 @@
  },
  "clutter": {
   "objects": 12,
-  "edge_density": 0.0294,
-  "png_bytes": 100865,
-  "jpeg_bytes": 133043
+  "edge_density": 0.0288,
+  "png_bytes": 123917,
+  "jpeg_bytes": 134414
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -405,6 +514,10 @@
   [
    "entity",
    0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -457,21 +570,6 @@
    "z": -90
   },
   {
-   "id": "sandbox",
-   "label": "Sandbox",
-   "role": "setting",
-   "z": -60,
-   "bbox": [
-    226.0,
-    840.0,
-    574.0,
-    956.0
-   ],
-   "area_px": 36428,
-   "visible_px": 31700,
-   "occlusion": 0.13
-  },
-  {
    "id": "fence",
    "label": "Railing around the playground",
    "role": "setting",
@@ -483,23 +581,8 @@
     620.0
    ],
    "area_px": 91648,
-   "visible_px": 79992,
-   "occlusion": 0.127
-  },
-  {
-   "id": "filler_bush_pl",
-   "label": "Bush",
-   "role": "filler",
-   "z": 640,
-   "bbox": [
-    1274.0,
-    598.0,
-    1386.0,
-    670.0
-   ],
-   "area_px": 5892,
-   "visible_px": 5892,
-   "occlusion": 0.0
+   "visible_px": 79892,
+   "occlusion": 0.128
   },
   {
    "id": "filler_bin_pl",
@@ -562,23 +645,75 @@
    "occlusion": 0.0
   },
   {
-   "id": "sandkid_1",
-   "label": "person.nia__sand_build__smile__y045",
-   "role": "scored",
-   "z": 884.55,
+   "id": "seesaw",
+   "label": "Seesaw",
+   "role": "setting",
+   "z": 860,
    "bbox": [
-    372.0,
-    754.0,
-    438.0,
-    892.0
+    982.0,
+    664.0,
+    1388.0,
+    870.0
    ],
-   "area_px": 5736,
-   "visible_px": 5392,
-   "occlusion": 0.06,
+   "area_px": 14152,
+   "visible_px": 10900,
+   "occlusion": 0.23
+  },
+  {
+   "id": "heavyend_1",
+   "label": "person.tomas__seesaw_low_read__neutral__y090",
+   "role": "scored",
+   "z": 862,
+   "bbox": [
+    976.0,
+    694.0,
+    1102.0,
+    896.0
+   ],
+   "area_px": 13176,
+   "visible_px": 13176,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.nia__sand_build__smile__y045",
+    "variant": "person.tomas__seesaw_low_read__neutral__y090",
+    "family": "person.tomas",
+    "scale": 0.4683,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "stuckkid_2",
+   "label": "person.nia__seesaw_stuck_call__calling__y090",
+   "role": "scored",
+   "z": 862,
+   "bbox": [
+    1332.0,
+    588.0,
+    1386.0,
+    762.0
+   ],
+   "area_px": 5268,
+   "visible_px": 5236,
+   "occlusion": 0.006,
+   "asset": {
+    "variant": "person.nia__seesaw_stuck_call__calling__y090",
     "family": "person.nia",
-    "scale": 0.4767,
+    "scale": 0.4683,
     "mirrored": true,
     "labels": {
      "everyday_name": "girl",
@@ -599,18 +734,18 @@
    }
   },
   {
-   "id": "sandcastle_2",
-   "label": "Sandcastle",
-   "role": "scored",
-   "z": 890.55,
+   "id": "kicklines_3",
+   "label": "Motion lines by the dangling feet",
+   "role": "setting",
+   "z": 863,
    "bbox": [
-    332.0,
-    808.0,
-    394.0,
-    892.0
+    1328.0,
+    742.0,
+    1382.0,
+    766.0
    ],
-   "area_px": 3424,
-   "visible_px": 3424,
+   "area_px": 196,
+   "visible_px": 196,
    "occlusion": 0.0
   },
   {
@@ -648,11 +783,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "sandbox"
+   "modules": [
+    "seesaw_heavy"
    ]
   },
-  "placement_rev": 21
+  "placement_rev": 22
  },
  "probe": true
 }

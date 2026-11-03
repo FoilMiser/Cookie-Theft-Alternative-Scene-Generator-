@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.23 was made, written so that a fresh session can make the next one (v0.24) from this
+How each release from v0.12 to v0.24 was made, written so that a fresh session can make the next one (v0.25) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -17,13 +17,18 @@ repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generato
 ## Setup
 
 ```bash
-pip install bpy==5.2.3 cairosvg pillow numpy scipy wordfreq==3.1.1 jsonschema --break-system-packages
-export TPDB_VER=0.24                 # the release being built; the scripts derive TAG=024 and PREV=023 from it
-export TPDB_WORK=$PWD/../tpdb_work   # scratch: logs, variant lists, prompts (default: next to the repo)
+python -m venv .venv
+source tools/env.sh                  # activates .venv, sets TPDB_VER and TPDB_WORK (repo/tpdb_work, ignored by git), UTF-8 text
+pip install -r requirements.txt      # Linux without an installed Blender: also pip install bpy==5.2.3 (Python 3.13)
 ```
 
-`tools/cycle/cfg.py` reads these. More CPU cores help most with the tier-4 seed searches and the Blender renders; two
-cores were enough but slow (a tier-4 street search can take hours).
+`source tools/env.sh` comes first in every new shell. It works from Git Bash on Windows too, where `python build_cast.py`
+and `render_set.py` re-run themselves inside the installed Blender (`assets/blender_run.py`; set `TPDB_BLENDER` if it is
+not under Program Files) and cairosvg draws through the cairo in the pycairo wheel (`scenegen/cairo_compat.py`).
+
+`tools/cycle/cfg.py` reads `TPDB_VER`, from which the scripts derive TAG=024 and PREV=023, and `TPDB_WORK`. More CPU cores
+help most with the tier-4 seed searches and the Blender renders; two cores were enough but slow (a tier-4 street search
+can take hours).
 
 ## The cycle
 
@@ -113,7 +118,7 @@ Look at every probe too. Then swap: `scenes -> scenes_v<PREV>`, `probes -> probe
 ```bash
 python vision/prepare_screen.py scenes,probes vision/v<TAG>   # blind/pic_NN.png, keys.json, key_map.json
 python tools/cycle/make_readers.py 9     # <WORK>/v<TAG>prompts/reader_1..9.txt (7-8 pictures each)
-python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json (pictures 1-22, 23-43, 44-65)
+python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json (three equal parts of the pictures)
 ```
 
 - Give each reader prompt, verbatim, to a fresh reader (a subagent with no other context); it writes
@@ -128,7 +133,7 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 
 ### 8. Publish
 
-- README: copy the last `README_v0.XX.template.md` to the new version and rewrite its fixed text; copy
+- README: rewrite the fixed text of `tools/cycle/README.template.md`; copy
   `vision/readme_v0<PREV>_text.json` to `readme_v<TAG>_text.json` and rewrite its keys (intro, design, screen, redrawn,
   gate, inspection, calib, zip_mb); update the version strings in `vision/fill_readme.py`; run it.
 - Showcase page: update `scenegen/site.py` (`PREV, CUR`, `REDRAWN_NOTES`, `WEAK_NOTES`, `SCREEN_NOTE`, `FIXES`) and
@@ -138,11 +143,12 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   `python tools/cycle/site_patch.py site<PREV> site<TAG>` lists, after reading its current version.
 - Spec doc ("TPDB Difficulty Model Spec", https://claude.ai/artifact/3fdacwmfKaN4YRePWLrddF): add a section after the
   previous release's "Legibility gate outcome" paragraph, in the same shape as the earlier ones.
-- `python3 package_release.py 0.XX --single` (it checks the zip file by file); set `zip_mb` in the text JSON to the size,
+- `python tools/cycle/lf.py`, then `python3 package_release.py 0.XX --single` (it checks the zip file by file); set `zip_mb` in the text JSON to the size,
   refill the README and package again. Send the zip to Sam.
-- GitHub (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-): in the clone, `git rm -r -q --cached .`,
-  delete everything but `.git`, unzip the release and copy its `tpdb_v0.XX/` contents in, `git add -A`, commit
-  "TPDB v0.XX: scene generator, cast, set, probes, blind screens" with a short body, and push.
+- GitHub (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-): the working folder is the clone. Work on a
+  `v0.XX` branch; when the release is packaged, remove what the zip leaves out (`git rm` the previous `lib`, `out` and
+  `gallery` folders; their files stay in history), squash onto `main` as one commit "TPDB v0.XX: scene generator, cast, set,
+  probes, blind screens" with a short body, and push.
 
 ## Lessons
 
@@ -156,3 +162,18 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   rarely come back; the tier-4 cells sometimes do, on their old seed.
 - Readers report oddities freely; a fix for one picture's reading must be read again in a whole scene before the set is
   built, and the scores are at the ceiling, so the screen is a filter for illegible drawing, not a measure of difficulty.
+- Parallel bench runs need an output folder each: `isolation_bench.py` writes `<OUT>/_scenes/<name>.png`, the same seed gives
+  the same name, and two runs into one folder crop each other's pictures. Look at every crop before giving it to a reader.
+- Exact rebuilds depend on Pillow (`requirements.txt` pins it): Pillow 13 resamples RGBA differently from 12, and every
+  embedded asset changes. A different cairo moves a few pixels by one level and leaves the SVG identical.
+- Look at a new drawing yourself before spending readers on it; two of the first v0.24 candidates did not survive that. But trust the
+  reading over the eye: the seesaw riders that looked best on the v0.24 bench read worst.
+- Run two things in one message only if the second does not depend on the first: a broken `set_prior.py` and the set build went out
+  together, and the build ran on stale priors. Stopping a background job can leave its children running on Windows, and a job that can't
+  be stopped can be waited out: then delete what it wrote.
+- `wave` needs someone to wave at, so it cannot be probed alone; force it with other events.
+- `package_release.py` says nothing and keeps the old zip if one exists: delete it first, and check for "VERIFY OK". RUNBOOK.md ships in
+  the zip, so edit it before the last packaging. Then extract the zip to a clean folder and rebuild a few records from there.
+- The tier-4 searches take far less than hours on 12 threads: run one per cell side by side, then several per cell for the slow ones.
+- Compare the oddity row with care: scorers differ in how much they log (`vision/flaws_v024.md`). The readers' remarks can be counted
+  directly from `desc_pic_NN.md`, and a control reader on the previous release's pictures tells readers from pictures.

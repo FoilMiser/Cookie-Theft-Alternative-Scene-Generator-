@@ -77,11 +77,15 @@ def summarize(d, scenes_dir=None):
     return res
 
 
-out = {}
-for arg in sys.argv[1:]:
+args = [a for a in sys.argv[1:] if a != "--add"]
+path = os.path.join(os.path.dirname(args[0].partition(":")[0].rstrip("/")), "screen_summary.json")
+# --add: keep the earlier screens' figures (their scene records are in their own releases, not in this package)
+out = json.load(open(path)) if "--add" in sys.argv else {}
+out.pop("note", None)
+for arg in args:
     d, _, sd = arg.partition(":")
     out[os.path.basename(d.rstrip("/"))] = summarize(d, sd or None)
 out["note"] = ("Readers were AI models given only the picture (no key); a separate model scored their descriptions. "
                "Contradictions are scored as caught when the reader called the thing wrong or impossible.")
-json.dump(out, open(os.path.join(os.path.dirname(sys.argv[1].partition(":")[0].rstrip("/")), "screen_summary.json"), "w"), indent=1)
+json.dump(out, open(path, "w", newline="\n"), indent=1)
 print(json.dumps({k: {kk: vv for kk, vv in v.items() if kk != "by_template"} if isinstance(v, dict) else v for k, v in out.items()}, indent=1))

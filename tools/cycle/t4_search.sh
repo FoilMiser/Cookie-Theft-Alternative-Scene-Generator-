@@ -3,7 +3,7 @@
 # release's base seed, from its scenes/showcase_summary.json) first, then 44 seeds BASE + k*991 + 13. Stops as soon as the
 # cell exists (so two searches for one cell, or the showcase pass, never both add one).
 set -u
-HERE=$(cd "$(dirname "$0")" && pwd)
+HERE=$(cd "$(dirname "$0")" && { pwd -W 2>/dev/null || pwd; })   # (Git Bash: a path Windows Python can read)
 eval "$(python3 -c "import sys; sys.path.insert(0,'$HERE'); from cfg import ROOT,TAG; print(f'ROOT={ROOT}; TAG={TAG}')")"
 cd "$ROOT"
 st=$1; first=$2; base=$3

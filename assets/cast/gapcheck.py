@@ -12,9 +12,14 @@ import math
 import os
 import sys
 
-import bpy
-from mathutils import Vector
-from mathutils.bvhtree import BVHTree
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+import blender_run  # noqa: E402
+
+blender_run.ensure(__file__)
+
+import bpy  # noqa: E402
+from mathutils import Vector  # noqa: E402
+from mathutils.bvhtree import BVHTree  # noqa: E402
 
 cast, fam = sys.argv[1], sys.argv[2]
 only = set(sys.argv[3:])

@@ -431,6 +431,25 @@ def up_cheer(P):
         P.hand(sd, "open", palm=(0, -1, 0))
 
 
+def up_slide_up(P):
+    """v0.24 (bench TPDB_SLIDE=U): both arms up and ahead, the hands clear of the face in profile (out to the sides, as in
+    cheer, they crossed it: "holding her head or hair", "covering the face"). The near arm low enough to pass under the chin
+    (any steeper and it lies across a child's large head), the far arm higher, behind the head with the hand beyond the face;
+    the palms to the side so the hands open toward the viewer (edge on, a hand read as "a stick, pencil or twig")."""
+    A = P.A
+    P.arms({"R": (P.lm("sh_R") + nrm((-0.10, -0.92, 0.38)) * A * 0.99, (-1, 0.3, -0.2)),
+            "L": (P.lm("sh_L") + nrm((0.10, -0.72, 0.69)) * A * 0.99, (1, 0.3, -0.2))})
+    for sd in ("L", "R"):
+        P.hand(sd, "open", palm=(-1, 0, 0))
+
+
+def up_slide_hold(P):
+    """v0.24 bench (TPDB_SLIDE=H): both hands down at the sides of the chute, holding on."""
+    u = P.u
+    z = P.lm("pelvis").z - 0.02 * u
+    P.arms({"R": (Vector((-0.20 * u, -0.10 * u, z)), (-1, 0.5, 0.1)), "L": (Vector((0.20 * u, -0.10 * u, z)), (1, 0.5, 0.1))})
+
+
 def up_hands_on_hips(P):
     u = P.u
     z = P.lm("pelvis").z + 0.04 * u
@@ -1362,7 +1381,8 @@ def up_trowel(P):
 
 UPPER = {
     "walk_swing": up_walk_swing, "run_swing": up_run_swing, "wave": up_wave, "point": up_point, "point_up": up_point_up,
-    "reach_up": up_reach_up, "hang_up": up_hang_up, "cheer": up_cheer, "hands_on_hips": up_hands_on_hips, "shrug": up_shrug,
+    "reach_up": up_reach_up, "hang_up": up_hang_up, "cheer": up_cheer, "slide_up": up_slide_up, "slide_hold": up_slide_hold,
+    "hands_on_hips": up_hands_on_hips, "shrug": up_shrug,
     "hands_to_face": up_hands_to_face, "hold_front": up_hold_front, "clap": up_clap, "call_out": up_call_out,
     "think": up_think, "cross_arms": up_cross_arms, "catch": up_catch, "push": up_push, "balance": up_balance,
     "ground_support": up_ground_support, "lie_rest": up_lie_rest, "swing_hold": up_swing_hold,
@@ -1466,7 +1486,9 @@ ACTIONS = [
     ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": (0.20, -0.19)}, "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
     # v0.10
     ("cone_dropped", "stand", {"head_pitch": -34, "head_roll": 4}, "empty_cone_low", "holding an empty cone, upset, looking down at the dropped ice cream", ["food", "emotion"]),
-    ("slide_down", "sit_slide", {}, "cheer", "sliding down the slide with arms up", ["sit", "slide", "play", "emotion"]),
+    # v0.24: U, chosen on the bench (isolation_v024.md); O the v0.23 arms, H hands holding the chute ("just sitting still")
+    ("slide_down", "sit_slide", {}, {"U": "slide_up", "H": "slide_hold", "O": "cheer"}[__import__("os").environ.get("TPDB_SLIDE", "U")],
+     "sliding down the slide with arms up", ["sit", "slide", "play", "emotion"]),
 ]
 
 

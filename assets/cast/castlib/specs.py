@@ -1,4 +1,5 @@
 """The v0.4 stand-in cast: who they are, what they wear, how speakers would name them."""
+import os
 
 PERSON_AFFORDANCES = ["hold", "reach", "look_at", "point", "wave", "sit_on", "carry", "walk"]
 
@@ -48,6 +49,17 @@ PEOPLE = {
                       bottom="pants", pants="navy", shoes="charcoal", hat="cap", hat_col="orange", build=dict(chest=1.02),
                       labels=L("worker", ["worker", "man", "woman", "person", "gardener", "delivery person"], "adult_person", "adult", "skin4", "short_cap")),
 }
+
+# v0.24 bench (TPDB_TEEN): no v0.23 reader called the teenager a teenager ("a woman with a brown ponytail", 13 items).
+# Each candidate is shorter, with a larger head: A a cap worn backwards, B the ponytail and a school backpack. v0.24: A,
+# chosen on the bench (isolation_v024.md: "a boy or young man", "a teenager or a slim adult"; B's pack read as "a second
+# ball" or "shield-like", and B stayed "a girl or young woman"). TPDB_TEEN=O builds the v0.23 teenager.
+TEEN_STYLE = os.environ.get("TPDB_TEEN", "A")
+TEEN_BUILD = dict(scale=0.88, head_scale=1.09, build=dict(chest=0.90, waist=0.90, depth=0.94, limbs=0.92))
+if TEEN_STYLE == "A":
+    PEOPLE["person.leo"].update(TEEN_BUILD, hair="short", hat="cap_back", hat_col="red")
+elif TEEN_STYLE == "B":
+    PEOPLE["person.leo"].update(TEEN_BUILD, backpack="orange")
 
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",

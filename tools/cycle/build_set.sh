@@ -3,14 +3,15 @@
 # Tier-4 cells are searched separately with t4_search.sh (one setting at a time, the previous release's seed first).
 # Env: TPDB_VER (e.g. 0.24), TPDB_ROOT, TPDB_WORK (see cfg.py).
 set -u
-HERE=$(cd "$(dirname "$0")" && pwd)
+HERE=$(cd "$(dirname "$0")" && { pwd -W 2>/dev/null || pwd; })   # (Git Bash: a path Windows Python can read)
 eval "$(python3 -c "import sys; sys.path.insert(0,'$HERE'); from cfg import ROOT,TAG; print(f'ROOT={ROOT}; TAG={TAG}')")"
 cd "$ROOT"
 python3 - <<PY
 import sys
 sys.path.insert(0, "$ROOT")
 from scenegen import batch
-batch.run_showcase("scenes$TAG")
+# SKIP_T4=1: leave the tier-4 cells to t4_search.sh, which can run side by side, one per cell
+batch.run_showcase("scenes$TAG", {f"{st}{t}" for st in ("garden", "park", "street", "playground") for t in (1, 2, 3)} if "${SKIP_T4:-}" else None)
 PY
 for cell in garden:1 garden:2 garden:3 park:1 park:2 park:3 street:1 street:2 street:3 playground:1 playground:2 playground:3; do
   st=${cell%%:*}; t=${cell##*:}

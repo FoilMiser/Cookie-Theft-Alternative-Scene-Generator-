@@ -146,9 +146,14 @@ class PlacementError(Exception):
 # for the bait or get tangled in the line"). After the design tests: a runner's lane deeper behind her line (a cat stalking a
 # bird just outside it was what she seemed to run at), and no duck facing an angler's float; and after their second round, a
 # runner 50 px clear of any other mover beside her on her line (running past a man with a pram, "almost touching").
+# 22 (v0.24): the v0.23 screen's oddities: a sleeping animal clear of any walker's feet on both sides, not only ahead of
+# him (a cat 50 px behind a walking man's back foot, "right by his feet, so he could trip over it or step on it"); and in
+# the park and on the playground, nobody on the ground in the last strip before the horizon (a figure there was "drawn as
+# large as foreground people ... as if walking on the hilltop", four pictures, all with the feet within 75 px of it).
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 21
+PLACEMENT_REV = 22
 WORKER = "person.jo"
+BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
 
 def head_box(p):
@@ -406,6 +411,11 @@ class Scene:
             # revision 21: no duck at an angler's float or line ("the duck might go for the bait or get tangled in the line"),
             # and none facing the float ("the duck is facing toward the float, so it may be about to swim over to it")
             return False
+        if p is not None and PLACEMENT_REV >= 22 and self.sleeper_by_feet(p):
+            return False
+        if p is not None and PLACEMENT_REV >= 22 and p.family.startswith("person.") and self.setting_id in ("park", "playground") \
+                and not p.m["variant"].get("airborne") and abs(p.Y - p.depth_y) <= 30 and p.Y < self.S.horizon + BACK_STRIP:
+            return False
         if p is not None and PLACEMENT_REV >= 6 and p.family.startswith("animal.dog"):
             for z in getattr(self, "no_dog", ()):
                 if min(bbox[2], z[2]) > max(bbox[0], z[0]) and min(bbox[3], z[3]) > max(bbox[1], z[1]):
@@ -596,6 +606,28 @@ class Scene:
             if (q.X - p.X) * f > 0:          # the other is ahead of this one, and (facing back) this one ahead of it
                 return False
         return True
+
+    def feet_zone(self, q):
+        """Revision 22: the ground round a walker's feet, on both sides of him and in depth."""
+        s = D.sz(q.Y)
+        b = q.bbox()
+        x0, x1 = b[0], b[2]
+        if q.has_anchor("foot_L") and q.has_anchor("foot_R"):
+            xs = (q.anchor("foot_L")[0], q.anchor("foot_R")[0])
+            x0, x1 = min(xs), max(xs)
+        return (x0 - 170 * s, q.Y - 70 * s, x1 + 170 * s, q.Y + 50 * s)
+
+    def sleeper_by_feet(self, p):
+        """Revision 22: p is a sleeping animal at the feet of another event's walker, or a walker with another event's
+        sleeping animal at its feet. (An event's own animal is not in ev_of until the event is placed.)"""
+        pose = p.v.split("__")[1]
+        if p.family.startswith("animal.") and pose.startswith("sleep"):
+            return any(k in self.ev_of and q.family.startswith("person.") and q.v.split("__")[1] in WALK_POSES
+                       and self.overlap(self.feet_zone(q), p.bbox()) > 0 for k, q in self.assets.items())
+        if p.family.startswith("person.") and pose in WALK_POSES:
+            return any(k in self.ev_of and q.family.startswith("animal.") and q.v.split("__")[1].startswith("sleep")
+                       and self.overlap(self.feet_zone(p), q.bbox()) > 0 for k, q in self.assets.items())
+        return False
 
     def clear_of_floats(self, bbox, p=None, gap=60):
         """Revision 21: a box clear of every angler's float and line (floats: (x, y) points, lines: (a, b) segments); a duck

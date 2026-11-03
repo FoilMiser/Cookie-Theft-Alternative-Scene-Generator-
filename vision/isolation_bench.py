@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,26 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.24 (BENCH_CAST/BENCH_LIB name the bench cast: out_tA = cap, out_tB = backpack; none = the v0.23 teenager)
+    # the teenager, kicking and with a child at play: never called a teenager in the v0.23 screen
+    "teenO_1": ("playground", 24101, {"events": ["kick_ball"]}, "event", ("fam", "kick_ball", ["person.leo"])),
+    "teenO_2": ("park", 24102, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.leo"])),
+    "teenA_1": ("playground", 24101, {"events": ["kick_ball"]}, "event", ("fam", "kick_ball", ["person.leo"])),
+    "teenA_2": ("park", 24102, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.leo"])),
+    "teenB_1": ("playground", 24101, {"events": ["kick_ball"]}, "event", ("fam", "kick_ball", ["person.leo"])),
+    "teenB_2": ("park", 24102, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.leo"])),
+    # riders on the seesaw and the slide: O as v0.23; the number is draw.RIDE24 (px up from the seat point; px down from the chute)
+    "seeO_1": ("playground", 24111, {"events": ["seesaw"]}, "event", None),
+    "seeA_1": ("playground", 24111, {"events": ["seesaw"]}, "event", None),
+    "seeB_1": ("playground", 24111, {"events": ["seesaw"]}, "event", None),
+    "sliO_1": ("playground", 24121, {"events": ["slide"]}, "event", None),
+    "sliA_1": ("playground", 24121, {"events": ["slide"]}, "event", None),
+    "sliB_1": ("playground", 24121, {"events": ["slide"]}, "event", None),
+    # round 2 (out_sU = arms up and ahead, out_sH = hands holding the chute's sides; both at the round 1 winner, slide 0 px)
+    "sliU_1": ("playground", 24131, {"events": ["slide"]}, "event", ("fam", "slide", ["person.kai"])),
+    "sliU_2": ("playground", 24132, {"events": ["slide"]}, "event", ("fam", "slide", ["person.nia"])),
+    "sliH_1": ("playground", 24131, {"events": ["slide"]}, "event", ("fam", "slide", ["person.kai"])),
+    "sliH_2": ("playground", 24132, {"events": ["slide"]}, "event", ("fam", "slide", ["person.nia"])),
     # v0.23 round 1 (BENCH_CAST/BENCH_LIB name the bench cast: out_b1 = pan B, beg A, head A; out_b2 = pan C, head B)
     # the frying pan held out by the end of its handle, over a flower bed: B face toward the viewer, C tipped to pour
     "panB_1": ("garden", 23101, {"contradictions": ["pan_watering"]}, "event", None),
@@ -117,6 +137,7 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     if name.startswith("sq"):
         _D.SQUARE_STYLE20 = name[2]
     _D.LEG23 = "strut" if name.startswith("strut") else name.startswith("leg")
+    _D.RIDE24 = {"seesaw": {"seeA": 10, "seeB": 18}.get(name[:4], 0), "slide": {"sliA": 0, "sliB": -8, "sliU": 0, "sliH": 0}.get(name[:4], 8)}
     rec = None
     for k in range(40):
         USAGE.clear()
