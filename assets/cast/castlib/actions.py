@@ -200,16 +200,18 @@ def lo_wide(P, lean=0.0, head_pitch=0.0):
 
 
 def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
-    foot27 = __import__("os").environ.get("TPDB_FOOT", "B") == "B"
+    foot = __import__("os").environ.get("TPDB_FOOT", "B")
+    foot27 = foot in ("B", "C")
     feet = {"L": (0.0, 0.17, 0.02), "R": (0.0, -0.20, 0.0)}
     if foot27:
         # v0.27, chosen on the bench: the back heel lifted, on its toe, so the stride shows its direction (both feet flat, with a heel much like a toe:
         # "his head and arms face left", while "his legs and feet look like they stride towards the right")
-        feet["L"] = (0.0, 0.15, 0.055 * P.s)
+        # v0.29 bench C: lifted less ("looks turned up")
+        feet["L"] = (0.0, 0.15, (0.055 if foot == "B" else 0.036) * P.s)
     P.torso(lean=lean, drop=P.drop_hips_for(feet), head_pitch=head_pitch, head_turn=head_turn)
     P.place_legs(feet)
     if foot27:
-        P.rig.aim_dir("foot_L", (0, -0.72, -0.70))
+        P.rig.aim_dir("foot_L", (0, -0.72, -0.70) if foot == "B" else (0, -0.86, -0.50))
         P.rig.aim_dir("foot_R", (0, -1, 0.02))
 
 

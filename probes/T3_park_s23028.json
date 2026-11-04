@@ -6,8 +6,8 @@
  "seed": 23028,
  "mirror": true,
  "versions": {
-  "generator": "0.28.0",
-  "cast_builder": "0.28.0",
+  "generator": "0.29.0",
+  "cast_builder": "0.29.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,19 +60,19 @@
  ],
  "templates": [
   {
-   "id": "fishing",
-   "kind": "event",
+   "id": "ducks_bread",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "photo",
+   "id": "push_stroller",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "push_stroller",
+   "id": "run",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -83,59 +83,151 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandfather is fishing",
+   "text": "A man is throwing bread to the ducks",
    "accepted": {
     "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
     ],
     "what": [
-     "fishing",
-     "fishing in the pond",
-     "fishing rod",
-     "catching fish"
+     "feeding the ducks",
+     "throwing bread",
+     "feeding the birds",
+     "bread"
     ]
    },
-   "key": "fishing",
+   "key": "bread",
    "elements": [
-    "fisher_1",
-    "line_2"
+    "duckfeeder_1",
+    "crumbs_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "fishing",
+   "template": "ducks_bread",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.014,
+    "s": 0.019,
     "r": 0,
     "d": 0.0,
-    "f": 0.47,
-    "a": 4.72,
-    "zipf_raw": 4.47,
-    "aoa_raw": 4.72,
+    "f": 0.5,
+    "a": 3.58,
+    "zipf_raw": 4.5,
+    "aoa_raw": 3.58,
     "domain": null,
-    "area_px": 15600
+    "area_px": 15724
    },
-   "b": -1.288,
-   "p0": 0.784,
-   "pm1": 0.572,
+   "b": -1.3,
+   "p0": 0.786,
+   "pm1": 0.574,
    "aoi_cells": [
     "MC",
-    "MR",
     "BC"
    ]
   },
   {
    "id": "i02",
+   "type": "action",
+   "text": "A duck is swimming toward the shore",
+   "accepted": [
+    "duck",
+    "duck swimming",
+    "ducks in the pond"
+   ],
+   "key": "duck",
+   "elements": [
+    "hungryduck_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ducks_bread",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.346,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 3.5,
+    "zipf_raw": 4.21,
+    "aoa_raw": 3.5,
+    "domain": null,
+    "area_px": 2292
+   },
+   "b": -0.53,
+   "p0": 0.629,
+   "pm1": 0.385,
+   "aoi_cells": [
+    "MC",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The duck has come to eat the bread",
+   "accepted": [
+    "the duck wants the bread",
+    "the ducks are hungry",
+    "the duck is swimming over for food",
+    "the duck is eating the bread"
+   ],
+   "key": "hungry",
+   "elements": [
+    "hungryduck_2",
+    "crumbs_3"
+   ],
+   "cues": [
+    "hungryduck_2",
+    "crumbs_3"
+   ],
+   "effect": [
+    "crumbs_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "ducks_bread",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -1.346,
+    "r": 1,
+    "d": 0.019,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.45,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 2292
+   },
+   "b": 0.746,
+   "p0": 0.322,
+   "pm1": 0.149,
+   "aoi_cells": [
+    "MC",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "action",
    "text": "A man is pushing a baby in a stroller",
    "accepted": {
@@ -157,8 +249,8 @@
    },
    "key": "stroller",
    "elements": [
-    "pusher_3",
-    "stroller_4"
+    "pusher_4",
+    "stroller_5"
    ],
    "cues": [],
    "effect": [],
@@ -166,12 +258,12 @@
    "animate": true,
    "domain": null,
    "template": "push_stroller",
-   "event": "e3",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.251,
+    "s": 0.541,
     "r": 0,
     "d": 0.0,
     "f": -0.92,
@@ -179,72 +271,68 @@
     "zipf_raw": 3.08,
     "aoa_raw": 7.84,
     "domain": null,
-    "area_px": 21788
+    "area_px": 32796
    },
-   "b": -0.989,
-   "p0": 0.729,
-   "pm1": 0.497,
+   "b": -1.135,
+   "p0": 0.757,
+   "pm1": 0.534,
    "aoi_cells": [
-    "ML",
-    "MC",
-    "BL",
-    "BC"
+    "BR"
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "action",
-   "text": "A man is taking a photo",
+   "text": "A woman is running",
    "accepted": {
     "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
+     "woman",
+     "lady",
+     "mother",
+     "mom",
      "person"
     ],
     "what": [
-     "taking a picture",
-     "taking a photo",
-     "photographing",
-     "camera"
+     "running",
+     "jogging",
+     "out for a run",
+     "exercising"
     ]
    },
-   "key": "camera",
+   "key": "running",
    "elements": [
-    "photographer_5"
+    "runner_6"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "photo",
-   "event": "e2",
+   "template": "run",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.118,
+    "s": -0.262,
     "r": 0,
     "d": 0.0,
-    "f": 0.87,
-    "a": 6.0,
-    "zipf_raw": 4.87,
-    "aoa_raw": 6.0,
+    "f": 1.23,
+    "a": 4.47,
+    "zipf_raw": 5.23,
+    "aoa_raw": 4.47,
     "domain": null,
-    "area_px": 18072
+    "area_px": 10580
    },
-   "b": -1.46,
-   "p0": 0.812,
-   "pm1": 0.613,
+   "b": -1.378,
+   "p0": 0.799,
+   "pm1": 0.593,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "ML"
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -287,7 +375,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -330,7 +418,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -355,7 +443,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.851,
+    "s": 0.862,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -363,18 +451,18 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 50796
+    "area_px": 51608
    },
-   "b": -1.279,
-   "p0": 0.782,
-   "pm1": 0.569,
+   "b": -1.284,
+   "p0": 0.783,
+   "pm1": 0.571,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -397,7 +485,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.054,
+    "s": 1.074,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -405,11 +493,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 67596
+    "area_px": 69524
    },
-   "b": -1.161,
-   "p0": 0.762,
-   "pm1": 0.54,
+   "b": -1.171,
+   "p0": 0.763,
+   "pm1": 0.543,
    "aoi_cells": [
     "MC",
     "MR",
@@ -418,7 +506,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -460,7 +548,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -504,7 +592,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i12",
    "type": "entity",
    "text": "There is a park bench",
    "accepted": [
@@ -547,19 +635,19 @@
   }
  ],
  "counts": {
-  "content": 10,
-  "inference_units": 0,
+  "content": 11,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 10
+  "items_total": 12
  },
  "predicted": {
   "theta_0": {
-   "content": 0.732,
-   "inference": null
+   "content": 0.724,
+   "inference": 0.322
   },
   "theta_minus_1": {
-   "content": 0.507,
-   "inference": null
+   "content": 0.498,
+   "inference": 0.149
   }
  },
  "bands": {
@@ -567,14 +655,10 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
-  "photographer_5_photographs_fisher_1": {
-   "result": true,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -584,15 +668,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": false,
-   "detail": "19 drawn objects (tier band 20-30)"
+   "result": true,
+   "detail": "20 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 19,
-  "edge_density": 0.0258,
-  "png_bytes": 198209,
-  "jpeg_bytes": 134054
+  "objects": 20,
+  "edge_density": 0.0267,
+  "png_bytes": 202678,
+  "jpeg_bytes": 137275
  },
  "signature": [
   [
@@ -608,7 +692,7 @@
    0
   ],
   [
-   "entity",
+   "action",
    0
   ],
   [
@@ -634,6 +718,14 @@
   [
    "entity",
    0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -685,8 +777,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 111476,
-   "occlusion": 0.284
+   "visible_px": 111700,
+   "occlusion": 0.282
   },
   {
    "id": "tree_line",
@@ -712,8 +804,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 50796,
-   "occlusion": 0.018
+   "visible_px": 51608,
+   "occlusion": 0.002
   },
   {
    "id": "pond",
@@ -727,38 +819,23 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 67596,
-   "occlusion": 0.199
+   "visible_px": 69524,
+   "occlusion": 0.176
   },
   {
-   "id": "line_2",
-   "label": "Fishing line",
+   "id": "crumbs_3",
+   "label": "Bread crumbs flying toward the water",
    "role": "scored",
-   "z": -65,
+   "z": -64,
    "bbox": [
-    1170.0,
-    490.0,
-    1220.0,
-    676.0
+    1000.0,
+    674.0,
+    1144.0,
+    752.0
    ],
-   "area_px": 780,
-   "visible_px": 772,
-   "occlusion": 0.01
-  },
-  {
-   "id": "filler_bush_b",
-   "label": "Bush",
-   "role": "filler",
-   "z": 560,
-   "bbox": [
-    694.0,
-    526.0,
-    786.0,
-    584.0
-   ],
-   "area_px": 3880,
-   "visible_px": 3880,
-   "occlusion": 0.0
+   "area_px": 1152,
+   "visible_px": 1124,
+   "occlusion": 0.024
   },
   {
    "id": "tree_small",
@@ -821,56 +898,86 @@
    "occlusion": 0.0
   },
   {
-   "id": "pusher_3",
-   "label": "person.dev__push__smile__y090",
+   "id": "runner_6",
+   "label": "person.ana__run__focused__y090",
    "role": "scored",
-   "z": 690.61,
+   "z": 668.85,
    "bbox": [
-    502.0,
-    442.0,
-    630.0,
-    696.0
+    416.0,
+    444.0,
+    542.0,
+    674.0
    ],
-   "area_px": 12064,
-   "visible_px": 11788,
-   "occlusion": 0.023,
+   "area_px": 10580,
+   "visible_px": 10580,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.dev__push__smile__y090",
-    "family": "person.dev",
-    "scale": 0.4048,
-    "mirrored": true,
+    "variant": "person.ana__run__focused__y090",
+    "family": "person.ana",
+    "scale": 0.3968,
+    "mirrored": false,
     "labels": {
-     "everyday_name": "man",
+     "everyday_name": "woman",
      "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
+      "woman",
+      "lady",
+      "mother",
+      "mom",
       "person"
      ],
      "category": "adult_person",
      "person": {
       "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
+      "skin_tone": "skin2",
+      "hair": "long_dark"
      }
     }
    }
   },
   {
-   "id": "stroller_4",
-   "label": "Baby stroller",
-   "role": "scored",
-   "z": 694.61,
+   "id": "speedlines_7",
+   "label": "Motion lines behind the runner",
+   "role": "setting",
+   "z": 669.85,
    "bbox": [
-    386.0,
-    546.0,
-    520.0,
-    698.0
+    392.0,
+    504.0,
+    458.0,
+    566.0
    ],
-   "area_px": 10000,
-   "visible_px": 10000,
+   "area_px": 228,
+   "visible_px": 228,
    "occlusion": 0.0
+  },
+  {
+   "id": "hungryduck_2",
+   "label": "animal.duck_01__swim_look__neutral__y090",
+   "role": "scored",
+   "z": 700,
+   "bbox": [
+    1036.0,
+    648.0,
+    1114.0,
+    704.0
+   ],
+   "area_px": 2292,
+   "visible_px": 2292,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.duck_01__swim_look__neutral__y090",
+    "family": "animal.duck_01",
+    "scale": 0.4083,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "duck",
+     "accepted_names": [
+      "duck",
+      "duckling",
+      "bird"
+     ],
+     "category": "water_bird"
+    }
+   }
   },
   {
    "id": "tree",
@@ -903,60 +1010,60 @@
    "occlusion": 0.0
   },
   {
-   "id": "fisher_1",
-   "label": "person.tomas__fish__smile__y090",
+   "id": "duckfeeder_1",
+   "label": "person.dev__feed_birds__smile__y090",
    "role": "scored",
    "z": 835,
    "bbox": [
-    872.0,
-    490.0,
-    1172.0,
+    876.0,
+    548.0,
+    994.0,
     840.0
    ],
-   "area_px": 14828,
-   "visible_px": 14828,
+   "area_px": 14600,
+   "visible_px": 14600,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.tomas__fish__smile__y090",
-    "family": "person.tomas",
+    "variant": "person.dev__feed_birds__smile__y090",
+    "family": "person.dev",
     "scale": 0.4583,
     "mirrored": false,
     "labels": {
-     "everyday_name": "grandfather",
+     "everyday_name": "man",
      "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
      ],
      "category": "adult_person",
      "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
      }
     }
    }
   },
   {
-   "id": "photographer_5",
-   "label": "person.ben__photo__smile__y045",
+   "id": "pusher_4",
+   "label": "person.ben__push__smile__y090",
    "role": "scored",
-   "z": 884.66,
+   "z": 960.0,
    "bbox": [
-    1268.0,
-    584.0,
-    1370.0,
-    888.0
+    1218.0,
+    650.0,
+    1374.0,
+    964.0
    ],
-   "area_px": 18072,
-   "visible_px": 18072,
-   "occlusion": 0.0,
+   "area_px": 18052,
+   "visible_px": 17696,
+   "occlusion": 0.02,
    "asset": {
-    "variant": "person.ben__photo__smile__y045",
+    "variant": "person.ben__push__smile__y090",
     "family": "person.ben",
-    "scale": 0.4767,
+    "scale": 0.5046,
     "mirrored": true,
     "labels": {
      "everyday_name": "man",
@@ -989,6 +1096,21 @@
    ],
    "area_px": 3740,
    "visible_px": 3740,
+   "occlusion": 0.0
+  },
+  {
+   "id": "stroller_5",
+   "label": "Baby stroller",
+   "role": "scored",
+   "z": 964.0,
+   "bbox": [
+    1072.0,
+    784.0,
+    1238.0,
+    966.0
+   ],
+   "area_px": 15100,
+   "visible_px": 15100,
    "occlusion": 0.0
   },
   {
@@ -1027,12 +1149,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "fishing",
-    "photo",
-    "push_stroller"
+    "push_stroller",
+    "run"
+   ],
+   "modules": [
+    "ducks_bread"
    ]
   },
-  "placement_rev": 26
+  "placement_rev": 27
  },
  "probe": true
 }

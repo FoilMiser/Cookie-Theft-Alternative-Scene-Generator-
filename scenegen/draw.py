@@ -566,6 +566,23 @@ def crate(x, y, s=1.0, lift=0.0, col=None):
     return svg, (x - w / 2, yb - h - 14 * s, x + w / 2 + 16 * s, yb)
 
 
+def long_box(x, y, s=1.0, w=62, h=34, dx=30, dy=62, grain=False):
+    """v0.29: a long low box or board lying with its length across a walker's way, its ground point the middle of its footprint (a bucket on the line of the stride was "to the side of her
+    path rather than directly under her feet")."""
+    w, h, dx, dy = w * s, h * s, dx * s, dy * s
+    x0, y0 = x - (w + dx) / 2, y + dy / 2
+    svg = shadow(x, y + dy / 2 - 4 * s, w + dx * 0.9)
+    svg += poly([(x0, y0 - h), (x0 + dx, y0 - h - dy), (x0 + w + dx, y0 - h - dy), (x0 + w, y0 - h)], C["tan"])
+    svg += poly([(x0 + w, y0 - h), (x0 + w + dx, y0 - h - dy), (x0 + w + dx, y0 - dy), (x0 + w, y0)], C["wood"])
+    svg += rect(x0, y0 - h, w, h, C["wood_light"], 2 * s)
+    if grain:
+        for k in (0.33, 0.66):
+            svg += line(x0 + w * k + 2 * dx * 0.08, y0 - h - dy * 0.12, x0 + w * k + dx * 0.9, y0 - h - dy * 0.9, C["wood"], 2 * s)
+    else:
+        svg += line(x0 + w * 0.5 + dx * 0.1, y0 - h - dy * 0.1, x0 + w * 0.5 + dx * 0.9, y0 - h - dy * 0.9, C["wood"], 3 * s)
+    return svg, (x0, y0 - h - dy, x0 + w + dx, y0)
+
+
 def package(x, y, s=1.0):
     w, h = 74 * s, 50 * s
     svg = shadow(x, y, w)
@@ -1058,6 +1075,18 @@ def dustpan(x, y, s=1.0, f=1, col=None):
     svg += line(lip + f * 3 * s, y - 1 * s, back - f * 2 * s, y - 1 * s, OUT, 1.6 * s)
     xs = (lip, back + f * 31 * s)
     return svg, (min(xs) - 2, y - 22 * s, max(xs) + 2, y + 4 * s)
+
+
+def hose_through(pts, s=1.0, col=None):
+    """v0.29: a hose as a smooth curve through the points (each piece of hose_path bends to a point of its own, so a slack run came out as one tight arc)."""
+    col = col or C["hose"]
+    d = "M " + P(*pts[0])
+    for i in range(len(pts) - 1):
+        p0, p1, p2, p3 = pts[max(i - 1, 0)], pts[i], pts[i + 1], pts[min(i + 2, len(pts) - 1)]
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
+        c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+        d += f" C {P(*c1)} {P(*c2)} {P(*p2)}"
+    return stroke(d, col, 9 * s, OW * 0.8)
 
 
 def hose_path(pts, s=1.0, col=None):

@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23035,
- "mirror": false,
+ "mirror": true,
  "versions": {
-  "generator": "0.28.0",
-  "cast_builder": "0.28.0",
+  "generator": "0.29.0",
+  "cast_builder": "0.29.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,14 +56,16 @@
   }
  },
  "features": [
-  "flowers"
+  "bench",
+  "flowers",
+  "hose_reel"
  ],
  "templates": [
   {
-   "id": "water_upward",
-   "kind": "contradiction",
+   "id": "hose_water",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   }
  ],
  "scene_load": 1,
@@ -71,7 +73,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is watering the flowers",
+   "text": "A grandmother is watering the flowers with a hose",
    "accepted": {
     "who": [
      "grandmother",
@@ -82,139 +84,50 @@
      "woman"
     ],
     "what": [
-     "watering the flowers",
-     "watering the plants",
-     "watering can"
+     "watering with a hose",
+     "spraying water",
+     "hosing the flowers",
+     "watering the garden"
     ]
    },
-   "key": "flowers",
+   "key": "hose",
    "elements": [
-    "waterer_1"
+    "hoser_1",
+    "hose_2",
+    "spray_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "water_upward",
+   "template": "hose_water",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.145,
+    "s": 0.22,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": -0.27,
+    "a": 5.33,
+    "zipf_raw": 3.73,
+    "aoa_raw": 5.33,
     "domain": null,
-    "area_px": 12464
+    "area_px": 20848
    },
-   "b": -1.499,
-   "p0": 0.817,
-   "pm1": 0.622,
+   "b": -1.409,
+   "p0": 0.804,
+   "pm1": 0.601,
    "aoi_cells": [
     "MC",
-    "BC"
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the water from the watering can",
-   "accepted": [
-    "the water is weird",
-    "something's wrong with the water",
-    "that's not right"
-   ],
-   "key": "water",
-   "elements": [
-    "water_2"
-   ],
-   "cues": [
-    "water_2"
-   ],
-   "effect": [
-    "water_2"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "water_upward",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -1.375,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": "physical",
-    "area_px": 2200
-   },
-   "b": 0.387,
-   "p0": 0.404,
-   "pm1": 0.2,
-   "aoi_cells": [
-    "ML",
-    "BL"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The water is going up into the air instead of falling down onto the flowers",
-   "accepted": [
-    "water going up",
-    "water going the wrong way",
-    "water should fall down",
-    "water flowing upward"
-   ],
-   "key": "water",
-   "elements": [
-    "water_2"
-   ],
-   "cues": [
-    "water_2"
-   ],
-   "effect": [
-    "water_2"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "water_upward",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -1.375,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": "physical",
-    "area_px": 2200
-   },
-   "b": 1.587,
-   "p0": 0.17,
-   "pm1": 0.07,
-   "aoi_cells": [
-    "ML",
-    "BL"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -253,11 +166,11 @@
    "p0": 0.755,
    "pm1": 0.531,
    "aoi_cells": [
-    "TR"
+    "TL"
    ]
   },
   {
-   "id": "i05",
+   "id": "i03",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -289,7 +202,7 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19276
+    "area_px": 19280
    },
    "b": -1.01,
    "p0": 0.733,
@@ -299,7 +212,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -321,7 +234,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.733,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -329,18 +242,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43028
+    "area_px": 43040
    },
    "b": -1.502,
    "p0": 0.818,
    "pm1": 0.623,
    "aoi_cells": [
-    "TL",
-    "ML"
+    "TR",
+    "MR"
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -371,7 +284,7 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 234616
+    "area_px": 234424
    },
    "b": -1.911,
    "p0": 0.871,
@@ -383,7 +296,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -423,26 +336,66 @@
    "p0": 0.91,
    "pm1": 0.788,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There is a bench",
+   "accepted": [
+    "bench",
+    "seat"
+   ],
+   "key": "bench",
+   "elements": [
+    "bench"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.105,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.39,
+    "a": 4.21,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.21,
+    "domain": null,
+    "area_px": 13200
+   },
+   "b": -0.945,
+   "p0": 0.72,
+   "pm1": 0.486,
+   "aoi_cells": [
+    "BR"
    ]
   }
  ],
  "counts": {
-  "content": 6,
-  "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 8
+  "content": 7,
+  "inference_units": 0,
+  "contradictions": 0,
+  "items_total": 7
  },
  "predicted": {
   "theta_0": {
-   "content": 0.817,
-   "inference": 0.287
+   "content": 0.802,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.63,
-   "inference": 0.135
+   "content": 0.606,
+   "inference": null
   }
  },
  "bands": {
@@ -450,7 +403,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -464,14 +417,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "12 drawn objects (tier band 20-30)"
+   "detail": "16 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 12,
-  "edge_density": 0.0345,
-  "png_bytes": 133834,
-  "jpeg_bytes": 163197
+  "objects": 16,
+  "edge_density": 0.0377,
+  "png_bytes": 153136,
+  "jpeg_bytes": 177401
  },
  "signature": [
   [
@@ -479,11 +432,7 @@
    0
   ],
   [
-   "contradiction_explain",
-   1
-  ],
-  [
-   "contradiction_notice",
+   "entity",
    0
   ],
   [
@@ -520,9 +469,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    1352.0,
+    52.0,
     22.0,
-    1548.0,
+    248.0,
     218.0
    ],
    "area_px": 13440,
@@ -535,13 +484,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    560.0,
+    634.0,
     68.0,
-    966.0,
+    1040.0,
     202.0
    ],
-   "area_px": 19276,
-   "visible_px": 19276,
+   "area_px": 19280,
+   "visible_px": 19280,
    "occlusion": 0.0
   },
   {
@@ -562,13 +511,13 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    1254.0,
+    38.0,
     614.0,
-    1562.0,
+    346.0,
     1000.0
    ],
-   "area_px": 81244,
-   "visible_px": 80792,
+   "area_px": 81248,
+   "visible_px": 80796,
    "occlusion": 0.006
   },
   {
@@ -577,13 +526,13 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    296.0,
+    1056.0,
     176.0,
-    544.0,
+    1304.0,
     452.0
    ],
-   "area_px": 44984,
-   "visible_px": 43028,
+   "area_px": 44992,
+   "visible_px": 43040,
    "occlusion": 0.043
   },
   {
@@ -592,14 +541,29 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    298.0,
+    0.0,
     426.0,
-    1600.0,
+    1302.0,
     618.0
    ],
-   "area_px": 240896,
-   "visible_px": 234616,
-   "occlusion": 0.026
+   "area_px": 240904,
+   "visible_px": 234424,
+   "occlusion": 0.027
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
   },
   {
    "id": "filler_bush_mid",
@@ -607,9 +571,9 @@
    "role": "filler",
    "z": 648,
    "bbox": [
-    946.0,
+    526.0,
     602.0,
-    1074.0,
+    654.0,
     682.0
    ],
    "area_px": 7424,
@@ -622,9 +586,9 @@
    "role": "filler",
    "z": 700,
    "bbox": [
-    1100.0,
+    380.0,
     596.0,
-    1220.0,
+    500.0,
     702.0
    ],
    "area_px": 8080,
@@ -637,9 +601,9 @@
    "role": "setting",
    "z": 781,
    "bbox": [
-    0.0,
+    1258.0,
     118.0,
-    342.0,
+    1600.0,
     784.0
    ],
    "area_px": 204952,
@@ -647,24 +611,24 @@
    "occlusion": 0.0
   },
   {
-   "id": "waterer_1",
-   "label": "person.rosa__water_plants__smile__y090",
+   "id": "hoser_1",
+   "label": "person.rosa__hose_spray__smile__y090",
    "role": "scored",
-   "z": 820,
+   "z": 830,
    "bbox": [
-    520.0,
-    550.0,
-    634.0,
-    824.0
+    926.0,
+    558.0,
+    1032.0,
+    836.0
    ],
-   "area_px": 12664,
-   "visible_px": 12464,
-   "occlusion": 0.016,
+   "area_px": 12020,
+   "visible_px": 11980,
+   "occlusion": 0.003,
    "asset": {
-    "variant": "person.rosa__water_plants__smile__y090",
+    "variant": "person.rosa__hose_spray__smile__y090",
     "family": "person.rosa",
-    "scale": 0.4528,
-    "mirrored": true,
+    "scale": 0.4565,
+    "mirrored": false,
     "labels": {
      "everyday_name": "grandmother",
      "accepted_names": [
@@ -685,33 +649,84 @@
    }
   },
   {
+   "id": "hosejoin_3",
+   "label": "Garden hose at the hand",
+   "role": "background",
+   "z": 831
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
    "z": 836,
    "bbox": [
-    318.0,
+    1028.0,
     694.0,
-    572.0,
+    1282.0,
     838.0
    ],
-   "area_px": 25880,
-   "visible_px": 25488,
-   "occlusion": 0.015
+   "area_px": 25884,
+   "visible_px": 23340,
+   "occlusion": 0.098
   },
   {
-   "id": "water_2",
-   "label": "Water from the can",
+   "id": "hose_2",
+   "label": "Garden hose",
+   "role": "scored",
+   "z": 836.5,
+   "bbox": [
+    998.0,
+    706.0,
+    1306.0,
+    882.0
+   ],
+   "area_px": 7012,
+   "visible_px": 6276,
+   "occlusion": 0.105
+  },
+  {
+   "id": "spray_4",
+   "label": "Water spraying",
    "role": "scored",
    "z": 837,
    "bbox": [
-    428.0,
-    578.0,
-    530.0,
-    724.0
+    1028.0,
+    668.0,
+    1142.0,
+    802.0
    ],
-   "area_px": 2200,
-   "visible_px": 2200,
+   "area_px": 2592,
+   "visible_px": 2592,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 870,
+   "bbox": [
+    1254.0,
+    788.0,
+    1330.0,
+    876.0
+   ],
+   "area_px": 4956,
+   "visible_px": 4956,
+   "occlusion": 0.0
+  },
+  {
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
+   "bbox": [
+    1358.0,
+    804.0,
+    1562.0,
+    930.0
+   ],
+   "area_px": 13200,
+   "visible_px": 13200,
    "occlusion": 0.0
   },
   {
@@ -720,13 +735,13 @@
    "role": "filler",
    "z": 975,
    "bbox": [
-    896.0,
+    522.0,
     892.0,
-    1078.0,
+    704.0,
     980.0
    ],
-   "area_px": 8776,
-   "visible_px": 8776,
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -749,11 +764,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "water_upward"
+   "events": [
+    "hose_water"
    ]
   },
-  "placement_rev": 26
+  "placement_rev": 27
  },
  "probe": true
 }

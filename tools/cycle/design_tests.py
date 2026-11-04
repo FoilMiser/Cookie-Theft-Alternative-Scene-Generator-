@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a park: the begging dog with a walker and a bag about, the ball on its branch, the eater and the runner
-    ("park", 4, 28401, {"modules": ["dog_begs", "ball_in_tree"], "events": ["carry_bag", "ice_cream", "run"]}, None),
-    # a playground: the begging dog beside a kite and a jumper (v0.27: "or be watching the kite, or doing a trick for the boy")
-    ("playground", 3, 28402, {"modules": ["dog_begs"], "events": ["fly_kite", "jump", "ice_cream"]}, None),
-    # a playground: the riders further in on one shadow, the walking eater with open eyes
-    ("playground", 3, 28403, {"modules": ["seesaw_heavy"], "events": ["ice_cream", "kick_ball"]}, None),
-    # a street: the splat, the ball in the tree, the square wheel, a dog walked by
-    ("street", 3, 28404, {"modules": ["ice_cream_drop", "ball_in_tree"], "contradictions": ["square_wheel"], "events": ["walk_dog", "photo"]}, None),
-    # a garden: the shadows of a sleeper, a digger, a waver, the hose
-    ("garden", 3, 28405, {"events": ["dog_sleeping", "dig", "wave", "hose_water"]}, None),
-    # a park: faces with closed eyes at a picnic, a runner and a pram, a bird on its branch
-    ("park", 3, 28406, {"events": ["picnic", "run", "push_stroller", "bird_perched"]}, None),
+    # a garden: the sleeping dog and the dog at the door together, the hose in hand, someone digging
+    ("garden", 3, 29401, {"modules": ["dog_wants_walk"], "events": ["dog_sleeping", "hose_water", "dig"]}, None),
+    # a park: the duck at a crumb, the wide box in a walker's way, a ladder clear of the lamp
+    ("park", 3, 29402, {"modules": ["ducks_bread"], "contradictions": ["ladder_nothing"], "events": ["run"]}, None),
+    # a street: the wide box with people about, the bucket on a head under a clear sky
+    ("street", 3, 29403, {"modules": ["about_to_trip"], "contradictions": ["bucket_hat"], "events": ["carry_bag"]}, None),
+    # a park: the fish on its limb, the sleeping dog beside a duck that feeds
+    ("park", 3, 29404, {"modules": ["ducks_bread"], "contradictions": ["fish_in_tree"], "events": ["dog_sleeping", "read_bench"]}, None),
+    # a garden: the stopped hose's swelling, with a soaked-box rule's neighbours left out, and a walker
+    ("garden", 3, 29405, {"modules": ["blocked_hose", "about_to_trip"], "events": ["hang_laundry", "cat_sleeping"]}, None),
+    # a playground: the sleeping dog, the wide box, a child with an ice cream
+    ("playground", 3, 29406, {"modules": ["about_to_trip"], "events": ["dog_sleeping", "ice_cream", "kick_ball"]}, None),
 ]
 
 

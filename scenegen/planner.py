@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.28.0"
+GENERATOR_VERSION = "0.29.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -56,16 +56,16 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "ball_in_tree": [("inference", 1, -0.69, 0.141, 1, "stuck")],
     "kite_in_tree": [("inference", 1, -0.54, 0.246, 2, "stuck")],
     "ice_cream_drop": [("inference", 1, -1.36, 0.084, 2, "dropped")],
-    "about_to_trip": [("inference", 1, 0.16, 0.098, 1, "trip")],
+    "about_to_trip": [("inference", 1, 0.14, 0.096, 1, "trip")],
     "dog_begs": [("inference", 1, -0.76, 0.078, 1, "begging")],
     "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
     "windy_hat": [("inference", 2, -1.24, 0.140, 1, "wind")],
     "bird_steals": [("inference", 2, -1.74, 0.048, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.05, 0.130, 2, "lost")],
-    "ducks_bread": [("inference", 1, -1.36, 0.024, 1, "hungry")],
+    "ducks_bread": [("inference", 1, -1.35, 0.020, 1, "hungry")],
     "seesaw_heavy": [("inference", 1, -0.73, 0.165, 1, "heavy")],
-    "dog_wants_walk": [("inference", 1, -0.75, 0.157, 2, "walk")],
+    "dog_wants_walk": [("inference", 1, -0.55, 0.161, 2, "walk")],
 }
 for _cid, _s, _k in [("water_upward", -1.40, "water"),
                      ("floating_box", -0.38, "floating"),
@@ -75,7 +75,7 @@ for _cid, _s, _k in [("water_upward", -1.40, "water"),
                      ("sweep_fork", 0.23, "fork"),
                      ("bucket_hat", 0.26, "bucket"),
                      ("sitting_on_air", 0.06, "chair"),
-                     ("ladder_nothing", -0.36, "ladder"),
+                     ("ladder_nothing", -0.44, "ladder"),
                      ("dog_reading", -0.36, "newspaper")]:
     PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]
 TYPICAL_LOAD = {1: 2.5, 2: 4, 3: 5.5, 4: 8}

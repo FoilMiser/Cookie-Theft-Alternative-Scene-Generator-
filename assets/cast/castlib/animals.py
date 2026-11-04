@@ -264,6 +264,14 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
         legs({"L": (0.075, -0.165, 0.04), "R": (-0.075, -0.165, 0.04)}, {"L": (0.10, 0.00, 0.035), "R": (-0.10, 0.02, 0.035)},
              fhint=(0, 0.3, 0.1), bhint=(0, -1, 0.35))
 
+    def sit_wait():
+        # v0.29: as sit, the tail curled round the near haunch (at three-quarters, with the tail out behind, "the rear of the dog is jumbled": "a tangle of thin shapes")
+        sit()
+        rig.aim_dir("tail1", (-0.55, 0.45, -0.70))
+        rig.aim_dir("tail2", (-0.35, -0.90, -0.05))
+        # (the hind paws drawn in under the body: "the back legs and rear splay out to the right in overlapping shapes")
+        legs({"L": (0.075, -0.165, 0.04), "R": (-0.075, -0.165, 0.04)}, {"L": (0.09, -0.07, 0.035), "R": (-0.09, -0.05, 0.035)}, fhint=(0, 0.3, 0.1), bhint=(0, -1, 0.35))
+
     def sit_look_down():
         # sitting, head bent down as if looking at something held in front of the chest
         sit()
@@ -319,6 +327,19 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
         legs({"L": (0.05 + SB["cx"] * 0.5, -0.30, 0.025), "R": (-0.05 + SB["cx"] * 0.5, -0.28, 0.025)},
              {"L": (SB["bl"][0], SB["bl"][1], 0.025), "R": (SB["br"][0], SB["br"][1], 0.025)}, fhint=(0, 1, 0.2), bhint=SB["bh"])
         rig.aim_dir("tail2", SB["tail2"])
+
+    def sleep_paws():
+        # v0.29: lying down, the chin laid on both front paws in front of it and the elbows drawn in, facing out (curled up with the nose bowed to the ground, it was
+        # "sniffing the grass, lying down, or curled up asleep")
+        body(hip_drop=0.33, chest_drop=0.35, hip_back=-0.05, chest_y=-0.12, tail=(0.9, -0.55, -0.05), neck=(0, -0.90, 0.20), head_pitch=-22)
+        legs({"L": (0.05, -0.36, 0.025), "R": (-0.05, -0.36, 0.025)}, {"L": (0.12, 0.10, 0.03), "R": (-0.12, 0.13, 0.03)}, fhint=(0, 0.7, 0.7), bhint=(0, -1, -0.2))
+        rig.aim_dir("tail2", (-0.1, -1, -0.05))
+
+    def sleep_paws_turn():
+        # v0.29 bench: the same with a shorter trunk, the head turned to the viewer, for three-quarters view
+        body(hip_drop=0.33, chest_drop=0.36, hip_back=-0.08, chest_y=-0.08, tail=(0.9, -0.55, -0.05), neck=(0, -0.92, 0.12), head_pitch=-26, head_turn=-25, spine_scale=(1.15, 0.72, 1.0))
+        legs({"L": (0.05, -0.33, 0.025), "R": (-0.05, -0.33, 0.025)}, {"L": (0.11, 0.05, 0.03), "R": (-0.11, 0.08, 0.03)}, fhint=(0, 0.9, 0.3), bhint=(0, -1, -0.2))
+        rig.aim_dir("tail2", (-0.1, -1, -0.05))
 
     def sleep_tuck():
         # v0.13 (cats): curled up asleep, the trunk drawn short and round, the legs tucked under, the head bowed
@@ -429,12 +450,15 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
     # sleep_curl) are retired; no template asks for them, so they leave the cast and the gallery
     plan = [("stand", stand), ("walk", walk), ("sit", sit), ("sniff", sniff), ("play_bow", play_bow)]
     if kind == "dog":
+        plan.append(("sit_wait", sit_wait))
         plan.append(("beg", beg))
         plan.append(("sit_up_hold", sit_up_hold))
     if kind == "cat":
         plan.append(("stalk_paw", stalk_paw))
     if kind == "dog":
         plan.append(("sleep_ball", sleep_ball))
+        plan.append(("sleep_paws", sleep_paws))
+        plan.append(("sleep_paws_turn", sleep_paws_turn))
     if kind == "cat":
         plan.append(("sleep_tuck", sleep_tuck))
     if os.environ.get("TPDB_EXP") and kind in ("cat", "dog"):
@@ -617,9 +641,24 @@ def make_bird_poses(rig, S, duck, bz):
         for sd in ("L", "R"):
             rig.aim_dir(f"leg_{sd}", (0, 1, 0.2))
 
+    def swim_eat():
+        # v0.29: as swim, the neck stretched out and down and the bill at the water, for a crumb there (upright with the crumbs ahead of it, the duck was "swimming towards those crumbs")
+        swim()
+        # (with the neck down along the breast and the tail up, three of three: "lying on its side or collapsed", "tipped over"; so the neck straight out and the body as it is)
+        rig.aim_dir("neck", (0, -0.98, 0.04))
+        rig.aim_dir("head", (0, -0.72, 0.70))
+
+    def swim_look():
+        # v0.29 bench: as swim, the neck arched forward and the head bent down over a crumb just ahead of it
+        swim()
+        rig.aim_dir("neck", (0, -0.62, 0.72))
+        rig.aim_dir("head", (0, -0.78, 0.62))
+
     plan = [("perch", perch), ("peck", peck), ("fly", fly), ("sing", sing)]
     if duck:
         plan.append(("swim", swim))
+        plan.append(("swim_eat", swim_eat))
+        plan.append(("swim_look", swim_look))
     for nm, fn in plan:
         pose(nm, fn)
     rig.reset()

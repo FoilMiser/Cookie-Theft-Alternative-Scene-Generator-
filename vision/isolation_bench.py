@@ -22,6 +22,65 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.29 round 3
+    "hosT_1": ("garden", 29141, {"events": ["hose_water"]}, "event", None),
+    "hosT_2": ("garden", 29142, {"events": ["hose_water"]}, "event", None),
+    "trpY_1": ("street", 29121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpY_2": ("garden", 29122, {"modules": ["about_to_trip"]}, "event", None),
+    "trpY_3": ("playground", 29124, {"modules": ["about_to_trip"]}, "event", None),
+    "wanD_1": ("garden", 29131, {"modules": ["dog_wants_walk"]}, "waitingdog", None),
+    # v0.29 round 2
+    "fedE_1": ("park", 29111, {"modules": ["ducks_bread"]}, "event", None),
+    "fedE_2": ("park", 29112, {"modules": ["ducks_bread"]}, "event", None),
+    "fedL_1": ("park", 29111, {"modules": ["ducks_bread"]}, "event", None),
+    "fedL_2": ("park", 29112, {"modules": ["ducks_bread"]}, "event", None),
+    "trpX_1": ("street", 29121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpX_2": ("garden", 29122, {"modules": ["about_to_trip"]}, "event", None),
+    "trpX_3": ("park", 29123, {"modules": ["about_to_trip"]}, "event", None),
+    "wanC_1": ("garden", 29131, {"modules": ["dog_wants_walk"]}, "waitingdog", None),
+    "wanC_2": ("garden", 29132, {"modules": ["dog_wants_walk"]}, "waitingdog", None),
+    "hosS_1": ("garden", 29141, {"events": ["hose_water"]}, "event", None),
+    "hosS_2": ("garden", 29142, {"events": ["hose_water"]}, "event", None),
+    "hosS_3": ("garden", 29143, {"events": ["hose_water"]}, "event", None),
+    "fshC_1": ("park", 29161, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshC_2": ("garden", 29162, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    # v0.29 (out_B = the new sleeping poses and the duck's new pose, on the v0.28 people; out_C = out_B and the back heel lifted less. Scene drawings by name, see the loop below)
+    "slpO_1": ("garden", 29101, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_01"])),
+    "slpO_2": ("park", 29102, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_02"])),
+    "slpW_1": ("garden", 29101, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_01"])),
+    "slpW_2": ("park", 29102, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_02"])),
+    "slpB_1": ("garden", 29101, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_01"])),
+    "slpB_2": ("park", 29102, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_02"])),
+    "slpC_1": ("garden", 29101, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_01"])),
+    "slpC_2": ("park", 29102, {"events": ["dog_sleeping"]}, "event", ("fam", "dog_sleeping", ["animal.dog_02"])),
+    "fedO_1": ("park", 29111, {"modules": ["ducks_bread"]}, "event", None),
+    "fedK_1": ("park", 29111, {"modules": ["ducks_bread"]}, "event", None),
+    "fedK_2": ("park", 29112, {"modules": ["ducks_bread"]}, "event", None),
+    "fedK_3": ("park", 29113, {"modules": ["ducks_bread"]}, "event", None),
+    "trpO_3": ("street", 29121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpO_4": ("garden", 29122, {"modules": ["about_to_trip"]}, "event", None),
+    "trpL_3": ("street", 29121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpL_4": ("garden", 29122, {"modules": ["about_to_trip"]}, "event", None),
+    "trpW_3": ("street", 29121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpW_4": ("garden", 29122, {"modules": ["about_to_trip"]}, "event", None),
+    "trpP_3": ("street", 29121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpP_4": ("garden", 29122, {"modules": ["about_to_trip"]}, "event", None),
+    "wanO_1": ("garden", 29131, {"modules": ["dog_wants_walk"]}, "waitingdog", None),
+    "wanB_1": ("garden", 29131, {"modules": ["dog_wants_walk"]}, "waitingdog", None),
+    "wanB_2": ("garden", 29132, {"modules": ["dog_wants_walk"]}, "waitingdog", None),
+    "hosO_1": ("garden", 29141, {"events": ["hose_water"]}, "event", None),
+    "hosK_1": ("garden", 29141, {"events": ["hose_water"]}, "event", None),
+    "hosK_2": ("garden", 29142, {"events": ["hose_water"]}, "event", None),
+    "blkO_1": ("garden", 29151, {"modules": ["blocked_hose"]}, "event", None),
+    "blkB_1": ("garden", 29151, {"modules": ["blocked_hose"]}, "event", None),
+    "blkB_2": ("garden", 29152, {"modules": ["blocked_hose"]}, "event", None),
+    "fshO_1": ("park", 29161, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshB_1": ("park", 29161, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshB_2": ("garden", 29162, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "heeO_1": ("street", 29171, {"events": ["walk_dog"]}, "event", None),
+    "heeO_2": ("park", 29172, {"events": ["carry_bag"]}, "event", None),
+    "heeC_1": ("street", 29171, {"events": ["walk_dog"]}, "event", None),
+    "heeC_2": ("park", 29172, {"events": ["carry_bag"]}, "event", None),
     # v0.28 (out_O = the v0.27 cast; out_B = no brows over closed eyes, a smaller blush, a fuller beard. Scene drawings by name: splO the old scoop, splA a flat splat, splB a splat with
     # a low lump; shdO the old shadows; ssaO the old seesaw, ssaB riders further in with one shadow under the plank; balO the old ball and branch)
     "splO_1": ("park", 28101, {"modules": ["ice_cream_drop"]}, "event", None),
@@ -316,6 +375,16 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     _D.SEESAW_IN28 = 0 if name.startswith("ssaO") else 22
     import scenegen.library as _L
     _L.SHADOW28 = "O" if name[:4] in ("shdO", "ssaO") else "B"
+    _L.SHADOW29 = "W" if name.startswith("slpW") else "O"
+    import scenegen.templates as _T
+    _T.SLEEP29 = {"slpO": "O", "slpW": "O", "slpB": "B", "slpC": "C"}.get(name[:4], "B")
+    _T.TRIP29 = {"trpL": "L", "trpW": "W", "trpP": "P", "trpX": "W", "trpY": "W"}.get(name[:4], "O")
+    _T.TRIP_OBJ29 = "bucket" if name[:4] in ("trpO", "trpL") else None
+    _T.DUCK29 = {"fedO": "O", "fedL": "L"}.get(name[:4], "B")
+    _T.DOOR29 = "B" if name.startswith(("wanB", "wanC", "wanD")) else "O"
+    _T.HOSE29 = "O" if name.startswith("hosO") else "B"
+    _T.BULGE29 = "O" if name.startswith("blkO") else "B"
+    _T.FISH29 = "O" if name.startswith("fshO") else "B"
     rec = None
     for k in range(40):
         USAGE.clear()

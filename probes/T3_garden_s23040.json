@@ -6,8 +6,8 @@
  "seed": 23040,
  "mirror": true,
  "versions": {
-  "generator": "0.28.0",
-  "cast_builder": "0.28.0",
+  "generator": "0.29.0",
+  "cast_builder": "0.29.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,8 +61,8 @@
  ],
  "templates": [
   {
-   "id": "windy_hat",
-   "kind": "inference",
+   "id": "sweep_fork",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   }
@@ -72,145 +72,146 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is reaching up for a hat",
+   "text": "A grandmother is sweeping",
    "accepted": {
     "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
     ],
     "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "cleaning"
     ]
    },
-   "key": "hat",
+   "key": "sweeping",
    "elements": [
-    "hatperson_1"
+    "sweeper_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "windy_hat",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.106,
+    "s": 0.193,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 17772
+    "area_px": 20092
    },
-   "b": -1.592,
-   "p0": 0.831,
-   "pm1": 0.644,
+   "b": -1.413,
+   "p0": 0.804,
+   "pm1": 0.602,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BL"
    ]
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "A hat is flying through the air",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is sweeping with",
    "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
+    "the broom is strange",
+    "something's wrong with the broom",
+    "that's odd",
+    "a fork is not for sweeping"
    ],
-   "key": "hat",
+   "key": "fork",
    "elements": [
-    "flyinghat_3"
+    "sweeper_1"
    ],
-   "cues": [],
-   "effect": [],
+   "cues": [
+    "sweeper_1"
+   ],
+   "effect": [
+    "sweeper_1"
+   ],
    "chain": 0,
    "animate": false,
-   "domain": null,
-   "template": "windy_hat",
+   "domain": "functional",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
-    "type": "entity",
+    "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": -1.36,
+    "s": 0.193,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 2248
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 20092
    },
-   "b": -0.359,
-   "p0": 0.589,
-   "pm1": 0.345,
+   "b": -0.197,
+   "p0": 0.549,
+   "pm1": 0.309,
    "aoi_cells": [
-    "MC"
+    "BL"
    ]
   },
   {
    "id": "i03",
-   "type": "inference",
-   "text": "The wind blew the man's hat off",
+   "type": "contradiction_explain",
+   "text": "The person is sweeping with a giant fork instead of a broom",
    "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
+    "sweeping with a fork",
+    "a fork instead of a broom",
+    "you can't sweep with a fork",
+    "a giant fork",
+    "a huge dinner fork"
    ],
-   "key": "wind",
+   "key": "fork",
    "elements": [
-    "flyinghat_3",
-    "hatperson_1"
+    "sweeper_1"
    ],
    "cues": [
-    "flyinghat_3",
-    "hatperson_1"
+    "sweeper_1"
    ],
    "effect": [
-    "flyinghat_3"
+    "sweeper_1"
    ],
-   "chain": 2,
+   "chain": 1,
    "animate": false,
-   "domain": null,
-   "template": "windy_hat",
+   "domain": "functional",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
-    "type": "inference",
-    "chain": 2,
+    "type": "contradiction_explain",
+    "chain": 1,
     "animate": false,
-    "s": -1.36,
-    "r": 1,
-    "d": 0.127,
+    "s": 0.193,
+    "r": 0,
+    "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
-    "domain": null,
-    "area_px": 2248
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 20092
    },
-   "b": 1.242,
-   "p0": 0.224,
-   "pm1": 0.096,
+   "b": 1.003,
+   "p0": 0.268,
+   "pm1": 0.119,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BL"
    ]
   },
   {
@@ -407,7 +408,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.849,
+    "s": 1.887,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -415,11 +416,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 207304
+    "area_px": 218760
    },
-   "b": -1.868,
-   "p0": 0.866,
-   "pm1": 0.704,
+   "b": -1.886,
+   "p0": 0.868,
+   "pm1": 0.708,
    "aoi_cells": [
     "ML",
     "MC",
@@ -560,19 +561,19 @@
   }
  ],
  "counts": {
-  "content": 10,
+  "content": 9,
   "inference_units": 1,
-  "contradictions": 0,
+  "contradictions": 1,
   "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.769,
-   "inference": 0.224
+   "content": 0.786,
+   "inference": 0.409
   },
   "theta_minus_1": {
-   "content": 0.565,
-   "inference": 0.096
+   "content": 0.585,
+   "inference": 0.214
   }
  },
  "bands": {
@@ -584,10 +585,6 @@
  },
  "in_tier": false,
  "checks": {
-  "hatperson_1_looks_at_hat": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -598,14 +595,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0391,
-  "png_bytes": 169771,
-  "jpeg_bytes": 182973
+  "objects": 14,
+  "edge_density": 0.0399,
+  "png_bytes": 166933,
+  "jpeg_bytes": 182155
  },
  "signature": [
   [
@@ -613,7 +610,11 @@
    0
   ],
   [
-   "entity",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -647,10 +648,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "inference",
-   2
   ]
  ],
  "elements": [
@@ -714,23 +711,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
-  },
-  {
-   "id": "breeze_2",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    1104.0,
-    76.0,
-    1262.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
-   "occlusion": 0.0
+   "visible_px": 57624,
+   "occlusion": 0.291
   },
   {
    "id": "tree",
@@ -759,8 +741,23 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 207304,
-   "occlusion": 0.139
+   "visible_px": 218760,
+   "occlusion": 0.092
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
   },
   {
    "id": "feeder",
@@ -793,73 +790,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "hatperson_1",
-   "label": "person.ben__reach_up__scared__y045",
-   "role": "scored",
-   "z": 816.64,
-   "bbox": [
-    728.0,
-    512.0,
-    872.0,
-    820.0
-   ],
-   "area_px": 17772,
-   "visible_px": 17772,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ben__reach_up__scared__y045",
-    "family": "person.ben",
-    "scale": 0.4515,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
-  },
-  {
-   "id": "flyinghat_3",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 817.64,
-   "bbox": [
-    832.0,
-    408.0,
-    916.0,
-    464.0
-   ],
-   "area_px": 2248,
-   "visible_px": 2248,
-   "occlusion": 0.0
-  },
-  {
-   "id": "gusts_4",
-   "label": "Wind lines and blowing leaves",
-   "role": "setting",
-   "z": 817.64,
-   "bbox": [
-    590.0,
-    442.0,
-    864.0,
-    510.0
-   ],
-   "area_px": 4240,
-   "visible_px": 4240,
-   "occlusion": 0.0
-  },
-  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -880,14 +810,14 @@
    "role": "setting",
    "z": 845,
    "bbox": [
-    382.0,
+    376.0,
     474.0,
-    472.0,
-    790.0
+    466.0,
+    784.0
    ],
-   "area_px": 4204,
-   "visible_px": 4132,
-   "occlusion": 0.017
+   "area_px": 4492,
+   "visible_px": 4420,
+   "occlusion": 0.016
   },
   {
    "id": "swing",
@@ -905,18 +835,56 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
+   "id": "sweeper_1",
+   "label": "person.rosa__sweep_giant_fork__neutral__y045",
+   "role": "scored",
+   "z": 933.36,
    "bbox": [
-    362.0,
-    884.0,
-    458.0,
-    962.0
+    28.0,
+    646.0,
+    202.0,
+    938.0
    ],
-   "area_px": 4404,
-   "visible_px": 4404,
+   "area_px": 20336,
+   "visible_px": 20092,
+   "occlusion": 0.012,
+   "asset": {
+    "variant": "person.rosa__sweep_giant_fork__neutral__y045",
+    "family": "person.rosa",
+    "scale": 0.4948,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "sweptpile_2",
+   "label": "Swept-up dust and grit",
+   "role": "setting",
+   "z": 934.36,
+   "bbox": [
+    110.0,
+    878.0,
+    354.0,
+    942.0
+   ],
+   "area_px": 5188,
+   "visible_px": 5188,
    "occlusion": 0.0
   },
   {
@@ -954,11 +922,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "windy_hat"
+   "contradictions": [
+    "sweep_fork"
    ]
   },
-  "placement_rev": 26
+  "placement_rev": 27
  },
  "probe": true
 }

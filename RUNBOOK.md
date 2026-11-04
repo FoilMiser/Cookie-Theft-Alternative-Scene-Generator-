@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.28 was made, written so that a fresh session can make the next one (v0.29) from this
+How each release from v0.12 to v0.29 was made, written so that a fresh session can make the next one (v0.30) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -208,3 +208,11 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - A shadow drawn at the ground point can vanish under a body that reaches below it. Look at a whole sheet of poses, not one, before spending readers. The same look stopped a ball with two bands that looked like a target.
 - `probes.py` tries templates in crowded groups, the garden first, and gives up after three failures. When it ends SHORT, force the short ones in small groups in a setting that suits them, with `build_one(..., forced=..., require_band=False)`, and mark each record `"probe": true`.
 - After the set is built, any later change to shared drawing means rebuilding every record, not only new ones: `tools/cycle/rebuild_set.py` does it in place, the pictures before the isomorphs that read them. Refresh `isomorph_summary.json` from the records afterwards, and run `fix_summary.py` before the folder swap, as it reads `scenes<TAG>`.
+- A rule can have a cliff. The ladder's margin from a lamp at 240 or 200 units placed none of 8 seeds, in every combination tried, and at 160 it placed 7 or 8. Try a new rule on a few seeds at several values before the set, not after a search has failed.
+- Count what a drawing costs in placement as well as what it buys in reading. The trip's long box took its meaning item from 0.75 to 1.00, and the tier-4 cells from 80 failed seeds to 166, the trip being what those failures name most. And look at where the pictures that passed came from: its five were all street pictures.
+- A full gate is not the end of the reading. v0.20 and v0.23 also read 64 of 64, and the next screens read 61 and 63. Read what full marks rest on: the unsure sections, and any rule a scorer writes down (v0.29's scorer c listed 18 hedged credits). Compare it with how the last screen's scorers marked the same kind of sentence before saying the drawing did it or the scorers did.
+- A hit in `remark_topics.py` is not yet a remark on the topic: v0.29's "hose's bulge" held a skirt that bulges, and "feet overlapping" a bird on a lamp. Read the hits before writing a row, and check a superlative against every earlier `gate.json` before writing it.
+- A figure's prop and a drawn line need a joint, and a joint is a drawing like any other. The hose in the fist belongs to the figure and the hose on the ground to the scene. A butt-capped piece over the join hid the gap and read as a sleeve, in one picture of three. It went from the bench to the set unread on its own, and that is why the screen found it. Give the last change a bench round too.
+- A bench can test a thing and find nothing. The lifted heel, read two ways, had nothing to choose between them, and keeping it saved re-rendering every walker. Write that down as a result.
+- Do not chain `;` after a command that can fail with `OSError 22` on this drive: `tpdb_work/psub.py` for patches, which retries and is safe to re-run, and `cd ... || exit 1` in scripts. One patch stopped midway and the commands after it ran from the wrong folder.
+- Count again before writing "all" or "two of four". Three counts in this release's bench and design notes were wrong on first writing, and one reached a status message: the trip is in three of six design tests, not four. Recount from the files, by script where you can.

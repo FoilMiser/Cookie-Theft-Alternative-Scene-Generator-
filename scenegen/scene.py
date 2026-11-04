@@ -168,7 +168,12 @@ class PlacementError(Exception):
 # no walking with closed eyes ("Walking with eyes shut is slightly odd"); a beach ball on a branch that grows from a fork at the top of the trunk ("a blue planet-like sphere", "a small bare branch drawn on top of the
 # crown"), and a bird's branch the same way; and one bin to a picture ("two bins so close to each other seem like more bins than the scene needs").
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 26
+# 27 (v0.29): the v0.28 screen's failures and named oddities, each drawing chosen on the bench (vision/isolation_v029.md): the sleeping dog lying three-quarters with its chin on its paws ("sniffing the grass, lying
+# down, or curled up asleep"); the duck with its head bent over a crumb, so eating is drawn ("swimming towards those crumbs"); the dog beside the door and turned to it, its lead hanging from its mouth, its tail in ("sits
+# with a red lead in its mouth"); a wide box across the walker's line, a little nearer ("might pass beside it"); a slack hose, and one line from the fist to the ground ("like a rigid pipe", "could read as a post"); a
+# slimmer swelling with no highlight on the stopped hose ("a separate slug-shaped object"); a fish on a limb, well out from the trunk ("pasted onto the leaves"); and rules for readings that excused a contradiction: no
+# ladder within 160 px of a lamp post ("meant to lean on the lamp post"), no soaked box with a second box ("the two boxes look similar"), no bucket on the head under storm clouds ("a makeshift rain hat").
+PLACEMENT_REV = 27
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

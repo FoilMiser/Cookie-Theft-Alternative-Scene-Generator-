@@ -25,14 +25,14 @@ DESCR = {
     "ball_in_tree": "A ball sits up in a tree; a child points or reaches for it, upset. Cause, 1 step.",
     "kite_in_tree": "A kite is caught in a tree, its string still in the child's hand. Cause, 1 step.",
     "ice_cream_drop": "A child holds an empty cone; the scoop is on the ground and a dog is licking it. Cause, 1 step.",
-    "about_to_trip": "Someone reads while walking straight toward a bucket, ball or box. Prediction, 1 step.",
+    "about_to_trip": "Someone reads while walking straight toward a long low box, or a bucket beside another box. Prediction, 1 step.",
     "dog_begs": "Someone eats on a bench; a dog sits beside it looking up at the food. Intention, 1 step (gaze checked).",
     "sprinkler_package": "A sprinkler sprays toward a package left on the grass. Prediction, 1 step.",
     "paint_tracks": "Fresh paint on the fence, a paint tray, and paw prints leading to the dog. Cause, 2 steps.",
     "windy_hat": "A hat blows off; its owner reaches after it. Cause, 2 steps.",
     "bird_steals": "A bird pecks at a sandwich on the bench while the reader isn't looking. Viewpoint, 2 steps.",
     "lost_balloon": "A balloon floats away high in the sky; a child below reaches up, upset. Cause, 1 step.",
-    "ducks_bread": "Someone throws bread toward the pond; a duck swims over. Intention, 1 step.",
+    "ducks_bread": "Someone throws bread on the pond; a duck bends to a crumb. Intention, 1 step.",
     "seesaw_heavy": "A grown-up sits on the low end of the seesaw; a child is stuck high in the air. Cause, 1 step.",
     "dog_wants_walk": "A dog sits by the back door with its leash in its mouth. Intention, 1 step.",
     # contradictions
@@ -49,35 +49,36 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v027", "v028"
+PREV, CUR = "v028", "v029"
 
-# the templates whose drawing or placement v0.28 changed for the v0.27 screen (vision/flaws_v027.md); each drawing went to the isolation bench first
-# (vision/isolation_v028.md) and was read in whole test scenes (vision/design_tests_v028.md)
+# the templates whose drawing or placement v0.29 changed for the v0.28 screen (vision/flaws_v028.md); each drawing went to the isolation bench first
+# (vision/isolation_v029.md) and was read in whole test scenes (vision/design_tests_v029.md)
 REDRAWN_NOTES = {
-    "dog_begs": "'Could be hers, begging from her bag'. Now at the end of the bench the eater sits nearest, its gaze on the food, and nobody else near: 'begging for the ice cream', in full in its three pictures. Not redrawn.",
-    "ice_cream_drop": "'A pink hat or a pink frisbee', 'flying saucer'. Now a flat splat, the dog's mouth over it: 'a pink splat with coloured sprinkles'.",
-    "ball_in_tree": "'A blue planet-like sphere', on 'a small bare branch drawn on top of the crown'. Now a beach ball on a limb from a fork at the top of the trunk: a beach ball in all four of its pictures.",
-    "seesaw": "'Almost past it', and a shadow under one rider only. The riders further in, and one shadow under the whole seesaw.",
+    "dog_sleeping": "'Sniffing the grass, lying down, or curled up asleep'. Now turned three-quarters, its chin on its paws: 'curled up asleep', in all three of its pictures.",
+    "ducks_bread": "'Swimming towards those crumbs'. Now the neck arched and the bill at a crumb: 'bending its head down to peck at the crumbs'.",
+    "dog_wants_walk": "'Sits with a red lead in its mouth', no more. Now beside the door and turned to it: 'as though asking to be taken for a walk', on the seed that failed. One reader still gave it only as 'a guess'.",
+    "about_to_trip": "'He is moving past it, not squarely into it'. Now a long low box across the line: 'so he seems about to trip over it', in five street pictures. Four of the five readers still allow he may pass, and the box takes more ground to place.",
+    "fish_in_tree": "'Looks pasted onto the leaves'. Now on a limb, well out from the trunk: 'sitting on a bare curved branch, which is impossible'. The limb itself is now 'a little pasted in'.",
+    "hose_water": "'Like a rigid pipe', 'with no slack'. Now slack and bowed out in front. No rigid pipe, but the short piece at the fist reads as a sleeve: 'seems to stop at about waist height'. For v0.30.",
+    "blocked_hose": "'A separate slug-shaped object'. Now slimmer, with no highlight: 'as if the water is blocked there'.",
 }
 
-# what the v0.28 screen readers made of the templates that read poorly (vision/flaws_v028.md)
-WEAK_NOTES = {
-    "dog_sleeping": "'Sniffing the grass, lying down, or curled up asleep'; 'could be a puppy or a kitten'. In full in v0.27 on the same drawing and a wide oval of shadow, so the smaller shadow may be why. For v0.29: the bench.",
-    "ducks_bread": "'Swimming towards those crumbs'. v0.27's readers wrote much the same and scored in full, so mostly the scorers. For v0.29: the duck's bill at a crumb.",
-    "dog_wants_walk": "One reader: 'sits with a red lead in its mouth', no more, in a picture v0.27 read in full. Not changed. Watch.",
-}
-SCREEN_NOTE = ("The v0.28 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The shadows, the fallen ice cream, the seesaw, the ball and its branch, the faces and the beard went to the isolation bench first, "
-               "and every change but the goatee was read in whole test scenes. 766 of 775 items had full marks, none was misread, and one was missed. "
-               "61 of 64 templates pass the gate, against 63: the begging dog, v0.27's one failure, passes in full, and of the three that now fail, two were not touched and one, the sleeping dog, has the same drawing on a smaller shadow. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates, "
-               "so this is not a measure of the drawings getting worse. Readers' remarks went down 12%, though readers differ widely: remarks on shadows and on marks on a face fell, and those on thin figures rose with nothing changed. AI readers describe "
+# what the v0.29 screen readers made of the templates that read poorly (vision/flaws_v029.md); none is under 0.9 this time
+WEAK_NOTES = {}
+SCREEN_NOTE = ("The v0.29 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The sleeping dog, the duck, the dog at the door, the trip's obstacle, the hose, its swelling, the fish and the heel went to the isolation bench first, "
+               "and every change was read in whole test scenes. 829 of 834 items had full marks, none was misread, and two, both clouds, were missed. "
+               "All 64 templates pass the gate, against 61, and each of the three that failed is on a drawing this release changed. The gate has read 64 twice before, and the next screen fell each time, and a retest of the unchanged v0.9 pictures with fresh readers moved it by five templates, "
+               "so this is not a measure of how much better they are. Four of the five readers of the trip still allow the walker may pass the box, and on a scorer who counted that at half marks it would fail. Readers' remarks did not move. AI readers describe "
                "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:scenes_v027/T1_street_s1031.png@1000,640,1270,1000>scenes/T1_street_s1031.png@1000,640,1270,1000", "The shadow", "v0.27: 'a large oval on the grass, a bit wide and offset from her feet'. v0.28: from the figure's own feet. Pictures remarking on shadows fell from 20 to 11, none of them calling one wide. Here on the same seed."),
-         ("crop:scenes_v027/T4_playground_s1605000.png@630,780,850,930>scenes/T3_playground_s19143.png@1030,880,1250,1000", "The fallen ice cream", "v0.27: 'a pink hat or a pink frisbee', a flying saucer. v0.28: a flat splat with flecks thrown clear of it: 'a pink splat with coloured sprinkles'."),
-         ("crop:scenes_v027/T4_playground_s1605000.png@80,320,300,500>scenes/T4_playground_s621959.png@0,320,220,500", "The ball in the tree", "v0.27: 'a blue planet-like sphere' on 'a small bare branch drawn on top of the crown'. v0.28: a beach ball, on a limb from a fork at the top of the trunk."),
-         ("person.dev__stand__smile__y000", "The beard", "v0.27: 'a thin dark strap along the jaw'. Fuller on the cheek it was 'a mask or scarf'. v0.28: a goatee and moustache: 'a small beard'. No strap or mask in 70 pictures.")]
+FIXES = [("crop:scenes_v028/T2_park_s022.png@834,758,974,894>scenes/T2_park_s022.png@786,710,952,834", "The sleeping dog", "v0.28: 'sniffing the grass, lying down, or curled up asleep'. v0.29: turned three-quarters, its chin on its paws: 'curled up asleep', in all three of its pictures. Here on the same seed."),
+         ("crop:scenes_v028/T4_park_s443959.png@836,508,1184,880>scenes/T4_park_s728923.png@530,508,912,744", "The duck", "v0.28: 'swimming towards those crumbs'. v0.29: the neck arched, the bill at a crumb: 'bending its head down to peck at the crumbs'."),
+         ("crop:scenes_v028/T2_street_s14109_iso.png@770,632,1080,982>scenes/T2_street_s14109_iso.png@772,646,1080,1000", "The trip", "v0.28: 'he is moving past it, not squarely into it'. v0.29: a long low box across the line: 'so he looks about to trip over it or bump into it'. Four of five still allow he may pass. Here on the same seed."),
+         ("crop:scenes_v028/T2_garden_s012.png@118,626,262,852>scenes/T2_garden_s012.png@40,624,216,854", "The dog at the door", "v0.28: 'sits with a red lead in its mouth', no more. v0.29: beside the door and turned to it: 'as though asking to be taken for a walk'. Here on the same seed."),
+         ("crop:probes_v028/T3_garden_s23005.png@896,526,1360,910>probes/T3_garden_s23005.png@896,516,1360,912", "The hose in hand", "v0.28: 'like a rigid pipe'. v0.29: slack, and bowed out in front. No rigid pipe, but the short piece at the fist reads as a sleeve, once: 'seems to stop at about waist height'. Here on the same seed."),
+         ("crop:scenes_v028/T4_garden_s327962.png@1046,208,1310,426>probes/T3_garden_s23021.png@360,218,624,434", "The fish", "v0.28: 'looks pasted onto the leaves'. v0.29: on a limb, well out from the trunk: 'sitting on a bare curved branch, which is impossible'. The limb is now what looks 'a little pasted in'.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):

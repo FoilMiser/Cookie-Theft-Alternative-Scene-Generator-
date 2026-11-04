@@ -6,8 +6,8 @@
  "seed": 42,
  "mirror": false,
  "versions": {
-  "generator": "0.28.0",
-  "cast_builder": "0.28.0",
+  "generator": "0.29.0",
+  "cast_builder": "0.29.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,7 +56,9 @@
   }
  },
  "features": [
-  "sandbox"
+  "bench",
+  "sandbox",
+  "slide"
  ],
  "templates": [
   {
@@ -66,30 +68,24 @@
    "units": 1
   },
   {
-   "id": "sandbox",
+   "id": "slide",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "dog_playing",
+   "id": "carry_box",
    "kind": "event",
    "event": "e3",
    "units": 0
-  },
-  {
-   "id": "play_catch",
-   "kind": "event",
-   "event": "e4",
-   "units": 0
   }
  ],
- "scene_load": 4,
+ "scene_load": 3,
  "items": [
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is building a sandcastle in the sandbox",
+   "text": "A girl is sliding down the slide",
    "accepted": {
     "who": [
      "girl",
@@ -99,45 +95,43 @@
      "daughter"
     ],
     "what": [
-     "building a sandcastle",
-     "making a sandcastle",
-     "playing in the sand",
-     "playing in the sandbox",
-     "digging in the sand",
-     "sandcastle"
+     "going down the slide",
+     "sliding down",
+     "sliding",
+     "on the slide",
+     "playing on the slide"
     ]
    },
-   "key": "sandcastle",
+   "key": "slide",
    "elements": [
-    "sandkid_1",
-    "sandcastle_2"
+    "slidekid_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "sandbox",
+   "template": "slide",
    "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.356,
+    "s": -0.876,
     "r": 0,
     "d": 0.0,
-    "f": -1.73,
-    "a": 5.42,
-    "zipf_raw": 2.27,
-    "aoa_raw": 5.42,
+    "f": 0.3,
+    "a": 4.79,
+    "zipf_raw": 4.3,
+    "aoa_raw": 4.79,
     "domain": null,
-    "area_px": 9260
+    "area_px": 4448
    },
-   "b": -0.323,
-   "p0": 0.58,
-   "pm1": 0.337,
+   "b": -0.792,
+   "p0": 0.688,
+   "pm1": 0.448,
    "aoi_cells": [
-    "BL"
+    "ML"
    ]
   },
   {
@@ -163,8 +157,8 @@
    },
    "key": "reaching",
    "elements": [
-    "balloonlost_3",
-    "heldbal_4"
+    "balloonlost_2",
+    "heldbal_3"
    ],
    "cues": [],
    "effect": [],
@@ -177,7 +171,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.046,
+    "s": 0.108,
     "r": 0,
     "d": 0.0,
     "f": 0.46,
@@ -185,14 +179,14 @@
     "zipf_raw": 4.46,
     "aoa_raw": 4.89,
     "domain": null,
-    "area_px": 16320
+    "area_px": 17812
    },
-   "b": -1.181,
-   "p0": 0.765,
-   "pm1": 0.545,
+   "b": -1.332,
+   "p0": 0.791,
+   "pm1": 0.582,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BC",
+    "BR"
    ]
   },
   {
@@ -207,7 +201,7 @@
    ],
    "key": "balloon",
    "elements": [
-    "loosebal_5"
+    "loosebal_4"
    ],
    "cues": [],
    "effect": [],
@@ -220,7 +214,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -1.096,
+    "s": -1.034,
     "r": 0,
     "d": 0.0,
     "f": -0.1,
@@ -228,13 +222,14 @@
     "zipf_raw": 3.9,
     "aoa_raw": 4.37,
     "domain": null,
-    "area_px": 3264
+    "area_px": 3560
    },
-   "b": 0.058,
-   "p0": 0.486,
-   "pm1": 0.258,
+   "b": -0.093,
+   "p0": 0.523,
+   "pm1": 0.288,
    "aoi_cells": [
-    "MC"
+    "MC",
+    "BC"
    ]
   },
   {
@@ -250,17 +245,17 @@
    ],
    "key": "lost",
    "elements": [
-    "loosebal_5",
-    "balloonlost_3",
-    "heldbal_4"
+    "loosebal_4",
+    "balloonlost_2",
+    "heldbal_3"
    ],
    "cues": [
-    "loosebal_5",
-    "balloonlost_3",
-    "heldbal_4"
+    "loosebal_4",
+    "balloonlost_2",
+    "heldbal_3"
    ],
    "effect": [
-    "loosebal_5"
+    "loosebal_4"
    ],
    "chain": 1,
    "animate": false,
@@ -271,186 +266,91 @@
     "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": -1.096,
+    "s": -1.034,
     "r": 2,
-    "d": 0.126,
+    "d": 0.135,
     "f": 0.0,
     "a": 4.47,
     "zipf_raw": 5.39,
     "aoa_raw": 5.78,
     "domain": null,
-    "area_px": 3264
+    "area_px": 3560
    },
-   "b": 0.569,
-   "p0": 0.361,
-   "pm1": 0.172,
+   "b": 0.429,
+   "p0": 0.394,
+   "pm1": 0.193,
+   "aoi_cells": [
+    "MC",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A worker is carrying a box",
+   "accepted": {
+    "who": [
+     "worker",
+     "man",
+     "woman",
+     "person",
+     "gardener",
+     "delivery person"
+    ],
+    "what": [
+     "carrying a box",
+     "holding a box",
+     "moving a box",
+     "box"
+    ]
+   },
+   "key": "box",
+   "elements": [
+    "carrier_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "carry_box",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.09,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 17360
+   },
+   "b": -1.497,
+   "p0": 0.817,
+   "pm1": 0.622,
    "aoi_cells": [
     "MC",
     "BC"
    ]
   },
   {
-   "id": "i05",
-   "type": "action",
-   "text": "A dog is playing",
-   "accepted": [
-    "dog playing",
-    "playful dog",
-    "dog wants to play",
-    "dog"
-   ],
-   "key": "dog",
-   "elements": [
-    "dog_playing_6"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "dog_playing",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.476,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.1,
-    "a": 2.8,
-    "zipf_raw": 5.1,
-    "aoa_raw": 2.8,
-    "domain": null,
-    "area_px": 7824
-   },
-   "b": -1.112,
-   "p0": 0.753,
-   "pm1": 0.528,
-   "aoi_cells": [
-    "BR"
-   ]
-  },
-  {
    "id": "i06",
-   "type": "action",
-   "text": "A teenager is throwing a ball",
-   "accepted": {
-    "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
-    ],
-    "what": [
-     "throwing a ball",
-     "throwing",
-     "playing catch",
-     "playing ball"
-    ]
-   },
-   "key": "ball",
-   "elements": [
-    "thrower_8",
-    "ball_10"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "play_catch",
-   "event": "e4",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.203,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 2.9,
-    "zipf_raw": 5.04,
-    "aoa_raw": 2.9,
-    "domain": null,
-    "area_px": 11484
-   },
-   "b": -1.231,
-   "p0": 0.774,
-   "pm1": 0.557,
-   "aoi_cells": [
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i07",
-   "type": "action",
-   "text": "A man is catching the ball",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "catching the ball",
-     "catching",
-     "playing catch",
-     "playing ball"
-    ]
-   },
-   "key": "ball",
-   "elements": [
-    "catcher_9"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "play_catch",
-   "event": "e4",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.089,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 2.9,
-    "zipf_raw": 5.04,
-    "aoa_raw": 2.9,
-    "domain": null,
-    "area_px": 13496
-   },
-   "b": -1.288,
-   "p0": 0.784,
-   "pm1": 0.572,
-   "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i08",
    "type": "entity",
-   "text": "There is a railing around the playground",
+   "text": "There are a few white clouds",
    "accepted": [
-    "fence",
-    "railing",
-    "playground fence"
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
    ],
-   "key": "fence",
+   "key": "clouds",
    "elements": [
-    "fence"
+    "clouds_white"
    ],
    "cues": [],
    "effect": [],
@@ -463,27 +363,26 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.124,
+    "s": -0.012,
     "r": 0,
     "d": 0.0,
-    "f": 0.21,
-    "a": 6.28,
-    "zipf_raw": 4.21,
-    "aoa_raw": 6.28,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 74660
+    "area_px": 15048
    },
-   "b": -1.145,
-   "p0": 0.759,
-   "pm1": 0.536,
+   "b": -0.682,
+   "p0": 0.664,
+   "pm1": 0.421,
    "aoi_cells": [
-    "ML",
-    "MC",
-    "MR"
+    "TC",
+    "TR"
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -516,12 +415,96 @@
     "domain": null,
     "area_px": 57704
    },
-   "b": -1.246,
-   "p0": 0.777,
-   "pm1": 0.561,
+   "b": -1.366,
+   "p0": 0.797,
+   "pm1": 0.59,
    "aoi_cells": [
     "TR",
     "MR"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a sandbox",
+   "accepted": [
+    "sandbox",
+    "sandpit",
+    "sand pit",
+    "sand"
+   ],
+   "key": "sand",
+   "elements": [
+    "sandbox"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.588,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.44,
+    "a": 4.63,
+    "zipf_raw": 4.44,
+    "aoa_raw": 4.63,
+    "domain": null,
+    "area_px": 35040
+   },
+   "b": -1.066,
+   "p0": 0.744,
+   "pm1": 0.516,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a bench",
+   "accepted": [
+    "bench",
+    "seat"
+   ],
+   "key": "bench",
+   "elements": [
+    "bench"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.318,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.39,
+    "a": 4.21,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.21,
+    "domain": null,
+    "area_px": 9776
+   },
+   "b": -0.598,
+   "p0": 0.645,
+   "pm1": 0.401,
+   "aoi_cells": [
+    "MR",
+    "BR"
    ]
   }
  ],
@@ -533,12 +516,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.71,
-   "inference": 0.361
+   "content": 0.709,
+   "inference": 0.394
   },
   "theta_minus_1": {
-   "content": 0.487,
-   "inference": 0.172
+   "content": 0.484,
+   "inference": 0.193
   }
  },
  "bands": {
@@ -550,7 +533,7 @@
  },
  "in_tier": true,
  "checks": {
-  "balloonlost_3_looks_at_balloon": {
+  "balloonlost_2_looks_at_balloon": {
    "result": false,
    "detail": ""
   },
@@ -564,14 +547,14 @@
   },
   "clutter_band": {
    "result": true,
-   "detail": "18 drawn objects (tier band 16-24)"
+   "detail": "16 drawn objects (tier band 16-24)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0347,
-  "png_bytes": 186973,
-  "jpeg_bytes": 159166
+  "objects": 16,
+  "edge_density": 0.0346,
+  "png_bytes": 156873,
+  "jpeg_bytes": 154383
  },
  "signature": [
   [
@@ -587,11 +570,11 @@
    0
   ],
   [
-   "action",
+   "entity",
    0
   ],
   [
-   "action",
+   "entity",
    0
   ],
   [
@@ -672,8 +655,8 @@
     956.0
    ],
    "area_px": 36428,
-   "visible_px": 31380,
-   "occlusion": 0.139
+   "visible_px": 35040,
+   "occlusion": 0.038
   },
   {
    "id": "fence",
@@ -687,8 +670,23 @@
     620.0
    ],
    "area_px": 91648,
-   "visible_px": 74660,
-   "occlusion": 0.185
+   "visible_px": 76396,
+   "occlusion": 0.166
+  },
+  {
+   "id": "filler_bush_pl",
+   "label": "Bush",
+   "role": "filler",
+   "z": 640,
+   "bbox": [
+    1274.0,
+    598.0,
+    1386.0,
+    670.0
+   ],
+   "area_px": 5892,
+   "visible_px": 5892,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bush_pl2",
@@ -703,6 +701,21 @@
    ],
    "area_px": 6628,
    "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "bench",
+   "label": "Bench",
+   "role": "setting",
+   "z": 680,
+   "bbox": [
+    1084.0,
+    582.0,
+    1256.0,
+    682.0
+   ],
+   "area_px": 9776,
+   "visible_px": 9776,
    "occlusion": 0.0
   },
   {
@@ -732,118 +745,28 @@
     726.0
    ],
    "area_px": 22968,
-   "visible_px": 22968,
-   "occlusion": 0.0
+   "visible_px": 21680,
+   "occlusion": 0.056
   },
   {
-   "id": "thrower_8",
-   "label": "person.leo__throw_ball__determined__y090",
+   "id": "slidekid_1",
+   "label": "person.nia__slide_down__smile__y090",
    "role": "scored",
-   "z": 778.6,
+   "z": 721,
    "bbox": [
-    1298.0,
-    540.0,
-    1430.0,
-    784.0
+    372.0,
+    510.0,
+    464.0,
+    640.0
    ],
-   "area_px": 10548,
-   "visible_px": 10548,
+   "area_px": 4448,
+   "visible_px": 4448,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.leo__throw_ball__determined__y090",
-    "family": "person.leo",
-    "scale": 0.4374,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
-  },
-  {
-   "id": "catcher_9",
-   "label": "person.ben__catch__smile__y090",
-   "role": "scored",
-   "z": 801.56,
-   "bbox": [
-    1020.0,
-    520.0,
-    1148.0,
-    806.0
-   ],
-   "area_px": 13496,
-   "visible_px": 13496,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ben__catch__smile__y090",
-    "family": "person.ben",
-    "scale": 0.4459,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
-  },
-  {
-   "id": "ball_10",
-   "label": "Ball in the air",
-   "role": "scored",
-   "z": 802.56,
-   "bbox": [
-    1164.0,
-    508.0,
-    1294.0,
-    578.0
-   ],
-   "area_px": 936,
-   "visible_px": 936,
-   "occlusion": 0.0
-  },
-  {
-   "id": "sandkid_1",
-   "label": "person.nia__sand_build__smile__y045",
-   "role": "scored",
-   "z": 886.2,
-   "bbox": [
-    338.0,
-    756.0,
-    404.0,
-    894.0
-   ],
-   "area_px": 5840,
-   "visible_px": 5408,
-   "occlusion": 0.074,
-   "asset": {
-    "variant": "person.nia__sand_build__smile__y045",
+    "variant": "person.nia__slide_down__smile__y090",
     "family": "person.nia",
-    "scale": 0.4773,
-    "mirrored": true,
+    "scale": 0.4161,
+    "mirrored": false,
     "labels": {
      "everyday_name": "girl",
      "accepted_names": [
@@ -863,39 +786,92 @@
    }
   },
   {
-   "id": "sandcastle_2",
-   "label": "Sandcastle",
+   "id": "carrier_5",
+   "label": "person.jo__walk_box__smile__y090",
    "role": "scored",
-   "z": 892.2,
+   "z": 881.64,
    "bbox": [
-    292.0,
-    800.0,
-    368.0,
-    892.0
+    584.0,
+    592.0,
+    708.0,
+    888.0
    ],
-   "area_px": 3852,
-   "visible_px": 3852,
+   "area_px": 17360,
+   "visible_px": 17360,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.jo__walk_box__smile__y090",
+    "family": "person.jo",
+    "scale": 0.4756,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "worker",
+     "accepted_names": [
+      "worker",
+      "man",
+      "woman",
+      "person",
+      "gardener",
+      "delivery person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "short_cap"
+     }
+    }
+   }
+  },
+  {
+   "id": "filler_pail_pl",
+   "label": "Sand pail and spade",
+   "role": "filler",
+   "z": 912,
+   "bbox": [
+    484.0,
+    870.0,
+    536.0,
+    914.0
+   ],
+   "area_px": 1388,
+   "visible_px": 1388,
    "occlusion": 0.0
   },
   {
-   "id": "balloonlost_3",
-   "label": "person.kai__balloon_reach__sad__y045",
-   "role": "scored",
-   "z": 903.47,
+   "id": "filler_rock_pl",
+   "label": "Rock",
+   "role": "filler",
+   "z": 940,
    "bbox": [
-    750.0,
-    692.0,
-    868.0,
-    906.0
+    110.0,
+    904.0,
+    188.0,
+    942.0
    ],
-   "area_px": 9764,
-   "visible_px": 9740,
-   "occlusion": 0.002,
+   "area_px": 2476,
+   "visible_px": 2476,
+   "occlusion": 0.0
+  },
+  {
+   "id": "balloonlost_2",
+   "label": "person.kai__balloon_reach__scared__y045",
+   "role": "scored",
+   "z": 967.76,
+   "bbox": [
+    894.0,
+    746.0,
+    1018.0,
+    970.0
+   ],
+   "area_px": 10672,
+   "visible_px": 10656,
+   "occlusion": 0.001,
    "asset": {
-    "variant": "person.kai__balloon_reach__sad__y045",
+    "variant": "person.kai__balloon_reach__scared__y045",
     "family": "person.kai",
-    "scale": 0.4837,
-    "mirrored": false,
+    "scale": 0.5075,
+    "mirrored": true,
     "labels": {
      "everyday_name": "child",
      "accepted_names": [
@@ -916,93 +892,33 @@
    }
   },
   {
-   "id": "filler_rock_pl",
-   "label": "Rock",
-   "role": "filler",
-   "z": 940,
-   "bbox": [
-    110.0,
-    904.0,
-    188.0,
-    942.0
-   ],
-   "area_px": 2476,
-   "visible_px": 2476,
-   "occlusion": 0.0
-  },
-  {
-   "id": "dog_playing_6",
-   "label": "animal.dog_02__play_bow__happy__y090",
-   "role": "scored",
-   "z": 965.37,
-   "bbox": [
-    1086.0,
-    844.0,
-    1230.0,
-    968.0
-   ],
-   "area_px": 7836,
-   "visible_px": 7824,
-   "occlusion": 0.002,
-   "asset": {
-    "variant": "animal.dog_02__play_bow__happy__y090",
-    "family": "animal.dog_02",
-    "scale": 0.5066,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "dog",
-     "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
-     ],
-     "category": "small_animal"
-    }
-   }
-  },
-  {
-   "id": "toyball_7",
-   "label": "Toy ball by the dog",
-   "role": "setting",
-   "z": 966.37,
-   "bbox": [
-    1062.0,
-    854.0,
-    1250.0,
-    970.0
-   ],
-   "area_px": 956,
-   "visible_px": 956,
-   "occlusion": 0.0
-  },
-  {
-   "id": "heldbal_4",
+   "id": "heldbal_3",
    "label": "Balloons held by the child",
    "role": "scored",
    "z": 1499,
    "bbox": [
-    676.0,
-    608.0,
-    778.0,
-    784.0
+    988.0,
+    652.0,
+    1094.0,
+    844.0
    ],
-   "area_px": 6580,
-   "visible_px": 6580,
+   "area_px": 7156,
+   "visible_px": 7156,
    "occlusion": 0.0
   },
   {
-   "id": "loosebal_5",
+   "id": "loosebal_4",
    "label": "Balloon floating away",
    "role": "scored",
    "z": 1500,
    "bbox": [
-    878.0,
-    522.0,
-    934.0,
-    676.0
+    834.0,
+    558.0,
+    892.0,
+    720.0
    ],
-   "area_px": 3264,
-   "visible_px": 3264,
+   "area_px": 3560,
+   "visible_px": 3560,
    "occlusion": 0.0
   }
  ],
@@ -1013,10 +929,10 @@
  "attempts": [
   [
    42,
-   "layout 4: accepted after 3 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 3,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 42,
@@ -1030,12 +946,7 @@
    "dog_wants_walk": 1,
    "dog_playing": 1,
    "sweep": 1,
-   "play_catch": 2,
-   "about_to_trip": 1,
-   "sweep_fork": 1,
-   "paint_fence": 1,
-   "water_flowers": 1,
-   "bird_perched": 1,
+   "play_catch": 1,
    "goat_grazing": 1,
    "plant_flowers": 1,
    "feed_birds": 1,
@@ -1043,22 +954,27 @@
    "push_stroller": 1,
    "carry_box": 1,
    "dog_sleeping": 1,
-   "ducks_bread": 1,
-   "sitting_on_air": 1,
-   "carry_bag": 1,
+   "lost_balloon": 1,
+   "ball_in_tree": 1,
+   "cat_stalks_bird": 2,
    "ice_cream": 1,
-   "fly_kite": 1,
+   "dig": 1,
+   "balloon": 1,
    "birds_flying": 1,
    "jump": 1,
    "run": 1,
-   "cat_stalks_bird": 1,
-   "balloon": 1,
    "wave": 1,
+   "carry_bag": 1,
    "read_bench": 1,
+   "about_to_trip": 1,
+   "dog_begs": 1,
+   "water_flowers": 1,
+   "photo": 1,
+   "bird_perched": 1,
    "sandbox": 1,
    "kick_ball": 1
   },
   "forced": null,
-  "placement_rev": 26
+  "placement_rev": 27
  }
 }

@@ -21,11 +21,13 @@ from .draw import OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out028")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib028")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out029")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib029")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 # v0.28 bench (isolation_v028.md): "O" keeps the shadow from the figure's box
 SHADOW28 = "B"
+# v0.29 bench: "W" a wider shadow, further under the body, for a dog asleep (the old pose's oval went from wide to narrow in v0.28, and the sleeping dog fell under the gate)
+SHADOW29 = "O"
 SHADOW_FOOT = 0.085                 # a person's shadow past the feet on each side, as a part of the figure's height
 ON_THE_GROUND = {"sit_ground", "kneel_plant", "sand_build"}     # poses whose body, not the feet, meets the ground
 
@@ -279,6 +281,10 @@ class Placed:
         a, b = self.X + self.s * self.k * (u0 - self.gx), self.X + self.s * self.k * (u1 - self.gx)
         rx = abs(b - a) / 2 * 1.06
         ry = rx * 0.2
+        if SHADOW29 == "W" and self.pose().startswith("sleep"):
+            rx *= 1.22
+            ry = rx * 0.3
+            return (a + b) / 2, self.Y + self.k * (v1 - self.gy) - 1.1 * ry, rx, ry
         return (a + b) / 2, self.Y + self.k * (v1 - self.gy) - 0.45 * ry, rx, ry
 
     def pose(self):

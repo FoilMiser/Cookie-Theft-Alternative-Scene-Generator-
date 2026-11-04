@@ -388,12 +388,27 @@ class HoseWater(T):
                     # along the ground, it stood "like a stiff loop" and "curves up unnaturally"; straight up from the ground under the fist, it was a pole)
                     hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + hx) / 2 - 20, Y + 38), (hx - 60 * s_, Y + 46), (hx - 12 * s_, Y + 36),
                                         (hx + 34 * s_, Y + 26), (hx + 20 * s_, (Y + hy) / 2 + 26 * s_), (hx + 8 * s_, hy + 62 * s_), (hx, hy)], s_ * 0.86)
+                if SCN.PLACEMENT_REV >= 27 and HOSE29 == "B":
+                    # revision 27: slack waves along the ground, up in a soft curve, and down out of the fist (one tight arc and a straight rise stood "like a rigid pipe", "with no slack", "could read as a post")
+                    L_ = hx - rx
+                    # (the bow out in front of the body: bowed toward the body it went behind the hips, and came out "broken up", "hidden by or merged with his shirt")
+                    hose = D.hose_through([(rx, ry), (rx + 42, Y + 34), (rx + L_ * 0.34, Y + 30), (rx + L_ * 0.60, Y + 44), (hx - 92 * s_, Y + 38),
+                                           (hx - 22 * s_, Y + 18), (hx - 56 * s_, (Y + hy) / 2 + 14 * s_), (hx - 22 * s_, hy + 56 * s_), (hx - 2 * s_, hy + 24 * s_), (hx, hy + 6 * s_)], s_ * 0.86)
             else:
                 hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + X) / 2 + 40, Y + 30), (hx + 40, hy + 120), (hx, hy)], sz(Y))
             # revision 19: the hose drawn in front of the flower bed (behind it, the bed hid a fifth of it and the event
             # could only be placed where a clothesline post pushed the waterer away from the bed)
             hd = max(Y - 1, F["depth"] + 0.5) if SCN.PLACEMENT_REV >= 19 else Y - 1
             eh = sc.svg(sc.eid("hose"), "Garden hose", hose, hd, (rx, min(hy, ry), hx + 40, Y + 45), "scored")
+            if SCN.PLACEMENT_REV >= 27 and HOSE29 == "B":
+                # revision 27: and a short piece over the joint, in front of the figure, so the hose in the fist runs on into the hose on the ground (the two met end to end:
+                # "a short thick teal section stands upright ... and appears to stop or have a gap before the longer hose continues")
+                s_ = sz(Y)
+                jd = f"M {D.P(hx, hy + 26 * s_)} L {D.P(hx, hy - 10 * s_)}"
+                w_, o_ = 9 * s_ * 0.86, D.OW * 0.8
+                join = (f'<path d="{jd}" fill="none" stroke="{D.OUT}" stroke-width="{w_ + 2 * o_:.1f}" stroke-linecap="butt"/>'
+                        f'<path d="{jd}" fill="none" stroke="{C["hose"]}" stroke-width="{w_:.1f}" stroke-linecap="butt"/>')
+                sc.svg(sc.eid("hosejoin"), "Garden hose at the hand", join, Y + 1, (hx - 10, hy - 12 * s_, hx + 10, hy + 28 * s_), "background")
             nz, aim = p.anchor("nozzle"), p.anchor("nozzle_aim")
             if SCN.PLACEMENT_REV >= 4:
                 # revision 4: the spray reaches the soil of the bed and is drawn in front of the flowers
@@ -1785,6 +1800,18 @@ class Wave(T):
 
 
 # ---------------------------------------------------------------- animal events
+# v0.29 bench (vision/isolation_v029.md): the letters are what the bench compared, and the defaults what it chose
+SLEEP29 = "C"       # the sleeping dog: O curled up, B chin on both paws facing out, C the same turned three-quarters
+TRIP29 = "W"        # the trip's obstacle: O on the line of the stride, L a little nearer the viewer, W a wide box across the line, P a plank across it (it "stands at a lean, on its narrow end")
+TRIP_OBJ29 = None   # (the bench: this obstacle every time)
+DUCK29 = "L"        # the duck: O upright with crumbs ahead of it, B its neck out and its bill at a crumb, L its head bent down over a crumb just ahead of it
+DOOR29 = "B"        # the dog at the door: O in front of it facing out, B beside it turned toward it
+HOSE29 = "B"        # the hose in hand: O a tight arc and an upright run, B slack waves and a hang from the fist
+BULGE29 = "B"       # the stopped hose's swelling: O as it was, B slimmer with no highlight
+FISH29 = "B"        # the fish in the tree: O on the leaves, B on a limb
+LADDER_LAMP29 = 160 # how far the ladder keeps from a lamp post, each side of it
+
+
 class AnimalEvent(T):
     kinds, pose, exprs, yaw = ("dog",), "sleep", ("sleepy",), 90
     text = ("A dog is sleeping", ["dog sleeping", "dog lying down", "sleeping dog", "dog resting", "dog"], "dog")
@@ -1800,6 +1827,8 @@ class AnimalEvent(T):
             # stretched out flat, seen from the side, a sleeping cat or dog "could also be read as collapsed")
             # (a cat curled face-on was too small to see: cats curl up with a short round trunk, turned 45 degrees)
             pose, yaw = ("sleep_tuck", 45) if self.id == "cat_sleeping" else ("sleep_ball", 0)
+            if SCN.PLACEMENT_REV >= 27 and self.id == "dog_sleeping" and SLEEP29 != "O":
+                pose, yaw = ("sleep_paws", 0) if SLEEP29 == "B" else ("sleep_paws_turn", 45)
         self.va = sc.need(self.a, pose, sc.rng.choice(self.exprs), yaw)
 
     def spot(self):
@@ -2540,7 +2569,9 @@ def _pinched_hose(sc, reel, pinch, front_x, hand, Y, s):
     # under it, its top rounded up off the ground, with a highlight along it
     prof = [(x0 + f * 8 * s, 4.5, 0.0)]          # (starting back over the hose's own end, so no seam shows)
     n = 48
-    hmax = 14.5 * s
+    # (revision 27: slimmer, with no highlight: "like a separate slug-shaped object", "a dark flattened blob")
+    slim = SCN.PLACEMENT_REV >= 27 and BULGE29 == "B"
+    hmax = (10.5 if slim else 14.5) * s
     for i in range(n + 1):
         t = i / n
         x = x0 + (px - f * 3 * s - x0) * t          # (the egg's end runs in under the foot, so the foot is on it)
@@ -2565,7 +2596,8 @@ def _pinched_hose(sc, reel, pinch, front_x, hand, Y, s):
     bulge = f'<path d="{outline(ow)}" fill="{D.OUT}" stroke="{D.OUT}" stroke-width="1" stroke-linejoin="round"/>'
     bulge += f'<path d="{outline(0)}" fill="{C["hose"]}"/>'
     hl = [(x, cyh - hw * (1 + 0.25 * g) * 0.62) for x, hw, g in prof[int(n * 0.30):int(n * 0.72)]]
-    bulge += D.stroke("M " + " L ".join(D.P(*q) for q in hl), "#4fa3bd", 3.0 * s, 0)
+    if not slim:
+        bulge += D.stroke("M " + " L ".join(D.P(*q) for q in hl), "#4fa3bd", 3.0 * s, 0)
     # squashed flat under the foot: a wide thin band
     flat = D.ell(px, py + 1 * s, 16 * s, 2.6 * s, C["hose"], D.OW * 0.7)
     # downstream: thin and slack along the ground under the animal and past its front feet, then draped up to
@@ -3337,8 +3369,12 @@ class AboutToTrip(T):
         # revision 7: a bigger book held open with its pages showing (the small book seen edge-on read as a phone)
         self.vp = sc.need(self.p, "walk_read_open" if SCN.PLACEMENT_REV >= 7 else "walk_read", "focused", 90)
         self.obj = sc.rng.choice(["bucket", "ball", "box"])
-        if SCN.PLACEMENT_REV >= 4 and self.obj == "box" and "floating_box" in getattr(sc, "picked_ids", ()):
+        if SCN.PLACEMENT_REV >= 27:
+            self.obj = TRIP_OBJ29 or {"W": "long_box", "P": "plank"}.get(TRIP29, self.obj)
+        if SCN.PLACEMENT_REV >= 4 and self.obj in ("box", "long_box") and "floating_box" in getattr(sc, "picked_ids", ()):
             self.obj = "bucket"     # one box in a picture with a floating box
+        if SCN.PLACEMENT_REV >= 27 and self.obj == "long_box" and set(getattr(sc, "picked_ids", ())) & {"carry_box", "sprinkler_package"}:
+            self.obj = "bucket"     # (revision 27: and with a carried or a soaked one)
         if SCN.PLACEMENT_REV >= 7 and self.obj == "ball" and set(getattr(sc, "picked_ids", ())) & BALL_EVENTS:
             self.obj = "bucket"     # revision 7: no second ball like the one in another event
 
@@ -3364,8 +3400,12 @@ class AboutToTrip(T):
                 if feet:
                     # (never behind the walker's own ground line, which kept it off the walkable ground at the back)
                     oy = max(Y, max(feet, key=lambda q: q[0] * want)[1])
+                    if SCN.PLACEMENT_REV >= 27 and TRIP29 == "L":
+                        oy += 26 * s
             col = sc.rng.choice([C["blue"], C["red"]]) if self.obj == "bucket" else None
             gap = sc.rng.uniform(45, 85) * s if SCN.PLACEMENT_REV >= 21 else 0.0
+            if SCN.PLACEMENT_REV >= 27 and self.obj == "long_box":
+                gap = sc.rng.uniform(30, 52) * s
 
             def draw_obj(ox):
                 if self.obj == "bucket":
@@ -3376,6 +3416,12 @@ class AboutToTrip(T):
                     # (revision 25: with a shadow: "there is no shadow under it ... it looks slightly as if it is floating")
                     sh = D.shadow(ox, oy, 2 * r) if SCN.PLACEMENT_REV >= 25 else ""
                     return sh + D.ball(ox, oy - r, r, C["red"]), (ox - r, oy - 2 * r, ox + r, oy), "a ball", ["ball", "a ball on the ground"], "ball"
+                if self.obj == "long_box":
+                    svg, bb = D.long_box(ox, oy, s, w=72, h=38, dx=14, dy=40)
+                    return svg, bb, "a box", ["box", "crate", "a box in the way"], "box"
+                if self.obj == "plank":
+                    svg, bb = D.long_box(ox, oy, s, w=30, h=8, dx=24, dy=100, grain=True)
+                    return svg, bb, "a plank", ["plank", "board", "a piece of wood", "a plank in the way"], "box"
                 svg, bb = D.crate(ox, oy, s * 0.7)
                 return svg, bb, "a box", ["box", "crate", "a box in the way"], "box"
             svg, bb, label, acc, key = draw_obj(ox)
@@ -3538,6 +3584,8 @@ class SprinklerPackage(T):
     # revision 19: one hose per picture (the sprinkler's hose running off the picture's edge beside a second, blocked one
     # left "unclear water source")
     exclusive += ("hose_reel",) if SCN.PLACEMENT_REV >= 19 else ()
+    # revision 27: no second box in the picture, as with the carried one ("the two boxes look similar, so I could not tell whether there is any connection between them")
+    exclusive += ("box_prop",) if SCN.PLACEMENT_REV >= 27 else ()
     units, content = 1, 2
 
     def bind(self):
@@ -4185,7 +4233,7 @@ class DucksBread(T):
         self.p = sc.person(None)
         self.vp = sc.need(self.p, "feed_birds", sc.rng.choice(["smile", "happy", "content"]), 90)
         self.d = sc.animal(["duck"])
-        self.vd = sc.need(self.d, "swim", "neutral", 90)
+        self.vd = sc.need(self.d, {"B": "swim_eat", "L": "swim_look"}.get(DUCK29, "swim") if SCN.PLACEMENT_REV >= 27 else "swim", "neutral", 90)
 
     def place(self):
         sc = self.sc
@@ -4226,14 +4274,20 @@ class DucksBread(T):
                     # "swimming toward the food" was not said to be coming to eat it)
                     db = d.bbox()
                     front = db[0] if want > 0 else db[2]
-                    crumbs += "".join(D.ell(front - want * (8 + i * 15), dy - 3 + (i % 2) * 4, 6, 3.5, crumb_c, D.OW * 0.5) for i in range(3))
+                    if SCN.PLACEMENT_REV >= 27 and DUCK29 != "O":
+                        # revision 27: the bill at a crumb, more just ahead of it, so eating is drawn (with crumbs ahead of an upright duck: "swimming towards those crumbs")
+                        mx_, my_ = d.anchor("mouth")
+                        crumbs += "".join(D.ell(mx_ - want * (1 + i * 15), my_ + 2 + (i % 2) * 4, 6, 3.5, crumb_c, D.OW * 0.5) for i in range(3))
+                    else:
+                        crumbs += "".join(D.ell(front - want * (8 + i * 15), dy - 3 + (i % 2) * 4, 6, 3.5, crumb_c, D.OW * 0.5) for i in range(3))
                 ec = sc.svg(sc.eid("crumbs"), "Bread crumbs flying toward the water", crumbs + wake, -64, (min(sx, dx) - 40, sy, max(sx, dx) + 40, dy + 30), "scored")
                 if SCN.PLACEMENT_REV >= 4:      # the wake now trails on the far side of the duck
                     sc.svgs[ec]["bbox"] = (min(sx, dx - 100), sy, max(sx, dx + 100), dy + 30)
                 self.act(self.p, "throwing bread to the ducks", ["feeding the ducks", "throwing bread", "feeding the birds", "bread"], "bread", [ep, ec])
                 it = self.ent("A duck is swimming toward the shore", ["duck", "duck swimming", "ducks in the pond"], "duck", [ed], animate=True)
                 it["type"] = "action"
-                self.inf("The duck is coming to eat the bread", ["the duck wants the bread", "the ducks are hungry", "the duck is swimming over for food"],
+                self.inf("The duck has come to eat the bread" if SCN.PLACEMENT_REV >= 27 else "The duck is coming to eat the bread",
+                         ["the duck wants the bread", "the ducks are hungry", "the duck is swimming over for food"] + (["the duck is eating the bread"] if SCN.PLACEMENT_REV >= 27 else []),
                          "hungry", 1, cues=[ed, ec], effect=[ec])
                 return True
             sc.remove(ep)
@@ -4337,15 +4391,17 @@ class DogWantsWalk(T):
         # facing the viewer: compact, so it fits on the step in front of the door
         # revision 24: open eyes (the happy face closes them: "with its eyes shut", "its eyes are shut, which could mean happy or asleep",
         # and its wish for a walk went unstated, the gate's lowest template in v0.25)
-        self.vd = sc.need(self.d, "sit", "neutral" if SCN.PLACEMENT_REV >= 24 else sc.rng.choice(["happy", "neutral"]), 0)
+        self.vd = sc.need(self.d, "sit_wait" if SCN.PLACEMENT_REV >= 27 and DOOR29 == "B" else "sit", "neutral" if SCN.PLACEMENT_REV >= 24 else sc.rng.choice(["happy", "neutral"]), 45 if SCN.PLACEMENT_REV >= 27 and DOOR29 == "B" else 0)
 
     def place(self):
         sc = self.sc
         ed = sc.eid("waitingdog")
         rev14 = SCN.PLACEMENT_REV >= 14
-        for X in ((190, 180, 200, 175, 210, 225, 240) if rev14 else (225, 240, 255, 210, 270)):
+        beside = SCN.PLACEMENT_REV >= 27 and DOOR29 == "B"
+        # (the bench's B: beside the door and turned toward it, its gaze on the door. 335 and on are to the door's right, the rest to its left)
+        for X in ((335, 350, 320, 120, 105) if beside else (190, 180, 200, 175, 210, 225, 240) if rev14 else (225, 240, 255, 210, 270)):
             Y = 806
-            d = sc.placed(self.vd, X, Y, False, eid=ed)
+            d = sc.placed(self.vd, X, Y, sc.mirror_for(self.vd, -1 if X > 250 else 1) if beside else False, eid=ed)
             if not sc.fits(d.bbox(), limit=0.10):
                 continue
             if rev14:
@@ -4358,11 +4414,15 @@ class DogWantsWalk(T):
             s = sz(Y)
             # leash: from the mouth down to a loop lying on the ground
             gy = Y + 6
-            lx = mx + 46 * s
-            leash = f'<path d="M {D.P(mx, my)} C {D.P(mx + 6 * s, my + 40 * s)} {D.P(lx - 30 * s, gy - 4)} {D.P(lx, gy - 2)}" fill="none" stroke="{D.OUT}" stroke-width="{6 * s + 2:.1f}" stroke-linecap="round"/>'
-            leash += f'<path d="M {D.P(mx, my)} C {D.P(mx + 6 * s, my + 40 * s)} {D.P(lx - 30 * s, gy - 4)} {D.P(lx, gy - 2)}" fill="none" stroke="{C["red"]}" stroke-width="{6 * s:.1f}" stroke-linecap="round"/>'
+            lx = mx + (-46 * s if beside and X > 250 else 46 * s)
+            c1_, c2_ = (mx + 6 * s, my + 40 * s), (lx - 30 * s, gy - 4)
+            if beside:
+                # (hanging from the mouth, then lying along the ground to its loop: from the mouth straight to the loop it rose "almost straight and stiff ... more like a rigid pole")
+                c1_, c2_ = (mx + (lx - mx) * 0.32, my + 74 * s), (mx + (lx - mx) * 0.08, gy + 2)
+            leash = f'<path d="M {D.P(mx, my)} C {D.P(*c1_)} {D.P(*c2_)} {D.P(lx, gy - 2)}" fill="none" stroke="{D.OUT}" stroke-width="{6 * s + 2:.1f}" stroke-linecap="round"/>'
+            leash += f'<path d="M {D.P(mx, my)} C {D.P(*c1_)} {D.P(*c2_)} {D.P(lx, gy - 2)}" fill="none" stroke="{C["red"]}" stroke-width="{6 * s:.1f}" stroke-linecap="round"/>'
             leash += D.ell(lx + 18 * s, gy - 2, 20 * s, 7 * s, "none", D.OW * 0.6) + f'<ellipse cx="{lx + 18 * s:.1f}" cy="{gy - 2:.1f}" rx="{20 * s:.1f}" ry="{7 * s:.1f}" fill="none" stroke="{C["red"]}" stroke-width="{4 * s:.1f}"/>'
-            el_bb = (mx - 10, my - 6, lx + 42 * s, gy + 8)
+            el_bb = (min(mx - 10, lx - 6 * s), my - 6, max(mx + 10, lx + 42 * s), gy + 8)
             if not sc.fits(el_bb, limit=0.05, ignore=(ed,)):
                 continue
             sc.assets[ed] = d
@@ -4556,6 +4616,8 @@ class BucketHat(T):
     id = "bucket_hat"
     kind = "contradiction"
     domain = "functional"
+    # revision 27: never under storm clouds ("she is wearing it as a makeshift rain hat because of the clouds")
+    sky = "clear" if SCN.PLACEMENT_REV >= 27 else None
     units, content = 1, 1
 
     def bind(self):
@@ -4640,7 +4702,8 @@ class FloatingBox(T):
                     continue
                 sc.airzones.append(zone)
             eb = sc.svg(sc.eid("floatbox"), "Box floating in the air", svg, Y, bb, "scored")
-            self.ent("There is a wooden box", ["box", "crate", "wooden box"], "box", [eb])
+            # (revision 27: "a box": readers call it cardboard, and two scorers raised the key's "wooden")
+            self.ent("There is a box" if SCN.PLACEMENT_REV >= 27 else "There is a wooden box", ["box", "crate", "wooden box", "cardboard box"] if SCN.PLACEMENT_REV >= 27 else ["box", "crate", "wooden box"], "box", [eb])
             self.contra("Something is wrong with the box",
                         "The box is floating in the air with nothing holding it up",
                         ["the box is weird", "something odd about the box", "that box"], ["floating box", "box in the air", "nothing holding it up", "box should fall"], "floating", [eb])
@@ -4732,11 +4795,18 @@ class FishInTree(T):
             pts = [(x, y - 16)] + [(sx, sy) for sx, sy in T_["slots"][3:]]
         else:
             pts = list(T_["slots"][3:])
+        if SCN.PLACEMENT_REV >= 27 and FISH29 == "B":
+            # (well out from the trunk, so the limb shows: on the trunk's own line it "overlaps the tree trunk and the branch with no visible connection to either")
+            pts = sorted(pts, key=lambda q: -abs(q[0] - T_["canopy"][0]))
         for (x, y) in pts:
             svg, bb = D.fish(x, y, self.k3(1.25, 0.9, 0.7), C["orange"], f=sc.rng.choice([1, -1]))
             if not sc.fits(bb, limit=0.03):
                 continue
             ef = sc.svg(sc.eid("treefish"), "Fish sitting in the tree", svg, T_["bbox"][3] + 0.6, bb, "scored")
+            if SCN.PLACEMENT_REV >= 27 and FISH29 == "B":
+                # revision 27: on a limb of the tree, as the ball is (on the leaves it "looks pasted onto the leaves")
+                lsvg, lbb = _limb_to(T_, x, y + 13 * self.k3(1.25, 0.9, 0.7), 8)
+                sc.svg(sc.eid("limb"), "Limb of the tree", lsvg, T_["bbox"][3] + 0.2, lbb, "background")
             self.ent("There is a fish", ["fish", "a fish", "goldfish"], "fish", [ef])
             self.contra("Something is wrong in the tree",
                         "A fish is sitting up in the tree, but fish live in water",
@@ -4818,6 +4888,9 @@ class LadderNothing(T):
             # revision 20: well clear of every other upright, its top too (on the open lawn, its top just below a lamp post's
             # foot, a ladder read as "standing up at a lean ... or lying flat on the grass")
             solid = [(b[0] - 30, b[1] - 30, b[2] + 30, b[3] + 30) for b in solid]
+        if SCN.PLACEMENT_REV >= 27:
+            # revision 27: and nowhere near a lamp post (36 px from one, it was "meant to lean on the lamp post that is simply drawn too far away from it")
+            solid += [(b[0] - LADDER_LAMP29, b[1], b[2] + LADDER_LAMP29, b[3] + 60) for b in (e["bbox"] for e in sc.S.elements if e["id"] == "lamp" and e.get("bbox"))]
         for X, Y in self.stand_spots(y_range=(sc.S.horizon + 140, 960), n=200 if SCN.PLACEMENT_REV >= 20 else 100):
             s = sz(Y) * self.k3(1.2, 1.0, 0.85)
             lean = sc.rng.choice([12, 16, -12, -16])
