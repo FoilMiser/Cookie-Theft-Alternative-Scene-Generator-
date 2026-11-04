@@ -6,8 +6,8 @@
  "seed": 24025,
  "mirror": true,
  "versions": {
-  "generator": "0.27.0",
-  "cast_builder": "0.27.0",
+  "generator": "0.28.0",
+  "cast_builder": "0.28.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -64,13 +64,13 @@
    "units": 1
   },
   {
-   "id": "balloon",
+   "id": "fishing",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "feed_birds",
+   "id": "push_stroller",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -80,6 +80,60 @@
  "items": [
   {
    "id": "i01",
+   "type": "action",
+   "text": "A grandfather is fishing",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "fishing",
+     "fishing in the pond",
+     "fishing rod",
+     "catching fish"
+    ]
+   },
+   "key": "fishing",
+   "elements": [
+    "fisher_1",
+    "line_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "fishing",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.014,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.47,
+    "a": 4.72,
+    "zipf_raw": 4.47,
+    "aoa_raw": 4.72,
+    "domain": null,
+    "area_px": 15596
+   },
+   "b": -1.288,
+   "p0": 0.784,
+   "pm1": 0.572,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
    "type": "entity",
    "text": "There is a ladder",
    "accepted": [
@@ -89,7 +143,7 @@
    ],
    "key": "ladder",
    "elements": [
-    "ladder_1"
+    "ladder_3"
    ],
    "cues": [],
    "effect": [],
@@ -102,7 +156,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.358,
+    "s": -0.345,
     "r": 0,
     "d": 0.0,
     "f": 0.03,
@@ -110,19 +164,19 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": null,
-    "area_px": 9236
+    "area_px": 9400
    },
-   "b": -0.47,
-   "p0": 0.615,
-   "pm1": 0.371,
+   "b": -0.477,
+   "p0": 0.617,
+   "pm1": 0.372,
    "aoi_cells": [
     "ML",
     "MC",
-    "BC"
+    "BL"
    ]
   },
   {
-   "id": "i02",
+   "id": "i03",
    "type": "contradiction_notice",
    "text": "Something is wrong with the ladder",
    "accepted": [
@@ -132,13 +186,13 @@
    ],
    "key": "ladder",
    "elements": [
-    "ladder_1"
+    "ladder_3"
    ],
    "cues": [
-    "ladder_1"
+    "ladder_3"
    ],
    "effect": [
-    "ladder_1"
+    "ladder_3"
    ],
    "chain": 0,
    "animate": false,
@@ -149,7 +203,7 @@
     "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": -0.358,
+    "s": -0.345,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
@@ -157,19 +211,19 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 9236
+    "area_px": 9400
    },
-   "b": 0.119,
-   "p0": 0.47,
-   "pm1": 0.246,
+   "b": 0.112,
+   "p0": 0.472,
+   "pm1": 0.247,
    "aoi_cells": [
     "ML",
     "MC",
-    "BC"
+    "BL"
    ]
   },
   {
-   "id": "i03",
+   "id": "i04",
    "type": "contradiction_explain",
    "text": "The ladder is leaning on nothing, so it should fall over",
    "accepted": [
@@ -181,13 +235,13 @@
    ],
    "key": "ladder",
    "elements": [
-    "ladder_1"
+    "ladder_3"
    ],
    "cues": [
-    "ladder_1"
+    "ladder_3"
    ],
    "effect": [
-    "ladder_1"
+    "ladder_3"
    ],
    "chain": 1,
    "animate": false,
@@ -198,7 +252,7 @@
     "type": "contradiction_explain",
     "chain": 1,
     "animate": false,
-    "s": -0.358,
+    "s": -0.345,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
@@ -206,120 +260,70 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 9236
+    "area_px": 9400
    },
-   "b": 1.319,
-   "p0": 0.211,
+   "b": 1.312,
+   "p0": 0.212,
    "pm1": 0.09,
    "aoi_cells": [
     "ML",
     "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "action",
-   "text": "A girl is holding a balloon",
-   "accepted": {
-    "who": [
-     "girl",
-     "little girl",
-     "child",
-     "kid",
-     "daughter"
-    ],
-    "what": [
-     "holding a balloon",
-     "balloon",
-     "has a balloon"
-    ]
-   },
-   "key": "balloon",
-   "elements": [
-    "balloonkid_2"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "balloon",
-   "event": "e2",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.462,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.1,
-    "a": 4.37,
-    "zipf_raw": 3.9,
-    "aoa_raw": 4.37,
-    "domain": null,
-    "area_px": 7976
-   },
-   "b": -0.879,
-   "p0": 0.707,
-   "pm1": 0.47,
-   "aoi_cells": [
-    "BC"
+    "BL"
    ]
   },
   {
    "id": "i05",
    "type": "action",
-   "text": "A man is feeding the birds",
+   "text": "A grandmother is pushing a baby in a stroller",
    "accepted": {
     "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
     ],
     "what": [
-     "feeding the birds",
-     "feeding pigeons",
-     "throwing seeds",
-     "feeding birds",
-     "birds"
+     "pushing a stroller",
+     "pushing a pram",
+     "pushing a baby carriage",
+     "baby",
+     "walking with a baby",
+     "buggy"
     ]
    },
-   "key": "birds",
+   "key": "stroller",
    "elements": [
-    "feeder_person_3",
-    "bird_4",
-    "bird_5"
+    "pusher_4",
+    "stroller_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "feed_birds",
+   "template": "push_stroller",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.181,
+    "s": 0.5,
     "r": 0,
     "d": 0.0,
-    "f": 0.6,
-    "a": 3.52,
-    "zipf_raw": 4.6,
-    "aoa_raw": 3.52,
+    "f": -0.92,
+    "a": 7.84,
+    "zipf_raw": 3.08,
+    "aoa_raw": 7.84,
     "domain": null,
-    "area_px": 19736
+    "area_px": 30952
    },
-   "b": -1.41,
-   "p0": 0.804,
-   "pm1": 0.601,
+   "b": -1.114,
+   "p0": 0.753,
+   "pm1": 0.528,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "BL"
    ]
   },
   {
@@ -434,7 +438,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.863,
+    "s": 0.853,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -442,11 +446,11 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 51684
+    "area_px": 50952
    },
-   "b": -1.284,
-   "p0": 0.783,
-   "pm1": 0.571,
+   "b": -1.28,
+   "p0": 0.782,
+   "pm1": 0.57,
    "aoi_cells": [
     "ML",
     "BL"
@@ -476,7 +480,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.169,
+    "s": 1.139,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -484,11 +488,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 79524
+    "area_px": 76176
    },
-   "b": -1.219,
-   "p0": 0.772,
-   "pm1": 0.555,
+   "b": -1.204,
+   "p0": 0.769,
+   "pm1": 0.551,
    "aoi_cells": [
     "MC",
     "MR",
@@ -591,12 +595,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.719,
-   "inference": 0.341
+   "content": 0.722,
+   "inference": 0.342
   },
   "theta_minus_1": {
-   "content": 0.492,
-   "inference": 0.168
+   "content": 0.495,
+   "inference": 0.169
   }
  },
  "bands": {
@@ -618,14 +622,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "18 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0228,
-  "png_bytes": 178026,
-  "jpeg_bytes": 122185
+  "objects": 18,
+  "edge_density": 0.0255,
+  "png_bytes": 193346,
+  "jpeg_bytes": 133534
  },
  "signature": [
   [
@@ -722,8 +726,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 114356,
-   "occlusion": 0.265
+   "visible_px": 114192,
+   "occlusion": 0.266
   },
   {
    "id": "tree_line",
@@ -749,8 +753,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 51684,
-   "occlusion": 0.001
+   "visible_px": 50952,
+   "occlusion": 0.015
   },
   {
    "id": "pond",
@@ -764,8 +768,38 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 79524,
-   "occlusion": 0.058
+   "visible_px": 76176,
+   "occlusion": 0.098
+  },
+  {
+   "id": "line_2",
+   "label": "Fishing line",
+   "role": "scored",
+   "z": -65,
+   "bbox": [
+    1170.0,
+    490.0,
+    1220.0,
+    676.0
+   ],
+   "area_px": 780,
+   "visible_px": 772,
+   "occlusion": 0.01
+  },
+  {
+   "id": "filler_bush_b",
+   "label": "Bush",
+   "role": "filler",
+   "z": 560,
+   "bbox": [
+    694.0,
+    526.0,
+    786.0,
+    584.0
+   ],
+   "area_px": 3880,
+   "visible_px": 3880,
+   "occlusion": 0.0
   },
   {
    "id": "tree_small",
@@ -843,168 +877,124 @@
    "occlusion": 0.0
   },
   {
-   "id": "ladder_1",
+   "id": "ladder_3",
    "label": "Ladder leaning on nothing",
    "role": "scored",
-   "z": 766.25,
+   "z": 777.21,
    "bbox": [
-    480.0,
-    496.0,
-    604.0,
-    774.0
+    458.0,
+    500.0,
+    574.0,
+    784.0
    ],
-   "area_px": 9236,
-   "visible_px": 9236,
+   "area_px": 9400,
+   "visible_px": 9400,
    "occlusion": 0.0
   },
   {
-   "id": "balloonkid_2",
-   "label": "person.nia__balloon__smile__y045",
+   "id": "fisher_1",
+   "label": "person.tomas__fish__neutral__y090",
    "role": "scored",
-   "z": 917.11,
+   "z": 835,
    "bbox": [
-    718.0,
-    680.0,
-    792.0,
-    918.0
+    872.0,
+    490.0,
+    1172.0,
+    840.0
    ],
-   "area_px": 7976,
-   "visible_px": 7976,
+   "area_px": 14824,
+   "visible_px": 14824,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.nia__balloon__smile__y045",
-    "family": "person.nia",
-    "scale": 0.4888,
-    "mirrored": true,
+    "variant": "person.tomas__fish__neutral__y090",
+    "family": "person.tomas",
+    "scale": 0.4583,
+    "mirrored": false,
     "labels": {
-     "everyday_name": "girl",
+     "everyday_name": "grandfather",
      "accepted_names": [
-      "girl",
-      "little girl",
-      "child",
-      "kid",
-      "daughter"
-     ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin2",
-      "hair": "puffs"
-     }
-    }
-   }
-  },
-  {
-   "id": "feeder_person_3",
-   "label": "person.ben__feed_birds_low__smile__y090",
-   "role": "scored",
-   "z": 955.06,
-   "bbox": [
-    1024.0,
-    648.0,
-    1144.0,
-    960.0
-   ],
-   "area_px": 16952,
-   "visible_px": 16920,
-   "occlusion": 0.002,
-   "asset": {
-    "variant": "person.ben__feed_birds_low__smile__y090",
-    "family": "person.ben",
-    "scale": 0.5028,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
      ],
      "category": "adult_person",
      "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
      }
     }
    }
   },
   {
-   "id": "seeds_6",
-   "label": "Seeds",
-   "role": "setting",
-   "z": 956.06,
+   "id": "filler_rock",
+   "label": "Rock",
+   "role": "filler",
+   "z": 960,
    "bbox": [
-    950.0,
-    798.0,
-    1032.0,
-    964.0
+    712.0,
+    914.0,
+    808.0,
+    962.0
    ],
-   "area_px": 652,
-   "visible_px": 568,
-   "occlusion": 0.129
+   "area_px": 3740,
+   "visible_px": 3740,
+   "occlusion": 0.0
   },
   {
-   "id": "bird_4",
-   "label": "animal.bird_02__peck__neutral__y090",
+   "id": "pusher_4",
+   "label": "person.rosa__push__smile__y090",
    "role": "scored",
-   "z": 961.06,
+   "z": 969.78,
    "bbox": [
-    962.0,
-    924.0,
-    1028.0,
-    964.0
+    188.0,
+    676.0,
+    334.0,
+    974.0
    ],
-   "area_px": 1408,
-   "visible_px": 1408,
-   "occlusion": 0.0,
+   "area_px": 16316,
+   "visible_px": 15980,
+   "occlusion": 0.021,
    "asset": {
-    "variant": "animal.bird_02__peck__neutral__y090",
-    "family": "animal.bird_02",
-    "scale": 0.3636,
-    "mirrored": false,
+    "variant": "person.rosa__push__smile__y090",
+    "family": "person.rosa",
+    "scale": 0.5083,
+    "mirrored": true,
     "labels": {
-     "everyday_name": "bird",
+     "everyday_name": "grandmother",
      "accepted_names": [
-      "bird",
-      "bluebird",
-      "little bird"
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
      ],
-     "category": "bird"
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
     }
    }
   },
   {
-   "id": "bird_5",
-   "label": "animal.bird_01__peck__neutral__y090",
+   "id": "stroller_5",
+   "label": "Baby stroller",
    "role": "scored",
-   "z": 967.06,
+   "z": 973.78,
    "bbox": [
-    884.0,
-    930.0,
-    950.0,
-    970.0
+    40.0,
+    804.0,
+    208.0,
+    976.0
    ],
-   "area_px": 1408,
-   "visible_px": 1408,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.bird_01__peck__neutral__y090",
-    "family": "animal.bird_01",
-    "scale": 0.3652,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "bird",
-     "accepted_names": [
-      "bird",
-      "robin",
-      "little bird"
-     ],
-     "category": "bird"
-    }
-   }
+   "area_px": 14972,
+   "visible_px": 14972,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bin_p2",
@@ -1033,10 +1023,10 @@
   ],
   [
    24025,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 5: accepted after 4 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 4,
  "knob": 0,
  "regen": {
   "base_seed": 23025,
@@ -1046,14 +1036,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "balloon",
-    "feed_birds"
+    "fishing",
+    "push_stroller"
    ],
    "contradictions": [
     "ladder_nothing"
    ]
   },
-  "placement_rev": 25
+  "placement_rev": 26
  },
  "probe": true
 }

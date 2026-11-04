@@ -513,9 +513,15 @@ def build_facial_hair(spec, rig, face, eye_z, k):
         def keep(c):
             if c.y > 0.35:
                 return False
+            if __import__("os").environ.get("TPDB_BEARD", "D") == "D":
+                # v0.28 bench: a goatee, on the chin alone, joined to the moustache
+                return c.z < mzr and c.z > -0.98 and abs(c.x) < 0.46 and c.y < 0.2
             if c.z < mzr and c.z > -0.98:
                 return True
-            if __import__("os").environ.get("TPDB_BEARD", "B") == "B":
+            if __import__("os").environ.get("TPDB_BEARD", "D") == "C":
+                # v0.28: fuller on the cheek, still short of the ear ("a thin dark strap along the jaw", "it could look like a chin strap")
+                return abs(c.x) > 0.44 and -0.9 < c.z < -0.30 and c.y < 0.05
+            if __import__("os").environ.get("TPDB_BEARD", "D") == "B":
                 # v0.27: stopping short of the ear, so hair and beard do not join in one shape ("a chin strap, helmet strap or face mask", "a dark face covering or mask",
                 # now that the turned head shows it; "hair and beard merge into one dark shape")
                 return abs(c.x) > 0.60 and -0.9 < c.z < -0.34 and c.y < 0.05

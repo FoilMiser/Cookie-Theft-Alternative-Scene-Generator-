@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.27 was made, written so that a fresh session can make the next one (v0.28) from this
+How each release from v0.12 to v0.28 was made, written so that a fresh session can make the next one (v0.29) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -201,3 +201,10 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - Look closely at crops before drawing anything: the walkers' feet did point the right way, the hose did reach the fist, and what was wrong (the eye on the head's outline) was on nobody's list.
 - A bench win can fail to show in whole pictures. Shorter legs took the bench from eight remarks to three, on four cut-outs a side, and did not move the screen. `python vision/remark_topics.py vision/v<PREV> vision/v<TAG>` compares what two screens remark on, roughly; read the hits.
 - `package_release.py` keeps a zip that is already there, so delete `tpdb_v<this release>.zip` to rebuild it, after looking at it, and never with a pattern. Earlier zips stay.
+- Other apps can hold most of the memory (15 GB here): eight side-by-side runs ran Blender and cairo out of memory ("render failed", `MemoryError`). Keep it to about five, and fewer while a library is still filling. When a run dies of it, look at what else stopped, and rerun.
+- To find out why something will not place, take the search's own filters off. Twelve rounds of testing one change at a time on the tier-4 playground told nothing, because each failure named whichever template came last. What told it was to try 226 random sets with `require_band=False`, keep the records of the five that placed, and read what they had in common, including their features and their content counts (`tools/cycle/try_sets.py`). Then the cause was a loop: short of the tier's things, plans went back for the fixtures that took the ground.
+- Three rules that each do nothing can do it together. Test them singly and together, on the same seeds, and say which you did: `TIER4_MUST`, `TIER4_NO_SCENERY` and the railing's limit placed 0, 0 and 0 of 12, and 2 of 12 together. Say too when a picture's seed came from such a test.
+- A fix can move a reading it was not aimed at. Shadows from the footprint took the remarks away, and the sleeping dog, not otherwise changed, fell under the gate, perhaps because a wide oval had been saying "lying down". When a template you did not draw falls, look at what you drew round it, then at whether the readers' words differ at all: on `ducks_bread` they did not, and the scorers did.
+- A shadow drawn at the ground point can vanish under a body that reaches below it. Look at a whole sheet of poses, not one, before spending readers. The same look stopped a ball with two bands that looked like a target.
+- `probes.py` tries templates in crowded groups, the garden first, and gives up after three failures. When it ends SHORT, force the short ones in small groups in a setting that suits them, with `build_one(..., forced=..., require_band=False)`, and mark each record `"probe": true`.
+- After the set is built, any later change to shared drawing means rebuilding every record, not only new ones: `tools/cycle/rebuild_set.py` does it in place, the pictures before the isomorphs that read them. Refresh `isomorph_summary.json` from the records afterwards, and run `fix_summary.py` before the folder swap, as it reads `scenes<TAG>`.

@@ -162,8 +162,13 @@ class PlacementError(Exception):
 # at a rounded tip near her hip", "like a stiff loop standing in the air"); a lumpy heap of soil ("a neat flat-bottomed dome", "a thin brown arch"); two short drips on the soaked
 # box (running down its front they read as slats: "a wooden crate"); nobody sitting on air at a path's edge ("sitting in mid-air or on the edge of the path"); and a duck's wake
 # kept on the water ("wake lines run past the pond edge onto the grass").
+# 26 (v0.28): the v0.27 screen's one failure and its named oddities, each drawing chosen on the bench (vision/isolation_v028.md): the begging dog at the end of the bench the eater sits nearest, its gaze on the
+# food, and nobody else near it, now or later ("could be hers, begging from her bag", "or be watching the kite"); shadows from the figure's own footprint ("a very wide oval, much wider than the puppy"); one shadow
+# under the whole seesaw and its riders further in ("the girl has none of her own", "almost past it"); a burst splat for the fallen ice cream ("a pink hat or a pink frisbee", "flying saucer"), the dog's mouth over it;
+# no walking with closed eyes ("Walking with eyes shut is slightly odd"); a beach ball on a branch that grows from a fork at the top of the trunk ("a blue planet-like sphere", "a small bare branch drawn on top of the
+# crown"), and a bird's branch the same way; and one bin to a picture ("two bins so close to each other seem like more bins than the scene needs").
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 25
+PLACEMENT_REV = 26
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
@@ -322,6 +327,8 @@ class Scene:
             expr = "neutral"
         if fam.startswith("person.") and expr in CLOSED_EYES and pose not in EYES_MAY_CLOSE:
             expr = "smile"
+        if PLACEMENT_REV >= 26 and fam.startswith("person.") and expr in CLOSED_EYES and pose == "walk_ice_cream":
+            expr = "smile"      # revision 26: "Walking with eyes shut is slightly odd"
         if PLACEMENT_REV >= 13 and fam.startswith("person.") and expr == "focused" and pose in HEAD_DOWN_TASKS:
             expr = "neutral"
         v = (fam, pose, expr, int(yaw))

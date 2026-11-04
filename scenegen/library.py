@@ -21,9 +21,17 @@ from .draw import OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out027")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib027")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out028")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib028")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
+# v0.28 bench (isolation_v028.md): "O" keeps the shadow from the figure's box
+SHADOW28 = "B"
+SHADOW_FOOT = 0.085                 # a person's shadow past the feet on each side, as a part of the figure's height
+ON_THE_GROUND = {"sit_ground", "kneel_plant", "sand_build"}     # poses whose body, not the feet, meets the ground
+
+
+def _rev():
+    return sys.modules["scenegen.scene"].PLACEMENT_REV
 
 
 def vid(fam, pose, expr, yaw):
@@ -245,12 +253,49 @@ class Placed:
         sm.save(buf, "PNG", optimize=True)
         return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), x0, y0, nw, nh
 
+    def solid_span(self):
+        """Revision 26: the columns the body itself fills, in sprite pixels (columns under a third of the fullest one are a tail, an arm or a tool)."""
+        sp = self.m.get("_span")
+        if sp is None:
+            import numpy as np
+            mask = np.asarray(Image.open(os.path.join(self.lib.lib_dir, self.m["files"]["mask"]["path"])).convert("L")) > 127
+            cols = mask.sum(axis=0)
+            idx = np.nonzero(cols >= max(1, cols.max() / 3))[0]
+            rows = np.nonzero(mask[:, idx[0]:idx[-1] + 1].any(axis=1))[0]
+            sp = (int(idx[0]), int(idx[-1]) + 1, int(rows[-1]) + 1)
+            self.m["_span"] = sp
+        return sp
+
+    def own_shadow(self):
+        """Revision 26: the shadow from the figure's own footprint (its box took in arms, tools and the depth of the body: "a very wide oval, much wider
+        than the puppy", "a large oval ... a bit wide and offset from her feet"). A person on their feet casts it from the feet; anything else from the
+        columns the body fills, under its lowest part (a body lying down reaches below its ground point, and hid a shadow drawn there). Returns (cx, cy, rx, ry)."""
+        H = self.m["geometry"]["height_m"] * ppm(self.depth_y)
+        if self.family.startswith("person.") and self.pose() not in ON_THE_GROUND and self.has_anchor("foot_L") and self.has_anchor("foot_R"):
+            a, b = self.anchor("foot_L")[0], self.anchor("foot_R")[0]
+            rx = abs(a - b) / 2 + SHADOW_FOOT * H
+            return (a + b) / 2, self.Y + 2, rx, rx * 0.26
+        u0, u1, v1 = self.solid_span()
+        a, b = self.X + self.s * self.k * (u0 - self.gx), self.X + self.s * self.k * (u1 - self.gx)
+        rx = abs(b - a) / 2 * 1.06
+        ry = rx * 0.2
+        return (a + b) / 2, self.Y + self.k * (v1 - self.gy) - 0.45 * ry, rx, ry
+
+    def pose(self):
+        return self.v.split("__")[1]
+
     def svg(self, shadow=True):
         uri, x0, y0, w, h = self.image_data()
         out = ""
         # a ground shadow only for things standing on the ground (not for a bird on a lamp or fence)
         on_ground = abs(self.Y - self.depth_y) < 30
-        if shadow and on_ground and not self.m["variant"].get("airborne"):
+        if shadow and on_ground and _rev() >= 26 and SHADOW28 != "O":
+            # (a rider on the seesaw has none of its own: the seesaw casts one under the whole plank, "the boy has a shadow ... the girl has none of her own")
+            if not getattr(self, "no_shadow", False):
+                cx, cy, rx, ry = self.own_shadow()
+                air = self.m["variant"].get("airborne")
+                out += f'<ellipse cx="{cx:.1f}" cy="{cy:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="{OUT}" fill-opacity="{0.14 if air else 0.16}"/>'
+        elif shadow and on_ground and not self.m["variant"].get("airborne"):
             fw = max(self.m["geometry"]["footprint_m"].values()) * ppm(self.depth_y) * 1.25
             # v0.9: a rider seated on a structure gets the shadow under the feet (set by the template)
             cx = getattr(self, "shadow_x", None) or self.X

@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23034,
- "mirror": true,
+ "mirror": false,
  "versions": {
-  "generator": "0.27.0",
-  "cast_builder": "0.27.0",
+  "generator": "0.28.0",
+  "cast_builder": "0.28.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,14 +56,15 @@
   }
  },
  "features": [
-  "flowers"
+  "bench",
+  "swing"
  ],
  "templates": [
   {
-   "id": "pan_watering",
-   "kind": "contradiction",
+   "id": "jump",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   }
  ],
  "scene_load": 1,
@@ -71,156 +72,57 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is watering the flowers",
+   "text": "A girl is jumping for joy",
    "accepted": {
     "who": [
-     "grandmother",
-     "grandma",
-     "old woman",
-     "older woman",
-     "lady",
-     "woman"
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
     ],
     "what": [
-     "watering the flowers",
-     "watering the plants",
-     "pouring water"
+     "jumping",
+     "jumping for joy",
+     "excited",
+     "happy",
+     "cheering"
     ]
    },
-   "key": "flowers",
+   "key": "jumping",
    "elements": [
-    "waterer_1",
-    "water_2"
+    "jumper_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "pan_watering",
+   "template": "jump",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.011,
+    "s": -0.478,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": 0.23,
+    "a": 2.84,
+    "zipf_raw": 4.23,
+    "aoa_raw": 2.84,
     "domain": null,
-    "area_px": 15536
+    "area_px": 7792
    },
-   "b": -1.578,
-   "p0": 0.829,
-   "pm1": 0.641,
+   "b": -1.21,
+   "p0": 0.77,
+   "pm1": 0.552,
    "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
+    "BC"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with what the person is watering with",
-   "accepted": [
-    "something odd about the pan",
-    "that's strange",
-    "the watering can is wrong"
-   ],
-   "key": "pan",
-   "elements": [
-    "waterer_1"
-   ],
-   "cues": [
-    "waterer_1"
-   ],
-   "effect": [
-    "waterer_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "functional",
-   "template": "pan_watering",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.058,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.72,
-    "domain": "functional",
-    "area_px": 14100
-   },
-   "b": -0.071,
-   "p0": 0.518,
-   "pm1": 0.283,
-   "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The person is watering the flowers with a frying pan instead of a watering can",
-   "accepted": [
-    "watering with a frying pan",
-    "using a pan to water",
-    "a pan isn't for watering"
-   ],
-   "key": "pan",
-   "elements": [
-    "waterer_1"
-   ],
-   "cues": [
-    "waterer_1"
-   ],
-   "effect": [
-    "waterer_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "functional",
-   "template": "pan_watering",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.058,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.72,
-    "domain": "functional",
-    "area_px": 14100
-   },
-   "b": 1.129,
-   "p0": 0.244,
-   "pm1": 0.106,
-   "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -259,11 +161,11 @@
    "p0": 0.755,
    "pm1": 0.531,
    "aoi_cells": [
-    "TL"
+    "TR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i03",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -295,7 +197,7 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19280
+    "area_px": 19276
    },
    "b": -1.01,
    "p0": 0.733,
@@ -305,7 +207,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -327,7 +229,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.734,
+    "s": 0.733,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -335,18 +237,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43040
+    "area_px": 43028
    },
    "b": -1.502,
    "p0": 0.818,
    "pm1": 0.623,
    "aoi_cells": [
-    "TR",
-    "MR"
+    "TL",
+    "ML"
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -369,7 +271,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.939,
+    "s": 1.897,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -377,11 +279,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 235456
+    "area_px": 222056
    },
-   "b": -1.913,
-   "p0": 0.871,
-   "pm1": 0.714,
+   "b": -1.892,
+   "p0": 0.869,
+   "pm1": 0.709,
    "aoi_cells": [
     "ML",
     "MC",
@@ -389,7 +291,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -429,26 +331,152 @@
    "p0": 0.91,
    "pm1": 0.788,
    "aoi_cells": [
-    "TR",
+    "TL",
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There is a swing set",
+   "accepted": [
+    "swing",
+    "swings",
+    "swing set"
+   ],
+   "key": "swing",
+   "elements": [
+    "swing"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.602,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.34,
+    "a": 4.16,
+    "zipf_raw": 4.34,
+    "aoa_raw": 4.16,
+    "domain": null,
+    "area_px": 35772
+   },
+   "b": -1.283,
+   "p0": 0.783,
+   "pm1": 0.57,
+   "aoi_cells": [
     "MR",
+    "BC",
     "BR"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a flower bed",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.373,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 25880
+   },
+   "b": -1.259,
+   "p0": 0.779,
+   "pm1": 0.564,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a bench",
+   "accepted": [
+    "bench",
+    "seat"
+   ],
+   "key": "bench",
+   "elements": [
+    "bench"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.105,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.39,
+    "a": 4.21,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.21,
+    "domain": null,
+    "area_px": 13200
+   },
+   "b": -0.945,
+   "p0": 0.72,
+   "pm1": 0.486,
+   "aoi_cells": [
+    "BL"
    ]
   }
  ],
  "counts": {
-  "content": 6,
-  "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 8
+  "content": 9,
+  "inference_units": 0,
+  "contradictions": 0,
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.819,
-   "inference": 0.381
+   "content": 0.793,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.633,
-   "inference": 0.195
+   "content": 0.592,
+   "inference": null
   }
  },
  "bands": {
@@ -470,14 +498,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "12 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 12,
-  "edge_density": 0.0346,
-  "png_bytes": 136317,
-  "jpeg_bytes": 164040
+  "objects": 14,
+  "edge_density": 0.039,
+  "png_bytes": 143676,
+  "jpeg_bytes": 182282
  },
  "signature": [
   [
@@ -485,11 +513,15 @@
    0
   ],
   [
-   "contradiction_explain",
-   1
+   "entity",
+   0
   ],
   [
-   "contradiction_notice",
+   "entity",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -526,9 +558,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    52.0,
+    1352.0,
     22.0,
-    248.0,
+    1548.0,
     218.0
    ],
    "area_px": 13440,
@@ -541,13 +573,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    634.0,
+    560.0,
     68.0,
-    1040.0,
+    966.0,
     202.0
    ],
-   "area_px": 19280,
-   "visible_px": 19280,
+   "area_px": 19276,
+   "visible_px": 19276,
    "occlusion": 0.0
   },
   {
@@ -568,13 +600,13 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    38.0,
+    1254.0,
     614.0,
-    346.0,
+    1562.0,
     1000.0
    ],
-   "area_px": 81248,
-   "visible_px": 80796,
+   "area_px": 81244,
+   "visible_px": 80792,
    "occlusion": 0.006
   },
   {
@@ -583,13 +615,13 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    1056.0,
+    296.0,
     176.0,
-    1304.0,
+    544.0,
     452.0
    ],
-   "area_px": 44992,
-   "visible_px": 43040,
+   "area_px": 44984,
+   "visible_px": 43028,
    "occlusion": 0.043
   },
   {
@@ -598,44 +630,29 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    0.0,
+    298.0,
     426.0,
-    1302.0,
+    1600.0,
     618.0
    ],
-   "area_px": 240904,
-   "visible_px": 235456,
-   "occlusion": 0.023
+   "area_px": 240896,
+   "visible_px": 222056,
+   "occlusion": 0.078
   },
   {
-   "id": "filler_bush_mid",
+   "id": "filler_bush_left",
    "label": "Bush",
    "role": "filler",
    "z": 648,
    "bbox": [
-    526.0,
-    602.0,
-    654.0,
-    682.0
+    292.0,
+    598.0,
+    428.0,
+    684.0
    ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
-   "bbox": [
-    380.0,
-    596.0,
-    500.0,
-    702.0
-   ],
-   "area_px": 8080,
-   "visible_px": 8080,
-   "occlusion": 0.0
+   "area_px": 8296,
+   "visible_px": 7496,
+   "occlusion": 0.096
   },
   {
    "id": "house",
@@ -643,9 +660,9 @@
    "role": "setting",
    "z": 781,
    "bbox": [
-    1258.0,
+    0.0,
     118.0,
-    1600.0,
+    342.0,
     784.0
    ],
    "area_px": 204952,
@@ -653,71 +670,115 @@
    "occlusion": 0.0
   },
   {
-   "id": "waterer_1",
-   "label": "person.rosa__water_pan__smile__y090",
-   "role": "scored",
-   "z": 835,
-   "bbox": [
-    966.0,
-    562.0,
-    1146.0,
-    840.0
-   ],
-   "area_px": 14120,
-   "visible_px": 14100,
-   "occlusion": 0.001,
-   "asset": {
-    "variant": "person.rosa__water_pan__smile__y090",
-    "family": "person.rosa",
-    "scale": 0.4583,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "grandmother",
-     "accepted_names": [
-      "grandmother",
-      "grandma",
-      "old woman",
-      "older woman",
-      "lady",
-      "woman"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin1",
-      "hair": "gray_bun"
-     }
-    }
-   }
-  },
-  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
    "z": 836,
    "bbox": [
-    1028.0,
+    318.0,
     694.0,
-    1282.0,
+    572.0,
     838.0
    ],
-   "area_px": 25884,
-   "visible_px": 25056,
-   "occlusion": 0.032
+   "area_px": 25880,
+   "visible_px": 25880,
+   "occlusion": 0.0
   },
   {
-   "id": "water_2",
-   "label": "Water from the can",
-   "role": "scored",
-   "z": 837,
+   "id": "swing_seat",
+   "label": "Empty swing seat",
+   "role": "setting",
+   "z": 845,
    "bbox": [
-    1138.0,
-    668.0,
-    1190.0,
-    808.0
+    1134.0,
+    474.0,
+    1224.0,
+    784.0
    ],
-   "area_px": 1436,
-   "visible_px": 1436,
+   "area_px": 4492,
+   "visible_px": 4420,
+   "occlusion": 0.016
+  },
+  {
+   "id": "swing",
+   "label": "Swing set",
+   "role": "setting",
+   "z": 846,
+   "bbox": [
+    1032.0,
+    458.0,
+    1324.0,
+    856.0
+   ],
+   "area_px": 35772,
+   "visible_px": 35772,
+   "occlusion": 0.0
+  },
+  {
+   "id": "jumper_1",
+   "label": "person.nia__jump_tuck__laughing__y045",
+   "role": "scored",
+   "z": 926.4,
+   "bbox": [
+    724.0,
+    710.0,
+    820.0,
+    896.0
+   ],
+   "area_px": 7792,
+   "visible_px": 7792,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.nia__jump_tuck__laughing__y045",
+    "family": "person.nia",
+    "scale": 0.4922,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
+   "bbox": [
+    38.0,
+    804.0,
+    242.0,
+    930.0
+   ],
+   "area_px": 13200,
+   "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    1142.0,
+    884.0,
+    1238.0,
+    962.0
+   ],
+   "area_px": 4400,
+   "visible_px": 4400,
    "occlusion": 0.0
   },
   {
@@ -726,13 +787,13 @@
    "role": "filler",
    "z": 975,
    "bbox": [
-    522.0,
+    896.0,
     892.0,
-    704.0,
+    1078.0,
     980.0
    ],
-   "area_px": 8772,
-   "visible_px": 8772,
+   "area_px": 8776,
+   "visible_px": 8776,
    "occlusion": 0.0
   }
  ],
@@ -755,11 +816,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "pan_watering"
+   "events": [
+    "jump"
    ]
   },
-  "placement_rev": 25
+  "placement_rev": 26
  },
  "probe": true
 }

@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.27.0"
+GENERATOR_VERSION = "0.28.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -27,6 +27,12 @@ TIER_PLAN = {
     3: {"units": (2, 3), "contra": (0, 1), "events": (2, 3), "load_max": 6},
     4: {"units": (4, 5), "contra": (1, 2), "events": (3, 4), "load_max": 9},
 }
+# revision 26: what lets the tier-4 playground draw sets that fit. Nothing placed from 12 seeds (480 sets) as it was, nor with the trip never drawn, the templates the failures name placed first, a search that
+# learns from its failures, plans limited to six people, or the ground-hungry templates left out. Of 226 random sets tried for 14 layouts, 5 placed: all five held the bird stealing a sandwich (a reader on a bench,
+# no ground taken) and the square-wheeled bicycle (no person), 5 of 72 sets with both and 0 of 154 without; all five had no swing set; and all five were a thing or two short of the tier's 18 (see entity_items).
+# Each of these alone still placed nothing from the 12 seeds. All three together placed 2 of 12, in under a minute each, with sets of their own.
+TIER4_MUST = {"playground": ("bird_steals", "square_wheel"), "street": ("bird_steals",)}
+TIER4_NO_SCENERY = {"playground": {"swing"}}
 ORDER_LAST = ("photo",)
 ORDER_FIRST = ("seesaw_heavy", "seesaw", "slide", "sandbox", "dog_wants_walk", "swing", "hang_laundry", "blocked_hose", "hose_water", "dog_begs", "bird_steals", "read_bench", "drink_bench",
                "water_flowers", "water_upward", "pan_watering", "plant_flowers", "ball_in_tree", "kite_in_tree", "fish_in_tree",
@@ -47,18 +53,18 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "blocked_hose": [("inference", 2, -0.40, 0.149, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.409, 1, "rain")],
     "cat_stalks_bird": [("inference", 1, -0.49, 0.067, 1, "cat")],
-    "ball_in_tree": [("inference", 1, -0.75, 0.142, 1, "stuck")],
+    "ball_in_tree": [("inference", 1, -0.69, 0.141, 1, "stuck")],
     "kite_in_tree": [("inference", 1, -0.54, 0.246, 2, "stuck")],
-    "ice_cream_drop": [("inference", 1, -1.16, 0.075, 2, "dropped")],
+    "ice_cream_drop": [("inference", 1, -1.36, 0.084, 2, "dropped")],
     "about_to_trip": [("inference", 1, 0.16, 0.098, 1, "trip")],
-    "dog_begs": [("inference", 1, -0.76, 0.083, 1, "begging")],
+    "dog_begs": [("inference", 1, -0.76, 0.078, 1, "begging")],
     "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.71, 0.142, 2, "paint")],
     "windy_hat": [("inference", 2, -1.24, 0.140, 1, "wind")],
     "bird_steals": [("inference", 2, -1.74, 0.048, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.05, 0.130, 2, "lost")],
     "ducks_bread": [("inference", 1, -1.36, 0.024, 1, "hungry")],
-    "seesaw_heavy": [("inference", 1, -0.73, 0.188, 1, "heavy")],
+    "seesaw_heavy": [("inference", 1, -0.73, 0.165, 1, "heavy")],
     "dog_wants_walk": [("inference", 1, -0.75, 0.157, 2, "walk")],
 }
 for _cid, _s, _k in [("water_upward", -1.40, "water"),
@@ -133,9 +139,12 @@ def choose(tier, setting, rng, forced=None):
     target = DF.CENTER[tier][1]
     tol = {2: 0.035, 3: 0.04, 4: 0.04}.get(tier, 0.04)
     best, good = None, []
+    must = [TP.ALL_TEMPLATES[t] for t in TIER4_MUST.get(setting, ())] if SCN.PLACEMENT_REV >= 26 and tier == 4 else []
+    must_m, must_c = [c for c in must if c in mods_all], [c for c in must if c in cons_all]
+    mods_rest, cons_rest = [c for c in mods_all if c not in must_m], [c for c in cons_all if c not in must_c]
     for _ in range(400 if units else 1):
-        ms = rng.sample(mods_all, min(n_mod, len(mods_all)))
-        cs = rng.sample(cons_all, min(n_contra, len(cons_all)))
+        ms = must_m + rng.sample(mods_rest, max(0, min(n_mod, len(mods_all)) - len(must_m)))
+        cs = must_c + rng.sample(cons_rest, max(0, min(n_contra, len(cons_all)) - len(must_c)))
         res = [r for c in ms + cs for r in c.exclusive]
         if len(res) != len(set(res)):
             continue
@@ -214,7 +223,7 @@ def balance_content(tier, setting, sky, picked, feats, rng):
                 picked.append(evs[0])
                 feats |= evs[0].features(setting)
                 continue
-        opt = sorted(FEATURES[setting]["optional"] - feats)
+        opt = sorted(FEATURES[setting]["optional"] - feats - (TIER4_NO_SCENERY.get(setting, set()) if SCN.PLACEMENT_REV >= 26 and tier == 4 else set()))
         if opt:
             feats.add(rng.choice(opt))
             continue
@@ -243,6 +252,8 @@ def _plan(tier, setting, seed, lib, forced, bumped):
             feats |= c.features(setting)
         # a few optional features for variety (entity candidates and clutter)
         extra = sorted(FEATURES[setting]["optional"] - feats)
+        if SCN.PLACEMENT_REV >= 26 and tier == 4:
+            extra = [f for f in extra if f not in TIER4_NO_SCENERY.get(setting, ())]
         if SCN.PLACEMENT_REV >= 5:
             # an empty picnic blanket with nobody on it read as someone gone missing: only with a picnic
             extra = [f for f in extra if f != "blanket"]
@@ -394,6 +405,9 @@ def add_fillers(sc, target):
         # never a second wheelbarrow or bicycle beside the square-wheeled one
         if "square_wheel" in tids and f["id"] in ("wheelbarrow", "bike_rack"):
             continue
+        # revision 26: one bin to a picture ("two bins so close to each other seem like more bins than the scene needs")
+        if SCN.PLACEMENT_REV >= 26 and f["id"].startswith("bin") and any(k_.startswith("filler_bin") for k_ in sc.svgs):
+            continue
         if f.get("needs") and not f["needs"](sc):
             continue
         svg, bb = f["fn"](f["x"], f["y"])
@@ -495,7 +509,10 @@ def entity_items(sc, stats):
         if eid in sc.consumed or eid in used or eid not in stats:
             continue
         st = stats[eid]
-        if st["occlusion"] > 0.20 or st["visible"] < (0.03 * D.W) ** 2 * 0.5:
+        # revision 26: the playground's railing runs the width of the picture, so it reads with a fifth of it behind people and frames. In the tier-4 playground it was just over the limit in
+        # four sets of five that placed, each then a thing short of the tier's 18, which is what sent plans back for the swing and the sandbox and left no ground to place on.
+        limit = 0.30 if SCN.PLACEMENT_REV >= 26 and eid == "fence" and sc.setting_id == "playground" else 0.20
+        if st["occlusion"] > limit or st["visible"] < (0.03 * D.W) ** 2 * 0.5:
             continue
         out.append({"id": None, "type": "entity", "text": ent["text"], "accepted": ent["accepted"], "key": ent["key"],
                     "elements": [eid], "animate": False, "chain": 0, "cues": [], "effect": [], "domain": None,

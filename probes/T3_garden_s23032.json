@@ -6,8 +6,8 @@
  "seed": 23032,
  "mirror": true,
  "versions": {
-  "generator": "0.27.0",
-  "cast_builder": "0.27.0",
+  "generator": "0.28.0",
+  "cast_builder": "0.28.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,152 +57,75 @@
  },
  "features": [
   "feeder",
-  "flowers"
+  "flowers",
+  "hose_reel"
  ],
  "templates": [
   {
-   "id": "floating_box",
-   "kind": "contradiction",
+   "id": "plant_flowers",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   }
  ],
  "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "entity",
-   "text": "There is a wooden box",
-   "accepted": [
-    "box",
-    "crate",
-    "wooden box"
-   ],
-   "key": "box",
+   "type": "action",
+   "text": "A grandfather is planting flowers",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "planting flowers",
+     "planting",
+     "gardening",
+     "kneeling in the garden"
+    ]
+   },
+   "key": "planting",
    "elements": [
-    "floatbox_1"
+    "planter_1",
+    "pot_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "floating_box",
+   "template": "plant_flowers",
    "event": "e1",
    "features": {
-    "type": "entity",
+    "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": -0.325,
+    "animate": true,
+    "s": -0.015,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
+    "f": -0.19,
+    "a": 3.95,
+    "zipf_raw": 3.81,
+    "aoa_raw": 3.95,
     "domain": null,
-    "area_px": 9676
+    "area_px": 14980
    },
-   "b": -1.03,
-   "p0": 0.737,
-   "pm1": 0.507,
+   "b": -1.316,
+   "p0": 0.789,
+   "pm1": 0.578,
    "aoi_cells": [
-    "TC"
+    "MC",
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the box",
-   "accepted": [
-    "the box is weird",
-    "something odd about the box",
-    "that box"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [
-    "floatbox_1"
-   ],
-   "effect": [
-    "floatbox_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.325,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 9676
-   },
-   "b": -0.138,
-   "p0": 0.534,
-   "pm1": 0.297,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The box is floating in the air with nothing holding it up",
-   "accepted": [
-    "floating box",
-    "box in the air",
-    "nothing holding it up",
-    "box should fall"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [
-    "floatbox_1"
-   ],
-   "effect": [
-    "floatbox_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.325,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 9676
-   },
-   "b": 1.062,
-   "p0": 0.257,
-   "pm1": 0.113,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -245,7 +168,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i03",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -287,7 +210,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -328,7 +251,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -372,7 +295,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -395,7 +318,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.936,
+    "s": 1.934,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -403,9 +326,9 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 234500
+    "area_px": 233800
    },
-   "b": -1.911,
+   "b": -1.91,
    "p0": 0.871,
    "pm1": 0.713,
    "aoi_cells": [
@@ -415,7 +338,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -459,65 +382,22 @@
     "MR",
     "BR"
    ]
-  },
-  {
-   "id": "i10",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 25884
-   },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
-   "aoi_cells": [
-    "BC",
-    "BR"
-   ]
   }
  ],
  "counts": {
-  "content": 8,
-  "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 10
+  "content": 7,
+  "inference_units": 0,
+  "contradictions": 0,
+  "items_total": 7
  },
  "predicted": {
   "theta_0": {
-   "content": 0.778,
-   "inference": 0.396
+   "content": 0.785,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.576,
-   "inference": 0.205
+   "content": 0.588,
+   "inference": null
   }
  },
  "bands": {
@@ -539,30 +419,18 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "12 drawn objects (tier band 20-30)"
+   "detail": "16 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 12,
-  "edge_density": 0.034,
-  "png_bytes": 114545,
-  "jpeg_bytes": 161666
+  "objects": 16,
+  "edge_density": 0.0364,
+  "png_bytes": 147663,
+  "jpeg_bytes": 173358
  },
  "signature": [
   [
-   "contradiction_explain",
-   1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
+   "action",
    0
   ],
   [
@@ -681,8 +549,23 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 234500,
-   "occlusion": 0.027
+   "visible_px": 233800,
+   "occlusion": 0.029
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    526.0,
+    602.0,
+    654.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bush_left",
@@ -745,19 +628,41 @@
    "occlusion": 0.0
   },
   {
-   "id": "floatbox_1",
-   "label": "Box floating in the air",
+   "id": "planter_1",
+   "label": "person.tomas__kneel_plant__neutral__y090",
    "role": "scored",
-   "z": 825.17,
+   "z": 830,
    "bbox": [
-    816.0,
-    232.0,
-    936.0,
-    342.0
+    910.0,
+    622.0,
+    1072.0,
+    836.0
    ],
-   "area_px": 9676,
-   "visible_px": 9676,
-   "occlusion": 0.0
+   "area_px": 13584,
+   "visible_px": 12476,
+   "occlusion": 0.082,
+   "asset": {
+    "variant": "person.tomas__kneel_plant__neutral__y090",
+    "family": "person.tomas",
+    "scale": 0.4565,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
   },
   {
    "id": "flowers",
@@ -771,7 +676,37 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 25884,
+   "visible_px": 23368,
+   "occlusion": 0.097
+  },
+  {
+   "id": "pot_2",
+   "label": "Flower pot",
+   "role": "scored",
+   "z": 837.69,
+   "bbox": [
+    1068.0,
+    774.0,
+    1116.0,
+    840.0
+   ],
+   "area_px": 2504,
+   "visible_px": 2504,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 870,
+   "bbox": [
+    1254.0,
+    788.0,
+    1330.0,
+    876.0
+   ],
+   "area_px": 4956,
+   "visible_px": 4956,
    "occlusion": 0.0
   },
   {
@@ -787,6 +722,21 @@
    ],
    "area_px": 4404,
    "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -809,11 +759,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "floating_box"
+   "events": [
+    "plant_flowers"
    ]
   },
-  "placement_rev": 25
+  "placement_rev": 26
  },
  "probe": true
 }

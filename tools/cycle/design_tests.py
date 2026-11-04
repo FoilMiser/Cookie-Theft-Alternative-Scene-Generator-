@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a busy street: faces in profile, the walker about to trip, the walking ice cream, the broom
-    ("street", 4, 27401, {"modules": ["about_to_trip", "ice_cream_drop"], "events": ["sweep", "ice_cream", "walk_dog"]}, None),
-    # a garden: the broom beside the rake, and the hose to the fist
-    ("garden", 3, 27402, {"events": ["sweep", "rake", "hose_water"]}, None),
-    # a park: the pecking birds, the soil heap, the bearded man, a dress
-    ("park", 3, 27403, {"events": ["feed_birds", "dig", "carry_box", "fishing"]}, None),
-    # a playground: the shorter figures on the seesaw, a photographer, a kicker
-    ("playground", 3, 27404, {"modules": ["seesaw_heavy"], "events": ["photo", "ice_cream"]}, None),
-    # a garden: the soaked box, a stalking cat, sitting on air off the path
-    ("garden", 4, 27405, {"modules": ["sprinkler_package", "cat_stalks_bird"], "contradictions": ["sitting_on_air"], "events": ["rake"]}, None),
-    # a street: the bicycle's wheels in its rack, walkers, a bench
-    ("street", 3, 27406, {"contradictions": ["fish_in_tree"], "events": ["run", "carry_bag", "read_bench"]}, "filler_bike_rack"),
+    # a park: the begging dog with a walker and a bag about, the ball on its branch, the eater and the runner
+    ("park", 4, 28401, {"modules": ["dog_begs", "ball_in_tree"], "events": ["carry_bag", "ice_cream", "run"]}, None),
+    # a playground: the begging dog beside a kite and a jumper (v0.27: "or be watching the kite, or doing a trick for the boy")
+    ("playground", 3, 28402, {"modules": ["dog_begs"], "events": ["fly_kite", "jump", "ice_cream"]}, None),
+    # a playground: the riders further in on one shadow, the walking eater with open eyes
+    ("playground", 3, 28403, {"modules": ["seesaw_heavy"], "events": ["ice_cream", "kick_ball"]}, None),
+    # a street: the splat, the ball in the tree, the square wheel, a dog walked by
+    ("street", 3, 28404, {"modules": ["ice_cream_drop", "ball_in_tree"], "contradictions": ["square_wheel"], "events": ["walk_dog", "photo"]}, None),
+    # a garden: the shadows of a sleeper, a digger, a waver, the hose
+    ("garden", 3, 28405, {"events": ["dog_sleeping", "dig", "wave", "hose_water"]}, None),
+    # a park: faces with closed eyes at a picnic, a runner and a pram, a bird on its branch
+    ("park", 3, 28406, {"events": ["picnic", "run", "push_stroller", "bird_perched"]}, None),
 ]
 
 

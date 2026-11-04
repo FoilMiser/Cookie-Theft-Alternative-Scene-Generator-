@@ -49,34 +49,35 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v026", "v027"
+PREV, CUR = "v027", "v028"
 
-# the templates whose drawing v0.27 changed for the v0.26 screen (vision/flaws_v026.md); each went to the isolation bench first
-# (vision/isolation_v027.md) and was read in whole test scenes (vision/design_tests_v027.md)
+# the templates whose drawing or placement v0.28 changed for the v0.27 screen (vision/flaws_v027.md); each drawing went to the isolation bench first
+# (vision/isolation_v028.md) and was read in whole test scenes (vision/design_tests_v028.md)
 REDRAWN_NOTES = {
-    "sweep": "A fan of bristles read as 'a long yellow-headed rake', the one misread. Now dense and nearly parallel with two bindings, read beside a rake on the bench: no reader said rake in its three pictures.",
-    "ice_cream": "'Looking at or eating it', the cone held up before the face. Now the scoop at the lips, and in full in 13 pictures.",
-    "about_to_trip": "'His legs and feet look like they stride towards the right'. The back heel lifted and the head turned: offered unprompted in all four pictures. The obstacle's line still draws a remark, 'headed roughly past it'.",
-    "sprinkler_package": "'A wooden crate standing in a puddle'. Two short drips from the lid: 'the box looks like it is getting soaked'.",
-    "feed_birds": "The bird at the ground, 'a bird toppling forward'. Its body less tipped, its head in front, an eye on its side: 'pecking at seeds'.",
+    "dog_begs": "'Could be hers, begging from her bag'. Now at the end of the bench the eater sits nearest, its gaze on the food, and nobody else near: 'begging for the ice cream', in full in its three pictures. Not redrawn.",
+    "ice_cream_drop": "'A pink hat or a pink frisbee', 'flying saucer'. Now a flat splat, the dog's mouth over it: 'a pink splat with coloured sprinkles'.",
+    "ball_in_tree": "'A blue planet-like sphere', on 'a small bare branch drawn on top of the crown'. Now a beach ball on a limb from a fork at the top of the trunk: a beach ball in all four of its pictures.",
+    "seesaw": "'Almost past it', and a shadow under one rider only. The riders further in, and one shadow under the whole seesaw.",
 }
 
-# what the v0.27 screen readers made of the templates that read poorly (vision/flaws_v027.md)
+# what the v0.28 screen readers made of the templates that read poorly (vision/flaws_v028.md)
 WEAK_NOTES = {
-    "dog_begs": "Whose food? 'Could be hers, begging from her bag, or could be doing its own trick'. Read in full where the dog sits right beside the eater, and in v0.26 on the same drawing. For v0.28: a placement rule.",
+    "dog_sleeping": "'Sniffing the grass, lying down, or curled up asleep'; 'could be a puppy or a kitten'. In full in v0.27 on the same drawing and a wide oval of shadow, so the smaller shadow may be why. For v0.29: the bench.",
+    "ducks_bread": "'Swimming towards those crumbs'. v0.27's readers wrote much the same and scored in full, so mostly the scorers. For v0.29: the duck's bill at a crumb.",
+    "dog_wants_walk": "One reader: 'sits with a red lead in its mouth', no more, in a picture v0.27 read in full. Not changed. Watch.",
 }
-SCREEN_NOTE = ("The v0.27 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. Heads in profile, the walker's heel, the broom, the scoop, the pecking bird, the belt, the mouth and a shorter figure went to the isolation bench first, "
-               "and every change was read in whole test scenes. 743 of 756 items had full marks, none was misread, and the eight missed are clouds and trees in probes, seven of them by one reader who names no cloud or sun in any of its pictures. "
-               "63 of 64 templates pass the gate, up from 59: all five of v0.26's failures pass, and the one failure, the begging dog, is on a drawing this release did not change. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: "
-               "about the size of this recovery, so it is not a measure of what the drawings gained. Readers' remarks went up 10%, across all the readers: remarks on hidden faces fell by half, those on shadows and on marks on a face rose, and those on thin figures did not fall despite shorter legs. AI readers describe "
+SCREEN_NOTE = ("The v0.28 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The shadows, the fallen ice cream, the seesaw, the ball and its branch, the faces and the beard went to the isolation bench first, "
+               "and every change but the goatee was read in whole test scenes. 766 of 775 items had full marks, none was misread, and one was missed. "
+               "61 of 64 templates pass the gate, against 63: the begging dog, v0.27's one failure, passes in full, and of the three that now fail, two were not touched and one, the sleeping dog, has the same drawing on a smaller shadow. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates, "
+               "so this is not a measure of the drawings getting worse. Readers' remarks went down 12%, though readers differ widely: remarks on shadows and on marks on a face fell, and those on thin figures rose with nothing changed. AI readers describe "
                "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:scenes_v026/T2_street_s14109_iso.png@860,620,1100,950>scenes/T2_street_s14109_iso.png@860,630,1100,960", "A face in profile", "v0.26: 'the face is mostly turned away and hidden', the eye on the head's outline. v0.27: the head turned 35 degrees to the viewer, and the back heel lifted. Here on the same seed."),
-         ("crop:scenes_v026/T2_garden_s012.png@1240,630,1430,1000>scenes/T2_garden_s012.png@1240,630,1430,1000", "The broom", "v0.26: 'a long yellow-headed rake', the one misread. v0.27: bristles dense and nearly parallel, with two bindings. No reader said rake. Here on the same seed."),
-         ("person.nia__walk_ice_cream__smile__y090", "Ice cream", "v0.26: 'looking at or eating it'. v0.27: the scoop at the lips, in full in 13 pictures. Readers now remark on her closed eyes: 'Walking with eyes shut is slightly odd'."),
-         ("animal.bird_01__peck__neutral__y090", "Pecking bird", "v0.26: 'a bird toppling forward', its tail 'a party hat or a funnel'. v0.27: the body less tipped, the head in front of it, an eye on its side: 'pecking at seeds'.")]
+FIXES = [("crop:scenes_v027/T1_street_s1031.png@1000,640,1270,1000>scenes/T1_street_s1031.png@1000,640,1270,1000", "The shadow", "v0.27: 'a large oval on the grass, a bit wide and offset from her feet'. v0.28: from the figure's own feet. Pictures remarking on shadows fell from 20 to 11, none of them calling one wide. Here on the same seed."),
+         ("crop:scenes_v027/T4_playground_s1605000.png@630,780,850,930>scenes/T3_playground_s19143.png@1030,880,1250,1000", "The fallen ice cream", "v0.27: 'a pink hat or a pink frisbee', a flying saucer. v0.28: a flat splat with flecks thrown clear of it: 'a pink splat with coloured sprinkles'."),
+         ("crop:scenes_v027/T4_playground_s1605000.png@80,320,300,500>scenes/T4_playground_s621959.png@0,320,220,500", "The ball in the tree", "v0.27: 'a blue planet-like sphere' on 'a small bare branch drawn on top of the crown'. v0.28: a beach ball, on a limb from a fork at the top of the trunk."),
+         ("person.dev__stand__smile__y000", "The beard", "v0.27: 'a thin dark strap along the jaw'. Fuller on the cheek it was 'a mask or scarf'. v0.28: a goatee and moustache: 'a small beard'. No strap or mask in 70 pictures.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):
@@ -128,7 +129,7 @@ def fix_pairs(old_dir, new_dir, gimg):
                 if not os.path.exists(path):
                     break
                 bx = [int(v) for v in box.split(",")]
-                name = f"fix_{tag}_{os.path.basename(path)[:-4]}.webp"
+                name = f"fix_{tag}_{os.path.basename(path)[:-4]}_{bx[0]}_{bx[1]}.webp"     # (two crops of one picture stay two files)
                 im = Image.open(path).convert("RGB").crop(tuple(bx))
                 im.save(os.path.join(gimg, name), "WEBP", quality=90, method=6)
                 tiles.append({"src": f"img/g/{name}", "w": im.width, "h": im.height})

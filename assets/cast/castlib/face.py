@@ -88,8 +88,11 @@ def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", s
                       LINE * 1.05 * k, "outline", 0.004 * k)
         face.place(f"brow_{side}", capsule_arc("brow", "outline", bend=0.30),
                    face.frame(x, eye_z + BROW_UP * k, 0.004 * k, scale=(0.027 * k, 0.007 * k, 0.0095 * k)))
+        # v0.28, TPDB_BLUSH: smaller, nearer the eye ("a pink smudge on the cheek, which could be blush or ice cream")
+        bl28 = __import__("os").environ.get("TPDB_BLUSH", "B") == "B"
         face.place(f"blush_{side}", ellipsoid("blush", (0, 0, 0), (1, 1, 1), blush_key),
-                   face.frame(s * (eye_dx + 0.030 * k), eye_z - 0.044 * k, 0.001 * k, scale=(0.024 * k, 0.004 * k, 0.013 * k)))
+                   face.frame(s * (eye_dx + (0.022 if bl28 else 0.030) * k), eye_z - (0.036 if bl28 else 0.044) * k, 0.001 * k,
+                              scale=((0.015 if bl28 else 0.024) * k, 0.004 * k, (0.008 if bl28 else 0.013) * k)))
 
     mz = eye_z + MOUTH_DZ * k
     mw = MOUTH_W * k
@@ -185,7 +188,10 @@ def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_ga
             show |= {"arcup2_L", "arcup2_R"}
         elif eyes == "closed":
             show |= {"arcdn_L", "arcdn_R"}
-        show |= {"brow_L", "brow_R"} | set(MOUTHS[e["mouth"]])
+        show |= set(MOUTHS[e["mouth"]])
+        # v0.28, TPDB_BROW: no brows over closed eyes, which drew two dark lines to each eye ("dark marks around the eye and mouth area", "a slightly muddled drawing of her features")
+        if not (eyes == "closed" and __import__("os").environ.get("TPDB_BROW", "B") == "B"):
+            show |= {"brow_L", "brow_R"}
         if e.get("blush"):
             show |= {"blush_L", "blush_R"}
         show |= {key for key in face.objs if key.startswith("glass")}

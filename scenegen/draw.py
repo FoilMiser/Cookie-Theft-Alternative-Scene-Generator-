@@ -5,6 +5,7 @@ s = ppm(y) / PPM_FRONT, so it shrinks with depth exactly like the rendered cast.
 Sizes in these functions are pixels at the front of the scene.
 """
 import math
+import sys
 
 W, H = 1600, 1000
 PPM_FRONT, Y_FRONT, Y_ZERO = 190.0, 880.0, -402.0
@@ -79,7 +80,9 @@ def flat(d, fill, opacity=None):
 
 
 def shadow(x, y, w, s=1.0):
-    return f'<ellipse cx="{x:.1f}" cy="{y + 2:.1f}" rx="{w / 2:.1f}" ry="{w / 7:.1f}" fill="{OUT}" fill-opacity="0.16"/>'
+    # revision 26: flatter, as the figures' are now (a bicycle's reached well below its wheels)
+    ry = w / (11 if getattr(sys.modules.get("scenegen.scene"), "PLACEMENT_REV", 26) >= 26 else 7)
+    return f'<ellipse cx="{x:.1f}" cy="{y + 2:.1f}" rx="{w / 2:.1f}" ry="{ry:.1f}" fill="{OUT}" fill-opacity="0.16"/>'
 
 
 def blob(parts, fill, ow=OW):
@@ -120,7 +123,7 @@ def tree(x, base_y, s=1.0, trunk_h=170, canopy=None, col=None, extra_parts=()):
              (x + 0.10 * R, cy + 0.45 * R), (x - 0.60 * R, cy + 0.55 * R), (x + 0.70 * R, cy + 0.55 * R)]
     branch = [(x - 0.95 * R, cy + 0.95 * R), (x + 0.95 * R, cy + 0.92 * R)]
     return svg, {"canopy": (x, cy, R), "slots": slots, "branch_tips": branch, "bbox": (x - 1.35 * R, cy - 1.05 * R, x + 1.35 * R, base_y),
-                 "parts": parts + list(extra_parts), "col": col}
+                 "parts": parts + list(extra_parts), "col": col, "trunk_w": tw}
 
 
 def tree_with_branch(x, base_y, s=1.0, side=1, trunk_h=300, canopy=118, smooth=False):
@@ -596,6 +599,22 @@ def ball(x, y, r, col=None):
     return svg
 
 
+def beach_ball(x, y, r, col=None):
+    """v0.28: a ball of coloured panels meeting at a cap (one white band round a blue ball: "a blue planet-like sphere"; two bands across it were a target)."""
+    col = col or C["blue"]
+    svg = circ(x, y, r, col)
+    px_, py_ = x - 0.22 * r, y - 0.52 * r          # the cap, turned toward the viewer's upper left
+    rr = max(0.5, r - OW * 0.5)
+    for a0, a1 in ((-35, 15), (65, 115), (165, 215)):
+        ax, ay = x + rr * math.cos(math.radians(a0)), y + rr * math.sin(math.radians(a0))
+        bx, by = x + rr * math.cos(math.radians(a1)), y + rr * math.sin(math.radians(a1))
+        svg += (f'<path d="M {P(px_, py_)} Q {P((px_ + ax) / 2 + 0.10 * r, (py_ + ay) / 2 - 0.10 * r)} {P(ax, ay)} A {rr:.1f} {rr:.1f} 0 0 1 {P(bx, by)} '
+                f'Q {P((px_ + bx) / 2 - 0.10 * r, (py_ + by) / 2 + 0.05 * r)} {P(px_, py_)} Z" fill="{C["white"]}"/>')
+    svg += ell(px_, py_, 0.17 * r, 0.14 * r, C["yellow"], OW * 0.5)
+    svg += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" fill="none" stroke="{OUT}" stroke-width="{OW}"/>'
+    return svg
+
+
 def kite(x, y, s=1.0, col=None, rot=0, wind=0):
     col = col or C["yellow"]
     pts = [(0, -50), (34, 0), (0, 62), (-34, 0)]
@@ -707,10 +726,39 @@ def sandwich(x, y, s=1.0, bitten=0, style=5):
     return svg, (x - 33 * s, y - 37 * s, x + 33 * s, y + 2 * s)
 
 
-def dropped_scoop(x, y, s=1.0, col=None, ball=1.0):
+# v0.28 bench (isolation_v028.md): "O" keeps the scoop in a puddle ("a pink hat or a pink frisbee", "flying saucer"); "A" a flat splat; "B" a splat with a low melted lump
+SPLAT28 = "A"
+
+
+def _splat28(x, y, s, col, lump):
+    """v0.28: ice cream that has hit the ground and burst: a lobed splat lying flat, no dome, with flecks thrown clear of it and the sprinkles still on it."""
+    rim = ((180, 47), (152, 27), (126, 42), (96, 24), (66, 40), (36, 26), (6, 48), (-24, 29), (-52, 40), (-88, 25), (-122, 39), (-154, 28))
+    pts = [(x + r * math.cos(math.radians(a)) * s, y + r * 0.34 * math.sin(math.radians(a)) * s) for a, r in rim]
+    mids = [((p[0] + q[0]) / 2, (p[1] + q[1]) / 2) for p, q in zip(pts, pts[1:] + pts[:1])]
+    d = f"M {P(*mids[-1])} " + " ".join(f"Q {P(*p)} {P(*m)}" for p, m in zip(pts, mids)) + " Z"
+    svg = shape(d, col, OW * 0.8)
+    svg += ell(x - 8 * s, y - 2 * s, 21 * s, 5 * s, C["white"], 0).replace("/>", ' fill-opacity="0.28"/>')
+    top = y - 2 * s
+    if lump:
+        top = y - 19 * s
+        svg += shape(f"M {P(x - 20 * s, y + 1 * s)} Q {P(x - 24 * s, y - 10 * s)} {P(x - 10 * s, y - 13 * s)} Q {P(x - 3 * s, y - 20 * s)} {P(x + 7 * s, y - 13 * s)} "
+                     f"Q {P(x + 22 * s, y - 11 * s)} {P(x + 19 * s, y + 1 * s)} Q {P(x, y + 5 * s)} {P(x - 20 * s, y + 1 * s)} Z", col, OW * 0.7)
+        svg += ell(x - 7 * s, y - 10 * s, 4.5 * s, 2.4 * s, C["white"], 0, rot=-15)
+    for (dx, dy, a, c) in ((-30, -2, 20, "yellow"), (-13, 3, -35, "blue"), (24, -3, 60, "green"), (31, 2, -20, "white"), (2, 5, 15, "yellow"), (14, -7, -50, "blue"), (-22, 5, 70, "green")):
+        px_, py_ = x + dx * s, y + dy * s
+        ux, uy = math.cos(math.radians(a)) * 3.2 * s, math.sin(math.radians(a)) * 1.8 * s
+        svg += f'<path d="M {P(px_ - ux, py_ - uy)} L {P(px_ + ux, py_ + uy)}" stroke="{C[c]}" stroke-width="{2.4 * s:.1f}" stroke-linecap="round"/>'
+    for dx, dy, r in ((-55, -4, 3.0), (-50, 9, 2.2), (56, 6, 3.0), (52, -7, 2.2), (10, 17, 2.6), (-20, -17, 2.2)):
+        svg += ell(x + dx * s, y + dy * s, r * s, r * 0.7 * s, col, OW * 0.4)
+    return svg, (x - 58 * s, top, x + 59 * s, y + 19 * s)
+
+
+def dropped_scoop(x, y, s=1.0, col=None, ball=1.0, style="O"):
     """A scoop of ice cream that has fallen on the ground: the round scoop (with the ridge left by the
     scoop and a highlight) sits in a melted puddle with drips. A flat blob read as a pink bag or a shoe.
     ball (v0.14) scales the scoop sitting in the puddle (full size it was "about as big as the dog's head")."""
+    if style != "O":
+        return _splat28(x, y, s, col or C["pink"], style == "B")
     if ball != 1.0:
         return _dropped_scoop_small(x, y, s, col or C["pink"], ball)
     col = col or C["pink"]
@@ -1217,17 +1265,24 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False):
     return svg, info
 
 
-def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212):
-    """Seesaw on a pivot; tilt > 0 lifts the right end. Returns svg and the two seat points."""
+# v0.28 bench (isolation_v028.md): riders this far in from the plank's end ("sitting very near the end of the plank, almost past it"), 0 before
+SEESAW_IN28 = 22
+
+
+def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False):
+    """Seesaw on a pivot; tilt > 0 lifts the right end. Returns svg and the two seat points.
+    inset (v0.28) moves the seats and handles in from the plank's ends; ground (v0.28) casts one shadow under the whole plank, for the riders too."""
     ph = 82 * s
     a = math.radians(tilt)
     dx, dy = math.cos(a) * L * s, -math.sin(a) * L * s
     pv = (cx, base_y - ph)
     left, right = (pv[0] - dx, pv[1] - dy), (pv[0] + dx, pv[1] + dy)
-    svg = poly([(cx - 34 * s, base_y), (cx + 34 * s, base_y), (cx + 8 * s, base_y - ph), (cx - 8 * s, base_y - ph)], C["slate"])
+    svg = f'<ellipse cx="{cx:.1f}" cy="{base_y + 2:.1f}" rx="{abs(dx) * 1.04:.1f}" ry="{13 * s:.1f}" fill="{OUT}" fill-opacity="0.16"/>' if ground else ""
+    svg += poly([(cx - 34 * s, base_y), (cx + 34 * s, base_y), (cx + 8 * s, base_y - ph), (cx - 8 * s, base_y - ph)], C["slate"])
     svg += stroke(poly_d([left, right]), C["red"], 14 * s, OW * 0.8)
     seats = {}
     for name, (x, y), sg in (("left", left, 1), ("right", right, -1)):
+        x, y = x + sg * inset * s * math.cos(a), y - sg * inset * s * math.sin(a)
         hx, hy = x + sg * 34 * s * math.cos(a), y - sg * 34 * s * math.sin(a)
         svg += stroke(poly_d([(hx, hy - 6 * s), (hx, hy - 42 * s)]), C["charcoal"], 6 * s, OW * 0.7)
         svg += stroke(poly_d([(hx - 9 * s, hy - 42 * s), (hx + 9 * s, hy - 42 * s)]), C["charcoal"], 6 * s, OW * 0.7)

@@ -22,6 +22,55 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.28 (out_O = the v0.27 cast; out_B = no brows over closed eyes, a smaller blush, a fuller beard. Scene drawings by name: splO the old scoop, splA a flat splat, splB a splat with
+    # a low lump; shdO the old shadows; ssaO the old seesaw, ssaB riders further in with one shadow under the plank; balO the old ball and branch)
+    "splO_1": ("park", 28101, {"modules": ["ice_cream_drop"]}, "event", None),
+    "splO_2": ("street", 28102, {"modules": ["ice_cream_drop"]}, "event", None),
+    "splA_1": ("park", 28101, {"modules": ["ice_cream_drop"]}, "event", None),
+    "splA_2": ("street", 28102, {"modules": ["ice_cream_drop"]}, "event", None),
+    "splB_1": ("park", 28101, {"modules": ["ice_cream_drop"]}, "event", None),
+    "splB_2": ("street", 28102, {"modules": ["ice_cream_drop"]}, "event", None),
+    "shdO_1": ("garden", 28111, {"events": ["dog_sleeping"]}, "event", None),
+    "shdO_2": ("park", 28112, {"events": ["dig"]}, "event", None),
+    "shdO_3": ("park", 28113, {"events": ["run"]}, "event", None),
+    "shdO_4": ("garden", 28114, {"events": ["play_catch"]}, "event", None),
+    "shdB_1": ("garden", 28111, {"events": ["dog_sleeping"]}, "event", None),
+    "shdB_2": ("park", 28112, {"events": ["dig"]}, "event", None),
+    "shdB_3": ("park", 28113, {"events": ["run"]}, "event", None),
+    "shdB_4": ("garden", 28114, {"events": ["play_catch"]}, "event", None),
+    "shdB_5": ("park", 28115, {"events": ["picnic"]}, "event", None),
+    "shdB_6": ("street", 28116, {"events": ["walk_dog"]}, "event", None),
+    "shdB_7": ("playground", 28117, {"events": ["jump"]}, "event", None),
+    "shdB_8": ("playground", 28118, {"events": ["sandbox"]}, "event", None),
+    "shdB_9": ("park", 28119, {"events": ["goat_grazing"]}, "event", None),
+    "ssaO_1": ("playground", 28121, {"events": ["seesaw"]}, "event", None),
+    "ssaB_1": ("playground", 28121, {"events": ["seesaw"]}, "event", None),
+    "ssaB_2": ("playground", 28122, {"events": ["seesaw"]}, "event", None),
+    "ssaB_3": ("playground", 28123, {"modules": ["seesaw_heavy"]}, "event", None),
+    "balO_1": ("park", 28131, {"modules": ["ball_in_tree"]}, "ballintree", None),
+    "balB_1": ("park", 28131, {"modules": ["ball_in_tree"]}, "ballintree", None),
+    "balB_2": ("street", 28132, {"modules": ["ball_in_tree"]}, "ballintree", None),
+    "brbB_1": ("playground", 28133, {"events": ["bird_perched"]}, "event", ("branchbird",)),
+    "facO_1": ("park", 28141, {"events": ["picnic"]}, "event", None),
+    "facO_2": ("park", 28142, {"events": ["ice_cream"]}, "event", ("pose", "__eat_ice_cream")),
+    "facB_1": ("park", 28141, {"events": ["picnic"]}, "event", None),
+    "facB_2": ("park", 28142, {"events": ["ice_cream"]}, "event", ("pose", "__eat_ice_cream")),
+    "facB_3": ("street", 28143, {"events": ["ice_cream"]}, "event", ("pose", "__walk_ice_cream")),
+    "brdO_1": ("street", 28151, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.dev"])),
+    "brdB_1": ("street", 28151, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.dev"])),
+    "brdB_2": ("park", 28152, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.dev"])),
+    # v0.28 round 2: the branch on a limb from the trunk, the dog's mouth over the flat splat
+    "lmbB_1": ("park", 28131, {"modules": ["ball_in_tree"]}, "ballintree", None),
+    "lmbB_2": ("street", 28132, {"modules": ["ball_in_tree"]}, "ballintree", None),
+    "lmbB_3": ("garden", 28134, {"modules": ["ball_in_tree"]}, "ballintree", None),
+    "lmbB_4": ("playground", 28133, {"events": ["bird_perched"]}, "event", ("branchbird",)),
+    "dogB_1": ("park", 28101, {"modules": ["ice_cream_drop"]}, "event", None),
+    "dogB_2": ("street", 28102, {"modules": ["ice_cream_drop"]}, "event", None),
+    "dogB_3": ("playground", 28103, {"modules": ["ice_cream_drop"]}, "event", None),
+    "brdD_1": ("street", 28151, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.dev"])),
+    "brdD_2": ("park", 28152, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.dev"])),
+    "brdD_3": ("street", 28153, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.dev"])),
+    "brdC_3": ("street", 28153, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.dev"])),
     # v0.27 round 2 (out_D = round 1's winners, a narrower corn broom, the scoop at the lips, the hand under the book, the lip-coloured mouth; out_E = out_D and shorter, thicker legs)
     "brmD_1": ("garden", 27131, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.tomas"])),
     "brmD_2": ("street", 27132, {"events": ["sweep"]}, "event", None),
@@ -263,6 +312,10 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     _D.PAW25 = {"pawA": "A", "pawB": "B", "pawC": "C"}.get(name[:4], _D.PAW25)
     _D.BIRD25 = {"birA": 0.8, "birB": 0.68}.get(name[:4], _D.BIRD25)
     _D.SWEEP26 = {"swpA": "A", "swpB": "B"}.get(name[:4], _D.SWEEP26)
+    _D.SPLAT28 = {"splO": "O", "splA": "A", "splB": "B"}.get(name[:4], "A")
+    _D.SEESAW_IN28 = 0 if name.startswith("ssaO") else 22
+    import scenegen.library as _L
+    _L.SHADOW28 = "O" if name[:4] in ("shdO", "ssaO") else "B"
     rec = None
     for k in range(40):
         USAGE.clear()

@@ -4,10 +4,10 @@
  "setting": "street",
  "sky": "clear",
  "seed": 1032,
- "mirror": true,
+ "mirror": false,
  "versions": {
-  "generator": "0.27.0",
-  "cast_builder": "0.27.0",
+  "generator": "0.28.0",
+  "cast_builder": "0.28.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -55,10 +55,14 @@
    }
   }
  },
- "features": [],
+ "features": [
+  "bench",
+  "flowers",
+  "stall"
+ ],
  "templates": [
   {
-   "id": "lost_balloon",
+   "id": "cat_stalks_bird",
    "kind": "inference",
    "event": "e1",
    "units": 1
@@ -76,7 +80,7 @@
    "units": 0
   },
   {
-   "id": "ice_cream",
+   "id": "read_bench",
    "kind": "event",
    "event": "e4",
    "units": 0
@@ -87,153 +91,192 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is holding balloons and reaching up for one, upset",
+   "text": "A grandfather is reading on the bench",
    "accepted": {
     "who": [
-     "girl",
-     "little girl",
-     "child",
-     "kid",
-     "daughter"
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
     ],
     "what": [
-     "reaching up",
-     "holding balloons",
-     "upset",
-     "sad",
-     "trying to catch the balloon"
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "sitting and reading"
     ]
    },
-   "key": "reaching",
+   "key": "reading",
    "elements": [
-    "balloonlost_1",
-    "heldbal_2"
+    "sitter_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "lost_balloon",
-   "event": "e1",
+   "template": "read_bench",
+   "event": "e4",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.001,
+    "s": -0.106,
     "r": 0,
     "d": 0.0,
-    "f": 0.46,
-    "a": 4.89,
-    "zipf_raw": 4.46,
-    "aoa_raw": 4.89,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
     "domain": null,
-    "area_px": 15328
+    "area_px": 13176
    },
-   "b": -1.159,
-   "p0": 0.761,
-   "pm1": 0.54,
+   "b": -1.309,
+   "p0": 0.787,
+   "pm1": 0.577,
    "aoi_cells": [
+    "MC",
     "BC"
    ]
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "A balloon is floating up into the sky",
+   "type": "action",
+   "text": "A cat is crouching low",
    "accepted": [
-    "balloon flying away",
-    "balloon in the sky",
-    "balloon floating away",
-    "floating balloon"
+    "cat crouching",
+    "cat hiding",
+    "cat sneaking",
+    "cat ready to pounce",
+    "cat watching"
    ],
-   "key": "balloon",
+   "key": "cat",
    "elements": [
-    "loosebal_3"
+    "stalkcat_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "lost_balloon",
+   "template": "cat_stalks_bird",
    "event": "e1",
    "features": {
-    "type": "entity",
+    "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": -1.032,
+    "animate": true,
+    "s": -0.48,
     "r": 0,
     "d": 0.0,
-    "f": -0.1,
-    "a": 4.37,
-    "zipf_raw": 3.9,
-    "aoa_raw": 4.37,
+    "f": 0.78,
+    "a": 3.68,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
     "domain": null,
-    "area_px": 3572
+    "area_px": 7776
    },
-   "b": 0.026,
-   "p0": 0.494,
-   "pm1": 0.264,
+   "b": -1.014,
+   "p0": 0.734,
+   "pm1": 0.503,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i03",
-   "type": "inference",
-   "text": "The girl let go of one of the balloons",
+   "type": "action",
+   "text": "A bird is pecking at the ground",
    "accepted": [
-    "one balloon got away",
-    "lost one of the balloons",
-    "the balloon slipped away",
-    "let go of the string",
-    "one floated away from the bunch"
+    "bird",
+    "bird eating",
+    "bird pecking",
+    "little bird"
    ],
-   "key": "lost",
+   "key": "bird",
    "elements": [
-    "loosebal_3",
-    "balloonlost_1",
-    "heldbal_2"
+    "stalkbird_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "cat_stalks_bird",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.234,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.63,
+    "a": 3.52,
+    "zipf_raw": 4.63,
+    "aoa_raw": 3.52,
+    "domain": null,
+    "area_px": 2684
+   },
+   "b": -0.592,
+   "p0": 0.644,
+   "pm1": 0.399,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "The cat is about to catch the bird",
+   "accepted": [
+    "the cat wants to catch the bird",
+    "the cat is going to pounce",
+    "the cat is hunting the bird",
+    "the cat is stalking the bird"
+   ],
+   "key": "cat",
+   "elements": [
+    "stalkcat_2",
+    "stalkbird_3"
    ],
    "cues": [
-    "loosebal_3",
-    "balloonlost_1",
-    "heldbal_2"
+    "stalkcat_2",
+    "stalkbird_3"
    ],
    "effect": [
-    "loosebal_3"
+    "stalkbird_3"
    ],
    "chain": 1,
    "animate": false,
    "domain": null,
-   "template": "lost_balloon",
+   "template": "cat_stalks_bird",
    "event": "e1",
    "features": {
     "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": -1.032,
-    "r": 2,
-    "d": 0.129,
+    "s": -0.48,
+    "r": 1,
+    "d": 0.081,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 5.39,
-    "aoa_raw": 5.78,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
     "domain": null,
-    "area_px": 3572
+    "area_px": 7776
    },
-   "b": 0.541,
-   "p0": 0.368,
-   "pm1": 0.176,
+   "b": 0.507,
+   "p0": 0.376,
+   "pm1": 0.181,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BC",
+    "BR"
    ]
   },
   {
-   "id": "i04",
+   "id": "i05",
    "type": "action",
    "text": "A child is holding a balloon",
    "accepted": {
@@ -266,7 +309,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.282,
+    "s": -0.247,
     "r": 0,
     "d": 0.0,
     "f": -0.1,
@@ -274,79 +317,28 @@
     "zipf_raw": 3.9,
     "aoa_raw": 4.37,
     "domain": null,
-    "area_px": 10280
+    "area_px": 10792
    },
-   "b": -0.849,
-   "p0": 0.7,
-   "pm1": 0.462,
+   "b": -0.867,
+   "p0": 0.704,
+   "pm1": 0.467,
    "aoi_cells": [
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i05",
-   "type": "action",
-   "text": "A woman is eating an ice cream",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "eating ice cream",
-     "ice cream cone",
-     "having an ice cream",
-     "eating a cone"
-    ]
-   },
-   "key": "ice cream",
-   "elements": [
-    "icecream_5"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "ice_cream",
-   "event": "e4",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.058,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.47,
-    "a": 3.33,
-    "zipf_raw": 4.47,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 14088
-   },
-   "b": -1.132,
-   "p0": 0.756,
-   "pm1": 0.533,
-   "aoi_cells": [
-    "ML",
-    "BL"
+    "BL",
+    "BC"
    ]
   },
   {
    "id": "i06",
    "type": "action",
-   "text": "A grandfather is waving",
+   "text": "A grandmother is waving",
    "accepted": {
     "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
     ],
     "what": [
      "waving",
@@ -358,7 +350,7 @@
    },
    "key": "waving",
    "elements": [
-    "waver_6"
+    "waver_5"
    ],
    "cues": [],
    "effect": [],
@@ -371,7 +363,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.254,
+    "s": 0.065,
     "r": 0,
     "d": 0.0,
     "f": -0.25,
@@ -379,29 +371,29 @@
     "zipf_raw": 3.75,
     "aoa_raw": 4.26,
     "domain": null,
-    "area_px": 21896
+    "area_px": 16756
    },
-   "b": -1.072,
-   "p0": 0.745,
-   "pm1": 0.518,
+   "b": -0.978,
+   "p0": 0.727,
+   "pm1": 0.495,
    "aoi_cells": [
-    "BR"
+    "ML",
+    "BL"
    ]
   },
   {
    "id": "i07",
    "type": "entity",
-   "text": "It is a sunny day",
+   "text": "There are a few white clouds",
    "accepted": [
-    "sun",
-    "sunny",
-    "sunshine",
-    "nice day",
-    "sunny day"
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
    ],
-   "key": "sun",
+   "key": "clouds",
    "elements": [
-    "sun"
+    "clouds_white"
    ],
    "cues": [],
    "effect": [],
@@ -414,21 +406,21 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.103,
+    "s": -0.137,
     "r": 0,
     "d": 0.0,
-    "f": 0.97,
-    "a": 3.4,
-    "zipf_raw": 4.97,
-    "aoa_raw": 3.4,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 13224
+    "area_px": 12608
    },
-   "b": -0.76,
-   "p0": 0.681,
-   "pm1": 0.44,
+   "b": -0.5,
+   "p0": 0.622,
+   "pm1": 0.378,
    "aoi_cells": [
-    "TL"
+    "TC"
    ]
   },
   {
@@ -459,7 +451,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 2.62,
+    "s": 2.619,
     "r": 0,
     "d": 0.0,
     "f": 0.34,
@@ -467,9 +459,9 @@
     "zipf_raw": 4.34,
     "aoa_raw": 5.78,
     "domain": null,
-    "area_px": 615104
+    "area_px": 614420
    },
-   "b": -1.932,
+   "b": -1.931,
    "p0": 0.873,
    "pm1": 0.717,
    "aoi_cells": [
@@ -483,47 +475,6 @@
   },
   {
    "id": "i09",
-   "type": "entity",
-   "text": "There is a tree",
-   "accepted": [
-    "tree",
-    "trees"
-   ],
-   "key": "tree",
-   "elements": [
-    "tree"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 1.093,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.85,
-    "a": 3.57,
-    "zipf_raw": 4.85,
-    "aoa_raw": 3.57,
-    "domain": null,
-    "area_px": 71404
-   },
-   "b": -1.321,
-   "p0": 0.789,
-   "pm1": 0.58,
-   "aoi_cells": [
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i10",
    "type": "entity",
    "text": "There is a street lamp",
    "accepted": [
@@ -562,26 +513,26 @@
    "p0": 0.586,
    "pm1": 0.342,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
+    "TR",
+    "MR",
+    "BR"
    ]
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 8,
   "inference_units": 1,
   "contradictions": 0,
-  "items_total": 10
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
    "content": 0.71,
-   "inference": 0.368
+   "inference": 0.376
   },
   "theta_minus_1": {
-   "content": 0.488,
-   "inference": 0.176
+   "content": 0.485,
+   "inference": 0.181
   }
  },
  "bands": {
@@ -593,8 +544,8 @@
  },
  "in_tier": true,
  "checks": {
-  "balloonlost_1_looks_at_balloon": {
-   "result": false,
+  "stalkcat_2_looks_at_bird": {
+   "result": true,
    "detail": ""
   },
   "occlusion_and_size": {
@@ -613,8 +564,8 @@
  "clutter": {
   "objects": 16,
   "edge_density": 0.0479,
-  "png_bytes": 212398,
-  "jpeg_bytes": 178933
+  "png_bytes": 202373,
+  "jpeg_bytes": 177442
  },
  "signature": [
   [
@@ -634,11 +585,7 @@
    0
   ],
   [
-   "entity",
-   0
-  ],
-  [
-   "entity",
+   "action",
    0
   ],
   [
@@ -671,9 +618,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    32.0,
+    1372.0,
     0.0,
-    228.0,
+    1568.0,
     178.0
    ],
    "area_px": 13224,
@@ -686,9 +633,9 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    566.0,
+    556.0,
     16.0,
-    1044.0,
+    1034.0,
     112.0
    ],
    "area_px": 12608,
@@ -706,9 +653,9 @@
     1600.0,
     602.0
    ],
-   "area_px": 693620,
-   "visible_px": 615104,
-   "occlusion": 0.113
+   "area_px": 693612,
+   "visible_px": 614420,
+   "occlusion": 0.114
   },
   {
    "id": "ground",
@@ -717,18 +664,18 @@
    "z": -90
   },
   {
-   "id": "filler_planter_b",
-   "label": "Planter",
-   "role": "filler",
-   "z": 645,
+   "id": "flowers",
+   "label": "Flower planter",
+   "role": "setting",
+   "z": 660,
    "bbox": [
-    688.0,
-    572.0,
-    792.0,
-    648.0
+    948.0,
+    586.0,
+    1052.0,
+    662.0
    ],
-   "area_px": 6856,
-   "visible_px": 6856,
+   "area_px": 6832,
+   "visible_px": 6832,
    "occlusion": 0.0
   },
   {
@@ -737,9 +684,9 @@
    "role": "setting",
    "z": 700,
    "bbox": [
-    452.0,
+    1092.0,
     220.0,
-    508.0,
+    1148.0,
     702.0
    ],
    "area_px": 9008,
@@ -752,14 +699,14 @@
    "role": "setting",
    "z": 720,
    "bbox": [
-    72.0,
+    1272.0,
     502.0,
-    328.0,
+    1528.0,
     722.0
    ],
    "area_px": 25520,
-   "visible_px": 22340,
-   "occlusion": 0.125
+   "visible_px": 25112,
+   "occlusion": 0.016
   },
   {
    "id": "filler_crates",
@@ -767,9 +714,9 @@
    "role": "filler",
    "z": 760,
    "bbox": [
-    44.0,
+    1474.0,
     696.0,
-    126.0,
+    1556.0,
     762.0
    ],
    "area_px": 5248,
@@ -777,76 +724,144 @@
    "occlusion": 0.0
   },
   {
-   "id": "tree",
-   "label": "Street tree",
+   "id": "bench",
+   "label": "Bench",
    "role": "setting",
-   "z": 800,
+   "z": 770,
    "bbox": [
-    1152.0,
-    362.0,
-    1448.0,
-    808.0
+    662.0,
+    664.0,
+    858.0,
+    772.0
    ],
-   "area_px": 71404,
-   "visible_px": 71404,
-   "occlusion": 0.0
+   "area_px": 10840,
+   "visible_px": 7748,
+   "occlusion": 0.285
   },
   {
-   "id": "icecream_5",
-   "label": "person.mei__walk_ice_cream__happy__y090",
+   "id": "sitter_1",
+   "label": "person.tomas__sit_read__neutral__y045",
    "role": "scored",
-   "z": 898.26,
+   "z": 773,
    "bbox": [
-    158.0,
-    614.0,
-    266.0,
-    902.0
+    694.0,
+    568.0,
+    812.0,
+    796.0
    ],
-   "area_px": 14088,
-   "visible_px": 14088,
+   "area_px": 13176,
+   "visible_px": 13176,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.mei__walk_ice_cream__happy__y090",
-    "family": "person.mei",
-    "scale": 0.4818,
+    "variant": "person.tomas__sit_read__neutral__y045",
+    "family": "person.tomas",
+    "scale": 0.4354,
     "mirrored": false,
     "labels": {
-     "everyday_name": "woman",
+     "everyday_name": "grandfather",
      "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
      ],
      "category": "adult_person",
      "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
      }
     }
    }
   },
   {
+   "id": "tree",
+   "label": "Street tree",
+   "role": "setting",
+   "z": 800,
+   "bbox": [
+    152.0,
+    362.0,
+    448.0,
+    808.0
+   ],
+   "area_px": 71400,
+   "visible_px": 71400,
+   "occlusion": 0.0
+  },
+  {
+   "id": "waver_5",
+   "label": "person.rosa__wave__smile__y045",
+   "role": "scored",
+   "z": 895.52,
+   "bbox": [
+    44.0,
+    602.0,
+    154.0,
+    898.0
+   ],
+   "area_px": 16756,
+   "visible_px": 16756,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__wave__smile__y045",
+    "family": "person.rosa",
+    "scale": 0.4808,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "wavelines_6",
+   "label": "Motion lines by the waving hand",
+   "role": "setting",
+   "z": 896.52,
+   "bbox": [
+    30.0,
+    604.0,
+    80.0,
+    632.0
+   ],
+   "area_px": 140,
+   "visible_px": 140,
+   "occlusion": 0.0
+  },
+  {
    "id": "balloonkid_4",
    "label": "person.kai__balloon__smile__y045",
    "role": "scored",
-   "z": 907.41,
+   "z": 936.6,
    "bbox": [
-    1138.0,
-    636.0,
-    1222.0,
-    910.0
+    516.0,
+    658.0,
+    602.0,
+    938.0
    ],
-   "area_px": 10280,
-   "visible_px": 10280,
+   "area_px": 10792,
+   "visible_px": 10792,
    "occlusion": 0.0,
    "asset": {
     "variant": "person.kai__balloon__smile__y045",
     "family": "person.kai",
-    "scale": 0.4852,
-    "mirrored": true,
+    "scale": 0.496,
+    "mirrored": false,
     "labels": {
      "everyday_name": "child",
      "accepted_names": [
@@ -872,9 +887,9 @@
    "role": "filler",
    "z": 950,
    "bbox": [
-    28.0,
+    1508.0,
     862.0,
-    92.0,
+    1572.0,
     952.0
    ],
    "area_px": 4456,
@@ -882,123 +897,64 @@
    "occlusion": 0.0
   },
   {
-   "id": "waver_6",
-   "label": "person.tomas__wave__smile__y045",
+   "id": "stalkcat_2",
+   "label": "animal.cat_02__stalk_paw__alert__y090",
    "role": "scored",
-   "z": 973.0,
+   "z": 985.01,
    "bbox": [
-    1436.0,
-    646.0,
-    1558.0,
-    974.0
+    960.0,
+    898.0,
+    1148.0,
+    994.0
    ],
-   "area_px": 21896,
-   "visible_px": 21896,
+   "area_px": 7776,
+   "visible_px": 7776,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.tomas__wave__smile__y045",
-    "family": "person.tomas",
-    "scale": 0.5095,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "grandfather",
-     "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
-     }
-    }
-   }
-  },
-  {
-   "id": "wavelines_7",
-   "label": "Motion lines by the waving hand",
-   "role": "setting",
-   "z": 974.0,
-   "bbox": [
-    1520.0,
-    650.0,
-    1574.0,
-    680.0
-   ],
-   "area_px": 164,
-   "visible_px": 164,
-   "occlusion": 0.0
-  },
-  {
-   "id": "balloonlost_1",
-   "label": "person.nia__balloon_reach__scared__y045",
-   "role": "scored",
-   "z": 978.16,
-   "bbox": [
-    738.0,
-    788.0,
-    846.0,
-    980.0
-   ],
-   "area_px": 8200,
-   "visible_px": 8180,
-   "occlusion": 0.002,
-   "asset": {
-    "variant": "person.nia__balloon_reach__scared__y045",
-    "family": "person.nia",
-    "scale": 0.5114,
+    "variant": "animal.cat_02__stalk_paw__alert__y090",
+    "family": "animal.cat_02",
+    "scale": 0.5139,
     "mirrored": false,
     "labels": {
-     "everyday_name": "girl",
+     "everyday_name": "cat",
      "accepted_names": [
-      "girl",
-      "little girl",
-      "child",
-      "kid",
-      "daughter"
+      "cat",
+      "kitten",
+      "kitty"
      ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin2",
-      "hair": "puffs"
-     }
+     "category": "small_animal"
     }
    }
   },
   {
-   "id": "heldbal_2",
-   "label": "Balloons held by the child",
+   "id": "stalkbird_3",
+   "label": "animal.bird_01__peck__neutral__y090",
    "role": "scored",
-   "z": 1499,
+   "z": 985.09,
    "bbox": [
-    660.0,
-    688.0,
-    768.0,
-    870.0
+    1180.0,
+    932.0,
+    1274.0,
+    988.0
    ],
-   "area_px": 7148,
-   "visible_px": 7148,
-   "occlusion": 0.0
-  },
-  {
-   "id": "loosebal_3",
-   "label": "Balloon floating away",
-   "role": "scored",
-   "z": 1500,
-   "bbox": [
-    854.0,
-    598.0,
-    914.0,
-    760.0
-   ],
-   "area_px": 3572,
-   "visible_px": 3572,
-   "occlusion": 0.0
+   "area_px": 2684,
+   "visible_px": 2684,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_01__peck__neutral__y090",
+    "family": "animal.bird_01",
+    "scale": 0.5139,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "robin",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
   }
  ],
  "canvas": [
@@ -1042,16 +998,16 @@
    "push_stroller": 1,
    "carry_box": 1,
    "dog_sleeping": 1,
-   "sprinkler_package": 1,
+   "ducks_bread": 1,
    "sitting_on_air": 1,
-   "read_bench": 1,
    "carry_bag": 1,
-   "ducks_swimming": 1,
+   "ice_cream": 1,
+   "fly_kite": 1,
    "birds_flying": 1,
    "jump": 1,
    "run": 1
   },
   "forced": null,
-  "placement_rev": 25
+  "placement_rev": 26
  }
 }

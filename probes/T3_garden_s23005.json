@@ -6,8 +6,8 @@
  "seed": 23005,
  "mirror": true,
  "versions": {
-  "generator": "0.27.0",
-  "cast_builder": "0.27.0",
+  "generator": "0.28.0",
+  "cast_builder": "0.28.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,19 +62,19 @@
  ],
  "templates": [
   {
-   "id": "fish_in_tree",
-   "kind": "contradiction",
+   "id": "hose_water",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   },
   {
-   "id": "hose_water",
+   "id": "dig",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "dog_sleeping",
+   "id": "rake",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -113,7 +113,7 @@
    "animate": true,
    "domain": null,
    "template": "hose_water",
-   "event": "e2",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
@@ -139,180 +139,114 @@
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "There is a fish",
-   "accepted": [
-    "fish",
-    "a fish",
-    "goldfish"
-   ],
-   "key": "fish",
-   "elements": [
-    "treefish_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "fish_in_tree",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.311,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.9,
-    "a": 4.05,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
-    "domain": null,
-    "area_px": 2408
-   },
-   "b": -0.255,
-   "p0": 0.563,
-   "pm1": 0.322,
-   "aoi_cells": [
-    "TR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_notice",
-   "text": "Something is wrong in the tree",
-   "accepted": [
-    "something in the tree",
-    "the tree looks odd",
-    "what's that in the tree"
-   ],
-   "key": "fish",
-   "elements": [
-    "treefish_4"
-   ],
-   "cues": [
-    "treefish_4"
-   ],
-   "effect": [
-    "treefish_4"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "biological",
-   "template": "fish_in_tree",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -1.311,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
-    "domain": "biological",
-    "area_px": 2408
-   },
-   "b": 0.395,
-   "p0": 0.403,
-   "pm1": 0.199,
-   "aoi_cells": [
-    "TR"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "contradiction_explain",
-   "text": "A fish is sitting up in the tree, but fish live in water",
-   "accepted": [
-    "fish in a tree",
-    "fish can't live in trees",
-    "fish belong in water"
-   ],
-   "key": "fish",
-   "elements": [
-    "treefish_4"
-   ],
-   "cues": [
-    "treefish_4"
-   ],
-   "effect": [
-    "treefish_4"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "biological",
-   "template": "fish_in_tree",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -1.311,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
-    "domain": "biological",
-    "area_px": 2408
-   },
-   "b": 1.595,
-   "p0": 0.169,
-   "pm1": 0.069,
-   "aoi_cells": [
-    "TR"
-   ]
-  },
-  {
-   "id": "i05",
    "type": "action",
-   "text": "A dog is sleeping",
-   "accepted": [
-    "dog sleeping",
-    "dog lying down",
-    "sleeping dog",
-    "dog resting",
-    "dog"
-   ],
-   "key": "dog",
+   "text": "A grandfather is digging",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "digging",
+     "digging a hole",
+     "shoveling",
+     "using a shovel",
+     "spade"
+    ]
+   },
+   "key": "digging",
    "elements": [
-    "dog_sleeping_5"
+    "digger_4",
+    "soil_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "dog_sleeping",
+   "template": "dig",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.042,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.01,
+    "a": 4.19,
+    "zipf_raw": 3.99,
+    "aoa_raw": 4.19,
+    "domain": null,
+    "area_px": 16228
+   },
+   "b": -1.158,
+   "p0": 0.761,
+   "pm1": 0.539,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "action",
+   "text": "A grandmother is raking leaves",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "raking",
+     "raking leaves",
+     "rake",
+     "cleaning up leaves",
+     "raking grass"
+    ]
+   },
+   "key": "raking",
+   "elements": [
+    "raker_6",
+    "leaves_7"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "rake",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.265,
+    "s": 0.174,
     "r": 0,
     "d": 0.0,
-    "f": 1.1,
-    "a": 2.8,
-    "zipf_raw": 5.1,
-    "aoa_raw": 2.8,
+    "f": -1.05,
+    "a": 5.32,
+    "zipf_raw": 2.95,
+    "aoa_raw": 5.32,
     "domain": null,
-    "area_px": 2572
+    "area_px": 19548
    },
-   "b": -0.838,
-   "p0": 0.698,
-   "pm1": 0.46,
+   "b": -0.912,
+   "p0": 0.713,
+   "pm1": 0.478,
    "aoi_cells": [
-    "BC"
+    "BL"
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -355,7 +289,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -397,7 +331,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -419,7 +353,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.693,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -427,18 +361,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 40632
+    "area_px": 43040
    },
-   "b": -1.242,
-   "p0": 0.776,
-   "pm1": 0.56,
+   "b": -1.262,
+   "p0": 0.779,
+   "pm1": 0.565,
    "aoi_cells": [
     "TR",
     "MR"
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -461,7 +395,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.888,
+    "s": 1.863,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -469,11 +403,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 219056
+    "area_px": 211540
    },
-   "b": -1.647,
-   "p0": 0.838,
-   "pm1": 0.656,
+   "b": -1.635,
+   "p0": 0.837,
+   "pm1": 0.654,
    "aoi_cells": [
     "ML",
     "MC",
@@ -481,7 +415,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -527,7 +461,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i09",
    "type": "entity",
    "text": "There is a swing set",
    "accepted": [
@@ -572,18 +506,18 @@
  ],
  "counts": {
   "content": 9,
-  "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 11
+  "inference_units": 0,
+  "contradictions": 0,
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.74,
-   "inference": 0.286
+   "content": 0.764,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.524,
-   "inference": 0.134
+   "content": 0.55,
+   "inference": null
   }
  },
  "bands": {
@@ -591,7 +525,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -605,14 +539,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "19 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0381,
-  "png_bytes": 166352,
-  "jpeg_bytes": 180947
+  "objects": 19,
+  "edge_density": 0.0428,
+  "png_bytes": 225105,
+  "jpeg_bytes": 197086
  },
  "signature": [
   [
@@ -624,15 +558,7 @@
    0
   ],
   [
-   "contradiction_explain",
-   1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
+   "action",
    0
   ],
   [
@@ -721,8 +647,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "visible_px": 61288,
+   "occlusion": 0.246
   },
   {
    "id": "tree",
@@ -736,23 +662,8 @@
     452.0
    ],
    "area_px": 44992,
-   "visible_px": 40632,
-   "occlusion": 0.097
-  },
-  {
-   "id": "treefish_4",
-   "label": "Fish sitting in the tree",
-   "role": "scored",
-   "z": 450.6,
-   "bbox": [
-    1136.0,
-    298.0,
-    1220.0,
-    336.0
-   ],
-   "area_px": 2408,
-   "visible_px": 2408,
-   "occlusion": 0.0
+   "visible_px": 43040,
+   "occlusion": 0.043
   },
   {
    "id": "fence",
@@ -766,8 +677,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 219056,
-   "occlusion": 0.091
+   "visible_px": 211540,
+   "occlusion": 0.122
   },
   {
    "id": "filler_bush_left",
@@ -783,6 +694,58 @@
    "area_px": 8292,
    "visible_px": 7492,
    "occlusion": 0.096
+  },
+  {
+   "id": "soil_5",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 709.95,
+   "bbox": [
+    754.0,
+    682.0,
+    892.0,
+    726.0
+   ],
+   "area_px": 3220,
+   "visible_px": 2720,
+   "occlusion": 0.155
+  },
+  {
+   "id": "digger_4",
+   "label": "person.tomas__dig_lift__neutral__y045",
+   "role": "scored",
+   "z": 710.95,
+   "bbox": [
+    660.0,
+    480.0,
+    802.0,
+    722.0
+   ],
+   "area_px": 13508,
+   "visible_px": 13508,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.tomas__dig_lift__neutral__y045",
+    "family": "person.tomas",
+    "scale": 0.4124,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
   },
   {
    "id": "house",
@@ -927,48 +890,71 @@
    "occlusion": 0.0
   },
   {
-   "id": "dog_sleeping_5",
-   "label": "animal.dog_02__sleep_ball__sleepy__y000",
+   "id": "raker_6",
+   "label": "person.rosa__rake__neutral__y045",
    "role": "scored",
-   "z": 944.47,
+   "z": 951.67,
    "bbox": [
-    600.0,
-    910.0,
-    662.0,
-    968.0
+    110.0,
+    658.0,
+    210.0,
+    982.0
    ],
-   "area_px": 2572,
-   "visible_px": 2572,
-   "occlusion": 0.0,
+   "area_px": 17932,
+   "visible_px": 17584,
+   "occlusion": 0.019,
    "asset": {
-    "variant": "animal.dog_02__sleep_ball__sleepy__y000",
-    "family": "animal.dog_02",
-    "scale": 0.4989,
-    "mirrored": false,
+    "variant": "person.rosa__rake__neutral__y045",
+    "family": "person.rosa",
+    "scale": 0.5016,
+    "mirrored": true,
     "labels": {
-     "everyday_name": "dog",
+     "everyday_name": "grandmother",
      "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
      ],
-     "category": "small_animal"
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
     }
    }
   },
   {
-   "id": "filler_dog_bowl",
-   "label": "Dog bowl",
-   "role": "filler",
-   "z": 968,
+   "id": "leaves_7",
+   "label": "Pile of leaves",
+   "role": "scored",
+   "z": 974.9,
    "bbox": [
-    468.0,
-    954.0,
-    532.0,
-    982.0
+    58.0,
+    952.0,
+    164.0,
+    984.0
    ],
-   "area_px": 1408,
-   "visible_px": 1408,
+   "area_px": 1964,
+   "visible_px": 1964,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -993,13 +979,11 @@
   "forced": {
    "events": [
     "hose_water",
-    "dog_sleeping"
-   ],
-   "contradictions": [
-    "fish_in_tree"
+    "dig",
+    "rake"
    ]
   },
-  "placement_rev": 25
+  "placement_rev": 26
  },
  "probe": true
 }

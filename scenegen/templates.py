@@ -2047,6 +2047,13 @@ class BirdPerched(T):
                     cx_, cy_ = x0 + side * 4 * ws, fy + 6 * ws
                     r_ = 15 * ws
                     over = [[(cx_, cy_, r_), (cx_ - side * 0.9 * r_, cy_ + 0.4 * r_, 0.8 * r_), (cx_ + side * 0.2 * r_, cy_ - 0.8 * r_, 0.7 * r_)]]
+                    if SCN.PLACEMENT_REV >= 26:
+                        # revision 26: leaves over its outer end ("sticking out of the green mass rather than growing from the trunk", its tip a round stub), and its
+                        # inner end on a limb from the trunk, in view
+                        tx_, ty_ = x1 + side * 1 * ws, fy - 3 * ws
+                        over = [[(tx_, ty_, 0.8 * r_), (tx_ + side * 0.7 * r_, ty_ + 0.3 * r_, 0.6 * r_), (tx_ - side * 0.1 * r_, ty_ - 0.7 * r_, 0.55 * r_)]]
+                        lsvg, lbb = _limb_to(T_, x0, fy + 8 * ws, 8 * ws)
+                        sc.svg(sc.eid("limb"), "Limb of the tree", lsvg, d - 0.25, lbb, "background")
                     tex = _crown_texture(T_, (min(x0, x1) - 20, fy - 40 * ws, max(x0, x1) + 20, fy + 20 * ws), 1.0)
                     sc.svg(sc.eid("crownleaves"), "Leaves on the tree", _leaf_clusters(T_, (tex or [])[:3] + over, "pb%d" % abs(int(x))),
                            d - 0.1, T_["bbox"], "background")
@@ -2191,7 +2198,8 @@ class SeesawPlay(T):
         sc = self.sc
         A = sc.S.anchors["seesaw"]
         s = sz(A["depth"])
-        svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt)
+        rev26 = SCN.PLACEMENT_REV >= 26
+        svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26)
         placed = []
         for eid, v, end, want in ((ea, va, "left", 1), (eb, vb, "right", -1)):
             p = sc.placed(v, 0, 0, sc.mirror_for(v, want), depth_y=A["depth"] + 2, eid=eid)
@@ -2202,6 +2210,7 @@ class SeesawPlay(T):
             if SCN.PLACEMENT_REV >= 7 and p.has_anchor("foot_L") and p.has_anchor("foot_R"):
                 # revision 7: the low rider's shadow under the feet, not under the seat point
                 p.shadow_x = (p.anchor("foot_L")[0] + p.anchor("foot_R")[0]) / 2
+            p.no_shadow = rev26
             placed.append(p)
         if SCN.PLACEMENT_REV >= 11:
             # revision 11: nobody else stands at the seesaw, now or later (a girl beside the raised end "could
@@ -2866,9 +2875,17 @@ class StuckInTree(T):
             # (the branch passes behind the ball, under it, and the clusters cover only slivers of its rim, so it stays
             # round: a twig across its lower half made it a blue cap with a brim)
             svg = D.stroke(D.poly_d([(x - 1.7 * r, y + 1.25 * r), (x - 0.3 * r, y + 0.92 * r), (x + 1.6 * r, y + 0.70 * r)]), C["wood"], 0.24 * r)
-            svg += D.ball(x, y, r, C["blue"])
+            svg += D.beach_ball(x, y, r, C["blue"]) if SCN.PLACEMENT_REV >= 26 else D.ball(x, y, r, C["blue"])
             lobes = [[(x - 1.22 * r, y - 0.52 * r, 0.44 * r), (x - 1.52 * r, y - 0.05 * r, 0.36 * r), (x - 0.85 * r, y - 1.02 * r, 0.32 * r)],
                      [(x + 1.24 * r, y + 0.30 * r, 0.42 * r), (x + 1.50 * r, y - 0.18 * r, 0.34 * r)]]
+            if SCN.PLACEMENT_REV >= 26:
+                # revision 26: leaves over the branch's outer end, and its inner end on a limb from the trunk (with its round ends in view: "a small bare branch
+                # drawn on top of the crown", "a bit like a pasted-on sticker")
+                ends = {-1: (x - 1.72 * r, y + 1.24 * r), 1: (x + 1.62 * r, y + 0.68 * r)}
+                side = 1 if x < T_["canopy"][0] else -1             # the end toward the trunk
+                ox_, oy_ = ends[-side]
+                lobes.append([(ox_, oy_, 0.46 * r), (ox_ - side * 0.36 * r, oy_ - 0.18 * r, 0.36 * r), (ox_ + side * 0.2 * r, oy_ + 0.32 * r, 0.30 * r)])
+                self.limb_end = ends[side] + (0.24 * r,)
             svg += _leaf_clusters(T_, lobes, "bc%d%d" % (abs(int(x)), abs(int(y))))
             return svg, (x - r, y - r, x + r, y + r)
         return D.ball(x, y, r, C["blue"]), (x - r, y - r, x + r, y + r)
@@ -2894,6 +2911,9 @@ class StuckInTree(T):
         svg, bb = self.draw_thing(x, y)
         tree_base = T_["bbox"][3]
         eo = sc.svg(sc.eid(self.thing + "intree"), f"{self.thing.capitalize()} stuck in the tree", svg, tree_base + 0.5, bb, "scored")
+        if SCN.PLACEMENT_REV >= 26 and self.thing == "ball":
+            lsvg, lbb = _limb_to(T_, *self.limb_end)
+            sc.svg(sc.eid("limb"), "Limb of the tree", lsvg, tree_base + 0.2, lbb, "background")
         if SCN.PLACEMENT_REV >= 12 and self.thing == "ball":
             # revision 12: and leaf clusters of the same kind spread over the crown, as with the kite
             tex = _crown_texture(T_, bb, 1.0)
@@ -2971,6 +2991,39 @@ LEAF_HI, LEAF_EDGE = "#4f9e46", "#2d6a2b"
 
 def _crown_clip(tree, cid):
     return f'<defs><clipPath id="{cid}">' + "".join(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="{max(0.5, r - D.OW * 0.6):.1f}"/>' for a, b, r in tree["parts"]) + "</clipPath></defs>"
+
+
+def _limb_to(tree, x, y, w, fork=True):
+    """Revision 26: a limb from the top of the trunk up across the crown to (x, y), tapering to w, so a branch among the leaves grows from something (three of three bench
+    readers: "does not visibly connect to the trunk", "looks a little like it is floating inside the foliage"). Returns its svg and box."""
+    tx, cy, R = tree["canopy"]
+    y0 = cy + 1.04 * R                          # just below the crown's edge, over its outline, so the trunk runs on into the limb
+    w0 = tree.get("trunk_w", 0.34 * R)
+    w = max(w, 0.32 * w0)
+    g = 1 if x >= tx else -1
+    # up from the trunk, then out along the branch: the side of the trunk away from the branch makes the limb's upper edge
+    cx_, cy_ = tx + (x - tx) * 0.12, y + (y0 - y) * 0.18
+    dx_, dy_ = w0 * 0.34, g * w0 * 0.24
+    a0, c0, a1 = (tx - w0 / 2, y0), (cx_ - dx_, cy_ - dy_), (x, y - g * w / 2)
+    b0, c1, b1 = (tx + w0 / 2, y0), (cx_ + dx_, cy_ + dy_), (x, y + g * w / 2)
+    svg = D.flat(f"M {D.P(*a0)} Q {D.P(*c0)} {D.P(*a1)} L {D.P(*b1)} Q {D.P(*c1)} {D.P(*b0)} Z", C["wood"])
+    edges = [(a0, c0, a1), (b0, c1, b1)]
+    if fork:
+        # the other arm of the fork, going up and away from the branch, its tip under leaves (one limb alone: "a single bent pipe", "a sharp, almost right-angle join")
+        fx, fy = tx - g * 0.42 * R, cy + 0.12 * R
+        s0 = (tx - g * w0 * 0.1, y0 - 0.34 * R)
+        s1 = (tx - g * w0 / 2, y0)
+        c2 = (tx - g * w0 * 0.42, y0 - 0.34 * R)
+        tip0, tip1 = (fx - 0.13 * w0, fy - 0.13 * w0), (fx + 0.13 * w0, fy + 0.13 * w0)
+        arm = f"M {D.P(*s1)} Q {D.P(*c2)} {D.P(*tip0)} L {D.P(*tip1)} Q {D.P(tx - g * w0 * 0.05, y0 - 0.5 * R)} {D.P(*s0)} Z"
+        svg = D.flat(arm, C["wood"]) + svg
+        edges += [(s1, c2, tip0), (tip1, (tx - g * w0 * 0.05, y0 - 0.5 * R), s0)]
+    for q0, q1, q2 in edges:
+        svg += f'<path d="M {D.P(*q0)} Q {D.P(*q1)} {D.P(*q2)}" fill="none" stroke="{D.OUT}" stroke-width="{D.OW * 0.8:.1f}" stroke-linecap="round"/>'
+    if fork:
+        r_ = 0.17 * R
+        svg += _leaf_clusters(tree, [[(fx, fy, r_), (fx - g * 0.8 * r_, fy + 0.3 * r_, 0.75 * r_), (fx + g * 0.2 * r_, fy - 0.8 * r_, 0.7 * r_)]], "lf%d%d" % (abs(int(x)), abs(int(y))))
+    return svg, (min(tx, x, tx - g * 0.6 * R) - w0, min(y0, y, cy) - w, max(tx, x, tx - g * 0.6 * R) + w0, max(y0, y) + w)
 
 
 def _leaf_clusters(tree, clusters, cid):
@@ -3216,7 +3269,9 @@ def _ice_cream_place8(self):
         k = s * self.k3(1.5, 1.15, 0.95)
         # revision 12: a smaller scoop in the same puddle (full size it was "about as big as the dog's head")
         ball = 0.7 if SCN.PLACEMENT_REV >= 12 else 1.0
-        _, sbb0 = D.dropped_scoop(0, 0, k, ball=ball)
+        # revision 26: a burst splat with no dome ("a pink hat or a pink frisbee with a sprinkled dome", "a flying saucer")
+        style = D.SPLAT28 if SCN.PLACEMENT_REV >= 26 else "O"
+        _, sbb0 = D.dropped_scoop(0, 0, k, ball=ball, style=style)
         half = (sbb0[2] - sbb0[0]) / 2
         feet = [p.anchor(a)[0] for a in ("foot_L", "foot_R") if p.has_anchor(a)] or [X]
         edge = max(feet) + 10 * s if side > 0 else min(feet) - 10 * s
@@ -3226,11 +3281,17 @@ def _ice_cream_place8(self):
         sy = Y + 12 * s
         if not sc.S.walkable(sx, sy):
             continue
-        splat, sbb = D.dropped_scoop(sx, sy, k, ball=ball)
+        splat, sbb = D.dropped_scoop(sx, sy, k, ball=ball, style=style)
         # the dog's nose meets the far side of the scoop (its head over the scoop merged with it)
         d = sc.placed(self.vd, sx, sy - 2, sc.mirror_for(self.vd, -side), eid=ed)
         db = d.bbox()
         d.X += sx + side * 14 * k - (db[0] if side > 0 else db[2])
+        if SCN.PLACEMENT_REV >= 26 and d.has_anchor("mouth"):
+            # revision 26: the mouth right over the flat splat (with the dome gone, "its nose hangs just above and behind the splat", "a little way from the splat")
+            mx, my = d.anchor("mouth")
+            d.X += sx + side * 26 * k - mx
+            d.Y += max(0.0, min(16 * k, sy - 2 * k - my))
+            d.set_depth(d.Y)
         if not sc.S.walkable(d.X, d.Y) or not sc.fits(d.bbox(), limit=0.15):
             continue
         if not sc.fits(sbb, limit=0.05, ignore=()):
@@ -3406,6 +3467,10 @@ class DogBegs(T):
                 spots += [(side, 75, 28) for side in (1, -1)]
             if SCN.PLACEMENT_REV >= 4:          # or in front of the bench end, still looking up at the food
                 spots += [(side, 20, 60) for side in (1, -1)] + [(side, 110, 50) for side in (1, -1)]
+            if SCN.PLACEMENT_REV >= 26:
+                # revision 26: only at the end of the bench the eater sits nearest (read in full where the dog is "right beside" the eater: "looking up at the ice cream")
+                near = 1 if frac > 0.5 else -1
+                spots = [q for q in spots if q[0] == near]
             for side, dx, dy in spots:
                 x = (B["x1"] + dx) if side > 0 else (B["x0"] - dx)
                 y = B["front_y"] + dy
@@ -3420,8 +3485,17 @@ class DogBegs(T):
                         continue
                 gx = p.anchor("hand_R_grip")
                 box = (gx[0] - 70, gx[1] - 80, gx[0] + 70, gx[1] + 50)
-                if not sc.gaze_ok(d, (p.bbox()[0], p.bbox()[1], p.bbox()[2], p.bbox()[3])):
+                if not sc.gaze_ok(d, box if SCN.PLACEMENT_REV >= 26 else (p.bbox()[0], p.bbox()[1], p.bbox()[2], p.bbox()[3])):
                     continue
+                if SCN.PLACEMENT_REV >= 26:
+                    # revision 26: nobody else near the dog, now or later: the eater is the nearest person to it (with others by: "could be hers, begging from her bag",
+                    # "or be watching the kite, or doing a trick for the boy")
+                    db = d.bbox()
+                    sd = sz(y)
+                    zone = (db[0] - 120 * sd, db[1] - 40 * sd, db[2] + 120 * sd, db[3] + 40 * sd)
+                    if any(sc.overlap(zone, q.bbox()) > 0 for k_, q in sc.assets.items() if k_ != ep):
+                        continue
+                    sc.airzones.append(zone)
                 sc.assets[ed] = d
                 n, dn = sc.name(self.p), sc.name(self.d)
                 food = "an apple" if self.food == "sit_apple" else "an ice cream"
