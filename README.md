@@ -1,12 +1,12 @@
-# TPDB v0.29: a dog asleep, a duck at a crumb, a box in the way, read a twenty-sixth time
+# TPDB v0.30: a hose that hangs, crumbs on the water, the trip off the street, read a twenty-seventh time
 
-v0.28 ended with three gate failures: `dog_sleeping` at 0.67 ("sniffing the grass, lying down, or curled up asleep"), `ducks_bread` at 0.83 ("swimming towards those crumbs") and `dog_wants_walk` at 0.83 ("sits with a red lead in its mouth", no more). `about_to_trip` passed but had fallen for two releases ("he is moving past it, not squarely into it"). Its oddities were led by the hose in hand, "like a rigid pipe", and readings that weakened a contradiction, such as a bucket as "a makeshift rain hat" under storm clouds.
+v0.29 ended with all 64 templates through the gate, and three things that needed saying about that. Its trip had only been read in street pictures. Its new hose had a fault of its own, a short piece at the fist that "seems to stop at about waist height". And the fish's new limb was "a little pasted in", with a tuft that "looks detached". Crumbs lay "on the grass past the pond edge", and a reel with nobody at it had "only a short stub of hose joined to nothing".
 
-v0.29 works through those. Each drawing went to the isolation bench first, drawn two or more ways and read blind on its own, then into whole test scenes among other events. The set was regenerated and screened a twenty-sixth time.
+v0.30 works through those. Each drawing went to the isolation bench first, drawn two or more ways and read blind on its own, then into whole test scenes among other events. The set was regenerated and screened a twenty-seventh time.
 
-The twenty-sixth screen read all 75 pictures, the set's 21 and 54 probes: 829 of 834 scored items had full marks, and none was misread. All three failures of v0.28 pass: `dog_sleeping` went from 0.67 to 1.00, `ducks_bread` from 0.83 to 1.00 and `dog_wants_walk` from 0.83 to 0.92. `about_to_trip`, falling for two releases, went from 0.92 to 1.00, with "so he seems about to trip over it" where v0.28's readers wrote "might pass beside it". So all 64 templates pass, against 61.
+The twenty-seventh screen read all 78 pictures, the set's 21 and 57 probes: 872 of 877 scored items had full marks, and none was misread. The sleeve is gone, the crumbs are on the water, and no reel has a stub. The trip read in full in eleven pictures, six of them outside the street. 63 of 64 templates pass, against 64, and the one failure, `hang_laundry` (0.83), is one half mark on washing under storm clouds: "taking it down because of the coming storm".
 
-That needs reading with care. The gate has read 64 twice before, in v0.20 and v0.23, and the next screen fell each time. Four of the five readers of the trip still offer the walker going past as a second reading, and on a scorer who counted that at half marks the trip would be under the gate. Its five pictures are all street pictures. The wider box also cost placement: the tier-4 cells took 166 failed seeds against 80, and the trip is what those failures name most. And the new hose has a fault of its own, a short piece at the fist that reads as a sleeve: "seems to stop at about waist height". Readers' remarks per picture did not move, 5.15 against 5.14.
+The most useful thing in this release was not planned. It changed so little in the set that 18 of the 21 pictures came back identical to the pixel, so 19 pictures in all were read twice with nothing changed. 223 of their 230 items scored the same, remarks per picture were 5.58 and 5.68, and four templates moved by a half mark with no picture changed. That corrects two things said before: that four of five readers allow the trip's walker may pass the box, which is one of five on the same pictures, and remarks on thin figures, read as a rise in the last two releases, halved with nothing done.
 
 Everything is built by code and reproducible: the cast is modeled and posed in Blender (Blender 5.2.3 LTS), and the scenes are composed in SVG by the generator in `scenegen/`. From v0.24 the whole cycle also runs on Windows with an installed Blender (`RUNBOOK.md`, Setup).
 
@@ -14,80 +14,84 @@ Source and release history: https://github.com/FoilMiser/Cookie-Theft-Alternativ
 
 ## What was fixed
 
-| What the v0.28 readers saw | v0.29 |
+| What the v0.29 readers saw | v0.30 |
 |---|---|
-| `dog_sleeping`: "sniffing the grass, lying down, or curled up asleep", "could be a puppy or a kitten" (0.67) | Turned three-quarters, its chin on its paws. "Curled up asleep", and a puppy, in all three of its pictures: 1.00. The wider shadow tried on the old pose did little |
-| `ducks_bread`: "swimming towards those crumbs" (0.83) | The neck arched, the bill at a crumb. "Bending its head down to peck at the crumbs": 1.00 in its three pictures. Crumbs now sometimes run past the pond's edge |
-| `dog_wants_walk`: "sits with a red lead in its mouth" (0.83) | Beside the door and turned to it, not in front of it facing out. "As though asking to be taken for a walk", on the seed that failed: 0.92 |
-| `about_to_trip`: "he is moving past it, not squarely into it" (0.92, meaning 0.75) | A long low box across the line of the stride, the same obstacle in every picture without another box, where v0.28 had a bucket, a ball or a box. "So he seems about to trip over it": 1.00 in five street pictures, with four of the five still allowing he may pass. It costs ground (below) |
-| The hose in hand: "like a rigid pipe", "with no slack" | Slack, bowed out in front of the figure. No rigid pipe. But the short piece added at the fist has a square end and reads as a sleeve: "seems to stop at about waist height". On the v0.30 list |
-| The stopped hose's swelling: "a separate slug-shaped object" | Slimmer, with no highlight. "As if the water is blocked there" |
-| The goldfish: "looks pasted onto the leaves" | On a limb, well out from the trunk. "Sitting on a bare curved branch, which is impossible". The pasting moved to the limb: "a little pasted in" |
-| A ladder "too far away" from a lamp post; a floating box beside a soaked one; a bucket as "a makeshift rain hat" | Rules: a ladder at least 160 units from a lamp, one kind of box to a picture, no bucket on a head under a dark sky. No such reading this time |
+| The hose at the fist: "seems to stop at about waist height, then the part at her hands starts again" | The hose runs on in front of the figure and up to the fist, and hangs from it as a rope hangs. Nobody has it stop or break. "Stiff" stays, as it has of every way of drawing it since v0.25: "rises to her hand in a stiff curve" |
+| The fish's limb: "drawn on top of the leafy crown", a tuft that "looks detached" | The fork's other arm and its tuft gone. What it cost: "it sits on what looks like the tree's bent trunk". All three of its pictures read the fish as impossible |
+| Crumbs: "several crumbs lie on the grass past the pond edge" | Only those on the water, clear of its edge. No remark in three pictures, and the duck reads as eating in all three |
+| The reel: "only a short stub of hose joined to nothing", "a short second stub of hose curls by the reel" | The end of the hose lying on the grass with its nozzle on, and gone when somebody has the hose. "A yellow nozzle lying on the grass", in all four of its pictures |
+| The trip, read only in street pictures | Not redrawn. Probes put it in two gardens, two parks and two playgrounds: all eleven of its pictures read in full |
 
-Left as they were: the lifted heel, as the bench found nothing to choose; the heavy rider's leg; the narrow figure. Left as notes for the pilot: figures overlapping the pond, goats in a garden or park, a wind that reaches only some things.
+Left as they were: the box's width, as 60 units read a little less firmly than 72; the reading dog, as no reader called it a kangaroo this time, with nothing changed; the heavy rider's leg, now first on the next list; the narrow figure. Left as notes for the pilot: figures overlapping the pond, goats in a garden or park, a wind that reaches only some things.
 
 ## The isolation bench
 
-Each visual was forced alone into a picture, cut out with little else around it and read blind by fresh readers (`vision/isolation_v029.md`, three rounds, 56 cut-outs, 21 readers). The variants are behind `SLEEP29`, `TRIP29`, `DUCK29`, `DOOR29`, `HOSE29`, `BULGE29` and `FISH29` in `scenegen/templates.py`, `SHADOW29` in `scenegen/library.py` and `TPDB_FOOT` in the cast; the release builds with the chosen ones. The sleeping dog facing out hid its body behind its head ("sitting and looking down, sniffing the ground, or begging"), and turned three-quarters it was asleep to both readers. The duck took two rounds: its neck down along the breast was "lying on its side or collapsed", three of three, and an arched neck kept the head above the body. The trip took three. A plank "stands at a lean, on its narrow end" and was out. A box across the line was "a little skewed", so it went wider, straighter on and less steep on top. On the last two drawings six of six named the walk into it, against three of four on the bucket. The hose bowed toward the body "looks broken up", and bowed in front it "appears to stop or have a gap", where the hose in the fist, which is the figure's, met the one on the ground. That joint got a short piece over it, and was not read on the bench, which is where the screen found it wanting.
+Each visual was forced alone into a picture, cut out with little else around it and read blind by fresh readers (`vision/isolation_v030.md`, two rounds, 33 cut-outs, 12 readers). The variants are behind `HOSE30`, `FISH30`, `TRIP_W30` and `CRUMB30` in `scenegen/templates.py` and `REEL30` in `scenegen/settings.py`; the release builds with the chosen ones. The cast did not change. The hose took two rounds. Run on to the fist, the square end and the gap went, and with it hanging as a rope hangs its S-bend over the bed went too. Six of six still found it stiff, and there this release stopped. The fish took two: leaves on the crown read as "bushes floating in the foliage", and a limb running on past the fish gave a fish "floating just above" it and a blunt stub, so it has one limb that ends under the fish. Looking at the first crops stopped three things before any reader saw them, among them a bench whose flags had left the old obstacle and the old duck on the new cases.
 
 ## Design tests
 
-After the bench, the new drawings were read blind in whole test scenes among other events (`vision/design_tests_v029.md`, six pictures, six readers). The sleeping dog was asleep in all three of its pictures, with nobody having it sniffing or collapsed, the risk in a body lying stretched out. The duck had its "head down, pecking at pale crumbs". The trip was said in all three pictures that have it, and all three readers also offered the walker going past. The dog at the door was "as though it is asking to be taken for a walk". The hose drew no "stiff" or "rigid pipe", and one reader said the section near her leg "is unclear". The screen found out why (below). No reading called for a new rule.
+After the bench, the new drawings were read blind in whole test scenes among other events (`vision/design_tests_v030.md`, six pictures, six readers). The trip was said in the free description in a garden, a park and a playground, the settings v0.29 had not screened it in: "he looks about to walk into it and trip". All three also gave a second reading below. The duck was "pecking at small pale pieces of food", with nothing off the water. The hose drew no sleeve or gap, and "reads as a hose, but the upright section looks a little like a loop standing on its own". The fish's limb was "like a hook or a pipe", once, and went on the list. No reading called for a new rule.
 
-## Placement revision 27
+## Placement revision 28
 
-Every record stores the placement revision it was made with. v0.29 pictures use revision 27, which adds to those of revisions 1 to 26 the sleeping dog's new pose at yaw 45; the long box as the trip's obstacle, falling back to a bucket beside a floating, carried or soaked box; the duck's pose and three crumbs at its mouth; the dog beside the door, turned to it, with its lead in a J; the slack hose and its joint; the slimmer swelling; the fish on a limb in the slot furthest from the trunk; and three rules: no lamp within 160 units of the ladder, one kind of box to a picture, no bucket on a head under a dark sky. The dogs' and the duck's new poses are in the cast (builder 0.29.0).
+Every record stores the placement revision it was made with. v0.30 pictures use revision 28, which adds to those of revisions 1 to 27 the hose hanging from the fist and running on up to it in front of the figure; the fish's limb with no other arm; the thrown crumbs only on the water; and the end of the hose on the grass with its nozzle on when nobody has the hose, and none when somebody has. The cast is v0.29's (builder 0.30.0, nothing redrawn).
 
-Revision 27 made the set harder to place, and this release's costs are below. The tier-4 cells took 166 failed seeds, against 80 in v0.28: 11 in the garden, 29 in the street, 39 in the playground and 87 in the park, over five searches. Last release's seed failed in all four. `about_to_trip` is what those failures name most, 169 times against 44, ahead of `ice_cream_drop` (105) and `lost_balloon` (82): a box that cannot be walked past needs ground a bucket did not. The tier-4 isomorph took 17 failed attempts, against 226.
+All four tier-4 cells placed on last release's seeds, with no failed seed, against 166 in v0.29. That is not the wide box getting cheaper: nothing about it changed, so the seeds that had been found came back. The box was tried narrower (60 units for 72) and the lane beyond it shorter (300 for 380). Forced into a picture with the difficulty band off, every combination placed every time, 40 of 40 at tier 3 and 24 of 24 at tier 4, which only says the test could not tell them apart. With the band on, the two extremes placed the same in their first two settings, and the test was stopped as the question had gone away. The box stays at 72, as 60 read a little less firmly, and what it costs a fresh search is still as v0.29 found it (`vision/flaws_v030.md`, Placement).
 
-A rule can have a cliff. The ladder's margin from a lamp was first 240 units, which placed 0 of 8 seeds in every combination tried. 60, 110 and 160 placed 8 of 8 or 7 of 8, and 200 placed none. It is 160, where old gaps were 36 to 90. The first probe pass left three templates short, and five more probes filled them, with one seed failing. All 75 records rebuild identical to the pixel.
+The tier-4 isomorph took 13 failed attempts. Probes put the trip in two gardens, two parks and two playgrounds, and two more filled the templates the first pass left short. All 78 records rebuild identical to the pixel.
 
-The planner's difficulty priors are the calibration measured on the v0.29 templates (`calibration.json`), with f = 0 and a = 4.47 for every inference and contradiction, as in v0.20 to v0.28. The dog at the door's cue salience moved by +0.207, it now being beside the door and turned to it, and the ladder's by -0.074, on one sampled placement against three, the lamp rule having narrowed where it can stand; 18 fields in 4 templates moved by 0.002 or more.
+The planner's difficulty priors are the calibration measured on the v0.30 templates (`calibration.json`), with f = 0 and a = 4.47 for every inference and contradiction, as in v0.20 to v0.29. Almost nothing moved: 2 fields in 1 template by 0.002 or more, the duck's, by -0.006 and -0.005, the cast being unchanged.
 
-## The twenty-sixth blind screen
+## The twenty-seventh blind screen
 
-Nine fresh readers, who had never seen the key, described every picture of the new set and 54 probe pictures; three separate scorers, each given part of the pictures and the same prompt, marked each scored item against the key, exactly as in the earlier screens. The headline figures cover the set; the probe pictures count only toward the templates they carry. Every template appeared in at least three screened pictures, as in v0.10 to v0.28.
+Nine fresh readers, who had never seen the key, described every picture of the new set and 57 probe pictures; three separate scorers, each given part of the pictures and the same prompt, marked each scored item against the key, exactly as in the earlier screens. The headline figures cover the set; the probe pictures count only toward the templates they carry. Every template appeared in at least three screened pictures, as in v0.10 to v0.29.
 
-| | v0.4 (15 pictures) | v0.5 (21 pictures) | v0.6 (20 pictures) | v0.7 (21 pictures) | v0.8 (20 pictures) | v0.9 (21 pictures) | v0.10 (21 pictures) | v0.11 (21 pictures) | v0.12 (21 pictures) | v0.13 (21 pictures) | v0.14 (21 pictures) | v0.15 (21 pictures) | v0.16 (21 pictures) | v0.17 (21 pictures) | v0.18 (21 pictures) | v0.19 (21 pictures) | v0.20 (21 pictures) | v0.21 (21 pictures) | v0.22 (21 pictures) | v0.23 (21 pictures) | v0.24 (21 pictures) | v0.25 (21 pictures) | v0.26 (21 pictures) | v0.27 (21 pictures) | v0.28 (21 pictures) | v0.29 (21 pictures) |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Things, mean score | 0.98 | 0.98 | 1.00 | 1.00 | 0.99 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 0.99 | 1.00 | 1.00 | 0.98 |
-| Actions, mean score | 0.87 | 0.92 | 0.95 | 0.93 | 0.97 | 0.95 | 0.98 | 0.98 | 0.99 | 0.99 | 1.00 | 0.98 | 1.00 | 1.00 | 0.98 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 1.00 | 0.99 | 1.00 | 1.00 | 1.00 |
-| Inferences, mean score | 0.86 | 0.72 | 0.86 | 0.85 | 0.83 | 0.91 | 0.92 | 0.95 | 0.96 | 0.94 | 0.96 | 0.95 | 0.99 | 1.00 | 0.95 | 0.96 | 0.98 | 1.00 | 0.97 | 1.00 | 0.99 | 0.98 | 0.95 | 0.95 | 0.88 | 0.98 |
-| Contradictions, mean score | 1.00 | 0.75 | 0.91 | 0.82 | 1.00 | 0.95 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.84 | 1.00 | 1.00 | 1.00 | 1.00 | 0.98 | 1.00 | 1.00 | 1.00 |
-| All items, mean score | 0.93 | 0.91 | 0.95 | 0.94 | 0.97 | 0.96 | 0.98 | 0.99 | 0.99 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 1.00 | 1.00 | 0.99 | 0.99 | 0.99 | 0.99 | 0.98 | 0.99 |
-| Items misread | 5 of 206 | 8 of 284 | 5 of 279 | 4 of 283 | 1 of 266 | 1 of 284 | 0 of 285 | 1 of 285 | 0 of 284 | 0 of 287 | 0 of 283 | 0 of 283 | 0 of 282 | 0 of 285 | 0 of 280 | 0 of 283 | 0 of 286 | 1 of 285 | 0 of 287 | 0 of 283 | 0 of 285 | 0 of 286 | 0 of 286 | 0 of 289 | 0 of 283 | 0 of 284 |
-| Oddities per picture, as logged by the scorers | 6.6 | 1.8 | 2.8 | 2.5 | 1.5 | 2.3 | 1.5 | 1.0 | 1.5 | 2.1 | 1.3 | 1.4 | 1.1 | 1.3 | 1.9 | 1.3 | 1.2 | 1.1 | 1.2 | 1.0 | 5.2 | 2.6 | 2.6 | 2.2 | 2.0 | 2.3 |
-| Readers' remarks per picture (recounted in v0.26) | 8.8 | 5.4 | 6.4 | 4.8 | 4.7 | 4.8 | 4.9 | 4.4 | 4.3 | 4.4 | 4.4 | 4.4 | 3.9 | 3.9 | 4.4 | 4.0 | 4.0 | 3.9 | 4.2 | 3.9 | 5.6 | 5.9 | 5.3 | 5.8 | 5.1 | 5.2 |
+| | v0.4 (15 pictures) | v0.5 (21 pictures) | v0.6 (20 pictures) | v0.7 (21 pictures) | v0.8 (20 pictures) | v0.9 (21 pictures) | v0.10 (21 pictures) | v0.11 (21 pictures) | v0.12 (21 pictures) | v0.13 (21 pictures) | v0.14 (21 pictures) | v0.15 (21 pictures) | v0.16 (21 pictures) | v0.17 (21 pictures) | v0.18 (21 pictures) | v0.19 (21 pictures) | v0.20 (21 pictures) | v0.21 (21 pictures) | v0.22 (21 pictures) | v0.23 (21 pictures) | v0.24 (21 pictures) | v0.25 (21 pictures) | v0.26 (21 pictures) | v0.27 (21 pictures) | v0.28 (21 pictures) | v0.29 (21 pictures) | v0.30 (21 pictures) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Things, mean score | 0.98 | 0.98 | 1.00 | 1.00 | 0.99 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 0.99 | 1.00 | 1.00 | 0.98 | 0.99 |
+| Actions, mean score | 0.87 | 0.92 | 0.95 | 0.93 | 0.97 | 0.95 | 0.98 | 0.98 | 0.99 | 0.99 | 1.00 | 0.98 | 1.00 | 1.00 | 0.98 | 0.99 | 1.00 | 1.00 | 1.00 | 1.00 | 0.99 | 1.00 | 0.99 | 1.00 | 1.00 | 1.00 | 0.99 |
+| Inferences, mean score | 0.86 | 0.72 | 0.86 | 0.85 | 0.83 | 0.91 | 0.92 | 0.95 | 0.96 | 0.94 | 0.96 | 0.95 | 0.99 | 1.00 | 0.95 | 0.96 | 0.98 | 1.00 | 0.97 | 1.00 | 0.99 | 0.98 | 0.95 | 0.95 | 0.88 | 0.98 | 0.99 |
+| Contradictions, mean score | 1.00 | 0.75 | 0.91 | 0.82 | 1.00 | 0.95 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.84 | 1.00 | 1.00 | 1.00 | 1.00 | 0.98 | 1.00 | 1.00 | 1.00 | 0.98 |
+| All items, mean score | 0.93 | 0.91 | 0.95 | 0.94 | 0.97 | 0.96 | 0.98 | 0.99 | 0.99 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 0.99 | 0.99 | 1.00 | 0.99 | 1.00 | 1.00 | 0.99 | 0.99 | 0.99 | 0.99 | 0.98 | 0.99 | 0.99 |
+| Items misread | 5 of 206 | 8 of 284 | 5 of 279 | 4 of 283 | 1 of 266 | 1 of 284 | 0 of 285 | 1 of 285 | 0 of 284 | 0 of 287 | 0 of 283 | 0 of 283 | 0 of 282 | 0 of 285 | 0 of 280 | 0 of 283 | 0 of 286 | 1 of 285 | 0 of 287 | 0 of 283 | 0 of 285 | 0 of 286 | 0 of 286 | 0 of 289 | 0 of 283 | 0 of 284 | 0 of 285 |
+| Oddities per picture, as logged by the scorers | 6.6 | 1.8 | 2.8 | 2.5 | 1.5 | 2.3 | 1.5 | 1.0 | 1.5 | 2.1 | 1.3 | 1.4 | 1.1 | 1.3 | 1.9 | 1.3 | 1.2 | 1.1 | 1.2 | 1.0 | 5.2 | 2.6 | 2.6 | 2.2 | 2.0 | 2.3 | 2.3 |
+| Readers' remarks per picture (recounted in v0.26) | 8.8 | 5.4 | 6.4 | 4.8 | 4.7 | 4.8 | 4.9 | 4.4 | 4.3 | 4.4 | 4.4 | 4.4 | 3.9 | 3.9 | 4.4 | 4.0 | 4.0 | 3.9 | 4.2 | 3.9 | 5.6 | 5.9 | 5.3 | 5.8 | 5.1 | 5.2 | 5.2 |
 
-Across all 75 pictures 829 of 834 scored items had full marks. Three had half marks, two were missed, and none was misread. Three of those five are in the set: two missed items are "a few white clouds" in two street pictures, a setting item and not a template's, which is all that took things under 1.00, and the third is a half mark on the bird stealing a sandwich. The two in the probes are half marks on the dog at the door ("but this is a guess") and the water going upward ("could be a normal pour drawn awkwardly"). The set's headline is all items 0.991 (0.984 in v0.28), with actions and contradictions at 1.00, inferences at 0.985 (0.879) and things at 0.981.
+Across all 78 pictures 872 of 877 scored items had full marks. Four had half marks, one was missed, and none was misread, all five in the set: a missed "a few white clouds", the dog reading ("genuinely reading, or as just holding or playing with the newspaper"), the man at the washing line ("taking it down because of the coming storm"), and in one picture the girl with the ice cream ("an ice cream or a pink lolly") and the lost balloon. One scorer gave no item under full marks in 302, and listed 22 a stricter scorer might halve. The set's headline is all items 0.989 (0.991 in v0.29), with things at 0.990, actions at 0.992, inferences at 0.986 and contradictions at 0.977.
 
-**How far to believe it.** Readers still offer second readings, about as often as last time by a rough count (3.2 a picture against 2.9). One scorer wrote down the rule it used, an item gets 1 when the free description commits to the meaning, and listed the 18 of its 259 items that rest on it. Counted at half marks its inferences fall from 1.00 to 0.75, and the trip would be 0.87, under the gate. The rule is not new, as v0.28's scorers gave full marks in the same way, so this is not the scorers going soft. What moved on the trip is the free description, from "may be about to walk into it" to "heading straight for a cardboard box".
+**A retest nobody planned.** 19 pictures, 18 of the set's and one probe, were identical to the pixel in v0.29 and v0.30, so they were read twice by fresh readers and scorers with nothing changed. 223 of their 230 items scored the same. Three of the seven that moved are clouds. The others took `dog_begs` from 1.00 to 0.944, `dog_reading` and `lost_balloon` from 1.00 to 0.967, and `bird_steals` from 0.958 to 1.00, each on one half mark. Remarks were 106 and 108. Readers offering that the trip's walker may pass the box went from four of five to one of five on the same five pictures, so v0.29's concern about that, and its 0.87, were not properties of the picture.
 
-**Remarks did not move, 386 on 75 pictures against 360 on 70**, on a little less in each picture, 2.92 templates against 3.06. The readers range from 4.50 to 5.75 a picture on the same split, against 4.25 to 6.38. `vision/remark_topics.py` sorts them roughly by keyword, and the hits were read. Stiff or awkward poses rose from 12 pictures to 20, not changed and mostly slight ("a little stiff, but not impossible"). A figure over the pond rose from 6 to 10, each reader clearing it themselves. A branch to hold something rose from 3 to 6, half of it the fish's new limb ("a little pasted in"). Shadows rose from 11 to 14, none calling one wide or off the feet. A keyword count is a rough sort, not a measure.
+**Remarks did not move, 405 on 78 pictures against 386 on 75**, on a few more templates in each picture, 2.99 against 2.92. The readers range from 4.50 to 6.12 a picture on the same split, against 4.50 to 5.75. `vision/remark_topics.py` sorts them roughly by keyword, and it is rougher than it looked: thin or long bodies fell from 13 pictures to 6, a figure over the pond from 10 to 6, and scale from 6 to 3, all with nothing changed. A branch to hold something fell from 6 to 2, some of which is this release's. A keyword row should not be given as a result unless it moves by more than these did.
 
-The three that failed in v0.28, the trip, and two that v0.28 changed (mean of each template's scored items; inference and contradiction items alone in the last column):
+The one that failed, the trip, what this release redrew, and three that moved with little or nothing done (mean of each template's scored items; inference and contradiction items alone in the last column):
 
-| Template | v0.28 | v0.29 | v0.29 meaning items |
+| Template | v0.29 | v0.30 | v0.30 meaning items |
 |---|---|---|---|
-| `dog_sleeping` | 0.67 (3 items) | 1.00 (3 items) | — |
-| `ducks_bread` | 0.83 (9 items) | 1.00 (9 items) | 1.00 (3) |
-| `dog_wants_walk` | 0.83 (6 items) | 0.92 (6 items) | 0.83 (3) |
-| `about_to_trip` | 0.92 (18 items) | 1.00 (15 items) | 1.00 (5) |
-| `dog_begs` | 1.00 (9 items) | 1.00 (9 items) | 1.00 (3) |
-| `ice_cream_drop` | 1.00 (12 items) | 1.00 (12 items) | 1.00 (3) |
+| `hang_laundry` | 1.00 (3 items) | 0.83 (3 items) | — |
+| `about_to_trip` | 1.00 (15 items) | 1.00 (33 items) | 1.00 (11) |
+| `hose_water` | 1.00 (3 items) | 1.00 (3 items) | — |
+| `ducks_bread` | 1.00 (9 items) | 1.00 (9 items) | 1.00 (3) |
+| `dog_begs` | 1.00 (9 items) | 0.94 (9 items) | 1.00 (3) |
+| `dog_wants_walk` | 0.92 (6 items) | 1.00 (6 items) | 1.00 (3) |
+| `bird_steals` | 0.96 (12 items) | 1.00 (12 items) | 1.00 (4) |
 
-The first four were changed, and read as the bench said. `dog_begs` and `ice_cream_drop`, which v0.28 changed and this release did not, held at 1.00. `dog_wants_walk` is the lowest of them, on one reader who gave it only under unsure. `about_to_trip`'s full marks are on five street pictures, with four second readings beneath them (`vision/flaws_v029.md`, How far to believe the gate).
+`hang_laundry` is the one failure, on a picture new this release. `about_to_trip` holds at 1.00 on eleven pictures and in every setting, its box not redrawn. `hose_water` reads in full, its sleeve gone. `dog_begs` moved with no picture changed, and `dog_wants_walk` and `bird_steals` rose with nothing done.
 
 ### The legibility gate
 
-| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 | v0.20 | v0.21 | v0.22 | v0.23 | v0.24 | v0.25 | v0.26 | v0.27 | v0.28 | v0.29 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Pass (mean at least 0.9, at least two pictures, no misread) | 54 | 59 | 59 | 59 | 63 | 61 | 63 | 61 | 63 | 63 | 60 | 60 | 64 | 61 | 63 | 64 | 63 | 61 | 59 | 63 | 61 | 64 |
-| Read well, but in fewer than two pictures | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Fail | 10 | 5 | 5 | 5 | 1 | 3 | 1 | 3 | 1 | 1 | 4 | 4 | 0 | 3 | 1 | 0 | 1 | 3 | 5 | 1 | 3 | 0 |
+| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 | v0.20 | v0.21 | v0.22 | v0.23 | v0.24 | v0.25 | v0.26 | v0.27 | v0.28 | v0.29 | v0.30 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Pass (mean at least 0.9, at least two pictures, no misread) | 54 | 59 | 59 | 59 | 63 | 61 | 63 | 61 | 63 | 63 | 60 | 60 | 64 | 61 | 63 | 64 | 63 | 61 | 59 | 63 | 61 | 64 | 63 |
+| Read well, but in fewer than two pictures | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Fail | 10 | 5 | 5 | 5 | 1 | 3 | 1 | 3 | 1 | 1 | 4 | 4 | 0 | 3 | 1 | 0 | 1 | 3 | 5 | 1 | 3 | 0 | 1 |
 
-Every template was screened in at least three pictures (48 in three, 8 in four, 4 in five, 2 in six, 2 in seven), and all 64 pass, against 61. Each of the three that failed is on a drawing this release changed. Even so, the v0.9 retest put the gate's reader variance at about five templates between screens, and the screens after the last two 64s read 61 and 63, so this is not a measure of how much better they are. The gate is a filter, and the pilot with people is the test of difficulty.
+Every template was screened in at least three pictures (44 in three, 11 in four, 4 in five, 2 in six, and one each in seven, ten and eleven), and 63 of 64 pass, against 64. The failure is one half mark among three items. This release's own retest shows that a half mark comes and goes on a picture that has not changed, as the v0.9 retest did by other means. The gate is a filter, and the pilot with people is the test of difficulty.
+
+Templates that did not pass (`vision/flaws_v030.md` gives what the readers saw and the next fix):
+
+| Template | v0.30 mean | Pictures | Misreads |
+|---|---|---|---|
+| `hang_laundry` | 0.83 (3 items) | 3 | 0 |
 
 ## The generated set
 
@@ -105,13 +109,13 @@ Every template was screened in at least three pictures (48 in three, 8 in four, 
 | T2_street_s1032 | 8 | 1 (0) | 4 | 0.711 | 0.366 | 20 | 0.050 | cat stalks bird, wave, carry bag, read bench |
 | T2_street_s14109_iso (isomorph of T2_park_s022) | 8 | 1 (0) | 4 | 0.710 | 0.430 | 16 | 0.051 | about to trip, drink bench, carry bag, photo |
 | T2_playground_s042 | 8 | 1 (0) | 3 | 0.709 | 0.394 | 16 | 0.035 | lost balloon, slide, carry box |
-| T3_garden_s14113 | 12 | 2 (1) | 5 | 0.639 | 0.308 | 22 | 0.043 | blocked hose, square wheel, paint fence, cat on fence, swing |
+| T3_garden_s19213 | 12 | 3 (1) | 5 | 0.661 | 0.351 | 22 | 0.044 | blocked hose, rain coming, sitting on air, hang laundry, walk dog |
 | T3_park_s2023 | 12 | 3 (0) | 6 | 0.640 | 0.307 | 23 | 0.032 | lost balloon, ball in tree, cat stalks bird, ice cream, dig, balloon |
 | T3_street_s18133 | 12 | 2 (0) | 5 | 0.667 | 0.357 | 21 | 0.054 | about to trip, dog begs, water flowers, photo, bird perched |
 | T3_street_s6104_iso (isomorph of T3_park_s2023) | 12 | 3 (0) | 6 | 0.642 | 0.313 | 21 | 0.051 | about to trip, lost balloon, dog begs, birds flying, bird perched, sweep |
 | T3_playground_s1043 | 12 | 2 (1) | 5 | 0.659 | 0.341 | 22 | 0.040 | ice cream drop, dog reading, birds flying, drink bench, fly kite |
 | T3_playground_s19102_iso (isomorph of T3_street_s18133) | 12 | 2 (0) | 5 | 0.667 | 0.342 | 21 | 0.038 | lost balloon, cat stalks bird, bird perched, drink bench, fly kite |
-| T4_garden_s429914 | 18 | 5 (1) | 9 | 0.550 | 0.201 | 33 | 0.047 | kite in tree, paint tracks, bird steals, cat stalks bird, square wheel, plant flowers, goat grazing, dog playing, rake |
+| T4_garden_s429914 | 18 | 5 (1) | 9 | 0.550 | 0.201 | 34 | 0.048 | kite in tree, paint tracks, bird steals, cat stalks bird, square wheel, plant flowers, goat grazing, dog playing, rake |
 | T4_park_s728923 | 18 | 5 (2) | 8 | 0.566 | 0.254 | 30 | 0.037 | ice cream drop, ducks bread, kite in tree, dog reading, pan watering, birds flying, goat grazing, sweep |
 | T4_street_s447752 | 18 | 5 (2) | 9 | 0.571 | 0.213 | 27 | 0.058 | bird steals, about to trip, ball in tree, dog reading, water upward, birds flying, sweep, jump, carry bag |
 | T4_street_s26111_iso (isomorph of T4_playground_s460662) | 18 | 5 (2) | 9 | 0.572 | 0.237 | 27 | 0.057 | bird steals, ball in tree, about to trip, square wheel, dog reading, bird perched, wave, sweep, ice cream |
@@ -130,7 +134,7 @@ Isomorph pairs differ by at most 0.014 in content and 0.020 in inference complet
 | park | 1 | 4,402 | 9 | 3,594 | 10^9.3 |
 | park | 2 | 46,279 | 24 | 20,254 | 10^11.2 |
 | park | 3 | 5,665,235 | 236 | 1,000,109 | 10^17.2 |
-| park | 4 | 313,983,956 | 376 | 42,220,582 | 10^23.2 |
+| park | 4 | 313,983,956 | 376 | 42,220,582 | 10^23.1 |
 | street | 1 | 952 | 9 | 682 | 10^9.5 |
 | street | 2 | 7,433 | 24 | 2,952 | 10^11.8 |
 | street | 3 | 434,458 | 220 | 68,611 | 10^17.3 |
@@ -160,17 +164,17 @@ from frequency when choosing the pilot's pictures). Before the pilot, check the 
 | `assets/render_assets.py` | Renderer 0.4.0 (per-pose `hide` lists for swapped body parts) |
 | `assets/blender_run.py` | Lets the `bpy` scripts run with plain `python`, inside an installed Blender where the `bpy` module is missing |
 | `assets/validate_assets.py` | Checks for every rendered variant |
-| `assets/cast/castlib/` | Cast library: `core.py`, `face.py`, `people.py`, `actions.py` (77 actions), `animals.py`, `specs.py`; v0.29 adds the dogs' `sleep_paws`, `sleep_paws_turn` and `sit_wait` and the duck's `swim_eat` and `swim_look` |
+| `assets/cast/castlib/` | Cast library: `core.py`, `face.py`, `people.py`, `actions.py` (77 actions), `animals.py`, `specs.py`; v0.29 added the dogs' `sleep_paws`, `sleep_paws_turn` and `sit_wait` and the duck's `swim_eat` and `swim_look`, and v0.30 draws nothing new |
 | `assets/cast/gapcheck.py` | Finds body parts that come apart in any pose |
 | `assets/cast/render_set.py` | Renders a list of variants |
-| `assets/cast/out029/` | The 18 `.blend` families (builder 0.29.0), their render configs and `cast_catalog.json` |
-| `assets/cast/lib029/` | Every variant the generated scenes and probes use, carried over from `lib028` where the cast did not change or rendered from `out029` |
-| `assets/cast/gallery029/` | Gallery renders: every action the templates use, every animal pose, lineups, expressions (175, all pass the validator) |
-| `scenegen/` | The generator (0.29.0, placement revision 27); `draw.py` holds the square wheel's three bench drawings (`SQUARE_STYLE20`), the barrow's two bench legs (`LEG23`), the riders' bench offsets (`RIDE24`), the bench values of `BARROW_SHADOW25`, `BIRD25` and `PAW25`, the swept heap's two drawings (`SWEEP26`) the bicycle's two wheels (`WHEEL27`), the fallen ice cream's three drawings (`SPLAT28`), the seesaw's inset (`SEESAW_IN28`), the long box (`long_box`) and the hose through its points (`hose_through`); `library.py` the shadow's two (`SHADOW28`) and the sleeper's wider one (`SHADOW29`); `difficulty.py` (the item model, `zipf`, `aoa`); `norms/aoa_kuperman2012.tsv` (the AoA excerpt); `cairo_compat.py` (cairosvg on the pycairo wheel's cairo where the system has none); `reach.py` lists the poses the templates can ask for |
-| `scenes/` | The v0.29 set: SVG, colour PNG, grayscale PNG, thumbnail and JSON record per picture |
+| `assets/cast/out030/` | The 18 `.blend` families (builder 0.30.0), their render configs and `cast_catalog.json` |
+| `assets/cast/lib030/` | Every variant the generated scenes and probes use, carried over from `lib029` or rendered from `out030` |
+| `assets/cast/gallery030/` | Gallery renders: every action the templates use, every animal pose, lineups, expressions (175, all pass the validator) |
+| `scenegen/` | The generator (0.30.0, placement revision 28); `draw.py` holds the square wheel's three bench drawings (`SQUARE_STYLE20`), the barrow's two bench legs (`LEG23`), the riders' bench offsets (`RIDE24`), the bench values of `BARROW_SHADOW25`, `BIRD25` and `PAW25`, the swept heap's two drawings (`SWEEP26`) the bicycle's two wheels (`WHEEL27`), the fallen ice cream's three drawings (`SPLAT28`), the seesaw's inset (`SEESAW_IN28`), the long box (`long_box`), the hose through its points (`hose_through`) and its end over a figure (`hose_tail`); `library.py` the shadow's two (`SHADOW28`) and the sleeper's wider one (`SHADOW29`); `difficulty.py` (the item model, `zipf`, `aoa`); `norms/aoa_kuperman2012.tsv` (the AoA excerpt); `cairo_compat.py` (cairosvg on the pycairo wheel's cairo where the system has none); `reach.py` lists the poses the templates can ask for |
+| `scenes/` | The v0.30 set: SVG, colour PNG, grayscale PNG, thumbnail and JSON record per picture |
 | `probes/` | Probe pictures that put every template in front of the readers at least three times; screened, not part of the set |
 | `site/` | The showcase page |
-| `vision/` | The isolation bench (`isolation_bench.py`, `isolation_v012.md` to `isolation_v029.md` and their rounds; none in v0.21), flaw lists (`flaws_v04.md` to `flaws_v029.md`), the test-retest (`retest_v09.md`, `v09_retest/`), the design tests (`fork_tests_v08.md`, `design_tests_v09.md` to `design_tests_v029.md`), screen tools and prompts (`screen_prompts.md`, `remark_topics.py`), the keys, descriptions and scores of all twenty-six screens, `screen_summary.json`, `gate.json` |
+| `vision/` | The isolation bench (`isolation_bench.py`, `isolation_v012.md` to `isolation_v030.md` and their rounds; none in v0.21), flaw lists (`flaws_v04.md` to `flaws_v030.md`), the test-retest (`retest_v09.md`, `v09_retest/`), the design tests (`fork_tests_v08.md`, `design_tests_v09.md` to `design_tests_v030.md`), screen tools and prompts (`screen_prompts.md`, `remark_topics.py`), the keys, descriptions and scores of all twenty-seven screens, `screen_summary.json`, `gate.json` |
 | `combos.json`, `calibration.json` | Combination counts; measured inference difficulty per template (also the planner's priors) |
 | `garden/` | The v0.3 Garden prototype, kept for comparison |
 | `RUNBOOK.md`, `tools/` | How each release is made, step by step, and the scripts that set up, build, search, verify, prune and screen a release |
@@ -182,8 +186,8 @@ from frequency when choosing the pilot's pictures). Before the pilot, check the 
 python -m venv .venv && source tools/env.sh      # from Git Bash on Windows too
 pip install -r requirements.txt                  # the cast needs Blender 5.2.3 LTS: installed, or pip install bpy==5.2.3 on Python 3.13
 
-python assets/cast/build_cast.py assets/cast/out029                 # build the cast (under a minute)
-cd assets/cast && python gapcheck.py out029 person.kai && cd ../..  # check one character's poses for parts that come apart
+python assets/cast/build_cast.py assets/cast/out030                 # build the cast (under a minute)
+cd assets/cast && python gapcheck.py out030 person.kai && cd ../..  # check one character's poses for parts that come apart
 python -m scenegen.generate --tier 3 --setting playground --seed 7 --out scenes
 python -m scenegen.generate --from-record scenes/T3_park_s2023.json --out tpdb_work/check   # exact rebuild
 python -m scenegen.reach --out reach.json                          # the poses the templates can ask for
@@ -193,17 +197,17 @@ python -m scenegen.calibrate --out calibration.json
 python -m scenegen.difficulty --check-aoa <the original Kuperman et al. file>   # compare the bundled AoA rows
 python -m scenegen.combos --out combos.json
 BENCH_CAST=<a cast built with TPDB_PROFILE=0> python vision/isolation_bench.py tpdb_work/bench proO_1 proO_2   # one template alone, cropped
-python vision/prepare_screen.py scenes,probes vision/v029   # then describe and score: vision/screen_prompts.md
+python vision/prepare_screen.py scenes,probes vision/v030   # then describe and score: vision/screen_prompts.md
 bash tools/cycle/summarize.sh                               # add the screen to vision/screen_summary.json
-python vision/gate.py vision/v029 scenes,probes
-python -m scenegen.site --scenes scenes --gallery assets/cast/gallery029 --old-gallery <v0.28 renders of the same variants> \
+python vision/gate.py vision/v030 scenes,probes
+python -m scenegen.site --scenes scenes --gallery assets/cast/gallery030 --old-gallery <v0.29 renders of the same variants> \
     --combos combos.json --screen vision/screen_summary.json --out site
-python3 package_release.py 0.29 --single   # the release as one zip, tpdb_v0.29.zip
+python3 package_release.py 0.30 --single   # the release as one zip, tpdb_v0.30.zip
 ```
 
-The release is one zip, `tpdb_v0.29.zip`, about 182 MB. Google Drive does not virus-scan a file over 100 MB, so it asks to confirm the download ("can't scan this file for viruses"); the file downloads as normal after that. `package_release.py` checks, file by file, that the zip holds every file of the release. Without `--single` it writes the same release as zip parts under 50 MB each, with the README and the set's pictures beside them, for browsing in Drive.
+The release is one zip, `tpdb_v0.30.zip`, about 186 MB. Google Drive does not virus-scan a file over 100 MB, so it asks to confirm the download ("can't scan this file for viruses"); the file downloads as normal after that. `package_release.py` checks, file by file, that the zip holds every file of the release. Without `--single` it writes the same release as zip parts under 50 MB each, with the README and the set's pictures beside them, for browsing in Drive.
 
-Exact rebuilds hold within a release: a v0.28 record rebuilds with the v0.28 package. They also depend on Pillow, pinned in `requirements.txt`: Pillow 13 resamples RGBA differently from 12, and every embedded asset changes. A different cairo moves a few pixels by one level and leaves the SVG identical. Renders from an installed Blender differ from the Linux module's only in sub-pixel anti-aliasing on the outlines, with identical anchors and geometry, so the library mixes the two.
+Exact rebuilds hold within a release: a v0.29 record rebuilds with the v0.29 package. They also depend on Pillow, pinned in `requirements.txt`: Pillow 13 resamples RGBA differently from 12, and every embedded asset changes. A different cairo moves a few pixels by one level and leaves the SVG identical. Renders from an installed Blender differ from the Linux module's only in sub-pixel anti-aliasing on the outlines, with identical anchors and geometry, so the library mixes the two.
 
 ## Known limits
 
@@ -211,25 +215,26 @@ Exact rebuilds hold within a release: a v0.28 record rebuilds with the v0.28 pac
   until the pilot fit.
 - The blind screen used AI readers. It is a filter for illegible drawing; the pilot with people
   remains the test of difficulty.
-- Nothing falls under the legibility gate after the v0.29 screen, as in v0.20 and v0.23, and the screen after each of those fell. `about_to_trip` reads 1.00 on five street pictures only, four of them with a second reading beneath, and would fail on a scorer who counted those at half marks.
-  `vision/flaws_v029.md` lists this and the oddities for v0.30.
-- The hose in `hose_water` has a short piece at the fist that reads as a sleeve ("seems to stop at about waist height"). It came with this release's redraw and was not read on the bench.
+- One template falls under the legibility gate after the v0.30 screen, `hang_laundry` (0.83), on one half mark among three items, on washing under storm clouds. 63 of 64 pass.
+  `vision/flaws_v030.md` lists this and the oddities for v0.31.
+- A single half mark is noise. 19 pictures were identical to the pixel in v0.29 and v0.30, and 223 of their 230 items scored the same across fresh readers and scorers, with four templates moving by a half mark and no picture changed (`vision/flaws_v030.md`, A retest nobody planned). A template with few items can cross the gate on that alone.
+- What the trip's long box costs a fresh tier-4 search is as v0.29 found it, 166 failed seeds against 80. This release's cells came back on their seeds, so it paid nothing and shows nothing new.
 - The oddities come in two rows. Readers' remarks per picture are counted directly from their descriptions and compare across
   screens, with the caveat that current readers write about 18% more than the v0.23 readers on the same pictures (`vision/v024/control/`,
   one reader and eight pictures). The row was recounted in v0.26, as the counter had taken bullets saying nothing is wrong for remarks, so its
   figures differ from those published up to v0.25. The scorers' logged oddities do not compare: v0.23's logged 25% of the remarks, v0.24's 83%, and
-  from v0.25 the prompt caps them at three per picture. Earlier screens did not record which model read them; v0.24's to v0.29's ran on Claude Opus 5.5. Readers differ widely: on v0.28's nine, from 4.25 to 6.38 remarks a picture, and on v0.29's from 4.50 to 5.75.
+  from v0.25 the prompt caps them at three per picture. Earlier screens did not record which model read them; v0.24's to v0.30's ran on Claude Opus 5.5. Readers differ widely: on v0.28's nine, from 4.25 to 6.38 remarks a picture, on v0.29's from 4.50 to 5.75, and on v0.30's from 4.50 to 6.12.
 - No reader says "teenager": he is read as a boy, a boy or young man, or a person, which the key mostly accepts. The v0.24 redraw moved him
   from a woman to a boy, and v0.26's cap worn forwards moved him no further toward the key's own word. It read once as "worn backward or sideways" in v0.27.
 - The retest of the v0.9 pictures (`vision/retest_v09.md`) put the gate's reader variance at about five
   templates between screens. A template with one to three items per picture fails on a single picture
   where something next to it pulls the reading away: the gate is a filter, not a measurement.
-- Scores are near the ceiling: across 75 pictures 829 of 834 scored items had full marks (766 of 775 in v0.28). AI readers describe
+- Scores are near the ceiling: across 78 pictures 872 of 877 scored items had full marks (829 of 834 in v0.29). AI readers describe
   exhaustively, so the screen cannot rank templates by difficulty; that is the pilot's job.
 - Scorers differ on hedges: some give full marks when the description commits to the key's reading and
   only the "unsure" section offers another, some give a half point. The prompt allows both; two v0.17 scorers
   counted 6 and 13 such items they credited in full, a v0.18 scorer listed seven judgment calls, a v0.19 scorer six,
-  a v0.20 scorer seven, a v0.21 scorer nine, v0.22 scorers two, eight and nine, v0.23 scorers six to twelve, a v0.24 scorer eleven, and all three scorers of v0.25 to v0.29 listed such calls, enough to move a template across the gate. One v0.29 scorer listed 18 items that hold full marks because the free description committed and only the unsure section hedged. A misread is a call too: the
+  a v0.20 scorer seven, a v0.21 scorer nine, v0.22 scorers two, eight and nine, v0.23 scorers six to twelve, a v0.24 scorer eleven, and all three scorers of v0.25 to v0.30 listed such calls, enough to move a template across the gate. A v0.29 scorer listed 18 items that hold full marks because the free description committed and only the unsure section hedged, and a v0.30 scorer gave nothing under full marks in 302 and listed 22 it thought a stricter scorer might halve. A misread is a call too: the
   rake in v0.26's picture 37 could have been marked as sweeping half right.
 - Tier-4 pictures are the hardest to place, and revisions 14 to 26 make them harder (walkers' and runners' lanes, pointing
   lines, feet off benches and off other events' things, the photographer's line of sight, the waver's clear hand, body gaps, the gap
@@ -237,7 +242,7 @@ Exact rebuilds hold within a release: a v0.28 record rebuilds with the v0.28 pac
   front half, an obstacle a full step ahead, runners clear of other movers, ducks off a float, sleepers clear of walkers' feet, nobody in
   the strip before the horizon, a person's box off the lamp post, the ground kept clear round a begging dog). A tier-4 playground plan now holds the bird stealing a sandwich and the
   square wheel, has no swing set as scenery and counts the railing up to 30% hidden, each of which alone placed nothing from 12 seeds, where all three placed 2 (`vision/flaws_v028.md`). So every tier-4 playground has those two, and none
-  has the begging dog. A tier-4 street plan holds the bird too, on the evidence of one picture. Last release's seed failed in all four tier-4 cells, and they took 166 failed seeds against 80, with the trip's long box the template those failures name most (`vision/flaws_v029.md`). A picture that also holds a floating, carried or soaked box falls back to the bucket, and none of the five screened pictures of the trip did.
+  has the begging dog. A tier-4 street plan holds the bird too, on the evidence of one picture. A picture that also holds a floating, carried or soaked box falls back to the bucket from the long box, and none of the eleven screened pictures of the trip did.
 - The square-wheeled bicycle still stands on its own: four stands have been tried on the bench, and each
   read as something else (pedals, legs) or not at all.
 - The low kick's direction is ambiguous when the kicker's hair hides the face; the teenager kicks first,
@@ -252,17 +257,15 @@ Exact rebuilds hold within a release: a v0.28 record rebuilds with the v0.28 pac
   fringe or skirt would be a new rig.
 - The isolation bench reads one template cut out of its picture. A visual that reads alone can still be
   misread among other events, so the bench comes before the test scenes and the screen, never instead of them.
-- The planner's priors come from the v0.29 calibration, with f = 0 and a at its centre for every inference and contradiction, as in
-  v0.20 to v0.28: the dog at the door's cue salience moved by +0.207 and the ladder's by -0.074, the two largest, the ladder's on one sampled placement against three;
-  18 fields in 4 templates moved by 0.002 or more.
-- Exact rebuilds hold within a release, on the pinned Pillow: the v0.29 cast (builder 0.29.0) and placement rules (revision 27) change poses, obstacles and which things count,
-  so a v0.28 record rebuilds with the v0.28 package.
-- Every variant comes from the v0.29 cast (builder 0.29.0, `out029`): the dogs' and the duck's new poses were rendered anew on an installed Blender, and what
-  v0.29 did not change was carried over from `lib028`. Some carried variants date from Linux renders, which differ from an installed Blender's
-  only in sub-pixel anti-aliasing on the outlines. The library keeps only the 384 variants the v0.29 set and probes use. The bench
-  variants (`TPDB_PROFILE`, `TPDB_FOOT`, `TPDB_BROOM`, `TPDB_ICE`, `TPDB_BOOK`, `TPDB_MOUTH`, `TPDB_BODY`, `TPDB_PECK`, `TPDB_DRESS`, `TPDB_NOZ`, `TPDB_BEARD`, `TPDB_BROW`, `TPDB_BLUSH`, `draw.WHEEL27`, `draw.SPLAT28`, `draw.SEESAW_IN28`, `library.SHADOW28`, `library.SHADOW29`, and `SLEEP29`, `TRIP29`, `TRIP_OBJ29`, `DUCK29`, `DOOR29`, `HOSE29`, `BULGE29`, `FISH29` and `LADDER_LAMP29` in `templates.py`) stay in the code.
+- The planner's priors come from the v0.30 calibration, with f = 0 and a at its centre for every inference and contradiction, as in
+  v0.20 to v0.29: 2 fields in 1 template moved by 0.002 or more, the duck's. The ladder's still rests on one sampled placement, since v0.29's lamp rule.
+- Exact rebuilds hold within a release, on the pinned Pillow: the v0.30 cast (builder 0.30.0) and placement rules (revision 28) change what is drawn at the hose, the tree and the pond,
+  so a v0.29 record rebuilds with the v0.29 package.
+- Every variant comes from the v0.30 cast (builder 0.30.0, `out030`), which draws nothing new: what the set and probes use was carried over from `lib029`, or rendered on demand on an installed Blender. Some carried variants date from Linux renders, which differ from an installed Blender's
+  only in sub-pixel anti-aliasing on the outlines. The library keeps only the 386 variants the v0.30 set and probes use. The bench
+  variants (`TPDB_PROFILE`, `TPDB_FOOT`, `TPDB_BROOM`, `TPDB_ICE`, `TPDB_BOOK`, `TPDB_MOUTH`, `TPDB_BODY`, `TPDB_PECK`, `TPDB_DRESS`, `TPDB_NOZ`, `TPDB_BEARD`, `TPDB_BROW`, `TPDB_BLUSH`, `draw.WHEEL27`, `draw.SPLAT28`, `draw.SEESAW_IN28`, `library.SHADOW28`, `library.SHADOW29`, and `SLEEP29`, `TRIP29`, `TRIP_OBJ29`, `DUCK29`, `DOOR29`, `HOSE29`, `BULGE29`, `FISH29`, `LADDER_LAMP29`, `HOSE30`, `FISH30`, `TRIP_W30`, `TRIP_LANE30` and `CRUMB30` in `templates.py`, and `REEL30` in `settings.py`) stay in the code.
 - The figures are still narrow. Legs an eighth shorter and limbs 14% thicker took the bench from eight remarks to three, on four cut-outs a side, but the screen's remarks on
-  thin or long bodies did not fall (six pictures to eight in v0.27, and to thirteen in v0.28 and v0.29, with nothing changed, by keyword). A real change of build is a larger job than these.
+  thin or long bodies did not fall (six pictures to eight in v0.27, to thirteen in v0.28 and v0.29, and back to six in v0.30, with nothing changed, by keyword, so that row says little). A real change of build is a larger job than these.
 - A person in full profile has the head turned 35 degrees to the viewer, baked as a twin action of the pose (`__p`), except where a hand-held thing at the face would be left behind
   (`PROFILE_SKIP`). Those poses keep the hidden face readers remark on.
 - Age of acquisition is recorded at weight 0, so it moves nothing until the pilot's pre-registered test says it
@@ -280,11 +283,11 @@ Exact rebuilds hold within a release: a v0.28 record rebuilds with the v0.28 pac
 - A filler closer than 24 px to the picture's side edge is now moved 30 px inside it, and no reader said one
   was cut off; the sun can still sit partly off the top edge, where the backdrop draws it.
 - The strip before the horizon leaves the playground less room: the tier-3 playground placed only without template-variety steering in
-  v0.24 and v0.25, and with it from v0.26. The v0.29 isomorphs are two at tier 2, two at tier 3 and one at tier 4; the tier-4 one
-  took 17 failed attempts, against 226 in v0.28.
+  v0.24 and v0.25, and with it from v0.26. The v0.30 isomorphs are two at tier 2, two at tier 3 and one at tier 4; the tier-4 one
+  took 13 failed attempts.
 - The strip applies to the park and the playground, not the street, where the back row stands at the shop fronts: one design-test
   reader still found a woman there "large compared with the door".
 - A shadow from the figure's own footprint is smaller, and a body lying down has little of it showing. The sleeping dog now reads in full on its new pose and that shadow; a wider one did little on the bench, so whether the shadow cost it marks in v0.28 is still not shown.
-- The trip's meaning item is 1.00 on the long box, from 0.75, but four of its five readers also say the walker may pass it, and its five pictures are all street pictures.
+- The trip's meaning item is 1.00 on the long box in eleven pictures and every setting. Five of its readers also say the walker may step round it, which on the same five pictures went from four of five to one of five with nothing changed.
 - The cast is a stand-in. Final character art would replace the models; rigs, poses, faces,
   anchors and manifests carry over.

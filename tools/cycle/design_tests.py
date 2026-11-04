@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a garden: the sleeping dog and the dog at the door together, the hose in hand, someone digging
-    ("garden", 3, 29401, {"modules": ["dog_wants_walk"], "events": ["dog_sleeping", "hose_water", "dig"]}, None),
-    # a park: the duck at a crumb, the wide box in a walker's way, a ladder clear of the lamp
-    ("park", 3, 29402, {"modules": ["ducks_bread"], "contradictions": ["ladder_nothing"], "events": ["run"]}, None),
-    # a street: the wide box with people about, the bucket on a head under a clear sky
-    ("street", 3, 29403, {"modules": ["about_to_trip"], "contradictions": ["bucket_hat"], "events": ["carry_bag"]}, None),
-    # a park: the fish on its limb, the sleeping dog beside a duck that feeds
-    ("park", 3, 29404, {"modules": ["ducks_bread"], "contradictions": ["fish_in_tree"], "events": ["dog_sleeping", "read_bench"]}, None),
-    # a garden: the stopped hose's swelling, with a soaked-box rule's neighbours left out, and a walker
-    ("garden", 3, 29405, {"modules": ["blocked_hose", "about_to_trip"], "events": ["hang_laundry", "cat_sleeping"]}, None),
-    # a playground: the sleeping dog, the wide box, a child with an ice cream
-    ("playground", 3, 29406, {"modules": ["about_to_trip"], "events": ["dog_sleeping", "ice_cream", "kick_ball"]}, None),
+    # a garden: the hose hanging from the fist, the wide box outside the street
+    ("garden", 3, 30401, {"modules": ["about_to_trip"], "events": ["hose_water", "rake"]}, None),
+    # a garden: the fish on its one limb, the end of the hose lying by the reel
+    ("garden", 3, 30402, {"contradictions": ["fish_in_tree"], "events": ["dig", "read_bench"]}, "hose_tail"),
+    # a park: the crumbs on the water, the wide box, the fish
+    ("park", 3, 30403, {"modules": ["ducks_bread", "about_to_trip"], "contradictions": ["fish_in_tree"]}, None),
+    # a playground: the wide box among children
+    ("playground", 3, 30404, {"modules": ["about_to_trip"], "events": ["ice_cream", "kick_ball"]}, None),
+    # a garden: the stopped hose, with no end of hose left by the reel
+    ("garden", 3, 30405, {"modules": ["blocked_hose"], "events": ["hang_laundry", "cat_sleeping"]}, None),
+    # a park: the duck and its crumbs, the fish, a reader on a bench
+    ("park", 3, 30406, {"modules": ["ducks_bread"], "contradictions": ["fish_in_tree"], "events": ["read_bench"]}, None),
 ]
 
 

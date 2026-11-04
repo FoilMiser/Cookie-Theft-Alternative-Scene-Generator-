@@ -6,8 +6,8 @@
  "seed": 23009,
  "mirror": false,
  "versions": {
-  "generator": "0.29.0",
-  "cast_builder": "0.29.0",
+  "generator": "0.30.0",
+  "cast_builder": "0.30.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,13 +57,12 @@
  },
  "features": [
   "clothesline",
-  "hose_reel",
   "laundry"
  ],
  "templates": [
   {
-   "id": "floating_box",
-   "kind": "contradiction",
+   "id": "sprinkler_package",
+   "kind": "inference",
    "event": "e1",
    "units": 1
   },
@@ -84,135 +83,135 @@
  "items": [
   {
    "id": "i01",
-   "type": "entity",
-   "text": "There is a box",
+   "type": "action",
+   "text": "A sprinkler is spraying water",
    "accepted": [
-    "box",
-    "crate",
-    "wooden box",
-    "cardboard box"
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
    ],
-   "key": "box",
+   "key": "sprinkler",
    "elements": [
-    "floatbox_1"
+    "sprinkler_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "floating_box",
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": 0.018,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
+    "domain": null,
+    "area_px": 15684
+   },
+   "b": -0.064,
+   "p0": 0.516,
+   "pm1": 0.282,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
    "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.447,
+    "s": -0.608,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
     "domain": null,
-    "area_px": 8148
+    "area_px": 6488
    },
-   "b": -0.729,
-   "p0": 0.675,
-   "pm1": 0.433,
+   "b": -0.474,
+   "p0": 0.616,
+   "pm1": 0.371,
    "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the box",
-   "accepted": [
-    "the box is weird",
-    "something odd about the box",
-    "that box"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [
-    "floatbox_1"
-   ],
-   "effect": [
-    "floatbox_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.447,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 8148
-   },
-   "b": 0.163,
-   "p0": 0.459,
-   "pm1": 0.238,
-   "aoi_cells": [
-    "TC"
+    "BC"
    ]
   },
   {
    "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The box is floating in the air with nothing holding it up",
+   "type": "inference",
+   "text": "The package is going to get soaked",
    "accepted": [
-    "floating box",
-    "box in the air",
-    "nothing holding it up",
-    "box should fall"
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
    ],
-   "key": "floating",
+   "key": "wet",
    "elements": [
-    "floatbox_1"
+    "sprinkler_1",
+    "package_2"
    ],
    "cues": [
-    "floatbox_1"
+    "sprinkler_1",
+    "package_2"
    ],
    "effect": [
-    "floatbox_1"
+    "package_2"
    ],
    "chain": 1,
    "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
+   "domain": null,
+   "template": "sprinkler_package",
    "event": "e1",
    "features": {
-    "type": "contradiction_explain",
+    "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": -0.447,
-    "r": 0,
-    "d": 0.0,
+    "s": 0.018,
+    "r": 1,
+    "d": 0.251,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 8148
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
+    "domain": null,
+    "area_px": 15684
    },
-   "b": 1.363,
-   "p0": 0.204,
-   "pm1": 0.086,
+   "b": 0.342,
+   "p0": 0.415,
+   "pm1": 0.207,
    "aoi_cells": [
-    "TC"
+    "BL",
+    "BC"
    ]
   },
   {
@@ -237,8 +236,8 @@
    },
    "key": "ball",
    "elements": [
-    "thrower_2",
-    "ball_4"
+    "thrower_3",
+    "ball_5"
    ],
    "cues": [],
    "effect": [],
@@ -251,7 +250,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.094,
+    "s": -0.138,
     "r": 0,
     "d": 0.0,
     "f": 1.04,
@@ -259,11 +258,11 @@
     "zipf_raw": 5.04,
     "aoa_raw": 2.9,
     "domain": null,
-    "area_px": 13400
+    "area_px": 12592
    },
-   "b": -1.405,
-   "p0": 0.803,
-   "pm1": 0.6,
+   "b": -1.383,
+   "p0": 0.799,
+   "pm1": 0.595,
    "aoi_cells": [
     "MR",
     "BR"
@@ -290,7 +289,7 @@
    },
    "key": "ball",
    "elements": [
-    "catcher_3"
+    "catcher_4"
    ],
    "cues": [],
    "effect": [],
@@ -303,7 +302,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.005,
+    "s": -0.027,
     "r": 0,
     "d": 0.0,
     "f": 1.04,
@@ -311,13 +310,12 @@
     "zipf_raw": 5.04,
     "aoa_raw": 2.9,
     "domain": null,
-    "area_px": 15404
+    "area_px": 14728
    },
-   "b": -1.454,
-   "p0": 0.811,
-   "pm1": 0.612,
+   "b": -1.438,
+   "p0": 0.808,
+   "pm1": 0.608,
    "aoi_cells": [
-    "MC",
     "MR",
     "BR"
    ]
@@ -344,8 +342,8 @@
    },
    "key": "digging",
    "elements": [
-    "digger_5",
-    "soil_6"
+    "digger_6",
+    "soil_7"
    ],
    "cues": [],
    "effect": [],
@@ -366,7 +364,7 @@
     "zipf_raw": 3.99,
     "aoa_raw": 4.19,
     "domain": null,
-    "area_px": 14872
+    "area_px": 14864
    },
    "b": -1.127,
    "p0": 0.755,
@@ -527,7 +525,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.863,
+    "s": 1.855,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -535,11 +533,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 211656
+    "area_px": 209116
    },
-   "b": -1.635,
-   "p0": 0.837,
-   "pm1": 0.654,
+   "b": -1.631,
+   "p0": 0.836,
+   "pm1": 0.653,
    "aoi_cells": [
     "ML",
     "MC",
@@ -662,7 +660,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.367,
+    "s": 0.373,
     "r": 0,
     "d": 0.0,
     "f": 0.64,
@@ -670,10 +668,10 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 25664
+    "area_px": 25880
    },
-   "b": -1.015,
-   "p0": 0.734,
+   "b": -1.018,
+   "p0": 0.735,
    "pm1": 0.504,
    "aoi_cells": [
     "BL",
@@ -682,27 +680,27 @@
   }
  ],
  "counts": {
-  "content": 11,
+  "content": 12,
   "inference_units": 1,
-  "contradictions": 1,
+  "contradictions": 0,
   "items_total": 13
  },
  "predicted": {
   "theta_0": {
-   "content": 0.756,
-   "inference": 0.332
+   "content": 0.731,
+   "inference": 0.415
   },
   "theta_minus_1": {
-   "content": 0.542,
-   "inference": 0.162
+   "content": 0.514,
+   "inference": 0.207
   }
  },
  "bands": {
-  "content_count": false,
+  "content_count": true,
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -716,14 +714,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.037,
-  "png_bytes": 182886,
-  "jpeg_bytes": 177687
+  "objects": 17,
+  "edge_density": 0.0411,
+  "png_bytes": 197866,
+  "jpeg_bytes": 189180
  },
  "signature": [
   [
@@ -739,44 +737,44 @@
    0
   ],
   [
-   "contradiction_explain",
+   "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
    1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
   ]
  ],
  "elements": [
@@ -840,8 +838,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 70424,
-   "occlusion": 0.133
+   "visible_px": 73316,
+   "occlusion": 0.098
   },
   {
    "id": "tree",
@@ -870,34 +868,34 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 211656,
-   "occlusion": 0.121
+   "visible_px": 209116,
+   "occlusion": 0.132
   },
   {
-   "id": "soil_6",
+   "id": "soil_7",
    "label": "Hole and pile of dirt",
    "role": "scored",
-   "z": 673.76,
+   "z": 678.36,
    "bbox": [
-    338.0,
-    646.0,
-    472.0,
-    690.0
+    332.0,
+    650.0,
+    466.0,
+    694.0
    ],
-   "area_px": 3068,
-   "visible_px": 2568,
-   "occlusion": 0.163
+   "area_px": 3048,
+   "visible_px": 2560,
+   "occlusion": 0.16
   },
   {
-   "id": "digger_5",
+   "id": "digger_6",
    "label": "person.ana__dig_lift__neutral__y045",
    "role": "scored",
-   "z": 674.76,
+   "z": 679.36,
    "bbox": [
-    426.0,
-    458.0,
-    562.0,
-    686.0
+    420.0,
+    462.0,
+    556.0,
+    690.0
    ],
    "area_px": 12304,
    "visible_px": 12304,
@@ -905,7 +903,7 @@
    "asset": {
     "variant": "person.ana__dig_lift__neutral__y045",
     "family": "person.ana",
-    "scale": 0.399,
+    "scale": 0.4007,
     "mirrored": true,
     "labels": {
      "everyday_name": "woman",
@@ -956,21 +954,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "floatbox_1",
-   "label": "Box floating in the air",
-   "role": "scored",
-   "z": 717.86,
-   "bbox": [
-    760.0,
-    242.0,
-    872.0,
-    342.0
-   ],
-   "area_px": 8148,
-   "visible_px": 8148,
-   "occlusion": 0.0
-  },
-  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -986,53 +969,38 @@
    "occlusion": 0.0
   },
   {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
+   "id": "sprinkler_1",
+   "label": "Sprinkler spraying",
+   "role": "scored",
+   "z": 826.12,
    "bbox": [
-    318.0,
-    694.0,
-    572.0,
-    838.0
+    0.0,
+    704.0,
+    1010.0,
+    854.0
    ],
-   "area_px": 25880,
-   "visible_px": 25664,
-   "occlusion": 0.008
+   "area_px": 16272,
+   "visible_px": 15684,
+   "occlusion": 0.036
   },
   {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 870,
-   "bbox": [
-    270.0,
-    788.0,
-    346.0,
-    876.0
-   ],
-   "area_px": 4956,
-   "visible_px": 4956,
-   "occlusion": 0.0
-  },
-  {
-   "id": "thrower_2",
+   "id": "thrower_3",
    "label": "person.leo__throw_ball__smile__y090",
    "role": "scored",
-   "z": 873.91,
+   "z": 833.94,
    "bbox": [
-    1348.0,
-    618.0,
-    1490.0,
-    880.0
+    1340.0,
+    584.0,
+    1478.0,
+    838.0
    ],
-   "area_px": 12328,
-   "visible_px": 12328,
+   "area_px": 11584,
+   "visible_px": 11584,
    "occlusion": 0.0,
    "asset": {
     "variant": "person.leo__throw_ball__smile__y090",
     "family": "person.leo",
-    "scale": 0.4727,
+    "scale": 0.4579,
     "mirrored": true,
     "labels": {
      "everyday_name": "teenager",
@@ -1054,23 +1022,53 @@
    }
   },
   {
-   "id": "catcher_3",
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    318.0,
+    694.0,
+    572.0,
+    838.0
+   ],
+   "area_px": 25880,
+   "visible_px": 25880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "package_2",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 836.12,
+   "bbox": [
+    954.0,
+    774.0,
+    1060.0,
+    848.0
+   ],
+   "area_px": 6488,
+   "visible_px": 6488,
+   "occlusion": 0.0
+  },
+  {
+   "id": "catcher_4",
    "label": "person.ben__catch__surprised__y090",
    "role": "scored",
-   "z": 879.42,
+   "z": 855.51,
    "bbox": [
-    1044.0,
-    582.0,
-    1180.0,
-    886.0
+    1076.0,
+    562.0,
+    1210.0,
+    862.0
    ],
-   "area_px": 15404,
-   "visible_px": 15404,
+   "area_px": 14728,
+   "visible_px": 14728,
    "occlusion": 0.0,
    "asset": {
     "variant": "person.ben__catch__surprised__y090",
     "family": "person.ben",
-    "scale": 0.4748,
+    "scale": 0.4659,
     "mirrored": false,
     "labels": {
      "everyday_name": "man",
@@ -1091,18 +1089,33 @@
    }
   },
   {
-   "id": "ball_4",
+   "id": "ball_5",
    "label": "Ball in the air",
    "role": "scored",
-   "z": 880.42,
+   "z": 856.51,
    "bbox": [
-    1198.0,
-    568.0,
-    1342.0,
-    656.0
+    1218.0,
+    548.0,
+    1334.0,
+    622.0
    ],
-   "area_px": 1072,
-   "visible_px": 1072,
+   "area_px": 1008,
+   "visible_px": 1008,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    896.0,
+    892.0,
+    1078.0,
+    980.0
+   ],
+   "area_px": 8776,
+   "visible_px": 8776,
    "occlusion": 0.0
   }
  ],
@@ -1113,10 +1126,10 @@
  "attempts": [
   [
    23009,
-   "layout 6: accepted after 5 rejected layouts"
+   "layout 2: accepted after 1 rejected layouts"
   ]
  ],
- "layout": 5,
+ "layout": 1,
  "knob": 0,
  "regen": {
   "base_seed": 23009,
@@ -1129,11 +1142,11 @@
     "play_catch",
     "dig"
    ],
-   "contradictions": [
-    "floating_box"
+   "modules": [
+    "sprinkler_package"
    ]
   },
-  "placement_rev": 27
+  "placement_rev": 28
  },
  "probe": true
 }

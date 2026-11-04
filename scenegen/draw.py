@@ -1077,6 +1077,23 @@ def dustpan(x, y, s=1.0, f=1, col=None):
     return svg, (min(xs) - 2, y - 22 * s, max(xs) + 2, y + 4 * s)
 
 
+def hose_tail(pts, start, s=1.0, col=None):
+    """v0.30: the last of a hose_through from point `start` on, to draw over a figure: the same curve, its fill starting a point further back than its edge, so no seam crosses the hose."""
+    col = col or C["hose"]
+
+    def d_from(k):
+        d = "M " + P(*pts[k])
+        for i in range(k, len(pts) - 1):
+            p0, p1, p2, p3 = pts[max(i - 1, 0)], pts[i], pts[i + 1], pts[min(i + 2, len(pts) - 1)]
+            c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
+            c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+            d += f" C {P(*c1)} {P(*c2)} {P(*p2)}"
+        return d
+    w, ow = 9 * s, OW * 0.8
+    return (f'<path d="{d_from(start)}" fill="none" stroke="{OUT}" stroke-width="{w + 2 * ow:.1f}" stroke-linecap="round" stroke-linejoin="round"/>'
+            f'<path d="{d_from(start - 1)}" fill="none" stroke="{col}" stroke-width="{w:.1f}" stroke-linecap="round" stroke-linejoin="round"/>')
+
+
 def hose_through(pts, s=1.0, col=None):
     """v0.29: a hose as a smooth curve through the points (each piece of hose_path bends to a point of its own, so a slack run came out as one tight arc)."""
     col = col or C["hose"]

@@ -173,7 +173,11 @@ class PlacementError(Exception):
 # with a red lead in its mouth"); a wide box across the walker's line, a little nearer ("might pass beside it"); a slack hose, and one line from the fist to the ground ("like a rigid pipe", "could read as a post"); a
 # slimmer swelling with no highlight on the stopped hose ("a separate slug-shaped object"); a fish on a limb, well out from the trunk ("pasted onto the leaves"); and rules for readings that excused a contradiction: no
 # ladder within 160 px of a lamp post ("meant to lean on the lamp post"), no soaked box with a second box ("the two boxes look similar"), no bucket on the head under storm clouds ("a makeshift rain hat").
-PLACEMENT_REV = 27
+# 28 (v0.30): the v0.29 screen's named oddities, each drawing chosen on the bench (vision/isolation_v030.md): the hose hanging from the fist as a rope hangs and running on up to the fist in front of the figure, for the
+# square piece over the joint ("seems to stop at about waist height, then the part at her hands starts again"); the fish's limb with no other arm, and so no tuft ("looks detached from the rest of the crown"); the
+# thrown crumbs only on the water ("several crumbs lie on the grass past the pond edge"); and the end of the hose lying on the grass with its nozzle on, when nobody has the hose, and gone when somebody has
+# ("only a short stub of hose joined to nothing", "a short second stub of hose curls by the reel").
+PLACEMENT_REV = 28
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

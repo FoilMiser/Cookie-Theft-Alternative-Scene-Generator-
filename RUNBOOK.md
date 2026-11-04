@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.29 was made, written so that a fresh session can make the next one (v0.30) from this
+How each release from v0.12 to v0.30 was made, written so that a fresh session can make the next one (v0.31) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -216,3 +216,9 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - A bench can test a thing and find nothing. The lifted heel, read two ways, had nothing to choose between them, and keeping it saved re-rendering every walker. Write that down as a result.
 - Do not chain `;` after a command that can fail with `OSError 22` on this drive: `tpdb_work/psub.py` for patches, which retries and is safe to re-run, and `cd ... || exit 1` in scripts. One patch stopped midway and the commands after it ran from the wrong folder.
 - Count again before writing "all" or "two of four". Three counts in this release's bench and design notes were wrong on first writing, and one reached a status message: the trip is in three of six design tests, not four. Recount from the files, by script where you can.
+- A release that changes little leaves most of the set identical to the pixel, and then the screen is a retest as well. Compare with `git`-free hashes (`tpdb_work/retest30.py` did it): v0.30's 19 identical pictures gave 223 of 230 items the same, and showed a half mark and a keyword row to be noise. Do this whenever pictures come back, and do not read a move on such a picture as anything but the readers.
+- A test with `require_band=False` does not test the search. Forced that way, every width of the box placed 40 of 40 and 24 of 24, and that says nothing about what fails with the band on. It told me that only after the run.
+- Look at a release's scripts before running them, above all one that deletes. A `sed` from `t028` to `t029` turned `out028` into `out029`, and `finish_tree` would have removed this release's cast. The script now checks the folders it keeps. Likewise a patch that matches a line by a substring can land on a longer line with more indent: anchor it on the newline.
+- A side test running beside a build shares its library. A variant rendered on demand by two runs at once kept one run's image and the other's manifest, and validation caught `sha256 mismatch` on one goat. The picture was right and only the hash stale. Validate after pruning, as the runbook says, and read a failure there before going on.
+- A bench's switches need setting for the new names as well as the new drawings: the flags in `isolation_bench.py` go by name prefix, and new cases took the old obstacle and the old duck. A mirrored figure swaps its hands' anchors, so choose a fist by what it is near. Look at every crop before spending readers: that caught all three.
+- Stop when a remark has outlived every drawing. "Stiff" has been said of every hose held at the waist since v0.25 and costs no marks, and a seventh curve would not end it. Say so, and take it off the list.

@@ -6,8 +6,8 @@
  "seed": 23054,
  "mirror": true,
  "versions": {
-  "generator": "0.29.0",
-  "cast_builder": "0.29.0",
+  "generator": "0.30.0",
+  "cast_builder": "0.30.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,23 +57,83 @@
  },
  "features": [
   "bench",
-  "blanket",
   "flowers"
  ],
  "templates": [
   {
-   "id": "picnic",
+   "id": "fishing",
    "kind": "event",
    "event": "e1",
    "units": 0
+  },
+  {
+   "id": "ice_cream",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is having a picnic",
+   "text": "A teenager is fishing",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "fishing",
+     "fishing in the pond",
+     "fishing rod",
+     "catching fish"
+    ]
+   },
+   "key": "fishing",
+   "elements": [
+    "fisher_1",
+    "line_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "fishing",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.14,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.47,
+    "a": 4.72,
+    "zipf_raw": 4.47,
+    "aoa_raw": 4.72,
+    "domain": null,
+    "area_px": 12556
+   },
+   "b": -1.331,
+   "p0": 0.791,
+   "pm1": 0.582,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A girl is eating an ice cream",
    "accepted": {
     "who": [
      "girl",
@@ -83,48 +143,46 @@
      "daughter"
     ],
     "what": [
-     "having a picnic",
-     "picnic",
-     "sitting on a blanket",
-     "sitting on the grass"
+     "eating ice cream",
+     "ice cream cone",
+     "having an ice cream",
+     "eating a cone"
     ]
    },
-   "key": "picnic",
+   "key": "ice cream",
    "elements": [
-    "picnicker_1",
-    "basket_2"
+    "icecream_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "picnic",
-   "event": "e1",
+   "template": "ice_cream",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.329,
+    "s": -0.605,
     "r": 0,
     "d": 0.0,
-    "f": -0.2,
-    "a": 5.53,
-    "zipf_raw": 3.8,
-    "aoa_raw": 5.53,
+    "f": 0.47,
+    "a": 3.33,
+    "zipf_raw": 4.47,
+    "aoa_raw": 3.33,
     "domain": null,
-    "area_px": 9624
+    "area_px": 6516
    },
-   "b": -1.155,
-   "p0": 0.76,
-   "pm1": 0.539,
+   "b": -1.099,
+   "p0": 0.75,
+   "pm1": 0.525,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "BC"
    ]
   },
   {
-   "id": "i02",
+   "id": "i03",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -159,15 +217,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
     "TL"
    ]
   },
   {
-   "id": "i03",
+   "id": "i04",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -201,16 +259,16 @@
     "domain": null,
     "area_px": 16532
    },
-   "b": -0.956,
-   "p0": 0.722,
-   "pm1": 0.489,
+   "b": -0.836,
+   "p0": 0.698,
+   "pm1": 0.459,
    "aoi_cells": [
     "TC",
     "TR"
    ]
   },
   {
-   "id": "i04",
+   "id": "i05",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -245,16 +303,16 @@
     "domain": null,
     "area_px": 51656
    },
-   "b": -1.525,
-   "p0": 0.821,
-   "pm1": 0.628,
+   "b": -1.405,
+   "p0": 0.803,
+   "pm1": 0.6,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -277,7 +335,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.208,
+    "s": 1.14,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -285,11 +343,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 84072
+    "area_px": 76360
    },
-   "b": -1.478,
-   "p0": 0.814,
-   "pm1": 0.617,
+   "b": -1.324,
+   "p0": 0.79,
+   "pm1": 0.58,
    "aoi_cells": [
     "MC",
     "MR",
@@ -298,7 +356,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -331,16 +389,16 @@
     "domain": null,
     "area_px": 63708
    },
-   "b": -1.641,
-   "p0": 0.838,
-   "pm1": 0.655,
+   "b": -1.521,
+   "p0": 0.821,
+   "pm1": 0.627,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -375,16 +433,16 @@
     "domain": null,
     "area_px": 8176
    },
-   "b": -0.673,
-   "p0": 0.662,
-   "pm1": 0.419,
+   "b": -0.553,
+   "p0": 0.635,
+   "pm1": 0.39,
    "aoi_cells": [
     "TC",
     "MC"
    ]
   },
   {
-   "id": "i08",
+   "id": "i09",
    "type": "entity",
    "text": "There is a park bench",
    "accepted": [
@@ -417,16 +475,16 @@
     "domain": null,
     "area_px": 12184
    },
-   "b": -0.916,
-   "p0": 0.714,
-   "pm1": 0.479,
+   "b": -0.796,
+   "p0": 0.689,
+   "pm1": 0.449,
    "aoi_cells": [
     "BL",
     "BC"
    ]
   },
   {
-   "id": "i09",
+   "id": "i10",
    "type": "entity",
    "text": "There are flowers",
    "accepted": [
@@ -459,27 +517,27 @@
     "domain": null,
     "area_px": 23992
    },
-   "b": -1.232,
-   "p0": 0.774,
-   "pm1": 0.558,
+   "b": -1.111,
+   "p0": 0.752,
+   "pm1": 0.528,
    "aoi_cells": [
     "BR"
    ]
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 10,
   "inference_units": 0,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.762,
+   "content": 0.746,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.546,
+   "content": 0.524,
    "inference": null
   }
  },
@@ -502,16 +560,20 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0265,
-  "png_bytes": 170414,
-  "jpeg_bytes": 133844
+  "objects": 17,
+  "edge_density": 0.0256,
+  "png_bytes": 176440,
+  "jpeg_bytes": 130502
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -640,23 +702,23 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 84072,
-   "occlusion": 0.004
+   "visible_px": 76360,
+   "occlusion": 0.095
   },
   {
-   "id": "blanket",
-   "label": "Picnic blanket",
-   "role": "setting",
-   "z": -60,
+   "id": "line_2",
+   "label": "Fishing line",
+   "role": "scored",
+   "z": -65,
    "bbox": [
-    782.0,
-    808.0,
-    1058.0,
-    924.0
+    1138.0,
+    530.0,
+    1188.0,
+    676.0
    ],
-   "area_px": 14980,
-   "visible_px": 12752,
-   "occlusion": 0.149
+   "area_px": 692,
+   "visible_px": 692,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bush_b",
@@ -779,56 +841,42 @@
    "occlusion": 0.0
   },
   {
-   "id": "picnicker_1",
-   "label": "person.nia__sit_ground__smile__y045",
+   "id": "fisher_1",
+   "label": "person.leo__fish__smile__y090",
    "role": "scored",
-   "z": 885,
+   "z": 835,
    "bbox": [
-    928.0,
-    770.0,
-    1036.0,
-    898.0
+    870.0,
+    530.0,
+    1138.0,
+    840.0
    ],
-   "area_px": 5932,
-   "visible_px": 5932,
+   "area_px": 11864,
+   "visible_px": 11864,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.nia__sit_ground__smile__y045",
-    "family": "person.nia",
-    "scale": 0.4769,
-    "mirrored": true,
+    "variant": "person.leo__fish__smile__y090",
+    "family": "person.leo",
+    "scale": 0.4583,
+    "mirrored": false,
     "labels": {
-     "everyday_name": "girl",
+     "everyday_name": "teenager",
      "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
       "girl",
-      "little girl",
-      "child",
       "kid",
-      "daughter"
+      "young person"
      ],
-     "category": "child_person",
+     "category": "teen_person",
      "person": {
-      "age_group": "child",
-      "skin_tone": "skin2",
-      "hair": "puffs"
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
      }
     }
    }
-  },
-  {
-   "id": "basket_2",
-   "label": "Picnic basket",
-   "role": "scored",
-   "z": 886,
-   "bbox": [
-    1040.0,
-    820.0,
-    1116.0,
-    888.0
-   ],
-   "area_px": 3692,
-   "visible_px": 3692,
-   "occlusion": 0.0
   },
   {
    "id": "flowers",
@@ -846,19 +894,41 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_rock",
-   "label": "Rock",
-   "role": "filler",
-   "z": 960,
+   "id": "icecream_3",
+   "label": "person.nia__walk_ice_cream__smile__y090",
+   "role": "scored",
+   "z": 941.76,
    "bbox": [
-    712.0,
-    914.0,
-    808.0,
-    962.0
+    758.0,
+    764.0,
+    844.0,
+    944.0
    ],
-   "area_px": 3740,
-   "visible_px": 3740,
-   "occlusion": 0.0
+   "area_px": 6516,
+   "visible_px": 6516,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.nia__walk_ice_cream__smile__y090",
+    "family": "person.nia",
+    "scale": 0.4979,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
   }
  ],
  "canvas": [
@@ -881,10 +951,11 @@
   "usage": {},
   "forced": {
    "events": [
-    "picnic"
+    "fishing",
+    "ice_cream"
    ]
   },
-  "placement_rev": 27
+  "placement_rev": 28
  },
  "probe": true
 }

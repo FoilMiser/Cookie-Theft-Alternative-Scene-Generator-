@@ -398,8 +398,22 @@ class HoseWater(T):
                 hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + X) / 2 + 40, Y + 30), (hx + 40, hy + 120), (hx, hy)], sz(Y))
             # revision 19: the hose drawn in front of the flower bed (behind it, the bed hid a fifth of it and the event
             # could only be placed where a clothesline post pushed the waterer away from the bed)
+            hang_ = None
+            if SCN.PLACEMENT_REV >= 28 and HOSE29 == "B" and HOSE30 == "V":
+                # revision 28: down from the fist, steep there and flattening as it reaches the ground, as a rope hangs (every rise from the ground has been named: "a stiff, nearly straight vertical section", "a rigid pipe or stand")
+                s_ = sz(Y)
+                nz_ = p.anchor("nozzle")
+                gx_, gy_ = min((p.anchor("hand_R_grip"), p.anchor("hand_L_grip")), key=lambda q: abs(q[0] - nz_[0]) + abs(q[1] - nz_[1]))
+                tx_, ty_ = hx + 0.8 * (gx_ - hx), hy + 0.8 * (gy_ - hy)
+                run_ = min(190 * s_, 0.5 * (hx - rx))
+                drop_ = Y + 36 - hy
+                arc_ = [(hx - run_ * u_, hy + drop_ * (1 - (1 - u_) ** 3)) for u_ in (1.0, 0.72, 0.46, 0.26, 0.12, 0.04, 0.0)] + [(tx_, ty_)]
+                gx0_ = arc_[0][0]
+                hang_ = [(rx, ry), (rx + 42, Y + 34), (rx + (gx0_ - rx) * 0.42, Y + 30), (rx + (gx0_ - rx) * 0.76, Y + 46)] + arc_
+                hose = D.hose_through(hang_, s_ * 0.86)
             hd = max(Y - 1, F["depth"] + 0.5) if SCN.PLACEMENT_REV >= 19 else Y - 1
             eh = sc.svg(sc.eid("hose"), "Garden hose", hose, hd, (rx, min(hy, ry), hx + 40, Y + 45), "scored")
+            sc.S.elements = [e_ for e_ in sc.S.elements if e_["id"] != "hose_tail"]
             if SCN.PLACEMENT_REV >= 27 and HOSE29 == "B":
                 # revision 27: and a short piece over the joint, in front of the figure, so the hose in the fist runs on into the hose on the ground (the two met end to end:
                 # "a short thick teal section stands upright ... and appears to stop or have a gap before the longer hose continues")
@@ -408,6 +422,17 @@ class HoseWater(T):
                 w_, o_ = 9 * s_ * 0.86, D.OW * 0.8
                 join = (f'<path d="{jd}" fill="none" stroke="{D.OUT}" stroke-width="{w_ + 2 * o_:.1f}" stroke-linecap="butt"/>'
                         f'<path d="{jd}" fill="none" stroke="{C["hose"]}" stroke-width="{w_:.1f}" stroke-linecap="butt"/>')
+                if hang_:
+                    join = D.hose_tail(hang_, len(hang_) - 3, s_ * 0.86)
+                if SCN.PLACEMENT_REV >= 28 and HOSE30 == "U":
+                    # revision 28: the hose itself runs on in front of the figure and up to the fist (a square piece over the joint read as a sleeve: "seems to stop at about waist height, then the part at her hands starts again")
+                    L_ = hx - rx
+                    nz_ = p.anchor("nozzle")
+                    # (the stub the figure holds runs from under the fist down to hose_in: on past it, or it shows above the hose's end. The fist at the nozzle: a mirrored figure swaps its hands' anchors)
+                    gx_, gy_ = min((p.anchor("hand_R_grip"), p.anchor("hand_L_grip")), key=lambda q: abs(q[0] - nz_[0]) + abs(q[1] - nz_[1]))
+                    join = D.hose_tail([(rx, ry), (rx + 42, Y + 34), (rx + L_ * 0.34, Y + 30), (rx + L_ * 0.60, Y + 44), (hx - 92 * s_, Y + 38),
+                                        (hx - 22 * s_, Y + 18), (hx - 56 * s_, (Y + hy) / 2 + 14 * s_), (hx - 22 * s_, hy + 56 * s_), (hx - 2 * s_, hy + 24 * s_), (hx, hy + 6 * s_),
+                                        (hx + 0.8 * (gx_ - hx), hy + 0.8 * (gy_ - hy))], 7, s_ * 0.86)
                 sc.svg(sc.eid("hosejoin"), "Garden hose at the hand", join, Y + 1, (hx - 10, hy - 12 * s_, hx + 10, hy + 28 * s_), "background")
             nz, aim = p.anchor("nozzle"), p.anchor("nozzle_aim")
             if SCN.PLACEMENT_REV >= 4:
@@ -1810,6 +1835,11 @@ HOSE29 = "B"        # the hose in hand: O a tight arc and an upright run, B slac
 BULGE29 = "B"       # the stopped hose's swelling: O as it was, B slimmer with no highlight
 FISH29 = "B"        # the fish in the tree: O on the leaves, B on a limb
 LADDER_LAMP29 = 160 # how far the ladder keeps from a lamp post, each side of it
+HOSE30 = "V"        # the hose at the fist: O a square piece over the joint, U the hose itself in front of the figure, up to the fist, V that, and hanging from the fist as a rope hangs
+FISH30 = "E"        # the limb under the fish: O as the ball's on a bare crown, G and the leaves the ball's crown has, E no other arm, F that, and running on past the fish
+TRIP_W30 = 72       # the trip's long box, across the walker's line
+TRIP_LANE30 = 380   # how far along her way the ground stays clear beyond the obstacle
+CRUMB30 = "W"       # the thrown crumbs: O where they fall, W only those on the water
 
 
 class AnimalEvent(T):
@@ -2502,6 +2532,7 @@ class BlockedHose(T):
     def place(self):
         sc = self.sc
         rx, ry = sc.S.anchors["hose_reel"]
+        sc.S.elements = [e_ for e_ in sc.S.elements if e_["id"] != "hose_tail"]
         ep, ea = sc.eid("hoseman"), sc.eid("hoseanimal")
         for X, Y in self.stand_spots(x_range=(560, 1250), y_range=(760, 960), n=120):
             p = sc.placed(self.vp, X, Y, sc.mirror_for(self.vp, -1), eid=ep)
@@ -3025,13 +3056,13 @@ def _crown_clip(tree, cid):
     return f'<defs><clipPath id="{cid}">' + "".join(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="{max(0.5, r - D.OW * 0.6):.1f}"/>' for a, b, r in tree["parts"]) + "</clipPath></defs>"
 
 
-def _limb_to(tree, x, y, w, fork=True):
+def _limb_to(tree, x, y, w, fork=True, tip=False):
     """Revision 26: a limb from the top of the trunk up across the crown to (x, y), tapering to w, so a branch among the leaves grows from something (three of three bench
     readers: "does not visibly connect to the trunk", "looks a little like it is floating inside the foliage"). Returns its svg and box."""
     tx, cy, R = tree["canopy"]
     y0 = cy + 1.04 * R                          # just below the crown's edge, over its outline, so the trunk runs on into the limb
     w0 = tree.get("trunk_w", 0.34 * R)
-    w = max(w, 0.32 * w0)
+    w = w if tip else max(w, 0.32 * w0)
     g = 1 if x >= tx else -1
     # up from the trunk, then out along the branch: the side of the trunk away from the branch makes the limb's upper edge
     cx_, cy_ = tx + (x - tx) * 0.12, y + (y0 - y) * 0.18
@@ -3040,6 +3071,9 @@ def _limb_to(tree, x, y, w, fork=True):
     b0, c1, b1 = (tx + w0 / 2, y0), (cx_ + dx_, cy_ + dy_), (x, y + g * w / 2)
     svg = D.flat(f"M {D.P(*a0)} Q {D.P(*c0)} {D.P(*a1)} L {D.P(*b1)} Q {D.P(*c1)} {D.P(*b0)} Z", C["wood"])
     edges = [(a0, c0, a1), (b0, c1, b1)]
+    if tip:
+        # (its end shows, so close it: revision 28)
+        edges.append((a1, ((a1[0] + b1[0]) / 2 + g * w * 0.8, (a1[1] + b1[1]) / 2), b1))
     if fork:
         # the other arm of the fork, going up and away from the branch, its tip under leaves (one limb alone: "a single bent pipe", "a sharp, almost right-angle join")
         fx, fy = tx - g * 0.42 * R, cy + 0.12 * R
@@ -3417,7 +3451,7 @@ class AboutToTrip(T):
                     sh = D.shadow(ox, oy, 2 * r) if SCN.PLACEMENT_REV >= 25 else ""
                     return sh + D.ball(ox, oy - r, r, C["red"]), (ox - r, oy - 2 * r, ox + r, oy), "a ball", ["ball", "a ball on the ground"], "ball"
                 if self.obj == "long_box":
-                    svg, bb = D.long_box(ox, oy, s, w=72, h=38, dx=14, dy=40)
+                    svg, bb = D.long_box(ox, oy, s, w=TRIP_W30 if SCN.PLACEMENT_REV >= 28 else 72, h=38, dx=14, dy=40)
                     return svg, bb, "a box", ["box", "crate", "a box in the way"], "box"
                 if self.obj == "plank":
                     svg, bb = D.long_box(ox, oy, s, w=30, h=8, dx=24, dy=100, grain=True)
@@ -3455,7 +3489,7 @@ class AboutToTrip(T):
                 # revision 20: and nothing else on the ground further along her way, now or later (past the bucket, readers
                 # had a reading walker "step on the sleeping cat" or "trip over the bicycle" too)
                 far = bb[2] if want > 0 else bb[0]
-                x0_, x1_ = sorted((far, far + want * 380 * s))
+                x0_, x1_ = sorted((far, far + want * (TRIP_LANE30 if SCN.PLACEMENT_REV >= 28 else 380) * s))
                 beyond = (max(0.0, x0_), Y - 110 * s, min(float(D.W), x1_), Y + 40 * s)
                 if any(sc.overlap(b, beyond) > 0 for _, b, _ in sc.scored_boxes(ignore=(ep,))):
                     continue
@@ -4261,7 +4295,11 @@ class DucksBread(T):
                 sc.assets[ed] = d
                 # (revision 24: bread-coloured; the orange-brown bits "could be food ... or small stones or tiny fish")
                 crumb_c = C["cream"] if SCN.PLACEMENT_REV >= 24 else C["wood_light"]
-                crumbs = "".join(D.ell(sx + want * (30 + i * 22), sy + 30 + (i % 2) * 18 + i * 10, 6, 4, crumb_c, D.OW * 0.5) for i in range(5))
+                crumb_at = [(sx + want * (30 + i * 22), sy + 30 + (i % 2) * 18 + i * 10) for i in range(5)]
+                if SCN.PLACEMENT_REV >= 28 and CRUMB30 == "W":
+                    # revision 28: only those on the water, clear of its edge ("several crumbs lie on the grass past the pond edge", "unclear whether floating or on the bank")
+                    crumb_at = [q for q in crumb_at if all(sc.on_element("pond", q[0] + a_, q[1] + b_) for a_, b_ in ((-12, 0), (12, 0), (0, 8), (0, -8)))]
+                crumbs = "".join(D.ell(q[0], q[1], 6, 4, crumb_c, D.OW * 0.5) for q in crumb_at)
                 # the wake trails behind the duck, on the side away from the shore it swims to
                 wk = 1.0
                 if SCN.PLACEMENT_REV >= 25:
@@ -4805,7 +4843,18 @@ class FishInTree(T):
             ef = sc.svg(sc.eid("treefish"), "Fish sitting in the tree", svg, T_["bbox"][3] + 0.6, bb, "scored")
             if SCN.PLACEMENT_REV >= 27 and FISH29 == "B":
                 # revision 27: on a limb of the tree, as the ball is (on the leaves it "looks pasted onto the leaves")
-                lsvg, lbb = _limb_to(T_, x, y + 13 * self.k3(1.25, 0.9, 0.7), 8)
+                ly_ = y + 13 * self.k3(1.25, 0.9, 0.7)
+                lsvg, lbb = _limb_to(T_, x, ly_, 8)
+                if SCN.PLACEMENT_REV >= 28 and FISH30 == "E":
+                    lsvg, lbb = _limb_to(T_, x, ly_, 8, fork=False)
+                if SCN.PLACEMENT_REV >= 28 and FISH30 == "F":
+                    # revision 28: the limb runs on past the fish, so the fish lies on it (ending under the fish: "almost looks like it is growing out of the end of the branch")
+                    lsvg, lbb = _limb_to(T_, (bb[2] + 16) if x >= T_["canopy"][0] else (bb[0] - 16), ly_ + 3, 9, fork=False, tip=True)
+                if SCN.PLACEMENT_REV >= 28 and FISH30 == "G":
+                    # revision 28: leaves on the crown as with the ball, so the limb is of a piece with the tree (on a bare crown it was "drawn on top of the leafy crown", "as though cut out of the green leaf mass")
+                    tex = _crown_texture(T_, bb, 1.0)
+                    if tex:
+                        sc.svg(sc.eid("crownleaves"), "Leaves on the tree", _leaf_clusters(T_, tex, "ct%d" % abs(int(x))), T_["bbox"][3] + 0.3, T_["bbox"], "background")
                 sc.svg(sc.eid("limb"), "Limb of the tree", lsvg, T_["bbox"][3] + 0.2, lbb, "background")
             self.ent("There is a fish", ["fish", "a fish", "goldfish"], "fish", [ef])
             self.contra("Something is wrong in the tree",

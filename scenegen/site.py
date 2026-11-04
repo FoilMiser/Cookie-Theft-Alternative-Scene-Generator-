@@ -49,36 +49,33 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v028", "v029"
+PREV, CUR = "v029", "v030"
 
-# the templates whose drawing or placement v0.29 changed for the v0.28 screen (vision/flaws_v028.md); each drawing went to the isolation bench first
-# (vision/isolation_v029.md) and was read in whole test scenes (vision/design_tests_v029.md)
+# the templates whose drawing or placement v0.30 changed for the v0.29 screen (vision/flaws_v029.md); each drawing went to the isolation bench first
+# (vision/isolation_v030.md) and was read in whole test scenes (vision/design_tests_v030.md)
 REDRAWN_NOTES = {
-    "dog_sleeping": "'Sniffing the grass, lying down, or curled up asleep'. Now turned three-quarters, its chin on its paws: 'curled up asleep', in all three of its pictures.",
-    "ducks_bread": "'Swimming towards those crumbs'. Now the neck arched and the bill at a crumb: 'bending its head down to peck at the crumbs'.",
-    "dog_wants_walk": "'Sits with a red lead in its mouth', no more. Now beside the door and turned to it: 'as though asking to be taken for a walk', on the seed that failed. One reader still gave it only as 'a guess'.",
-    "about_to_trip": "'He is moving past it, not squarely into it'. Now a long low box across the line: 'so he seems about to trip over it', in five street pictures. Four of the five readers still allow he may pass, and the box takes more ground to place.",
-    "fish_in_tree": "'Looks pasted onto the leaves'. Now on a limb, well out from the trunk: 'sitting on a bare curved branch, which is impossible'. The limb itself is now 'a little pasted in'.",
-    "hose_water": "'Like a rigid pipe', 'with no slack'. Now slack and bowed out in front. No rigid pipe, but the short piece at the fist reads as a sleeve: 'seems to stop at about waist height'. For v0.30.",
-    "blocked_hose": "'A separate slug-shaped object'. Now slimmer, with no highlight: 'as if the water is blocked there'.",
+    "hose_water": "'Seems to stop at about waist height, then the part at her hands starts again'. Now it runs on to the fist and hangs from it. Nobody has it stop or break, and 'stiff' stays.",
+    "fish_in_tree": "'Drawn on top of the leafy crown', a tuft that 'looks detached'. Now one limb, with no other arm. All three read the fish as impossible. What it cost: 'what looks like the tree's bent trunk'.",
+    "ducks_bread": "'Several crumbs lie on the grass past the pond edge'. Now only those on the water: no remark on it, and the duck reads as eating in all three pictures.",
+    "about_to_trip": "Read only in street pictures. Not redrawn. Probes put it in a garden, a park and a playground, twice each: all eleven pictures read in full.",
 }
 
-# what the v0.29 screen readers made of the templates that read poorly (vision/flaws_v029.md); none is under 0.9 this time
-WEAK_NOTES = {}
-SCREEN_NOTE = ("The v0.29 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The sleeping dog, the duck, the dog at the door, the trip's obstacle, the hose, its swelling, the fish and the heel went to the isolation bench first, "
-               "and every change was read in whole test scenes. 829 of 834 items had full marks, none was misread, and two, both clouds, were missed. "
-               "All 64 templates pass the gate, against 61, and each of the three that failed is on a drawing this release changed. The gate has read 64 twice before, and the next screen fell each time, and a retest of the unchanged v0.9 pictures with fresh readers moved it by five templates, "
-               "so this is not a measure of how much better they are. Four of the five readers of the trip still allow the walker may pass the box, and on a scorer who counted that at half marks it would fail. Readers' remarks did not move. AI readers describe "
+# what the v0.30 screen readers made of the templates that read poorly (vision/flaws_v030.md)
+WEAK_NOTES = {
+    "hang_laundry": "'Hanging the washing out', or 'taking it down because of the coming storm'. One half mark among three items, on a picture that put washing under storm clouds. For v0.31: a rule.",
+}
+SCREEN_NOTE = ("The v0.30 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The hose, the fish's limb, the crumbs, the reel and the box's width went to the isolation bench first, "
+               "and every change was read in whole test scenes. 872 of 877 items had full marks, none was misread, and one, clouds, was missed. "
+               "63 of 64 templates pass the gate, against 64, the failure being one half mark on washing under storm clouds. 19 pictures were identical to the pixel in v0.29 and v0.30, so they were read twice with nothing changed: "
+               "223 of their 230 items scored the same, and four templates moved by a half mark on pictures that had not changed. So a half mark is noise, and the gate moving by one is not a measure of anything. Readers' remarks did not move. AI readers describe "
                "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:scenes_v028/T2_park_s022.png@834,758,974,894>scenes/T2_park_s022.png@786,710,952,834", "The sleeping dog", "v0.28: 'sniffing the grass, lying down, or curled up asleep'. v0.29: turned three-quarters, its chin on its paws: 'curled up asleep', in all three of its pictures. Here on the same seed."),
-         ("crop:scenes_v028/T4_park_s443959.png@836,508,1184,880>scenes/T4_park_s728923.png@530,508,912,744", "The duck", "v0.28: 'swimming towards those crumbs'. v0.29: the neck arched, the bill at a crumb: 'bending its head down to peck at the crumbs'."),
-         ("crop:scenes_v028/T2_street_s14109_iso.png@770,632,1080,982>scenes/T2_street_s14109_iso.png@772,646,1080,1000", "The trip", "v0.28: 'he is moving past it, not squarely into it'. v0.29: a long low box across the line: 'so he looks about to trip over it or bump into it'. Four of five still allow he may pass. Here on the same seed."),
-         ("crop:scenes_v028/T2_garden_s012.png@118,626,262,852>scenes/T2_garden_s012.png@40,624,216,854", "The dog at the door", "v0.28: 'sits with a red lead in its mouth', no more. v0.29: beside the door and turned to it: 'as though asking to be taken for a walk'. Here on the same seed."),
-         ("crop:probes_v028/T3_garden_s23005.png@896,526,1360,910>probes/T3_garden_s23005.png@896,516,1360,912", "The hose in hand", "v0.28: 'like a rigid pipe'. v0.29: slack, and bowed out in front. No rigid pipe, but the short piece at the fist reads as a sleeve, once: 'seems to stop at about waist height'. Here on the same seed."),
-         ("crop:scenes_v028/T4_garden_s327962.png@1046,208,1310,426>probes/T3_garden_s23021.png@360,218,624,434", "The fish", "v0.28: 'looks pasted onto the leaves'. v0.29: on a limb, well out from the trunk: 'sitting on a bare curved branch, which is impossible'. The limb is now what looks 'a little pasted in'.")]
+FIXES = [("crop:probes_v029/T3_garden_s23035.png@896,516,1360,912>probes/T3_garden_s23038.png@896,516,1360,912", "The hose at the fist", "v0.29: 'seems to stop at about waist height, then the part at her hands starts again'. v0.30: it runs on to the fist and hangs from it. Nobody has it stop or break. 'Stiff' stays, as it has of every way of drawing it since v0.25."),
+         ("crop:probes_v029/T3_garden_s23021.png@360,218,624,434>probes/T3_garden_s23011.png@360,218,624,434", "The fish's limb", "v0.29: 'drawn on top of the leafy crown', a tuft that 'looks detached'. v0.30: one limb, no other arm. What it cost: 'what looks like the tree's bent trunk'."),
+         ("crop:probes_v029/T3_park_s23028.png@960,600,1320,840>probes/T3_park_s23048.png@960,600,1320,840", "The crumbs", "v0.29: 'several crumbs lie on the grass past the pond edge'. v0.30: only those on the water, and the duck reads as eating in all three of its pictures."),
+         ("crop:scenes_v029/T4_garden_s429914.png@230,760,520,960>scenes/T4_garden_s429914.png@230,760,520,960", "The reel", "v0.29: 'only a short stub of hose joined to nothing'. v0.30: the end of the hose on the grass with its nozzle on: 'a yellow nozzle lying on the grass'. Here on the same seed.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):

@@ -22,6 +22,41 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.30 round 2
+    "hosV_1": ("garden", 30141, {"events": ["hose_water"]}, "event", None),
+    "hosV_2": ("garden", 30142, {"events": ["hose_water"]}, "event", None),
+    "hosV_3": ("garden", 30143, {"events": ["hose_water"]}, "event", None),
+    "fshF_3": ("garden", 30161, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshF_4": ("park", 30162, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshF_5": ("garden", 30163, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "relC_1": ("garden", 30171, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    "relC_2": ("garden", 30172, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    # v0.30 (scene drawings by name, see the loop below; the cast is v0.29's)
+    "hosO_5": ("garden", 30141, {"events": ["hose_water"]}, "event", None),
+    "hosO_6": ("garden", 30142, {"events": ["hose_water"]}, "event", None),
+    "hosU_1": ("garden", 30141, {"events": ["hose_water"]}, "event", None),
+    "hosU_2": ("garden", 30142, {"events": ["hose_water"]}, "event", None),
+    "hosU_3": ("garden", 30143, {"events": ["hose_water"]}, "event", None),
+    "fshO_3": ("garden", 30161, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshO_4": ("park", 30162, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshG_3": ("garden", 30161, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshG_4": ("park", 30162, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshE_3": ("garden", 30161, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshE_4": ("park", 30162, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "trpA_1": ("garden", 30121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpA_2": ("playground", 30122, {"modules": ["about_to_trip"]}, "event", None),
+    "trpA_3": ("park", 30123, {"modules": ["about_to_trip"]}, "event", None),
+    "trpN_1": ("garden", 30121, {"modules": ["about_to_trip"]}, "event", None),
+    "trpN_2": ("playground", 30122, {"modules": ["about_to_trip"]}, "event", None),
+    "trpN_3": ("park", 30123, {"modules": ["about_to_trip"]}, "event", None),
+    "fedO_3": ("park", 30111, {"modules": ["ducks_bread"]}, "event", None),
+    "fedO_4": ("park", 30112, {"modules": ["ducks_bread"]}, "event", None),
+    "fedW_1": ("park", 30111, {"modules": ["ducks_bread"]}, "event", None),
+    "fedW_2": ("park", 30112, {"modules": ["ducks_bread"]}, "event", None),
+    "fedW_3": ("park", 30113, {"modules": ["ducks_bread"]}, "event", None),
+    "relO_1": ("garden", 30171, {"events": ["rake"]}, "hose_reel", ("el", "hose_reel")),
+    "relB_1": ("garden", 30171, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    "relB_2": ("garden", 30172, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
     # v0.29 round 3
     "hosT_1": ("garden", 29141, {"events": ["hose_water"]}, "event", None),
     "hosT_2": ("garden", 29142, {"events": ["hose_water"]}, "event", None),
@@ -378,13 +413,21 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     _L.SHADOW29 = "W" if name.startswith("slpW") else "O"
     import scenegen.templates as _T
     _T.SLEEP29 = {"slpO": "O", "slpW": "O", "slpB": "B", "slpC": "C"}.get(name[:4], "B")
-    _T.TRIP29 = {"trpL": "L", "trpW": "W", "trpP": "P", "trpX": "W", "trpY": "W"}.get(name[:4], "O")
+    _T.TRIP29 = {"trpL": "L", "trpW": "W", "trpP": "P", "trpX": "W", "trpY": "W", "trpA": "W", "trpN": "W"}.get(name[:4], "O")
     _T.TRIP_OBJ29 = "bucket" if name[:4] in ("trpO", "trpL") else None
-    _T.DUCK29 = {"fedO": "O", "fedL": "L"}.get(name[:4], "B")
+    _T.DUCK29 = {"fedO": "O", "fedL": "L", "fedW": "L"}.get(name[:4], "B")
+    if name in ("fedO_3", "fedO_4"):
+        _T.DUCK29 = "L"
     _T.DOOR29 = "B" if name.startswith(("wanB", "wanC", "wanD")) else "O"
-    _T.HOSE29 = "O" if name.startswith("hosO") else "B"
+    _T.HOSE29 = "O" if name == "hosO_1" else "B"
     _T.BULGE29 = "O" if name.startswith("blkO") else "B"
-    _T.FISH29 = "O" if name.startswith("fshO") else "B"
+    _T.FISH29 = "O" if name in ("fshO_1", "fshO_2") else "B"
+    _T.HOSE30 = {"hosU": "U", "hosV": "V"}.get(name[:4], "O")
+    _T.FISH30 = {"fshG": "G", "fshE": "E", "fshF": "F"}.get(name[:4], "O")
+    _T.TRIP_W30 = {"trpN": 60}.get(name[:4], 72)
+    _T.CRUMB30 = "W" if name.startswith("fedW") else "O"
+    import scenegen.settings as _Q
+    _Q.REEL30 = "B" if name.startswith(("relB", "relC")) else "O"
     rec = None
     for k in range(40):
         USAGE.clear()
