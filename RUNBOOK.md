@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.26 was made, written so that a fresh session can make the next one (v0.27) from this
+How each release from v0.12 to v0.27 was made, written so that a fresh session can make the next one (v0.28) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -193,3 +193,11 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   table, and the heap of leaves gave it `rake`'s other cue: the screen's one misread. When a redraw adds a cue, read it beside the template that already has that cue.
 - Writes to the exFAT drive fail now and then with `OSError 22`, and the file is intact: `tpdb_work/psub.py` retries.
 - The tier-4 isomorph can take hundreds of tries (676 in v0.26): run several seed lists side by side from the start. `iso_t4.py` stops each as soon as one exists.
+  Two lists can finish together: keep the one in `isomorph_summary.json` and move the other out.
+- When a tier-4 cell has not come after a dozen seeds, force a template set that placed in an earlier release before running more (`forced` in `build_one`; the record keeps it, so it rebuilds exactly).
+  Forced, the v0.24, v0.25 and v0.26 playground sets each placed within seconds where 219 free seeds had placed nothing: the difficulty is in the sets the planner draws, not the room. Say so in `fix_summary.py`.
+- A pose set at render time is overwritten when the renderer re-evaluates the action. To change a pose for one view, bake a twin action (`__p`, `Poser.build`), and let `render_assets.py` choose it.
+- Parallel runs may render into one library. `Library.ensure` now renders aside into `.render_<pid>` and moves the files in with the manifest last; before that, two runs left "image file is truncated".
+- Look closely at crops before drawing anything: the walkers' feet did point the right way, the hose did reach the fist, and what was wrong (the eye on the head's outline) was on nobody's list.
+- A bench win can fail to show in whole pictures. Shorter legs took the bench from eight remarks to three, on four cut-outs a side, and did not move the screen. `python vision/remark_topics.py vision/v<PREV> vision/v<TAG>` compares what two screens remark on, roughly; read the hits.
+- `package_release.py` keeps a zip that is already there, so delete `tpdb_v<this release>.zip` to rebuild it, after looking at it, and never with a pattern. Earlier zips stay.

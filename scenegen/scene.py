@@ -158,8 +158,12 @@ class PlacementError(Exception):
 # sandcastle, back from the sandbox's front rim ("a cardboard or wooden model", "its base seems to overlap the wooden frame"); bread-coloured
 # crumbs ("small stones or tiny fish"); a pale photo on the newspaper with no outline ("a dark square ... something the paw is holding"); and
 # nobody up against a lamp post, in front of it or beside it ("the post looks almost as if it grows out of his shoulder").
+# 25 (v0.27): the v0.26 screen, each drawing chosen on the bench (vision/isolation_v027.md): a hose rising to the fist from just under it, from the ground close by ("seems to end
+# at a rounded tip near her hip", "like a stiff loop standing in the air"); a lumpy heap of soil ("a neat flat-bottomed dome", "a thin brown arch"); two short drips on the soaked
+# box (running down its front they read as slats: "a wooden crate"); nobody sitting on air at a path's edge ("sitting in mid-air or on the edge of the path"); and a duck's wake
+# kept on the water ("wake lines run past the pond edge onto the grass").
 # Every record stores the revision it was made with, so it can be rebuilt exactly.
-PLACEMENT_REV = 24
+PLACEMENT_REV = 25
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

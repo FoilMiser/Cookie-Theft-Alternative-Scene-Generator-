@@ -164,12 +164,23 @@ class Poser:
         else:
             arms_rest(self)
         self.rig.key_pose(name)
+        turn = float(__import__("os").environ.get("TPDB_PROFILE", "-35"))
+        if turn and name not in PROFILE_SKIP:
+            # v0.27, chosen on the bench: a twin of the pose for full profile, the head turned a little toward the viewer (the eye sat on the head's outline: "face hidden",
+            # "hard to read"; turning the head worked for the newspaper dog, isolation_v026.md). Not with a hand-held thing at the face, which it would leave behind
+            pb = self.rig.arm.pose.bones["head"]
+            pb.rotation_quaternion = pb.rotation_quaternion @ Quaternion((0, 1, 0), math.radians(turn))
+            upd()
+            self.rig.key_pose(name + "__p")
         self.meta[name] = dict(lower=lower, upper=upper, **{k: v for k, v in meta.items() if k != "lower_args"})
         # hide this action's props again for the next pose
         for n in self.props.get(name, []):
             bpy.data.objects[n].hide_render = True
             bpy.data.objects[n].hide_viewport = True
         return name
+
+
+PROFILE_SKIP = ("photo", "drink", "sit_drink", "hose_inspect", "bucket_hat", "eat_ice_cream", "walk_ice_cream", "sit_ice_cream")
 
 
 # ================================================================== lower bodies
@@ -189,9 +200,17 @@ def lo_wide(P, lean=0.0, head_pitch=0.0):
 
 
 def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
+    foot27 = __import__("os").environ.get("TPDB_FOOT", "B") == "B"
     feet = {"L": (0.0, 0.17, 0.02), "R": (0.0, -0.20, 0.0)}
+    if foot27:
+        # v0.27, chosen on the bench: the back heel lifted, on its toe, so the stride shows its direction (both feet flat, with a heel much like a toe:
+        # "his head and arms face left", while "his legs and feet look like they stride towards the right")
+        feet["L"] = (0.0, 0.15, 0.055 * P.s)
     P.torso(lean=lean, drop=P.drop_hips_for(feet), head_pitch=head_pitch, head_turn=head_turn)
     P.place_legs(feet)
+    if foot27:
+        P.rig.aim_dir("foot_L", (0, -0.72, -0.70))
+        P.rig.aim_dir("foot_R", (0, -1, 0.02))
 
 
 def lo_run(P):
@@ -236,7 +255,9 @@ def lo_dig_lunge(P, lean=30.0, head_pitch=-12.0):
 def lo_sit(P, lean=-2.0, head_pitch=0.0):
     J, S, s = P.J, P.S, P.s
     drop = J["hip"] * S - J["knee"] * S
-    feet = {"L": (0.02, -0.40 * s, 0.0), "R": (-0.02, -0.40 * s, 0.0)}
+    # (v0.27: an adult's feet closer in, as the thigh is shorter: at 0.40 "he looks as if he is sliding")
+    fwd = 0.32 if s == 1.0 and J["hip"] < 0.80 else 0.40
+    feet = {"L": (0.02, -fwd * s, 0.0), "R": (-0.02, -fwd * s, 0.0)}
     P.torso(drop=drop, back=0.04 * S * s, lean=lean, head_pitch=head_pitch)
     P.place_legs(feet, hint=(0, -1, 1))
 
@@ -678,14 +699,18 @@ def _nozzle(P, F):
     """A hose end held in the fist: the hose runs in from below and behind, a short brass nozzle
     sticks out in front. No pistol grip, so it can never read as a gun."""
     u = P.u
+    noz27 = __import__("os").environ.get("TPDB_NOZ", "B") == "B"
     pts = [F.p(0, 0.13 * u, -0.16 * u), F.p(0, 0.09 * u, -0.06 * u), F.p(0, 0.04 * u, -0.005 * u), F.p(0, -0.025 * u, 0.012 * u)]
-    P.prop("hose", tube_mesh("hose", pts, 0.022 * u, "hose"))
+    if noz27:
+        # v0.27, chosen on the bench: the hose hangs from the fist, below it and in plain sight (run in from behind, past the forearm, it "seems to end at a rounded tip near her hip")
+        pts = [F.p(0, -0.012 * u, -0.22 * u), F.p(0, 0.012 * u, -0.11 * u), F.p(0, 0.026 * u, -0.02 * u), F.p(0, -0.025 * u, 0.012 * u)]
+    P.prop("hose", tube_mesh("hose", pts, 0.030 * u if noz27 else 0.022 * u, "hose"))
     P.prop("collar", cyl("collar", F.p(0, -0.020 * u, 0.012 * u), F.p(0, -0.050 * u, 0.014 * u), 0.026 * u, "yellow", seg=18))
     P.prop("tip", cyl("tip", F.p(0, -0.048 * u, 0.014 * u), F.p(0, -0.105 * u, 0.017 * u), 0.020 * u, "yellow", r1=0.011 * u, seg=18))
     tip = F.p(0, -0.108 * u, 0.017 * u)
     P.panchor("nozzle", tip)
     P.panchor("nozzle_aim", tip + F.d(0, -0.40, -0.10) * u)
-    P.panchor("hose_in", F.p(0, 0.13 * u, -0.16 * u))
+    P.panchor("hose_in", F.p(0, -0.012 * u, -0.22 * u) if noz27 else F.p(0, 0.13 * u, -0.16 * u))
 
 
 def up_hose_spray(P):
@@ -732,7 +757,26 @@ def _broom_tool(P, H, T, tool):
         P.panchor("broom_tip", H - d * 0.07 * u)
         P.prop("stick", cyl("stick", H + d * 0.08 * u, T + d * 0.06 * u, 0.016 * u, "wood"))
         q = Vector((0, 0, 1)).rotation_difference(d)
-        if __import__("os").environ.get("TPDB_BROOM", "A") == "A":
+        style = __import__("os").environ.get("TPDB_BROOM", "B")
+        if style == "B":
+            # v0.27, chosen on the bench: a dense corn broom. Bristles overlapping with no gaps, a straight cut edge and two bindings at the neck (the v0.26 fan's
+            # separate bristles read as tines: "a long yellow-headed rake", the v0.26 screen's one misread; isolation_v027.md)
+            ncam = nrm((-0.72, -0.62, 0.0))
+            wb = ncam.cross(d).normalized()
+            # (round 1's flare, 0.029 at the tips to 0.009 at the neck, was still "a yellow fanned head", "a broom or a fan rake": round 2 stands them nearly parallel)
+            for i in range(-5, 6):
+                P.prop(f"bristle{i + 5}", cyl(f"bristle{i + 5}", H - d * 0.12 * u + wb * (i * 0.0205 * u), H + d * 0.13 * u + wb * (i * 0.0125 * u), 0.024 * u, "yellow", seg=8, r1=0.020 * u))
+            P.prop("band2", cyl("band2", H + d * 0.13 * u, H + d * 0.165 * u, 0.046 * u, "red"))
+        elif style == "C":
+            # v0.27 bench: a yard broom: a straight wooden block across the end of the pole, a short dense row of bristles below it
+            ncam = nrm((-0.72, -0.62, 0.0))
+            wb = ncam.cross(d).normalized()
+            nb = d.cross(wb).normalized()
+            qb = Matrix((wb, nb, d)).transposed().to_quaternion()
+            P.prop("block", box("block", H + d * 0.055 * u, (0.44 * u, 0.055 * u, 0.055 * u), "wood", rot=qb, bevel=0.008 * u))
+            for i in range(-7, 8):
+                P.prop(f"bristle{i + 7}", cyl(f"bristle{i + 7}", H - d * 0.08 * u + wb * (i * 0.0285 * u), H + d * 0.04 * u + wb * (i * 0.0285 * u), 0.020 * u, "yellow", seg=6, r1=0.016 * u))
+        elif style == "A":
             # v0.26, chosen on the bench: a fan of bristles, each outlined, with its flat face to the viewer (the plain yellow wedge had "no
             # visible bristles" and read as "a dustpan or scraper", in all four cut-outs of the first round; isolation_v026.md)
             ncam = nrm((-0.72, -0.62, 0.0))
@@ -741,7 +785,8 @@ def _broom_tool(P, H, T, tool):
                 P.prop(f"bristle{i + 3}", cyl(f"bristle{i + 3}", H - d * 0.08 * u + wb * (i * 0.048 * u), H + d * 0.09 * u + wb * (i * 0.014 * u), 0.027 * u, "yellow", seg=8, r1=0.014 * u))
         else:
             P.prop("bristles", cyl("bristles", H - d * 0.07 * u, H + d * 0.09 * u, 0.115 * u, "yellow", seg=4, r1=0.05 * u))
-        P.prop("band", cyl("band", H + d * 0.07 * u, H + d * 0.11 * u, 0.04 * u, "red"))
+        if style != "C":
+            P.prop("band", cyl("band", H + d * 0.07 * u if style != "B" else H + d * 0.185 * u, H + d * 0.11 * u if style != "B" else H + d * 0.22 * u, 0.04 * u, "red"))
     elif tool == "dinner_fork":
         # v0.7: a giant dining fork, not a garden fork. Its flat face is turned toward the viewer (the
         # character's right and front, as for the frying pan) so the cutlery outline shows: a flat
@@ -1061,6 +1106,10 @@ def up_ice_cream(P):
     u = P.u
     m = P.lm("mouth")
     tgt = m + Vector((-0.03, -0.13, -0.11)) * u
+    if __import__("os").environ.get("TPDB_ICE", "B") == "B":
+        # v0.27, chosen on the bench: the scoop at the mouth (held up in front of the face: "looking at or eating it", "could be eating the ice cream or just holding it up")
+        # (round 1's, a little higher: "smelling it like a flower", "the pink ball sits right at his nose and mouth")
+        tgt = m + Vector((-0.02, -0.088, -0.128)) * u
     P.arms({"R": (tgt, (-1, 0.4, -0.8)), "L": P.rest_arm("L")})
     g = P.grip("R")
     P.prop("cone", cyl("cone", g + Vector((0, 0, 0.05)) * u, g + Vector((0, 0, -0.07)) * u, 0.040 * u, "wood_light", r1=0.004 * u))
@@ -1323,7 +1372,12 @@ def up_read_open(P, rz=55.0, k=1.25):
     C = ch + Vector((0, -0.30, -0.05)) * u
     F = Frame.euler(C, rx=48, rz=rz)
     w, h = 0.17 * k, 0.24 * k
-    P.arms({"R": (F.p(-(w + 0.005) * u, 0.012 * u, -0.07 * u), (-1, 0.5, -0.6)), "L": (F.p((w + 0.005) * u, 0.012 * u, -0.07 * u), (1, 0.5, -0.6))})
+    if __import__("os").environ.get("TPDB_BOOK", "B") == "B":
+        # v0.27, chosen on the bench: the near hand under the book's outer corner, its forearm below the page and not across it ("the hand sticks out past its right edge as a small
+        # rounded lump", "the forearm passes straight across the front of the book": four of four cut-outs); the far hand behind the far page
+        P.arms({"R": (F.p(-(w * 0.86) * u, 0.028 * u, -(h / 2 + 0.018) * u), (-1, 0.5, -0.9)), "L": (F.p((w * 0.80) * u, 0.030 * u, -(h / 2 - 0.05) * u), (1, 0.5, -0.6))})
+    else:
+        P.arms({"R": (F.p(-(w + 0.005) * u, 0.012 * u, -0.07 * u), (-1, 0.5, -0.6)), "L": (F.p((w + 0.005) * u, 0.012 * u, -0.07 * u), (1, 0.5, -0.6))})
     for side, sg in (("L", 1), ("R", -1)):
         q = F.q @ Quaternion((0, 0, 1), math.radians(sg * 12))
         Fp = Frame(F.p(sg * (w / 2) * u, 0.0, 0.0), q)
@@ -1612,6 +1666,9 @@ def make_people_actions(rig, ctx):
     for name, lower, largs, upper, desc, tags in acts:
         if name == "walk_read_open" and ctx.spec.get("hair") != "bob":
             largs = dict(largs, head_pitch=WALK_READ_PITCH_OTHERS)
+        if name == "walk_ice_cream" and os.environ.get("TPDB_ICE", "B") == "B":
+            # v0.27: this one is only drawn in full profile, so its head can turn in the pose itself, and the cone goes to the turned mouth
+            largs = dict(largs, head_turn=float(os.environ.get("TPDB_PROFILE", "-35")))
         P.build(name, lower, upper, lower_args=largs, description=desc, tags=tags, airborne="airborne" in tags)
     rig.reset()
     return P

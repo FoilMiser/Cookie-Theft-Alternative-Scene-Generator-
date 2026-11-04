@@ -18,6 +18,13 @@ def person_skeleton(kind):
         return dict(ankle=0.05, knee=0.26, hip=0.48, pelvis=0.53, chest=0.71, neck=0.79, head_base=0.82,
                     head_c=0.950, head_r=0.140, sh_x=0.115, sh_z=0.765, el_z=0.615, wr_z=0.485, hand_len=0.055,
                     hip_x=0.065, toe=0.09, s=0.66)
+    if __import__("os").environ.get("TPDB_BODY", "B") == "B":
+        # v0.27, chosen on the bench: legs an eighth shorter, the rest of the figure lowered with them, the shin kept so a sitter's feet still reach the ground ("very long, thin legs and a small
+        # torso", "long and thin relative to" the rest, on nearly every cut-out)
+        L_ = 0.10
+        return dict(ankle=0.07, knee=0.44, hip=0.84 - L_, pelvis=0.90 - L_, chest=1.16 - L_, neck=1.30 - L_, head_base=1.34 - L_,
+                    head_c=1.485 - L_, head_r=0.158, sh_x=0.175, sh_z=1.245 - L_, el_z=1.005 - L_, wr_z=0.785 - L_, hand_len=0.075,
+                    hip_x=0.09, toe=0.13, s=1.0)
     return dict(ankle=0.07, knee=0.45, hip=0.84, pelvis=0.90, chest=1.16, neck=1.30, head_base=1.34,
                 head_c=1.485, head_r=0.158, sh_x=0.175, sh_z=1.245, el_z=1.005, wr_z=0.785, hand_len=0.075,
                 hip_x=0.09, toe=0.13, s=1.0)
@@ -86,7 +93,9 @@ def build_person(spec):
 
     B = dict(chest=1.0, waist=1.0, hips=1.0, depth=1.0, belly=0.0, limbs=1.0)
     B.update(spec.get("build", {}))
-    if __import__("os").environ.get("TPDB_BODY", "O") == "A":
+    if __import__("os").environ.get("TPDB_BODY", "B") == "B":
+        B["limbs"] *= 1.14
+    if __import__("os").environ.get("TPDB_BODY", "B") == "A":
         # v0.26 bench: fuller from the side (nearly every cut-out of the first round: "the torso is extremely thin from the side", "very long,
         # thin legs"). Tried and left: the readers' words did not move (isolation_v026.md)
         B["depth"] *= 1.22
@@ -274,8 +283,12 @@ def build_person(spec):
             edges += [(i0, i0 + 1), (i0 + 1, i0 + 2)]
         skin_object("Legs", verts, edges, radii, spec["skin"], rig, wts)
 
-    if spec.get("belt") and bottom in ("pants", "shorts"):
-        zb = (pel + 0.024 * s) * S
+    if __import__("os").environ.get("TPDB_DRESS", "B") == "B" and bottom == "dress":
+        # v0.27, chosen on the bench: a belt at the join (the top and the bell drawn as two lobes: "two pieces with a visible join or drawing seam at the waist")
+        spec = dict(spec, belt="wood", buckle="sun")
+        pants_ob = shirt
+    if spec.get("belt") and bottom in ("pants", "shorts", "dress") and (bottom != "dress" or __import__("os").environ.get("TPDB_DRESS", "B") == "B"):
+        zb = (pel + (0.024 if bottom != "dress" else 0.050) * s) * S
         ring_pts = surface_points(pants_ob)
         band = [q for q in ring_pts if abs(q.z - zb) < 0.012 * S] or ring_pts
         bw = max(abs(q.x) for q in band) + 0.004 * k
@@ -502,6 +515,10 @@ def build_facial_hair(spec, rig, face, eye_z, k):
                 return False
             if c.z < mzr and c.z > -0.98:
                 return True
+            if __import__("os").environ.get("TPDB_BEARD", "B") == "B":
+                # v0.27: stopping short of the ear, so hair and beard do not join in one shape ("a chin strap, helmet strap or face mask", "a dark face covering or mask",
+                # now that the turned head shows it; "hair and beard merge into one dark shape")
+                return abs(c.x) > 0.60 and -0.9 < c.z < -0.34 and c.y < 0.05
             return abs(c.x) > 0.60 and -0.9 < c.z < 0.02 and c.y < 0.25
         _shell("Beard", face.c, (ax, ay, az), 0.004 * k, keep, col, rig, k, thick=0.020)
 

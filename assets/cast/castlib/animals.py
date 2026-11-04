@@ -533,6 +533,10 @@ def build_bird(spec):
         Ml = Matrix.LocRotScale(base + Vector((0, -bl * 0.35, -0.006 * k)), Quaternion(), Vector((bw * 0.85, bl * 0.42, 0.006 * k)))
     face.place("beak_up", up, Mu)
     face.place("beak_lo", lo, Ml)
+    if not duck and __import__("os").environ.get("TPDB_PECK", "B") == "B":
+        # v0.27: an eye on the side of the head, where a bird has one (from the side the head was "a red ball")
+        for sd, sg in (("L", 1), ("R", -1)):
+            ellipsoid(f"EyeSide_{sd}", hc + Vector((sg * hr * 0.86, -hr * 0.34, hr * 0.26)), (0.006 * k, 0.0105 * k, 0.0105 * k), "charcoal", rig, "head")
     Ml_open = Matrix.Translation(base) @ Matrix.Rotation(math.radians(28), 4, "X") @ Matrix.Translation(-base) @ Ml
     r_e = hr * 0.20
     for sd, sg in (("L", 1), ("R", -1)):
@@ -579,10 +583,15 @@ def make_bird_poses(rig, S, duck, bz):
         upd()
         M = pb.matrix.copy()
         h = Vector((0, 0, 0.004 * S))
-        pb.matrix = Matrix.Translation(h) @ Matrix.Rotation(math.radians(28), 4, "X") @ Matrix.Translation(-h) @ M
+        b27 = __import__("os").environ.get("TPDB_PECK", "B") == "B"
+        # v0.27, chosen on the bench: the body less tipped, the head out in front of it (its head a ball at the ground under a tail standing up: "could be tumbling or injured")
+        pb.matrix = Matrix.Translation(h) @ Matrix.Rotation(math.radians(20 if b27 else 28), 4, "X") @ Matrix.Translation(-h) @ M
         upd()
-        rig.aim_dir("neck", (0, -0.9, -0.5))
-        rig.aim_dir("head", (0, -0.7, -0.6))
+        rig.aim_dir("neck", (0, -0.62, -0.95) if b27 else (0, -0.9, -0.5))
+        # (the head bone runs up through the crown, so aiming it this way tips the face about 40 degrees below level, eye and beak showing)
+        rig.aim_dir("head", (0, -0.64, 0.77) if b27 else (0, -0.7, -0.6))
+        if b27:
+            rig.aim_dir("tail", (0, 1, 0.12))
         for sd in ("L", "R"):
             rig.aim_dir(f"leg_{sd}", (0, 0.05, -1))
 

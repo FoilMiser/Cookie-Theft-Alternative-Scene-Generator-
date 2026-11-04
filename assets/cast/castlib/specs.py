@@ -35,7 +35,7 @@ PEOPLE = {
                        top="tee", shirt="green", bottom="pants", pants="khaki", shoes="brown", belt="charcoal", buckle="gray",
                        build=dict(chest=1.10, waist=1.04, depth=1.06, limbs=1.06),
                        labels=L("man", ["man", "guy", "father", "dad", "person"], "adult_person", "adult", "skin3", "buzz_beard")),
-    "person.mei": dict(age="adult", scale=0.96, skin="skin4", hair="bob", hair_col="charcoal", top="tee", shirt="yellow",
+    "person.mei": dict(age="adult", scale=0.98, skin="skin4", hair="bob", hair_col="charcoal", top="tee", shirt="yellow",
                        bottom="dress", shoes="red", build=dict(chest=0.92, waist=0.86, hips=1.02),
                        labels=L("woman", ["woman", "lady", "mother", "mom", "person"], "adult_person", "adult", "skin4", "black_bob")),
     "person.leo": dict(age="teen", scale=0.92, head_scale=1.05, skin="skin1", hair="ponytail", hair_col="hair_brown", tie="red",

@@ -9,8 +9,10 @@ import io
 import json
 import math
 import os
+import shutil
 import subprocess
 import sys
+import time
 from collections import defaultdict
 
 from PIL import Image
@@ -19,8 +21,8 @@ from .draw import OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out026")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib026")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out027")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib027")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 
 
@@ -69,11 +71,26 @@ class Library:
         tmp = os.path.join(self.lib_dir, f".queue_{os.getpid()}.json")
         json.dump([list(v) for v in sorted(todo)], open(tmp, "w"))
         log(f"rendering {len(todo)} variants ...")
-        r = subprocess.run([sys.executable, RENDER_SET, self.cast_dir, self.lib_dir, tmp, str(self.samples)], capture_output=True, text=True)
+        # v0.27: rendered aside and moved in whole, the manifest last, as has() looks for it (searches side by side read each other's half-written images: "image file is truncated")
+        aside = os.path.join(self.lib_dir, f".render_{os.getpid()}")
+        os.makedirs(aside, exist_ok=True)
+        r = subprocess.run([sys.executable, RENDER_SET, self.cast_dir, aside, tmp, str(self.samples)], capture_output=True, text=True)
         log(r.stdout.strip()[-2000:])
         if r.returncode != 0:
             log(r.stderr[-2000:])
         os.remove(tmp)
+        for f in sorted(os.listdir(aside), key=lambda n: (n.endswith(".json") and not n.startswith("."), n)):
+            src, dst = os.path.join(aside, f), os.path.join(self.lib_dir, f)
+            if os.path.exists(dst):
+                os.remove(src)      # (another search got there first; a cast renders the same variant the same way)
+                continue
+            for k in range(20):
+                try:
+                    os.replace(src, dst)
+                    break
+                except OSError:
+                    time.sleep(0.5)
+        shutil.rmtree(aside, ignore_errors=True)
         missing = [v for v in todo if not self.has(vid(*v))]
         if missing:
             raise RuntimeError(f"render failed for {missing[:5]}")

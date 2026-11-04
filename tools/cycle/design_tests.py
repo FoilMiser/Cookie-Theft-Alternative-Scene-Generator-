@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a busy park: the older man's head, the tan newspaper dog, the ducks and the brown bag
-    ("park", 4, 26401, {"modules": ["ducks_bread"], "contradictions": ["dog_reading"], "events": ["carry_bag", "ice_cream"]}, "tomascarry"),
-    # a street: the swept leaves, the teenager's cap, a photographer, the lamp post keeping clear of them all
-    ("street", 3, 26402, {"events": ["sweep", "carry_box", "photo"]}, "teen"),
-    # a garden: the dog at the door with open eyes, the swept leaves on the path
-    ("garden", 3, 26403, {"modules": ["dog_wants_walk"], "events": ["sweep", "kick_ball"]}, None),
-    # a playground: the sandcastle, the older man on the seesaw
-    ("playground", 3, 26404, {"modules": ["seesaw_heavy"], "events": ["sandbox"]}, None),
-    # a busy street: the white newspaper dog, the swept leaves, the dropped ice cream
-    ("street", 4, 26405, {"modules": ["ice_cream_drop", "about_to_trip"], "contradictions": ["dog_reading"], "events": ["sweep"]}, None),
-    # a park: the bird feeder's brown bag, the fisherman, a dog walker by the lamp
-    ("park", 3, 26406, {"events": ["feed_birds", "fishing", "walk_dog"]}, None),
+    # a busy street: faces in profile, the walker about to trip, the walking ice cream, the broom
+    ("street", 4, 27401, {"modules": ["about_to_trip", "ice_cream_drop"], "events": ["sweep", "ice_cream", "walk_dog"]}, None),
+    # a garden: the broom beside the rake, and the hose to the fist
+    ("garden", 3, 27402, {"events": ["sweep", "rake", "hose_water"]}, None),
+    # a park: the pecking birds, the soil heap, the bearded man, a dress
+    ("park", 3, 27403, {"events": ["feed_birds", "dig", "carry_box", "fishing"]}, None),
+    # a playground: the shorter figures on the seesaw, a photographer, a kicker
+    ("playground", 3, 27404, {"modules": ["seesaw_heavy"], "events": ["photo", "ice_cream"]}, None),
+    # a garden: the soaked box, a stalking cat, sitting on air off the path
+    ("garden", 4, 27405, {"modules": ["sprinkler_package", "cat_stalks_bird"], "contradictions": ["sitting_on_air"], "events": ["rake"]}, None),
+    # a street: the bicycle's wheels in its rack, walkers, a bench
+    ("street", 3, 27406, {"contradictions": ["fish_in_tree"], "events": ["run", "carry_bag", "read_bench"]}, "filler_bike_rack"),
 ]
 
 

@@ -35,7 +35,7 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.26.0"
+BUILDER_VERSION = "0.27.0"
 
 
 def write_config(out_dir, fam, cls, labels, poses, expressions, states, affordances, prop_objects=(), extra=None):
@@ -81,6 +81,8 @@ def main(out_dir, only=None):
             hide = sorted(set(P.hides.get(name, [])))
             hideable |= set(hide)
             poses[name] = {"action": name, "frame": 1, "show": shown, "hide": hide, "props": parts, "airborne": bool(meta.get("airborne"))}
+            if name + "__p" in bpy.data.actions:
+                poses[name]["action_profile"] = name + "__p"
             catalog["actions"][name] = {"lower": meta["lower"], "upper": meta["upper"], "description": meta["description"],
                                         "tags": meta["tags"], "props": parts,
                                         "prop_anchors": sorted(set(P.anchors.get(name, [])))}

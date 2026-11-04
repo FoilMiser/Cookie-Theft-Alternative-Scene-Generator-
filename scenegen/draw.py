@@ -255,6 +255,9 @@ def blanket(cx, cy, s=1.0):
 SQUARE_STYLE20 = "C"
 
 
+WHEEL27 = "B"
+
+
 def wheel(cx, cy, r, square=False, col=None, v12=None):
     col = col or C["charcoal"]
     if square and v12 == "barrow20":
@@ -308,6 +311,16 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
         for ax, ay in ((-1, -1), (1, -1), (1, 1), (-1, 1)):
             svg += line(cx, cy, cx + ax * (r - t) * 0.92, cy + ay * (r - t) * 0.92, OUT, max(2.0, r * 0.09))
         return svg + circ(cx, cy, r * 0.2, C["charcoal"], OW * 0.6)
+    if v12 == "bike" and WHEEL27 == "B":
+        # v0.27: a tyre round spokes, the ground showing through (solid, the wheels read as "solid black disc wheels")
+        t = max(3.0, r * 0.20)
+        svg = ""
+        for i in range(8):
+            a = i * math.pi / 8
+            svg += line(cx - math.cos(a) * (r - t), cy - math.sin(a) * (r - t), cx + math.cos(a) * (r - t), cy + math.sin(a) * (r - t), C["slate"], max(1.2, r * 0.05))
+        svg += f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r - t / 2:.1f}" fill="none" stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/>'
+        svg += f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{r - t / 2:.1f}" fill="none" stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
+        return svg + circ(cx, cy, r * 0.16, C["gray"], OW * 0.6)
     return circ(cx, cy, r, col) + circ(cx, cy, r * 0.3, C["gray"], OW * 0.6)
 
 
@@ -822,7 +835,8 @@ def wet_marks(x, y, s=1.0, w=74, h=50):
     splashing off the lid's edges and a puddle at its foot (drops drawn above the lid read as "water coming out of the box")."""
     svg = ""      # (the puddle at its foot is drawn under the box by the template)
     # (no darker wet patches: on the bench the blotches made the box "a hay or straw bale", "a crate", "wood grain")
-    for dx, top, bot in ((-0.36, -0.98, -0.40), (0.30, -0.98, -0.18)):
+    # (v0.27: short, from the lid's edge: two lines down its whole front read as slats: "a wooden crate")
+    for dx, top, bot in ((-0.30, -0.98, -0.66), (0.22, -0.98, -0.52)):
         svg += f'<path d="M {P(x + dx * w * s, y + top * h * s)} L {P(x + dx * w * s, y + bot * h * s)}" stroke="{C["water_light"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
         svg += circ(x + dx * w * s, y + bot * h * s + 2 * s, 2.6 * s, C["water_light"], 0)
     # water running off the lid's two front corners
@@ -972,6 +986,18 @@ def water_stream(p0, direction, s=1.0, length=170, upward=False, spread=0.0, spl
     xs = [p0[0], c1[0], c2[0], end[0]]
     ys = [p0[1], c1[1], c2[1], end[1]]
     return svg, (min(xs) - 12, min(ys) - 22 * s, max(xs) + 12, max(ys) + 22 * s), end
+
+
+def dirt_heap(x, y, s=1.0, w=50, h=46):
+    """v0.27: a lumpy heap of dug soil with clods at its foot (one smooth curve read as "a neat flat-bottomed dome", "a thin brown arch")."""
+    W, H_ = w * s, h * s
+    d = (f"M {P(x - W, y)} Q {P(x - W * 0.86, y - H_ * 0.42)} {P(x - W * 0.52, y - H_ * 0.52)} Q {P(x - W * 0.40, y - H_ * 1.0)} {P(x - W * 0.02, y - H_ * 0.98)} "
+         f"Q {P(x + W * 0.36, y - H_ * 0.96)} {P(x + W * 0.46, y - H_ * 0.56)} Q {P(x + W * 0.86, y - H_ * 0.46)} {P(x + W, y)} Z")
+    svg = shape(d, C["soil"])
+    svg += f'<path d="M {P(x - W * 0.30, y - H_ * 0.58)} q {W * 0.14:.1f} {-H_ * 0.14:.1f} {W * 0.30:.1f} {-H_ * 0.05:.1f} M {P(x + W * 0.02, y - H_ * 0.28)} q {W * 0.16:.1f} {-H_ * 0.10:.1f} {W * 0.30:.1f} {H_ * 0.02:.1f}" fill="none" stroke="{OUT}" stroke-width="{1.8 * s + 0.4:.1f}" stroke-linecap="round"/>'
+    for dx, dy, r in ((-1.04, -0.03, 5.0), (1.06, -0.05, 5.5), (0.70, 0.03, 4.0), (-0.62, 0.04, 3.6)):
+        svg += circ(x + dx * W, y + dy * H_, r * s, C["soil"], OW * 0.55)
+    return svg
 
 
 def dustpan(x, y, s=1.0, f=1, col=None):

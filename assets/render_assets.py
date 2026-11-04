@@ -379,6 +379,9 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
         if True:
             if True:
                 pose_spec = cfg["poses"][pose_name]
+                if yaw == 90 and pose_spec.get("action_profile"):
+                    # v0.27: in full profile, the pose's twin with the head turned a little toward the viewer
+                    pose_spec = dict(pose_spec, action=pose_spec["action_profile"])
                 apply_pose(root, pose_spec)
                 apply_pose_objects(cfg, pose_name)
                 if cfg.get("expression_states"):
@@ -387,6 +390,14 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
                     apply_expression(face, expr, expressions)
                 root.rotation_mode = "XYZ"
                 root.rotation_euler = (0.0, 0.0, math.radians(yaw))
+                if cfg.get("profile_turn") and yaw == 90 and pose_name not in cfg.get("profile_skip", ()):
+                    # v0.27: a head in full profile turned a little toward the viewer
+                    from mathutils import Quaternion
+                    for arm in [o for o in asset_objects(root) if o.type == "ARMATURE"]:
+                        pb = arm.pose.bones.get("head")
+                        if pb is not None:
+                            pb.rotation_mode = "QUATERNION"
+                            pb.rotation_quaternion = pb.rotation_quaternion @ Quaternion((0, 1, 0), math.radians(cfg["profile_turn"]))
                 bpy.context.view_layer.update()
 
                 corners, fwd = frame_camera(scene, cam, root)

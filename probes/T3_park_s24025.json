@@ -6,8 +6,8 @@
  "seed": 24025,
  "mirror": true,
  "versions": {
-  "generator": "0.26.0",
-  "cast_builder": "0.26.0",
+  "generator": "0.27.0",
+  "cast_builder": "0.27.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,19 +58,19 @@
  "features": [],
  "templates": [
   {
-   "id": "fishing",
-   "kind": "event",
+   "id": "ladder_nothing",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "push_stroller",
+   "id": "balloon",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "run",
+   "id": "feed_birds",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -80,119 +80,197 @@
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A grandfather is fishing",
-   "accepted": {
-    "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
-    ],
-    "what": [
-     "fishing",
-     "fishing in the pond",
-     "fishing rod",
-     "catching fish"
-    ]
-   },
-   "key": "fishing",
+   "type": "entity",
+   "text": "There is a ladder",
+   "accepted": [
+    "ladder",
+    "a ladder",
+    "step ladder"
+   ],
+   "key": "ladder",
    "elements": [
-    "fisher_1",
-    "line_2"
+    "ladder_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "fishing",
+   "template": "ladder_nothing",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": 0.031,
+    "animate": false,
+    "s": -0.358,
     "r": 0,
     "d": 0.0,
-    "f": 0.47,
-    "a": 4.72,
-    "zipf_raw": 4.47,
-    "aoa_raw": 4.72,
+    "f": 0.03,
+    "a": 4.4,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
     "domain": null,
-    "area_px": 15976
+    "area_px": 9236
    },
-   "b": -1.296,
-   "p0": 0.785,
-   "pm1": 0.573,
+   "b": -0.47,
+   "p0": 0.615,
+   "pm1": 0.371,
    "aoi_cells": [
+    "ML",
     "MC",
-    "MR",
     "BC"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the ladder",
+   "accepted": [
+    "the ladder is odd",
+    "something strange about the ladder",
+    "that ladder"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_1"
+   ],
+   "cues": [
+    "ladder_1"
+   ],
+   "effect": [
+    "ladder_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.358,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 9236
+   },
+   "b": 0.119,
+   "p0": 0.47,
+   "pm1": 0.246,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The ladder is leaning on nothing, so it should fall over",
+   "accepted": [
+    "leaning on nothing",
+    "nothing holding it up",
+    "it should fall",
+    "not against anything",
+    "ladder standing by itself"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_1"
+   ],
+   "cues": [
+    "ladder_1"
+   ],
+   "effect": [
+    "ladder_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.358,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 9236
+   },
+   "b": 1.319,
+   "p0": 0.211,
+   "pm1": 0.09,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "action",
-   "text": "A grandmother is pushing a baby in a stroller",
+   "text": "A girl is holding a balloon",
    "accepted": {
     "who": [
-     "grandmother",
-     "grandma",
-     "old woman",
-     "older woman",
-     "lady",
-     "woman"
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
     ],
     "what": [
-     "pushing a stroller",
-     "pushing a pram",
-     "pushing a baby carriage",
-     "baby",
-     "walking with a baby",
-     "buggy"
+     "holding a balloon",
+     "balloon",
+     "has a balloon"
     ]
    },
-   "key": "stroller",
+   "key": "balloon",
    "elements": [
-    "pusher_3",
-    "stroller_4"
+    "balloonkid_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "push_stroller",
+   "template": "balloon",
    "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.42,
+    "s": -0.462,
     "r": 0,
     "d": 0.0,
-    "f": -0.92,
-    "a": 7.84,
-    "zipf_raw": 3.08,
-    "aoa_raw": 7.84,
+    "f": -0.1,
+    "a": 4.37,
+    "zipf_raw": 3.9,
+    "aoa_raw": 4.37,
     "domain": null,
-    "area_px": 27672
+    "area_px": 7976
    },
-   "b": -1.074,
-   "p0": 0.745,
-   "pm1": 0.518,
+   "b": -0.879,
+   "p0": 0.707,
+   "pm1": 0.47,
    "aoi_cells": [
-    "ML",
-    "BL",
     "BC"
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "action",
-   "text": "A man is running",
+   "text": "A man is feeding the birds",
    "accepted": {
     "who": [
      "man",
@@ -202,47 +280,50 @@
      "person"
     ],
     "what": [
-     "running",
-     "jogging",
-     "out for a run",
-     "exercising"
+     "feeding the birds",
+     "feeding pigeons",
+     "throwing seeds",
+     "feeding birds",
+     "birds"
     ]
    },
-   "key": "running",
+   "key": "birds",
    "elements": [
-    "runner_5"
+    "feeder_person_3",
+    "bird_4",
+    "bird_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "run",
+   "template": "feed_birds",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.11,
+    "s": 0.181,
     "r": 0,
     "d": 0.0,
-    "f": 1.23,
-    "a": 4.47,
-    "zipf_raw": 5.23,
-    "aoa_raw": 4.47,
+    "f": 0.6,
+    "a": 3.52,
+    "zipf_raw": 4.6,
+    "aoa_raw": 3.52,
     "domain": null,
-    "area_px": 17856
+    "area_px": 19736
    },
-   "b": -1.564,
-   "p0": 0.827,
-   "pm1": 0.637,
+   "b": -1.41,
+   "p0": 0.804,
+   "pm1": 0.601,
    "aoi_cells": [
-    "ML",
-    "BL"
+    "BC",
+    "BR"
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -285,7 +366,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -328,7 +409,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -353,7 +434,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.707,
+    "s": 0.863,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -361,18 +442,18 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 41444
+    "area_px": 51684
    },
-   "b": -1.207,
-   "p0": 0.77,
-   "pm1": 0.552,
+   "b": -1.284,
+   "p0": 0.783,
+   "pm1": 0.571,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -395,7 +476,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.144,
+    "s": 1.169,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -403,11 +484,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 76720
+    "area_px": 79524
    },
-   "b": -1.206,
-   "p0": 0.77,
-   "pm1": 0.551,
+   "b": -1.219,
+   "p0": 0.772,
+   "pm1": 0.555,
    "aoi_cells": [
     "MC",
     "MR",
@@ -416,7 +497,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -458,7 +539,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -504,18 +585,18 @@
  ],
  "counts": {
   "content": 9,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 9
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.743,
-   "inference": null
+   "content": 0.719,
+   "inference": 0.341
   },
   "theta_minus_1": {
-   "content": 0.522,
-   "inference": null
+   "content": 0.492,
+   "inference": 0.168
   }
  },
  "bands": {
@@ -523,7 +604,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -537,14 +618,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "19 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 19,
-  "edge_density": 0.0244,
-  "png_bytes": 204342,
-  "jpeg_bytes": 132221
+  "objects": 17,
+  "edge_density": 0.0228,
+  "png_bytes": 178026,
+  "jpeg_bytes": 122185
  },
  "signature": [
   [
@@ -556,7 +637,15 @@
    0
   ],
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -633,8 +722,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 114648,
-   "occlusion": 0.264
+   "visible_px": 114356,
+   "occlusion": 0.265
   },
   {
    "id": "tree_line",
@@ -660,8 +749,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 41444,
-   "occlusion": 0.199
+   "visible_px": 51684,
+   "occlusion": 0.001
   },
   {
    "id": "pond",
@@ -675,38 +764,8 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 76720,
-   "occlusion": 0.091
-  },
-  {
-   "id": "line_2",
-   "label": "Fishing line",
-   "role": "scored",
-   "z": -65,
-   "bbox": [
-    1170.0,
-    472.0,
-    1220.0,
-    676.0
-   ],
-   "area_px": 824,
-   "visible_px": 816,
-   "occlusion": 0.01
-  },
-  {
-   "id": "filler_bush_b",
-   "label": "Bush",
-   "role": "filler",
-   "z": 560,
-   "bbox": [
-    694.0,
-    526.0,
-    786.0,
-    584.0
-   ],
-   "area_px": 3880,
-   "visible_px": 3880,
-   "occlusion": 0.0
+   "visible_px": 79524,
+   "occlusion": 0.058
   },
   {
    "id": "tree_small",
@@ -784,113 +843,75 @@
    "occlusion": 0.0
   },
   {
-   "id": "fisher_1",
-   "label": "person.tomas__fish__neutral__y090",
+   "id": "ladder_1",
+   "label": "Ladder leaning on nothing",
    "role": "scored",
-   "z": 835,
+   "z": 766.25,
    "bbox": [
-    872.0,
-    472.0,
-    1172.0,
-    840.0
+    480.0,
+    496.0,
+    604.0,
+    774.0
    ],
-   "area_px": 15160,
-   "visible_px": 15160,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.tomas__fish__neutral__y090",
-    "family": "person.tomas",
-    "scale": 0.4583,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "grandfather",
-     "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
-     }
-    }
-   }
-  },
-  {
-   "id": "pusher_3",
-   "label": "person.rosa__push__smile__y090",
-   "role": "scored",
-   "z": 865.69,
-   "bbox": [
-    448.0,
-    578.0,
-    586.0,
-    872.0
-   ],
-   "area_px": 14792,
-   "visible_px": 14480,
-   "occlusion": 0.021,
-   "asset": {
-    "variant": "person.rosa__push__smile__y090",
-    "family": "person.rosa",
-    "scale": 0.4697,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "grandmother",
-     "accepted_names": [
-      "grandmother",
-      "grandma",
-      "old woman",
-      "older woman",
-      "lady",
-      "woman"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin1",
-      "hair": "gray_bun"
-     }
-    }
-   }
-  },
-  {
-   "id": "stroller_4",
-   "label": "Baby stroller",
-   "role": "scored",
-   "z": 869.69,
-   "bbox": [
-    566.0,
-    694.0,
-    722.0,
-    872.0
-   ],
-   "area_px": 13192,
-   "visible_px": 13192,
+   "area_px": 9236,
+   "visible_px": 9236,
    "occlusion": 0.0
   },
   {
-   "id": "runner_5",
-   "label": "person.ben__run__focused__y090",
+   "id": "balloonkid_2",
+   "label": "person.nia__balloon__smile__y045",
    "role": "scored",
-   "z": 937.21,
+   "z": 917.11,
    "bbox": [
-    236.0,
-    622.0,
-    398.0,
-    942.0
+    718.0,
+    680.0,
+    792.0,
+    918.0
    ],
-   "area_px": 17856,
-   "visible_px": 17856,
+   "area_px": 7976,
+   "visible_px": 7976,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.ben__run__focused__y090",
+    "variant": "person.nia__balloon__smile__y045",
+    "family": "person.nia",
+    "scale": 0.4888,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "feeder_person_3",
+   "label": "person.ben__feed_birds_low__smile__y090",
+   "role": "scored",
+   "z": 955.06,
+   "bbox": [
+    1024.0,
+    648.0,
+    1144.0,
+    960.0
+   ],
+   "area_px": 16952,
+   "visible_px": 16920,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.ben__feed_birds_low__smile__y090",
     "family": "person.ben",
-    "scale": 0.4962,
+    "scale": 0.5028,
     "mirrored": true,
     "labels": {
      "everyday_name": "man",
@@ -911,34 +932,79 @@
    }
   },
   {
-   "id": "speedlines_6",
-   "label": "Motion lines behind the runner",
+   "id": "seeds_6",
+   "label": "Seeds",
    "role": "setting",
-   "z": 938.21,
+   "z": 956.06,
    "bbox": [
-    338.0,
-    706.0,
-    428.0,
-    792.0
+    950.0,
+    798.0,
+    1032.0,
+    964.0
    ],
-   "area_px": 284,
-   "visible_px": 284,
-   "occlusion": 0.0
+   "area_px": 652,
+   "visible_px": 568,
+   "occlusion": 0.129
   },
   {
-   "id": "filler_rock",
-   "label": "Rock",
-   "role": "filler",
-   "z": 960,
+   "id": "bird_4",
+   "label": "animal.bird_02__peck__neutral__y090",
+   "role": "scored",
+   "z": 961.06,
    "bbox": [
-    712.0,
-    914.0,
-    808.0,
-    962.0
+    962.0,
+    924.0,
+    1028.0,
+    964.0
    ],
-   "area_px": 3740,
-   "visible_px": 3740,
-   "occlusion": 0.0
+   "area_px": 1408,
+   "visible_px": 1408,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_02__peck__neutral__y090",
+    "family": "animal.bird_02",
+    "scale": 0.3636,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "bluebird",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
+  },
+  {
+   "id": "bird_5",
+   "label": "animal.bird_01__peck__neutral__y090",
+   "role": "scored",
+   "z": 967.06,
+   "bbox": [
+    884.0,
+    930.0,
+    950.0,
+    970.0
+   ],
+   "area_px": 1408,
+   "visible_px": 1408,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_01__peck__neutral__y090",
+    "family": "animal.bird_01",
+    "scale": 0.3652,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "robin",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
   },
   {
    "id": "filler_bin_p2",
@@ -963,14 +1029,14 @@
  "attempts": [
   [
    23025,
-   "could not place push_stroller; could not place run"
+   "could not place ladder_nothing"
   ],
   [
    24025,
-   "layout 2: accepted after 1 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 1,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 23025,
@@ -980,12 +1046,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "fishing",
-    "push_stroller",
-    "run"
+    "balloon",
+    "feed_birds"
+   ],
+   "contradictions": [
+    "ladder_nothing"
    ]
   },
-  "placement_rev": 24
+  "placement_rev": 25
  },
  "probe": true
 }

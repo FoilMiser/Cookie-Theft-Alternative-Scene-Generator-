@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.26, v0.25, v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.27, v0.26, v0.25, v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,60 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.27 round 2 (out_D = round 1's winners, a narrower corn broom, the scoop at the lips, the hand under the book, the lip-coloured mouth; out_E = out_D and shorter, thicker legs)
+    "brmD_1": ("garden", 27131, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.tomas"])),
+    "brmD_2": ("street", 27132, {"events": ["sweep"]}, "event", None),
+    "brmD_3": ("garden", 27134, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.rosa"])),
+    "brmR_2": ("garden", 27135, {"events": ["sweep", "rake"]}, "full", None),
+    "icwD_1": ("street", 27201, {"events": ["ice_cream"]}, "event", ("pose", "person.dev__walk_ice_cream")),
+    "icwD_2": ("park", 27202, {"events": ["ice_cream"]}, "event", ("pose", "__walk_ice_cream")),
+    "trpD_1": ("street", 27111, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.leo"])),
+    "trpD_2": ("garden", 27112, {"modules": ["about_to_trip"]}, "event", None),
+    "hosD_1": ("garden", 27151, {"events": ["hose_water"]}, "event", None),
+    "bodD_1": ("street", 26102, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "bodD_2": ("garden", 26171, {"events": ["water_flowers"]}, "event", None),
+    "bodD_3": ("playground", 26172, {"events": ["play_catch"]}, "event", None),
+    "bodD_4": ("park", 27204, {"events": ["read_bench"]}, "event", None),
+    "bodE_1": ("street", 26102, {"events": ["carry_bag"]}, "event", ("fam", "carry_bag", ["person.tomas"])),
+    "bodE_2": ("garden", 26171, {"events": ["water_flowers"]}, "event", None),
+    "bodE_3": ("playground", 26172, {"events": ["play_catch"]}, "event", None),
+    "bodE_4": ("park", 27204, {"events": ["read_bench"]}, "event", None),
+    # v0.27 (out_O = the v0.26 drawings; out_B = the head turned in profile, the back heel lifted, the scoop at the mouth, the corn broom, the pecking bird's head out in front, a belt on the dress,
+    # the hose hanging from the fist; out_C = out_B with the yard broom)
+    "proO_1": ("park", 27101, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.tomas"])),
+    "proO_2": ("garden", 27102, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.rosa"])),
+    "proO_3": ("street", 27103, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.dev"])),
+    "proO_4": ("garden", 27104, {"modules": ["kite_in_tree"]}, "event", None),
+    "proB_1": ("park", 27101, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.tomas"])),
+    "proB_2": ("garden", 27102, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.rosa"])),
+    "proB_3": ("street", 27103, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.dev"])),
+    "proB_4": ("garden", 27104, {"modules": ["kite_in_tree"]}, "event", None),
+    "trpO_1": ("street", 27111, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.leo"])),
+    "trpO_2": ("garden", 27112, {"modules": ["about_to_trip"]}, "event", None),
+    "trpB_1": ("street", 27111, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.leo"])),
+    "trpB_2": ("garden", 27112, {"modules": ["about_to_trip"]}, "event", None),
+    "icrO_1": ("street", 27121, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.dev"])),
+    "icrO_2": ("park", 27122, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.mei"])),
+    "icrB_1": ("street", 27121, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.dev"])),
+    "icrB_2": ("park", 27122, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.mei"])),
+    "brmA_1": ("garden", 27131, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.tomas"])),
+    "brmA_2": ("street", 27132, {"events": ["sweep"]}, "event", None),
+    "brmB_1": ("garden", 27131, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.tomas"])),
+    "brmB_2": ("street", 27132, {"events": ["sweep"]}, "event", None),
+    "brmC_1": ("garden", 27131, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.tomas"])),
+    "brmC_2": ("street", 27132, {"events": ["sweep"]}, "event", None),
+    "brmR_1": ("garden", 27133, {"events": ["sweep", "rake"]}, "full", None),
+    "pckO_1": ("playground", 27141, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "pckB_1": ("playground", 27141, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "pckB_2": ("park", 27142, {"events": ["feed_birds"]}, "event", None),
+    "hosB_1": ("garden", 27151, {"events": ["hose_water"]}, "event", None),
+    "hosB_2": ("garden", 27152, {"modules": ["blocked_hose"]}, "event", None),
+    "pkgB_1": ("garden", 27161, {"modules": ["sprinkler_package"]}, "package", None),
+    "pkgB_2": ("park", 27162, {"modules": ["sprinkler_package"]}, "package", None),
+    "digB_1": ("park", 27171, {"events": ["dig"]}, "event", None),
+    "digB_2": ("garden", 27172, {"events": ["dig"]}, "event", None),
+    "drsO_1": ("street", 27191, {"events": ["carry_box"]}, "event", ("fam", "carry_box", ["person.mei"])),
+    "drsB_1": ("street", 27191, {"events": ["carry_box"]}, "event", ("fam", "carry_box", ["person.mei"])),
     # v0.26 (BENCH_CAST/BENCH_LIB name the bench cast: out_A = old A, teen C, reading dog A, feed A; out_B = old B, teen D, reading dog B,
     # feed B; out_C = old C)
     "oldA_1": ("park", 26101, {"events": ["fishing"]}, "event", ("fam", "fishing", ["person.tomas"])),
@@ -170,6 +224,8 @@ def accepted(rec, rule):
     if isinstance(rule, tuple):
         if rule[0] == "fam":
             return bool(fams_of(rec, rule[1]) & set(rule[2]))
+        if rule[0] == "pose":
+            return any(rule[1] in e.get("asset", {}).get("variant", "") for e in rec["elements"])
         if rule[0] == "el":
             return any(e["id"].startswith(rule[1]) for e in rec["elements"])
         if rule[0] == "obj":

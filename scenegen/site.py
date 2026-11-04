@@ -49,41 +49,34 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v025", "v026"
+PREV, CUR = "v026", "v027"
 
-# the templates whose drawing v0.26 changed for the v0.25 screen (vision/flaws_v025.md); each went to the isolation bench first
-# (vision/isolation_v026.md) and was read in whole test scenes (vision/design_tests_v026.md)
+# the templates whose drawing v0.27 changed for the v0.26 screen (vision/flaws_v026.md); each went to the isolation bench first
+# (vision/isolation_v027.md) and was read in whole test scenes (vision/design_tests_v027.md)
 REDRAWN_NOTES = {
-    "sweep": "Nothing to sweep, so a heap of leaves at the broom, which worked: 'sweeping up a pile of autumn leaves'. And a fan of bristles, as the old wedge was 'a dustpan or scraper' on the bench, which did not: one reader saw 'a long yellow-headed rake'. Worse than v0.25, by this release's own redraw.",
-    "dog_wants_walk": "'With its eyes shut', the wish never stated. The neutral face only: 'as if it is asking to go for a walk'.",
-    "dog_reading": "'A monkey, an otter, or a person in a costume', 'a person in a spacesuit or a small robot'. Its head up and turned a little to the viewer, its tail up: only ever a dog now.",
-    "feed_birds": "'A paper bag, a cup or a carton'. Now a brown paper bag: 'a brown paper bag' or 'a paper bag' for every feeder.",
-    "ducks_bread": "'Swimming towards the food', its purpose only implied. The same brown bag and bread-coloured crumbs; read in full.",
-    "sandbox": "'Very straight, boxy edges ... a cardboard or wooden model'. Heaped sand with bucket-shaped towers: 'a sandcastle with three towers and a small red flag'.",
+    "sweep": "A fan of bristles read as 'a long yellow-headed rake', the one misread. Now dense and nearly parallel with two bindings, read beside a rake on the bench: no reader said rake in its three pictures.",
+    "ice_cream": "'Looking at or eating it', the cone held up before the face. Now the scoop at the lips, and in full in 13 pictures.",
+    "about_to_trip": "'His legs and feet look like they stride towards the right'. The back heel lifted and the head turned: offered unprompted in all four pictures. The obstacle's line still draws a remark, 'headed roughly past it'.",
+    "sprinkler_package": "'A wooden crate standing in a puddle'. Two short drips from the lid: 'the box looks like it is getting soaked'.",
+    "feed_birds": "The bird at the ground, 'a bird toppling forward'. Its body less tipped, its head in front, an eye on its side: 'pecking at seeds'.",
 }
 
-# what the v0.26 screen readers made of the templates that read poorly (vision/flaws_v026.md)
+# what the v0.27 screen readers made of the templates that read poorly (vision/flaws_v027.md)
 WEAK_NOTES = {
-    "sweep": "This release's fan of bristles: 'a long yellow-headed rake', the screen's one misread. The two other readers said sweeping. First on the v0.27 list: a broom head that cannot be a rake.",
-    "ice_cream": "The same bearded man twice, the cone held up before his face: 'looking at or eating it'. Not changed by this release; read in full in v0.25. For v0.27: the cone at the mouth.",
-    "photo": "'Binoculars or a camera', one half mark on one item. Not changed by this release; read in full in v0.25.",
-    "about_to_trip": "All three readers put the obstacle off the walker's line: it 'lies slightly off his line'. Not changed by this release; read in full in v0.25. For v0.27: a placement rule.",
-    "sprinkler_package": "Both half marks in one picture: 'a wooden crate standing in a puddle'. Not changed by this release; read in full in v0.25. Probably reader variance.",
+    "dog_begs": "Whose food? 'Could be hers, begging from her bag, or could be doing its own trick'. Read in full where the dog sits right beside the eater, and in v0.26 on the same drawing. For v0.28: a placement rule.",
 }
-SCREEN_NOTE = ("The v0.26 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The older man's head, the newspaper dog, the teenager's cap, the swept leaves, the broom, the dog at the door, the feeder's bag "
-               "and the sandcastle went to the isolation bench first, and every change was read in whole test scenes. 743 of 752 items had full marks and one was misread. "
-               "59 of 64 templates pass the gate, down from 61: two of v0.25's three failures now read in full, the third, the broom, got worse by this release's own redraw, and four others "
-               "fall short on one or two half marks, none of them changed and each in full in v0.25. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: about five "
-               "templates of the gate's movement between releases is reader variance. Readers' remarks, counted directly, fell for the first time since v0.23. That row was recounted for every screen in v0.26, as the counter "
-               "had taken bullets saying nothing is wrong for remarks: the rise published with v0.25 as 11% was 5%. AI readers describe "
+SCREEN_NOTE = ("The v0.27 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. Heads in profile, the walker's heel, the broom, the scoop, the pecking bird, the belt, the mouth and a shorter figure went to the isolation bench first, "
+               "and every change was read in whole test scenes. 743 of 756 items had full marks, none was misread, and the eight missed are clouds and trees in probes, seven of them by one reader who names no cloud or sun in any of its pictures. "
+               "63 of 64 templates pass the gate, up from 59: all five of v0.26's failures pass, and the one failure, the begging dog, is on a drawing this release did not change. A retest of the unchanged v0.9 pictures with fresh readers moved the gate by five templates: "
+               "about the size of this recovery, so it is not a measure of what the drawings gained. Readers' remarks went up 10%, across all the readers: remarks on hidden faces fell by half, those on shadows and on marks on a face rose, and those on thin figures did not fall despite shorter legs. AI readers describe "
                "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("person.tomas__stand__neutral__y045", "Older man's head", "v0.25: 'the older man's face is hard to read', in ten of his 21 pictures. v0.26: the cap's peak shorter and tipped up, short white hair under it: 'an older man with grey hair and a blue-grey flat cap'."),
-         ("animal.dog_01__sit_up_hold__neutral__y090", "Newspaper dog", "v0.25: 'a monkey, an otter, or a person in a costume'. v0.26: its head up and turned a little to the viewer, its tail up: only ever a dog in five pictures."),
-         ("person.leo__stand__neutral__y045", "Teenager's cap", "v0.25: worn backwards, twice a head 'the wrong way round'. v0.26: worn forwards. Two readers still took it for sideways or backwards."),
-         ("crop:scenes_v025/T4_street_s820995.png@1120,410,1300,730>scenes/T4_street_s820995.png@1100,380,1280,700", "Sweeping", "v0.25: 'no visible rubbish or leaf pile'. v0.26: a heap of leaves, which worked, and a fan of bristles, which one reader took for 'a long yellow-headed rake'. Here on the same seed.")]
+FIXES = [("crop:scenes_v026/T2_street_s14109_iso.png@860,620,1100,950>scenes/T2_street_s14109_iso.png@860,630,1100,960", "A face in profile", "v0.26: 'the face is mostly turned away and hidden', the eye on the head's outline. v0.27: the head turned 35 degrees to the viewer, and the back heel lifted. Here on the same seed."),
+         ("crop:scenes_v026/T2_garden_s012.png@1240,630,1430,1000>scenes/T2_garden_s012.png@1240,630,1430,1000", "The broom", "v0.26: 'a long yellow-headed rake', the one misread. v0.27: bristles dense and nearly parallel, with two bindings. No reader said rake. Here on the same seed."),
+         ("person.nia__walk_ice_cream__smile__y090", "Ice cream", "v0.26: 'looking at or eating it'. v0.27: the scoop at the lips, in full in 13 pictures. Readers now remark on her closed eyes: 'Walking with eyes shut is slightly odd'."),
+         ("animal.bird_01__peck__neutral__y090", "Pecking bird", "v0.26: 'a bird toppling forward', its tail 'a party hat or a funnel'. v0.27: the body less tipped, the head in front of it, an eye on its side: 'pecking at seeds'.")]
 
 
 def webp(src, dst, size=None, gray=False, q=86):

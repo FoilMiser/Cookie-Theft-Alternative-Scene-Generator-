@@ -6,11 +6,10 @@ import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
-NOTES = {("garden", 4): "the v0.25 seed, which placed again under revision 24",
-         ("park", 4): "the v0.25 seed and fifteen more failed under revision 24 before this one placed",
-         ("street", 4): "the v0.25 seed, which placed again under revision 24",
-         ("playground", 4): "two searches side by side, with 89 failed seeds across them; this was the last seed of the second list",
-         ("playground", 3): "the showcase seed and six more failed before this one placed"}
+NOTES = {("garden", 4): "the v0.26 seed, which placed again under revision 25",
+         ("park", 4): "three searches side by side, with 24 failed seeds across them, the v0.26 seed among them",
+         ("street", 4): "three searches side by side, with 14 failed seeds across them, the v0.26 seed among them",
+         ("playground", 4): "the template set of the v0.26 picture, forced (regen.forced), as 219 free seeds across six searches failed; it placed on its first seed"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))
@@ -23,7 +22,7 @@ for st, t, seed in SHOWCASE:
     e = {"name": r["name"], "setting": st, "tier": t, "attempts": len(r["attempts"]) + 1, "predicted": r["predicted"], "counts": r["counts"],
          "seconds": None, "base_seed": r["regen"]["base_seed"]}
     if (st, t) in OPEN:
-        e["note"] = "found by a wider seed search with no template-variety steering (regen.usage is empty), as in v0.15 to v0.22"
+        e["note"] = "found by a wider seed search with no template-variety steering (regen.usage is empty), as since v0.15"
     elif r["regen"]["base_seed"] != seed:
         e["note"] = f"found by a seed search past the showcase seed {seed} (batch rules, template variety honoured)"
     if (st, t) in NOTES:

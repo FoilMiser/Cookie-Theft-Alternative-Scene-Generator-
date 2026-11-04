@@ -6,8 +6,8 @@
  "seed": 23034,
  "mirror": true,
  "versions": {
-  "generator": "0.26.0",
-  "cast_builder": "0.26.0",
+  "generator": "0.27.0",
+  "cast_builder": "0.27.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,15 +56,14 @@
   }
  },
  "features": [
-  "flowers",
-  "hose_reel"
+  "flowers"
  ],
  "templates": [
   {
-   "id": "hose_water",
-   "kind": "event",
+   "id": "pan_watering",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -72,7 +71,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is watering the flowers with a hose",
+   "text": "A grandmother is watering the flowers",
    "accepted": {
     "who": [
      "grandmother",
@@ -83,50 +82,145 @@
      "woman"
     ],
     "what": [
-     "watering with a hose",
-     "spraying water",
-     "hosing the flowers",
-     "watering the garden"
+     "watering the flowers",
+     "watering the plants",
+     "pouring water"
     ]
    },
-   "key": "hose",
+   "key": "flowers",
    "elements": [
-    "hoser_1",
-    "hose_2",
-    "spray_3"
+    "waterer_1",
+    "water_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "hose_water",
+   "template": "pan_watering",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.238,
+    "s": 0.011,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 21404
+    "area_px": 15536
    },
-   "b": -1.418,
-   "p0": 0.805,
-   "pm1": 0.603,
+   "b": -1.578,
+   "p0": 0.829,
+   "pm1": 0.641,
    "aoi_cells": [
     "MC",
+    "MR",
     "BC",
     "BR"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is watering with",
+   "accepted": [
+    "something odd about the pan",
+    "that's strange",
+    "the watering can is wrong"
+   ],
+   "key": "pan",
+   "elements": [
+    "waterer_1"
+   ],
+   "cues": [
+    "waterer_1"
+   ],
+   "effect": [
+    "waterer_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "functional",
+   "template": "pan_watering",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.058,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 14100
+   },
+   "b": -0.071,
+   "p0": 0.518,
+   "pm1": 0.283,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is watering the flowers with a frying pan instead of a watering can",
+   "accepted": [
+    "watering with a frying pan",
+    "using a pan to water",
+    "a pan isn't for watering"
+   ],
+   "key": "pan",
+   "elements": [
+    "waterer_1"
+   ],
+   "cues": [
+    "waterer_1"
+   ],
+   "effect": [
+    "waterer_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "pan_watering",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.058,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 14100
+   },
+   "b": 1.129,
+   "p0": 0.244,
+   "pm1": 0.106,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -169,7 +263,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -211,7 +305,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -252,7 +346,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -275,7 +369,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.937,
+    "s": 1.939,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -283,11 +377,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 234856
+    "area_px": 235456
    },
-   "b": -1.912,
+   "b": -1.913,
    "p0": 0.871,
-   "pm1": 0.713,
+   "pm1": 0.714,
    "aoi_cells": [
     "ML",
     "MC",
@@ -295,7 +389,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -343,18 +437,18 @@
  ],
  "counts": {
   "content": 6,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 6
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.815,
-   "inference": null
+   "content": 0.819,
+   "inference": 0.381
   },
   "theta_minus_1": {
-   "content": 0.627,
-   "inference": null
+   "content": 0.633,
+   "inference": 0.195
   }
  },
  "bands": {
@@ -376,18 +470,26 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "12 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0352,
-  "png_bytes": 150636,
-  "jpeg_bytes": 169366
+  "objects": 12,
+  "edge_density": 0.0346,
+  "png_bytes": 136317,
+  "jpeg_bytes": 164040
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -502,8 +604,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 234856,
-   "occlusion": 0.025
+   "visible_px": 235456,
+   "occlusion": 0.023
   },
   {
    "id": "filler_bush_mid",
@@ -551,23 +653,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "hoser_1",
-   "label": "person.rosa__hose_spray__neutral__y090",
+   "id": "waterer_1",
+   "label": "person.rosa__water_pan__smile__y090",
    "role": "scored",
-   "z": 830,
+   "z": 835,
    "bbox": [
-    924.0,
-    540.0,
-    1032.0,
-    834.0
+    966.0,
+    562.0,
+    1146.0,
+    840.0
    ],
-   "area_px": 12628,
-   "visible_px": 12560,
-   "occlusion": 0.005,
+   "area_px": 14120,
+   "visible_px": 14100,
+   "occlusion": 0.001,
    "asset": {
-    "variant": "person.rosa__hose_spray__neutral__y090",
+    "variant": "person.rosa__water_pan__smile__y090",
     "family": "person.rosa",
-    "scale": 0.4565,
+    "scale": 0.4583,
     "mirrored": false,
     "labels": {
      "everyday_name": "grandmother",
@@ -600,52 +702,22 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 22712,
-   "occlusion": 0.123
+   "visible_px": 25056,
+   "occlusion": 0.032
   },
   {
-   "id": "hose_2",
-   "label": "Garden hose",
-   "role": "scored",
-   "z": 836.5,
-   "bbox": [
-    976.0,
-    668.0,
-    1306.0,
-    874.0
-   ],
-   "area_px": 6744,
-   "visible_px": 5972,
-   "occlusion": 0.114
-  },
-  {
-   "id": "spray_3",
-   "label": "Water spraying",
+   "id": "water_2",
+   "label": "Water from the can",
    "role": "scored",
    "z": 837,
    "bbox": [
-    1028.0,
-    650.0,
-    1154.0,
-    802.0
+    1138.0,
+    668.0,
+    1190.0,
+    808.0
    ],
-   "area_px": 2872,
-   "visible_px": 2872,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 870,
-   "bbox": [
-    1254.0,
-    788.0,
-    1330.0,
-    876.0
-   ],
-   "area_px": 4956,
-   "visible_px": 4956,
+   "area_px": 1436,
+   "visible_px": 1436,
    "occlusion": 0.0
   },
   {
@@ -683,11 +755,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "hose_water"
+   "contradictions": [
+    "pan_watering"
    ]
   },
-  "placement_rev": 24
+  "placement_rev": 25
  },
  "probe": true
 }

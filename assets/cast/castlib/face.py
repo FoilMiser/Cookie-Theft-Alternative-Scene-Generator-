@@ -93,16 +93,19 @@ def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", s
 
     mz = eye_z + MOUTH_DZ * k
     mw = MOUTH_W * k
-    lw = LINE * k
+    # v0.27, chosen on the bench: thinner, in a lip colour (a black line near the edge of the face: "a dark mark around the mouth could be a mouth or a small beard or moustache", four cut-outs)
+    m27 = __import__("os").environ.get("TPDB_MOUTH", "B") == "B"
+    lw = LINE * k * (0.86 if m27 else 1.0)
+    mc = "throat" if m27 else "outline"
     out = 0.003 * k
-    face.curve_on("m_smile", smooth_curve([(-mw, mz + 0.009 * k), (0, mz - 0.011 * k), (mw, mz + 0.009 * k)], 8), lw, "outline", out)
-    face.curve_on("m_frown", smooth_curve([(-mw, mz - 0.011 * k), (0, mz + 0.007 * k), (mw, mz - 0.011 * k)], 8), lw, "outline", out)
+    face.curve_on("m_smile", smooth_curve([(-mw, mz + 0.009 * k), (0, mz - 0.011 * k), (mw, mz + 0.009 * k)], 8), lw, mc, out)
+    face.curve_on("m_frown", smooth_curve([(-mw, mz - 0.011 * k), (0, mz + 0.007 * k), (mw, mz - 0.011 * k)], 8), lw, mc, out)
     # neutral: a short, thin, barely curved line set low (a straight bar under the nose reads as a moustache)
-    face.curve_on("m_flat", smooth_curve([(-mw * 0.62, mz - 0.004 * k), (0, mz - 0.008 * k), (mw * 0.62, mz - 0.004 * k)], 6), lw * 0.78, "outline", out)
-    face.curve_on("m_wobble", smooth_curve([(-mw * 0.72, mz + 0.002 * k), (-mw * 0.36, mz + 0.011 * k), (0, mz), (mw * 0.36, mz - 0.011 * k), (mw * 0.72, mz - 0.002 * k)], 6), lw * 0.72, "outline", out)
-    face.curve_on("m_slant", [(-mw * 0.20, mz - 0.006 * k), (mw * 0.78, mz + 0.008 * k)], lw * 0.80, "outline", out)
-    face.curve_on("m_smirk", smooth_curve([(-mw * 0.85, mz - 0.003 * k), (0.1 * mw, mz - 0.006 * k), (mw * 0.95, mz + 0.012 * k)], 8), lw, "outline", out)
-    face.curve_on("m_disgust", smooth_curve([(-mw * 0.85, mz - 0.012 * k), (-0.25 * mw, mz + 0.006 * k), (0.40 * mw, mz - 0.003 * k), (mw * 0.90, mz + 0.004 * k)], 6), lw * 0.78, "outline", out)
+    face.curve_on("m_flat", smooth_curve([(-mw * 0.62, mz - 0.004 * k), (0, mz - 0.008 * k), (mw * 0.62, mz - 0.004 * k)], 6), lw * 0.78, mc, out)
+    face.curve_on("m_wobble", smooth_curve([(-mw * 0.72, mz + 0.002 * k), (-mw * 0.36, mz + 0.011 * k), (0, mz), (mw * 0.36, mz - 0.011 * k), (mw * 0.72, mz - 0.002 * k)], 6), lw * 0.72, mc, out)
+    face.curve_on("m_slant", [(-mw * 0.20, mz - 0.006 * k), (mw * 0.78, mz + 0.008 * k)], lw * 0.80, mc, out)
+    face.curve_on("m_smirk", smooth_curve([(-mw * 0.85, mz - 0.003 * k), (0.1 * mw, mz - 0.006 * k), (mw * 0.95, mz + 0.012 * k)], 8), lw, mc, out)
+    face.curve_on("m_disgust", smooth_curve([(-mw * 0.85, mz - 0.012 * k), (-0.25 * mw, mz + 0.006 * k), (0.40 * mw, mz - 0.003 * k), (mw * 0.90, mz + 0.004 * k)], 6), lw * 0.78, mc, out)
     face.place("m_grin", half_ellipsoid("grin", "throat"), face.frame(0, mz + 0.010 * k, 0.0, scale=(mw * 1.30, 0.010 * k, 0.030 * k)))
     face.place("m_laugh", half_ellipsoid("laugh", "throat"), face.frame(0, mz + 0.012 * k, 0.0, scale=(mw * 1.45, 0.010 * k, 0.042 * k)))
     face.place("m_tongue", ellipsoid("tongue", (0, 0, 0), (1, 1, 1), "red"), face.frame(0, mz - 0.020 * k, 0.003 * k, scale=(mw * 0.62, 0.004 * k, 0.012 * k)))

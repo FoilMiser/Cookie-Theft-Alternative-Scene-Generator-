@@ -383,6 +383,11 @@ class HoseWater(T):
                 # the legs (run up behind the hand it passed "very tightly behind/around the old man's legs")
                 s_ = sz(Y)
                 hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + hx) / 2 - 30, Y + 34), (hx - 85 * s_, Y + 12), (hx, hy)], s_)
+                if SCN.PLACEMENT_REV >= 25:
+                    # revision 25: slack along the ground to under the fist, past it, and up in a loose hook to the end hanging from the fist (one long curve from far
+                    # along the ground, it stood "like a stiff loop" and "curves up unnaturally"; straight up from the ground under the fist, it was a pole)
+                    hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + hx) / 2 - 20, Y + 38), (hx - 60 * s_, Y + 46), (hx - 12 * s_, Y + 36),
+                                        (hx + 34 * s_, Y + 26), (hx + 20 * s_, (Y + hy) / 2 + 26 * s_), (hx + 8 * s_, hy + 62 * s_), (hx, hy)], s_ * 0.86)
             else:
                 hose = D.hose_path([(rx, ry), (rx + 60, Y + 40), ((rx + X) / 2 + 40, Y + 30), (hx + 40, hy + 120), (hx, hy)], sz(Y))
             # revision 19: the hose drawn in front of the flower bed (behind it, the bed hid a fifth of it and the event
@@ -537,7 +542,7 @@ class Dig(T):
         f = p.facing() or 1
         hx_ = mx - f * 66 * s
         mound = D.ell(hx_, my + 2 * s, 34 * s, 9 * s, C["hole"], D.OW * 0.8)
-        mound += D.shape(f"M {D.P(mx - 50 * s, my)} Q {D.P(mx, my - 46 * s)} {D.P(mx + 50 * s, my)} Z", C["soil"])
+        mound += D.dirt_heap(mx, my, s, 50, 46) if SCN.PLACEMENT_REV >= 25 else D.shape(f"M {D.P(mx - 50 * s, my)} Q {D.P(mx, my - 46 * s)} {D.P(mx + 50 * s, my)} Z", C["soil"])
         em = sc.svg(sc.eid("soil"), "Hole and pile of dirt", mound, p.Y + 10 * s, (min(mx - 50 * s, hx_ - 34 * s), my - 46 * s, max(mx + 50 * s, hx_ + 34 * s), my + 11 * s), "scored")
         self.act(self.p, "digging", ["digging", "digging a hole", "shoveling", "using a shovel", "spade"], "digging", [ep, em])
         return True
@@ -577,7 +582,7 @@ def _dig_place10(self, ep):
     hx, hy = self.h
     mx, my = self.m
     svg = D.ell(hx, hy, 36 * s, 10 * s, C["hole"], D.OW * 0.8)
-    svg += D.shape(f"M {D.P(mx - 46 * s, my)} Q {D.P(mx, my - 40 * s)} {D.P(mx + 46 * s, my)} Z", C["soil"])
+    svg += D.dirt_heap(mx, my, s, 46, 40) if SCN.PLACEMENT_REV >= 25 else D.shape(f"M {D.P(mx - 46 * s, my)} Q {D.P(mx, my - 40 * s)} {D.P(mx + 46 * s, my)} Z", C["soil"])
     bb = (min(hx - 36 * s, mx - 46 * s), my - 40 * s, max(hx + 36 * s, mx + 46 * s), my + 10 * s)
     em = sc.svg(sc.eid("soil"), "Hole and pile of dirt", svg, p.Y - 1, bb, "scored")
     self.act(self.p, "digging", ["digging", "digging a hole", "shoveling", "using a shovel", "spade"], "digging", [ep, em])
@@ -3307,7 +3312,9 @@ class AboutToTrip(T):
                     return svg, bb, "a bucket", ["bucket", "pail"], "bucket"
                 if self.obj == "ball":
                     r = 24 * s
-                    return D.ball(ox, oy - r, r, C["red"]), (ox - r, oy - 2 * r, ox + r, oy), "a ball", ["ball", "a ball on the ground"], "ball"
+                    # (revision 25: with a shadow: "there is no shadow under it ... it looks slightly as if it is floating")
+                    sh = D.shadow(ox, oy, 2 * r) if SCN.PLACEMENT_REV >= 25 else ""
+                    return sh + D.ball(ox, oy - r, r, C["red"]), (ox - r, oy - 2 * r, ox + r, oy), "a ball", ["ball", "a ball on the ground"], "ball"
                 svg, bb = D.crate(ox, oy, s * 0.7)
                 return svg, bb, "a box", ["box", "crate", "a box in the way"], "box"
             svg, bb, label, acc, key = draw_obj(ox)
@@ -4134,7 +4141,12 @@ class DucksBread(T):
                 crumb_c = C["cream"] if SCN.PLACEMENT_REV >= 24 else C["wood_light"]
                 crumbs = "".join(D.ell(sx + want * (30 + i * 22), sy + 30 + (i % 2) * 18 + i * 10, 6, 4, crumb_c, D.OW * 0.5) for i in range(5))
                 # the wake trails behind the duck, on the side away from the shore it swims to
-                wake = f'<path d="M {D.P(dx + want * 30, dy + 4)} q {want * 30:.1f} 6 {want * 60:.1f} 14 M {D.P(dx + want * 30, dy + 8)} q {want * 26:.1f} 14 {want * 50:.1f} 26" fill="none" stroke="{C["white"]}" stroke-width="3"/>'
+                wk = 1.0
+                if SCN.PLACEMENT_REV >= 25:
+                    # revision 25: shorter where it would run off the water ("the duck's white wake lines run past the near edge of the pond onto the grass")
+                    while wk > 0.4 and not (sc.on_element("pond", dx + want * (30 + 60 * wk), dy + 18 * wk) and sc.on_element("pond", dx + want * (30 + 50 * wk), dy + 8 + 26 * wk + 4)):
+                        wk -= 0.15
+                wake = f'<path d="M {D.P(dx + want * 30, dy + 4)} q {want * 30 * wk:.1f} {6 * wk:.1f} {want * 60 * wk:.1f} {14 * wk:.1f} M {D.P(dx + want * 30, dy + 8)} q {want * 26 * wk:.1f} {14 * wk:.1f} {want * 50 * wk:.1f} {26 * wk:.1f}" fill="none" stroke="{C["white"]}" stroke-width="3"/>'
                 if SCN.PLACEMENT_REV >= 8:
                     # revision 8: crumbs already floating on the water just ahead of the duck's bill (the duck
                     # "swimming toward the food" was not said to be coming to eat it)
@@ -4688,6 +4700,11 @@ class SittingOnAir(T):
                 # post seemed to lean on it)
                 b = p.bbox()
                 if not sc.setting_clear((b[0] - 24, b[1] - 10, b[2] + 24, b[3]), only=HAT_STRUCT9 + ("hose_reel", "bench", "stall")):
+                    return False
+            if SCN.PLACEMENT_REV >= 25:
+                # revision 25: and off the path, whose edge passed for a kerb ("sitting in mid-air or on the edge of the path")
+                b = p.bbox()
+                if not sc.setting_clear((b[0] - 40, (b[1] + b[3]) / 2, b[2] + 40, b[3] + 16), only=("path",)):
                     return False
             return True
         cands = [c for c in self.stand_spots(y_range=(sc.S.horizon + 180, 975), n=120)]
