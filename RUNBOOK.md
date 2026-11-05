@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.30 was made, written so that a fresh session can make the next one (v0.31) from this
+How each release from v0.12 to v0.31 was made, written so that a fresh session can make the next one (v0.32) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -139,10 +139,12 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - Showcase page: update `scenegen/site.py` (`PREV, CUR`, `REDRAWN_NOTES`, `WEAK_NOTES`, `SCREEN_NOTE`, `FIXES`) and
   `scenegen/site_template.html` (version strings, the screens list `VS`, the intro paragraph), then
   `python -m scenegen.site --scenes scenes --gallery assets/cast/gallery<TAG> --old-gallery assets/cast/gallery<PREV> --combos combos.json --screen vision/screen_summary.json --out site<TAG>`.
-  Patch the published page (https://claude.ai/artifact/6affEGUfuZyCQNoguG5dnL) with the files that
-  `python tools/cycle/site_patch.py site<PREV> site<TAG>` lists, after reading its current version.
+  `site<TAG>/index.html` is a whole document with a doctype, which the publishing route requires (since v0.31; before that the old route put the skeleton round it).
+  Publish to the page (https://claude.ai/artifact/6affEGUfuZyCQNoguG5dnL, slug `2d310fee-c012-4eea-b09a-cd0405c4c225`) through the `claude-artifacts` tools: read `guide` topic `pages` first, take
+  `base_version` from `get_artifact`, then `publish_files` with `files` as `{as, path}` and `remove` for what is gone, for the files that `python tools/cycle/site_patch.py site<PREV> site<TAG>` lists. A publish changes only the files it names.
+  To compare with what is live, use `list_files`. The live page from v0.30 and before differs from `git archive`'s `index.html` by that skeleton.
 - Spec doc ("TPDB Difficulty Model Spec", https://claude.ai/artifact/3fdacwmfKaN4YRePWLrddF): add a section after the
-  previous release's "Legibility gate outcome" paragraph, in the same shape as the earlier ones.
+  previous release's "Legibility gate outcome" paragraph, in the same shape as the earlier ones, through the docs connector (`update` on the doc's node, engine `prose`, an `insert` after the last block). Its screen table carries every version's column, so copy the last one and add a column.
 - `python tools/cycle/lf.py`, then `python3 package_release.py 0.XX --single` (it checks the zip file by file); set `zip_mb` in the text JSON to the size,
   refill the README and package again. Send the zip to Sam.
 - GitHub (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-): the working folder is the clone. Work on a
@@ -221,4 +223,9 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - Look at a release's scripts before running them, above all one that deletes. A `sed` from `t028` to `t029` turned `out028` into `out029`, and `finish_tree` would have removed this release's cast. The script now checks the folders it keeps. Likewise a patch that matches a line by a substring can land on a longer line with more indent: anchor it on the newline.
 - A side test running beside a build shares its library. A variant rendered on demand by two runs at once kept one run's image and the other's manifest, and validation caught `sha256 mismatch` on one goat. The picture was right and only the hash stale. Validate after pruning, as the runbook says, and read a failure there before going on.
 - A bench's switches need setting for the new names as well as the new drawings: the flags in `isolation_bench.py` go by name prefix, and new cases took the old obstacle and the old duck. A mirrored figure swaps its hands' anchors, so choose a fist by what it is near. Look at every crop before spending readers: that caught all three.
+- "A larger job" is a claim, so price it. A rider cut in two was left in v0.27 for being one, and stayed on the list for four releases. It took a mask by bone weights at render time, a pose name with `~near` or `~far` and no change to the cast. Frame the camera before cutting, so that the pieces register.
+- A fix can have two halves, and either alone reads as nothing. Drawing the far leg behind the plank read no better, and raising the riders read worse in v0.24. Together the children sit on the plank. And look at what an old decision rested on: v0.24's rested on one cut-out each.
+- What a figure draws that is not an object goes in with role `background`. As `setting`, the far leg entered the object count and the final checks, every layout failed, and a bench's forty-seed loop ran for eleven minutes saying nothing. When a bench case runs long, dump the stack (`tpdb_work/dbg31.py`, `faulthandler`) and do not wait.
+- Moving a thing off one neighbour can land it on another. The reel, 24 units off the flower bed, "overlaps the step slightly". Read the second neighbour too.
+- Look at a file's keys before merging it. `isomorph_summary.json` is keyed `A` and `B`, and a merge by `name` kept the first file and dropped the tier-4 entry, without a word. Print what came out, and count it.
 - Stop when a remark has outlived every drawing. "Stiff" has been said of every hose held at the waist since v0.25 and costs no marks, and a seventh curve would not end it. Say so, and take it off the list.

@@ -6,10 +6,10 @@ import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
-NOTES = {("garden", 4): "the v0.29 seed, which placed again under revision 28",
-         ("park", 4): "the v0.29 seed, which placed again under revision 28",
-         ("street", 4): "the v0.29 seed, which placed again under revision 28",
-         ("playground", 4): "the v0.29 seed, which placed again under revision 28"}
+NOTES = {("garden", 4): "the v0.30 seed no longer placed under revision 29, with the reel moved and the washing under a clear sky only; 13 seeds failed before this one",
+         ("park", 4): "the v0.30 seed, which placed again under revision 29",
+         ("street", 4): "the v0.30 seed, which placed again under revision 29",
+         ("playground", 4): "the v0.30 seed, which placed again under revision 29"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

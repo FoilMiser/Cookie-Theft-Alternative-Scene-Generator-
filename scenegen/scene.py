@@ -177,7 +177,9 @@ class PlacementError(Exception):
 # square piece over the joint ("seems to stop at about waist height, then the part at her hands starts again"); the fish's limb with no other arm, and so no tuft ("looks detached from the rest of the crown"); the
 # thrown crumbs only on the water ("several crumbs lie on the grass past the pond edge"); and the end of the hose lying on the grass with its nozzle on, when nobody has the hose, and gone when somebody has
 # ("only a short stub of hose joined to nothing", "a short second stub of hose curls by the reel").
-PLACEMENT_REV = 28
+# 29 (v0.31) seats a seesaw's riders astride the plank, the far leg behind it and the rest in front, and raised so the hips rest on it ("the man's legs appear to go through or around the plank"); the castle further from the
+# spade, so the hand and the spade show ("the hand and castle merge a little"); the reel down and to the left, off the bed's edge ("partly overlapping the edge of the flower bed"); and no washing under storm clouds ("taking it down because of the coming storm").
+PLACEMENT_REV = 29
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

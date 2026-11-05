@@ -1315,7 +1315,7 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False):
 SEESAW_IN28 = 22
 
 
-def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False):
+def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False):
     """Seesaw on a pivot; tilt > 0 lifts the right end. Returns svg and the two seat points.
     inset (v0.28) moves the seats and handles in from the plank's ends; ground (v0.28) casts one shadow under the whole plank, for the riders too."""
     ph = 82 * s
@@ -1332,6 +1332,12 @@ def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False):
         hx, hy = x + sg * 34 * s * math.cos(a), y - sg * 34 * s * math.sin(a)
         svg += stroke(poly_d([(hx, hy - 6 * s), (hx, hy - 42 * s)]), C["charcoal"], 6 * s, OW * 0.7)
         svg += stroke(poly_d([(hx - 9 * s, hy - 42 * s), (hx + 9 * s, hy - 42 * s)]), C["charcoal"], 6 * s, OW * 0.7)
+        if pad:
+            # (v0.31 bench) a seat on the plank, under the rider
+            nx_, ny_ = -math.sin(a) * 9 * s, -math.cos(a) * 9 * s
+            p0_ = (x - sg * 6 * s * math.cos(a) + nx_, y + sg * 6 * s * math.sin(a) + ny_)
+            p1_ = (x + sg * 28 * s * math.cos(a) + nx_, y - sg * 28 * s * math.sin(a) + ny_)
+            svg += stroke(poly_d([p0_, p1_]), C["wood"], 9 * s, OW * 0.7)
         seats[name] = (x + sg * 8 * s, y - 6 * s)
         seats[name + "_handle"] = (hx, hy - 42 * s)
     svg += circ(pv[0], pv[1], 8 * s, C["gray"], OW * 0.7)

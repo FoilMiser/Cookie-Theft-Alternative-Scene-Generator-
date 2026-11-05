@@ -1,0 +1,1065 @@
+{
+ "name": "T3_street_s35701",
+ "tier": 3,
+ "setting": "street",
+ "sky": "clear",
+ "seed": 35701,
+ "mirror": false,
+ "versions": {
+  "generator": "0.31.0",
+  "cast_builder": "0.31.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "bench",
+  "flowers"
+ ],
+ "templates": [
+  {
+   "id": "walk_dog",
+   "kind": "event",
+   "event": "e1",
+   "units": 0
+  },
+  {
+   "id": "dog_begs",
+   "kind": "inference",
+   "event": "e2",
+   "units": 1
+  }
+ ],
+ "scene_load": 2,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A man is sitting on the bench eating an ice cream",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "eating",
+     "sitting on the bench",
+     "eating an ice cream",
+     "snack"
+    ]
+   },
+   "key": "eating",
+   "elements": [
+    "eater_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_begs",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.13,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 2.78,
+    "zipf_raw": 4.85,
+    "aoa_raw": 2.78,
+    "domain": null,
+    "area_px": 12732
+   },
+   "b": -1.45,
+   "p0": 0.81,
+   "pm1": 0.611,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A dog is begging beside the bench, looking up at the food",
+   "accepted": [
+    "dog begging",
+    "dog looking up",
+    "dog sitting up",
+    "dog stretching up toward the food",
+    "dog watching the food"
+   ],
+   "key": "dog",
+   "elements": [
+    "beggar_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_begs",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.61,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 6472
+   },
+   "b": -1.285,
+   "p0": 0.783,
+   "pm1": 0.571,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The dog wants some of the food",
+   "accepted": [
+    "the dog is begging",
+    "the dog wants a bite",
+    "wants the food",
+    "hoping for a treat"
+   ],
+   "key": "begging",
+   "elements": [
+    "beggar_2",
+    "eater_1"
+   ],
+   "cues": [
+    "beggar_2",
+    "eater_1"
+   ],
+   "effect": [
+    "eater_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "dog_begs",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.61,
+    "r": 1,
+    "d": 0.078,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 3.93,
+    "aoa_raw": 5.78,
+    "domain": null,
+    "area_px": 6472
+   },
+   "b": 0.329,
+   "p0": 0.418,
+   "pm1": 0.209,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A man is walking a dog",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "walking a dog",
+     "walking the dog",
+     "dog on a leash",
+     "taking the dog for a walk"
+    ]
+   },
+   "key": "dog",
+   "elements": [
+    "walker_3",
+    "dog_4",
+    "leash_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "walk_dog",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.234,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 21276
+   },
+   "b": -1.707,
+   "p0": 0.846,
+   "pm1": 0.67,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.103,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13224
+   },
+   "b": -1.0,
+   "p0": 0.731,
+   "pm1": 0.5,
+   "aoi_cells": [
+    "TR"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.137,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 12608
+   },
+   "b": -0.74,
+   "p0": 0.677,
+   "pm1": 0.435,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "It is a street with shops",
+   "accepted": [
+    "shops",
+    "stores",
+    "buildings",
+    "street",
+    "town",
+    "city",
+    "shop"
+   ],
+   "key": "shops",
+   "elements": [
+    "buildings"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 2.615,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.34,
+    "a": 5.78,
+    "zipf_raw": 4.34,
+    "aoa_raw": 5.78,
+    "domain": null,
+    "area_px": 611092
+   },
+   "b": -2.17,
+   "p0": 0.898,
+   "pm1": 0.763,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR",
+    "ML",
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.093,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 71400
+   },
+   "b": -1.561,
+   "p0": 0.826,
+   "pm1": 0.637,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a street lamp",
+   "accepted": [
+    "lamp post",
+    "lamp",
+    "street light",
+    "light post",
+    "lamppost"
+   ],
+   "key": "lamp",
+   "elements": [
+    "lamp"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.376,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.05,
+    "a": 4.0,
+    "zipf_raw": 4.05,
+    "aoa_raw": 4.0,
+    "domain": null,
+    "area_px": 9008
+   },
+   "b": -0.587,
+   "p0": 0.643,
+   "pm1": 0.398,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "There is a fruit stand",
+   "accepted": [
+    "fruit stand",
+    "fruit",
+    "market",
+    "stall",
+    "fruit stall",
+    "market stall"
+   ],
+   "key": "fruit",
+   "elements": [
+    "stall"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.357,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.57,
+    "a": 3.63,
+    "zipf_raw": 4.57,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 25316
+   },
+   "b": -1.11,
+   "p0": 0.752,
+   "pm1": 0.527,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There are flowers",
+   "accepted": [
+    "flowers",
+    "flower box",
+    "planter",
+    "plants"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.572,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 6832
+   },
+   "b": -0.666,
+   "p0": 0.661,
+   "pm1": 0.417,
+   "aoi_cells": [
+    "MC"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 10,
+  "inference_units": 1,
+  "contradictions": 0,
+  "items_total": 11
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.763,
+   "inference": 0.418
+  },
+  "theta_minus_1": {
+   "content": 0.553,
+   "inference": 0.209
+  }
+ },
+ "bands": {
+  "content_count": false,
+  "inference_units": false,
+  "contradictions": true,
+  "content_completeness": false,
+  "inference_completeness": false
+ },
+ "in_tier": false,
+ "checks": {
+  "beggar_2_looks_at_food": {
+   "result": true,
+   "detail": ""
+  },
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": false,
+   "detail": "17 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 17,
+  "edge_density": 0.0504,
+  "png_bytes": 213048,
+  "jpeg_bytes": 186548
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    1372.0,
+    0.0,
+    1568.0,
+    178.0
+   ],
+   "area_px": 13224,
+   "visible_px": 13224,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    556.0,
+    16.0,
+    1034.0,
+    112.0
+   ],
+   "area_px": 12608,
+   "visible_px": 12608,
+   "occlusion": 0.0
+  },
+  {
+   "id": "buildings",
+   "label": "Row of shops",
+   "role": "setting",
+   "z": -95,
+   "bbox": [
+    0.0,
+    114.0,
+    1600.0,
+    602.0
+   ],
+   "area_px": 693612,
+   "visible_px": 611092,
+   "occlusion": 0.119
+  },
+  {
+   "id": "ground",
+   "label": "Paved street",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "flowers",
+   "label": "Flower planter",
+   "role": "setting",
+   "z": 660,
+   "bbox": [
+    948.0,
+    586.0,
+    1052.0,
+    662.0
+   ],
+   "area_px": 6832,
+   "visible_px": 6832,
+   "occlusion": 0.0
+  },
+  {
+   "id": "lamp",
+   "label": "Street lamp",
+   "role": "setting",
+   "z": 700,
+   "bbox": [
+    1092.0,
+    220.0,
+    1148.0,
+    702.0
+   ],
+   "area_px": 9008,
+   "visible_px": 9008,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bin_b",
+   "label": "Bin",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    92.0,
+    628.0,
+    148.0,
+    702.0
+   ],
+   "area_px": 3536,
+   "visible_px": 3536,
+   "occlusion": 0.0
+  },
+  {
+   "id": "stall",
+   "label": "Fruit stand",
+   "role": "setting",
+   "z": 720,
+   "bbox": [
+    1272.0,
+    502.0,
+    1528.0,
+    722.0
+   ],
+   "area_px": 25520,
+   "visible_px": 25316,
+   "occlusion": 0.008
+  },
+  {
+   "id": "bench",
+   "label": "Bench",
+   "role": "setting",
+   "z": 770,
+   "bbox": [
+    662.0,
+    664.0,
+    858.0,
+    772.0
+   ],
+   "area_px": 10840,
+   "visible_px": 7812,
+   "occlusion": 0.279
+  },
+  {
+   "id": "eater_1",
+   "label": "person.ben__sit_ice_cream__happy__y045",
+   "role": "scored",
+   "z": 773,
+   "bbox": [
+    704.0,
+    562.0,
+    820.0,
+    798.0
+   ],
+   "area_px": 12732,
+   "visible_px": 12732,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ben__sit_ice_cream__happy__y045",
+    "family": "person.ben",
+    "scale": 0.4354,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "tree",
+   "label": "Street tree",
+   "role": "setting",
+   "z": 800,
+   "bbox": [
+    152.0,
+    362.0,
+    448.0,
+    808.0
+   ],
+   "area_px": 71400,
+   "visible_px": 71400,
+   "occlusion": 0.0
+  },
+  {
+   "id": "beggar_2",
+   "label": "animal.dog_01__beg__happy__y090",
+   "role": "scored",
+   "z": 820,
+   "bbox": [
+    586.0,
+    682.0,
+    682.0,
+    834.0
+   ],
+   "area_px": 6472,
+   "visible_px": 6472,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.dog_01__beg__happy__y090",
+    "family": "animal.dog_01",
+    "scale": 0.4528,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "walker_3",
+   "label": "person.dev__walk_dog__smile__y090",
+   "role": "scored",
+   "z": 822.41,
+   "bbox": [
+    1196.0,
+    540.0,
+    1308.0,
+    826.0
+   ],
+   "area_px": 13964,
+   "visible_px": 13952,
+   "occlusion": 0.001,
+   "asset": {
+    "variant": "person.dev__walk_dog__smile__y090",
+    "family": "person.dev",
+    "scale": 0.4537,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
+     }
+    }
+   }
+  },
+  {
+   "id": "dog_4",
+   "label": "animal.dog_02__walk__happy__y090",
+   "role": "scored",
+   "z": 828.41,
+   "bbox": [
+    1360.0,
+    712.0,
+    1488.0,
+    834.0
+   ],
+   "area_px": 6784,
+   "visible_px": 6720,
+   "occlusion": 0.009,
+   "asset": {
+    "variant": "animal.dog_02__walk__happy__y090",
+    "family": "animal.dog_02",
+    "scale": 0.4559,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_5",
+   "label": "Leash",
+   "role": "scored",
+   "z": 829.41,
+   "bbox": [
+    1300.0,
+    684.0,
+    1452.0,
+    752.0
+   ],
+   "area_px": 604,
+   "visible_px": 604,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pot_s",
+   "label": "Flower pot",
+   "role": "filler",
+   "z": 950,
+   "bbox": [
+    1508.0,
+    862.0,
+    1572.0,
+    952.0
+   ],
+   "area_px": 4456,
+   "visible_px": 4456,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bike_rack",
+   "label": "Parked bicycle",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    896.0,
+    848.0,
+    1104.0,
+    980.0
+   ],
+   "area_px": 16252,
+   "visible_px": 16252,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pot_s2",
+   "label": "Flower pot",
+   "role": "filler",
+   "z": 980,
+   "bbox": [
+    28.0,
+    890.0,
+    92.0,
+    982.0
+   ],
+   "area_px": 4616,
+   "visible_px": 4616,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   31701,
+   "could not place walk_dog"
+  ],
+  [
+   32701,
+   "could not place walk_dog"
+  ],
+  [
+   33701,
+   "could not place walk_dog"
+  ],
+  [
+   34701,
+   "could not place walk_dog"
+  ],
+  [
+   35701,
+   "layout 1: accepted after 0 rejected layouts"
+  ]
+ ],
+ "layout": 0,
+ "knob": 0,
+ "regen": {
+  "base_seed": 31701,
+  "max_tries": 6,
+  "placements": 14,
+  "require_band": false,
+  "usage": {},
+  "forced": {
+   "events": [
+    "walk_dog",
+    "dog_begs"
+   ]
+  },
+  "placement_rev": 29
+ },
+ "probe": true
+}

@@ -6,8 +6,8 @@
  "seed": 23057,
  "mirror": false,
  "versions": {
-  "generator": "0.30.0",
-  "cast_builder": "0.30.0",
+  "generator": "0.31.0",
+  "cast_builder": "0.31.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,10 +60,10 @@
  ],
  "templates": [
   {
-   "id": "seesaw",
-   "kind": "event",
+   "id": "seesaw_heavy",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   },
   {
    "id": "ice_cream",
@@ -77,7 +77,59 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is playing on the seesaw",
+   "text": "A grandfather is sitting on the low end of the seesaw, reading",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "sitting on the seesaw",
+     "reading on the seesaw",
+     "sitting on the low end",
+     "reading a book"
+    ]
+   },
+   "key": "seesaw",
+   "elements": [
+    "heavyend_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "seesaw_heavy",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.109,
+    "r": 0,
+    "d": 0.0,
+    "f": -1.53,
+    "a": 4.81,
+    "zipf_raw": 2.47,
+    "aoa_raw": 4.81,
+    "domain": null,
+    "area_px": 13120
+   },
+   "b": -0.747,
+   "p0": 0.679,
+   "pm1": 0.437,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A girl is stuck up in the air on the seesaw, calling out",
    "accepted": {
     "who": [
      "girl",
@@ -87,109 +139,111 @@
      "daughter"
     ],
     "what": [
-     "playing on the seesaw",
-     "on the seesaw",
-     "seesawing",
-     "teeter-totter"
+     "up in the air",
+     "stuck at the top",
+     "calling out",
+     "shouting",
+     "scared",
+     "can't get down"
     ]
    },
-   "key": "seesaw",
+   "key": "air",
    "elements": [
-    "seesawkid_1"
+    "stuckkid_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "seesaw",
+   "template": "seesaw_heavy",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.767,
+    "s": -0.729,
     "r": 0,
     "d": 0.0,
-    "f": -1.53,
-    "a": 4.81,
-    "zipf_raw": 2.47,
-    "aoa_raw": 4.81,
+    "f": 1.37,
+    "a": 3.94,
+    "zipf_raw": 5.37,
+    "aoa_raw": 3.94,
     "domain": null,
-    "area_px": 5188
+    "area_px": 5476
    },
-   "b": -0.418,
-   "p0": 0.603,
-   "pm1": 0.358,
+   "b": -1.306,
+   "p0": 0.787,
+   "pm1": 0.576,
    "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A child is playing on the seesaw",
-   "accepted": {
-    "who": [
-     "child",
-     "kid",
-     "boy",
-     "girl",
-     "son",
-     "daughter"
-    ],
-    "what": [
-     "playing on the seesaw",
-     "on the seesaw",
-     "seesawing",
-     "teeter-totter"
-    ]
-   },
-   "key": "seesaw",
-   "elements": [
-    "seesawkid_2"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "seesaw",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.598,
-    "r": 0,
-    "d": 0.0,
-    "f": -1.53,
-    "a": 4.81,
-    "zipf_raw": 2.47,
-    "aoa_raw": 4.81,
-    "domain": null,
-    "area_px": 6588
-   },
-   "b": -0.502,
-   "p0": 0.623,
-   "pm1": 0.378,
-   "aoi_cells": [
+    "MR",
     "BR"
    ]
   },
   {
    "id": "i03",
+   "type": "inference",
+   "text": "The grandfather is much heavier, so the girl is stuck up in the air",
+   "accepted": [
+    "the grandfather is too heavy",
+    "the grown-up is heavier",
+    "the child can't get down",
+    "stuck because he is sitting on the other end",
+    "the seesaw won't go up and down",
+    "too heavy for the seesaw",
+    "he isn't noticing she's stuck"
+   ],
+   "key": "heavy",
+   "elements": [
+    "stuckkid_2",
+    "heavyend_1"
+   ],
+   "cues": [
+    "stuckkid_2",
+    "heavyend_1"
+   ],
+   "effect": [
+    "stuckkid_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "seesaw_heavy",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.729,
+    "r": 1,
+    "d": 0.167,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.96,
+    "aoa_raw": 4.05,
+    "domain": null,
+    "area_px": 5476
+   },
+   "b": 0.495,
+   "p0": 0.379,
+   "pm1": 0.183,
+   "aoi_cells": [
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "action",
-   "text": "A grandmother is eating an ice cream",
+   "text": "A man is eating an ice cream",
    "accepted": {
     "who": [
-     "grandmother",
-     "grandma",
-     "old woman",
-     "older woman",
-     "lady",
-     "woman"
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
     ],
     "what": [
      "eating ice cream",
@@ -200,7 +254,7 @@
    },
    "key": "ice cream",
    "elements": [
-    "icecream_3"
+    "icecream_4"
    ],
    "cues": [],
    "effect": [],
@@ -213,7 +267,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.004,
+    "s": -0.023,
     "r": 0,
     "d": 0.0,
     "f": 0.47,
@@ -221,17 +275,18 @@
     "zipf_raw": 4.47,
     "aoa_raw": 3.33,
     "domain": null,
-    "area_px": 15380
+    "area_px": 14800
    },
-   "b": -1.403,
-   "p0": 0.803,
-   "pm1": 0.599,
+   "b": -1.389,
+   "p0": 0.8,
+   "pm1": 0.596,
    "aoi_cells": [
+    "MC",
     "BC"
    ]
   },
   {
-   "id": "i04",
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -274,7 +329,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -317,7 +372,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "There is a railing around the playground",
    "accepted": [
@@ -340,7 +395,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.175,
+    "s": 1.165,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -348,11 +403,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 80200
+    "area_px": 79068
    },
-   "b": -1.41,
-   "p0": 0.804,
-   "pm1": 0.601,
+   "b": -1.405,
+   "p0": 0.803,
+   "pm1": 0.6,
    "aoi_cells": [
     "ML",
     "MC",
@@ -360,7 +415,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -402,7 +457,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i09",
    "type": "entity",
    "text": "There is a slide",
    "accepted": [
@@ -446,18 +501,18 @@
  ],
  "counts": {
   "content": 8,
-  "inference_units": 0,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 8
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.725,
-   "inference": null
+   "content": 0.755,
+   "inference": 0.379
   },
   "theta_minus_1": {
-   "content": 0.501,
-   "inference": null
+   "content": 0.535,
+   "inference": 0.183
   }
  },
  "bands": {
@@ -465,7 +520,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -479,14 +534,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "12 drawn objects (tier band 20-30)"
+   "detail": "13 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 12,
-  "edge_density": 0.0302,
-  "png_bytes": 136779,
-  "jpeg_bytes": 139566
+  "objects": 13,
+  "edge_density": 0.0305,
+  "png_bytes": 149006,
+  "jpeg_bytes": 142805
  },
  "signature": [
   [
@@ -520,6 +575,10 @@
   [
    "entity",
    0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -583,23 +642,8 @@
     620.0
    ],
    "area_px": 91648,
-   "visible_px": 80200,
-   "occlusion": 0.125
-  },
-  {
-   "id": "filler_bin_pl",
-   "label": "Bin",
-   "role": "filler",
-   "z": 650,
-   "bbox": [
-    532.0,
-    582.0,
-    588.0,
-    652.0
-   ],
-   "area_px": 3212,
-   "visible_px": 3212,
-   "occlusion": 0.0
+   "visible_px": 79068,
+   "occlusion": 0.137
   },
   {
    "id": "filler_bush_pl2",
@@ -614,6 +658,21 @@
    ],
    "area_px": 6628,
    "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bin_pl",
+   "label": "Bin",
+   "role": "filler",
+   "z": 650,
+   "bbox": [
+    532.0,
+    582.0,
+    588.0,
+    652.0
+   ],
+   "area_px": 3212,
+   "visible_px": 3212,
    "occlusion": 0.0
   },
   {
@@ -647,39 +706,88 @@
    "occlusion": 0.0
   },
   {
+   "id": "heavyend_1_farleg",
+   "label": "The rider's far leg, behind the plank",
+   "role": "background",
+   "z": 859.5
+  },
+  {
+   "id": "stuckkid_2_farleg",
+   "label": "The rider's far leg, behind the plank",
+   "role": "background",
+   "z": 859.5
+  },
+  {
    "id": "seesaw",
    "label": "Seesaw",
    "role": "setting",
    "z": 860,
    "bbox": [
-    966.0,
-    720.0,
-    1404.0,
-    862.0
+    982.0,
+    672.0,
+    1388.0,
+    870.0
    ],
-   "area_px": 14288,
-   "visible_px": 11520,
-   "occlusion": 0.194
+   "area_px": 14200,
+   "visible_px": 11720,
+   "occlusion": 0.175
   },
   {
-   "id": "seesawkid_1",
-   "label": "person.nia__sit__smile__y090",
+   "id": "heavyend_1",
+   "label": "person.tomas__seesaw_low_read__neutral__y090",
    "role": "scored",
    "z": 862,
    "bbox": [
-    980.0,
-    658.0,
-    1070.0,
-    804.0
+    992.0,
+    680.0,
+    1122.0,
+    882.0
    ],
-   "area_px": 5188,
-   "visible_px": 5188,
+   "area_px": 13120,
+   "visible_px": 13120,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.nia__sit__smile__y090",
-    "family": "person.nia",
+    "variant": "person.tomas__seesaw_low_read__neutral__y090",
+    "family": "person.tomas",
     "scale": 0.4683,
     "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "stuckkid_2",
+   "label": "person.nia__seesaw_stuck_call__calling__y090",
+   "role": "scored",
+   "z": 862,
+   "bbox": [
+    1310.0,
+    584.0,
+    1366.0,
+    758.0
+   ],
+   "area_px": 5516,
+   "visible_px": 5476,
+   "occlusion": 0.007,
+   "asset": {
+    "variant": "person.nia__seesaw_stuck_call__calling__y090",
+    "family": "person.nia",
+    "scale": 0.4683,
+    "mirrored": true,
     "labels": {
      "everyday_name": "girl",
      "accepted_names": [
@@ -699,39 +807,53 @@
    }
   },
   {
-   "id": "seesawkid_2",
-   "label": "person.kai__sit__smile__y090",
-   "role": "scored",
-   "z": 862,
+   "id": "kicklines_3",
+   "label": "Motion lines by the dangling feet",
+   "role": "setting",
+   "z": 863,
    "bbox": [
-    1288.0,
-    664.0,
-    1394.0,
-    836.0
+    1308.0,
+    736.0,
+    1362.0,
+    762.0
    ],
-   "area_px": 6588,
-   "visible_px": 6588,
+   "area_px": 212,
+   "visible_px": 212,
+   "occlusion": 0.0
+  },
+  {
+   "id": "icecream_4",
+   "label": "person.ben__walk_ice_cream__smile__y090",
+   "role": "scored",
+   "z": 868.7,
+   "bbox": [
+    608.0,
+    576.0,
+    722.0,
+    874.0
+   ],
+   "area_px": 14800,
+   "visible_px": 14800,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.kai__sit__smile__y090",
-    "family": "person.kai",
-    "scale": 0.4683,
+    "variant": "person.ben__walk_ice_cream__smile__y090",
+    "family": "person.ben",
+    "scale": 0.4708,
     "mirrored": true,
     "labels": {
-     "everyday_name": "child",
+     "everyday_name": "man",
      "accepted_names": [
-      "child",
-      "kid",
-      "boy",
-      "girl",
-      "son",
-      "daughter"
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
      ],
-     "category": "child_person",
+     "category": "adult_person",
      "person": {
-      "age_group": "child",
-      "skin_tone": "skin3",
-      "hair": "curly_dark"
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
      }
     }
    }
@@ -750,44 +872,6 @@
    "area_px": 2476,
    "visible_px": 2476,
    "occlusion": 0.0
-  },
-  {
-   "id": "icecream_3",
-   "label": "person.rosa__walk_ice_cream__smile__y090",
-   "role": "scored",
-   "z": 974.63,
-   "bbox": [
-    592.0,
-    676.0,
-    704.0,
-    978.0
-   ],
-   "area_px": 15380,
-   "visible_px": 15380,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.rosa__walk_ice_cream__smile__y090",
-    "family": "person.rosa",
-    "scale": 0.5101,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "grandmother",
-     "accepted_names": [
-      "grandmother",
-      "grandma",
-      "old woman",
-      "older woman",
-      "lady",
-      "woman"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin1",
-      "hair": "gray_bun"
-     }
-    }
-   }
   }
  ],
  "canvas": [
@@ -797,10 +881,10 @@
  "attempts": [
   [
    23057,
-   "layout 3: accepted after 2 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 2,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 23057,
@@ -810,11 +894,13 @@
   "usage": {},
   "forced": {
    "events": [
-    "seesaw",
     "ice_cream"
+   ],
+   "modules": [
+    "seesaw_heavy"
    ]
   },
-  "placement_rev": 28
+  "placement_rev": 29
  },
  "probe": true
 }

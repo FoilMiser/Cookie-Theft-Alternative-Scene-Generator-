@@ -280,6 +280,56 @@ def apply_expression(face, expression, all_expressions):
         keys[expression].value = 1.0
 
 
+def split_leg(root, part, fwd):
+    """v0.31: a rider cut in two, so that a plank can run between the legs. "near" is the figure without the leg further from the camera,
+    "far" that leg alone, both in the whole figure's frame (frame first). Every mesh that holds the leg is cut by its bone weights, as the legs and the
+    trousers are one mesh each; shoes are objects on the foot's bone. Returns what undoes it."""
+    origin = root.matrix_world.translation
+    depth = {}
+    for o in asset_objects(root):
+        for sd in ("L", "R"):
+            if o.name.split(".")[0] == f"ANCHOR_foot_{sd}":
+                depth[sd] = (o.matrix_world.translation - origin).dot(fwd)
+    far = "L" if depth["L"] > depth["R"] else "R"
+    bones = {f"thigh_{far}", f"shin_{far}", f"foot_{far}"}
+    undo = []
+    for o in asset_objects(root):
+        if o.type == "ARMATURE" or o.name.startswith("ANCHOR_"):
+            continue
+        on_leg = o.parent_type == "BONE" and o.parent_bone in bones
+        names = {g.index: g.name for g in o.vertex_groups} if o.type == "MESH" else {}
+        weights = None
+        if not on_leg and bones & set(names.values()):
+            weights = [sum(g.weight for g in v.groups if names.get(g.group) in bones) for v in o.data.vertices]
+            if max(weights) < 0.5:
+                weights = None
+        if weights is not None:
+            vg = o.vertex_groups.new(name="TPDB_LEG")
+            for i, w in enumerate(weights):
+                vg.add([i], w, "REPLACE")
+            m = o.modifiers.new("TPDB_LEG", "MASK")
+            m.vertex_group = vg.name
+            m.threshold = 0.5
+            m.invert_vertex_group = part == "near"
+            undo.append((o, m, vg))
+            continue
+        hide = on_leg if part == "near" else not on_leg
+        if hide and not o.hide_render:
+            o.hide_render = True
+            undo.append((o, None, None))
+    bpy.context.view_layer.update()
+
+    def restore():
+        for o, m, vg in undo:
+            if m is None:
+                o.hide_render = False
+            else:
+                o.modifiers.remove(m)
+                o.vertex_groups.remove(vg)
+        bpy.context.view_layer.update()
+    return restore
+
+
 # ---------------------------------------------------------------- framing
 def frame_camera(scene, cam, root):
     dg = bpy.context.evaluated_depsgraph_get()
@@ -378,19 +428,20 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
     for pose_name, expr, yaw in combos:
         if True:
             if True:
-                pose_spec = cfg["poses"][pose_name]
+                base_pose, _, part = pose_name.partition("~")      # (v0.31: see split_leg)
+                pose_spec = cfg["poses"][base_pose]
                 if yaw == 90 and pose_spec.get("action_profile"):
                     # v0.27: in full profile, the pose's twin with the head turned a little toward the viewer
                     pose_spec = dict(pose_spec, action=pose_spec["action_profile"])
                 apply_pose(root, pose_spec)
-                apply_pose_objects(cfg, pose_name)
+                apply_pose_objects(cfg, base_pose)
                 if cfg.get("expression_states"):
                     apply_expression_states(cfg["expression_states"], expr)
                 else:
                     apply_expression(face, expr, expressions)
                 root.rotation_mode = "XYZ"
                 root.rotation_euler = (0.0, 0.0, math.radians(yaw))
-                if cfg.get("profile_turn") and yaw == 90 and pose_name not in cfg.get("profile_skip", ()):
+                if cfg.get("profile_turn") and yaw == 90 and base_pose not in cfg.get("profile_skip", ()):
                     # v0.27: a head in full profile turned a little toward the viewer
                     from mathutils import Quaternion
                     for arm in [o for o in asset_objects(root) if o.type == "ARMATURE"]:
@@ -405,7 +456,10 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
                 img_path = os.path.join(out_dir, vid + ".png")
                 mask_path = os.path.join(out_dir, vid + ".mask.png")
                 scene.render.filepath = img_path
+                restore = split_leg(root, part, fwd) if part else None
                 bpy.ops.render.render(write_still=True)
+                if restore:
+                    restore()
                 bbox, w, h = write_mask(img_path, mask_path)
 
                 origin = root.matrix_world.translation.copy()
@@ -416,7 +470,7 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
                     name = o.name[len("ANCHOR_"):].split(".")[0]
                     if "@" in name:                     # prop anchors belong to one pose
                         name, owner = name.split("@", 1)
-                        if owner != pose_name:
+                        if owner != base_pose:
                             continue
                     p = o.matrix_world.translation.copy()
                     kind = cfg.get("anchor_kinds", {}).get(name) or DEFAULT_KINDS.get(name, "landmark")

@@ -21,8 +21,8 @@ from .draw import OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out030")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib030")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out031")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib031")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 # v0.28 bench (isolation_v028.md): "O" keeps the shadow from the figure's box
 SHADOW28 = "B"
@@ -243,7 +243,7 @@ class Placed:
         return self._img_val
 
     def _image_data(self):
-        im = self.lib.image(self.v)
+        im = self.lib.image(getattr(self, "draw_v", None) or self.v)      # (v0.31: a rider draws the figure without its far leg)
         w, h = im.size
         nw, nh = max(1, round(w * self.k)), max(1, round(h * self.k))
         sm = im.resize((nw, nh), Image.LANCZOS)

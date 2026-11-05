@@ -140,12 +140,15 @@ def build_person(spec):
         # a sleeveless layer over the shirt: wider than the shirt everywhere below the shoulders,
         # open down the front (a strip of shirt shows through) so it reads as a vest, not a bib
         vv = [P(0, 0, pel + 0.040 * s), P(0, 0, pel + 0.13 * s), P(0, 0, ch - 0.01 * s), P(0, 0, nk - 0.016 * s)]
-        vr = [(r[0] * 1.075, r[1] * 1.10) for r in radii[:4]]
-        vr[3] = (radii[3][0] * 1.16, radii[3][1] * 1.14)
+        # v0.31 bench (isolation_v031.md): "B" wider than the shirt by enough that the shirt cannot come through (it did, and drew "a jagged edge against the white shirt"); "C" wider still
+        vest31 = __import__("os").environ.get("TPDB_VEST", "B") if spec.get("vest_style") != "hivis" else "O"
+        vk31 = {"O": (1.075, 1.10), "B": (1.12, 1.20), "C": (1.16, 1.28)}[vest31]
+        vr = [(r[0] * vk31[0], r[1] * vk31[1]) for r in radii[:4]]
+        vr[3] = (radii[3][0] * 1.16, radii[3][1] * 1.14) if vest31 == "O" else (radii[3][0] * 1.18, radii[3][1] * vk31[1])
         vw = wts[:4]
         ve = [(0, 1), (1, 2), (2, 3)]
         if B["belly"] > 0:
-            vv.append(verts[4]); vr.append((radii[4][0] * 1.07, radii[4][1] * 1.10)); vw.append(wts[4])
+            vv.append(verts[4]); vr.append((radii[4][0] * (1.07 if vest31 == "O" else vk31[0]), radii[4][1] * vk31[1])); vw.append(wts[4])
             ve.append((1, len(vv) - 1))
         # shoulder straps: the vest runs over the top of each shoulder, so it reads as a garment and
         # not as a tube around the chest

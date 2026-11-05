@@ -24,6 +24,8 @@ def E(text, accepted, key, kind="entity"):
     return {"text": text, "accepted": accepted, "key": key, "kind": kind}
 
 
+# v0.31 bench (isolation_v031.md): how far left and down the reel stands (where it was, "partly overlapping the edge of the flower bed"; 24 left and none down, "the reel overlaps the step slightly")
+REEL31 = (16, 16)
 REEL30 = "B"   # the reel when nobody has the hose: O a stub, B the end hanging with its nozzle on (and none when somebody has it)
 
 
@@ -284,19 +286,20 @@ def build_garden(features, sky):
         S.anchors["flowers"] = {"center": (445, 780), "bbox": bb, "stand_left": (610, 820), "stand_right": (290, 830), "depth": 836}
         S.soft.append((bb[0] - 30, bb[3] - 20, bb[2] + 30, bb[3] + 90))
     if "hose_reel" in features:
-        reel = D.rect(282, 800, 40, 70, C["charcoal"], 4) + D.circ(302, 820, 30, C["hose"])
-        reel += "".join(f'<circle cx="302" cy="820" r="{r}" fill="none" stroke="{D.OUT}" stroke-width="2"/>' for r in (24, 18))
-        reel += D.circ(302, 820, 9, C["gray"])
+        rd_, ry_ = (-REEL31[0], REEL31[1]) if _rev() >= 29 else (0, 0)
+        reel = D.rect(282 + rd_, 800 + ry_, 40, 70, C["charcoal"], 4) + D.circ(302 + rd_, 820 + ry_, 30, C["hose"])
+        reel += "".join(f'<circle cx="{302 + rd_}" cy="{820 + ry_}" r="{r}" fill="none" stroke="{D.OUT}" stroke-width="2"/>' for r in (24, 18))
+        reel += D.circ(302 + rd_, 820 + ry_, 9, C["gray"])
         if _rev() < 28 or REEL30 == "O":
             reel += D.hose_path([(326, 834), (350, 866), (330, 868)], 0.9)
-        S.add("hose_reel", "Hose reel", reel, 870, "setting", (274, 792, 330, 870), blocked=(260, 790, 340, 890))
+        S.add("hose_reel", "Hose reel", reel, 870 + ry_, "setting", (274 + rd_, 792 + ry_, 330 + rd_, 870 + ry_), blocked=(260 + rd_, 790 + ry_, 340 + rd_, 890 + ry_))
         if _rev() >= 28 and REEL30 != "O":
             # revision 28: the end of the hose hangs off the reel with its nozzle on, and goes when someone has the hose ("only a short stub of hose joined to nothing"; "a short second stub of hose curls by the reel")
             # (as short as the old stub, "more like a stub or a hook than a usable length of hose": so a loose coil of it on the grass)
-            tail = D.hose_path([(326, 834), (352, 858), (360, 882), (366, 904), (392, 900)], 0.9)
-            tail += D.poly([(391, 894), (392, 906), (420, 903), (420, 899)], C["yellow"], D.OW * 0.6)
-            S.add("hose_tail", "End of the hose", tail, 871, "setting", (326, 830, 422, 912), blocked=(340, 860, 424, 914))
-        S.anchors["hose_reel"] = (302, 848)
+            tail = D.hose_path([(326 + rd_, 834 + ry_), (352 + rd_, 858 + ry_), (360 + rd_, 882 + ry_), (366 + rd_, 904 + ry_), (392 + rd_, 900 + ry_)], 0.9)
+            tail += D.poly([(391 + rd_, 894 + ry_), (392 + rd_, 906 + ry_), (420 + rd_, 903 + ry_), (420 + rd_, 899 + ry_)], C["yellow"], D.OW * 0.6)
+            S.add("hose_tail", "End of the hose", tail, 871 + ry_, "setting", (326 + rd_, 830 + ry_, 422 + rd_, 912 + ry_), blocked=(340 + rd_, 860 + ry_, 424 + rd_, 914 + ry_))
+        S.anchors["hose_reel"] = (302 + rd_, 848 + ry_)
     if "bench" in features:
         # slim back slats on posts above a deeper seat (seat and back drawn alike read as a picnic table)
         b = D.rect(52, 806, 9, 56, C["wood"], 2) + D.rect(219, 806, 9, 56, C["wood"], 2)

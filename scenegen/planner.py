@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.30.0"
+GENERATOR_VERSION = "0.31.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -50,7 +50,7 @@ def feasible(cls, setting, sky):
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
 PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.22 calibration.json)
-    "blocked_hose": [("inference", 2, -0.40, 0.149, 2, "water")],
+    "blocked_hose": [("inference", 2, -0.38, 0.159, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.409, 1, "rain")],
     "cat_stalks_bird": [("inference", 1, -0.49, 0.067, 1, "cat")],
     "ball_in_tree": [("inference", 1, -0.69, 0.141, 1, "stuck")],
@@ -64,7 +64,7 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "bird_steals": [("inference", 2, -1.74, 0.048, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.05, 0.130, 2, "lost")],
     "ducks_bread": [("inference", 1, -1.35, 0.015, 1, "hungry")],
-    "seesaw_heavy": [("inference", 1, -0.73, 0.165, 1, "heavy")],
+    "seesaw_heavy": [("inference", 1, -0.73, 0.167, 1, "heavy")],
     "dog_wants_walk": [("inference", 1, -0.55, 0.161, 2, "walk")],
 }
 for _cid, _s, _k in [("water_upward", -1.40, "water"),

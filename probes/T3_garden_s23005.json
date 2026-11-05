@@ -6,8 +6,8 @@
  "seed": 23005,
  "mirror": true,
  "versions": {
-  "generator": "0.30.0",
-  "cast_builder": "0.30.0",
+  "generator": "0.31.0",
+  "cast_builder": "0.31.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,26 +56,27 @@
   }
  },
  "features": [
-  "flowers"
+  "flowers",
+  "hose_reel"
  ],
  "templates": [
   {
-   "id": "windy_hat",
+   "id": "dog_wants_walk",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "water_upward",
-   "kind": "contradiction",
+   "id": "paint_tracks",
+   "kind": "inference",
    "event": "e2",
    "units": 1
   },
   {
-   "id": "paint_fence",
-   "kind": "event",
+   "id": "floating_box",
+   "kind": "contradiction",
    "event": "e3",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 3,
@@ -83,158 +84,110 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandfather is watering the flowers",
-   "accepted": {
-    "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
-    ],
-    "what": [
-     "watering the flowers",
-     "watering the plants",
-     "watering can"
-    ]
-   },
-   "key": "flowers",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
    "elements": [
-    "waterer_1"
+    "waitingdog_1",
+    "leash_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "water_upward",
-   "event": "e2",
+   "template": "dog_wants_walk",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.086,
+    "s": -0.414,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
     "domain": null,
-    "area_px": 13544
+    "area_px": 8528
    },
-   "b": -1.289,
-   "p0": 0.784,
-   "pm1": 0.572,
+   "b": -0.774,
+   "p0": 0.684,
+   "pm1": 0.444,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BR"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the water from the watering can",
+   "type": "inference",
+   "text": "The dog wants to go for a walk",
    "accepted": [
-    "the water is weird",
-    "something's wrong with the water",
-    "that's not right"
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
    ],
-   "key": "water",
+   "key": "walk",
    "elements": [
-    "water_2"
+    "waitingdog_1",
+    "leash_2",
+    "house"
    ],
    "cues": [
-    "water_2"
+    "waitingdog_1",
+    "leash_2",
+    "house"
    ],
    "effect": [
-    "water_2"
+    "waitingdog_1"
    ],
-   "chain": 0,
+   "chain": 1,
    "animate": false,
-   "domain": "physical",
-   "template": "water_upward",
-   "event": "e2",
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e1",
    "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
+    "type": "inference",
+    "chain": 1,
     "animate": false,
-    "s": -1.368,
-    "r": 0,
-    "d": 0.0,
+    "s": -0.546,
+    "r": 2,
+    "d": 0.161,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": "physical",
-    "area_px": 2224
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
+    "domain": null,
+    "area_px": 7084
    },
-   "b": 0.624,
-   "p0": 0.349,
-   "pm1": 0.165,
+   "b": 0.216,
+   "p0": 0.446,
+   "pm1": 0.229,
    "aoi_cells": [
+    "TR",
     "MR",
     "BR"
    ]
   },
   {
    "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The water is going up into the air instead of falling down onto the flowers",
-   "accepted": [
-    "water going up",
-    "water going the wrong way",
-    "water should fall down",
-    "water flowing upward"
-   ],
-   "key": "water",
-   "elements": [
-    "water_2"
-   ],
-   "cues": [
-    "water_2"
-   ],
-   "effect": [
-    "water_2"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "water_upward",
-   "event": "e2",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -1.368,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": "physical",
-    "area_px": 2224
-   },
-   "b": 1.824,
-   "p0": 0.139,
-   "pm1": 0.056,
-   "aoi_cells": [
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "action",
-   "text": "A woman is painting the fence",
+   "text": "A grandmother is painting the fence",
    "accepted": {
     "who": [
-     "woman",
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
      "lady",
-     "mother",
-     "mom",
-     "person"
+     "woman"
     ],
     "what": [
      "painting the fence",
@@ -254,12 +207,12 @@
    "animate": true,
    "domain": null,
    "template": "paint_fence",
-   "event": "e3",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.59,
+    "s": 0.578,
     "r": 0,
     "d": 0.0,
     "f": 0.52,
@@ -267,162 +220,291 @@
     "zipf_raw": 4.52,
     "aoa_raw": 4.45,
     "domain": null,
-    "area_px": 35140
+    "area_px": 34552
    },
-   "b": -1.591,
-   "p0": 0.831,
-   "pm1": 0.644,
+   "b": -1.585,
+   "p0": 0.83,
+   "pm1": 0.642,
    "aoi_cells": [
-    "MC"
+    "MC",
+    "MR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i04",
    "type": "action",
-   "text": "A grandmother is reaching up for a hat",
-   "accepted": {
-    "who": [
-     "grandmother",
-     "grandma",
-     "old woman",
-     "older woman",
-     "lady",
-     "woman"
-    ],
-    "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
-    ]
-   },
-   "key": "hat",
+   "text": "A dog is walking away from the paint",
+   "accepted": [
+    "dog walking",
+    "dog",
+    "dog with paint on its feet"
+   ],
+   "key": "dog",
    "elements": [
-    "hatperson_6"
+    "paintdog_6"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
+   "template": "paint_tracks",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.12,
+    "s": -0.712,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
     "domain": null,
-    "area_px": 18116
+    "area_px": 5608
    },
-   "b": -1.359,
-   "p0": 0.796,
-   "pm1": 0.589,
+   "b": -1.114,
+   "p0": 0.753,
+   "pm1": 0.528,
    "aoi_cells": [
     "ML",
-    "BL"
+    "MC",
+    "BL",
+    "BC"
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "entity",
-   "text": "A hat is flying through the air",
+   "text": "There are paw prints in paint on the grass",
    "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
+    "paw prints",
+    "footprints",
+    "paint prints",
+    "blue prints",
+    "tracks"
    ],
-   "key": "hat",
+   "key": "footprints",
    "elements": [
-    "flyinghat_9"
+    "prints_8",
+    "tray_7"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
+   "template": "paint_tracks",
+   "event": "e2",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -1.258,
+    "s": -1.183,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
+    "f": -0.71,
+    "a": 5.78,
+    "zipf_raw": 3.29,
+    "aoa_raw": 5.78,
     "domain": null,
-    "area_px": 2596
+    "area_px": 2884
    },
-   "b": -0.17,
-   "p0": 0.542,
-   "pm1": 0.304,
+   "b": 0.165,
+   "p0": 0.459,
+   "pm1": 0.238,
    "aoi_cells": [
-    "ML"
+    "BC"
    ]
   },
   {
-   "id": "i07",
+   "id": "i06",
    "type": "inference",
-   "text": "The wind blew the grandmother's hat off",
+   "text": "The dog stepped in the paint and left footprints",
    "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
+    "the dog walked through the paint",
+    "the dog stepped in the tray",
+    "the dog made the footprints",
+    "paint on the dog's paws"
    ],
-   "key": "wind",
+   "key": "paint",
    "elements": [
-    "flyinghat_9",
-    "hatperson_6"
+    "paintdog_6",
+    "prints_8",
+    "tray_7"
    ],
    "cues": [
-    "flyinghat_9",
-    "hatperson_6"
+    "paintdog_6",
+    "prints_8",
+    "tray_7"
    ],
    "effect": [
-    "flyinghat_9"
+    "prints_8"
    ],
    "chain": 2,
    "animate": false,
    "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
+   "template": "paint_tracks",
+   "event": "e2",
    "features": {
     "type": "inference",
     "chain": 2,
     "animate": false,
-    "s": -1.258,
-    "r": 1,
-    "d": 0.129,
+    "s": -0.712,
+    "r": 2,
+    "d": 0.15,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
     "domain": null,
-    "area_px": 2596
+    "area_px": 5608
    },
-   "b": 1.434,
-   "p0": 0.192,
-   "pm1": 0.081,
+   "b": 0.886,
+   "p0": 0.292,
+   "pm1": 0.132,
    "aoi_cells": [
     "ML",
-    "BL"
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There is a box",
+   "accepted": [
+    "box",
+    "crate",
+    "wooden box",
+    "cardboard box"
+   ],
+   "key": "box",
+   "elements": [
+    "floatbox_10"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "floating_box",
+   "event": "e3",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.324,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 9684
+   },
+   "b": -0.79,
+   "p0": 0.688,
+   "pm1": 0.448,
+   "aoi_cells": [
+    "TL"
    ]
   },
   {
    "id": "i08",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the box",
+   "accepted": [
+    "the box is weird",
+    "something odd about the box",
+    "that box"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_10"
+   ],
+   "cues": [
+    "floatbox_10"
+   ],
+   "effect": [
+    "floatbox_10"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.324,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9684
+   },
+   "b": 0.102,
+   "p0": 0.475,
+   "pm1": 0.249,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "contradiction_explain",
+   "text": "The box is floating in the air with nothing holding it up",
+   "accepted": [
+    "floating box",
+    "box in the air",
+    "nothing holding it up",
+    "box should fall"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_10"
+   ],
+   "cues": [
+    "floatbox_10"
+   ],
+   "effect": [
+    "floatbox_10"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.324,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9684
+   },
+   "b": 1.302,
+   "p0": 0.214,
+   "pm1": 0.091,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i10",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -465,7 +547,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -507,7 +589,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i12",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -529,7 +611,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.729,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -537,9 +619,9 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 42784
+    "area_px": 43040
    },
-   "b": -1.26,
+   "b": -1.262,
    "p0": 0.779,
    "pm1": 0.565,
    "aoi_cells": [
@@ -548,7 +630,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i13",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -571,7 +653,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.804,
+    "s": 1.844,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -579,11 +661,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 194716
+    "area_px": 205916
    },
-   "b": -1.605,
-   "p0": 0.833,
-   "pm1": 0.647,
+   "b": -1.625,
+   "p0": 0.835,
+   "pm1": 0.651,
    "aoi_cells": [
     "ML",
     "MC",
@@ -591,20 +673,18 @@
    ]
   },
   {
-   "id": "i12",
+   "id": "i14",
    "type": "entity",
-   "text": "It is the back yard of a house",
+   "text": "There is a flower bed",
    "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
+    "flowers",
+    "flower bed",
+    "flowerbed",
     "garden"
    ],
-   "key": "house",
+   "key": "flowers",
    "elements": [
-    "house"
+    "flowers"
    ],
    "cues": [],
    "effect": [],
@@ -617,40 +697,39 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.84,
+    "s": 0.373,
     "r": 0,
     "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 204952
+    "area_px": 25884
    },
-   "b": -2.073,
-   "p0": 0.888,
-   "pm1": 0.745,
+   "b": -1.018,
+   "p0": 0.735,
+   "pm1": 0.504,
    "aoi_cells": [
-    "TR",
-    "MR",
+    "BC",
     "BR"
    ]
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 2,
+  "content": 10,
+  "inference_units": 3,
   "contradictions": 1,
-  "items_total": 12
+  "items_total": 14
  },
  "predicted": {
   "theta_0": {
-   "content": 0.76,
-   "inference": 0.227
+   "content": 0.715,
+   "inference": 0.357
   },
   "theta_minus_1": {
-   "content": 0.553,
-   "inference": 0.1
+   "content": 0.493,
+   "inference": 0.175
   }
  },
  "bands": {
@@ -658,14 +737,10 @@
   "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
-  "hatperson_6_looks_at_hat": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -675,15 +750,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "result": true,
+   "detail": "21 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.038,
-  "png_bytes": 191082,
-  "jpeg_bytes": 177478
+  "objects": 21,
+  "edge_density": 0.0367,
+  "png_bytes": 172882,
+  "jpeg_bytes": 176013
  },
  "signature": [
   [
@@ -729,6 +804,14 @@
   [
    "entity",
    0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
   ],
   [
    "inference",
@@ -800,21 +883,6 @@
    "occlusion": 0.006
   },
   {
-   "id": "breeze_8",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    1078.0,
-    76.0,
-    1236.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
-   "occlusion": 0.0
-  },
-  {
    "id": "tree",
    "label": "Tree behind the fence",
    "role": "setting",
@@ -826,23 +894,8 @@
     452.0
    ],
    "area_px": 44992,
-   "visible_px": 42784,
-   "occlusion": 0.049
-  },
-  {
-   "id": "treegust_7",
-   "label": "Leaves blowing off the tree",
-   "role": "setting",
-   "z": 450.6,
-   "bbox": [
-    994.0,
-    216.0,
-    1130.0,
-    290.0
-   ],
-   "area_px": 732,
-   "visible_px": 732,
-   "occlusion": 0.0
+   "visible_px": 43040,
+   "occlusion": 0.043
   },
   {
    "id": "fence",
@@ -856,8 +909,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 194716,
-   "occlusion": 0.192
+   "visible_px": 205916,
+   "occlusion": 0.145
   },
   {
    "id": "paintstripe_4",
@@ -865,168 +918,49 @@
    "role": "scored",
    "z": 616,
    "bbox": [
-    598.0,
+    966.0,
     426.0,
-    742.0,
+    1110.0,
     618.0
    ],
    "area_px": 25640,
-   "visible_px": 25060,
-   "occlusion": 0.023
+   "visible_px": 24832,
+   "occlusion": 0.032
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
   },
   {
    "id": "painter_3",
-   "label": "person.mei__paint__smile__y090",
+   "label": "person.rosa__paint__smile__y090",
    "role": "scored",
    "z": 668,
    "bbox": [
-    730.0,
-    430.0,
-    848.0,
+    874.0,
+    434.0,
+    988.0,
     672.0
    ],
-   "area_px": 10080,
-   "visible_px": 10080,
+   "area_px": 9720,
+   "visible_px": 9720,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.mei__paint__smile__y090",
-    "family": "person.mei",
-    "scale": 0.3965,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
-  },
-  {
-   "id": "painttin_5",
-   "label": "Tin of paint",
-   "role": "prop",
-   "z": 680,
-   "bbox": [
-    850.0,
-    634.0,
-    888.0,
-    682.0
-   ],
-   "area_px": 1612,
-   "visible_px": 1612,
-   "occlusion": 0.0
-  },
-  {
-   "id": "house",
-   "label": "Back of the house",
-   "role": "setting",
-   "z": 781,
-   "bbox": [
-    1258.0,
-    118.0,
-    1600.0,
-    784.0
-   ],
-   "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
-  },
-  {
-   "id": "waterer_1",
-   "label": "person.tomas__water_plants__smile__y090",
-   "role": "scored",
-   "z": 820,
-   "bbox": [
-    968.0,
-    542.0,
-    1084.0,
-    826.0
-   ],
-   "area_px": 13748,
-   "visible_px": 13544,
-   "occlusion": 0.015,
-   "asset": {
-    "variant": "person.tomas__water_plants__smile__y090",
-    "family": "person.tomas",
-    "scale": 0.4528,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "grandfather",
-     "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
-     }
-    }
-   }
-  },
-  {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
-   "bbox": [
-    1028.0,
-    694.0,
-    1282.0,
-    838.0
-   ],
-   "area_px": 25884,
-   "visible_px": 25596,
-   "occlusion": 0.011
-  },
-  {
-   "id": "water_2",
-   "label": "Water from the can",
-   "role": "scored",
-   "z": 837,
-   "bbox": [
-    1074.0,
-    574.0,
-    1176.0,
-    720.0
-   ],
-   "area_px": 2224,
-   "visible_px": 2224,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hatperson_6",
-   "label": "person.rosa__reach_up__surprised__y045",
-   "role": "scored",
-   "z": 922.94,
-   "bbox": [
-    316.0,
-    618.0,
-    460.0,
-    926.0
-   ],
-   "area_px": 18116,
-   "visible_px": 18116,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.rosa__reach_up__surprised__y045",
+    "variant": "person.rosa__paint__smile__y090",
     "family": "person.rosa",
-    "scale": 0.4909,
-    "mirrored": true,
+    "scale": 0.3965,
+    "mirrored": false,
     "labels": {
      "everyday_name": "grandmother",
      "accepted_names": [
@@ -1047,33 +981,213 @@
    }
   },
   {
-   "id": "flyinghat_9",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 923.94,
+   "id": "painttin_5",
+   "label": "Tin of paint",
+   "role": "prop",
+   "z": 680,
    "bbox": [
-    240.0,
-    506.0,
-    324.0,
-    580.0
+    832.0,
+    634.0,
+    870.0,
+    682.0
    ],
-   "area_px": 2596,
-   "visible_px": 2596,
+   "area_px": 1612,
+   "visible_px": 1460,
+   "occlusion": 0.094
+  },
+  {
+   "id": "tray_7",
+   "label": "Paint tray",
+   "role": "scored",
+   "z": 693.04,
+   "bbox": [
+    782.0,
+    674.0,
+    860.0,
+    696.0
+   ],
+   "area_px": 1448,
+   "visible_px": 1412,
+   "occlusion": 0.025
+  },
+  {
+   "id": "prints_8",
+   "label": "Paint paw prints",
+   "role": "scored",
+   "z": 694.04,
+   "bbox": [
+    606.0,
+    694.0,
+    808.0,
+    746.0
+   ],
+   "area_px": 1472,
+   "visible_px": 1472,
    "occlusion": 0.0
   },
   {
-   "id": "gusts_10",
-   "label": "Wind lines and blowing leaves",
-   "role": "setting",
-   "z": 923.94,
+   "id": "paintdog_6",
+   "label": "animal.dog_02__walk__happy__y090",
+   "role": "scored",
+   "z": 743.12,
    "bbox": [
-    316.0,
-    538.0,
-    612.0,
-    612.0
+    478.0,
+    634.0,
+    598.0,
+    746.0
    ],
-   "area_px": 4912,
-   "visible_px": 4912,
+   "area_px": 5956,
+   "visible_px": 5608,
+   "occlusion": 0.058,
+   "asset": {
+    "variant": "animal.dog_02__walk__happy__y090",
+    "family": "animal.dog_02",
+    "scale": 0.4243,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "paintpaws_9",
+   "label": "Paint on the dog's paws",
+   "role": "setting",
+   "z": 746.12,
+   "bbox": [
+    500.0,
+    730.0,
+    594.0,
+    748.0
+   ],
+   "area_px": 484,
+   "visible_px": 484,
+   "occlusion": 0.0
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    1258.0,
+    118.0,
+    1600.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 199020,
+   "occlusion": 0.029
+  },
+  {
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
+   "role": "scored",
+   "z": 806,
+   "bbox": [
+    1424.0,
+    664.0,
+    1520.0,
+    814.0
+   ],
+   "area_px": 7136,
+   "visible_px": 7084,
+   "occlusion": 0.007,
+   "asset": {
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    1350.0,
+    694.0,
+    1436.0,
+    818.0
+   ],
+   "area_px": 1444,
+   "visible_px": 1444,
+   "occlusion": 0.0
+  },
+  {
+   "id": "floatbox_10",
+   "label": "Box floating in the air",
+   "role": "scored",
+   "z": 824.32,
+   "bbox": [
+    96.0,
+    232.0,
+    222.0,
+    336.0
+   ],
+   "area_px": 9684,
+   "visible_px": 9684,
+   "occlusion": 0.0
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
+   ],
+   "area_px": 25884,
+   "visible_px": 25884,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 886,
+   "bbox": [
+    1282.0,
+    804.0,
+    1346.0,
+    888.0
+   ],
+   "area_px": 4264,
+   "visible_px": 4092,
+   "occlusion": 0.04
+  },
+  {
+   "id": "hose_tail",
+   "label": "End of the hose",
+   "role": "setting",
+   "z": 887,
+   "bbox": [
+    1194.0,
+    842.0,
+    1298.0,
+    924.0
+   ],
+   "area_px": 2004,
+   "visible_px": 2004,
    "occlusion": 0.0
   },
   {
@@ -1099,10 +1213,10 @@
  "attempts": [
   [
    23005,
-   "layout 2: accepted after 1 rejected layouts"
+   "layout 7: accepted after 6 rejected layouts"
   ]
  ],
- "layout": 1,
+ "layout": 6,
  "knob": 0,
  "regen": {
   "base_seed": 23005,
@@ -1111,17 +1225,15 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "paint_fence"
-   ],
    "modules": [
-    "windy_hat"
+    "dog_wants_walk",
+    "paint_tracks"
    ],
    "contradictions": [
-    "water_upward"
+    "floating_box"
    ]
   },
-  "placement_rev": 28
+  "placement_rev": 29
  },
  "probe": true
 }

@@ -16,6 +16,7 @@ import math
 from . import draw as D
 from . import scene as SCN
 from .draw import C, sz
+from .library import Placed, vid
 from .scene import ADULTS, GROWN, KIDS, YOUNG, PlacementError
 
 # events that draw a ball of their own (revision 7 keeps the trip obstacle from being a second one)
@@ -936,6 +937,8 @@ class HangLaundry(T):
     needs = {"garden": {"clothesline", "laundry"}}
     uses = ("laundry",)
     exclusive = ("clothesline",) + (("calm_laundry",) if SCN.PLACEMENT_REV >= 11 else ())   # nor with the gust
+    # v0.31 (revision 29): no washing under storm clouds ("hanging the washing out, or (b) taking it down because of the coming storm")
+    sky = "clear" if SCN.PLACEMENT_REV >= 29 else None
 
     def bind(self):
         sc = self.sc
@@ -2221,6 +2224,20 @@ class CatOnFence(T):
 
 
 # ---------------------------------------------------------------- v0.5 events (playground and more)
+# v0.31 bench (isolation_v031.md): "U" a rider astride the plank, the far leg drawn behind it and the rest of the figure in front, and raised so the hips rest on it; "O" the whole figure in front
+# ("the man's legs appear to go through or around the plank", on the list since v0.27). "S" astride but not raised ("his body overlaps the board"); "T" the low rider raised as well, which showed the handle's post under his thigh; "P" on a seat, which added a thing and read no better
+SEESAW31 = "U"
+# how far up the rider sits, in units: (riding free, on the low end with the feet down, whose seat point is lower in the body and whose hips are nearly on the plank already). "P" on a seat
+RIDE31 = {"O": (0, 0), "S": (0, 0), "T": (14, 14), "U": (14, 5), "P": (18, 12)}
+
+
+def ride_parts(sc, v):
+    """Revision 29: the two pieces of a rider, for the render queue."""
+    if SCN.PLACEMENT_REV >= 29 and SEESAW31 != "O":
+        fam, pose, expr, yaw = v
+        sc.variants += [(fam, pose + "~near", expr, yaw), (fam, pose + "~far", expr, yaw)]
+
+
 class SeesawPlay(T):
     id = "seesaw"
     settings = PG
@@ -2251,6 +2268,8 @@ class SeesawPlay(T):
             self.a, self.b = sc.person(YOUNG), sc.person(YOUNG)
         self.va = sc.need(self.a, pa, sc.rng.choice(["happy", "laughing", "smile"]), 90)
         self.vb = sc.need(self.b, pb, sc.rng.choice(["happy", "laughing", "smile"]), 90)
+        ride_parts(sc, self.va)
+        ride_parts(sc, self.vb)
 
     def ride(self, tilt, ea, eb, va, vb):
         """Redraw the seesaw at `tilt` and sit the two riders on its ends, facing each other."""
@@ -2258,18 +2277,27 @@ class SeesawPlay(T):
         A = sc.S.anchors["seesaw"]
         s = sz(A["depth"])
         rev26 = SCN.PLACEMENT_REV >= 26
-        svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26)
+        rev29_ = SCN.PLACEMENT_REV >= 29
+        svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26, pad=rev29_ and SEESAW31 == "P")
         placed = []
         for eid, v, end, want in ((ea, va, "left", 1), (eb, vb, "right", -1)):
             p = sc.placed(v, 0, 0, sc.mirror_for(v, want), depth_y=A["depth"] + 2, eid=eid)
             seat = info["seats"][end]
-            p.move_anchor_to("seat", (seat[0], seat[1] - D.RIDE24["seesaw"] * s) if SCN.PLACEMENT_REV >= 22 else seat)
+            rise_ = RIDE31[SEESAW31][1 if v[1].startswith("seesaw_low") else 0] if rev29_ else 0
+            p.move_anchor_to("seat", (seat[0], seat[1] - (D.RIDE24["seesaw"] + rise_) * s) if SCN.PLACEMENT_REV >= 22 else seat)
             if not sc.fits(p.bbox(), limit=0.15):
                 return None
             if SCN.PLACEMENT_REV >= 7 and p.has_anchor("foot_L") and p.has_anchor("foot_R"):
                 # revision 7: the low rider's shadow under the feet, not under the seat point
                 p.shadow_x = (p.anchor("foot_L")[0] + p.anchor("foot_R")[0]) / 2
             p.no_shadow = rev26
+            if rev29_ and SEESAW31 != "O":
+                # revision 29: astride the plank, one leg each side of it (the whole figure drawn in front: "the plank seems to pass behind or through his thigh")
+                fam_, pose_, expr_, yaw_ = v
+                p.draw_v = vid(fam_, pose_ + "~near", expr_, yaw_)
+                q_ = Placed(sc.lib, vid(fam_, pose_ + "~far", expr_, yaw_), p.X, p.Y, p.mirror, p.depth_y, eid + "_farleg", "background")
+                uri_, x0_, y0_, w_, h_ = q_.image_data()
+                sc.svg(eid + "_farleg", "The rider's far leg, behind the plank", f'<image x="{x0_:.2f}" y="{y0_:.2f}" width="{w_}" height="{h_}" href="{uri_}"/>', A["depth"] - 0.5, q_.bbox(), "background")
             placed.append(p)
         if SCN.PLACEMENT_REV >= 11:
             # revision 11: nobody else stands at the seesaw, now or later (a girl beside the raised end "could
@@ -2357,6 +2385,10 @@ class SandboxPlay(T):
         return False
 
 
+# v0.31 bench (isolation_v031.md): how far beyond the spade the castle stands (at 26 the hand went behind it: "the hand and castle merge a little")
+CASTLE31 = 52
+
+
 def _sandbox_place_building(self, A, ep, inner):
     """Revision 6: the child kneels in the sandbox with the castle right under the spade."""
     sc = self.sc
@@ -2376,7 +2408,7 @@ def _sandbox_place_building(self, A, ep, inner):
         tx, ty = p.anchor("spade_tip") if p.has_anchor("spade_tip") else (X + f * 60 * s, Y - 30 * s)
         cs = s * 0.85
         # the castle stands just beyond the spade, its near wall under the blade
-        cx_ = tx + f * 26 * cs
+        cx_ = tx + f * (CASTLE31 if SCN.PLACEMENT_REV >= 29 else 26) * cs
         if not (xl - 20 <= cx_ <= xr + 20):
             continue
         castle, cbb = D.sandcastle(cx_, Y + 4 * s, cs, heaped=SCN.PLACEMENT_REV >= 24)
@@ -3056,7 +3088,11 @@ def _crown_clip(tree, cid):
     return f'<defs><clipPath id="{cid}">' + "".join(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="{max(0.5, r - D.OW * 0.6):.1f}"/>' for a, b, r in tree["parts"]) + "</clipPath></defs>"
 
 
-def _limb_to(tree, x, y, w, fork=True, tip=False):
+# v0.31 bench (isolation_v031.md): "L" the fish's limb narrower where it leaves the trunk and with less of a bend (as wide as the trunk and bending hard: "the trunk seems to bend into it"); "O" as v0.30
+LIMB31 = "O"
+
+
+def _limb_to(tree, x, y, w, fork=True, tip=False, gentle=False):
     """Revision 26: a limb from the top of the trunk up across the crown to (x, y), tapering to w, so a branch among the leaves grows from something (three of three bench
     readers: "does not visibly connect to the trunk", "looks a little like it is floating inside the foliage"). Returns its svg and box."""
     tx, cy, R = tree["canopy"]
@@ -3069,6 +3105,12 @@ def _limb_to(tree, x, y, w, fork=True, tip=False):
     dx_, dy_ = w0 * 0.34, g * w0 * 0.24
     a0, c0, a1 = (tx - w0 / 2, y0), (cx_ - dx_, cy_ - dy_), (x, y - g * w / 2)
     b0, c1, b1 = (tx + w0 / 2, y0), (cx_ + dx_, cy_ + dy_), (x, y + g * w / 2)
+    if gentle:
+        base_, off_ = 0.62 * w0, g * 0.19 * w0
+        cx_, cy_ = tx + (x - tx) * 0.34, y + (y0 - y) * 0.40
+        dx_, dy_ = base_ * 0.34, g * base_ * 0.24
+        a0, c0 = (tx + off_ - base_ / 2, y0), (cx_ - dx_, cy_ - dy_)
+        b0, c1 = (tx + off_ + base_ / 2, y0), (cx_ + dx_, cy_ + dy_)
     svg = D.flat(f"M {D.P(*a0)} Q {D.P(*c0)} {D.P(*a1)} L {D.P(*b1)} Q {D.P(*c1)} {D.P(*b0)} Z", C["wood"])
     edges = [(a0, c0, a1), (b0, c1, b1)]
     if tip:
@@ -4356,6 +4398,8 @@ class SeesawHeavy(SeesawPlay):
             # look down at him, her face was hidden)
             self.vb = sc.need(self.b, "seesaw_stuck_call" if SCN.PLACEMENT_REV >= 12 else "seesaw_stuck",
                               "calling" if SCN.PLACEMENT_REV >= 14 else sc.rng.choice(["calling", "scared"]), 90)
+            ride_parts(sc, self.va)
+            ride_parts(sc, self.vb)
             return
         self.a = sc.person(ADULTS, prefer=("person.dev", "person.ben"))
         self.b = sc.person(KIDS, prefer=("person.nia",))
@@ -4846,7 +4890,7 @@ class FishInTree(T):
                 ly_ = y + 13 * self.k3(1.25, 0.9, 0.7)
                 lsvg, lbb = _limb_to(T_, x, ly_, 8)
                 if SCN.PLACEMENT_REV >= 28 and FISH30 == "E":
-                    lsvg, lbb = _limb_to(T_, x, ly_, 8, fork=False)
+                    lsvg, lbb = _limb_to(T_, x, ly_, 8, fork=False, gentle=SCN.PLACEMENT_REV >= 29 and LIMB31 == "L")
                 if SCN.PLACEMENT_REV >= 28 and FISH30 == "F":
                     # revision 28: the limb runs on past the fish, so the fish lies on it (ending under the fish: "almost looks like it is growing out of the end of the branch")
                     lsvg, lbb = _limb_to(T_, (bb[2] + 16) if x >= T_["canopy"][0] else (bb[0] - 16), ly_ + 3, 9, fork=False, tip=True)

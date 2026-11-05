@@ -49,33 +49,42 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v029", "v030"
+PREV, CUR = "v030", "v031"
 
-# the templates whose drawing or placement v0.30 changed for the v0.29 screen (vision/flaws_v029.md); each drawing went to the isolation bench first
-# (vision/isolation_v030.md) and was read in whole test scenes (vision/design_tests_v030.md)
+# the templates whose drawing or placement v0.31 changed for the v0.30 screen (vision/flaws_v030.md); each drawing went to the isolation bench first
+# (vision/isolation_v031.md) and was read in whole test scenes (vision/design_tests_v031.md)
 REDRAWN_NOTES = {
-    "hose_water": "'Seems to stop at about waist height, then the part at her hands starts again'. Now it runs on to the fist and hangs from it. Nobody has it stop or break, and 'stiff' stays.",
-    "fish_in_tree": "'Drawn on top of the leafy crown', a tuft that 'looks detached'. Now one limb, with no other arm. All three read the fish as impossible. What it cost: 'what looks like the tree's bent trunk'.",
-    "ducks_bread": "'Several crumbs lie on the grass past the pond edge'. Now only those on the water: no remark on it, and the duck reads as eating in all three pictures.",
-    "about_to_trip": "Read only in street pictures. Not redrawn. Probes put it in a garden, a park and a playground, twice each: all eleven pictures read in full.",
+    "seesaw": "Riders 'a little above and slightly in front of the plank'. Now astride, the far leg drawn behind the plank and the rest in front, and raised so the hips rest on it. No remark on the plank in the three pictures of two children.",
+    "seesaw_heavy": "'The man's legs appear to go through or around the plank'. Drawn astride as well: 'He mostly reads as sitting on it', and in one more picture still 'sitting just beside it'. The pose is next.",
+    "sandbox": "'The hand and castle merge a little'. Now the castle stands further from the spade, and the spade shows: 'probably a toy spade, next to the castle'.",
+    "hang_laundry": "'Taking it down because of the coming storm'. Now no washing is hung under storm clouds. 1.00, though one reader still offers that he may be taking it down.",
 }
 
-# what the v0.30 screen readers made of the templates that read poorly (vision/flaws_v030.md)
+# what the v0.31 screen readers made of the templates that read poorly (vision/flaws_v031.md)
 WEAK_NOTES = {
-    "hang_laundry": "'Hanging the washing out', or 'taking it down because of the coming storm'. One half mark among three items, on a picture that put washing under storm clouds. For v0.31: a rule.",
+    "jump": "'Could be trying to reach the ball or just cheering'. One half mark among three items, on a picture identical to v0.30's, where it had full marks: the retest's one move down.",
 }
-SCREEN_NOTE = ("The v0.30 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The hose, the fish's limb, the crumbs, the reel and the box's width went to the isolation bench first, "
-               "and every change was read in whole test scenes. 872 of 877 items had full marks, none was misread, and one, clouds, was missed. "
-               "63 of 64 templates pass the gate, against 64, the failure being one half mark on washing under storm clouds. 19 pictures were identical to the pixel in v0.29 and v0.30, so they were read twice with nothing changed: "
-               "223 of their 230 items scored the same, and four templates moved by a half mark on pictures that had not changed. So a half mark is noise, and the gate moving by one is not a measure of anything. Readers' remarks did not move. AI readers describe "
+SCREEN_NOTE = ("The v0.31 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The seesaw, the vest, the castle, the reel, the fish's limb and the cone went to the isolation bench first, "
+               "and every change was read in whole test scenes. 783 of 784 items had full marks and none was misread. "
+               "63 of 64 templates pass the gate, as in v0.30, the failure being one half mark on a picture that had not changed. 12 pictures were identical to the pixel in v0.30 and v0.31, "
+               "and 137 of their 141 items scored the same. These readers remarked a third less than v0.30's on those same pictures, so the fall in remarks is the readers, not the drawings. AI readers describe "
                "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:probes_v029/T3_garden_s23035.png@896,516,1360,912>probes/T3_garden_s23038.png@896,516,1360,912", "The hose at the fist", "v0.29: 'seems to stop at about waist height, then the part at her hands starts again'. v0.30: it runs on to the fist and hangs from it. Nobody has it stop or break. 'Stiff' stays, as it has of every way of drawing it since v0.25."),
-         ("crop:probes_v029/T3_garden_s23021.png@360,218,624,434>probes/T3_garden_s23011.png@360,218,624,434", "The fish's limb", "v0.29: 'drawn on top of the leafy crown', a tuft that 'looks detached'. v0.30: one limb, no other arm. What it cost: 'what looks like the tree's bent trunk'."),
-         ("crop:probes_v029/T3_park_s23028.png@960,600,1320,840>probes/T3_park_s23048.png@960,600,1320,840", "The crumbs", "v0.29: 'several crumbs lie on the grass past the pond edge'. v0.30: only those on the water, and the duck reads as eating in all three of its pictures."),
-         ("crop:scenes_v029/T4_garden_s429914.png@230,760,520,960>scenes/T4_garden_s429914.png@230,760,520,960", "The reel", "v0.29: 'only a short stub of hose joined to nothing'. v0.30: the end of the hose on the grass with its nozzle on: 'a yellow nozzle lying on the grass'. Here on the same seed.")]
+FIXES = [("crop:probes_v030/T3_playground_s23032.png@962,578,1408,908>probes/T3_playground_s23051.png@192,564,638,902", "The seesaw", "v0.30: 'the man's legs appear to go through or around the plank'. v0.31: riders astride, the far leg behind the plank, and raised onto it. In the three pictures of two children nobody remarks on the plank."),
+         ("crop:vision/isolation_v031/round1/iso_21.png@100,40,320,340>vision/isolation_v031/round1/iso_26.png@100,40,320,340", "The vest", "v0.30: 'a jagged edge against the white shirt'. v0.31: wider than the shirt, so the shirt cannot come through. Nobody remarks on it in his 13 pictures."),
+         ("crop:scenes_v030/T1_playground_s041.png@240,725,440,925>scenes/T1_playground_s041.png@240,725,440,925", "The castle", "v0.30: 'the hand and castle merge a little'. v0.31: the castle further from the spade, and the spade shows. The same seed."),
+         ("crop:probes_v030/T3_garden_s23002.png@1080,740,1380,960>probes/T3_garden_s23002.png@1080,740,1380,960", "The reel", "v0.30: 'partly overlapping the edge of the flower bed'. v0.31: down and to the left, clear of it. The same seed.")]
+
+
+
+# v0.31: the whole document, as the publishing route refuses a page with no doctype. This is the skeleton the old route put round the template, so the page renders as it did.
+PAGE_OPEN = ('<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">'
+             '<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}'
+             'html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}'
+             'img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>\n')
+PAGE_CLOSE = "\n</body></html>"
 
 
 def webp(src, dst, size=None, gray=False, q=86):
@@ -306,7 +315,7 @@ def build(scenes_dir, gallery_dir, combos_path, out, old_gallery=None, screen=No
             "n_spare": len(cat["actions"]) - n_used,
             "n_expressions": len(cat["people_expressions"]), "fixes": fixes, "screen": scr}
     html = open(TEMPLATE_HTML).read().replace("/*__DATA__*/null", json.dumps(data, separators=(",", ":")))
-    open(os.path.join(out, "index.html"), "w").write(html)
+    open(os.path.join(out, "index.html"), "w").write(PAGE_OPEN + html + PAGE_CLOSE)
     print("site:", len(scenes), "scenes,", len(gal["actions"]), "actions,", len(gal["animals"]), "animal poses")
 
 

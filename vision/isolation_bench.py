@@ -22,6 +22,52 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.31 round 2
+    "ridT_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridT_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
+    "ridT_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridT_4": ("playground", 31114, {"events": ["seesaw"]}, "event", None),
+    "ridU_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridU_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridP_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridP_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
+    "ridP_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridP_4": ("playground", 31114, {"events": ["seesaw"]}, "event", None),
+    "relN_1": ("garden", 31151, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    "relN_2": ("garden", 31152, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    # v0.31 (scene drawings by name, see the loop below)
+    "ridO_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridO_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
+    "ridS_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridS_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
+    "ridS_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridS_4": ("playground", 31114, {"events": ["seesaw"]}, "event", None),
+    "ridO_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridO_4": ("playground", 31114, {"events": ["seesaw"]}, "event", None),
+    "vstB_1": ("garden", 31121, {"events": ["water_flowers"]}, "event", ("pose", "person.tomas")),
+    "vstB_2": ("garden", 31122, {"events": ["rake"]}, "event", ("pose", "person.tomas")),
+    "vstB_3": ("park", 31123, {"events": ["fishing"]}, "event", ("pose", "person.tomas")),
+    "vstO_1": ("garden", 31121, {"events": ["water_flowers"]}, "event", ("pose", "person.tomas")),
+    "vstO_2": ("garden", 31122, {"events": ["rake"]}, "event", ("pose", "person.tomas")),
+    "vstO_3": ("park", 31123, {"events": ["fishing"]}, "event", ("pose", "person.tomas")),
+    "sanO_1": ("playground", 31131, {"events": ["sandbox"]}, "event", None),
+    "sanO_2": ("playground", 31132, {"events": ["sandbox"]}, "event", None),
+    "sanM_1": ("playground", 31131, {"events": ["sandbox"]}, "event", None),
+    "sanM_2": ("playground", 31132, {"events": ["sandbox"]}, "event", None),
+    "sanM_3": ("playground", 31133, {"events": ["sandbox"]}, "event", None),
+    "fshE_5": ("garden", 31141, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshE_6": ("park", 31142, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshL_1": ("garden", 31141, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshL_2": ("park", 31142, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "fshL_3": ("garden", 31143, {"contradictions": ["fish_in_tree"]}, "treefish", None),
+    "relB_3": ("garden", 31151, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    "relM_1": ("garden", 31151, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    "relM_2": ("garden", 31152, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
+    "conO_1": ("street", 31161, {"events": ["dog_begs"]}, "event", None),
+    "conO_2": ("park", 31162, {"events": ["ice_cream"]}, "event", None),
+    "conB_1": ("street", 31161, {"events": ["dog_begs"]}, "event", None),
+    "conB_2": ("park", 31162, {"events": ["ice_cream"]}, "event", None),
+    "conB_3": ("playground", 31163, {"events": ["dog_begs"]}, "event", None),
     # v0.30 round 2
     "hosV_1": ("garden", 30141, {"events": ["hose_water"]}, "event", None),
     "hosV_2": ("garden", 30142, {"events": ["hose_water"]}, "event", None),
@@ -423,11 +469,16 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     _T.BULGE29 = "O" if name.startswith("blkO") else "B"
     _T.FISH29 = "O" if name in ("fshO_1", "fshO_2") else "B"
     _T.HOSE30 = {"hosU": "U", "hosV": "V"}.get(name[:4], "O")
-    _T.FISH30 = {"fshG": "G", "fshE": "E", "fshF": "F"}.get(name[:4], "O")
+    _T.FISH30 = {"fshG": "G", "fshE": "E", "fshF": "F", "fshL": "E"}.get(name[:4], "O")
     _T.TRIP_W30 = {"trpN": 60}.get(name[:4], 72)
     _T.CRUMB30 = "W" if name.startswith("fedW") else "O"
+    _T.SEESAW31 = {"ridS": "S", "ridT": "T", "ridU": "U", "ridP": "P"}.get(name[:4], "O")
+    _T.CASTLE31 = 26 if name.startswith("sanO") else 52
+    _T.LIMB31 = "L" if name.startswith("fshL") else "O"
+    _Q_ = __import__("scenegen.settings", fromlist=["x"])
+    _Q_.REEL31 = {"relM": (24, 0), "relN": (16, 16)}.get(name[:4], (0, 0))
     import scenegen.settings as _Q
-    _Q.REEL30 = "B" if name.startswith(("relB", "relC")) else "O"
+    _Q.REEL30 = "B" if name.startswith(("relB", "relC", "relM", "relN")) else "O"
     rec = None
     for k in range(40):
         USAGE.clear()

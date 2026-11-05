@@ -11,24 +11,26 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a garden: the hose hanging from the fist, the wide box outside the street
-    ("garden", 3, 30401, {"modules": ["about_to_trip"], "events": ["hose_water", "rake"]}, None),
-    # a garden: the fish on its one limb, the end of the hose lying by the reel
-    ("garden", 3, 30402, {"contradictions": ["fish_in_tree"], "events": ["dig", "read_bench"]}, "hose_tail"),
-    # a park: the crumbs on the water, the wide box, the fish
-    ("park", 3, 30403, {"modules": ["ducks_bread", "about_to_trip"], "contradictions": ["fish_in_tree"]}, None),
-    # a playground: the wide box among children
-    ("playground", 3, 30404, {"modules": ["about_to_trip"], "events": ["ice_cream", "kick_ball"]}, None),
-    # a garden: the stopped hose, with no end of hose left by the reel
-    ("garden", 3, 30405, {"modules": ["blocked_hose"], "events": ["hang_laundry", "cat_sleeping"]}, None),
-    # a park: the duck and its crumbs, the fish, a reader on a bench
-    ("park", 3, 30406, {"modules": ["ducks_bread"], "contradictions": ["fish_in_tree"], "events": ["read_bench"]}, None),
+    # a playground: a man on the seesaw's low end, among others
+    ("playground", 3, 31401, {"modules": ["seesaw_heavy"], "events": ["ice_cream"]}, None),
+    # a playground: two children on the seesaw, among others
+    ("playground", 3, 31402, {"events": ["seesaw", "ice_cream"]}, None),
+    # a garden: washing being hung, the reel and the end of its hose off the bed
+    ("garden", 3, 31403, {"events": ["hang_laundry", "rake", "cat_sleeping"]}, "hose_tail"),
+    # a garden under storm clouds: no one hanging washing, the reel again
+    ("garden", 3, 31404, {"modules": ["rain_coming"], "events": ["dig"]}, "hose_tail"),
+    # a park: the bearded man's vest
+    ("park", 3, 31405, {"events": ["fishing", "read_bench", "ice_cream"]}, "tomas"),
+    # a playground: the bearded man on the seesaw, and the castle
+    ("playground", 3, 31406, {"modules": ["seesaw_heavy"], "events": ["sandbox"]}, "tomas"),
 ]
 
 
 def ok(rec, rule):
     if rule is None:
         return True
+    if rule == "tomas":
+        return any(e.get("asset", {}).get("family") == "person.tomas" for e in rec["elements"])
     if rule == "teen":
         return any(e.get("asset", {}).get("family") == "person.leo" for e in rec["elements"])
     if rule == "nia_slide":

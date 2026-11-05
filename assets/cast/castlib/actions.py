@@ -1112,8 +1112,16 @@ def up_ice_cream(P):
         # v0.27, chosen on the bench: the scoop at the mouth (held up in front of the face: "looking at or eating it", "could be eating the ice cream or just holding it up")
         # (round 1's, a little higher: "smelling it like a flower", "the pink ball sits right at his nose and mouth")
         tgt = m + Vector((-0.02, -0.088, -0.128)) * u
+    cone31 = __import__("os").environ.get("TPDB_CONE", "O") == "B"
+    if cone31:
+        # v0.31 bench (isolation_v031.md), not chosen: the fist lower on a longer cone, the scoop where it was. Seated, both read as a cone; on the walker neither did: "I cannot see a clear cone or stick"
+        tgt = tgt - Vector((0, 0, 0.042)) * u
     P.arms({"R": (tgt, (-1, 0.4, -0.8)), "L": P.rest_arm("L")})
     g = P.grip("R")
+    if cone31:
+        P.prop("cone", cyl("cone", g + Vector((0, 0, 0.095)) * u, g + Vector((0, 0, -0.055)) * u, 0.046 * u, "wood_light", r1=0.004 * u))
+        P.prop("scoop", ellipsoid("scoop", g + Vector((0, 0, 0.130)) * u, (0.050 * u, 0.050 * u, 0.043 * u), "pink"))
+        return
     P.prop("cone", cyl("cone", g + Vector((0, 0, 0.05)) * u, g + Vector((0, 0, -0.07)) * u, 0.040 * u, "wood_light", r1=0.004 * u))
     P.prop("scoop", ellipsoid("scoop", g + Vector((0, 0, 0.085)) * u, (0.046 * u, 0.046 * u, 0.040 * u), "pink"))
 

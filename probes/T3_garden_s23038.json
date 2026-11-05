@@ -6,8 +6,8 @@
  "seed": 23038,
  "mirror": true,
  "versions": {
-  "generator": "0.30.0",
-  "cast_builder": "0.30.0",
+  "generator": "0.31.0",
+  "cast_builder": "0.31.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,77 +58,154 @@
  "features": [
   "bench",
   "feeder",
-  "flowers",
-  "hose_reel",
-  "swing"
+  "hose_reel"
  ],
  "templates": [
   {
-   "id": "hose_water",
-   "kind": "event",
+   "id": "fish_in_tree",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A man is watering the flowers with a hose",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "watering with a hose",
-     "spraying water",
-     "hosing the flowers",
-     "watering the garden"
-    ]
-   },
-   "key": "hose",
+   "type": "entity",
+   "text": "There is a fish",
+   "accepted": [
+    "fish",
+    "a fish",
+    "goldfish"
+   ],
+   "key": "fish",
    "elements": [
-    "hoser_1",
-    "hose_2",
-    "spray_4"
+    "treefish_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "hose_water",
+   "template": "fish_in_tree",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": 0.264,
+    "animate": false,
+    "s": -1.312,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": 0.9,
+    "a": 4.05,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
     "domain": null,
-    "area_px": 22204
+    "area_px": 2404
    },
-   "b": -1.431,
-   "p0": 0.807,
-   "pm1": 0.606,
+   "b": -0.494,
+   "p0": 0.621,
+   "pm1": 0.376,
    "aoi_cells": [
-    "MC",
-    "BC",
-    "BR"
+    "TR",
+    "MR"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong in the tree",
+   "accepted": [
+    "something in the tree",
+    "the tree looks odd",
+    "what's that in the tree"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_1"
+   ],
+   "cues": [
+    "treefish_1"
+   ],
+   "effect": [
+    "treefish_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 0.156,
+   "p0": 0.461,
+   "pm1": 0.239,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "A fish is sitting up in the tree, but fish live in water",
+   "accepted": [
+    "fish in a tree",
+    "fish can't live in trees",
+    "fish belong in water"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_1"
+   ],
+   "cues": [
+    "treefish_1"
+   ],
+   "effect": [
+    "treefish_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 1.356,
+   "p0": 0.205,
+   "pm1": 0.087,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -171,7 +248,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -213,7 +290,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -235,7 +312,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.734,
+    "s": 0.693,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -243,18 +320,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43040
+    "area_px": 40636
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.482,
+   "p0": 0.815,
+   "pm1": 0.618,
    "aoi_cells": [
     "TR",
     "MR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -298,7 +375,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -321,7 +398,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.875,
+    "s": 1.934,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -329,11 +406,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 215296
+    "area_px": 233800
    },
-   "b": -1.881,
-   "p0": 0.868,
-   "pm1": 0.707,
+   "b": -1.91,
+   "p0": 0.871,
+   "pm1": 0.713,
    "aoi_cells": [
     "ML",
     "MC",
@@ -341,7 +418,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -387,17 +464,18 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
-   "text": "There is a swing set",
+   "text": "There is a flower bed",
    "accepted": [
-    "swing",
-    "swings",
-    "swing set"
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
    ],
-   "key": "swing",
+   "key": "flowers",
    "elements": [
-    "swing"
+    "flowers"
    ],
    "cues": [],
    "effect": [],
@@ -410,27 +488,26 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.602,
+    "s": 0.373,
     "r": 0,
     "d": 0.0,
-    "f": 0.34,
-    "a": 4.16,
-    "zipf_raw": 4.34,
-    "aoa_raw": 4.16,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 35772
+    "area_px": 25884
    },
-   "b": -1.283,
-   "p0": 0.783,
-   "pm1": 0.57,
+   "b": -1.259,
+   "p0": 0.779,
+   "pm1": 0.564,
    "aoi_cells": [
-    "ML",
-    "BL",
-    "BC"
+    "BC",
+    "BR"
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a bench",
    "accepted": [
@@ -472,18 +549,18 @@
  ],
  "counts": {
   "content": 9,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 9
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.78,
-   "inference": null
+   "content": 0.759,
+   "inference": 0.333
   },
   "theta_minus_1": {
-   "content": 0.577,
-   "inference": null
+   "content": 0.551,
+   "inference": 0.163
   }
  },
  "bands": {
@@ -491,7 +568,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -510,13 +587,21 @@
  },
  "clutter": {
   "objects": 17,
-  "edge_density": 0.0407,
-  "png_bytes": 167159,
-  "jpeg_bytes": 189847
+  "edge_density": 0.0377,
+  "png_bytes": 132801,
+  "jpeg_bytes": 176829
  },
  "signature": [
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -628,8 +713,29 @@
     452.0
    ],
    "area_px": 44992,
-   "visible_px": 43040,
-   "occlusion": 0.043
+   "visible_px": 40636,
+   "occlusion": 0.097
+  },
+  {
+   "id": "limb_2",
+   "label": "Limb of the tree",
+   "role": "background",
+   "z": 450.2
+  },
+  {
+   "id": "treefish_1",
+   "label": "Fish sitting in the tree",
+   "role": "scored",
+   "z": 450.6,
+   "bbox": [
+    1066.0,
+    308.0,
+    1150.0,
+    344.0
+   ],
+   "area_px": 2404,
+   "visible_px": 2404,
+   "occlusion": 0.0
   },
   {
    "id": "fence",
@@ -643,8 +749,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 215296,
-   "occlusion": 0.106
+   "visible_px": 233800,
+   "occlusion": 0.029
   },
   {
    "id": "filler_bush_left",
@@ -662,18 +768,48 @@
    "occlusion": 0.096
   },
   {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    526.0,
+    602.0,
+    654.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
+  },
+  {
    "id": "feeder",
    "label": "Bird table on a post",
    "role": "setting",
    "z": 652,
    "bbox": [
-    158.0,
+    318.0,
     302.0,
-    232.0,
+    392.0,
     662.0
    ],
    "area_px": 8324,
    "visible_px": 8324,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    380.0,
+    596.0,
+    500.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
    "occlusion": 0.0
   },
   {
@@ -692,49 +828,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "hoser_1",
-   "label": "person.dev__hose_spray__neutral__y090",
-   "role": "scored",
-   "z": 830,
-   "bbox": [
-    926.0,
-    542.0,
-    1038.0,
-    836.0
-   ],
-   "area_px": 13676,
-   "visible_px": 13196,
-   "occlusion": 0.035,
-   "asset": {
-    "variant": "person.dev__hose_spray__neutral__y090",
-    "family": "person.dev",
-    "scale": 0.4565,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
-     }
-    }
-   }
-  },
-  {
-   "id": "hosejoin_3",
-   "label": "Garden hose at the hand",
-   "role": "background",
-   "z": 831
-  },
-  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -746,82 +839,37 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 23144,
-   "occlusion": 0.106
-  },
-  {
-   "id": "hose_2",
-   "label": "Garden hose",
-   "role": "scored",
-   "z": 836.5,
-   "bbox": [
-    1002.0,
-    658.0,
-    1306.0,
-    884.0
-   ],
-   "area_px": 6616,
-   "visible_px": 6168,
-   "occlusion": 0.068
-  },
-  {
-   "id": "spray_4",
-   "label": "Water spraying",
-   "role": "scored",
-   "z": 837,
-   "bbox": [
-    1036.0,
-    654.0,
-    1158.0,
-    802.0
-   ],
-   "area_px": 2840,
-   "visible_px": 2840,
-   "occlusion": 0.0
-  },
-  {
-   "id": "swing_seat",
-   "label": "Empty swing seat",
-   "role": "setting",
-   "z": 845,
-   "bbox": [
-    376.0,
-    474.0,
-    466.0,
-    784.0
-   ],
-   "area_px": 4492,
-   "visible_px": 4420,
-   "occlusion": 0.016
-  },
-  {
-   "id": "swing",
-   "label": "Swing set",
-   "role": "setting",
-   "z": 846,
-   "bbox": [
-    276.0,
-    458.0,
-    568.0,
-    856.0
-   ],
-   "area_px": 35772,
-   "visible_px": 35772,
+   "visible_px": 25884,
    "occlusion": 0.0
   },
   {
    "id": "hose_reel",
    "label": "Hose reel",
    "role": "setting",
-   "z": 870,
+   "z": 886,
    "bbox": [
-    1266.0,
-    788.0,
-    1330.0,
-    872.0
+    1282.0,
+    804.0,
+    1346.0,
+    888.0
    ],
    "area_px": 4264,
-   "visible_px": 4264,
+   "visible_px": 4092,
+   "occlusion": 0.04
+  },
+  {
+   "id": "hose_tail",
+   "label": "End of the hose",
+   "role": "setting",
+   "z": 887,
+   "bbox": [
+    1194.0,
+    842.0,
+    1298.0,
+    924.0
+   ],
+   "area_px": 2004,
+   "visible_px": 2004,
    "occlusion": 0.0
   },
   {
@@ -837,6 +885,21 @@
    ],
    "area_px": 13200,
    "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    362.0,
+    884.0,
+    458.0,
+    962.0
+   ],
+   "area_px": 4404,
+   "visible_px": 4404,
    "occlusion": 0.0
   },
   {
@@ -874,11 +937,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "hose_water"
+   "contradictions": [
+    "fish_in_tree"
    ]
   },
-  "placement_rev": 28
+  "placement_rev": 29
  },
  "probe": true
 }
