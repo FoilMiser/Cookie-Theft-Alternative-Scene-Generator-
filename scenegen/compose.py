@@ -49,6 +49,10 @@ def render_png(svg, width=D.W):
 
 def asset_mask(p, mirror):
     """Coverage of a rendered asset, pasted straight from its alpha channel (no SVG round trip)."""
+    if getattr(p, "rot", None):
+        # v0.35: a turned figure (the child on a swung seat) is drawn through the SVG, as it appears
+        im = render_png(svg_doc(p.svg(shadow=False), mirror=mirror), int(D.W * MASK_SCALE)).convert("RGBA")
+        return np.array(im)[:, :, 3] > 96
     W2, H2 = int(D.W * MASK_SCALE), int(D.H * MASK_SCALE)
     im = p.lib.image(p.v)
     w, h = im.size

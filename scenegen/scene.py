@@ -190,7 +190,12 @@ class PlacementError(Exception):
 # straight"), and asks for the wind template itself, where revision 31 asked for any template claiming the "wind" tag, which the kite, a thing
 # stuck in a tree, the storm pointer and the floating box claim only to keep away from it; and keeps the storm pointer's cone clear of the washing on
 # the line ("at the washing on the line (or both) ... roughly between the two"). The woman in yellow's long hair is the cast's (vision/isolation_v034.md).
-PLACEMENT_REV = 32
+# 33 (v0.35) swings the child on the swing out 12 degrees about the beam, the seat, the ropes and the child together, the motion arcs trailing back
+# toward the bottom of the swing, away from the path, the frame redrawn wider on that side so the seat stays clear of its legs ("The swing ropes
+# hang straight down (at rest) even though motion lines suggest movement", in five screens running; vision/isolation_v035.md; widened on both
+# sides, a leg stood on the path again; an empty swing keeps its frame); and keeps a pile swept or raked out of the wind ("yet
+# the woman's pile of leaves stays neatly in place"), as revision 32 keeps water out of it.
+PLACEMENT_REV = 33
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

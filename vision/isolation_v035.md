@@ -1,0 +1,23 @@
+# v0.35 isolation bench
+
+Each visual was forced into a picture with little else and cut out, then read blind by fresh readers (the method of `isolation_v023.md`). One round: nine readers and 9 cut-outs, one to a reader, as all nine are the one thing drawn three ways (`isolation_v035/round1`; `map.json` says which cut-out is which case). The drawing is a switch in the generator, `SWING35` in `scenegen/draw.py`, with the wider frame in `scenegen/settings.py` and the swung seat in `templates.Swing.swung`.
+
+## The child on the swing (`SWING35`)
+
+`swing`: a child on the garden's swing, the seat hanging straight under two motion arcs. It reads in full and has since v0.9, but in five screens running a reader has said the swing hangs still while the arcs say it moves: "The swing ropes hang straight down (at rest) even though motion lines suggest movement - slightly inconsistent" (v0.34, picture 30), "the swing chains hang straight down, so it could be either gently swinging or still" (v0.34, picture 40), and alike in v0.30, v0.31 and v0.32. The frame's inner legs stood 23 px from the seat's ends, so a seat swung out would have passed through them. The swung cases draw the frame wider, 56 px out on each side, and swing the seat, the ropes and the child out about the beam, the arcs trailing back toward the bottom of the swing. Each case's three cut-outs are three gardens, the same three seeds.
+
+| Case | Drawn | What the readers said |
+|---|---|---|
+| `swgO_1` to `_3` | **O**: v0.34, hanging straight | Swinging in one ("Two short dark strokes to the right of the seat look like motion lines, so the child seems to be swinging", `_2`). In the other two the arcs were doubted: "The faint lines to the left could be motion lines from the swinging, or they could be marks or cracks in the grass" (`_1`); strokes that "seem to float without clearly belonging to anything" (`_3`), whose reader also said "The inner posts stand very close to the child on both sides. A swing that moves would seem likely to hit them" |
+| `swgS_1` to `_3` | **S**: swung 8 degrees, in the wider frame | All three moving: "Short motion lines to the right of the swing show that it is moving" (`_1`); "short motion lines to her left suggest she is moving" (`_2`); "Short motion lines to the left of the child show the swing is moving" (`_3`), whose reader found the seat "fairly low under the thighs" |
+| `swgT_1` to `_3` | **T**: swung 12 degrees, in the wider frame | All three moving: "The seat and the child are tilted slightly, which fits mid-swing" (`_1`); "Short motion lines to the left of the seat show the swing moving" (`_2`), its reader offering "just a seat hanging crooked" as a second reading of the tilt; "Two short dash lines to the left of the seat suggest the swing is moving" (`_3`) |
+
+**Chosen: T.** Swung, all six readings took the arcs for motion, where two of the three straight ones doubted them. Between 8 and 12 degrees the bench shows little to choose: one reader of each had a doubt, the seat low under the thighs at 8 and a seat "hanging crooked" at 12. The remark came from whole pictures, where the swing is small, so the larger swing is the one that shows: the design tests read it there. Nothing is re-rendered: the child is the cast's pose, turned with the seat. Widened on both sides, as on the bench, the frame's leg stood on the path again in the first design test ("The left front leg of the swing set seems to stand on or right at the edge of the paved path instead of on the grass"), which v0.15 had moved it off; the release widens it on the side away from the path only, and swings the seat that way (`vision/design_tests_v035.md`).
+
+The swung child is turned in the picture, not in the cast, so its box, its anchors and its mask are turned with it (`library.Placed.rot`, and `compose.asset_mask` draws a turned figure through its SVG).
+
+## No drawing
+
+**A pile in the wind.** "The wind is strong enough to blow the cap and washing sideways, yet the woman's pile of leaves stays neatly in place and her hair/dress are not blown" (v0.34, picture 38). Revision 33 keeps a pile swept, raked or swept with the giant fork out of a windy picture, as revision 32 keeps water out of it. The hair and the dress would need the cast to blow, a larger job.
+
+**The storm pointer and the washing.** "Could be pointing at the storm clouds (warning of rain) or at the washing on the line (to bring it in)" (v0.34, picture 16), with the washing already kept out of her cone. The reason given is what the rain will soak, not what the arm points at, and the item reads in full; a wider cone would not change it. Left as it is.

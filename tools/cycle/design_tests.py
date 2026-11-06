@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # v0.34: a garden: the woman in yellow, with long hair, reading on the bench, among others
-    ("garden", 3, 34401, {"events": ["read_bench", "rake"]}, "meisit"),
-    # a park: the same, by the pond
-    ("park", 3, 34402, {"events": ["read_bench", "fishing"]}, "meisit"),
-    # a street: the same
-    ("street", 3, 34403, {"events": ["read_bench", "carry_bag"]}, "meisit"),
-    # a garden: the storm pointer with washing on the line
-    ("garden", 3, 34404, {"modules": ["rain_coming"], "events": ["dig"]}, "laundry"),
-    # a garden: a hose beside a floating box, which revision 31 refused and revision 32 allows
-    ("garden", 3, 34405, {"contradictions": ["floating_box"], "events": ["hose_water"]}, None),
-    # a garden: the wind, with nobody watering
-    ("garden", 3, 34406, {"modules": ["windy_hat"], "events": ["rake", "cat_sleeping"]}, None),
+    # v0.35: a garden: the child on the swing, swung out in the wider frame, among others
+    ("garden", 3, 35401, {"events": ["swing", "rake"]}, None),
+    # a garden: the same, by a kite stuck in a tree and someone carrying a box
+    ("garden", 3, 35402, {"modules": ["kite_in_tree"], "events": ["swing", "carry_box"]}, None),
+    # a garden: the same, with someone sitting on nothing
+    ("garden", 3, 35403, {"contradictions": ["sitting_on_air"], "events": ["swing"]}, None),
+    # a garden: the swing in the wind
+    ("garden", 3, 35404, {"modules": ["windy_hat"], "events": ["swing", "cat_sleeping"]}, None),
+    # a garden: the wind, with no pile swept or raked (revision 33), someone digging and a cat on the fence
+    ("garden", 3, 35405, {"modules": ["windy_hat"], "events": ["dig", "cat_on_fence"]}, None),
+    # a park: sweeping and raking with no wind, which revision 33 leaves as they were
+    ("park", 3, 35406, {"events": ["sweep", "rake"]}, None),
 ]
 
 

@@ -21,8 +21,8 @@ from .draw import OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out034")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib034")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out035")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib035")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 # v0.28 bench (isolation_v028.md): "O" keeps the shadow from the figure's box
 SHADOW28 = "B"
@@ -160,7 +160,13 @@ class Placed:
         self.z = depth_y
 
     def pt(self, p):
-        return (self.X + self.s * self.k * (p[0] - self.gx), self.Y + self.k * (p[1] - self.gy))
+        x, y = (self.X + self.s * self.k * (p[0] - self.gx), self.Y + self.k * (p[1] - self.gy))
+        rot = getattr(self, "rot", None)
+        if rot:
+            # v0.35: a figure turned about a point (the child on a swung seat), as its drawing is
+            a, cx, cy = math.radians(rot[0]), rot[1], rot[2]
+            x, y = cx + (x - cx) * math.cos(a) - (y - cy) * math.sin(a), cy + (x - cx) * math.sin(a) + (y - cy) * math.cos(a)
+        return (x, y)
 
     def has_anchor(self, name):
         return (mirror_name(name) if self.mirror else name) in self.m["anchors"]
@@ -171,6 +177,11 @@ class Placed:
 
     def bbox(self):
         x0, y0, x1, y1 = self.m["geometry"]["bbox_px"]
+        if getattr(self, "rot", None):
+            q = [self.pt(c) for c in ((x0, y0), (x1, y0), (x0, y1), (x1, y1))]
+            out = BBox((min(c[0] for c in q), min(c[1] for c in q), max(c[0] for c in q), max(c[1] for c in q)))
+            out.asset = self
+            return out
         a, b = self.pt((x0, y0)), self.pt((x1, y1))
         out = BBox((min(a[0], b[0]), min(a[1], b[1]), max(a[0], b[0]), max(a[1], b[1])))
         out.asset = self
@@ -311,7 +322,11 @@ class Placed:
             # a jump read as kneeling or squatting)
             fw = max(self.m["geometry"]["footprint_m"].values()) * ppm(self.depth_y) * 1.0
             out += f'<ellipse cx="{self.X:.1f}" cy="{self.Y + 2:.1f}" rx="{fw / 2:.1f}" ry="{fw / 8:.1f}" fill="{OUT}" fill-opacity="0.14"/>'
-        out += f'<image x="{x0:.2f}" y="{y0:.2f}" width="{w}" height="{h}" href="{uri}"/>'
+        img = f'<image x="{x0:.2f}" y="{y0:.2f}" width="{w}" height="{h}" href="{uri}"/>'
+        rot = getattr(self, "rot", None)
+        if rot:
+            img = f'<g transform="rotate({rot[0]:.2f} {rot[1]:.2f} {rot[2]:.2f})">{img}</g>'
+        out += img
         return out
 
 

@@ -494,6 +494,10 @@ class Sweep(T):
 
     def place(self):
         sc = self.sc
+        if SCN.PLACEMENT_REV >= 33 and _windy(sc, self):
+            # revision 33: nor a pile swept or raked in the wind ("the wind is strong enough to blow the cap and washing sideways,
+            # yet the woman's pile of leaves stays neatly in place"), as revision 32 keeps water out of it
+            return False
         A = sc.S.anchors.get("path")
         cands = self.stand_spots(x_range=(A["x0"], A["x1"]), y_range=(A["y0"], A["y1"])) if A else []
         if not (SCN.PLACEMENT_REV >= 6 and A):
@@ -534,6 +538,10 @@ class Rake(T):
 
     def place(self):
         sc = self.sc
+        if SCN.PLACEMENT_REV >= 33 and _windy(sc, self):
+            # revision 33: nor a pile swept or raked in the wind ("the wind is strong enough to blow the cap and washing sideways,
+            # yet the woman's pile of leaves stays neatly in place"), as revision 32 keeps water out of it
+            return False
         ep = sc.eid("raker")
 
         def pile(p):
@@ -909,14 +917,29 @@ class Swing(T):
         A = sc.S.anchors["swing"]
         ep = sc.eid("swinger")
         sx, sy = A["seat"]
+        tilt = {"S": 8, "T": 12}.get(D.SWING35, 0) if SCN.PLACEMENT_REV >= 33 else 0
+        if tilt:
+            # revision 33: the seat swung out about the beam, the ropes and the child with it, the motion arcs trailing back
+            # toward the bottom of the swing ("The swing ropes hang straight down (at rest) even though motion lines suggest movement");
+            # away from the path, where the frame is widened for it
+            d_ = -1
+            (t1, t2) = A["rope_top"]
+            pivot = ((t1[0] + t2[0]) / 2, t1[1])
+            R0 = sy - pivot[1]
+            a_ = math.radians(tilt * d_)
+            sx, sy = pivot[0] + R0 * math.sin(a_), pivot[1] + R0 * math.cos(a_)
         for mirror in (False, True):
             p = sc.placed(self.vp, 0, 0, mirror, depth_y=A["depth"] - 1, eid=ep)
             p.move_anchor_to("seat", (sx, sy - 4))
+            if tilt:
+                p.rot = (-tilt * d_, sx, sy)
             if sc.fits(p.bbox(), limit=0.15):
                 sc.assets[ep] = p
                 break
         else:
             return False
+        if tilt:
+            return self.swung(p, ep, A, sx, sy, tilt, d_, pivot, R0)
         sc.S.elements = [e for e in sc.S.elements if e["id"] != "swing_seat"]
         sc.legib_ok.add(("swing", ep))
         (t1, t2) = A["rope_top"]
@@ -939,6 +962,42 @@ class Swing(T):
                 pts_ = [(pivot[0] + d_ * R_ * math.sin(math.radians(a)), pivot[1] + R_ * math.cos(math.radians(a))) for a in (a0, (a0 + a1) / 2, a1)]
                 seat += f'<path d="M {D.P(*pts_[0])} Q {D.P(*pts_[1])} {D.P(*pts_[2])}" fill="none" stroke="{D.OUT}" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.7"/>'
         sc.svg(sc.eid("swingseat"), "Swing seat and ropes", ropes + seat, A["depth"] - 2, (sx - 45, t1[1], sx + 45, sy + 10), "setting")
+        self.act(self.p, "on the swing", ["on the swing", "swinging", "playing on the swing", "sitting on a swing"], "swing", [ep])
+        return True
+
+    def swung(self, p, ep, A, sx, sy, tilt, d_, pivot, R0):
+        """Revision 33: the seat, its ropes and the child swung out `tilt` degrees to side d_, and the frame widened on that side."""
+        sc = self.sc
+        from .settings import swing_frame
+        w_ = 56
+        sw, sbb, sbl = swing_frame(-55, w_)
+        if not sc.fits((sbb[0] - 4, sbb[1], sbb[0] + w_ + 90, sbb[3]), ignore=(ep,), limit=0.02):
+            return False
+        for e in sc.S.elements:
+            if e["id"] == "swing":
+                e["svg"], e["bbox"] = sw, sbb
+        sc.S.blocked.append(sbl)
+        sc.S.elements = [e for e in sc.S.elements if e["id"] != "swing_seat"]
+        sc.legib_ok.add(("swing", ep))
+        (t1, t2) = A["rope_top"]
+        a_ = math.radians(tilt * d_)
+        ca, sa = math.cos(a_), math.sin(a_)
+        ux, uy = ca, -sa                       # along the seat, turned with the ropes
+        rl, rr = p.anchor("rope_L"), p.anchor("rope_R")
+        left, right = sorted([rl, rr])
+        se = 40
+        el_, er_ = (sx - se * ux, sy - se * uy), (sx + se * ux, sy + se * uy)
+        lt, rt = (t1, t2) if t1[0] < t2[0] else (t2, t1)
+        ropes = D.line(lt[0], lt[1], left[0], left[1], D.OUT, 4) + D.line(left[0], left[1], el_[0], el_[1], D.OUT, 4)
+        ropes += D.line(rt[0], rt[1], right[0], right[1], D.OUT, 4) + D.line(right[0], right[1], er_[0], er_[1], D.OUT, 4)
+        seat = f'<g transform="rotate({-tilt * d_:.2f} {sx:.2f} {sy:.2f})">' + D.rect(sx - 42, sy - 4, 84, 13, C["red"], 3) + '</g>'
+        # the motion arcs trail the seat back toward the bottom of its swing
+        for dr, b0, b1 in ((0, tilt - 21, tilt - 10), (-16, tilt - 19, tilt - 11)):
+            R_ = R0 + dr
+            pts_ = [(pivot[0] + d_ * R_ * math.sin(math.radians(b)), pivot[1] + R_ * math.cos(math.radians(b))) for b in (b0, (b0 + b1) / 2, b1)]
+            seat += f'<path d="M {D.P(*pts_[0])} Q {D.P(*pts_[1])} {D.P(*pts_[2])}" fill="none" stroke="{D.OUT}" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.7"/>'
+        xs = [lt[0], rt[0], el_[0], er_[0], sx - 46, sx + 46] + [pivot[0] + d_ * R0 * math.sin(math.radians(tilt - 21))]
+        sc.svg(sc.eid("swingseat"), "Swing seat and ropes", ropes + seat, A["depth"] - 2, (min(xs) - 4, t1[1], max(xs) + 4, max(el_[1], er_[1]) + 14), "setting")
         self.act(self.p, "on the swing", ["on the swing", "swinging", "playing on the swing", "sitting on a swing"], "swing", [ep])
         return True
 
@@ -4761,6 +4820,11 @@ class SweepFork(Sweep):
     def place(self):
         if SCN.PLACEMENT_REV < 6:
             return super().place()
+        sc = self.sc
+        if SCN.PLACEMENT_REV >= 33 and _windy(sc, self):
+            # revision 33: nor a pile swept or raked in the wind ("the wind is strong enough to blow the cap and washing sideways,
+            # yet the woman's pile of leaves stays neatly in place"), as revision 32 keeps water out of it
+            return False
         # revision 6: on the path or pavement, with the dust heap ahead of the tines reserved as part of
         # the event (a heap that did not fit was simply left out, and a fork with nothing swept is a rake)
         from .settings import on_path

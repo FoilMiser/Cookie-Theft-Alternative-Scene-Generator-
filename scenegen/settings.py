@@ -155,6 +155,17 @@ def _rev():
     return _SCN.PLACEMENT_REV
 
 
+
+def swing_frame(dx, w_=0):
+    """The garden's swing frame, its box and the ground its feet keep clear. v0.35 (revision 33): w_ px wider on the side away from the
+    path, for a seat swung out that way; the Swing template redraws the frame so when it swings a child ("The swing ropes hang straight
+    down (at rest) even though motion lines suggest movement"). Widened on both sides, a leg stood on the path again ("seems to stand on
+    or right at the edge of the paved path"), which v0.15 had moved it off."""
+    sw = D.stroke(D.poly_d([(1098 + dx - w_, 845), (1140 + dx - w_, 468)]), C["slate"], 12) + D.stroke(D.poly_d([(1176 + dx - w_, 845), (1140 + dx - w_, 468)]), C["slate"], 12)
+    sw += D.stroke(D.poly_d([(1292 + dx, 845), (1330 + dx, 468)]), C["slate"], 12) + D.stroke(D.poly_d([(1368 + dx, 845), (1330 + dx, 468)]), C["slate"], 12)
+    sw += D.stroke(D.poly_d([(1130 + dx - w_, 470), (1340 + dx, 470)]), C["slate"], 13)
+    return sw, (1090 + dx - w_, 460, 1378 + dx, 850), (1070 + dx - w_, 760, 1400 + dx, 930)
+
 def path_edges(left, right, y0=640, y1=1010, step=10):
     """Sample two cubic Bezier edges of a winding path into (y, left x, right x) rows."""
     def pts(c):
@@ -271,11 +282,9 @@ def build_garden(features, sky):
         # v0.15: the frame stands 55 px further from the path (its right legs stood on the paving: "the swing set's legs
         # stand on the paved path rather than the grass")
         dx = -55 if _rev() >= 13 else 0
-        sw = D.stroke(D.poly_d([(1098 + dx, 845), (1140 + dx, 468)]), C["slate"], 12) + D.stroke(D.poly_d([(1176 + dx, 845), (1140 + dx, 468)]), C["slate"], 12)
-        sw += D.stroke(D.poly_d([(1292 + dx, 845), (1330 + dx, 468)]), C["slate"], 12) + D.stroke(D.poly_d([(1368 + dx, 845), (1330 + dx, 468)]), C["slate"], 12)
-        sw += D.stroke(D.poly_d([(1130 + dx, 470), (1340 + dx, 470)]), C["slate"], 13)
-        S.add("swing", "Swing set", sw, 846, "setting", (1090 + dx, 460, 1378 + dx, 850),
-              entity=E("There is a swing set", ["swing", "swings", "swing set"], "swing"), blocked=(1070 + dx, 760, 1400 + dx, 930))
+        sw, sbb, sbl = swing_frame(dx)
+        S.add("swing", "Swing set", sw, 846, "setting", sbb,
+              entity=E("There is a swing set", ["swing", "swings", "swing set"], "swing"), blocked=sbl)
         S.anchors["swing"] = {"seat": (1234 + dx, 772), "rope_top": ((1205 + dx, 476), (1262 + dx, 476)), "depth": 846, "seat_w": 84}
         empty = D.line(1205 + dx, 476, 1205 + dx, 772, D.OUT, 4) + D.line(1262 + dx, 476, 1262 + dx, 772, D.OUT, 4) + D.rect(1192 + dx, 768, 84, 13, C["red"], 3)
         S.add("swing_seat", "Empty swing seat", empty, 845, "setting", (1190 + dx, 470, 1278 + dx, 782))

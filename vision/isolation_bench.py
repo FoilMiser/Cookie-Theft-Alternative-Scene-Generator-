@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.34 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.35 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,16 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.35 (the swing swung out, by D.SWING35: swgO as v0.34, swgS 8 degrees and swgT 12 degrees in a wider frame)
+    "swgO_1": ("garden", 35111, {"events": ["swing"]}, "event", None),
+    "swgO_2": ("garden", 35112, {"events": ["swing"]}, "event", None),
+    "swgO_3": ("garden", 35113, {"events": ["swing"]}, "event", None),
+    "swgS_1": ("garden", 35111, {"events": ["swing"]}, "event", None),
+    "swgS_2": ("garden", 35112, {"events": ["swing"]}, "event", None),
+    "swgS_3": ("garden", 35113, {"events": ["swing"]}, "event", None),
+    "swgT_1": ("garden", 35111, {"events": ["swing"]}, "event", None),
+    "swgT_2": ("garden", 35112, {"events": ["swing"]}, "event", None),
+    "swgT_3": ("garden", 35113, {"events": ["swing"]}, "event", None),
     # v0.34 (the woman in yellow seated reading; the cast's switches by bench cast: seaP from TPDB_SEAT34=P, seaH from TPDB_HAIR34=L, seaB both)
     "seaO_1": ("garden", 34111, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
     "seaO_2": ("park", 34112, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
@@ -516,6 +526,7 @@ _REL = {(m, k): getattr(m, k) for m in (_D, _L0, _Q0, _T0) for k in dir(m) if _r
 NEW32 = {n for n in BENCH if n[:4] in ("ridO", "ridX", "ridF", "ridG", "ridB", "ridC", "ridH", "boxO", "boxU", "boxV") and BENCH[n][1] // 1000 in (32, 33)}
 NEW33 = {n for n in BENCH if n[:3] in ("stp", "kik") and BENCH[n][1] // 1000 == 33}
 NEW34 = {n for n in BENCH if n[:3] == "sea" and BENCH[n][1] // 1000 == 34}
+NEW35 = {n for n in BENCH if n[:3] == "swg" and BENCH[n][1] // 1000 == 35}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -578,6 +589,10 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     if name in NEW34:
         for (m, k), v in _REL.items():
             setattr(m, k, v)
+    if name in NEW35:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        _D.SWING35 = name[3]
     rec = None
     for k in range(40):
         USAGE.clear()

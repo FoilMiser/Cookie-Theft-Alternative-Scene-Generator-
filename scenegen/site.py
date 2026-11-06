@@ -49,31 +49,31 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v033", "v034"
+PREV, CUR = "v034", "v035"
 
-# the templates whose drawing or placement v0.34 changed for the v0.33 screen (vision/flaws_v033.md); each drawing went to the isolation bench first
-# (vision/isolation_v034.md) and was read in whole test scenes (vision/design_tests_v034.md)
+# the templates whose drawing or placement v0.35 changed for the v0.34 screen (vision/flaws_v034.md); each drawing went to the isolation bench first
+# (vision/isolation_v035.md) and was read in whole test scenes (vision/design_tests_v035.md)
 REDRAWN_NOTES = {
-    "read_bench": "A woman in a yellow dress, seated reading, was 'a child with short dark hair, in a yellow top, yellow shorts and red shoes'. Now she has long hair, tied back, chosen on the bench, and the picture she failed in reads 'a young woman with dark shoulder-length or long hair, a yellow dress and red shoes'.",
-    "rain_coming": "'She might also be pointing at the washing.' Now the washing on the line is kept out of the pointing cone. A reader still gives it as what the rain will soak, 'to bring it in'. Holds at 1.00.",
-    "pan_watering": "'Despite the strong wind, the water from the pan falls fairly straight'. Now no can, pan or sprinkler pours in a windy picture. Holds at 1.00.",
-    "water_flowers": "Kept out of the wind with the pan and the sprinkler. Holds at 1.00.",
-    "hose_water": "Revision 31 kept it out of any picture claiming the wind's tag, a kite or a floating box among them; revision 32 asks for the wind itself. Holds at 1.00.",
-    "sprinkler_package": "Kept out of the wind with the can and the pan. Holds at 1.00.",
+    "swing": "'The swing ropes hang straight down (at rest) even though motion lines suggest movement', in five screens running. Now the seat swings out 12 degrees with the child, in a frame widened away from the path. Holds at 1.00, read as swinging in all three pictures.",
+    "sweep": "'Yet the woman's pile of leaves stays neatly in place', in the wind. Now no pile is swept in a windy picture. Holds at 1.00.",
+    "rake": "Kept out of the wind with the broom. Holds at 1.00.",
+    "sweep_fork": "Its heap of dust kept out of the wind with the leaves. Holds at 1.00.",
 }
 
-# what the v0.34 screen readers made of the templates that read poorly (vision/flaws_v034.md): none fell under the gate
-WEAK_NOTES = {}
-SCREEN_NOTE = ("The v0.34 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The woman in yellow's hair went to the isolation bench first, and every change was read in whole test scenes. "
-               "874 of 885 items had full marks and none was misread. All 64 templates pass the gate, for the first time since v0.29. "
-               "26 pictures were identical to the pixel in v0.33 and v0.34, and 296 of their 299 items scored the same, two moving up and one down. "
+# what the v0.35 screen readers made of the templates that read poorly (vision/flaws_v035.md)
+WEAK_NOTES = {
+    "bucket_hat": "A grandfather under a bucket, hands on hips, was 'a boy in a white shirt, brown waistcoat and dark trousers', on a picture unchanged since v0.34; the bucket covers the grey hair and the cap that say his age.",
+}
+SCREEN_NOTE = ("The v0.35 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The swing went to the isolation bench first, and every change was read in whole test scenes. "
+               "855 of 877 items had full marks and one was misread. 63 of 64 templates pass the gate, the failure a grandfather under a bucket read as a boy, on a picture unchanged since v0.34. "
+               "78 pictures were identical to the pixel in v0.34 and v0.35, and 806 of their 830 items scored the same, 12 of the 17 that went down the clouds of two readers who named nothing in the sky. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:vision/isolation_v034/round1/iso_06.png@0,0,348,370>vision/isolation_v034/round1/iso_08.png@0,0,348,370", "The hair", "v0.33: 'A child or young person with short dark hair'. v0.34: long hair, tied back, and every bench reader had her a woman or a girl. The same seed, cut out on the bench."),
-         ("crop:probes_v033/T3_garden_s23013.png@0,0,1600,1000>probes/T3_garden_s23013.png@0,0,1600,1000", "The washing", "v0.33: 'She might also be pointing at the washing.' v0.34: the washing kept out of the pointing cone. The same seed places her elsewhere, and a reader still gives the washing as what the rain will soak, 'to bring it in'."),
-         ("crop:probes_v033/T3_garden_s23020.png@0,0,1600,1000>probes/T3_garden_s24054.png@0,0,1600,1000", "The pan", "v0.33: 'Despite the strong wind, the water from the pan falls fairly straight'. v0.34: no can, pan or sprinkler pours in a windy picture, and the pan's probe is a still garden.")]
+FIXES = [("crop:vision/isolation_v035/round1/iso_08.png@0,0,420,340>vision/isolation_v035/round1/iso_06.png@0,0,420,340", "The swing", "v0.34: 'The swing ropes hang straight down (at rest) even though motion lines suggest movement'. v0.35: swung out 12 degrees, the child, the seat and the ropes together, and every bench reader of a swung seat took the lines for motion. The same seed, cut out on the bench."),
+         ("crop:probes_v034/T3_garden_s23010.png@0,0,1600,1000>probes/T3_garden_s23010.png@0,0,1600,1000", "In a whole picture", "The same seed in v0.34 and v0.35: the frame widened on the side away from the path and the seat swung that way. 'The girl on the swing looks like she is swinging normally and enjoying it.'"),
+         ("crop:probes_v034/T3_garden_s23057.png@0,0,1600,1000>probes/T3_park_s38704.png@0,0,1600,1000", "The pile in the wind", "v0.34: 'yet the woman's pile of leaves stays neatly in place'. v0.35: no pile swept or raked in a windy picture, and the new windy probe is a park with nobody sweeping.")]
 
 
 

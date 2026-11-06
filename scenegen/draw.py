@@ -1362,6 +1362,8 @@ def sandbox(cx, cy, s=1.0, w=330, d=88):
 # to sweep"): "A" a heap of leaves at the broom's head, "B" a heap of dust and grit, "O" nothing. v0.26: A, on the bench
 # (isolation_v026.md: "sweeping up leaves"; B was "a dustpan-like shape", "a small rock or mound")
 SWEEP26 = "A"
+# v0.35 bench: the swing swung out ("O" hanging straight, as v0.34; "S" 8 and "T" 12 degrees, in a wider frame)
+SWING35 = "T"           # chosen on the v0.35 bench (vision/isolation_v035.md)
 
 
 def sweep_heap(x, y, s=1.0, f=1, style="A"):

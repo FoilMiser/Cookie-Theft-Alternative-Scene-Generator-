@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.34 was made, written so that a fresh session can make the next one (v0.35) from this
+How each release from v0.12 to v0.35 was made, written so that a fresh session can make the next one (v0.36) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -258,6 +258,12 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   what the rain will soak, not what the arm points at. Before widening a rule, read why the reader gave the other thing.
 - One reader can empty a row. v0.34's ninth reader named nothing in the sky, and seven of the screen's eleven items under full marks are its clouds.
   Look at who wrote a run of misses before taking it for the pictures.
+- A change can undo an old fix next to it. v0.35 widened the swing frame on both sides for the swung seat, and the first design test found its leg on
+  the path, which v0.15 had moved it off. Before widening or moving a setting element, read the comments on it and on what stands beside it.
+- Change a shared setting element from the template that needs it. Drawn wider for every swing set, the frame left an empty seat off the middle of its
+  beam and moved the tier-4 garden round it; redrawn by the swing template when it swings a child (`settings.swing_frame`), the set came back identical.
+- A figure turned in the picture must be turned in every check too: its box, its anchors and its mask (`library.Placed.rot`; `compose.asset_mask`
+  draws a turned figure through its SVG). Keep the unturned path byte for byte, so older records rebuild.
 - A cue added for one reading can outlive its need. The stuck rider's kick arcs went in at v0.16, when readers of her without them saw nothing wrong; by
   v0.32 she called out and held a raised handle, the arcs drew "hovering slightly above the plank", and without them every bench reader had her stuck.
   Bench the cue's absence as a case of its own.
