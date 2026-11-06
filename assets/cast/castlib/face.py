@@ -195,6 +195,9 @@ def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_ga
         if e.get("blush"):
             show |= {"blush_L", "blush_R"}
         show |= {key for key in face.objs if key.startswith("glass")}
+        # v0.36: the bold moustache in every expression (every face part not named here is hidden, and the thin moustache, named
+        # nowhere, has been hidden in every render since it was first built)
+        show |= {key for key in face.objs if key.startswith("mustache36")}
         for key, ob in face.objs.items():
             st[ob.name] = {"hide": key not in show}
         f = e.get("eye", 1.0)

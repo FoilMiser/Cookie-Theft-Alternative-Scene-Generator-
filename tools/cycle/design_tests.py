@@ -11,24 +11,26 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # v0.35: a garden: the child on the swing, swung out in the wider frame, among others
-    ("garden", 3, 35401, {"events": ["swing", "rake"]}, None),
-    # a garden: the same, by a kite stuck in a tree and someone carrying a box
-    ("garden", 3, 35402, {"modules": ["kite_in_tree"], "events": ["swing", "carry_box"]}, None),
-    # a garden: the same, with someone sitting on nothing
-    ("garden", 3, 35403, {"contradictions": ["sitting_on_air"], "events": ["swing"]}, None),
-    # a garden: the swing in the wind
-    ("garden", 3, 35404, {"modules": ["windy_hat"], "events": ["swing", "cat_sleeping"]}, None),
-    # a garden: the wind, with no pile swept or raked (revision 33), someone digging and a cat on the fence
-    ("garden", 3, 35405, {"modules": ["windy_hat"], "events": ["dig", "cat_on_fence"]}, None),
-    # a park: sweeping and raking with no wind, which revision 33 leaves as they were
-    ("park", 3, 35406, {"events": ["sweep", "rake"]}, None),
+    # v0.36: a garden: the grandfather under the bucket, with his moustache and the bucket sat higher, among others
+    ("garden", 3, 36401, {"contradictions": ["bucket_hat"], "events": ["rake", "cat_sleeping"]}, "tomasbucket"),
+    # a park: the same, by the pond
+    ("park", 3, 36402, {"contradictions": ["bucket_hat"], "events": ["fishing"]}, "tomasbucket"),
+    # a street: the same
+    ("street", 3, 36403, {"contradictions": ["bucket_hat"], "events": ["carry_bag"]}, "tomasbucket"),
+    # a park: the grandfather in his other poses, with the moustache, fishing or planting
+    ("garden", 3, 36404, {"events": ["plant_flowers", "rake"]}, "tomas"),
+    # a garden: the storm pointer, the washing line empty (revision 34)
+    ("garden", 3, 36405, {"modules": ["rain_coming"], "events": ["dig"]}, "clothesline"),
+    # a garden: sweeping on the path by the gate, every head clear of its knob (revision 34)
+    ("garden", 3, 36406, {"contradictions": ["sweep_fork"], "events": ["sweep"]}, None),
 ]
 
 
 def ok(rec, rule):
     if rule is None:
         return True
+    if rule == "tomasbucket":
+        return any(e.get("asset", {}).get("variant", "").startswith("person.tomas__bucket_hat") for e in rec["elements"])
     if rule == "meisit":
         return any(e.get("asset", {}).get("variant", "").startswith("person.mei__sit_read") for e in rec["elements"])
     if rule == "tomas":

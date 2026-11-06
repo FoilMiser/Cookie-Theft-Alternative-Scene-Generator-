@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.35 was made, written so that a fresh session can make the next one (v0.36) from this
+How each release from v0.12 to v0.36 was made, written so that a fresh session can make the next one (v0.37) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -264,6 +264,15 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   beam and moved the tier-4 garden round it; redrawn by the swing template when it swings a child (`settings.swing_frame`), the set came back identical.
 - A figure turned in the picture must be turned in every check too: its box, its anchors and its mask (`library.Placed.rot`; `compose.asset_mask`
   draws a turned figure through its SVG). Keep the unturned path byte for byte, so older records rebuild.
+- A spec is not a drawing. The grandfather's spec has given him a moustache since the cast's first build, and no render ever showed it: every expression
+  hides each face part it does not name (`face.py`), and none named it. Before reasoning from what a character is meant to wear, look at a render of it.
+- A cue that reads in one pose can misread in another. The bold moustache said the grandfather's age under the bucket, at three-quarters, and in profile
+  stood out from his face like "something held in his mouth"; read a cast change in every view the character is drawn in, the profiles above all.
+- A rule about a drawn thing must measure the drawing. Revision 34 kept the gate's knob 16 px off a box drawn round the face's eyes and mouth; the sweeper it
+  was written for stands in profile, his face turned from the gate, and the back of his hair still covered the knob, 8 px past the box. His picture came back
+  identical and read as a bun a third time. Rebuild the picture that asked for a rule, and look at it, before the design tests.
+- Taking a thing out of a picture moves what is left. With the washing off the line, the storm pointer placed beside the fork sweeper and stood on his
+  dustpan, which no rule keeps feet off. Look at every picture a rule changed, not only at the thing the rule is about.
 - A cue added for one reading can outlive its need. The stuck rider's kick arcs went in at v0.16, when readers of her without them saw nothing wrong; by
   v0.32 she called out and held a raised handle, the arcs drew "hovering slightly above the plank", and without them every bench reader had her stuck.
   Bench the cue's absence as a case of its own.

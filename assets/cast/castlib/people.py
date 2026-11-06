@@ -517,7 +517,20 @@ def build_facial_hair(spec, rig, face, eye_z, k):
     if not fh:
         return
     mz = eye_z - 0.080 * k
-    if fh in ("mustache", "beard"):
+    if fh == "mustache" and __import__("os").environ.get("TPDB_MOUSTACHE36", "M") == "M":
+        # v0.36: chosen on the bench (vision/isolation_v036.md; TPDB_MOUSTACHE36=O builds v0.35's). A bold white moustache, wider and thicker and standing off the skin, an age cue that a hat cannot cover (the
+        # thin one did not show at scene size, and under the bucket the grandfather was "a boy")
+        pts = [(-0.050 * k, mz - 0.002 * k), (-0.030 * k, mz + 0.016 * k), (-0.010 * k, mz + 0.022 * k), (0, mz + 0.020 * k),
+               (0.010 * k, mz + 0.022 * k), (0.030 * k, mz + 0.016 * k), (0.050 * k, mz - 0.002 * k)]
+        rad, out = 0.019 * k, 0.020 * k
+        if __import__("os").environ.get("TPDB_MOUSTACHE36_FLAT", "F") == "F":
+            # v0.36, chosen in the bench's second round (TPDB_MOUSTACHE36_FLAT=O builds round 1's): slimmer and lying on the skin, a little higher, so that in profile it does not stand out from the
+            # face like something held in the mouth (two bench readers: "a pipe, cigar or whistle")
+            pts = [(x, z + 0.006 * k) for x, z in pts]
+            rad, out = 0.015 * k, 0.006 * k
+        ob = face.curve_on("mustache36", pts, rad, col, out)
+        ob.name = "FH_mustache36"
+    elif fh in ("mustache", "beard"):
         pts = [(-0.034 * k, mz + 0.006 * k), (-0.016 * k, mz + 0.020 * k), (0, mz + 0.018 * k), (0.016 * k, mz + 0.020 * k), (0.034 * k, mz + 0.006 * k)]
         ob = face.curve_on("mustache", pts, 0.0105 * k, col, 0.010 * k)
         ob.name = "FH_mustache"

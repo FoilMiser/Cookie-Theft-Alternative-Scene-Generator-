@@ -240,6 +240,7 @@ def build_garden(features, sky):
     S.anchors["fence_top"] = {"y": 437, "x0": 340, "x1": 1420, "depth": 612}
     S.anchors["balloon_max_y"] = 265      # a loose balloon's string ends well above the fence top, not on it
     S.anchors["no_float"] = [(1442, 432, 1558, 615)]      # the gate: nothing hangs in the air in front of it
+    S.anchors["gate_knob"] = (1540, 525)                  # revision 34: no head beside it (it read as "a hair bun", twice)
     house =D.rect(-10, 230, 320, 545, C["wall"], 0) + D.poly([(-20, 238), (340, 238), (250, 120), (-20, 120)], C["roof"])
     house += D.rect(40, 320, 100, 110, C["sky"], 4) + D.line(90, 320, 90, 430) + D.line(40, 375, 140, 375)
     house += D.rect(175, 560, 90, 215, C["blue"], 4) + D.circ(250, 670, 6, C["yellow"]) + D.rect(160, 765, 120, 16, C["gray"], 2)

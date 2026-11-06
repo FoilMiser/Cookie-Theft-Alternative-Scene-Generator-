@@ -2857,6 +2857,14 @@ class RainComing(T):
 
     def place(self):
         sc = self.sc
+        if SCN.PLACEMENT_REV >= 34 and any(e["id"] == "laundry" for e in sc.S.elements):
+            # revision 34: no washing on the line under the storm. Kept out of her pointing cone, it was still offered, twice on one seed,
+            # as what she points at ("could be pointing at the dark clouds (rain coming) or at the laundry on the line"); the line stays
+            # empty, and a picture where someone hangs the washing up has no storm pointer
+            if any("laundry" in getattr(t, "uses", ()) for t in sc.templates if t is not self):
+                return False
+            sc.S.elements = [e for e in sc.S.elements if e["id"] != "laundry"]
+            sc.S.entities.pop("laundry", None)
         box = sc.S.anchors["dark_clouds_box"]
         cx = (box[0] + box[2]) / 2
         ep = sc.eid("skywatcher")

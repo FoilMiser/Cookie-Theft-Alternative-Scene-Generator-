@@ -1481,6 +1481,10 @@ def up_bucket_hat(P):
     if hat:
         P.hides.setdefault(P.cur, []).extend(hat)
     rim_z = hc.z + 0.050 * k
+    if __import__("os").environ.get("TPDB_BUCKET36", "R") == "R":
+        # v0.36: chosen on the bench with the moustache (vision/isolation_v036.md; TPDB_BUCKET36=O builds v0.35's). Sat higher on the head, so the hair at the temples shows below the rim (the grandfather's white hair was hidden,
+        # and he was "a boy")
+        rim_z = hc.z + 0.085 * k
     R = c.HR[0] * 1.20
     H = 0.27 * k
     top_r = R * 0.72        # (round 2: a stronger taper, one ridge and no lugs: with straight sides, two ridges and

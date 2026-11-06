@@ -49,31 +49,28 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v034", "v035"
+PREV, CUR = "v035", "v036"
 
-# the templates whose drawing or placement v0.35 changed for the v0.34 screen (vision/flaws_v034.md); each drawing went to the isolation bench first
-# (vision/isolation_v035.md) and was read in whole test scenes (vision/design_tests_v035.md)
+# the templates whose drawing or placement v0.36 changed for the v0.35 screen (vision/flaws_v035.md); the drawing went to the isolation bench first
+# (vision/isolation_v036.md) and was read in whole test scenes (vision/design_tests_v036.md)
 REDRAWN_NOTES = {
-    "swing": "'The swing ropes hang straight down (at rest) even though motion lines suggest movement', in five screens running. Now the seat swings out 12 degrees with the child, in a frame widened away from the path. Holds at 1.00, read as swinging in all three pictures.",
-    "sweep": "'Yet the woman's pile of leaves stays neatly in place', in the wind. Now no pile is swept in a windy picture. Holds at 1.00.",
-    "rake": "Kept out of the wind with the broom. Holds at 1.00.",
-    "sweep_fork": "Its heap of dust kept out of the wind with the leaves. Holds at 1.00.",
+    "bucket_hat": "A grandfather under a bucket was 'a boy in a white shirt, brown waistcoat and dark trousers'. Now his white moustache, which his spec always gave him and no render drew, and the bucket sat higher, his white hair below its rim. 1.00: 'Old man, front centre: white hair, grey moustache', on the same seed.",
+    "rain_coming": "The washing was offered as what the storm pointer points at. Now the line is left empty in her picture. Holds at 1.00; its reader offered the empty line instead.",
 }
 
-# what the v0.35 screen readers made of the templates that read poorly (vision/flaws_v035.md)
-WEAK_NOTES = {
-    "bucket_hat": "A grandfather under a bucket, hands on hips, was 'a boy in a white shirt, brown waistcoat and dark trousers', on a picture unchanged since v0.34; the bucket covers the grey hair and the cap that say his age.",
-}
-SCREEN_NOTE = ("The v0.35 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The swing went to the isolation bench first, and every change was read in whole test scenes. "
-               "855 of 877 items had full marks and one was misread. 63 of 64 templates pass the gate, the failure a grandfather under a bucket read as a boy, on a picture unchanged since v0.34. "
-               "78 pictures were identical to the pixel in v0.34 and v0.35, and 806 of their 830 items scored the same, 12 of the 17 that went down the clouds of two readers who named nothing in the sky. "
+# what the v0.36 screen readers made of the templates that read poorly (vision/flaws_v036.md): none under 0.9
+WEAK_NOTES = {}
+SCREEN_NOTE = ("The v0.36 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The grandfather under the bucket went to the isolation bench first, and every change was read in whole test scenes. "
+               "873 of 876 items had full marks and none was misread, and all 64 templates pass the gate. "
+               "The gate's knob is not fixed: the rule keeps it off the box round each face, and the sweeper it was for stands in profile, so his picture came back unchanged and read as a bun again. "
+               "60 pictures were identical to the pixel in v0.35 and v0.36, and 563 of their 576 items scored the same, the 12 that went up the clouds of two v0.35 readers who named nothing in the sky. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:vision/isolation_v035/round1/iso_08.png@0,0,420,340>vision/isolation_v035/round1/iso_06.png@0,0,420,340", "The swing", "v0.34: 'The swing ropes hang straight down (at rest) even though motion lines suggest movement'. v0.35: swung out 12 degrees, the child, the seat and the ropes together, and every bench reader of a swung seat took the lines for motion. The same seed, cut out on the bench."),
-         ("crop:probes_v034/T3_garden_s23010.png@0,0,1600,1000>probes/T3_garden_s23010.png@0,0,1600,1000", "In a whole picture", "The same seed in v0.34 and v0.35: the frame widened on the side away from the path and the seat swung that way. 'The girl on the swing looks like she is swinging normally and enjoying it.'"),
-         ("crop:probes_v034/T3_garden_s23057.png@0,0,1600,1000>probes/T3_park_s38704.png@0,0,1600,1000", "The pile in the wind", "v0.34: 'yet the woman's pile of leaves stays neatly in place'. v0.35: no pile swept or raked in a windy picture, and the new windy probe is a park with nobody sweeping.")]
+FIXES = [("crop:vision/isolation_v036/round1/iso_08.png@0,0,420,420>vision/isolation_v036/round2/iso_03.png@0,0,420,420", "The grandfather under the bucket", "v0.35: 'A man with brown skin', his age not read. v0.36: his white moustache drawn, lying on the skin, and the bucket sat higher: 'An older man with grey hair and a grey moustache'. The same seed, cut out on the bench."),
+         ("crop:probes_v035/T3_garden_s23018.png@0,0,1600,1000>probes/T3_garden_s23018.png@0,0,1600,1000", "In a whole picture", "The seed of v0.35's one misread, 'a boy in a white shirt, brown waistcoat and dark trousers'. v0.36: 'Old man, front centre: white hair, grey moustache'."),
+         ("crop:probes_v035/T3_garden_s23013.png@0,0,1600,1000>probes/T3_garden_s23013.png@0,0,1600,1000", "The storm and the washing", "v0.35: 'could be pointing at the dark clouds (rain coming) or at the laundry on the line'. v0.36: the line empty. Its reader offered the empty line in place of the washing, and the picture, placed again, stands her on the dustpan of the fork sweeper, which is on the v0.37 list.")]
 
 
 

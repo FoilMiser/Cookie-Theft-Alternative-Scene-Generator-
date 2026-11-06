@@ -195,7 +195,12 @@ class PlacementError(Exception):
 # hang straight down (at rest) even though motion lines suggest movement", in five screens running; vision/isolation_v035.md; widened on both
 # sides, a leg stood on the path again; an empty swing keeps its frame); and keeps a pile swept or raked out of the wind ("yet
 # the woman's pile of leaves stays neatly in place"), as revision 32 keeps water out of it.
-PLACEMENT_REV = 33
+# 34 (v0.36) takes the washing off the line in a storm pointer's picture, the line left empty (kept out of her cone, it was still offered, twice on
+# one seed: "could be pointing at the dark clouds (rain coming) or at the laundry on the line"), and refuses a storm pointer where someone hangs
+# the washing up; and keeps the box round every face 16 px clear of the garden gate's knob ("It could be a hair bun, or it could be the gate's
+# knob"). The box is drawn round the eyes and mouth, so the back of a head in profile can still reach the knob: it did on v0.36's picture 73, the
+# picture that asked for the rule, unchanged since v0.35 (vision/flaws_v036.md). The grandfather's white moustache and the bucket sat higher, so that his hair shows below its rim, are the cast's (vision/isolation_v036.md).
+PLACEMENT_REV = 34
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
@@ -406,6 +411,14 @@ class Scene:
         p = getattr(bbox, "asset", None)
         if p is not None and PLACEMENT_REV >= 2 and p.family.startswith("person.") and not self.clear_of_structures(p):
             return False
+        if p is not None and PLACEMENT_REV >= 34 and p.family.startswith("person.") and "gate_knob" in self.S.anchors:
+            # revision 34: no face beside the garden gate's knob ("a small dark round shape at the top left of the sweeper's head.
+            # It could be a hair bun, or it could be the gate's knob", in two screens on one picture). head_box is drawn round the
+            # face, so the back of a head in profile is not in it, and that picture's sweeper still has the knob on his hair
+            kx, ky = self.S.anchors["gate_knob"]
+            hb = head_box(p)
+            if hb[0] - 16 <= kx <= hb[2] + 16 and hb[1] - 16 <= ky <= hb[3] + 16:
+                return False
         if p is not None and PLACEMENT_REV >= 4 and p.family.startswith("animal.") and not self.animal_clear(p):
             return False
         if p is not None and PLACEMENT_REV >= 6 and not self.bird_gap(p, bbox, ignore):

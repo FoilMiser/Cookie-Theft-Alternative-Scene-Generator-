@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.35 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.36 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,29 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.36 (the grandfather under the bucket; the cast's switches by bench cast: bktM from TPDB_MOUSTACHE36=M, bktR from TPDB_BUCKET36=R, bktB both)
+    # round 2: the moustache lying flatter (TPDB_MOUSTACHE36_FLAT=F) under the bucket, and the bold and flat ones in profile, kneeling to plant
+    "bktF_1": ("garden", 36121, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktF_2": ("park", 36122, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktF_3": ("street", 36123, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "prfM_1": ("garden", 36131, {"events": ["plant_flowers"]}, "event", ("pose", "person.tomas__kneel_plant")),
+    "prfM_2": ("park", 36132, {"events": ["plant_flowers"]}, "event", ("pose", "person.tomas__kneel_plant")),
+    "prfM_3": ("garden", 36133, {"events": ["plant_flowers"]}, "event", ("pose", "person.tomas__kneel_plant")),
+    "prfF_1": ("garden", 36131, {"events": ["plant_flowers"]}, "event", ("pose", "person.tomas__kneel_plant")),
+    "prfF_2": ("park", 36132, {"events": ["plant_flowers"]}, "event", ("pose", "person.tomas__kneel_plant")),
+    "prfF_3": ("garden", 36133, {"events": ["plant_flowers"]}, "event", ("pose", "person.tomas__kneel_plant")),
+    "bktO_1": ("garden", 36111, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktO_2": ("park", 36112, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktO_3": ("street", 36113, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktM_1": ("garden", 36111, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktM_2": ("park", 36112, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktM_3": ("street", 36113, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktR_1": ("garden", 36111, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktR_2": ("park", 36112, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktR_3": ("street", 36113, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktB_1": ("garden", 36111, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktB_2": ("park", 36112, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
+    "bktB_3": ("street", 36113, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
     # v0.35 (the swing swung out, by D.SWING35: swgO as v0.34, swgS 8 degrees and swgT 12 degrees in a wider frame)
     "swgO_1": ("garden", 35111, {"events": ["swing"]}, "event", None),
     "swgO_2": ("garden", 35112, {"events": ["swing"]}, "event", None),
@@ -527,6 +550,7 @@ NEW32 = {n for n in BENCH if n[:4] in ("ridO", "ridX", "ridF", "ridG", "ridB", "
 NEW33 = {n for n in BENCH if n[:3] in ("stp", "kik") and BENCH[n][1] // 1000 == 33}
 NEW34 = {n for n in BENCH if n[:3] == "sea" and BENCH[n][1] // 1000 == 34}
 NEW35 = {n for n in BENCH if n[:3] == "swg" and BENCH[n][1] // 1000 == 35}
+NEW36 = {n for n in BENCH if n[:3] in ("bkt", "prf") and BENCH[n][1] // 1000 == 36}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -593,6 +617,9 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         for (m, k), v in _REL.items():
             setattr(m, k, v)
         _D.SWING35 = name[3]
+    if name in NEW36:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
     rec = None
     for k in range(40):
         USAGE.clear()
