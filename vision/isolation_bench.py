@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.33 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.34 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,19 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.34 (the woman in yellow seated reading; the cast's switches by bench cast: seaP from TPDB_SEAT34=P, seaH from TPDB_HAIR34=L, seaB both)
+    "seaO_1": ("garden", 34111, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaO_2": ("park", 34112, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaO_3": ("street", 34113, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaP_1": ("garden", 34111, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaP_2": ("park", 34112, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaP_3": ("street", 34113, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaH_1": ("garden", 34111, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaH_2": ("park", 34112, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaH_3": ("street", 34113, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaB_1": ("garden", 34111, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaB_2": ("park", 34112, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "seaB_3": ("street", 34113, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
     # v0.33 (templates.HOSE33 and KICK33 by name: stp the stopped hose, kik the stuck rider's kick arcs)
     "stpO_1": ("garden", 33111, {"modules": ["blocked_hose"]}, "event", None),
     "stpO_2": ("garden", 33112, {"modules": ["blocked_hose"]}, "event", None),
@@ -502,6 +515,7 @@ import scenegen.templates as _T0
 _REL = {(m, k): getattr(m, k) for m in (_D, _L0, _Q0, _T0) for k in dir(m) if _re.fullmatch(r"[A-Z_]+\d\d", k)}
 NEW32 = {n for n in BENCH if n[:4] in ("ridO", "ridX", "ridF", "ridG", "ridB", "ridC", "ridH", "boxO", "boxU", "boxV") and BENCH[n][1] // 1000 in (32, 33)}
 NEW33 = {n for n in BENCH if n[:3] in ("stp", "kik") and BENCH[n][1] // 1000 == 33}
+NEW34 = {n for n in BENCH if n[:3] == "sea" and BENCH[n][1] // 1000 == 34}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -561,6 +575,9 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
             setattr(m, k, v)
         _T0.HOSE33 = name[3] if name.startswith("stp") else _T0.HOSE33
         _T0.KICK33 = name[3] if name.startswith("kik") else _T0.KICK33
+    if name in NEW34:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
     rec = None
     for k in range(40):
         USAGE.clear()

@@ -273,6 +273,18 @@ def build_person(spec):
             lap.lineart.usage = "NO_INTERSECTION"
         except AttributeError:
             pass
+        if __import__("os").environ.get("TPDB_SEAT34", "O") == "P":
+            # v0.34 bench: seated, the two lobes wrapped each thigh and left the gap between them, so the dress read as "a yellow top,
+            # yellow shorts" on a woman taken for "a child". One flat ellipsoid over both thighs, from the hip to the knee, makes one cloth
+            # across the lap; on the thigh's bone, it turns with the thighs as they swing forward together (rungs from thigh to thigh drew
+            # seams, a stack of rolls on her knees). Shown only in the seated poses (build_cast hides it in the rest)
+            zc = J["hip"] + (J["knee"] - J["hip"]) * 0.56
+            panel = ellipsoid("SkirtPanel", P(0, -0.020 * s, zc),
+                              (hx * 0.8 * S + 0.064 * k * B["hips"], 0.046 * k * B["hips"], (J["hip"] - J["knee"]) * S * 0.52), bcol, rig, "thigh_L")
+            try:
+                panel.lineart.usage = "NO_INTERSECTION"
+            except AttributeError:
+                pass
     if bare_legs:
         verts, radii, wts, edges = [], [], [], []
         for sd, sg in (("L", 1), ("R", -1)):

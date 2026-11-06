@@ -186,7 +186,11 @@ class PlacementError(Exception):
 # made her look "as though she is hovering slightly above the plank"); keeps anything scored above a storm pointer's fingertip 100 units from it,
 # whichever way the arm points (a woman pointing at the clouds from right under a cat on the fence was read as "pointing upward at the cat"); and
 # draws no hose spraying in a windy picture ("the wind is strong enough to blow a cap off, but the hose water is not bent by it"). vision/isolation_v033.md.
-PLACEMENT_REV = 31
+# 32 (v0.34) keeps a can, a pan and a sprinkler out of the wind as well as the hose ("Despite the strong wind, the water from the pan falls fairly
+# straight"), and asks for the wind template itself, where revision 31 asked for any template claiming the "wind" tag, which the kite, a thing
+# stuck in a tree, the storm pointer and the floating box claim only to keep away from it; and keeps the storm pointer's cone clear of the washing on
+# the line ("at the washing on the line (or both) ... roughly between the two"). The woman in yellow's long hair is the cast's (vision/isolation_v034.md).
+PLACEMENT_REV = 32
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

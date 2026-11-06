@@ -2,12 +2,12 @@
  "name": "T3_garden_s23047",
  "tier": 3,
  "setting": "garden",
- "sky": "clear",
+ "sky": "dark",
  "seed": 23047,
  "mirror": false,
  "versions": {
-  "generator": "0.33.0",
-  "cast_builder": "0.33.0",
+  "generator": "0.34.0",
+  "cast_builder": "0.34.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,7 +58,7 @@
  "features": [],
  "templates": [
   {
-   "id": "windy_hat",
+   "id": "rain_coming",
    "kind": "inference",
    "event": "e1",
    "units": 1
@@ -68,8 +68,54 @@
  "items": [
   {
    "id": "i01",
+   "type": "entity",
+   "text": "Dark clouds are coming",
+   "accepted": [
+    "dark clouds",
+    "storm clouds",
+    "clouds",
+    "cloudy",
+    "storm",
+    "gray sky"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_dark"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.001,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 62768
+   },
+   "b": -1.429,
+   "p0": 0.807,
+   "pm1": 0.606,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR"
+   ]
+  },
+  {
+   "id": "i02",
    "type": "action",
-   "text": "A grandmother is reaching up for a hat",
+   "text": "A grandmother is pointing up at the sky",
    "accepted": {
     "who": [
      "grandmother",
@@ -80,224 +126,99 @@
      "woman"
     ],
     "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
+     "pointing at the sky",
+     "pointing at the clouds",
+     "pointing up",
+     "looking up",
+     "worried"
     ]
    },
-   "key": "hat",
+   "key": "pointing",
    "elements": [
-    "hatperson_1"
+    "skywatcher_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "windy_hat",
+   "template": "rain_coming",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.102,
+    "s": 0.168,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
+    "f": 0.2,
+    "a": 4.55,
+    "zipf_raw": 4.2,
+    "aoa_raw": 4.55,
     "domain": null,
-    "area_px": 17676
+    "area_px": 19380
    },
-   "b": -1.59,
-   "p0": 0.831,
-   "pm1": 0.643,
+   "b": -1.524,
+   "p0": 0.821,
+   "pm1": 0.628,
    "aoi_cells": [
-    "MC",
     "BC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "entity",
-   "text": "A hat is flying through the air",
-   "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
-   ],
-   "key": "hat",
-   "elements": [
-    "flyinghat_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.29,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 2480
-   },
-   "b": -0.394,
-   "p0": 0.597,
-   "pm1": 0.353,
-   "aoi_cells": [
-    "MC"
    ]
   },
   {
    "id": "i03",
    "type": "inference",
-   "text": "The wind blew the grandmother's hat off",
+   "text": "It is about to rain",
    "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
+    "it's going to rain",
+    "a storm is coming",
+    "rain is coming",
+    "it might rain",
+    "going to get wet"
    ],
-   "key": "wind",
+   "key": "rain",
    "elements": [
-    "flyinghat_4",
-    "hatperson_1"
+    "clouds_dark",
+    "skywatcher_1"
    ],
    "cues": [
-    "flyinghat_4",
-    "hatperson_1"
+    "clouds_dark",
+    "skywatcher_1"
    ],
    "effect": [
-    "flyinghat_4"
+    "clouds_dark"
    ],
-   "chain": 2,
+   "chain": 1,
    "animate": false,
    "domain": null,
-   "template": "windy_hat",
+   "template": "rain_coming",
    "event": "e1",
    "features": {
     "type": "inference",
-    "chain": 2,
+    "chain": 1,
     "animate": false,
-    "s": -1.29,
+    "s": 1.001,
     "r": 1,
-    "d": 0.129,
+    "d": 0.377,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
+    "zipf_raw": 4.71,
+    "aoa_raw": 3.6,
     "domain": null,
-    "area_px": 2480
+    "area_px": 62768
    },
-   "b": 1.21,
-   "p0": 0.23,
-   "pm1": 0.099,
+   "b": -0.238,
+   "p0": 0.559,
+   "pm1": 0.318,
    "aoi_cells": [
-    "MC",
+    "TL",
+    "TC",
+    "TR",
     "BC"
    ]
   },
   {
    "id": "i04",
-   "type": "entity",
-   "text": "It is a sunny day",
-   "accepted": [
-    "sun",
-    "sunny",
-    "sunshine",
-    "nice day",
-    "sunny day"
-   ],
-   "key": "sun",
-   "elements": [
-    "sun"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.092,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.97,
-    "a": 3.4,
-    "zipf_raw": 4.97,
-    "aoa_raw": 3.4,
-    "domain": null,
-    "area_px": 13440
-   },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
-   "aoi_cells": [
-    "TR"
-   ]
-  },
-  {
-   "id": "i05",
-   "type": "entity",
-   "text": "There are a few white clouds",
-   "accepted": [
-    "clouds",
-    "white clouds",
-    "a few clouds",
-    "fluffy clouds"
-   ],
-   "key": "clouds",
-   "elements": [
-    "clouds_white"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.164,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.16,
-    "a": 3.63,
-    "zipf_raw": 4.16,
-    "aoa_raw": 3.63,
-    "domain": null,
-    "area_px": 19276
-   },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -338,7 +259,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -361,7 +282,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.927,
+    "s": 1.944,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -369,11 +290,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 231472
+    "area_px": 237184
    },
-   "b": -1.906,
-   "p0": 0.871,
-   "pm1": 0.712,
+   "b": -1.915,
+   "p0": 0.872,
+   "pm1": 0.714,
    "aoi_cells": [
     "ML",
     "MC",
@@ -381,7 +302,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -427,7 +348,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -471,19 +392,19 @@
   }
  ],
  "counts": {
-  "content": 8,
+  "content": 6,
   "inference_units": 1,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 7
  },
  "predicted": {
   "theta_0": {
-   "content": 0.787,
-   "inference": 0.23
+   "content": 0.834,
+   "inference": 0.559
   },
   "theta_minus_1": {
-   "content": 0.59,
-   "inference": 0.099
+   "content": 0.654,
+   "inference": 0.318
   }
  },
  "bands": {
@@ -495,7 +416,7 @@
  },
  "in_tier": false,
  "checks": {
-  "hatperson_1_looks_at_hat": {
+  "skywatcher_1_looks_at_clouds": {
    "result": false,
    "detail": ""
   },
@@ -509,14 +430,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "12 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0351,
-  "png_bytes": 142577,
-  "jpeg_bytes": 167600
+  "objects": 12,
+  "edge_density": 0.035,
+  "png_bytes": 147249,
+  "jpeg_bytes": 166031
  },
  "signature": [
   [
@@ -544,16 +465,8 @@
    0
   ],
   [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
    "inference",
-   2
+   1
   ]
  ],
  "elements": [
@@ -564,33 +477,18 @@
    "z": -100
   },
   {
-   "id": "sun",
-   "label": "Sun",
-   "role": "setting",
-   "z": -99,
-   "bbox": [
-    1352.0,
-    22.0,
-    1548.0,
-    218.0
-   ],
-   "area_px": 13440,
-   "visible_px": 13440,
-   "occlusion": 0.0
-  },
-  {
-   "id": "clouds_white",
-   "label": "Small white clouds",
-   "role": "setting",
+   "id": "clouds_dark",
+   "label": "Dark clouds rolling in",
+   "role": "scored",
    "z": -98,
    "bbox": [
-    560.0,
-    68.0,
-    966.0,
-    202.0
+    480.0,
+    18.0,
+    1122.0,
+    206.0
    ],
-   "area_px": 19276,
-   "visible_px": 19276,
+   "area_px": 62768,
+   "visible_px": 62768,
    "occlusion": 0.0
   },
   {
@@ -621,36 +519,6 @@
    "occlusion": 0.006
   },
   {
-   "id": "breeze_2",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    338.0,
-    76.0,
-    496.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
-   "occlusion": 0.0
-  },
-  {
-   "id": "breeze_3",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    1338.0,
-    280.0,
-    1496.0,
-    320.0
-   ],
-   "area_px": 1320,
-   "visible_px": 1320,
-   "occlusion": 0.0
-  },
-  {
    "id": "tree",
    "label": "Tree behind the fence",
    "role": "setting",
@@ -677,8 +545,23 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 231472,
-   "occlusion": 0.039
+   "visible_px": 237184,
+   "occlusion": 0.015
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    946.0,
+    602.0,
+    1074.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bush_left",
@@ -694,6 +577,21 @@
    "area_px": 8296,
    "visible_px": 7496,
    "occlusion": 0.096
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    1100.0,
+    596.0,
+    1220.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
+   "occlusion": 0.0
   },
   {
    "id": "house",
@@ -726,24 +624,54 @@
    "occlusion": 0.0
   },
   {
-   "id": "hatperson_1",
-   "label": "person.rosa__reach_up__scared__y045",
-   "role": "scored",
-   "z": 913.03,
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
    "bbox": [
-    846.0,
-    610.0,
-    988.0,
-    916.0
+    1142.0,
+    884.0,
+    1238.0,
+    962.0
    ],
-   "area_px": 17676,
-   "visible_px": 17676,
+   "area_px": 4400,
+   "visible_px": 4400,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    896.0,
+    892.0,
+    1078.0,
+    980.0
+   ],
+   "area_px": 8776,
+   "visible_px": 8776,
+   "occlusion": 0.0
+  },
+  {
+   "id": "skywatcher_1",
+   "label": "person.rosa__point_up__worried__y045",
+   "role": "scored",
+   "z": 987.02,
+   "bbox": [
+    642.0,
+    676.0,
+    784.0,
+    990.0
+   ],
+   "area_px": 19380,
+   "visible_px": 19380,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.rosa__reach_up__scared__y045",
+    "variant": "person.rosa__point_up__worried__y045",
     "family": "person.rosa",
-    "scale": 0.4872,
-    "mirrored": true,
+    "scale": 0.5147,
+    "mirrored": false,
     "labels": {
      "everyday_name": "grandmother",
      "accepted_names": [
@@ -762,51 +690,6 @@
      }
     }
    }
-  },
-  {
-   "id": "flyinghat_4",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 914.03,
-   "bbox": [
-    790.0,
-    494.0,
-    878.0,
-    554.0
-   ],
-   "area_px": 2480,
-   "visible_px": 2480,
-   "occlusion": 0.0
-  },
-  {
-   "id": "gusts_5",
-   "label": "Wind lines and blowing leaves",
-   "role": "setting",
-   "z": 914.03,
-   "bbox": [
-    846.0,
-    530.0,
-    1140.0,
-    606.0
-   ],
-   "area_px": 4768,
-   "visible_px": 4768,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
-   "bbox": [
-    1142.0,
-    884.0,
-    1238.0,
-    962.0
-   ],
-   "area_px": 4400,
-   "visible_px": 4400,
-   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -829,10 +712,10 @@
   "usage": {},
   "forced": {
    "modules": [
-    "windy_hat"
+    "rain_coming"
    ]
   },
-  "placement_rev": 31
+  "placement_rev": 32
  },
  "probe": true
 }

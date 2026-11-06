@@ -35,7 +35,7 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.33.0"
+BUILDER_VERSION = "0.34.0"
 
 
 def write_config(out_dir, fam, cls, labels, poses, expressions, states, affordances, prop_objects=(), extra=None):
@@ -69,8 +69,17 @@ def main(out_dir, only=None):
         if only and fam not in only:
             continue
         reset_scene()
+        if fam == "person.mei" and os.environ.get("TPDB_HAIR34", "L") == "L":
+            # v0.34, chosen on the bench: the woman in yellow with long hair, tied back. With the bob, seated reading, she was "a child with
+            # short dark hair" or "a boy"; with it, "a woman", "a girl or young woman" (vision/isolation_v034.md). O keeps the bob
+            spec = dict(spec, hair="long")
         rig, states, ctx = build_person(spec)
         P = make_people_actions(rig, ctx)
+        if bpy.data.objects.get("SkirtPanel"):
+            # v0.34 bench: the cloth across the lap shows only seated on a bench or the ground's edge (lower "sit", "sit_low")
+            for _n, _m in P.meta.items():
+                if _m["lower"] not in ("sit", "sit_low"):
+                    P.hides.setdefault(_n, []).append("SkirtPanel")
         poses = {}
         props = []
         hideable = set()

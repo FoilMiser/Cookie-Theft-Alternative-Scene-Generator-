@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23053,
- "mirror": false,
+ "mirror": true,
  "versions": {
-  "generator": "0.33.0",
-  "cast_builder": "0.33.0",
+  "generator": "0.34.0",
+  "cast_builder": "0.34.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,161 +56,25 @@
   }
  },
  "features": [
-  "flowers"
+  "clothesline",
+  "hose_reel",
+  "laundry",
+  "laundry_short"
  ],
  "templates": [
   {
-   "id": "floating_box",
-   "kind": "contradiction",
-   "event": "e1",
-   "units": 1
-  },
-  {
-   "id": "sweep",
+   "id": "hang_laundry",
    "kind": "event",
-   "event": "e2",
+   "event": "e1",
    "units": 0
   }
  ],
- "scene_load": 2,
+ "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "entity",
-   "text": "There is a box",
-   "accepted": [
-    "box",
-    "crate",
-    "wooden box",
-    "cardboard box"
-   ],
-   "key": "box",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.317,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
-    "domain": null,
-    "area_px": 9780
-   },
-   "b": -0.913,
-   "p0": 0.714,
-   "pm1": 0.478,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the box",
-   "accepted": [
-    "the box is weird",
-    "something odd about the box",
-    "that box"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [
-    "floatbox_1"
-   ],
-   "effect": [
-    "floatbox_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.317,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 9780
-   },
-   "b": -0.022,
-   "p0": 0.505,
-   "pm1": 0.273,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The box is floating in the air with nothing holding it up",
-   "accepted": [
-    "floating box",
-    "box in the air",
-    "nothing holding it up",
-    "box should fall"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [
-    "floatbox_1"
-   ],
-   "effect": [
-    "floatbox_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.317,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 9780
-   },
-   "b": 1.178,
-   "p0": 0.235,
-   "pm1": 0.102,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "action",
-   "text": "A man is sweeping",
+   "text": "A man is hanging up laundry",
    "accepted": {
     "who": [
      "man",
@@ -220,47 +84,49 @@
      "person"
     ],
     "what": [
-     "sweeping",
-     "sweeping the path",
-     "sweeping the ground",
-     "broom"
+     "hanging laundry",
+     "hanging clothes",
+     "hanging up the washing",
+     "pinning clothes",
+     "clothesline"
     ]
    },
-   "key": "sweeping",
+   "key": "laundry",
    "elements": [
-    "sweeper_2"
+    "hanger_1",
+    "shirt_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "sweep",
-   "event": "e2",
+   "template": "hang_laundry",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.074,
+    "s": 0.131,
     "r": 0,
     "d": 0.0,
-    "f": -0.21,
-    "a": 4.2,
-    "zipf_raw": 3.79,
-    "aoa_raw": 4.2,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 16980
+    "area_px": 18404
    },
-   "b": -1.234,
-   "p0": 0.775,
-   "pm1": 0.558,
+   "b": -1.464,
+   "p0": 0.812,
+   "pm1": 0.614,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "MC",
+    "BC"
    ]
   },
   {
-   "id": "i05",
+   "id": "i02",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -295,15 +161,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.005,
-   "p0": 0.732,
-   "pm1": 0.501,
+   "b": -1.125,
+   "p0": 0.755,
+   "pm1": 0.531,
    "aoi_cells": [
-    "TR"
+    "TL"
    ]
   },
   {
-   "id": "i06",
+   "id": "i03",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -335,17 +201,17 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19276
+    "area_px": 19280
    },
-   "b": -0.89,
-   "p0": 0.709,
-   "pm1": 0.473,
+   "b": -1.01,
+   "p0": 0.733,
+   "pm1": 0.502,
    "aoi_cells": [
     "TC"
    ]
   },
   {
-   "id": "i07",
+   "id": "i04",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -367,7 +233,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.733,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -375,18 +241,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43028
+    "area_px": 43040
    },
-   "b": -1.382,
-   "p0": 0.799,
-   "pm1": 0.594,
+   "b": -1.502,
+   "p0": 0.818,
+   "pm1": 0.623,
    "aoi_cells": [
-    "TL",
-    "ML"
+    "TR",
+    "MR"
    ]
   },
   {
-   "id": "i08",
+   "id": "i05",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -409,7 +275,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.926,
+    "s": 1.863,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -417,11 +283,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 231368
+    "area_px": 211584
    },
-   "b": -1.786,
-   "p0": 0.856,
-   "pm1": 0.687,
+   "b": -1.874,
+   "p0": 0.867,
+   "pm1": 0.706,
    "aoi_cells": [
     "ML",
     "MC",
@@ -429,7 +295,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i06",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -465,17 +331,17 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.193,
-   "p0": 0.9,
-   "pm1": 0.767,
+   "b": -2.313,
+   "p0": 0.91,
+   "pm1": 0.788,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
+    "TR",
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i10",
+   "id": "i07",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -507,31 +373,31 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 25880
+    "area_px": 25884
    },
-   "b": -1.139,
-   "p0": 0.757,
-   "pm1": 0.535,
+   "b": -1.259,
+   "p0": 0.779,
+   "pm1": 0.564,
    "aoi_cells": [
-    "BL",
-    "BC"
+    "BC",
+    "BR"
    ]
   }
  ],
  "counts": {
-  "content": 8,
-  "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 10
+  "content": 7,
+  "inference_units": 0,
+  "contradictions": 0,
+  "items_total": 7
  },
  "predicted": {
   "theta_0": {
-   "content": 0.78,
-   "inference": 0.37
+   "content": 0.811,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.574,
-   "inference": 0.188
+   "content": 0.618,
+   "inference": null
   }
  },
  "bands": {
@@ -539,7 +405,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -553,30 +419,18 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "13 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 13,
-  "edge_density": 0.0351,
-  "png_bytes": 140350,
-  "jpeg_bytes": 165465
+  "objects": 17,
+  "edge_density": 0.0357,
+  "png_bytes": 148065,
+  "jpeg_bytes": 170583
  },
  "signature": [
   [
    "action",
-   0
-  ],
-  [
-   "contradiction_explain",
-   1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
    0
   ],
   [
@@ -617,9 +471,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    1352.0,
+    52.0,
     22.0,
-    1548.0,
+    248.0,
     218.0
    ],
    "area_px": 13440,
@@ -632,13 +486,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    560.0,
+    634.0,
     68.0,
-    966.0,
+    1040.0,
     202.0
    ],
-   "area_px": 19276,
-   "visible_px": 19276,
+   "area_px": 19280,
+   "visible_px": 19280,
    "occlusion": 0.0
   },
   {
@@ -659,14 +513,14 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    1254.0,
+    38.0,
     614.0,
-    1562.0,
+    346.0,
     1000.0
    ],
-   "area_px": 81244,
-   "visible_px": 80260,
-   "occlusion": 0.012
+   "area_px": 81248,
+   "visible_px": 80796,
+   "occlusion": 0.006
   },
   {
    "id": "tree",
@@ -674,13 +528,13 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    296.0,
+    1056.0,
     176.0,
-    544.0,
+    1304.0,
     452.0
    ],
-   "area_px": 44984,
-   "visible_px": 43028,
+   "area_px": 44992,
+   "visible_px": 43040,
    "occlusion": 0.043
   },
   {
@@ -689,14 +543,14 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    298.0,
+    0.0,
     426.0,
-    1600.0,
+    1302.0,
     618.0
    ],
-   "area_px": 240896,
-   "visible_px": 231368,
-   "occlusion": 0.04
+   "area_px": 240904,
+   "visible_px": 211584,
+   "occlusion": 0.122
   },
   {
    "id": "filler_bush_left",
@@ -704,13 +558,13 @@
    "role": "filler",
    "z": 648,
    "bbox": [
-    292.0,
+    1172.0,
     598.0,
-    428.0,
+    1308.0,
     684.0
    ],
-   "area_px": 8296,
-   "visible_px": 7496,
+   "area_px": 8292,
+   "visible_px": 7492,
    "occlusion": 0.096
   },
   {
@@ -719,9 +573,9 @@
    "role": "filler",
    "z": 700,
    "bbox": [
-    1100.0,
+    380.0,
     596.0,
-    1220.0,
+    500.0,
     702.0
    ],
    "area_px": 8080,
@@ -729,39 +583,69 @@
    "occlusion": 0.0
   },
   {
-   "id": "house",
-   "label": "Back of the house",
+   "id": "clothesline",
+   "label": "Clothesline",
    "role": "setting",
-   "z": 781,
+   "z": 705,
    "bbox": [
-    0.0,
-    118.0,
-    342.0,
-    784.0
+    624.0,
+    382.0,
+    994.0,
+    708.0
    ],
-   "area_px": 204952,
-   "visible_px": 204952,
+   "area_px": 13848,
+   "visible_px": 13316,
+   "occlusion": 0.038
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    886.0,
+    392.0,
+    952.0,
+    524.0
+   ],
+   "area_px": 7652,
+   "visible_px": 7652,
    "occlusion": 0.0
   },
   {
-   "id": "sweeper_2",
-   "label": "person.dev__sweep__smile__y045",
+   "id": "shirt_2",
+   "label": "Shirt being pinned up",
    "role": "scored",
-   "z": 783.9,
+   "z": 706.5,
    "bbox": [
-    1276.0,
-    510.0,
-    1372.0,
-    816.0
+    696.0,
+    408.0,
+    800.0,
+    512.0
    ],
-   "area_px": 17664,
-   "visible_px": 16980,
-   "occlusion": 0.039,
+   "area_px": 7400,
+   "visible_px": 7076,
+   "occlusion": 0.044
+  },
+  {
+   "id": "hanger_1",
+   "label": "person.dev__hang_washing__neutral__y090",
+   "role": "scored",
+   "z": 707,
+   "bbox": [
+    778.0,
+    408.0,
+    878.0,
+    686.0
+   ],
+   "area_px": 11328,
+   "visible_px": 11328,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.dev__sweep__smile__y045",
+    "variant": "person.dev__hang_washing__neutral__y090",
     "family": "person.dev",
-    "scale": 0.4394,
-    "mirrored": false,
+    "scale": 0.4102,
+    "mirrored": true,
     "labels": {
      "everyday_name": "man",
      "accepted_names": [
@@ -781,33 +665,18 @@
    }
   },
   {
-   "id": "sweepheap_3",
-   "label": "What has been swept",
-   "role": "scored",
-   "z": 785.9,
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
    "bbox": [
-    1312.0,
-    758.0,
-    1390.0,
-    798.0
+    1258.0,
+    118.0,
+    1600.0,
+    784.0
    ],
-   "area_px": 1888,
-   "visible_px": 1888,
-   "occlusion": 0.0
-  },
-  {
-   "id": "floatbox_1",
-   "label": "Box floating in the air",
-   "role": "scored",
-   "z": 830.99,
-   "bbox": [
-    770.0,
-    232.0,
-    898.0,
-    336.0
-   ],
-   "area_px": 9780,
-   "visible_px": 9780,
+   "area_px": 204952,
+   "visible_px": 204952,
    "occlusion": 0.0
   },
   {
@@ -816,13 +685,43 @@
    "role": "setting",
    "z": 836,
    "bbox": [
-    318.0,
+    1028.0,
     694.0,
-    572.0,
+    1282.0,
     838.0
    ],
-   "area_px": 25880,
-   "visible_px": 25880,
+   "area_px": 25884,
+   "visible_px": 25884,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 886,
+   "bbox": [
+    1282.0,
+    804.0,
+    1346.0,
+    888.0
+   ],
+   "area_px": 4264,
+   "visible_px": 4092,
+   "occlusion": 0.04
+  },
+  {
+   "id": "hose_tail",
+   "label": "End of the hose",
+   "role": "setting",
+   "z": 887,
+   "bbox": [
+    1194.0,
+    842.0,
+    1298.0,
+    924.0
+   ],
+   "area_px": 2004,
+   "visible_px": 2004,
    "occlusion": 0.0
   },
   {
@@ -831,13 +730,28 @@
    "role": "filler",
    "z": 960,
    "bbox": [
-    1142.0,
+    362.0,
     884.0,
-    1238.0,
+    458.0,
     962.0
    ],
-   "area_px": 4400,
-   "visible_px": 4400,
+   "area_px": 4404,
+   "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -861,13 +775,10 @@
   "usage": {},
   "forced": {
    "events": [
-    "sweep"
-   ],
-   "contradictions": [
-    "floating_box"
+    "hang_laundry"
    ]
   },
-  "placement_rev": 31
+  "placement_rev": 32
  },
  "probe": true
 }

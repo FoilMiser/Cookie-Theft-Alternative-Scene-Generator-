@@ -6,8 +6,8 @@
  "seed": 23033,
  "mirror": false,
  "versions": {
-  "generator": "0.33.0",
-  "cast_builder": "0.33.0",
+  "generator": "0.34.0",
+  "cast_builder": "0.34.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,15 +57,15 @@
  },
  "features": [
   "bench",
-  "flowers",
-  "hose_reel"
+  "clothesline",
+  "laundry"
  ],
  "templates": [
   {
-   "id": "hose_water",
-   "kind": "event",
+   "id": "sitting_on_air",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -73,7 +73,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is watering the flowers with a hose",
+   "text": "A grandmother is sitting and having a drink",
    "accepted": {
     "who": [
      "grandmother",
@@ -84,50 +84,138 @@
      "woman"
     ],
     "what": [
-     "watering with a hose",
-     "spraying water",
-     "hosing the flowers",
-     "watering the garden"
+     "sitting and having a drink",
+     "sitting",
+     "having a drink",
+     "drinking"
     ]
    },
-   "key": "hose",
+   "key": "sitting",
    "elements": [
-    "hoser_1",
-    "hose_2",
-    "spray_4"
+    "airsitter_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "hose_water",
+   "template": "sitting_on_air",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.205,
+    "s": -0.068,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": 0.86,
+    "a": 3.47,
+    "zipf_raw": 4.86,
+    "aoa_raw": 3.47,
     "domain": null,
-    "area_px": 20424
+    "area_px": 13908
    },
-   "b": -1.401,
-   "p0": 0.802,
-   "pm1": 0.599,
+   "b": -1.604,
+   "p0": 0.833,
+   "pm1": 0.647,
    "aoi_cells": [
-    "MC",
-    "BL",
     "BC"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with how the person is sitting",
+   "accepted": [
+    "something odd about how they're sitting",
+    "that person looks strange",
+    "something's missing"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_1"
+   ],
+   "cues": [
+    "airsitter_1"
+   ],
+   "effect": [
+    "airsitter_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.068,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 13908
+   },
+   "b": -0.266,
+   "p0": 0.566,
+   "pm1": 0.324,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is sitting on nothing: there is no chair or bench under them",
+   "accepted": [
+    "sitting on nothing",
+    "there's no chair",
+    "sitting in the air",
+    "invisible chair",
+    "nothing to sit on"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_1"
+   ],
+   "cues": [
+    "airsitter_1"
+   ],
+   "effect": [
+    "airsitter_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.068,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 13908
+   },
+   "b": 0.934,
+   "p0": 0.282,
+   "pm1": 0.126,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -170,7 +258,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -212,7 +300,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -253,7 +341,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -276,7 +364,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.936,
+    "s": 1.894,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -284,11 +372,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 234416
+    "area_px": 221172
    },
-   "b": -1.911,
-   "p0": 0.871,
-   "pm1": 0.713,
+   "b": -1.89,
+   "p0": 0.869,
+   "pm1": 0.709,
    "aoi_cells": [
     "ML",
     "MC",
@@ -296,7 +384,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -342,7 +430,95 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
+   "type": "entity",
+   "text": "Clothes are hanging on the line",
+   "accepted": [
+    "clothes",
+    "laundry",
+    "washing",
+    "clothesline",
+    "clothes line",
+    "towel",
+    "pants"
+   ],
+   "key": "laundry",
+   "elements": [
+    "laundry"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.103,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
+    "domain": null,
+    "area_px": 13236
+   },
+   "b": -0.847,
+   "p0": 0.7,
+   "pm1": 0.462,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "There is a flower bed",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.373,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 25880
+   },
+   "b": -1.259,
+   "p0": 0.779,
+   "pm1": 0.564,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i11",
    "type": "entity",
    "text": "There is a bench",
    "accepted": [
@@ -383,19 +559,19 @@
   }
  ],
  "counts": {
-  "content": 7,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 7
+  "content": 9,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.801,
-   "inference": null
+   "content": 0.791,
+   "inference": 0.424
   },
   "theta_minus_1": {
-   "content": 0.606,
-   "inference": null
+   "content": 0.59,
+   "inference": 0.225
   }
  },
  "bands": {
@@ -417,18 +593,34 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0375,
-  "png_bytes": 149173,
-  "jpeg_bytes": 177177
+  "objects": 15,
+  "edge_density": 0.0389,
+  "png_bytes": 143941,
+  "jpeg_bytes": 178556
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -547,8 +739,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 234416,
-   "occlusion": 0.027
+   "visible_px": 221172,
+   "occlusion": 0.082
   },
   {
    "id": "filler_bush_left",
@@ -566,21 +758,6 @@
    "occlusion": 0.096
   },
   {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    946.0,
-    602.0,
-    1074.0,
-    682.0
-   ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
-  },
-  {
    "id": "filler_pots",
    "label": "Flower pots",
    "role": "filler",
@@ -593,6 +770,36 @@
    ],
    "area_px": 8080,
    "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clothesline",
+   "label": "Clothesline",
+   "role": "setting",
+   "z": 705,
+   "bbox": [
+    606.0,
+    382.0,
+    976.0,
+    708.0
+   ],
+   "area_px": 13848,
+   "visible_px": 13368,
+   "occlusion": 0.035
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    648.0,
+    392.0,
+    778.0,
+    524.0
+   ],
+   "area_px": 13236,
+   "visible_px": 13236,
    "occlusion": 0.0
   },
   {
@@ -611,23 +818,38 @@
    "occlusion": 0.0
   },
   {
-   "id": "hoser_1",
-   "label": "person.rosa__hose_spray__smile__y090",
-   "role": "scored",
-   "z": 830,
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
    "bbox": [
-    568.0,
-    558.0,
-    674.0,
-    836.0
+    318.0,
+    694.0,
+    572.0,
+    838.0
    ],
-   "area_px": 12020,
-   "visible_px": 11596,
-   "occlusion": 0.035,
+   "area_px": 25880,
+   "visible_px": 25880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "airsitter_1",
+   "label": "person.rosa__sit_drink__neutral__y045",
+   "role": "scored",
+   "z": 902.45,
+   "bbox": [
+    718.0,
+    670.0,
+    840.0,
+    912.0
+   ],
+   "area_px": 13908,
+   "visible_px": 13908,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.rosa__hose_spray__smile__y090",
+    "variant": "person.rosa__sit_drink__neutral__y045",
     "family": "person.rosa",
-    "scale": 0.4565,
+    "scale": 0.4833,
     "mirrored": true,
     "labels": {
      "everyday_name": "grandmother",
@@ -649,72 +871,6 @@
    }
   },
   {
-   "id": "hosejoin_3",
-   "label": "Garden hose at the hand",
-   "role": "background",
-   "z": 831
-  },
-  {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
-   "bbox": [
-    318.0,
-    694.0,
-    572.0,
-    838.0
-   ],
-   "area_px": 25880,
-   "visible_px": 23552,
-   "occlusion": 0.09
-  },
-  {
-   "id": "hose_2",
-   "label": "Garden hose",
-   "role": "scored",
-   "z": 836.5,
-   "bbox": [
-    278.0,
-    670.0,
-    602.0,
-    884.0
-   ],
-   "area_px": 6684,
-   "visible_px": 6236,
-   "occlusion": 0.067
-  },
-  {
-   "id": "spray_4",
-   "label": "Water spraying",
-   "role": "scored",
-   "z": 837,
-   "bbox": [
-    458.0,
-    668.0,
-    572.0,
-    802.0
-   ],
-   "area_px": 2592,
-   "visible_px": 2592,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 886,
-   "bbox": [
-    254.0,
-    804.0,
-    318.0,
-    888.0
-   ],
-   "area_px": 4264,
-   "visible_px": 4264,
-   "occlusion": 0.0
-  },
-  {
    "id": "bench",
    "label": "Garden bench",
    "role": "setting",
@@ -727,6 +883,21 @@
    ],
    "area_px": 13200,
    "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    1142.0,
+    884.0,
+    1238.0,
+    962.0
+   ],
+   "area_px": 4400,
+   "visible_px": 4400,
    "occlusion": 0.0
   },
   {
@@ -764,11 +935,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "hose_water"
+   "contradictions": [
+    "sitting_on_air"
    ]
   },
-  "placement_rev": 31
+  "placement_rev": 32
  },
  "probe": true
 }

@@ -2,12 +2,12 @@
  "name": "T3_garden_s23046",
  "tier": 3,
  "setting": "garden",
- "sky": "dark",
+ "sky": "clear",
  "seed": 23046,
  "mirror": true,
  "versions": {
-  "generator": "0.33.0",
-  "cast_builder": "0.33.0",
+  "generator": "0.34.0",
+  "cast_builder": "0.34.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,42 +61,125 @@
  ],
  "templates": [
   {
-   "id": "rain_coming",
-   "kind": "inference",
+   "id": "goat_grazing",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   }
  ],
  "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "entity",
-   "text": "Dark clouds are coming",
+   "type": "action",
+   "text": "A goat is eating grass",
    "accepted": [
-    "dark clouds",
-    "storm clouds",
-    "clouds",
-    "cloudy",
-    "storm",
-    "gray sky"
+    "goat eating",
+    "goat eating grass",
+    "goat grazing",
+    "goat"
    ],
-   "key": "clouds",
+   "key": "goat",
    "elements": [
-    "clouds_dark"
+    "goat_grazing_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "goat_grazing",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.261,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.02,
+    "a": 5.21,
+    "zipf_raw": 4.02,
+    "aoa_raw": 5.21,
+    "domain": null,
+    "area_px": 10592
+   },
+   "b": -1.256,
+   "p0": 0.778,
+   "pm1": 0.564,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "rain_coming",
-   "event": "e1",
+   "template": "setting",
+   "event": null,
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.001,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -1.125,
+   "p0": 0.755,
+   "pm1": 0.531,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
     "r": 0,
     "d": 0.0,
     "f": 0.16,
@@ -104,118 +187,13 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 62768
+    "area_px": 19280
    },
-   "b": -1.429,
-   "p0": 0.807,
-   "pm1": 0.606,
+   "b": -1.01,
+   "p0": 0.733,
+   "pm1": 0.502,
    "aoi_cells": [
-    "TL",
-    "TC",
-    "TR"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A woman is pointing up at the sky",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "pointing at the sky",
-     "pointing at the clouds",
-     "pointing up",
-     "looking up",
-     "worried"
-    ]
-   },
-   "key": "pointing",
-   "elements": [
-    "skywatcher_1"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "rain_coming",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.228,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.2,
-    "a": 4.55,
-    "zipf_raw": 4.2,
-    "aoa_raw": 4.55,
-    "domain": null,
-    "area_px": 21092
-   },
-   "b": -1.554,
-   "p0": 0.825,
-   "pm1": 0.635,
-   "aoi_cells": [
-    "BL"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "inference",
-   "text": "It is about to rain",
-   "accepted": [
-    "it's going to rain",
-    "a storm is coming",
-    "rain is coming",
-    "it might rain",
-    "going to get wet"
-   ],
-   "key": "rain",
-   "elements": [
-    "clouds_dark",
-    "skywatcher_1"
-   ],
-   "cues": [
-    "clouds_dark",
-    "skywatcher_1"
-   ],
-   "effect": [
-    "clouds_dark"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "rain_coming",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": 1.001,
-    "r": 1,
-    "d": 0.473,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.71,
-    "aoa_raw": 3.6,
-    "domain": null,
-    "area_px": 62768
-   },
-   "b": -0.123,
-   "p0": 0.531,
-   "pm1": 0.294,
-   "aoi_cells": [
-    "TC",
-    "TR",
-    "BL"
+    "TC"
    ]
   },
   {
@@ -438,19 +416,19 @@
   }
  ],
  "counts": {
-  "content": 7,
-  "inference_units": 1,
+  "content": 8,
+  "inference_units": 0,
   "contradictions": 0,
   "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.815,
-   "inference": 0.531
+   "content": 0.793,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.627,
-   "inference": 0.294
+   "content": 0.593,
+   "inference": null
   }
  },
  "bands": {
@@ -462,10 +440,6 @@
  },
  "in_tier": false,
  "checks": {
-  "skywatcher_1_looks_at_clouds": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -476,14 +450,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "12 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 12,
-  "edge_density": 0.0351,
-  "png_bytes": 145293,
-  "jpeg_bytes": 165082
+  "objects": 15,
+  "edge_density": 0.0366,
+  "png_bytes": 138423,
+  "jpeg_bytes": 171145
  },
  "signature": [
   [
@@ -515,8 +489,8 @@
    0
   ],
   [
-   "inference",
-   1
+   "entity",
+   0
   ]
  ],
  "elements": [
@@ -527,18 +501,33 @@
    "z": -100
   },
   {
-   "id": "clouds_dark",
-   "label": "Dark clouds rolling in",
-   "role": "scored",
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    52.0,
+    22.0,
+    248.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
    "z": -98,
    "bbox": [
-    478.0,
-    18.0,
-    1120.0,
-    206.0
+    634.0,
+    68.0,
+    1040.0,
+    202.0
    ],
-   "area_px": 62768,
-   "visible_px": 62768,
+   "area_px": 19280,
+   "visible_px": 19280,
    "occlusion": 0.0
   },
   {
@@ -565,8 +554,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 70796,
-   "occlusion": 0.129
+   "visible_px": 80796,
+   "occlusion": 0.006
   },
   {
    "id": "tree",
@@ -689,6 +678,65 @@
    "occlusion": 0.0
   },
   {
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    362.0,
+    884.0,
+    458.0,
+    962.0
+   ],
+   "area_px": 4404,
+   "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "goat_grazing_1",
+   "label": "animal.goat_01__graze__happy__y090",
+   "role": "scored",
+   "z": 963.14,
+   "bbox": [
+    770.0,
+    836.0,
+    940.0,
+    968.0
+   ],
+   "area_px": 10700,
+   "visible_px": 10592,
+   "occlusion": 0.01,
+   "asset": {
+    "variant": "animal.goat_01__graze__happy__y090",
+    "family": "animal.goat_01",
+    "scale": 0.5058,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "goat",
+     "accepted_names": [
+      "goat",
+      "kid"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "grasstuft_2",
+   "label": "Grass at the goat's mouth",
+   "role": "setting",
+   "z": 965.14,
+   "bbox": [
+    790.0,
+    934.0,
+    834.0,
+    966.0
+   ],
+   "area_px": 752,
+   "visible_px": 752,
+   "occlusion": 0.0
+  },
+  {
    "id": "filler_wheelbarrow",
    "label": "Wheelbarrow",
    "role": "filler",
@@ -702,43 +750,6 @@
    "area_px": 8772,
    "visible_px": 8772,
    "occlusion": 0.0
-  },
-  {
-   "id": "skywatcher_1",
-   "label": "person.ana__point_up__worried__y045",
-   "role": "scored",
-   "z": 980.79,
-   "bbox": [
-    214.0,
-    662.0,
-    358.0,
-    984.0
-   ],
-   "area_px": 21092,
-   "visible_px": 21092,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ana__point_up__worried__y045",
-    "family": "person.ana",
-    "scale": 0.5123,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
-     }
-    }
-   }
   }
  ],
  "canvas": [
@@ -760,11 +771,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "rain_coming"
+   "events": [
+    "goat_grazing"
    ]
   },
-  "placement_rev": 31
+  "placement_rev": 32
  },
  "probe": true
 }

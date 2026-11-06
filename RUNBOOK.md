@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.33 was made, written so that a fresh session can make the next one (v0.34) from this
+How each release from v0.12 to v0.34 was made, written so that a fresh session can make the next one (v0.35) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -248,6 +248,16 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   later entries won without a word: the file as committed ran v0.31's cases under v0.32's names. v0.33 renamed v0.31's (`ridO31_1` to `_3`), and the bench
   now refuses a name used twice. Look at a round's cut-outs before trusting its write-up: v0.32's round 1 had run before the cases were put back, and its
   pictures were v0.32's own.
+- A template's exclusive tags are claims, not features. Revision 31 asked whether the wind was drawn by asking whether any template claimed `wind`,
+  and the kite, a thing stuck in a tree, the storm pointer and the floating box claim it only to keep away from the wind template; so it also kept a hose
+  out of pictures with no wind. To ask what is drawn, ask for the template that draws it (`templates._windy`, revision 32), and keep the old test for the
+  old revision so its records rebuild.
+- When readers take a figure for someone else, try the head before the clothes. The woman in yellow, seated, was "a child" and "a boy"; a dress drawn
+  across her lap changed none of it, and long hair changed every reading.
+- A second reading can be a reason, not an aim. The storm pointer's washing was kept out of her cone in v0.34, and a reader still offered it, "to bring it in":
+  what the rain will soak, not what the arm points at. Before widening a rule, read why the reader gave the other thing.
+- One reader can empty a row. v0.34's ninth reader named nothing in the sky, and seven of the screen's eleven items under full marks are its clouds.
+  Look at who wrote a run of misses before taking it for the pictures.
 - A cue added for one reading can outlive its need. The stuck rider's kick arcs went in at v0.16, when readers of her without them saw nothing wrong; by
   v0.32 she called out and held a raised handle, the arcs drew "hovering slightly above the plank", and without them every bench reader had her stuck.
   Bench the cue's absence as a case of its own.

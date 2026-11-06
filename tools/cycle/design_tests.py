@@ -11,24 +11,26 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # v0.33: a playground: the girl stuck up high with no kick arcs, the man reading on the low end, among others
-    ("playground", 3, 33401, {"modules": ["seesaw_heavy"], "events": ["ice_cream"]}, None),
-    # a playground: the same, with the slide and someone carrying a box
-    ("playground", 3, 33402, {"modules": ["seesaw_heavy"], "events": ["slide", "carry_box"]}, None),
-    # a garden: the storm pointer with a cat on the fence and paint tracks (v0.32's tier-3 garden's set)
-    ("garden", 3, 33403, {"modules": ["rain_coming", "paint_tracks"], "events": ["cat_on_fence"]}, None),
-    # a garden: the storm pointer with a cat on the fence, a bird perched and a jump
-    ("garden", 3, 33404, {"modules": ["rain_coming"], "events": ["cat_on_fence", "bird_perched", "jump"]}, None),
-    # a street: the storm pointer with a bird perched, a photo and a walker
-    ("street", 3, 33405, {"modules": ["rain_coming"], "events": ["bird_perched", "photo", "carry_bag"]}, None),
-    # a garden: the stopped hose, as it was, among others
-    ("garden", 3, 33406, {"modules": ["blocked_hose"], "events": ["rake", "cat_sleeping"]}, None),
+    # v0.34: a garden: the woman in yellow, with long hair, reading on the bench, among others
+    ("garden", 3, 34401, {"events": ["read_bench", "rake"]}, "meisit"),
+    # a park: the same, by the pond
+    ("park", 3, 34402, {"events": ["read_bench", "fishing"]}, "meisit"),
+    # a street: the same
+    ("street", 3, 34403, {"events": ["read_bench", "carry_bag"]}, "meisit"),
+    # a garden: the storm pointer with washing on the line
+    ("garden", 3, 34404, {"modules": ["rain_coming"], "events": ["dig"]}, "laundry"),
+    # a garden: a hose beside a floating box, which revision 31 refused and revision 32 allows
+    ("garden", 3, 34405, {"contradictions": ["floating_box"], "events": ["hose_water"]}, None),
+    # a garden: the wind, with nobody watering
+    ("garden", 3, 34406, {"modules": ["windy_hat"], "events": ["rake", "cat_sleeping"]}, None),
 ]
 
 
 def ok(rec, rule):
     if rule is None:
         return True
+    if rule == "meisit":
+        return any(e.get("asset", {}).get("variant", "").startswith("person.mei__sit_read") for e in rec["elements"])
     if rule == "tomas":
         return any(e.get("asset", {}).get("family") == "person.tomas" for e in rec["elements"])
     if rule == "teen":
@@ -65,10 +67,10 @@ for st, t, seed, forced, rule in jobs:
     if ONLY and f"{st}{seed}" not in ONLY:
         continue
     rec = None
-    for k in range(30):
+    for k in range(80):
         USAGE.clear()
         r_, sc, fin = build_one(lib, t, st, seed + 1000 * k, OUT, forced=forced, require_band=False, max_tries=8, log=lambda *a: None)
         if r_ and ok(r_, rule):
             rec = r_
             break
-    print(st, t, seed, rec["name"] if rec else ("FAIL " + json.dumps(fin)[:300]), flush=True)
+    print(st, t, seed, rec["name"] if rec else ("FAIL " + json.dumps(fin, default=str)[:300]), flush=True)

@@ -268,6 +268,10 @@ class WaterFlowers(T):
 
     def place(self):
         sc = self.sc
+        if SCN.PLACEMENT_REV >= 32 and _windy(sc, self):
+            # revision 32: nor a can or a pan pouring in the wind ("Despite the strong wind, the water from the pan falls fairly
+            # straight"); revision 31 had kept only the hose out
+            return False
         F = sc.S.anchors["flowers"]
         bb = F["bbox"]
         ep = sc.eid("waterer")
@@ -368,7 +372,7 @@ class HoseWater(T):
 
     def place(self):
         sc = self.sc
-        if SCN.PLACEMENT_REV >= 31 and any("wind" in t.exclusive for t in sc.templates if t is not self):
+        if SCN.PLACEMENT_REV >= 31 and _windy(sc, self):
             # revision 31: no hose spraying in the wind, whose arc of water does not bend ("the wind is strong enough to blow a cap off,
             # but the hose water is not bent by it"); a rule in place(), so records of earlier revisions rebuild as they were
             return False
@@ -1300,6 +1304,16 @@ class KickBall(T):
 
 JUMP_CLEAR30 = 200   # revision 30: the least gap, in units, from the jumper to a thing stuck in a tree, side to side
 NEAR31 = 100         # revision 31: the least gap, in units, from a pointer's fingertip to anything scored above it (a cat on the fence)
+WIND32 = ("windy_hat",)   # revision 32: the templates that draw wind
+
+
+def _windy(sc, me):
+    """Is the wind drawn in this picture. Revision 32 asks for the wind template itself. Revision 31 asked for any template claiming
+    the "wind" tag, which the kite, a thing stuck in a tree's canopy, the storm pointer and the floating box claim only to keep away
+    from it, so it also kept a hose out of pictures with no wind; kept as it was, so revision 31's records rebuild."""
+    if SCN.PLACEMENT_REV >= 32:
+        return any(t.id in WIND32 for t in sc.templates if t is not me)
+    return any("wind" in t.exclusive for t in sc.templates if t is not me)
 
 
 class Jump(T):
@@ -2872,7 +2886,12 @@ def _rain_line_clear(self, p, box, corridor=18, half_angle=28.0):
             return False
         ray = [(tip[0] + ux * s, tip[1] + uy * s) for s in range(10, int(dcl) + 1, 10)]
         dfar = (box[1] - tip[1]) / uy   # up to the top of the cloud bank: a bird level with the clouds counts
-        for k, b, _ in sc.scored_boxes(ignore=(getattr(p, "id", None),)):
+        boxes = list(sc.scored_boxes(ignore=(getattr(p, "id", None),)))
+        if SCN.PLACEMENT_REV >= 32:
+            # revision 32: and the washing on the line, part of the setting, which the scored check passed ("She could be pointing at
+            # the storm clouds, or at the washing on the line (or both); her finger points up and to the right, roughly between the two")
+            boxes += [(e["id"], e["bbox"], 0) for e in sc.S.elements if e["id"] == "laundry" and e.get("bbox")]
+        for k, b, _ in boxes:
             if "cloud" in k:
                 continue
             g = (b[0] - corridor, b[1] - corridor, b[2] + corridor, b[3] + corridor)
@@ -3780,6 +3799,8 @@ class SprinklerPackage(T):
 
     def place(self):
         sc = self.sc
+        if SCN.PLACEMENT_REV >= 32 and _windy(sc, self):
+            return False        # revision 32: nor a sprinkler in the wind (see WaterFlowers)
         for X, Y in self.stand_spots(y_range=(sc.S.horizon + 120, 960), n=80):
             toward = 1 if X < 800 else -1
             s = sz(Y)

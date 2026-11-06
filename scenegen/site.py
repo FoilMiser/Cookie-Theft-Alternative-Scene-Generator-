@@ -49,32 +49,31 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v032", "v033"
+PREV, CUR = "v033", "v034"
 
-# the templates whose drawing or placement v0.33 changed for the v0.32 screen (vision/flaws_v032.md); each drawing went to the isolation bench first
-# (vision/isolation_v033.md) and was read in whole test scenes (vision/design_tests_v033.md)
+# the templates whose drawing or placement v0.34 changed for the v0.33 screen (vision/flaws_v033.md); each drawing went to the isolation bench first
+# (vision/isolation_v034.md) and was read in whole test scenes (vision/design_tests_v034.md)
 REDRAWN_NOTES = {
-    "seesaw_heavy": "The arcs under the stuck girl's feet made her look 'as though she is hovering slightly above the plank'. Now there are none: she calls out and holds a raised handle, and is stuck in all three of her pictures, with 'Nothing is floating'.",
-    "rain_coming": "'Pointing upward at the cat', a cat on the fence at her fingertip. Now anything up high is kept 100 units from the fingertip. Back to 1.00.",
-    "hose_water": "'The wind is strong enough to blow a cap off, but the hose water is not bent by it'. Now no hose sprays in a windy picture.",
-    "blocked_hose": "Not redrawn: two redraws on the bench read no better. Passes at 0.92, its unchanged tier-4 picture a step up.",
+    "read_bench": "A woman in a yellow dress, seated reading, was 'a child with short dark hair, in a yellow top, yellow shorts and red shoes'. Now she has long hair, tied back, chosen on the bench, and the picture she failed in reads 'a young woman with dark shoulder-length or long hair, a yellow dress and red shoes'.",
+    "rain_coming": "'She might also be pointing at the washing.' Now the washing on the line is kept out of the pointing cone. A reader still gives it as what the rain will soak, 'to bring it in'. Holds at 1.00.",
+    "pan_watering": "'Despite the strong wind, the water from the pan falls fairly straight'. Now no can, pan or sprinkler pours in a windy picture. Holds at 1.00.",
+    "water_flowers": "Kept out of the wind with the pan and the sprinkler. Holds at 1.00.",
+    "hose_water": "Revision 31 kept it out of any picture claiming the wind's tag, a kite or a floating box among them; revision 32 asks for the wind itself. Holds at 1.00.",
+    "sprinkler_package": "Kept out of the wind with the can and the pan. Holds at 1.00.",
 }
 
-# what the v0.33 screen readers made of the templates that read poorly (vision/flaws_v033.md)
-WEAK_NOTES = {
-    "read_bench": "A woman in a yellow dress, seated reading, read as 'a child with short dark hair, in a yellow top, yellow shorts and red shoes'. The reading was seen; one item to a picture, so one half mark crosses the gate.",
-}
-SCREEN_NOTE = ("The v0.33 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The stopped hose and the stuck girl's kick arcs went to the isolation bench first, "
-               "and every change was read in whole test scenes. 854 of 862 items had full marks and none was misread. "
-               "63 of 64 templates pass the gate, as in v0.32, the failure being one half mark on a template with one item to a picture. 21 pictures were identical to the pixel in v0.32 and v0.33, "
-               "and 274 of their 281 items scored the same, three moving up and four down. AI readers describe "
-               "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
+# what the v0.34 screen readers made of the templates that read poorly (vision/flaws_v034.md): none fell under the gate
+WEAK_NOTES = {}
+SCREEN_NOTE = ("The v0.34 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The woman in yellow's hair went to the isolation bench first, and every change was read in whole test scenes. "
+               "874 of 885 items had full marks and none was misread. All 64 templates pass the gate, for the first time since v0.29. "
+               "26 pictures were identical to the pixel in v0.33 and v0.34, and 296 of their 299 items scored the same, two moving up and one down. "
+               "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:vision/isolation_v033/round1/iso_03.png@300,40,530,330>vision/isolation_v033/round1/iso_12.png@300,40,530,330", "The arcs", "v0.32: the arcs under her feet 'make her look as though she is hovering slightly above the plank'. v0.33: none, and every bench reader had her stuck. The same seed, cut out on the bench."),
-         ("crop:scenes_v032/T3_garden_s3313.png@1050,250,1600,800>scenes/T3_garden_s11954.png@1050,250,1600,800", "The pointer", "v0.32: 'pointing upward at the cat', the cat at her fingertip. v0.33: anything up high 100 units from the fingertip; the old seed no longer places, and the new garden's pointer aims at the clouds, the cat far away."),
-         ("crop:probes_v032/T3_garden_s23004.png@0,0,1600,1000>probes/T3_garden_s23004.png@0,0,1600,1000", "The wind", "v0.32: 'the wind is strong enough to blow a cap off, but the hose water is not bent by it'. v0.33: no hose sprays in a windy picture. The same seed.")]
+FIXES = [("crop:vision/isolation_v034/round1/iso_06.png@0,0,348,370>vision/isolation_v034/round1/iso_08.png@0,0,348,370", "The hair", "v0.33: 'A child or young person with short dark hair'. v0.34: long hair, tied back, and every bench reader had her a woman or a girl. The same seed, cut out on the bench."),
+         ("crop:probes_v033/T3_garden_s23013.png@0,0,1600,1000>probes/T3_garden_s23013.png@0,0,1600,1000", "The washing", "v0.33: 'She might also be pointing at the washing.' v0.34: the washing kept out of the pointing cone. The same seed places her elsewhere, and a reader still gives the washing as what the rain will soak, 'to bring it in'."),
+         ("crop:probes_v033/T3_garden_s23020.png@0,0,1600,1000>probes/T3_garden_s24054.png@0,0,1600,1000", "The pan", "v0.33: 'Despite the strong wind, the water from the pan falls fairly straight'. v0.34: no can, pan or sprinkler pours in a windy picture, and the pan's probe is a still garden.")]
 
 
 

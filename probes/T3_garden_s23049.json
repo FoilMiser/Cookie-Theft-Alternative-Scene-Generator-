@@ -6,8 +6,8 @@
  "seed": 23049,
  "mirror": true,
  "versions": {
-  "generator": "0.33.0",
-  "cast_builder": "0.33.0",
+  "generator": "0.34.0",
+  "cast_builder": "0.34.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -55,10 +55,12 @@
    }
   }
  },
- "features": [],
+ "features": [
+  "flowers"
+ ],
  "templates": [
   {
-   "id": "goat_grazing",
+   "id": "plant_flowers",
    "kind": "event",
    "event": "e1",
    "units": 0
@@ -69,43 +71,55 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A goat is eating grass",
-   "accepted": [
-    "goat eating",
-    "goat eating grass",
-    "goat grazing",
-    "goat"
-   ],
-   "key": "goat",
+   "text": "A man is planting flowers",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "planting flowers",
+     "planting",
+     "gardening",
+     "kneeling in the garden"
+    ]
+   },
+   "key": "planting",
    "elements": [
-    "goat_grazing_1"
+    "planter_1",
+    "pot_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "goat_grazing",
+   "template": "plant_flowers",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.323,
+    "s": -0.02,
     "r": 0,
     "d": 0.0,
-    "f": 0.02,
-    "a": 5.21,
-    "zipf_raw": 4.02,
-    "aoa_raw": 5.21,
+    "f": -0.19,
+    "a": 3.95,
+    "zipf_raw": 3.81,
+    "aoa_raw": 3.95,
     "domain": null,
-    "area_px": 9696
+    "area_px": 14876
    },
-   "b": -1.224,
-   "p0": 0.773,
-   "pm1": 0.556,
+   "b": -1.313,
+   "p0": 0.788,
+   "pm1": 0.578,
    "aoi_cells": [
-    "BC"
+    "MC",
+    "BC",
+    "BR"
    ]
   },
   {
@@ -322,64 +336,21 @@
     "MR",
     "BR"
    ]
-  },
-  {
-   "id": "i07",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 25884
-   },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
-   "aoi_cells": [
-    "BC",
-    "BR"
-   ]
   }
  ],
  "counts": {
-  "content": 7,
+  "content": 6,
   "inference_units": 0,
   "contradictions": 0,
-  "items_total": 7
+  "items_total": 6
  },
  "predicted": {
   "theta_0": {
-   "content": 0.806,
+   "content": 0.813,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.611,
+   "content": 0.623,
    "inference": null
   }
  },
@@ -407,17 +378,13 @@
  },
  "clutter": {
   "objects": 14,
-  "edge_density": 0.0351,
-  "png_bytes": 134741,
-  "jpeg_bytes": 166950
+  "edge_density": 0.0347,
+  "png_bytes": 139103,
+  "jpeg_bytes": 167406
  },
  "signature": [
   [
    "action",
-   0
-  ],
-  [
-   "entity",
    0
   ],
   [
@@ -596,6 +563,43 @@
    "occlusion": 0.0
   },
   {
+   "id": "planter_1",
+   "label": "person.ben__kneel_plant__neutral__y090",
+   "role": "scored",
+   "z": 830,
+   "bbox": [
+    910.0,
+    618.0,
+    1076.0,
+    836.0
+   ],
+   "area_px": 13760,
+   "visible_px": 12372,
+   "occlusion": 0.101,
+   "asset": {
+    "variant": "person.ben__kneel_plant__neutral__y090",
+    "family": "person.ben",
+    "scale": 0.4565,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -607,51 +611,22 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 25884,
-   "occlusion": 0.0
+   "visible_px": 23572,
+   "occlusion": 0.089
   },
   {
-   "id": "goat_grazing_1",
-   "label": "animal.goat_01__graze__neutral__y090",
+   "id": "pot_2",
+   "label": "Flower pot",
    "role": "scored",
-   "z": 907.78,
+   "z": 837.69,
    "bbox": [
-    836.0,
-    786.0,
-    998.0,
-    912.0
+    1070.0,
+    774.0,
+    1118.0,
+    840.0
    ],
-   "area_px": 9792,
-   "visible_px": 9696,
-   "occlusion": 0.01,
-   "asset": {
-    "variant": "animal.goat_01__graze__neutral__y090",
-    "family": "animal.goat_01",
-    "scale": 0.4853,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "goat",
-     "accepted_names": [
-      "goat",
-      "kid"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "grasstuft_2",
-   "label": "Grass at the goat's mouth",
-   "role": "setting",
-   "z": 909.78,
-   "bbox": [
-    938.0,
-    880.0,
-    980.0,
-    912.0
-   ],
-   "area_px": 684,
-   "visible_px": 684,
+   "area_px": 2504,
+   "visible_px": 2504,
    "occlusion": 0.0
   },
   {
@@ -705,10 +680,10 @@
   "usage": {},
   "forced": {
    "events": [
-    "goat_grazing"
+    "plant_flowers"
    ]
   },
-  "placement_rev": 31
+  "placement_rev": 32
  },
  "probe": true
 }

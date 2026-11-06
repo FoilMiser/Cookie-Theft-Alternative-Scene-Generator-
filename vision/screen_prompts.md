@@ -1,6 +1,6 @@
 # Blind screen prompts
 
-The prompts given to the readers and the scorer in all thirty screens (v0.4 to v0.33) and the v0.9 retest, with the
+The prompts given to the readers and the scorer in all thirty-one screens (v0.4 to v0.34) and the v0.9 retest, with the
 picture count and paths left as placeholders. Each reader is a fresh model instance that sees only its
 own blind pictures (`vNN/blind/pic_NN.png`); the scorer sees only the descriptions and `keys.json`.
 In v0.6 four readers described 7, 6, 6 and 6 pictures. In v0.7 six readers described 7, 7, 7, 7, 7 and 6
@@ -89,6 +89,7 @@ In v0.30 nine readers described 9, 9, 9, 9, 9, 9, 8, 8 and 8 pictures (78 in all
 In v0.31 nine readers described 8, 8, 8, 8, 8, 8, 8, 8 and 7 pictures (71 in all), and three scorers took pictures 1 to 23, 24 to 47 and 48 to 71, on Claude Opus 5.5, with the prompts unchanged. Its readers each remarked less than the least of v0.30's (`flaws_v031.md`).
 In v0.32 nine readers described 8, 8, 8, 8, 8, 7, 7, 7 and 7 pictures (68 in all), and three scorers took pictures 1 to 22, 23 to 45 and 46 to 68, on Claude Opus 5.5, with the prompts unchanged.
 In v0.33 nine readers described 9, 9, 9, 9, 9, 9, 9, 9 and 8 pictures (80 in all), and three scorers took pictures 1 to 26, 27 to 53 and 54 to 80, on Claude Opus 5.5, with the prompts unchanged.
+In v0.34 nine readers described 10, 10, 9, 9, 9, 9, 9, 9 and 9 pictures (83 in all), and three scorers took pictures 1 to 27, 28 to 55 and 56 to 83, on Claude Opus 5.5, with the prompts unchanged.
 One line was added to the scorer prompt, for the first time since v0.4: "List under "unintended" only what the describer presents as looking wrong, impossible or confusing,
 at most three for a picture, the most striking first; leave out hedges about small details." The isolation bench (`isolation_v025.md`, two rounds, 20 cut-outs) used the
 isolation prompt, and the design tests (`design_tests_v025.md`, six pictures, two each per reader) the reader prompt.

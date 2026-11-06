@@ -6,8 +6,8 @@
  "seed": 23044,
  "mirror": true,
  "versions": {
-  "generator": "0.33.0",
-  "cast_builder": "0.33.0",
+  "generator": "0.34.0",
+  "cast_builder": "0.34.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,185 +57,162 @@
  },
  "features": [
   "bench",
-  "feeder"
+  "feeder",
+  "flowers",
+  "swing"
  ],
  "templates": [
   {
-   "id": "wave",
-   "kind": "event",
+   "id": "water_upward",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
-  },
-  {
-   "id": "sweep",
-   "kind": "event",
-   "event": "e2",
-   "units": 0
-  },
-  {
-   "id": "carry_box",
-   "kind": "event",
-   "event": "e3",
-   "units": 0
+   "units": 1
   }
  ],
- "scene_load": 3,
+ "scene_load": 1,
  "items": [
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is sweeping",
+   "text": "A woman is watering the flowers",
    "accepted": {
     "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
+     "woman",
+     "lady",
+     "mother",
+     "mom",
      "person"
     ],
     "what": [
-     "sweeping",
-     "sweeping the path",
-     "sweeping the ground",
-     "broom"
+     "watering the flowers",
+     "watering the plants",
+     "watering can"
     ]
    },
-   "key": "sweeping",
+   "key": "flowers",
    "elements": [
-    "sweeper_1"
+    "waterer_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "sweep",
-   "event": "e2",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.254,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.21,
-    "a": 4.2,
-    "zipf_raw": 3.79,
-    "aoa_raw": 4.2,
-    "domain": null,
-    "area_px": 21900
-   },
-   "b": -1.204,
-   "p0": 0.769,
-   "pm1": 0.551,
-   "aoi_cells": [
-    "ML",
-    "BL"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A teenager is carrying a box",
-   "accepted": {
-    "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
-    ],
-    "what": [
-     "carrying a box",
-     "holding a box",
-     "moving a box",
-     "box"
-    ]
-   },
-   "key": "box",
-   "elements": [
-    "carrier_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "carry_box",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.007,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
-    "domain": null,
-    "area_px": 15444
-   },
-   "b": -1.456,
-   "p0": 0.811,
-   "pm1": 0.612,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "action",
-   "text": "A man is waving",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "waving",
-     "waving hello",
-     "saying hello",
-     "waving goodbye",
-     "waving at someone"
-    ]
-   },
-   "key": "waving",
-   "elements": [
-    "waver_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "wave",
+   "template": "water_upward",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.266,
+    "s": -0.098,
     "r": 0,
     "d": 0.0,
-    "f": -0.25,
-    "a": 4.26,
-    "zipf_raw": 3.75,
-    "aoa_raw": 4.26,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 22276
+    "area_px": 13320
    },
-   "b": -1.198,
-   "p0": 0.768,
-   "pm1": 0.549,
+   "b": -1.523,
+   "p0": 0.821,
+   "pm1": 0.628,
    "aoi_cells": [
     "MC",
     "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the water from the watering can",
+   "accepted": [
+    "the water is weird",
+    "something's wrong with the water",
+    "that's not right"
+   ],
+   "key": "water",
+   "elements": [
+    "water_2"
+   ],
+   "cues": [
+    "water_2"
+   ],
+   "effect": [
+    "water_2"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.368,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 2224
+   },
+   "b": 0.384,
+   "p0": 0.405,
+   "pm1": 0.2,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The water is going up into the air instead of falling down onto the flowers",
+   "accepted": [
+    "water going up",
+    "water going the wrong way",
+    "water should fall down",
+    "water flowing upward"
+   ],
+   "key": "water",
+   "elements": [
+    "water_2"
+   ],
+   "cues": [
+    "water_2"
+   ],
+   "effect": [
+    "water_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.368,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 2224
+   },
+   "b": 1.584,
+   "p0": 0.17,
+   "pm1": 0.07,
+   "aoi_cells": [
+    "MR",
+    "BR"
    ]
   },
   {
@@ -274,9 +251,9 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -0.885,
-   "p0": 0.708,
-   "pm1": 0.471,
+   "b": -1.125,
+   "p0": 0.755,
+   "pm1": 0.531,
    "aoi_cells": [
     "TL"
    ]
@@ -316,9 +293,9 @@
     "domain": null,
     "area_px": 19280
    },
-   "b": -0.77,
-   "p0": 0.684,
-   "pm1": 0.443,
+   "b": -1.01,
+   "p0": 0.733,
+   "pm1": 0.502,
    "aoi_cells": [
     "TC"
    ]
@@ -356,9 +333,9 @@
     "domain": null,
     "area_px": 43040
    },
-   "b": -1.262,
-   "p0": 0.779,
-   "pm1": 0.565,
+   "b": -1.502,
+   "p0": 0.818,
+   "pm1": 0.623,
    "aoi_cells": [
     "TR",
     "MR"
@@ -400,9 +377,9 @@
     "domain": null,
     "area_px": 8324
    },
-   "b": -0.262,
-   "p0": 0.565,
-   "pm1": 0.323,
+   "b": -0.502,
+   "p0": 0.623,
+   "pm1": 0.378,
    "aoi_cells": [
     "TL",
     "ML"
@@ -432,7 +409,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.939,
+    "s": 1.876,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -440,11 +417,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 235496
+    "area_px": 215436
    },
-   "b": -1.673,
-   "p0": 0.842,
-   "pm1": 0.662,
+   "b": -1.881,
+   "p0": 0.868,
+   "pm1": 0.707,
    "aoi_cells": [
     "ML",
     "MC",
@@ -488,9 +465,9 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.073,
-   "p0": 0.888,
-   "pm1": 0.745,
+   "b": -2.313,
+   "p0": 0.91,
+   "pm1": 0.788,
    "aoi_cells": [
     "TR",
     "MR",
@@ -500,16 +477,15 @@
   {
    "id": "i10",
    "type": "entity",
-   "text": "There is a flower bed",
+   "text": "There is a swing set",
    "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
+    "swing",
+    "swings",
+    "swing set"
    ],
-   "key": "flowers",
+   "key": "swing",
    "elements": [
-    "flowers"
+    "swing"
    ],
    "cues": [],
    "effect": [],
@@ -522,22 +498,23 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.373,
+    "s": 0.602,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": 0.34,
+    "a": 4.16,
+    "zipf_raw": 4.34,
+    "aoa_raw": 4.16,
     "domain": null,
-    "area_px": 25884
+    "area_px": 35772
    },
-   "b": -1.018,
-   "p0": 0.735,
-   "pm1": 0.504,
+   "b": -1.283,
+   "p0": 0.783,
+   "pm1": 0.57,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "ML",
+    "BL",
+    "BC"
    ]
   },
   {
@@ -573,28 +550,28 @@
     "domain": null,
     "area_px": 13200
    },
-   "b": -0.705,
-   "p0": 0.669,
-   "pm1": 0.427,
+   "b": -0.945,
+   "p0": 0.72,
+   "pm1": 0.486,
    "aoi_cells": [
     "BR"
    ]
   }
  ],
  "counts": {
-  "content": 11,
-  "inference_units": 0,
-  "contradictions": 0,
+  "content": 9,
+  "inference_units": 1,
+  "contradictions": 1,
   "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.747,
-   "inference": null
+   "content": 0.781,
+   "inference": 0.288
   },
   "theta_minus_1": {
-   "content": 0.532,
-   "inference": null
+   "content": 0.579,
+   "inference": 0.135
   }
  },
  "bands": {
@@ -602,7 +579,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -616,14 +593,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0413,
-  "png_bytes": 192267,
-  "jpeg_bytes": 186705
+  "objects": 14,
+  "edge_density": 0.0395,
+  "png_bytes": 150549,
+  "jpeg_bytes": 182508
  },
  "signature": [
   [
@@ -631,11 +608,11 @@
    0
   ],
   [
-   "action",
-   0
+   "contradiction_explain",
+   1
   ],
   [
-   "action",
+   "contradiction_notice",
    0
   ],
   [
@@ -732,8 +709,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 63264,
-   "occlusion": 0.221
+   "visible_px": 80796,
+   "occlusion": 0.006
   },
   {
    "id": "tree",
@@ -762,23 +739,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 235496,
-   "occlusion": 0.022
-  },
-  {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
-   ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
+   "visible_px": 215436,
+   "occlusion": 0.106
   },
   {
    "id": "feeder",
@@ -786,9 +748,9 @@
    "role": "setting",
    "z": 652,
    "bbox": [
-    318.0,
+    158.0,
     302.0,
-    392.0,
+    232.0,
     662.0
    ],
    "area_px": 8324,
@@ -811,6 +773,43 @@
    "occlusion": 0.0
   },
   {
+   "id": "waterer_1",
+   "label": "person.ana__water_plants__smile__y090",
+   "role": "scored",
+   "z": 820,
+   "bbox": [
+    964.0,
+    548.0,
+    1082.0,
+    826.0
+   ],
+   "area_px": 13524,
+   "visible_px": 13320,
+   "occlusion": 0.015,
+   "asset": {
+    "variant": "person.ana__water_plants__smile__y090",
+    "family": "person.ana",
+    "scale": 0.4528,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin2",
+      "hair": "long_dark"
+     }
+    }
+   }
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -822,7 +821,52 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 25884,
+   "visible_px": 25556,
+   "occlusion": 0.013
+  },
+  {
+   "id": "water_2",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 837,
+   "bbox": [
+    1074.0,
+    574.0,
+    1174.0,
+    722.0
+   ],
+   "area_px": 2224,
+   "visible_px": 2224,
+   "occlusion": 0.0
+  },
+  {
+   "id": "swing_seat",
+   "label": "Empty swing seat",
+   "role": "setting",
+   "z": 845,
+   "bbox": [
+    376.0,
+    474.0,
+    466.0,
+    784.0
+   ],
+   "area_px": 4492,
+   "visible_px": 4420,
+   "occlusion": 0.016
+  },
+  {
+   "id": "swing",
+   "label": "Swing set",
+   "role": "setting",
+   "z": 846,
+   "bbox": [
+    276.0,
+    458.0,
+    568.0,
+    856.0
+   ],
+   "area_px": 35772,
+   "visible_px": 35772,
    "occlusion": 0.0
   },
   {
@@ -841,160 +885,18 @@
    "occlusion": 0.0
   },
   {
-   "id": "sweeper_1",
-   "label": "person.dev__sweep__neutral__y045",
-   "role": "scored",
-   "z": 947.62,
-   "bbox": [
-    158.0,
-    638.0,
-    264.0,
-    986.0
-   ],
-   "area_px": 22780,
-   "visible_px": 21900,
-   "occlusion": 0.039,
-   "asset": {
-    "variant": "person.dev__sweep__neutral__y045",
-    "family": "person.dev",
-    "scale": 0.5001,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
-     }
-    }
-   }
-  },
-  {
-   "id": "carrier_3",
-   "label": "person.leo__walk_box__smile__y090",
-   "role": "scored",
-   "z": 948.36,
-   "bbox": [
-    888.0,
-    676.0,
-    1002.0,
-    954.0
-   ],
-   "area_px": 15444,
-   "visible_px": 15444,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.leo__walk_box__smile__y090",
-    "family": "person.leo",
-    "scale": 0.5003,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
-  },
-  {
-   "id": "sweepheap_2",
-   "label": "What has been swept",
-   "role": "scored",
-   "z": 949.62,
-   "bbox": [
-    136.0,
-    918.0,
-    226.0,
-    964.0
-   ],
-   "area_px": 2412,
-   "visible_px": 2412,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_watering_can",
-   "label": "Watering can",
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
    "role": "filler",
-   "z": 960,
+   "z": 975,
    "bbox": [
-    362.0,
-    884.0,
-    458.0,
-    962.0
+    522.0,
+    892.0,
+    704.0,
+    980.0
    ],
-   "area_px": 4404,
-   "visible_px": 4404,
-   "occlusion": 0.0
-  },
-  {
-   "id": "waver_4",
-   "label": "person.ben__wave__smile__y045",
-   "role": "scored",
-   "z": 974.66,
-   "bbox": [
-    560.0,
-    638.0,
-    686.0,
-    976.0
-   ],
-   "area_px": 22276,
-   "visible_px": 22276,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ben__wave__smile__y045",
-    "family": "person.ben",
-    "scale": 0.5101,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
-  },
-  {
-   "id": "wavelines_5",
-   "label": "Motion lines by the waving hand",
-   "role": "setting",
-   "z": 975.66,
-   "bbox": [
-    544.0,
-    642.0,
-    598.0,
-    672.0
-   ],
-   "area_px": 160,
-   "visible_px": 160,
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -1017,13 +919,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "wave",
-    "sweep",
-    "carry_box"
+   "contradictions": [
+    "water_upward"
    ]
   },
-  "placement_rev": 31
+  "placement_rev": 32
  },
  "probe": true
 }
