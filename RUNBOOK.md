@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.31 was made, written so that a fresh session can make the next one (v0.32) from this
+How each release from v0.12 to v0.32 was made, written so that a fresh session can make the next one (v0.33) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -198,9 +198,15 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   Two lists can finish together: keep the one in `isomorph_summary.json` and move the other out.
 - When a tier-4 cell has not come after a dozen seeds, force a template set that placed in an earlier release before running more (`forced` in `build_one`; the record keeps it, so it rebuilds exactly).
   Forced, the v0.24, v0.25 and v0.26 playground sets each placed within seconds where 219 free seeds had placed nothing: the difficulty is in the sets the planner draws, not the room. Say so in `fix_summary.py`.
+  v0.32's street went the same way: 39 free seeds failed under revision 30, and v0.31's set, forced on v0.31's seed, placed in 12 s. Run two or three forced lists beside the free
+  search (`tpdb_work/t4_forced32.py`); they can finish together, so move the extras out and keep the one whose picture reads best.
 - A pose set at render time is overwritten when the renderer re-evaluates the action. To change a pose for one view, bake a twin action (`__p`, `Poser.build`), and let `render_assets.py` choose it.
 - Parallel runs may render into one library. `Library.ensure` now renders aside into `.render_<pid>` and moves the files in with the manifest last; before that, two runs left "image file is truncated".
 - Look closely at crops before drawing anything: the walkers' feet did point the right way, the hose did reach the fist, and what was wrong (the eye on the head's outline) was on nobody's list.
+- Read the validator's last line every release. v0.31's library passed 338 of 350, the 12 split riders failing on their names alone, and no one wrote it down; v0.32 found it,
+  widened the schema to the `~` suffix, and then found six pieces failing the ground rule that a far leg alone cannot meet. Either is a check that has stopped checking.
+- When the gate's one failure is on a picture that came back identical, read the retest before redrawing. Two releases running (`jump` in v0.31, `blocked_hose` in v0.32) the
+  failure was the retest's moves downward, on a picture whose items had full marks the time before. Bench it if the readers' words point at the drawing; otherwise watch.
 - A bench win can fail to show in whole pictures. Shorter legs took the bench from eight remarks to three, on four cut-outs a side, and did not move the screen. `python vision/remark_topics.py vision/v<PREV> vision/v<TAG>` compares what two screens remark on, roughly; read the hits.
 - `package_release.py` keeps a zip that is already there, so delete `tpdb_v<this release>.zip` to rebuild it, after looking at it, and never with a pattern. Earlier zips stay.
 - Other apps can hold most of the memory (15 GB here): eight side-by-side runs ran Blender and cairo out of memory ("render failed", `MemoryError`). Keep it to about five, and fewer while a library is still filling. When a run dies of it, look at what else stopped, and rerun.
@@ -229,3 +235,14 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - Moving a thing off one neighbour can land it on another. The reel, 24 units off the flower bed, "overlaps the step slightly". Read the second neighbour too.
 - Look at a file's keys before merging it. `isomorph_summary.json` is keyed `A` and `B`, and a merge by `name` kept the first file and dropped the tier-4 entry, without a word. Print what came out, and count it.
 - Stop when a remark has outlived every drawing. "Stiff" has been said of every hose held at the waist since v0.25 and costs no marks, and a seventh curve would not end it. Say so, and take it off the list.
+  The seesaw man went the same way in v0.32: turned away, or both legs behind the plank, and every reader of each still doubted his seat (legs out was set aside on looking).
+- A remark can be about the thing next to it. "Hovering slightly" was said of the girl raised onto the plank, and lowering her found nothing on the bench; what
+  the readers said instead, 7 times in 15, was that her fists sat above the handle, which the raise had left where it was. Raising the handle with her ended it. Read
+  every line a cut-out draws, not only the ones about the case.
+- A bench's switches are module values, and one process runs many cases. `isolation_bench.py` set each by name prefix with a default for names that matched none,
+  and many defaults were older drawings, so new cases would have drawn v0.30's seesaw. It now restores the release's value of every switch before each case.
+  When adding a switch, check what a case that does not name it gets. And never cut the old cases to make room: the v0.32 patch first dropped every case since v0.23.
+- A gate written in a class body (`sky = "clear" if PLACEMENT_REV >= 30 else None`) is read when the module is imported, not when a record is rebuilt, so it changes
+  what an older revision's records rebuild into: two of three v0.31 records did not rebuild under v0.32's code, a hose under storm clouds and a street with a
+  watering can under a clear sky (its planner samples sets under both skies); with the watering templates' sky put back, the street rebuilt identical to the pixel. Records rebuild
+  exactly with their own release's package, which is what the standing rule promises. A rule that must leave old records alone goes in `place()` or `feasible()`.

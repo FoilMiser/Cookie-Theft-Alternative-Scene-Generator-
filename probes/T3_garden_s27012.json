@@ -1,0 +1,1047 @@
+{
+ "name": "T3_garden_s27012",
+ "tier": 3,
+ "setting": "garden",
+ "sky": "clear",
+ "seed": 27012,
+ "mirror": true,
+ "versions": {
+  "generator": "0.32.0",
+  "cast_builder": "0.32.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "clothesline",
+  "hose_reel",
+  "laundry",
+  "laundry_short"
+ ],
+ "templates": [
+  {
+   "id": "fish_in_tree",
+   "kind": "contradiction",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "hang_laundry",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  },
+  {
+   "id": "dig",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  }
+ ],
+ "scene_load": 3,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A man is hanging up laundry",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "hanging laundry",
+     "hanging clothes",
+     "hanging up the washing",
+     "pinning clothes",
+     "clothesline"
+    ]
+   },
+   "key": "laundry",
+   "elements": [
+    "hanger_1",
+    "shirt_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "hang_laundry",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.116,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
+    "domain": null,
+    "area_px": 18028
+   },
+   "b": -1.216,
+   "p0": 0.771,
+   "pm1": 0.554,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "There is a fish",
+   "accepted": [
+    "fish",
+    "a fish",
+    "goldfish"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.9,
+    "a": 4.05,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": null,
+    "area_px": 2404
+   },
+   "b": -0.254,
+   "p0": 0.563,
+   "pm1": 0.322,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_notice",
+   "text": "Something is wrong in the tree",
+   "accepted": [
+    "something in the tree",
+    "the tree looks odd",
+    "what's that in the tree"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_3"
+   ],
+   "cues": [
+    "treefish_3"
+   ],
+   "effect": [
+    "treefish_3"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 0.396,
+   "p0": 0.402,
+   "pm1": 0.198,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "contradiction_explain",
+   "text": "A fish is sitting up in the tree, but fish live in water",
+   "accepted": [
+    "fish in a tree",
+    "fish can't live in trees",
+    "fish belong in water"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_3"
+   ],
+   "cues": [
+    "treefish_3"
+   ],
+   "effect": [
+    "treefish_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 1.596,
+   "p0": 0.169,
+   "pm1": 0.069,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A man is digging",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "digging",
+     "digging a hole",
+     "shoveling",
+     "using a shovel",
+     "spade"
+    ]
+   },
+   "key": "digging",
+   "elements": [
+    "digger_5",
+    "soil_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dig",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.359,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.01,
+    "a": 4.19,
+    "zipf_raw": 3.99,
+    "aoa_raw": 4.19,
+    "domain": null,
+    "area_px": 25396
+   },
+   "b": -1.317,
+   "p0": 0.789,
+   "pm1": 0.579,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 19280
+   },
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.693,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 40636
+   },
+   "b": -1.242,
+   "p0": 0.776,
+   "pm1": 0.56,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a fence",
+   "accepted": [
+    "fence",
+    "wooden fence",
+    "gate"
+   ],
+   "key": "fence",
+   "elements": [
+    "fence"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.867,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 6.28,
+    "zipf_raw": 4.21,
+    "aoa_raw": 6.28,
+    "domain": null,
+    "area_px": 212872
+   },
+   "b": -1.636,
+   "p0": 0.837,
+   "pm1": 0.654,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "MR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "It is the back yard of a house",
+   "accepted": [
+    "house",
+    "home",
+    "backyard",
+    "back yard",
+    "yard",
+    "garden"
+   ],
+   "key": "house",
+   "elements": [
+    "house"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.84,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
+    "domain": null,
+    "area_px": 204952
+   },
+   "b": -2.073,
+   "p0": 0.888,
+   "pm1": 0.745,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There is a flower bed",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.373,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 25884
+   },
+   "b": -1.018,
+   "p0": 0.735,
+   "pm1": 0.504,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 9,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.75,
+   "inference": 0.285
+  },
+  "theta_minus_1": {
+   "content": 0.537,
+   "inference": 0.134
+  }
+ },
+ "bands": {
+  "content_count": false,
+  "inference_units": false,
+  "contradictions": true,
+  "content_completeness": false,
+  "inference_completeness": true
+ },
+ "in_tier": false,
+ "checks": {
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": false,
+   "detail": "17 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 17,
+  "edge_density": 0.0361,
+  "png_bytes": 172822,
+  "jpeg_bytes": 173909
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    52.0,
+    22.0,
+    248.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    634.0,
+    68.0,
+    1040.0,
+    202.0
+   ],
+   "area_px": 19280,
+   "visible_px": 19280,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees beyond the fence",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Lawn",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Paved path to the gate",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    38.0,
+    614.0,
+    346.0,
+    1000.0
+   ],
+   "area_px": 81248,
+   "visible_px": 80796,
+   "occlusion": 0.006
+  },
+  {
+   "id": "tree",
+   "label": "Tree behind the fence",
+   "role": "setting",
+   "z": 440,
+   "bbox": [
+    1056.0,
+    176.0,
+    1304.0,
+    452.0
+   ],
+   "area_px": 44992,
+   "visible_px": 40636,
+   "occlusion": 0.097
+  },
+  {
+   "id": "limb_4",
+   "label": "Limb of the tree",
+   "role": "background",
+   "z": 450.2
+  },
+  {
+   "id": "treefish_3",
+   "label": "Fish sitting in the tree",
+   "role": "scored",
+   "z": 450.6,
+   "bbox": [
+    1066.0,
+    308.0,
+    1150.0,
+    344.0
+   ],
+   "area_px": 2404,
+   "visible_px": 2404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "fence",
+   "label": "Wooden fence with a gate",
+   "role": "setting",
+   "z": 615,
+   "bbox": [
+    0.0,
+    426.0,
+    1302.0,
+    618.0
+   ],
+   "area_px": 240904,
+   "visible_px": 212872,
+   "occlusion": 0.116
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
+  },
+  {
+   "id": "clothesline",
+   "label": "Clothesline",
+   "role": "setting",
+   "z": 705,
+   "bbox": [
+    624.0,
+    382.0,
+    994.0,
+    708.0
+   ],
+   "area_px": 13848,
+   "visible_px": 13332,
+   "occlusion": 0.037
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    886.0,
+    392.0,
+    952.0,
+    524.0
+   ],
+   "area_px": 7652,
+   "visible_px": 7652,
+   "occlusion": 0.0
+  },
+  {
+   "id": "shirt_2",
+   "label": "Shirt being pinned up",
+   "role": "scored",
+   "z": 706.5,
+   "bbox": [
+    698.0,
+    408.0,
+    798.0,
+    510.0
+   ],
+   "area_px": 7168,
+   "visible_px": 6804,
+   "occlusion": 0.051
+  },
+  {
+   "id": "hanger_1",
+   "label": "person.ben__hang_washing__smile__y090",
+   "role": "scored",
+   "z": 707,
+   "bbox": [
+    776.0,
+    408.0,
+    878.0,
+    684.0
+   ],
+   "area_px": 11224,
+   "visible_px": 11224,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ben__hang_washing__smile__y090",
+    "family": "person.ben",
+    "scale": 0.4102,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    1258.0,
+    118.0,
+    1600.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
+   ],
+   "area_px": 25884,
+   "visible_px": 25884,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 886,
+   "bbox": [
+    1282.0,
+    804.0,
+    1346.0,
+    888.0
+   ],
+   "area_px": 4264,
+   "visible_px": 4092,
+   "occlusion": 0.04
+  },
+  {
+   "id": "hose_tail",
+   "label": "End of the hose",
+   "role": "setting",
+   "z": 887,
+   "bbox": [
+    1194.0,
+    842.0,
+    1298.0,
+    924.0
+   ],
+   "area_px": 2004,
+   "visible_px": 2004,
+   "occlusion": 0.0
+  },
+  {
+   "id": "soil_6",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 965.03,
+   "bbox": [
+    578.0,
+    930.0,
+    746.0,
+    986.0
+   ],
+   "area_px": 4788,
+   "visible_px": 3984,
+   "occlusion": 0.168
+  },
+  {
+   "id": "digger_5",
+   "label": "person.dev__dig_lift__neutral__y045",
+   "role": "scored",
+   "z": 966.03,
+   "bbox": [
+    456.0,
+    678.0,
+    636.0,
+    980.0
+   ],
+   "area_px": 21412,
+   "visible_px": 21412,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.dev__dig_lift__neutral__y045",
+    "family": "person.dev",
+    "scale": 0.5069,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
+     }
+    }
+   }
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   23012,
+   "could not place hang_laundry"
+  ],
+  [
+   24012,
+   "could not place hang_laundry"
+  ],
+  [
+   25012,
+   "could not place hang_laundry"
+  ],
+  [
+   26012,
+   "could not place hang_laundry"
+  ],
+  [
+   27012,
+   "layout 1: accepted after 0 rejected layouts"
+  ]
+ ],
+ "layout": 0,
+ "knob": 0,
+ "regen": {
+  "base_seed": 23012,
+  "max_tries": 6,
+  "placements": 14,
+  "require_band": false,
+  "usage": {},
+  "forced": {
+   "events": [
+    "hang_laundry",
+    "dig"
+   ],
+   "contradictions": [
+    "fish_in_tree"
+   ]
+  },
+  "placement_rev": 30
+ },
+ "probe": true
+}

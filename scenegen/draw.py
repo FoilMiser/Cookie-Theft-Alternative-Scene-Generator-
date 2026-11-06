@@ -1315,9 +1315,10 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False):
 SEESAW_IN28 = 22
 
 
-def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False):
+def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False, up=(0, 0)):
     """Seesaw on a pivot; tilt > 0 lifts the right end. Returns svg and the two seat points.
-    inset (v0.28) moves the seats and handles in from the plank's ends; ground (v0.28) casts one shadow under the whole plank, for the riders too."""
+    inset (v0.28) moves the seats and handles in from the plank's ends; ground (v0.28) casts one shadow under the whole plank, for the riders too.
+    up (v0.32): how much taller each end's handle stands, in units (left, right), for a rider raised onto the plank who grips it."""
     ph = 82 * s
     a = math.radians(tilt)
     dx, dy = math.cos(a) * L * s, -math.sin(a) * L * s
@@ -1330,8 +1331,9 @@ def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False)
     for name, (x, y), sg in (("left", left, 1), ("right", right, -1)):
         x, y = x + sg * inset * s * math.cos(a), y - sg * inset * s * math.sin(a)
         hx, hy = x + sg * 34 * s * math.cos(a), y - sg * 34 * s * math.sin(a)
-        svg += stroke(poly_d([(hx, hy - 6 * s), (hx, hy - 42 * s)]), C["charcoal"], 6 * s, OW * 0.7)
-        svg += stroke(poly_d([(hx - 9 * s, hy - 42 * s), (hx + 9 * s, hy - 42 * s)]), C["charcoal"], 6 * s, OW * 0.7)
+        ht = 42 + (up[0] if name == "left" else up[1])
+        svg += stroke(poly_d([(hx, hy - 6 * s), (hx, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
+        svg += stroke(poly_d([(hx - 9 * s, hy - ht * s), (hx + 9 * s, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
         if pad:
             # (v0.31 bench) a seat on the plank, under the rider
             nx_, ny_ = -math.sin(a) * 9 * s, -math.cos(a) * 9 * s
@@ -1339,10 +1341,10 @@ def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False)
             p1_ = (x + sg * 28 * s * math.cos(a) + nx_, y - sg * 28 * s * math.sin(a) + ny_)
             svg += stroke(poly_d([p0_, p1_]), C["wood"], 9 * s, OW * 0.7)
         seats[name] = (x + sg * 8 * s, y - 6 * s)
-        seats[name + "_handle"] = (hx, hy - 42 * s)
+        seats[name + "_handle"] = (hx, hy - ht * s)
     svg += circ(pv[0], pv[1], 8 * s, C["gray"], OW * 0.7)
     ys = [left[1], right[1], base_y]
-    return svg, {"seats": seats, "bbox": (cx - dx - 20 * s, min(ys) - 50 * s, cx + dx + 20 * s, base_y), "pivot": pv}
+    return svg, {"seats": seats, "bbox": (cx - dx - 20 * s, min(ys) - (50 + max(up)) * s, cx + dx + 20 * s, base_y), "pivot": pv}
 
 
 def sandbox(cx, cy, s=1.0, w=330, d=88):

@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.27, v0.26, v0.25, v0.24 and v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.32 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,37 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.32 (the cast's switches by bench cast: ridX and boxU from TPDB_LOW=X TPDB_BOX=U, ridF from TPDB_LOW=F)
+    "ridO_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridO_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridO_3": ("playground", 32113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridX_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridX_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridX_3": ("playground", 32113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridF_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridF_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridF_3": ("playground", 32113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridG_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridG_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridG_3": ("playground", 32113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridB_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridB_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridB_3": ("playground", 32113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridC_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridC_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridC_3": ("playground", 32113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridH_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridH_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridH_3": ("playground", 32113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "boxV_1": ("street", 32121, {"events": ["carry_box"]}, "event", None),
+    "boxV_2": ("park", 32122, {"events": ["carry_box"]}, "event", None),
+    "boxV_3": ("playground", 32123, {"events": ["carry_box"]}, "event", None),
+    "boxO_1": ("street", 32121, {"events": ["carry_box"]}, "event", None),
+    "boxO_2": ("park", 32122, {"events": ["carry_box"]}, "event", None),
+    "boxO_3": ("playground", 32123, {"events": ["carry_box"]}, "event", None),
+    "boxU_1": ("street", 32121, {"events": ["carry_box"]}, "event", None),
+    "boxU_2": ("park", 32122, {"events": ["carry_box"]}, "event", None),
+    "boxU_3": ("playground", 32123, {"events": ["carry_box"]}, "event", None),
     # v0.31 round 2
     "ridT_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
     "ridT_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
@@ -440,10 +471,21 @@ def accepted(rec, rule):
     return True
 
 
+import re as _re
 from scenegen import draw as _D
+import scenegen.library as _L0
+import scenegen.settings as _Q0
+import scenegen.templates as _T0
+# v0.32: the release's value of every versioned switch (NAME23 ... NAME32). The prefix block below sets each switch by name prefix, with defaults that
+# were older drawings, so a case that matched no prefix got them (v0.31's new cases took the old obstacle and the old duck; v0.32's would have taken the
+# v0.30 seesaw). The v0.32 cases are reset to these, then set by name.
+_REL = {(m, k): getattr(m, k) for m in (_D, _L0, _Q0, _T0) for k in dir(m) if _re.fullmatch(r"[A-Z_]+\d\d", k)}
+NEW32 = {n for n in BENCH if n[:4] in ("ridO", "ridX", "ridF", "ridG", "ridB", "ridC", "ridH", "boxO", "boxU", "boxV") and BENCH[n][1] // 1000 in (32, 33)}
 for name, (st, seed, forced, what, rule) in BENCH.items():
     if ONLY and name not in ONLY:
         continue
+    for (m, k), v in _REL.items():
+        setattr(m, k, v)
     if name.startswith("sq"):
         _D.SQUARE_STYLE20 = name[2]
     _D.LEG23 = "strut" if name.startswith("strut") else name.startswith("leg")
@@ -479,6 +521,13 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     _Q_.REEL31 = {"relM": (24, 0), "relN": (16, 16)}.get(name[:4], (0, 0))
     import scenegen.settings as _Q
     _Q.REEL30 = "B" if name.startswith(("relB", "relC", "relM", "relN")) else "O"
+    if name in NEW32:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        _T0.LOW32 = {"ridF": "F", "ridB": "B", "ridC": "B"}.get(name[:4], "O")
+        _T0.LOW_RISE_B32 = 12 if name.startswith("ridC") else 5
+        _T0.STUCK32 = 8 if name[:4] in ("ridX", "ridF", "ridG", "ridB", "ridC") else 14
+        _T0.HANDLE32 = "H" if name.startswith("ridH") else "O"
     rec = None
     for k in range(40):
         USAGE.clear()

@@ -28,8 +28,8 @@
     },
     "variant_id": {
       "type": "string",
-      "pattern": "^(person|animal|prop|plant|structure)\\.[a-z0-9_]+__[a-z0-9_]+__[a-z0-9_]+__y[0-9]{3}$",
-      "description": "<family_id>__<pose>__<expression>__y<facing in degrees, 3 digits>"
+      "pattern": "^(person|animal|prop|plant|structure)\\.[a-z0-9_]+__[a-z0-9_]+(~(near|far|body|legs))?__[a-z0-9_]+__y[0-9]{3}$",
+      "description": "<family_id>__<pose>__<expression>__y<facing in degrees, 3 digits>; a pose may end ~near, ~far, ~body or ~legs, one piece of a figure drawn in two (render_assets.py, from v0.31)"
     },
     "family_id": {
       "type": "string",
@@ -120,7 +120,7 @@
       "properties": {
         "pose": {
           "type": "string",
-          "pattern": "^[a-z0-9_]+$"
+          "pattern": "^[a-z0-9_]+(~(near|far|body|legs))?$"
         },
         "expression": {
           "type": "string",

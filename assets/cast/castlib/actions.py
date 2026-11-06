@@ -1011,9 +1011,25 @@ SPADE_V2, SPADE_PITCH, SPADE_ROLL = True, 22.0, 35.0
 KICK_REL, KICK_FWD_F, KICK_LIFT_F = True, 0.85, 0.40
 
 
+# v0.32 bench (TPDB_BOX; isolation_v032.md): "O" the hands pressed to the box's sides (in profile the near hand lies on its face, and the box held at the
+# side read "as if it is half floating", v0.31); "U" the box carried higher on the forearms, the hands under it (the near hand at the box's corner by the body:
+# "held by one hand at one corner"); "V" the near forearm under the whole box, the hand at its far corner ("as if the box rests on that hand"). v0.32: V
+BOX32 = __import__("os").environ.get("TPDB_BOX", "V")
+
+
 def up_carry_box(P):
     u = P.u
     pel = P.lm("pelvis")
+    if BOX32 in ("U", "V"):
+        if BOX32 == "U":
+            C = pel + Vector((0, -0.29, 0.31)) * u
+            P.arms({"R": (C + Vector((-0.11, 0.07, -0.16)) * u, (-1, 0.3, -1)), "L": (C + Vector((0.11, 0.07, -0.16)) * u, (1, 0.3, -1))})
+        else:
+            C = pel + Vector((0, -0.27, 0.27)) * u
+            P.arms({"R": (C + Vector((-0.12, -0.06, -0.155)) * u, (-1, 0.5, -1)), "L": (C + Vector((0.12, -0.06, -0.155)) * u, (1, 0.5, -1))})
+        P.prop("box", box("box", C, (0.36 * u, 0.30 * u, 0.26 * u), "wood_light"))
+        P.prop("tape", box("tape", C + Vector((0, 0, 0.131)) * u, (0.36 * u, 0.06 * u, 0.004 * u), "cream"))
+        return
     C = pel + Vector((0, -0.27, 0.18)) * u
     P.arms({"R": (C + Vector((-0.19, 0.0, -0.03)) * u, (-1, 0.6, -0.4)), "L": (C + Vector((0.19, 0.0, -0.03)) * u, (1, 0.6, -0.4))})
     P.prop("box", box("box", C, (0.36 * u, 0.30 * u, 0.26 * u), "wood_light"))
@@ -1598,7 +1614,11 @@ ACTIONS = [
     # v0.9
     ("balloon_reach", "stand", {"head_pitch": 26, "lean": -3}, "balloon_reach", "holding balloons and reaching for one that got away", ["balloon", "reach"]),
     ("walk_read_open", "walk", {"head_pitch": WALK_READ_PITCH}, "read_open", "reading while walking", ["read", "move"]),
-    ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": (0.20, -0.19)}, "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
+    # v0.32 bench (TPDB_LOW, with templates.LOW32): "O" knees up, the feet planted near the seat, so the near shin crosses the rising plank ("sitting on the
+    # plank end or sitting just beside it with the plank behind his legs", v0.31); "X" the legs out along the ground under the plank; "F" the feet further out, for a
+    # rider turned away from the plank, whose feet land past its end
+    ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": {"O": (0.20, -0.19), "X": (0.17, -0.86), "F": (0.20, -0.30)}[__import__("os").environ.get("TPDB_LOW", "O")]},
+     "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
     # v0.10
     ("cone_dropped", "stand", {"head_pitch": -34, "head_roll": 4}, "empty_cone_low", "holding an empty cone, upset, looking down at the dropped ice cream", ["food", "emotion"]),
     # v0.24: U, chosen on the bench (isolation_v024.md); O the v0.23 arms, H hands holding the chute ("just sitting still")

@@ -254,6 +254,9 @@ class WaterFlowers(T):
     # revision 19: no watering by can in a picture with a hose (a reel "unused right beside him"; with the blocked hose the
     # planner dropped the reel the hose needs)
     exclusive = ("flowers",) + (("hose_reel",) if SCN.PLACEMENT_REV >= 19 else ())
+    # revision 30: no watering under storm clouds, as no washing since revision 29 ("could be read as ironic or pointless, but she does not seem to have
+    # noticed the clouds", v0.31); the water going up and the pan inherit it
+    sky = "clear" if SCN.PLACEMENT_REV >= 30 else None
     upward = False
     pose = "water_plants"
     stream_cap = 230.0
@@ -356,6 +359,7 @@ class HoseWater(T):
     needs = {"garden": {"hose_reel", "flowers"}}
     exclusive = ("hose_reel", "flowers")
     uses = ("flowers",)
+    sky = "clear" if SCN.PLACEMENT_REV >= 30 else None     # revision 30: see WaterFlowers
 
     def bind(self):
         sc = self.sc
@@ -1290,6 +1294,9 @@ class KickBall(T):
         return (xs[i] / K.MASK_SCALE, (y0 + float(np.mean(ys[cols]))) / K.MASK_SCALE)
 
 
+JUMP_CLEAR30 = 200   # revision 30: the least gap, in units, from the jumper to a thing stuck in a tree, side to side
+
+
 class Jump(T):
     id = "jump"
 
@@ -1330,6 +1337,17 @@ class Jump(T):
                     return False
                 b, s_ = p.bbox(), sz(p.Y)
                 return sc.setting_clear((b[0] - 24 * s_, b[1], b[2] + 24 * s_, b[3] + 40 * s_), only=sc.LANE_STRUCT + ("house", "planter"))
+        if SCN.PLACEMENT_REV >= 30:
+            # revision 30: not beside a ball or kite stuck in a tree, which is placed first (12 px from the ball, a boy jumping for joy "could be trying to
+            # reach the ball or just cheering", v0.31)
+            base30 = accept
+            stuck = [v_["bbox"] for k_, v_ in sc.svgs.items() if k_.startswith(("ballintree", "kiteintree"))]
+
+            def accept(p, base=base30, stuck=stuck):
+                if base and not base(p):
+                    return False
+                b, s_ = p.bbox(), sz(p.Y)
+                return not any(b[0] - JUMP_CLEAR30 * s_ < t[2] and t[0] < b[2] + JUMP_CLEAR30 * s_ for t in stuck)
         # (revision 20: and in the front half of the ground, where the gap under the feet is big enough to see: at the back,
         # by the playground's fence or the street's shop fronts, the jump read as "jumping or cheering ... or just a loosely
         # placed shadow"; in front it read as "jumping in the air with both arms raised" in the test scenes)
@@ -2229,13 +2247,52 @@ class CatOnFence(T):
 SEESAW31 = "U"
 # how far up the rider sits, in units: (riding free, on the low end with the feet down, whose seat point is lower in the body and whose hips are nearly on the plank already). "P" on a seat
 RIDE31 = {"O": (0, 0), "S": (0, 0), "T": (14, 14), "U": (14, 5), "P": (18, 12)}
+# v0.32 bench: the man reading on the low end ("sitting on the plank end or sitting just beside it with the plank behind his legs", v0.31). "O" astride, facing the plank;
+# "X" astride with his legs out along the ground under the plank (the cast's TPDB_LOW=X); "F" turned away from the plank, nearer its end, his feet on the ground past it (TPDB_LOW=F)
+LOW32 = "O"
+LOW_IN32 = 10      # (F) how much nearer the end he sits, in units along the plank
+LOW_RISE32 = -6    # (F) how far up he sits, in units (on the plank, not astride it)
+LOW_RISE_B32 = 5   # (B) the same, with both legs behind the plank
+# v0.32 bench: how far up the stuck rider sits, in units (14 is RIDE31's: "may look like she is hovering slightly", v0.31)
+STUCK32 = 14
 
 
-def ride_parts(sc, v):
+def ride_parts(sc, v, parts=("near", "far")):
     """Revision 29: the two pieces of a rider, for the render queue."""
     if SCN.PLACEMENT_REV >= 29 and SEESAW31 != "O":
         fam, pose, expr, yaw = v
-        sc.variants += [(fam, pose + "~near", expr, yaw), (fam, pose + "~far", expr, yaw)]
+        sc.variants += [(fam, pose + "~" + parts[0], expr, yaw), (fam, pose + "~" + parts[1], expr, yaw)]
+
+
+# v0.32 bench: "H" a rider who grips the handle (stuck up high) has it raised as far as she is; "O" not (raised 14 units in revision 29 and the handle not, her fists
+# showed above it: "a little above the handle rather than clearly around it", in 7 of 15 bench readings, and in none of 3 with the handle raised)
+HANDLE32 = "H"      # v0.32, on the bench (isolation_v032.md)
+GRIP32 = ("seesaw_stuck", "seesaw_stuck_call")
+
+
+def ride_rise(v, turn_=False):
+    """Revision 29: how far up a rider sits, in units; revision 30: (bench) the turned man's and the stuck rider's."""
+    if SCN.PLACEMENT_REV < 29:
+        return 0
+    r = RIDE31[SEESAW31][1 if v[1].startswith("seesaw_low") else 0]
+    if SCN.PLACEMENT_REV >= 30:
+        if v[1] == "seesaw_stuck_call":
+            r = STUCK32
+        if turn_:
+            r = LOW_RISE32
+        if LOW32 == "B" and v[1] == "seesaw_low_read":
+            r = LOW_RISE_B32
+    return r
+
+
+def handle_up(v):
+    """Revision 30: how much taller the handle stands before a rider who grips it."""
+    return ride_rise(v) if SCN.PLACEMENT_REV >= 30 and HANDLE32 == "H" and SEESAW31 != "O" and v[1] in GRIP32 else 0
+
+
+def low_parts(v):
+    """Revision 30: (bench) the man reading on the low end with both legs behind the plank."""
+    return ("body", "legs") if SCN.PLACEMENT_REV >= 30 and LOW32 == "B" and v[1] == "seesaw_low_read" else ("near", "far")
 
 
 class SeesawPlay(T):
@@ -2278,12 +2335,19 @@ class SeesawPlay(T):
         s = sz(A["depth"])
         rev26 = SCN.PLACEMENT_REV >= 26
         rev29_ = SCN.PLACEMENT_REV >= 29
-        svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26, pad=rev29_ and SEESAW31 == "P")
+        ups = (handle_up(va), handle_up(vb))
+        svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26, pad=rev29_ and SEESAW31 == "P",
+                             **({"up": ups} if any(ups) else {}))
         placed = []
         for eid, v, end, want in ((ea, va, "left", 1), (eb, vb, "right", -1)):
-            p = sc.placed(v, 0, 0, sc.mirror_for(v, want), depth_y=A["depth"] + 2, eid=eid)
+            # revision 30: (bench) the man reading turned away from the plank
+            turn_ = SCN.PLACEMENT_REV >= 30 and LOW32 == "F" and v[1] == "seesaw_low_read"
+            p = sc.placed(v, 0, 0, sc.mirror_for(v, -want if turn_ else want), depth_y=A["depth"] + 2, eid=eid)
             seat = info["seats"][end]
-            rise_ = RIDE31[SEESAW31][1 if v[1].startswith("seesaw_low") else 0] if rev29_ else 0
+            if turn_:
+                sg_, a_ = (1 if end == "left" else -1), math.radians(tilt)
+                seat = (seat[0] - sg_ * LOW_IN32 * s * math.cos(a_), seat[1] + sg_ * LOW_IN32 * s * math.sin(a_))
+            rise_ = ride_rise(v, turn_)
             p.move_anchor_to("seat", (seat[0], seat[1] - (D.RIDE24["seesaw"] + rise_) * s) if SCN.PLACEMENT_REV >= 22 else seat)
             if not sc.fits(p.bbox(), limit=0.15):
                 return None
@@ -2291,11 +2355,12 @@ class SeesawPlay(T):
                 # revision 7: the low rider's shadow under the feet, not under the seat point
                 p.shadow_x = (p.anchor("foot_L")[0] + p.anchor("foot_R")[0]) / 2
             p.no_shadow = rev26
-            if rev29_ and SEESAW31 != "O":
+            if rev29_ and SEESAW31 != "O" and not turn_:
                 # revision 29: astride the plank, one leg each side of it (the whole figure drawn in front: "the plank seems to pass behind or through his thigh")
                 fam_, pose_, expr_, yaw_ = v
-                p.draw_v = vid(fam_, pose_ + "~near", expr_, yaw_)
-                q_ = Placed(sc.lib, vid(fam_, pose_ + "~far", expr_, yaw_), p.X, p.Y, p.mirror, p.depth_y, eid + "_farleg", "background")
+                pa_, pb_ = low_parts(v)
+                p.draw_v = vid(fam_, pose_ + "~" + pa_, expr_, yaw_)
+                q_ = Placed(sc.lib, vid(fam_, pose_ + "~" + pb_, expr_, yaw_), p.X, p.Y, p.mirror, p.depth_y, eid + "_farleg", "background")
                 uri_, x0_, y0_, w_, h_ = q_.image_data()
                 sc.svg(eid + "_farleg", "The rider's far leg, behind the plank", f'<image x="{x0_:.2f}" y="{y0_:.2f}" width="{w_}" height="{h_}" href="{uri_}"/>', A["depth"] - 0.5, q_.bbox(), "background")
             placed.append(p)
@@ -4398,7 +4463,8 @@ class SeesawHeavy(SeesawPlay):
             # look down at him, her face was hidden)
             self.vb = sc.need(self.b, "seesaw_stuck_call" if SCN.PLACEMENT_REV >= 12 else "seesaw_stuck",
                               "calling" if SCN.PLACEMENT_REV >= 14 else sc.rng.choice(["calling", "scared"]), 90)
-            ride_parts(sc, self.va)
+            if not (SCN.PLACEMENT_REV >= 30 and LOW32 == "F"):
+                ride_parts(sc, self.va, low_parts(self.va))
             ride_parts(sc, self.vb)
             return
         self.a = sc.person(ADULTS, prefer=("person.dev", "person.ben"))

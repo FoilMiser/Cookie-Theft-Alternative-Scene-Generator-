@@ -120,11 +120,14 @@ def check(path, schema, targets):
     below = bbox[3] - gy
     max_below = reach + r["outline"]["width_px"] / 2 + GROUND_TOL_PX
     info["ground_offset_px"] = round(float(below), 1)
-    if v.get("airborne") or v.get("pose") in SUPPORTED_POSES:
+    # a figure drawn in two pieces (render_assets.py, from v0.31): each piece is checked by its base pose, and the piece without
+    # the body (the far leg, or the legs) shares its twin's origin, so the twin carries the ground rule
+    base, _, piece = v.get("pose", "").partition("~")
+    if v.get("airborne") or base in SUPPORTED_POSES or piece in ("far", "legs"):
         pass                      # jumping / flying / on a swing: the ground point is where the shadow goes
     elif below < -GROUND_TOL_PX or below > max_below:
         hard.append(f"lowest opaque row is {below:+.1f}px from the ground point (allowed {-GROUND_TOL_PX} to {max_below:.1f})")
-    if not (bbox[0] <= gx <= bbox[2]):
+    if not (bbox[0] <= gx <= bbox[2]) and piece not in ("far", "legs"):
         hard.append("ground point x outside the opaque bbox")
 
     for name, a in m["anchors"].items():

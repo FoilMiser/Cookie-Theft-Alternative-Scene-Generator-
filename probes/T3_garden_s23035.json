@@ -6,8 +6,8 @@
  "seed": 23035,
  "mirror": false,
  "versions": {
-  "generator": "0.31.0",
-  "cast_builder": "0.31.0",
+  "generator": "0.32.0",
+  "cast_builder": "0.32.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,8 +58,8 @@
  "features": [],
  "templates": [
   {
-   "id": "windy_hat",
-   "kind": "inference",
+   "id": "floating_box",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   }
@@ -68,146 +68,135 @@
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A man is reaching up for a hat",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
-    ]
-   },
-   "key": "hat",
-   "elements": [
-    "hatperson_1"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.234,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 21272
-   },
-   "b": -1.656,
-   "p0": 0.84,
-   "pm1": 0.658,
-   "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i02",
    "type": "entity",
-   "text": "A hat is flying through the air",
+   "text": "There is a box",
    "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
+    "box",
+    "crate",
+    "wooden box",
+    "cardboard box"
    ],
-   "key": "hat",
+   "key": "box",
    "elements": [
-    "flyinghat_4"
+    "floatbox_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "windy_hat",
+   "template": "floating_box",
    "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -1.272,
+    "s": -0.395,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
     "domain": null,
-    "area_px": 2544
+    "area_px": 8768
    },
-   "b": -0.403,
-   "p0": 0.599,
-   "pm1": 0.355,
+   "b": -0.995,
+   "p0": 0.73,
+   "pm1": 0.499,
    "aoi_cells": [
-    "MC"
+    "TC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the box",
+   "accepted": [
+    "the box is weird",
+    "something odd about the box",
+    "that box"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.395,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 8768
+   },
+   "b": -0.103,
+   "p0": 0.526,
+   "pm1": 0.29,
+   "aoi_cells": [
+    "TC"
    ]
   },
   {
    "id": "i03",
-   "type": "inference",
-   "text": "The wind blew the man's hat off",
+   "type": "contradiction_explain",
+   "text": "The box is floating in the air with nothing holding it up",
    "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
+    "floating box",
+    "box in the air",
+    "nothing holding it up",
+    "box should fall"
    ],
-   "key": "wind",
+   "key": "floating",
    "elements": [
-    "flyinghat_4",
-    "hatperson_1"
+    "floatbox_1"
    ],
    "cues": [
-    "flyinghat_4",
-    "hatperson_1"
+    "floatbox_1"
    ],
    "effect": [
-    "flyinghat_4"
+    "floatbox_1"
    ],
-   "chain": 2,
+   "chain": 1,
    "animate": false,
-   "domain": null,
-   "template": "windy_hat",
+   "domain": "physical",
+   "template": "floating_box",
    "event": "e1",
    "features": {
-    "type": "inference",
-    "chain": 2,
+    "type": "contradiction_explain",
+    "chain": 1,
     "animate": false,
-    "s": -1.272,
-    "r": 1,
-    "d": 0.138,
+    "s": -0.395,
+    "r": 0,
+    "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
-    "domain": null,
-    "area_px": 2544
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 8768
    },
-   "b": 1.212,
-   "p0": 0.229,
-   "pm1": 0.099,
+   "b": 1.097,
+   "p0": 0.25,
+   "pm1": 0.109,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "TC"
    ]
   },
   {
@@ -360,7 +349,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.92,
+    "s": 1.944,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -368,11 +357,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 229276
+    "area_px": 237184
    },
-   "b": -1.903,
-   "p0": 0.87,
-   "pm1": 0.712,
+   "b": -1.915,
+   "p0": 0.872,
+   "pm1": 0.714,
    "aoi_cells": [
     "ML",
     "MC",
@@ -470,19 +459,19 @@
   }
  ],
  "counts": {
-  "content": 8,
+  "content": 7,
   "inference_units": 1,
-  "contradictions": 0,
+  "contradictions": 1,
   "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.788,
-   "inference": 0.229
+   "content": 0.799,
+   "inference": 0.388
   },
   "theta_minus_1": {
-   "content": 0.592,
-   "inference": 0.099
+   "content": 0.603,
+   "inference": 0.2
   }
  },
  "bands": {
@@ -494,10 +483,6 @@
  },
  "in_tier": false,
  "checks": {
-  "hatperson_1_looks_at_hat": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -508,18 +493,22 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "12 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0346,
-  "png_bytes": 145004,
-  "jpeg_bytes": 167162
+  "objects": 12,
+  "edge_density": 0.0331,
+  "png_bytes": 113957,
+  "jpeg_bytes": 160440
  },
  "signature": [
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -549,10 +538,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "inference",
-   2
   ]
  ],
  "elements": [
@@ -620,36 +605,6 @@
    "occlusion": 0.006
   },
   {
-   "id": "breeze_2",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    338.0,
-    76.0,
-    496.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
-   "occlusion": 0.0
-  },
-  {
-   "id": "breeze_3",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    1338.0,
-    280.0,
-    1496.0,
-    320.0
-   ],
-   "area_px": 1320,
-   "visible_px": 1320,
-   "occlusion": 0.0
-  },
-  {
    "id": "tree",
    "label": "Tree behind the fence",
    "role": "setting",
@@ -676,8 +631,38 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 229276,
-   "occlusion": 0.048
+   "visible_px": 237184,
+   "occlusion": 0.015
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    946.0,
+    602.0,
+    1074.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    292.0,
+    598.0,
+    428.0,
+    684.0
+   ],
+   "area_px": 8296,
+   "visible_px": 7496,
+   "occlusion": 0.096
   },
   {
    "id": "filler_pots",
@@ -692,6 +677,21 @@
    ],
    "area_px": 8080,
    "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "floatbox_1",
+   "label": "Box floating in the air",
+   "role": "scored",
+   "z": 762.34,
+   "bbox": [
+    644.0,
+    238.0,
+    758.0,
+    342.0
+   ],
+   "area_px": 8768,
+   "visible_px": 8768,
    "occlusion": 0.0
   },
   {
@@ -722,73 +722,6 @@
    ],
    "area_px": 25880,
    "visible_px": 25880,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hatperson_1",
-   "label": "person.dev__reach_up__surprised__y045",
-   "role": "scored",
-   "z": 904.18,
-   "bbox": [
-    690.0,
-    576.0,
-    844.0,
-    906.0
-   ],
-   "area_px": 21272,
-   "visible_px": 21272,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.dev__reach_up__surprised__y045",
-    "family": "person.dev",
-    "scale": 0.484,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
-     }
-    }
-   }
-  },
-  {
-   "id": "flyinghat_4",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 905.18,
-   "bbox": [
-    642.0,
-    464.0,
-    732.0,
-    522.0
-   ],
-   "area_px": 2544,
-   "visible_px": 2544,
-   "occlusion": 0.0
-  },
-  {
-   "id": "gusts_5",
-   "label": "Wind lines and blowing leaves",
-   "role": "setting",
-   "z": 905.18,
-   "bbox": [
-    698.0,
-    500.0,
-    990.0,
-    574.0
-   ],
-   "area_px": 4756,
-   "visible_px": 4756,
    "occlusion": 0.0
   },
   {
@@ -826,11 +759,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "windy_hat"
+   "contradictions": [
+    "floating_box"
    ]
   },
-  "placement_rev": 29
+  "placement_rev": 30
  },
  "probe": true
 }

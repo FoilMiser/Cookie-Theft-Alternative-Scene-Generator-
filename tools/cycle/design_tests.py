@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a playground: a man on the seesaw's low end, among others
-    ("playground", 3, 31401, {"modules": ["seesaw_heavy"], "events": ["ice_cream"]}, None),
-    # a playground: two children on the seesaw, among others
-    ("playground", 3, 31402, {"events": ["seesaw", "ice_cream"]}, None),
-    # a garden: washing being hung, the reel and the end of its hose off the bed
-    ("garden", 3, 31403, {"events": ["hang_laundry", "rake", "cat_sleeping"]}, "hose_tail"),
-    # a garden under storm clouds: no one hanging washing, the reel again
-    ("garden", 3, 31404, {"modules": ["rain_coming"], "events": ["dig"]}, "hose_tail"),
-    # a park: the bearded man's vest
-    ("park", 3, 31405, {"events": ["fishing", "read_bench", "ice_cream"]}, "tomas"),
-    # a playground: the bearded man on the seesaw, and the castle
-    ("playground", 3, 31406, {"modules": ["seesaw_heavy"], "events": ["sandbox"]}, "tomas"),
+    # a playground: the man reading on the seesaw's low end and the girl stuck up high, among others
+    ("playground", 3, 32401, {"modules": ["seesaw_heavy"], "events": ["ice_cream"]}, None),
+    # a playground: the bearded man on the seesaw, and someone carrying a box
+    ("playground", 3, 32402, {"modules": ["seesaw_heavy"], "events": ["carry_box"]}, "tomas"),
+    # a street: a box carried, a jump and a ball stuck in a tree
+    ("street", 3, 32403, {"modules": ["ball_in_tree"], "events": ["jump", "carry_box"]}, None),
+    # a garden: watering with the hose under a clear sky, among others
+    ("garden", 3, 32404, {"events": ["hose_water", "rake", "cat_sleeping"]}, None),
+    # a park: a box carried, a jump, a kite stuck in a tree
+    ("park", 3, 32405, {"modules": ["kite_in_tree"], "events": ["jump", "carry_box", "fishing"]}, None),
+    # a garden: watering with a can under a clear sky, among others
+    ("garden", 3, 32406, {"events": ["water_flowers", "dig", "cat_sleeping"]}, None),
 ]
 
 

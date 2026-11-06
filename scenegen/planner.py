@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.31.0"
+GENERATOR_VERSION = "0.32.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {

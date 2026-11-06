@@ -283,7 +283,8 @@ def apply_expression(face, expression, all_expressions):
 def split_leg(root, part, fwd):
     """v0.31: a rider cut in two, so that a plank can run between the legs. "near" is the figure without the leg further from the camera,
     "far" that leg alone, both in the whole figure's frame (frame first). Every mesh that holds the leg is cut by its bone weights, as the legs and the
-    trousers are one mesh each; shoes are objects on the foot's bone. Returns what undoes it."""
+    trousers are one mesh each; shoes are objects on the foot's bone. Returns what undoes it.
+    v0.32: "body" is the figure without either leg and "legs" both legs alone, cut the same way."""
     origin = root.matrix_world.translation
     depth = {}
     for o in asset_objects(root):
@@ -291,7 +292,9 @@ def split_leg(root, part, fwd):
             if o.name.split(".")[0] == f"ANCHOR_foot_{sd}":
                 depth[sd] = (o.matrix_world.translation - origin).dot(fwd)
     far = "L" if depth["L"] > depth["R"] else "R"
-    bones = {f"thigh_{far}", f"shin_{far}", f"foot_{far}"}
+    sides = ("L", "R") if part in ("body", "legs") else (far,)
+    bones = {f"{b}_{sd}" for b in ("thigh", "shin", "foot") for sd in sides}
+    keep = part in ("near", "body")      # the piece without the leg(s)
     undo = []
     for o in asset_objects(root):
         if o.type == "ARMATURE" or o.name.startswith("ANCHOR_"):
@@ -310,10 +313,10 @@ def split_leg(root, part, fwd):
             m = o.modifiers.new("TPDB_LEG", "MASK")
             m.vertex_group = vg.name
             m.threshold = 0.5
-            m.invert_vertex_group = part == "near"
+            m.invert_vertex_group = keep
             undo.append((o, m, vg))
             continue
-        hide = on_leg if part == "near" else not on_leg
+        hide = on_leg if keep else not on_leg
         if hide and not o.hide_render:
             o.hide_render = True
             undo.append((o, None, None))

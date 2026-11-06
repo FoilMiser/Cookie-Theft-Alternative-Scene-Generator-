@@ -179,7 +179,10 @@ class PlacementError(Exception):
 # ("only a short stub of hose joined to nothing", "a short second stub of hose curls by the reel").
 # 29 (v0.31) seats a seesaw's riders astride the plank, the far leg behind it and the rest in front, and raised so the hips rest on it ("the man's legs appear to go through or around the plank"); the castle further from the
 # spade, so the hand and the spade show ("the hand and castle merge a little"); the reel down and to the left, off the bed's edge ("partly overlapping the edge of the flower bed"); and no washing under storm clouds ("taking it down because of the coming storm").
-PLACEMENT_REV = 29
+# 30 (v0.32) raises the seesaw's handle as far as a rider who grips it sits, since revision 29 raised her onto the plank and not the handle (her fists "a little
+# above the handle rather than clearly around it"); keeps watering by can or hose to a clear sky ("could be read as ironic or pointless"); and keeps the jumper
+# 200 units from a ball or kite stuck in a tree ("could be trying to reach the ball or just cheering"). The box held on the forearm is the cast's (vision/isolation_v032.md).
+PLACEMENT_REV = 30
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
