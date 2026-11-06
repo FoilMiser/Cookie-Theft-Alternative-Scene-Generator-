@@ -49,34 +49,32 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v031", "v032"
+PREV, CUR = "v032", "v033"
 
-# the templates whose drawing or placement v0.32 changed for the v0.31 screen (vision/flaws_v031.md); each drawing went to the isolation bench first
-# (vision/isolation_v032.md) and was read in whole test scenes (vision/design_tests_v032.md)
+# the templates whose drawing or placement v0.33 changed for the v0.32 screen (vision/flaws_v032.md); each drawing went to the isolation bench first
+# (vision/isolation_v033.md) and was read in whole test scenes (vision/design_tests_v033.md)
 REDRAWN_NOTES = {
-    "seesaw_heavy": "'May look like she is hovering slightly': her fists sat above the handle, the bench found. Now the handle rises with her, and she is 'holding the handle' in all three pictures. The man on the low end is as he was, and drew his remark once in three.",
-    "carry_box": "'As if it is half floating'. Now carried on the whole forearm, the hand at its far corner: 'carrying a cardboard box in both arms', and no box carried floats.",
-    "water_flowers": "Watering under storm clouds 'could be read as ironic or pointless'. Now watering by can or hose is drawn under a clear sky only, and no reader remarks on the sky.",
-    "hose_water": "Under a clear sky only, as the can. No remark on the sky in its pictures.",
-    "jump": "'Could be trying to reach the ball or just cheering'. Now the jumper keeps 200 units from a ball or kite stuck in a tree: 'he is not under the tree, so I read it as jumping for joy'.",
+    "seesaw_heavy": "The arcs under the stuck girl's feet made her look 'as though she is hovering slightly above the plank'. Now there are none: she calls out and holds a raised handle, and is stuck in all three of her pictures, with 'Nothing is floating'.",
+    "rain_coming": "'Pointing upward at the cat', a cat on the fence at her fingertip. Now anything up high is kept 100 units from the fingertip. Back to 1.00.",
+    "hose_water": "'The wind is strong enough to blow a cap off, but the hose water is not bent by it'. Now no hose sprays in a windy picture.",
+    "blocked_hose": "Not redrawn: two redraws on the bench read no better. Passes at 0.92, its unchanged tier-4 picture a step up.",
 }
 
-# what the v0.32 screen readers made of the templates that read poorly (vision/flaws_v032.md)
+# what the v0.33 screen readers made of the templates that read poorly (vision/flaws_v033.md)
 WEAK_NOTES = {
-    "blocked_hose": "'Only a single drop is shown, so it is unclear whether water is flowing. The dog's back foot looks as if it may be standing on the hose.' Three items of one picture identical to v0.31's, where they had full marks: the retest's moves down.",
+    "read_bench": "A woman in a yellow dress, seated reading, read as 'a child with short dark hair, in a yellow top, yellow shorts and red shoes'. The reading was seen; one item to a picture, so one half mark crosses the gate.",
 }
-SCREEN_NOTE = ("The v0.32 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The man and the girl on the seesaw and the carried box went to the isolation bench first, "
-               "and every change was read in whole test scenes. 769 of 776 items had full marks and one was misread. "
-               "63 of 64 templates pass the gate, as in v0.31, the failure being three items of a picture that had not changed. 19 pictures were identical to the pixel in v0.31 and v0.32, "
-               "and 242 of their 246 items scored the same; the four that moved all went down, and they are the failure and one half mark. AI readers describe "
+SCREEN_NOTE = ("The v0.33 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The stopped hose and the stuck girl's kick arcs went to the isolation bench first, "
+               "and every change was read in whole test scenes. 854 of 862 items had full marks and none was misread. "
+               "63 of 64 templates pass the gate, as in v0.32, the failure being one half mark on a template with one item to a picture. 21 pictures were identical to the pixel in v0.32 and v0.33, "
+               "and 274 of their 281 items scored the same, three moving up and four down. AI readers describe "
                "exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:probes_v031/T3_playground_s23054.png@1180,560,1480,840>probes/T3_playground_s23054.png@1180,560,1480,840", "The handle", "v0.31: 'may look like she is hovering slightly', her fists above the handle. v0.32: the handle rises with her, and she is 'holding the handle' in all three pictures. The same seed."),
-         ("crop:scenes_v031/T2_playground_s042.png@540,570,760,910>scenes/T2_playground_s042.png@540,570,760,910", "The box", "v0.31: 'as if it is half floating'. v0.32: on the whole forearm, the hand at its far corner. No box carried floats. The same seed."),
-         ("crop:probes_v031/T3_garden_s23010.png@0,0,1000,1000>probes/T3_garden_s23010.png@0,0,1000,1000", "The sky", "v0.31: a hose under storm clouds 'could be read as ironic or pointless'. v0.32: watering under a clear sky only. The same seed draws a new picture."),
-         ("crop:scenes_v031/T4_street_s447752.png@0,330,760,1000>scenes/T4_street_s430752.png@0,330,760,1000", "The jump", "v0.31: 'could be trying to reach the ball or just cheering'. v0.32: the jumper 200 units from the ball in the tree: 'he is not under the tree, so I read it as jumping for joy'.")]
+FIXES = [("crop:vision/isolation_v033/round1/iso_03.png@300,40,530,330>vision/isolation_v033/round1/iso_12.png@300,40,530,330", "The arcs", "v0.32: the arcs under her feet 'make her look as though she is hovering slightly above the plank'. v0.33: none, and every bench reader had her stuck. The same seed, cut out on the bench."),
+         ("crop:scenes_v032/T3_garden_s3313.png@1050,250,1600,800>scenes/T3_garden_s11954.png@1050,250,1600,800", "The pointer", "v0.32: 'pointing upward at the cat', the cat at her fingertip. v0.33: anything up high 100 units from the fingertip; the old seed no longer places, and the new garden's pointer aims at the clouds, the cat far away."),
+         ("crop:probes_v032/T3_garden_s23004.png@0,0,1600,1000>probes/T3_garden_s23004.png@0,0,1600,1000", "The wind", "v0.32: 'the wind is strong enough to blow a cap off, but the hose water is not bent by it'. v0.33: no hose sprays in a windy picture. The same seed.")]
 
 
 

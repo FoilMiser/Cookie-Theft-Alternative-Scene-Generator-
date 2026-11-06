@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.32.0"
+GENERATOR_VERSION = "0.33.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -64,7 +64,7 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "bird_steals": [("inference", 2, -1.74, 0.048, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.05, 0.130, 2, "lost")],
     "ducks_bread": [("inference", 1, -1.35, 0.015, 1, "hungry")],
-    "seesaw_heavy": [("inference", 1, -0.73, 0.167, 1, "heavy")],
+    "seesaw_heavy": [("inference", 1, -0.72, 0.166, 1, "heavy")],
     "dog_wants_walk": [("inference", 1, -0.55, 0.161, 2, "walk")],
 }
 for _cid, _s, _k in [("water_upward", -1.40, "water"),

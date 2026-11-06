@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.32 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.33 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,25 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.33 (templates.HOSE33 and KICK33 by name: stp the stopped hose, kik the stuck rider's kick arcs)
+    "stpO_1": ("garden", 33111, {"modules": ["blocked_hose"]}, "event", None),
+    "stpO_2": ("garden", 33112, {"modules": ["blocked_hose"]}, "event", None),
+    "stpO_3": ("garden", 33113, {"modules": ["blocked_hose"]}, "event", None),
+    "stpF_1": ("garden", 33111, {"modules": ["blocked_hose"]}, "event", None),
+    "stpF_2": ("garden", 33112, {"modules": ["blocked_hose"]}, "event", None),
+    "stpF_3": ("garden", 33113, {"modules": ["blocked_hose"]}, "event", None),
+    "stpP_1": ("garden", 33111, {"modules": ["blocked_hose"]}, "event", None),
+    "stpP_2": ("garden", 33112, {"modules": ["blocked_hose"]}, "event", None),
+    "stpP_3": ("garden", 33113, {"modules": ["blocked_hose"]}, "event", None),
+    "kikO_1": ("playground", 33121, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikO_2": ("playground", 33122, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikO_3": ("playground", 33123, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikN_1": ("playground", 33121, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikN_2": ("playground", 33122, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikN_3": ("playground", 33123, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikB_1": ("playground", 33121, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikB_2": ("playground", 33122, {"modules": ["seesaw_heavy"]}, "event", None),
+    "kikB_3": ("playground", 33123, {"modules": ["seesaw_heavy"]}, "event", None),
     # v0.32 (the cast's switches by bench cast: ridX and boxU from TPDB_LOW=X TPDB_BOX=U, ridF from TPDB_LOW=F)
     "ridO_1": ("playground", 32111, {"modules": ["seesaw_heavy"]}, "event", None),
     "ridO_2": ("playground", 32112, {"modules": ["seesaw_heavy"]}, "event", None),
@@ -66,14 +85,15 @@ BENCH = {
     "ridP_4": ("playground", 31114, {"events": ["seesaw"]}, "event", None),
     "relN_1": ("garden", 31151, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
     "relN_2": ("garden", 31152, {"events": ["rake"]}, "hose_reel", ("el", "hose_tail")),
-    # v0.31 (scene drawings by name, see the loop below)
-    "ridO_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
-    "ridO_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
+    # v0.31 (scene drawings by name, see the loop below). v0.31's ridO_1 to _3 (isolation_v031.md) are ridO31_1 to _3 here: v0.32 used the
+    # same names for its own cases, and in a dict the later entry wins, so the file as v0.32 left it ran v0.31's cases under v0.32's names
+    "ridO31_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridO31_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
     "ridS_1": ("playground", 31111, {"modules": ["seesaw_heavy"]}, "event", None),
     "ridS_2": ("playground", 31112, {"events": ["seesaw"]}, "event", None),
     "ridS_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
     "ridS_4": ("playground", 31114, {"events": ["seesaw"]}, "event", None),
-    "ridO_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
+    "ridO31_3": ("playground", 31113, {"modules": ["seesaw_heavy"]}, "event", None),
     "ridO_4": ("playground", 31114, {"events": ["seesaw"]}, "event", None),
     "vstB_1": ("garden", 31121, {"events": ["water_flowers"]}, "event", ("pose", "person.tomas")),
     "vstB_2": ("garden", 31122, {"events": ["rake"]}, "event", ("pose", "person.tomas")),
@@ -481,6 +501,14 @@ import scenegen.templates as _T0
 # v0.30 seesaw). The v0.32 cases are reset to these, then set by name.
 _REL = {(m, k): getattr(m, k) for m in (_D, _L0, _Q0, _T0) for k in dir(m) if _re.fullmatch(r"[A-Z_]+\d\d", k)}
 NEW32 = {n for n in BENCH if n[:4] in ("ridO", "ridX", "ridF", "ridG", "ridB", "ridC", "ridH", "boxO", "boxU", "boxV") and BENCH[n][1] // 1000 in (32, 33)}
+NEW33 = {n for n in BENCH if n[:3] in ("stp", "kik") and BENCH[n][1] // 1000 == 33}
+# v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
+import ast as _ast
+_keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
+         if isinstance(n_, _ast.Assign) and getattr(n_.targets[0], "id", None) == "BENCH" for k in n_.value.keys]
+_dup = sorted({k for k in _keys if _keys.count(k) > 1})
+if _dup:
+    sys.exit(f"bench case names used twice: {_dup}")
 for name, (st, seed, forced, what, rule) in BENCH.items():
     if ONLY and name not in ONLY:
         continue
@@ -528,6 +556,11 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         _T0.LOW_RISE_B32 = 12 if name.startswith("ridC") else 5
         _T0.STUCK32 = 8 if name[:4] in ("ridX", "ridF", "ridG", "ridB", "ridC") else 14
         _T0.HANDLE32 = "H" if name.startswith("ridH") else "O"
+    if name in NEW33:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        _T0.HOSE33 = name[3] if name.startswith("stp") else _T0.HOSE33
+        _T0.KICK33 = name[3] if name.startswith("kik") else _T0.KICK33
     rec = None
     for k in range(40):
         USAGE.clear()

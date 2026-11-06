@@ -6,8 +6,8 @@
  "seed": 24024,
  "mirror": true,
  "versions": {
-  "generator": "0.32.0",
-  "cast_builder": "0.32.0",
+  "generator": "0.33.0",
+  "cast_builder": "0.33.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -55,7 +55,9 @@
    }
   }
  },
- "features": [],
+ "features": [
+  "blanket"
+ ],
  "templates": [
   {
    "id": "ladder_nothing",
@@ -64,13 +66,13 @@
    "units": 1
   },
   {
-   "id": "fishing",
+   "id": "picnic",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "ducks_swimming",
+   "id": "balloon",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -81,7 +83,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is fishing",
+   "text": "A man is having a picnic",
    "accepted": {
     "who": [
      "man",
@@ -91,93 +93,48 @@
      "person"
     ],
     "what": [
-     "fishing",
-     "fishing in the pond",
-     "fishing rod",
-     "catching fish"
+     "having a picnic",
+     "picnic",
+     "sitting on a blanket",
+     "sitting on the grass"
     ]
    },
-   "key": "fishing",
+   "key": "picnic",
    "elements": [
-    "fisher_1",
-    "line_2"
+    "picnicker_1",
+    "basket_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "fishing",
+   "template": "picnic",
    "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.026,
+    "s": 0.109,
     "r": 0,
     "d": 0.0,
-    "f": 0.47,
-    "a": 4.72,
-    "zipf_raw": 4.47,
-    "aoa_raw": 4.72,
+    "f": -0.2,
+    "a": 5.53,
+    "zipf_raw": 3.8,
+    "aoa_raw": 5.53,
     "domain": null,
-    "area_px": 15876
+    "area_px": 17840
    },
-   "b": -1.294,
-   "p0": 0.785,
-   "pm1": 0.573,
+   "b": -1.135,
+   "p0": 0.757,
+   "pm1": 0.534,
    "aoi_cells": [
-    "MC",
-    "MR",
-    "BC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A duck is swimming in the pond",
-   "accepted": [
-    "duck",
-    "duck swimming",
-    "ducks",
-    "duck in the pond",
-    "duck in the water"
-   ],
-   "key": "duck",
-   "elements": [
-    "duck_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "ducks_swimming",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -1.4,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.21,
-    "a": 3.5,
-    "zipf_raw": 4.21,
-    "aoa_raw": 3.5,
-    "domain": null,
-    "area_px": 2124
-   },
-   "b": -0.503,
-   "p0": 0.623,
-   "pm1": 0.378,
-   "aoi_cells": [
-    "MR",
+    "BC",
     "BR"
    ]
   },
   {
-   "id": "i03",
+   "id": "i02",
    "type": "entity",
    "text": "There is a ladder",
    "accepted": [
@@ -187,7 +144,7 @@
    ],
    "key": "ladder",
    "elements": [
-    "ladder_4"
+    "ladder_3"
    ],
    "cues": [],
    "effect": [],
@@ -200,7 +157,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.411,
+    "s": -0.431,
     "r": 0,
     "d": 0.0,
     "f": 0.03,
@@ -208,18 +165,18 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": null,
-    "area_px": 8564
+    "area_px": 8332
    },
-   "b": -0.444,
-   "p0": 0.609,
-   "pm1": 0.364,
+   "b": -0.433,
+   "p0": 0.607,
+   "pm1": 0.362,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i04",
+   "id": "i03",
    "type": "contradiction_notice",
    "text": "Something is wrong with the ladder",
    "accepted": [
@@ -229,13 +186,13 @@
    ],
    "key": "ladder",
    "elements": [
-    "ladder_4"
+    "ladder_3"
    ],
    "cues": [
-    "ladder_4"
+    "ladder_3"
    ],
    "effect": [
-    "ladder_4"
+    "ladder_3"
    ],
    "chain": 0,
    "animate": false,
@@ -246,7 +203,7 @@
     "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": -0.411,
+    "s": -0.431,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
@@ -254,18 +211,18 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 8564
+    "area_px": 8332
    },
-   "b": 0.145,
-   "p0": 0.464,
-   "pm1": 0.241,
+   "b": 0.155,
+   "p0": 0.461,
+   "pm1": 0.24,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i05",
+   "id": "i04",
    "type": "contradiction_explain",
    "text": "The ladder is leaning on nothing, so it should fall over",
    "accepted": [
@@ -277,13 +234,13 @@
    ],
    "key": "ladder",
    "elements": [
-    "ladder_4"
+    "ladder_3"
    ],
    "cues": [
-    "ladder_4"
+    "ladder_3"
    ],
    "effect": [
-    "ladder_4"
+    "ladder_3"
    ],
    "chain": 1,
    "animate": false,
@@ -294,7 +251,7 @@
     "type": "contradiction_explain",
     "chain": 1,
     "animate": false,
-    "s": -0.411,
+    "s": -0.431,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
@@ -302,14 +259,65 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 8564
+    "area_px": 8332
    },
-   "b": 1.345,
-   "p0": 0.207,
+   "b": 1.355,
+   "p0": 0.205,
    "pm1": 0.087,
    "aoi_cells": [
     "ML",
     "BL"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A child is holding a balloon",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "holding a balloon",
+     "balloon",
+     "has a balloon"
+    ]
+   },
+   "key": "balloon",
+   "elements": [
+    "balloonkid_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "balloon",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.29,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.1,
+    "a": 4.37,
+    "zipf_raw": 3.9,
+    "aoa_raw": 4.37,
+    "domain": null,
+    "area_px": 10168
+   },
+   "b": -0.965,
+   "p0": 0.724,
+   "pm1": 0.491,
+   "aoi_cells": [
+    "BC"
    ]
   },
   {
@@ -424,7 +432,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.848,
+    "s": 0.842,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -432,11 +440,11 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 50576
+    "area_px": 50160
    },
-   "b": -1.277,
-   "p0": 0.782,
-   "pm1": 0.569,
+   "b": -1.274,
+   "p0": 0.781,
+   "pm1": 0.568,
    "aoi_cells": [
     "ML",
     "BL"
@@ -466,7 +474,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.121,
+    "s": 1.199,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -474,11 +482,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 74316
+    "area_px": 82932
    },
-   "b": -1.195,
-   "p0": 0.768,
-   "pm1": 0.549,
+   "b": -1.233,
+   "p0": 0.774,
+   "pm1": 0.558,
    "aoi_cells": [
     "MC",
     "MR",
@@ -581,12 +589,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.706,
-   "inference": 0.335
+   "content": 0.715,
+   "inference": 0.333
   },
   "theta_minus_1": {
-   "content": 0.477,
-   "inference": 0.164
+   "content": 0.486,
+   "inference": 0.163
   }
  },
  "bands": {
@@ -613,9 +621,9 @@
  },
  "clutter": {
   "objects": 17,
-  "edge_density": 0.0222,
-  "png_bytes": 163512,
-  "jpeg_bytes": 119120
+  "edge_density": 0.0235,
+  "png_bytes": 180812,
+  "jpeg_bytes": 127109
  },
  "signature": [
   [
@@ -712,8 +720,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 112508,
-   "occlusion": 0.277
+   "visible_px": 112368,
+   "occlusion": 0.278
   },
   {
    "id": "tree_line",
@@ -739,8 +747,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 50576,
-   "occlusion": 0.022
+   "visible_px": 50160,
+   "occlusion": 0.03
   },
   {
    "id": "pond",
@@ -754,23 +762,23 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 74316,
-   "occlusion": 0.12
+   "visible_px": 82932,
+   "occlusion": 0.017
   },
   {
-   "id": "line_2",
-   "label": "Fishing line",
-   "role": "scored",
-   "z": -65,
+   "id": "blanket",
+   "label": "Picnic blanket",
+   "role": "setting",
+   "z": -60,
    "bbox": [
-    1178.0,
-    480.0,
-    1228.0,
-    676.0
+    782.0,
+    808.0,
+    1058.0,
+    924.0
    ],
-   "area_px": 804,
-   "visible_px": 800,
-   "occlusion": 0.005
+   "area_px": 14980,
+   "visible_px": 10764,
+   "occlusion": 0.281
   },
   {
    "id": "filler_bush_b",
@@ -848,48 +856,18 @@
    "occlusion": 0.0
   },
   {
-   "id": "duck_3",
-   "label": "animal.duck_01__swim__neutral__y090",
-   "role": "scored",
-   "z": 676,
-   "bbox": [
-    1318.0,
-    620.0,
-    1394.0,
-    678.0
-   ],
-   "area_px": 2124,
-   "visible_px": 2124,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.duck_01__swim__neutral__y090",
-    "family": "animal.duck_01",
-    "scale": 0.3994,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "duck",
-     "accepted_names": [
-      "duck",
-      "duckling",
-      "bird"
-     ],
-     "category": "water_bird"
-    }
-   }
-  },
-  {
-   "id": "ladder_4",
+   "id": "ladder_3",
    "label": "Ladder leaning on nothing",
    "role": "scored",
-   "z": 710.08,
+   "z": 693.7,
    "bbox": [
-    384.0,
-    448.0,
-    486.0,
-    718.0
+    378.0,
+    436.0,
+    484.0,
+    700.0
    ],
-   "area_px": 8564,
-   "visible_px": 8564,
+   "area_px": 8332,
+   "visible_px": 8332,
    "occlusion": 0.0
   },
   {
@@ -908,24 +886,24 @@
    "occlusion": 0.0
   },
   {
-   "id": "fisher_1",
-   "label": "person.ben__fish__smile__y090",
+   "id": "picnicker_1",
+   "label": "person.dev__sit_ground__happy__y045",
    "role": "scored",
-   "z": 835,
+   "z": 885,
    "bbox": [
-    870.0,
-    480.0,
-    1180.0,
-    840.0
+    872.0,
+    702.0,
+    1070.0,
+    904.0
    ],
-   "area_px": 15076,
-   "visible_px": 15076,
-   "occlusion": 0.0,
+   "area_px": 14976,
+   "visible_px": 14148,
+   "occlusion": 0.055,
    "asset": {
-    "variant": "person.ben__fish__smile__y090",
-    "family": "person.ben",
-    "scale": 0.4583,
-    "mirrored": false,
+    "variant": "person.dev__sit_ground__happy__y045",
+    "family": "person.dev",
+    "scale": 0.4769,
+    "mirrored": true,
     "labels": {
      "everyday_name": "man",
      "accepted_names": [
@@ -938,26 +916,64 @@
      "category": "adult_person",
      "person": {
       "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
      }
     }
    }
   },
   {
-   "id": "filler_rock",
-   "label": "Rock",
-   "role": "filler",
-   "z": 960,
+   "id": "basket_2",
+   "label": "Picnic basket",
+   "role": "scored",
+   "z": 886,
    "bbox": [
-    712.0,
-    914.0,
-    808.0,
-    962.0
+    1040.0,
+    820.0,
+    1116.0,
+    888.0
    ],
-   "area_px": 3740,
-   "visible_px": 3740,
+   "area_px": 3692,
+   "visible_px": 3692,
    "occlusion": 0.0
+  },
+  {
+   "id": "balloonkid_4",
+   "label": "person.kai__walk_balloon__smile__y090",
+   "role": "scored",
+   "z": 966.5,
+   "bbox": [
+    708.0,
+    684.0,
+    824.0,
+    970.0
+   ],
+   "area_px": 10168,
+   "visible_px": 10168,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.kai__walk_balloon__smile__y090",
+    "family": "person.kai",
+    "scale": 0.507,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
+    }
+   }
   },
   {
    "id": "filler_bin_p2",
@@ -982,14 +998,14 @@
  "attempts": [
   [
    23024,
-   "could not place ducks_swimming; could not place ladder_nothing"
+   "could not place ladder_nothing"
   ],
   [
    24024,
-   "layout 5: accepted after 4 rejected layouts"
+   "layout 2: accepted after 1 rejected layouts"
   ]
  ],
- "layout": 4,
+ "layout": 1,
  "knob": 0,
  "regen": {
   "base_seed": 23024,
@@ -999,14 +1015,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "fishing",
-    "ducks_swimming"
+    "picnic",
+    "balloon"
    ],
    "contradictions": [
     "ladder_nothing"
    ]
   },
-  "placement_rev": 30
+  "placement_rev": 31
  },
  "probe": true
 }

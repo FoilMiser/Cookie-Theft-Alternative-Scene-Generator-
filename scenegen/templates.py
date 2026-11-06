@@ -368,6 +368,10 @@ class HoseWater(T):
 
     def place(self):
         sc = self.sc
+        if SCN.PLACEMENT_REV >= 31 and any("wind" in t.exclusive for t in sc.templates if t is not self):
+            # revision 31: no hose spraying in the wind, whose arc of water does not bend ("the wind is strong enough to blow a cap off,
+            # but the hose water is not bent by it"); a rule in place(), so records of earlier revisions rebuild as they were
+            return False
         F = sc.S.anchors["flowers"]
         ep = sc.eid("hoser")
         cands = [(F["stand_left"][0] + dx, F["stand_left"][1] + dy) for dx in (40, 80, 120, 0) for dy in (10, 40, 70)]
@@ -1295,6 +1299,7 @@ class KickBall(T):
 
 
 JUMP_CLEAR30 = 200   # revision 30: the least gap, in units, from the jumper to a thing stuck in a tree, side to side
+NEAR31 = 100         # revision 31: the least gap, in units, from a pointer's fingertip to anything scored above it (a cat on the fence)
 
 
 class Jump(T):
@@ -1857,6 +1862,8 @@ BULGE29 = "B"       # the stopped hose's swelling: O as it was, B slimmer with n
 FISH29 = "B"        # the fish in the tree: O on the leaves, B on a limb
 LADDER_LAMP29 = 160 # how far the ladder keeps from a lamp post, each side of it
 HOSE30 = "V"        # the hose at the fist: O a square piece over the joint, U the hose itself in front of the figure, up to the fist, V that, and hanging from the fist as a rope hangs
+HOSE33 = "O"        # v0.33, from the bench, left as it was: the stopped hose past the pinch. O under the animal's front feet as well; F dipping in front of them, so only the
+                    # pinching foot is on the hose; P that, and the hose flattened wider under the foot (vision/isolation_v033.md)
 FISH30 = "E"        # the limb under the fish: O as the ball's on a bare crown, G and the leaves the ball's crown has, E no other arm, F that, and running on past the fish
 TRIP_W30 = 72       # the trip's long box, across the walker's line
 TRIP_LANE30 = 380   # how far along her way the ground stays clear beyond the obstacle
@@ -2267,6 +2274,7 @@ def ride_parts(sc, v, parts=("near", "far")):
 # v0.32 bench: "H" a rider who grips the handle (stuck up high) has it raised as far as she is; "O" not (raised 14 units in revision 29 and the handle not, her fists
 # showed above it: "a little above the handle rather than clearly around it", in 7 of 15 bench readings, and in none of 3 with the handle raised)
 HANDLE32 = "H"      # v0.32, on the bench (isolation_v032.md)
+KICK33 = "N"        # v0.33, from the bench: the stuck rider's kick arcs. O round the feet, below them; B behind the heels; N none (F, in front of the toes, lay on the plank)
 GRIP32 = ("seesaw_stuck", "seesaw_stuck_call")
 
 
@@ -2728,6 +2736,9 @@ def _pinched_hose(sc, reel, pinch, front_x, hand, Y, s):
         bulge += D.stroke("M " + " L ".join(D.P(*q) for q in hl), "#4fa3bd", 3.0 * s, 0)
     # squashed flat under the foot: a wide thin band
     flat = D.ell(px, py + 1 * s, 16 * s, 2.6 * s, C["hose"], D.OW * 0.7)
+    ahead = SCN.PLACEMENT_REV >= 31 and HOSE33 in ("F", "P")
+    if SCN.PLACEMENT_REV >= 31 and HOSE33 == "P":
+        flat = D.ell(px, py + 1.5 * s, 26 * s, 4.2 * s, C["hose"], D.OW * 0.7)
     # downstream: thin and slack along the ground under the animal and past its front feet, then draped up to
     # the nozzle in a long curve (never behind the animal's body)
     gx = front_x - f * 46 * s
@@ -2737,8 +2748,16 @@ def _pinched_hose(sc, reel, pinch, front_x, hand, Y, s):
     # (from the ground it rises in a soft curve bowed back toward the holder, so it hangs from the hand; bowed out
     # toward the animal it seemed to loop round it: "the dog stands inside the loop of hose")
     hm = (hx - f * 30 * s, hy + (py - hy) * 0.52)
-    down = D.hose_path([(px - f * 10 * s, py + 1 * s), (front_x, py + 7 * s), (gx, py + 5 * s), ((gx + gr) / 2, py + 6 * s), (gr, py + 4 * s),
-                        (hm[0] - f * 2 * s, py - 2 * s), hm, (hx - f * 16 * s, hy + (py - hy) * 0.15), (hx, hy)], 0.5)
+    if ahead:
+        # (v0.33, bench F/P: past the pinch the hose turns toward the viewer and runs in front of the front feet, so the pinching foot is the
+        # only one on it: "the dog's back foot looks as if it may be standing on the hose", with every foot on its line)
+        # (and back onto the old line past them, so it still hangs from the hand in its long curve: rising straight from the ground it read as "a pole")
+        down = D.hose_path([(px - f * 10 * s, py + 1 * s), (px - f * 30 * s, py + 13 * s), (front_x, py + 20 * s), (front_x - f * 24 * s, py + 16 * s),
+                            (gx, py + 8 * s), ((gx + gr) / 2, py + 6 * s), (gr, py + 4 * s), (hm[0] - f * 2 * s, py - 2 * s), hm,
+                            (hx - f * 16 * s, hy + (py - hy) * 0.15), (hx, hy)], 0.5)
+    else:
+        down = D.hose_path([(px - f * 10 * s, py + 1 * s), (front_x, py + 7 * s), (gx, py + 5 * s), ((gx + gr) / 2, py + 6 * s), (gr, py + 4 * s),
+                            (hm[0] - f * 2 * s, py - 2 * s), hm, (hx - f * 16 * s, hy + (py - hy) * 0.15), (hx, hy)], 0.5)
     svg = up + down + bulge + flat
     xs = [rx, x0, gx, gr, hx]
     bb = (min(xs) - 12, min(ry, hy) - 10, max(xs) + 12, max(py, Y) + 30 * s)
@@ -2781,6 +2800,12 @@ class RainComing(T):
             # read as pointing at the fish)
             acc6 = accept
             accept = lambda p: acc6(p) and sc.setting_clear((p.bbox()[0] - 70, 0, p.bbox()[2] + 70, p.bbox()[3]), only=("tree", "tree_small"))
+        if SCN.PLACEMENT_REV >= 31:
+            # revision 31: and nothing scored up high close by the fingertip, whichever way the arm points (a woman pointing at the storm from
+            # right under a cat on the fence was read as "pointing upward at the cat": the line to the clouds was clear, and the cat sat at her
+            # fingertip)
+            acc9 = accept
+            accept = lambda p: acc9(p) and self.tip_clear(p)
         p = sc.try_put(ep, self.vp, cands, want_face=self.face_to(cx), accept=accept)
         if not p:
             return False
@@ -2790,6 +2815,27 @@ class RainComing(T):
         self.inf("It is about to rain", ["it's going to rain", "a storm is coming", "rain is coming", "it might rain", "going to get wet"],
                  "rain", 1, cues=["clouds_dark", ep], effect=["clouds_dark"])
         return True
+
+
+def _rain_tip_clear(self, p):
+    """Revision 31: no scored thing (but the clouds and the pointer) whose top is above the fingertip lies within NEAR31 units of it."""
+    sc = self.sc
+    side = next((s_ for s_ in ("L", "R") if p.has_anchor(f"fingertip_{s_}")), None)
+    if not side:
+        return True
+    tx, ty = p.anchor(f"fingertip_{side}")
+    near = NEAR31 * sz(p.Y)
+    for k, b, _ in sc.scored_boxes(ignore=(getattr(p, "id", None),)):
+        if "cloud" in k or b[1] >= ty:
+            continue
+        dx = max(b[0] - tx, 0.0, tx - b[2])
+        dy = max(b[1] - ty, 0.0, ty - b[3])
+        if math.hypot(dx, dy) < near:
+            return False
+    return True
+
+
+RainComing.tip_clear = _rain_tip_clear
 
 
 RAIN_STRUCT9 = ("lamp", "stall", "tree", "tree_small", "clothesline", "laundry", "swing", "swing_seat", "slide", "seesaw", "feeder",
@@ -4495,16 +4541,23 @@ class SeesawHeavy(SeesawPlay):
             # (v0.16 bench: without them, three of three readers saw nothing wrong: "the tilt makes sense", "she seems to be
             # smiling")
             q = sc.assets[eb]
-            if q.has_anchor("foot_L") and q.has_anchor("foot_R") and q.has_anchor("seat"):
+            if q.has_anchor("foot_L") and q.has_anchor("foot_R") and q.has_anchor("seat") and not (SCN.PLACEMENT_REV >= 31 and KICK33 == "N"):
                 s = sz(A["depth"])
                 sx_, sy_ = q.anchor("seat")
                 kick, xs, ys = "", [], []
+                fd = q.facing()
                 for f_ in ("foot_L", "foot_R"):
                     fx, fy = q.anchor(f_)
                     R = math.hypot(fx - sx_, fy - sy_) + 9 * s
                     a0 = math.atan2(fy - sy_, fx - sx_)
-                    p0 = (sx_ + R * math.cos(a0 - 0.30), sy_ + R * math.sin(a0 - 0.30))
-                    p1 = (sx_ + R * math.cos(a0 + 0.30), sy_ + R * math.sin(a0 + 0.30))
+                    lo, hi = -0.30, 0.30
+                    if SCN.PLACEMENT_REV >= 31 and KICK33 == "B":
+                        # (v0.33, bench: the arcs right under her feet made her look "as though she is hovering slightly above the plank";
+                        # B puts them behind the heels, where a kicking foot swings back to and the plank is not)
+                        w = fd
+                        lo, hi = sorted((w * 0.14, w * 0.58))
+                    p0 = (sx_ + R * math.cos(a0 + lo), sy_ + R * math.sin(a0 + lo))
+                    p1 = (sx_ + R * math.cos(a0 + hi), sy_ + R * math.sin(a0 + hi))
                     kick += f'<path d="M {D.P(*p0)} A {R:.1f} {R:.1f} 0 0 1 {D.P(*p1)}" fill="none" stroke="{D.OUT}" stroke-width="{2.4 * s:.1f}" stroke-linecap="round" stroke-opacity="0.75"/>'
                     xs += [p0[0], p1[0]]; ys += [p0[1], p1[1]]
                 sc.svg(sc.eid("kicklines"), "Motion lines by the dangling feet", kick, A["depth"] + 3, (min(xs) - 4, min(ys) - 4, max(xs) + 4, max(ys) + 4), "setting")

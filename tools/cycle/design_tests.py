@@ -11,18 +11,18 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # a playground: the man reading on the seesaw's low end and the girl stuck up high, among others
-    ("playground", 3, 32401, {"modules": ["seesaw_heavy"], "events": ["ice_cream"]}, None),
-    # a playground: the bearded man on the seesaw, and someone carrying a box
-    ("playground", 3, 32402, {"modules": ["seesaw_heavy"], "events": ["carry_box"]}, "tomas"),
-    # a street: a box carried, a jump and a ball stuck in a tree
-    ("street", 3, 32403, {"modules": ["ball_in_tree"], "events": ["jump", "carry_box"]}, None),
-    # a garden: watering with the hose under a clear sky, among others
-    ("garden", 3, 32404, {"events": ["hose_water", "rake", "cat_sleeping"]}, None),
-    # a park: a box carried, a jump, a kite stuck in a tree
-    ("park", 3, 32405, {"modules": ["kite_in_tree"], "events": ["jump", "carry_box", "fishing"]}, None),
-    # a garden: watering with a can under a clear sky, among others
-    ("garden", 3, 32406, {"events": ["water_flowers", "dig", "cat_sleeping"]}, None),
+    # v0.33: a playground: the girl stuck up high with no kick arcs, the man reading on the low end, among others
+    ("playground", 3, 33401, {"modules": ["seesaw_heavy"], "events": ["ice_cream"]}, None),
+    # a playground: the same, with the slide and someone carrying a box
+    ("playground", 3, 33402, {"modules": ["seesaw_heavy"], "events": ["slide", "carry_box"]}, None),
+    # a garden: the storm pointer with a cat on the fence and paint tracks (v0.32's tier-3 garden's set)
+    ("garden", 3, 33403, {"modules": ["rain_coming", "paint_tracks"], "events": ["cat_on_fence"]}, None),
+    # a garden: the storm pointer with a cat on the fence, a bird perched and a jump
+    ("garden", 3, 33404, {"modules": ["rain_coming"], "events": ["cat_on_fence", "bird_perched", "jump"]}, None),
+    # a street: the storm pointer with a bird perched, a photo and a walker
+    ("street", 3, 33405, {"modules": ["rain_coming"], "events": ["bird_perched", "photo", "carry_bag"]}, None),
+    # a garden: the stopped hose, as it was, among others
+    ("garden", 3, 33406, {"modules": ["blocked_hose"], "events": ["rake", "cat_sleeping"]}, None),
 ]
 
 

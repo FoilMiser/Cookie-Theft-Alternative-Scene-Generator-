@@ -182,7 +182,11 @@ class PlacementError(Exception):
 # 30 (v0.32) raises the seesaw's handle as far as a rider who grips it sits, since revision 29 raised her onto the plank and not the handle (her fists "a little
 # above the handle rather than clearly around it"); keeps watering by can or hose to a clear sky ("could be read as ironic or pointless"); and keeps the jumper
 # 200 units from a ball or kite stuck in a tree ("could be trying to reach the ball or just cheering"). The box held on the forearm is the cast's (vision/isolation_v032.md).
-PLACEMENT_REV = 30
+# 31 (v0.33) draws no kick arcs by the stuck rider's feet, as the calling pose and the raised handle now say she is stuck (the arcs under her feet
+# made her look "as though she is hovering slightly above the plank"); keeps anything scored above a storm pointer's fingertip 100 units from it,
+# whichever way the arm points (a woman pointing at the clouds from right under a cat on the fence was read as "pointing upward at the cat"); and
+# draws no hose spraying in a windy picture ("the wind is strong enough to blow a cap off, but the hose water is not bent by it"). vision/isolation_v033.md.
+PLACEMENT_REV = 31
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.32 was made, written so that a fresh session can make the next one (v0.33) from this
+How each release from v0.12 to v0.33 was made, written so that a fresh session can make the next one (v0.34) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -203,6 +203,8 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - A pose set at render time is overwritten when the renderer re-evaluates the action. To change a pose for one view, bake a twin action (`__p`, `Poser.build`), and let `render_assets.py` choose it.
 - Parallel runs may render into one library. `Library.ensure` now renders aside into `.render_<pid>` and moves the files in with the manifest last; before that, two runs left "image file is truncated".
 - Look closely at crops before drawing anything: the walkers' feet did point the right way, the hose did reach the fist, and what was wrong (the eye on the head's outline) was on nobody's list.
+- When a release's helper scripts are made from the last release's by substitution, replace the bare version too (`0.32` as well as `v0.32` and `032`):
+  v0.32's packaging script first called `package_release.py 0.31`, and only the packager's refusal to overwrite `tpdb_v0.31.zip` caught it. Grep the new scripts for the old number.
 - Read the validator's last line every release. v0.31's library passed 338 of 350, the 12 split riders failing on their names alone, and no one wrote it down; v0.32 found it,
   widened the schema to the `~` suffix, and then found six pieces failing the ground rule that a far leg alone cannot meet. Either is a check that has stopped checking.
 - When the gate's one failure is on a picture that came back identical, read the retest before redrawing. Two releases running (`jump` in v0.31, `blocked_hose` in v0.32) the
@@ -242,6 +244,13 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - A bench's switches are module values, and one process runs many cases. `isolation_bench.py` set each by name prefix with a default for names that matched none,
   and many defaults were older drawings, so new cases would have drawn v0.30's seesaw. It now restores the release's value of every switch before each case.
   When adding a switch, check what a case that does not name it gets. And never cut the old cases to make room: the v0.32 patch first dropped every case since v0.23.
+- A bench case's name must be new. v0.32 named three cases `ridO_1` to `_3`, as v0.31 had, and when v0.31's cases were put back further down the dict, the
+  later entries won without a word: the file as committed ran v0.31's cases under v0.32's names. v0.33 renamed v0.31's (`ridO31_1` to `_3`), and the bench
+  now refuses a name used twice. Look at a round's cut-outs before trusting its write-up: v0.32's round 1 had run before the cases were put back, and its
+  pictures were v0.32's own.
+- A cue added for one reading can outlive its need. The stuck rider's kick arcs went in at v0.16, when readers of her without them saw nothing wrong; by
+  v0.32 she called out and held a raised handle, the arcs drew "hovering slightly above the plank", and without them every bench reader had her stuck.
+  Bench the cue's absence as a case of its own.
 - A gate written in a class body (`sky = "clear" if PLACEMENT_REV >= 30 else None`) is read when the module is imported, not when a record is rebuilt, so it changes
   what an older revision's records rebuild into: two of three v0.31 records did not rebuild under v0.32's code, a hose under storm clouds and a street with a
   watering can under a clear sky (its planner samples sets under both skies); with the watering templates' sky put back, the street rebuilt identical to the pixel. Records rebuild
