@@ -214,7 +214,12 @@ class PlacementError(Exception):
 # vision/isolation_v038.md; with the shirt alone dripping, the first design test read the drops as "falling toward a wooden laundry basket ... so
 # the dry laundry may be about to get wet"), with no filler basket beside it; and keeps a cat off the fence in a storm pointer's picture, the cat walking the fence re-picked and the stalking cat on the ground, and a bird perched in a storm pointer's garden dropped from the plan
 # ("The man in green could be pointing at the storm clouds, or up at the cat or something on the fence", three screens on one picture).
-PLACEMENT_REV = 36
+# 37 (v0.39) draws a template's animal at more angles than profile (templates.ANIMAL_YAWS: 45 and, where no direction is needed, 135 beside 90;
+# Sam: "overly profile to the camera"), an isomorph's animals at its partner's yaws; draws the broom's heap and the raked pile for summer, cut grass
+# and twigs and a few brown leaves (draw.HEAP39; "autumn leaves under green trees", seven pictures from five readers); and keeps the ball of a game of
+# catch five of its widths short of the catcher's hands ("the ball sits right at the woman's hands"). The cast's figures and animals are redrawn
+# (builder 0.39.0, vision/isolation_v039.md).
+PLACEMENT_REV = 37
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

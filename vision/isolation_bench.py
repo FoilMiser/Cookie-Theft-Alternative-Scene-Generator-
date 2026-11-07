@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.38 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.39 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,75 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.39 (Sam's figure-fixes-v038.md: the cast's people and animals redrawn, and the animals at revision 37's angles; the swept heap for summer).
+    # First three letters the thing, the fourth the drawing: O v0.38's cast with the animals at 90 (BENCH_CAST=assets/cast/out038), N the v0.39 cast
+    # with its switches (TPDB_ISECT39=B TPDB_SHOE39=D TPDB_MID39=B TPDB_BELT39=B TPDB_BEN39=C TPDB_QUAD39=B TPDB_ART39=B) at revision 37's angles;
+    # the heap hp9 A autumn as v0.38, S summer, B grit, beside the raked pile rk9 S
+    # round 3: the goat's coat, D v0.38's white on the redrawn goat, E brown all over with a white muzzle and beard (BENCH_CAST=tpdb_work/bench39/out_GD,
+    # out_GE: out039 with the goat rebuilt with TPDB_GOAT39=D or E)
+    "gt9D_1": ("park", 39181, {"events": ["goat_grazing"]}, "event", None),
+    "gt9D_2": ("park", 39182, {"events": ["goat_grazing"]}, "event", None),
+    "gt9D_3": ("park", 39183, {"events": ["goat_grazing"]}, "event", None),
+    "gt9E_1": ("park", 39181, {"events": ["goat_grazing"]}, "event", None),
+    "gt9E_2": ("park", 39182, {"events": ["goat_grazing"]}, "event", None),
+    "gt9E_3": ("park", 39183, {"events": ["goat_grazing"]}, "event", None),
+    # round 2: R the round-2 cast (BENCH_CAST=tpdb_work/bench39/out_R2: N with TPDB_MID39=C, no tuck, TPDB_BELT39=O, TPDB_GOAT39=C, the goat's legs
+    # brown, and the spotted dog's spots on its flanks), on round 1's seeds of what it changes
+    "wk9R_1": ("street", 39111, {"events": ["carry_bag"]}, "event", None),
+    "wk9R_2": ("street", 39112, {"events": ["carry_bag"]}, "event", None),
+    "hg9R_1": ("garden", 39131, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "hg9R_2": ("garden", 39132, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "hg9R_3": ("garden", 39133, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "dw9R_1": ("park", 39151, {"events": ["walk_dog"]}, "event", None),
+    "dw9R_2": ("park", 39152, {"events": ["walk_dog"]}, "event", None),
+    "gt9R_1": ("park", 39181, {"events": ["goat_grazing"]}, "event", None),
+    "gt9R_2": ("park", 39182, {"events": ["goat_grazing"]}, "event", None),
+    "gt9R_3": ("park", 39183, {"events": ["goat_grazing"]}, "event", None),
+    "dp9R_1": ("park", 39191, {"events": ["dog_playing"]}, "event", None),
+    "wk9O_1": ("street", 39111, {"events": ["carry_bag"]}, "event", None),
+    "wk9O_2": ("street", 39112, {"events": ["carry_bag"]}, "event", None),
+    "wk9N_1": ("street", 39111, {"events": ["carry_bag"]}, "event", None),
+    "wk9N_2": ("street", 39112, {"events": ["carry_bag"]}, "event", None),
+    "rd9O_1": ("park", 39121, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "rd9O_2": ("park", 39122, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "rd9N_1": ("park", 39121, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "rd9N_2": ("park", 39122, {"events": ["read_bench"]}, "event", ("pose", "person.mei__sit_read")),
+    "hg9O_1": ("garden", 39131, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "hg9O_2": ("garden", 39132, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "hg9O_3": ("garden", 39133, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "hg9N_1": ("garden", 39131, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "hg9N_2": ("garden", 39132, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "hg9N_3": ("garden", 39133, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.ben"])),
+    "kk9O_1": ("park", 39141, {"events": ["kick_ball"]}, "event", None),
+    "kk9N_1": ("park", 39141, {"events": ["kick_ball"]}, "event", None),
+    "dw9O_1": ("park", 39151, {"events": ["walk_dog"]}, "event", None),
+    "dw9O_2": ("park", 39152, {"events": ["walk_dog"]}, "event", None),
+    "dw9N_1": ("park", 39151, {"events": ["walk_dog"]}, "event", None),
+    "dw9N_2": ("park", 39152, {"events": ["walk_dog"]}, "event", None),
+    "db9O_1": ("street", 39161, {"modules": ["dog_begs"]}, "event", None),
+    "db9O_2": ("street", 39162, {"modules": ["dog_begs"]}, "event", None),
+    "db9N_1": ("street", 39161, {"modules": ["dog_begs"]}, "event", None),
+    "db9N_2": ("street", 39162, {"modules": ["dog_begs"]}, "event", None),
+    "cs9O_1": ("park", 39171, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cs9O_2": ("park", 39172, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cs9N_1": ("park", 39171, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cs9N_2": ("park", 39172, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "gt9O_1": ("park", 39181, {"events": ["goat_grazing"]}, "event", None),
+    "gt9O_2": ("park", 39182, {"events": ["goat_grazing"]}, "event", None),
+    "gt9O_3": ("park", 39183, {"events": ["goat_grazing"]}, "event", None),
+    "gt9N_1": ("park", 39181, {"events": ["goat_grazing"]}, "event", None),
+    "gt9N_2": ("park", 39182, {"events": ["goat_grazing"]}, "event", None),
+    "gt9N_3": ("park", 39183, {"events": ["goat_grazing"]}, "event", None),
+    "dp9O_1": ("park", 39191, {"events": ["dog_playing"]}, "event", None),
+    "dp9N_1": ("park", 39191, {"events": ["dog_playing"]}, "event", None),
+    "hp9A_1": ("street", 39201, {"events": ["sweep"]}, "event", None),
+    "hp9A_2": ("street", 39202, {"events": ["sweep"]}, "event", None),
+    "hp9S_1": ("street", 39201, {"events": ["sweep"]}, "event", None),
+    "hp9S_2": ("street", 39202, {"events": ["sweep"]}, "event", None),
+    "hp9B_1": ("street", 39201, {"events": ["sweep"]}, "event", None),
+    "hp9B_2": ("street", 39202, {"events": ["sweep"]}, "event", None),
+    "rk9S_1": ("garden", 39211, {"events": ["rake"]}, "event", None),
+    "rk9S_2": ("garden", 39212, {"events": ["rake"]}, "event", None),
     # v0.38 (a basket of washing at the hanger's feet, by templates.BASKET38: hngO none as v0.37, hngB the basket, hngW the basket and the shirt dripping)
     "hngO_1": ("garden", 38111, {"events": ["hang_laundry"]}, "event", "laundry"),
     "hngO_2": ("garden", 38112, {"events": ["hang_laundry"]}, "event", "laundry"),
@@ -569,6 +638,7 @@ NEW34 = {n for n in BENCH if n[:3] == "sea" and BENCH[n][1] // 1000 == 34}
 NEW35 = {n for n in BENCH if n[:3] == "swg" and BENCH[n][1] // 1000 == 35}
 NEW36 = {n for n in BENCH if n[:3] in ("bkt", "prf") and BENCH[n][1] // 1000 == 36}
 NEW38 = {n for n in BENCH if n[:3] == "hng" and BENCH[n][1] // 1000 == 38}
+NEW39 = {n for n in BENCH if n[2] == "9" and BENCH[n][1] // 1000 == 39}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -642,6 +712,12 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         for (m, k), v in _REL.items():
             setattr(m, k, v)
         _T0.BASKET38 = name[3]
+    if name in NEW39:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        _T0.YAW39 = "O" if name[3] == "O" else "B"
+        if name[:3] in ("hp9", "rk9"):
+            _D.HEAP39 = name[3]
     rec = None
     for k in range(40):
         USAGE.clear()

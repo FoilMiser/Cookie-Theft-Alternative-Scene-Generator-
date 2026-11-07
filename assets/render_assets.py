@@ -176,6 +176,9 @@ def to_cel(materials):
                 base = tuple(mat["tpdb_base_color"])
         if base is None:
             base = tuple(mat.get("tpdb_base_color", mat.diffuse_color[:3]))
+        if mat.get("tpdb_far"):
+            # v0.39 (castlib TPDB_QUAD39): the far legs a shade darker, the usual way to read four legs at three-quarters
+            base = tuple(c * float(mat["tpdb_far"]) for c in base)
         nt.nodes.clear()
         geo = nt.nodes.new("ShaderNodeNewGeometry")
         dot = nt.nodes.new("ShaderNodeVectorMath")

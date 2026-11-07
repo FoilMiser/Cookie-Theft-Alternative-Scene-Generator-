@@ -455,6 +455,43 @@ def disc(name, center, normal, r, thickness, matkey, seg=32, r_top=None):
     return cyl(name, Vector(center) - n * thickness / 2, Vector(center) + n * thickness / 2, r, matkey, seg=seg, r1=r_top)
 
 
+# v0.39 bench (TPDB_ISECT39): Line Art draws a line wherever two parts pass into each other, so a shoe made of two ellipsoids, a belt on
+# the trousers, a dog's chest patch and its paws each drew a seam ("separate rounded pieces, like a jointed doll or mannequin"; "white
+# paws that look like mittens or separate pieces"). "B": no intersection line on those parts; their contours stay.
+ISECT39 = os.environ.get("TPDB_ISECT39", "B")  # v0.39 bench (vision/isolation_v039.md): B, no intersection lines on the overlap parts
+
+
+def no_isect(ob):
+    """No Line Art intersection line where this part passes into its neighbour (its own contour is still drawn)."""
+    try:
+        ob.lineart.usage = "NO_INTERSECTION"
+    except AttributeError:
+        pass
+    return ob
+
+
+def flatten_below(ob, z, axis=2, spare=()):
+    """Clamp a baked mesh's rest vertices to z from below (a hem edge, a sole): the Skin modifier ends every chain in a dome. Vertices weighted
+    to a bone whose name starts with one of spare are left (a top's sleeves hang below its hem at rest)."""
+    gname = {g.index: g.name for g in ob.vertex_groups}
+    for v in ob.data.vertices:
+        if spare and sum(g.weight for g in v.groups if gname.get(g.group, "").startswith(tuple(spare))) > 0.05:
+            continue
+        if v.co[axis] < z:
+            v.co[axis] = z
+    ob.data.update()
+    return ob
+
+
+def flatten_above(ob, z, axis=2):
+    """Clamp a baked mesh's rest vertices to z from above (a waistband's top edge)."""
+    for v in ob.data.vertices:
+        if v.co[axis] > z:
+            v.co[axis] = z
+    ob.data.update()
+    return ob
+
+
 def anchor(rig, name, loc, bone):
     e = link(bpy.data.objects.new(f"ANCHOR_{name}", None))
     e.empty_display_size = 0.03

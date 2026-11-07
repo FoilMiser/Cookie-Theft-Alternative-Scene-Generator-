@@ -6,14 +6,13 @@ import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
-NOTES = {("garden", 3): "v0.37's seed (954) and the twelve after the showcase seed placed none under revision 36, whose storm pointer keeps the cat "
-                        "off the fence; three seed lists side by side found 498 and 666 together, and 498's, with a storm pointer, was kept (666's is in "
-                        "tpdb_work/old038)",
-         ("garden", 4): "the v0.37 seed, which placed again under revision 36 on its tenth layout, the picture unchanged",
-         ("park", 4): "the v0.37 seed, which placed again under revision 36, the picture unchanged",
-         ("street", 4): "v0.29 to v0.37's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed again "
-                        "under revision 36, the picture unchanged (regen.forced)",
-         ("playground", 4): "the v0.37 seed, which placed again under revision 36, the picture unchanged"}
+NOTES = {("garden", 4): "the v0.38 seed, which placed again under revision 37 on its fourth layout, the same events drawn with the 0.39.0 cast",
+         ("park", 4): "the v0.38 seed, which placed again under revision 37 on its 21st layout, the same events drawn with the 0.39.0 cast",
+         ("street", 4): "v0.29 to v0.38's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed again "
+                        "under revision 37 on its fifth layout (v0.38's on its fourth, s430752) (regen.forced)",
+         ("playground", 4): "v0.38's seed (438662) and the next 39 of the search placed none under revision 37 with the 0.39.0 cast; the 41st, "
+                            "439653, placed on its 38th layout, with a ball in the tree and a perched bird for v0.38's kite in the tree and bird "
+                            "flying"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

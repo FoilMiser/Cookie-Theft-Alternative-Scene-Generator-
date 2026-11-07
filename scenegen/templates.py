@@ -154,7 +154,7 @@ class WalkDog(T):
         self.p = sc.person(GROWN)
         self.d = sc.animal(["dog"])
         self.vp = sc.need(self.p, "walk_dog", sc.rng.choice(["smile", "content", "happy"]), 90)
-        self.vd = sc.need(self.d, "walk", sc.rng.choice(["happy", "neutral"]), 90)
+        self.vd = sc.need(self.d, "walk", sc.rng.choice(["happy", "neutral"]), animal_yaw(sc, self.id))
 
     def place(self):
         sc = self.sc
@@ -511,7 +511,8 @@ class Sweep(T):
             tx, _ = q.anchor("broom_tip")
             s_ = sz(q.Y)
             f_ = 1 if tx > q.X else -1
-            return D.sweep_heap(tx + f_ * 34 * s_, q.Y + 6 * s_, s_, f_, D.SWEEP26)
+            # (revision 37: drawn for summer, D.HEAP39)
+            return D.sweep_heap(tx + f_ * 34 * s_, q.Y + 6 * s_, s_, f_, D.HEAP39 if (SCN.PLACEMENT_REV >= 37 and D.HEAP39 != "A") else D.SWEEP26)
         accept = (lambda q: sc.fits(heap(q)[1], limit=0.05, ignore=(ep,))) if rev24 else None
         if rev24 and SCN.PLACEMENT_REV >= 35:
             # revision 35: and nobody's feet on the heap (the storm pointer stood on the fork sweeper's dustpan, placed after him)
@@ -569,7 +570,11 @@ class Rake(T):
         for i in range(14):
             a = i * 2.4
             dx, dy = math.cos(a) * (8 + i * 3) * s, math.sin(a) * (3 + i) * s * 0.5
-            leaves += D.ell(lx + dx, ly + dy, 9 * s, 5 * s, [C["leaf_green"], C["leaf_brown"], C["grass_dark"], C["khaki"]][i % 4], D.OW * 0.5, rot=a * 40)
+            pal = [C["leaf_green"], C["leaf_brown"], C["grass_dark"], C["khaki"]]
+            if SCN.PLACEMENT_REV >= 37 and D.HEAP39 == "S":
+                # revision 37: cut grass and a few brown leaves, as the swept heap (a pile of leaves raked "on a green summer day")
+                pal = [C["leaf_green"], C["grass_dark"], C["khaki"], C["leaf_green"], C["leaf_brown"], C["grass_dark"]]
+            leaves += D.ell(lx + dx, ly + dy, 9 * s, 5 * s, pal[i % len(pal)], D.OW * 0.5, rot=a * 40)
         el = sc.svg(sc.eid("leaves"), "Pile of leaves", leaves, p.Y + 22 * s, (lx - 60 * s, ly - 20 * s, lx + 60 * s, ly + 20 * s), "scored")
         self.act(self.p, "raking leaves", ["raking", "raking leaves", "rake", "cleaning up leaves", "raking grass"], "raking", [ep, el])
         return True
@@ -1215,8 +1220,13 @@ class PlayCatch(T):
 
             def bez(t):
                 return ((1 - t) ** 2 * rx_ + 2 * (1 - t) * t * ctrl[0] + t * t * cx, (1 - t) ** 2 * ry_ + 2 * (1 - t) * t * ctrl[1] + t * t * cy)
-            bx, by = bez(t)
             r = 15 * s
+            if SCN.PLACEMENT_REV >= 37:
+                # revision 37: the ball five of its widths or more short of the catcher's hands, on its way down (at them, "the ball sits right
+                # at the woman's hands", and who threw it could be read either way)
+                while t > 0.50 and math.hypot(bez(t)[0] - cx, bez(t)[1] - cy) < 5 * r:
+                    t -= 0.03
+            bx, by = bez(t)
             if not sc.fits((bx - r * 2, by - r * 2, bx + r * 2, by + r * 2), limit=0.02, ignore=(ea, eb)):
                 continue
             # revision 4: the whole flight from hand to hand stays clear of trees, lamps and frames
@@ -2016,6 +2026,33 @@ TRIP_LANE30 = 380   # how far along her way the ground stays clear beyond the ob
 CRUMB30 = "W"       # the thrown crumbs: O where they fall, W only those on the water
 
 
+# v0.39 (revision 37): animals at more angles than profile (Sam, Nov 7: "overly profile to the camera"; 34 of the 39 quadruped and bird cut-outs in the
+# v0.37 library were in profile, because every template asked for 90). Each template's animal draws its yaw from these, seed-driven; every one has
+# a direction (facing() is 0 only face-on, which no template here takes), so mirror_for still points it at what it looks at. Kept at 90: the cat on
+# the fence and the stalking cat on it (the fence runs across the picture), the reading dog (its paws on the paper were benched in profile),
+# the birds and ducks (read well), the sleepers (as revisions 11 and 27 set them). By the bench (vision/isolation_v039.md): YAW39 "O" keeps 90.
+YAW39 = "B"
+ANIMAL_YAWS = {"walk_dog": (90, 45), "ice_cream_drop": (90, 45), "dog_begs": (90, 45), "paint_tracks": (90, 45), "dog_playing": (90, 45),
+               "goat_grazing": (90, 45, 135), "cat_stalks_bird": (90, 45), "blocked_hose": (90, 45, 135)}
+YAW_FORCE = {}       # (an isomorph's animals take the yaws of its partner's, batch.build_isomorph)
+# (the angles drawn but drawn at 90 instead: the dog walked at 45 never placed, its lead from the walker's hand crossing the dog's back to the collar
+# at every spot, which revision 12 forbids; 12 probes in four settings, 1893 lead curves, none clear. Dropped as the gate drops an angle, the draw
+# kept so that the records that drew 90 rebuild as they were)
+UNPLACED = {("walk_dog", 45)}
+
+
+def animal_yaw(sc, tid, default=90):
+    """Revision 37: the yaw a template's animal is drawn at."""
+    if SCN.PLACEMENT_REV < 37 or YAW39 == "O" or tid not in ANIMAL_YAWS:
+        return default
+    if tid in YAW_FORCE:
+        return YAW_FORCE[tid]
+    if tid in getattr(sc, "forced_yaws", {}):
+        return int(sc.forced_yaws[tid])
+    y = sc.rng.choice(ANIMAL_YAWS[tid])
+    return 90 if (tid, y) in UNPLACED else y
+
+
 class AnimalEvent(T):
     kinds, pose, exprs, yaw = ("dog",), "sleep", ("sleepy",), 90
     text = ("A dog is sleeping", ["dog sleeping", "dog lying down", "sleeping dog", "dog resting", "dog"], "dog")
@@ -2033,6 +2070,7 @@ class AnimalEvent(T):
             pose, yaw = ("sleep_tuck", 45) if self.id == "cat_sleeping" else ("sleep_ball", 0)
             if SCN.PLACEMENT_REV >= 27 and self.id == "dog_sleeping" and SLEEP29 != "O":
                 pose, yaw = ("sleep_paws", 0) if SLEEP29 == "B" else ("sleep_paws_turn", 45)
+        yaw = animal_yaw(sc, self.id, yaw)
         self.va = sc.need(self.a, pose, sc.rng.choice(self.exprs), yaw)
 
     def spot(self):
@@ -2778,7 +2816,7 @@ class BlockedHose(T):
         self.p = sc.person(GROWN)
         self.a = sc.animal(["dog", "goat"])
         self.vp = sc.need(self.p, "hose_inspect", "puzzled", 90)
-        self.va = sc.need(self.a, "stand", sc.rng.choice(["neutral", "happy"]), 90)
+        self.va = sc.need(self.a, "stand", sc.rng.choice(["neutral", "happy"]), animal_yaw(sc, self.id))
 
     def place(self):
         sc = self.sc
@@ -3091,7 +3129,8 @@ class CatStalksBird(T):
         # crouch read as running)
         # revision 11: frozen mid-step with a front paw lifted, the hind legs bunched (crawling on four
         # outstretched legs it read as "creeping or running toward" the bird, "or just running past")
-        self.vc = sc.need(self.c, "stalk_paw" if SCN.PLACEMENT_REV >= 11 else ("stalk" if SCN.PLACEMENT_REV >= 6 else "crouch"), "alert", 90)
+        self.vc = sc.need(self.c, "stalk_paw" if SCN.PLACEMENT_REV >= 11 else ("stalk" if SCN.PLACEMENT_REV >= 6 else "crouch"), "alert",
+                          90 if self.on_fence else animal_yaw(sc, self.id))
         if SCN.PLACEMENT_REV >= 17 and self.on_fence:
             # revision 17: on the fence the bird sits perched (pecking at the fence top it was "in an awkward pose with
             # its wing up")
@@ -3593,7 +3632,7 @@ class IceCreamDrop(T):
         else:
             self.d = sc.animal(["dog"])
             self.vp = sc.need(self.p, "hold_cone", sc.rng.choice(["sad", "scared", "worried"]), 45)
-        self.vd = sc.need(self.d, "sniff", sc.rng.choice(["happy", "neutral"]), 90)
+        self.vd = sc.need(self.d, "sniff", sc.rng.choice(["happy", "neutral"]), animal_yaw(sc, self.id))
 
     def place(self):
         if SCN.PLACEMENT_REV >= 8:
@@ -3847,7 +3886,7 @@ class DogBegs(T):
         self.d = sc.animal(["dog"])
         # revision 7: sitting square with the head tipped up at the food (the upright sit read as rearing up,
         # standing and looking up as just watching)
-        self.vd = sc.need(self.d, "beg" if SCN.PLACEMENT_REV >= 7 else sc.rng.choice(["sit", "look_up"]), "happy", 90)
+        self.vd = sc.need(self.d, "beg" if SCN.PLACEMENT_REV >= 7 else sc.rng.choice(["sit", "look_up"]), "happy", animal_yaw(sc, self.id))
 
     def place(self):
         sc = self.sc
@@ -4058,7 +4097,7 @@ class PaintTracks(T):
         self.pf.bind()
         # revision 6: the white dog, whose blue paws show (and the brown dog is left for the door)
         self.d = self.sc.animal(["dog"], prefer=("animal.dog_02",) if SCN.PLACEMENT_REV >= 6 else ())
-        self.vd = self.sc.need(self.d, "walk", "happy", 90)
+        self.vd = self.sc.need(self.d, "walk", "happy", animal_yaw(self.sc, self.id))
 
     def place(self):
         sc = self.sc

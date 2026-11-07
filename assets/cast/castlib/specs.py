@@ -83,6 +83,14 @@ elif OLD_STYLE == "B":
 elif OLD_STYLE == "C":
     PEOPLE["person.tomas"].update(hair="buzz", brim_short=True)
 
+# v0.39 bench (TPDB_BEN39): the man in red read as a boy (9 of 24 mentions in v0.37, 5 of 32 in v0.38, the most of any grown man), and he
+# hangs the washing. "B": taller and broader, a slightly smaller head and sideburns (a parting drew a bald stripe). "C": B and a short moustache. "O": v0.38.
+BEN39 = os.environ.get("TPDB_BEN39", "C")  # v0.39 bench (vision/isolation_v039.md): C
+if BEN39 in ("B", "C"):
+    PEOPLE["person.ben"].update(scale=1.065, head_scale=0.95, sideburns=True, build=dict(chest=1.15, waist=1.04, depth=1.08, limbs=1.04))
+if BEN39 == "C":
+    PEOPLE["person.ben"].update(facial_hair="mustache", facial_hair_col="hair_brown")
+
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",
                           labels=dict(everyday_name="dog", accepted_names=["dog", "puppy", "pup"], category="medium_animal")),
@@ -98,6 +106,26 @@ QUADRUPEDS = {
                            ears="goat", horns=True, horn_col="slate", horn_size=1.45, beard=True, beard_col="cream", tail="goat", head_r=0.108, snout=1.15,
                            labels=dict(everyday_name="goat", accepted_names=["goat", "kid"], category="medium_animal")),
 }
+
+# v0.39 bench (TPDB_ART39 "B"): the second dog shorter in the leg with longer ears (a beagle's shape, so the two dogs differ by shape and not only
+# colour); the black cat a dark grey, so its line art shows (a solid silhouette: "cat/kitten or small black dog"); the goat brown with a white face
+# and white legs (all white, it was "a lamb or a dog" and vanished on its fill)
+if os.environ.get("TPDB_ART39", "B") == "B":
+    QUADRUPEDS["animal.dog_02"].update(legs=0.90, ear_len=1.28)
+    QUADRUPEDS["animal.cat_01"].update(body="slate", accent="slate")
+    # v0.39 bench (vision/isolation_v039.md, round 3): D, v0.38's white on the redrawn goat. B (brown, white face and legs) was "a sack or saddle
+    # blanket draped over a white animal" to three readers of three and "The strangest thing" in a whole scene; C (brown legs) and E (brown
+    # all over) moved the name toward "antelope or deer"; D was "a goat" to three of three
+    G39 = os.environ.get("TPDB_GOAT39", "D")
+    if G39 != "D":
+        QUADRUPEDS["animal.goat_01"].update(body="brown", accent="white", head_col="white", belly="white", leg_col="white", beard_col="white")
+    if G39 == "E":
+        # (bench round 3: brown all over, the muzzle and beard white, so no colour edge cuts the animal at the legs or the neck)
+        QUADRUPEDS["animal.goat_01"].update(head_col="brown", leg_col="brown", accent="brown")
+    if G39 == "C":
+        # (bench round 2: the legs brown as the body, the face white; white legs under a brown body read as "a sack or saddle blanket draped
+        # over a white animal", three readers of three)
+        QUADRUPEDS["animal.goat_01"].update(leg_col="brown")
 
 BIRDS = {
     "animal.bird_01": dict(kind="songbird", scale=1.6, body="red", belly="cream", wing_col="roof", accent="yellow", leg_col="orange",

@@ -6,8 +6,8 @@
  "seed": 23044,
  "mirror": true,
  "versions": {
-  "generator": "0.38.0",
-  "cast_builder": "0.38.0",
+  "generator": "0.39.0",
+  "cast_builder": "0.39.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,8 +61,8 @@
  ],
  "templates": [
   {
-   "id": "sprinkler_package",
-   "kind": "inference",
+   "id": "bucket_hat",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   }
@@ -72,134 +72,144 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A sprinkler is spraying water",
-   "accepted": [
-    "sprinkler",
-    "water spraying",
-    "sprinkler is on"
-   ],
-   "key": "sprinkler",
+   "text": "A woman is standing with hands on hips",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "standing",
+     "standing there",
+     "hands on hips"
+    ]
+   },
+   "key": "standing",
    "elements": [
-    "sprinkler_1"
+    "buckethead_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "sprinkler_package",
+   "template": "bucket_hat",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": 0.052,
+    "animate": true,
+    "s": 0.21,
     "r": 0,
     "d": 0.0,
-    "f": -0.95,
-    "a": 5.53,
-    "zipf_raw": 3.05,
-    "aoa_raw": 5.53,
+    "f": 0.86,
+    "a": 4.39,
+    "zipf_raw": 4.86,
+    "aoa_raw": 4.39,
     "domain": null,
-    "area_px": 16456
+    "area_px": 20584
    },
-   "b": -0.321,
-   "p0": 0.58,
-   "pm1": 0.336,
+   "b": -1.743,
+   "p0": 0.851,
+   "pm1": 0.678,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "A package is sitting on the grass",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person has on their head",
    "accepted": [
-    "package",
-    "box",
-    "parcel",
-    "delivery"
+    "funny hat",
+    "something on his head",
+    "that's strange"
    ],
-   "key": "package",
+   "key": "bucket",
    "elements": [
-    "package_2"
+    "buckethead_1"
    ],
-   "cues": [],
-   "effect": [],
+   "cues": [
+    "buckethead_1"
+   ],
+   "effect": [
+    "buckethead_1"
+   ],
    "chain": 0,
    "animate": false,
-   "domain": null,
-   "template": "sprinkler_package",
+   "domain": "functional",
+   "template": "bucket_hat",
    "event": "e1",
    "features": {
-    "type": "entity",
+    "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": -0.546,
+    "s": 0.21,
     "r": 0,
     "d": 0.0,
-    "f": 0.46,
-    "a": 6.61,
-    "zipf_raw": 4.46,
-    "aoa_raw": 6.61,
-    "domain": null,
-    "area_px": 7080
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 20584
    },
-   "b": -0.745,
-   "p0": 0.678,
-   "pm1": 0.437,
+   "b": -0.205,
+   "p0": 0.551,
+   "pm1": 0.311,
    "aoi_cells": [
+    "MC",
     "BC"
    ]
   },
   {
    "id": "i03",
-   "type": "inference",
-   "text": "The package is going to get soaked",
+   "type": "contradiction_explain",
+   "text": "The person is wearing a bucket as a hat",
    "accepted": [
-    "the package is getting wet",
-    "the box will get wet",
-    "the water will ruin the package",
-    "someone should move the package"
+    "bucket on the head",
+    "wearing a bucket",
+    "a bucket is not a hat"
    ],
-   "key": "wet",
+   "key": "bucket",
    "elements": [
-    "sprinkler_1",
-    "package_2"
+    "buckethead_1"
    ],
    "cues": [
-    "sprinkler_1",
-    "package_2"
+    "buckethead_1"
    ],
    "effect": [
-    "package_2"
+    "buckethead_1"
    ],
    "chain": 1,
    "animate": false,
-   "domain": null,
-   "template": "sprinkler_package",
+   "domain": "functional",
+   "template": "bucket_hat",
    "event": "e1",
    "features": {
-    "type": "inference",
+    "type": "contradiction_explain",
     "chain": 1,
     "animate": false,
-    "s": 0.052,
-    "r": 1,
-    "d": 0.243,
+    "s": 0.21,
+    "r": 0,
+    "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.54,
-    "aoa_raw": 2.47,
-    "domain": null,
-    "area_px": 16456
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 20584
    },
-   "b": 0.076,
-   "p0": 0.481,
-   "pm1": 0.254,
+   "b": 0.995,
+   "p0": 0.27,
+   "pm1": 0.12,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "MC",
+    "BC"
    ]
   },
   {
@@ -396,7 +406,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.934,
+    "s": 1.925,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -404,11 +414,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 233800
+    "area_px": 230788
    },
-   "b": -1.91,
-   "p0": 0.871,
-   "pm1": 0.713,
+   "b": -1.905,
+   "p0": 0.87,
+   "pm1": 0.712,
    "aoi_cells": [
     "ML",
     "MC",
@@ -546,19 +556,19 @@
   }
  ],
  "counts": {
-  "content": 10,
+  "content": 9,
   "inference_units": 1,
-  "contradictions": 0,
+  "contradictions": 1,
   "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.747,
-   "inference": 0.481
+   "content": 0.784,
+   "inference": 0.41
   },
   "theta_minus_1": {
-   "content": 0.536,
-   "inference": 0.254
+   "content": 0.585,
+   "inference": 0.215
   }
  },
  "bands": {
@@ -580,14 +590,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0396,
-  "png_bytes": 135975,
-  "jpeg_bytes": 180198
+  "objects": 15,
+  "edge_density": 0.0385,
+  "png_bytes": 148060,
+  "jpeg_bytes": 177959
  },
  "signature": [
   [
@@ -595,44 +605,44 @@
    0
   ],
   [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "inference",
+   "contradiction_explain",
    1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
   ]
  ],
  "elements": [
@@ -726,8 +736,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 233800,
-   "occlusion": 0.029
+   "visible_px": 230788,
+   "occlusion": 0.042
   },
   {
    "id": "filler_bush_mid",
@@ -820,34 +830,41 @@
    "occlusion": 0.0
   },
   {
-   "id": "sprinkler_1",
-   "label": "Sprinkler spraying",
+   "id": "buckethead_1",
+   "label": "person.ana__bucket_hat__neutral__y045",
    "role": "scored",
-   "z": 896.38,
+   "z": 899.98,
    "bbox": [
-    586.0,
-    768.0,
-    1600.0,
-    924.0
+    772.0,
+    570.0,
+    872.0,
+    906.0
    ],
-   "area_px": 17112,
-   "visible_px": 16456,
-   "occlusion": 0.038
-  },
-  {
-   "id": "package_2",
-   "label": "Package on the grass",
-   "role": "scored",
-   "z": 906.38,
-   "bbox": [
-    534.0,
-    840.0,
-    646.0,
-    918.0
-   ],
-   "area_px": 7080,
-   "visible_px": 7080,
-   "occlusion": 0.0
+   "area_px": 20584,
+   "visible_px": 20584,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ana__bucket_hat__neutral__y045",
+    "family": "person.ana",
+    "scale": 0.4824,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin2",
+      "hair": "long_dark"
+     }
+    }
+   }
   },
   {
    "id": "bench",
@@ -862,6 +879,36 @@
    ],
    "area_px": 13200,
    "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    362.0,
+    884.0,
+    458.0,
+    962.0
+   ],
+   "area_px": 4404,
+   "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -884,11 +931,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "sprinkler_package"
+   "contradictions": [
+    "bucket_hat"
    ]
   },
-  "placement_rev": 36
+  "placement_rev": 37
  },
  "probe": true
 }

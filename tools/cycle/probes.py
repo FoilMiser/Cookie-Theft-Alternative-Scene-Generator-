@@ -13,6 +13,9 @@ from scenegen.planner import feasible, USAGE
 OUT = f"probes{TAG}"
 os.makedirs(OUT, exist_ok=True)
 NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
+# v0.39: five pictures for the one-item templates nearest the gate (with three, one half mark takes one under 0.9: hang_laundry in v0.30 and v0.37)
+NEED_T = {"hang_laundry": 5, "cat_sleeping": 5, "plant_flowers": 5}
+need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):
     for t in json.load(open(f))["templates"]:
@@ -28,7 +31,7 @@ MAXG = 3
 DUCKS = {"ducks_bread", "ducks_swimming"}
 alone = set()     # templates already probed on their own
 for rnd in range(80):
-    short = [t for t in cls if cnt[t] < NEED and fails[t] < 3]
+    short = [t for t in cls if cnt[t] < need(t) and fails[t] < 3]
     if not short:
         break
     short.sort(key=lambda t: (cnt[t], fails[t], rng.random()))
@@ -96,4 +99,4 @@ for rnd in range(80):
             if len(pick) > 1:
                 solo.add(t)
         print("FAIL", setting, pick, json.dumps(fin)[:300], flush=True)
-print("SHORT", {t: cnt[t] for t in cls if cnt[t] < NEED})
+print("SHORT", {t: cnt[t] for t in cls if cnt[t] < need(t)})

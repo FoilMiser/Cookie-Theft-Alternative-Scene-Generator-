@@ -51,12 +51,18 @@ class Poser:
     # ---------------------------------------------------------- body helpers
     def place_legs(self, feet, hint=(0, -1, 0.25)):
         J, S = self.J, self.S
+        flat39 = __import__("os").environ.get("TPDB_SHOE39", "D") == "D"
         for sd, sg in (("L", 1), ("R", -1)):
             dx, dy, lift = feet[sd]
             tgt = Vector((sg * J["hip_x"] * S + dx * S, dy * S, J["ankle"] * S + lift * S))
             h = hint[sd] if isinstance(hint, dict) else hint
             self.rig.ik2(f"thigh_{sd}", f"shin_{sd}", tgt, h)
-            self.rig.aim_dir(f"foot_{sd}", (0, -1, -0.15))
+            if flat39 and abs(lift) < 1e-6:
+                # v0.39 bench (TPDB_SHOE39 "D"): a planted foot along its rest direction, so the sole is flat on the ground (aimed 8.5 degrees
+                # down from a rest of 21, every standing shoe was tipped toe-up, its heel below the ground)
+                self.rig.aim_dir(f"foot_{sd}", (0, -J["toe"], 0.02 * J["s"] - J["ankle"]))
+            else:
+                self.rig.aim_dir(f"foot_{sd}", (0, -1, -0.15))
 
     def drop_hips_for(self, feet):
         J, S, L = self.J, self.S, self.L
@@ -66,7 +72,8 @@ class Poser:
             h = Vector((sg * J["hip_x"] * S, 0, J["hip"] * S))
             t = Vector((sg * J["hip_x"] * S + dx * S, dy * S, J["ankle"] * S + lift * S))
             horiz = math.hypot(t.x - h.x, t.y - h.y)
-            maxv = math.sqrt(max(0.0, (0.985 * L) ** 2 - horiz ** 2))
+            # v0.39 bench (TPDB_KNEE39 "B"): standing legs straightened to 0.97 of their length, not 0.985, so the knees are not locked
+            maxv = math.sqrt(max(0.0, ((0.97 if __import__("os").environ.get("TPDB_KNEE39", "O") == "B" else 0.985) * L) ** 2 - horiz ** 2))
             need = max(need, (h.z - t.z) - maxv)
         return need
 

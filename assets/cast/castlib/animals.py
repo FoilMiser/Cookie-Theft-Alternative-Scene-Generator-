@@ -7,7 +7,18 @@ import bpy  # noqa: F401
 import bmesh
 from mathutils import Matrix, Quaternion, Vector
 
-from .core import Rig, _mesh_object, anchor, cyl, ellipsoid, link, list_m, mat, nrm, skin_like, skin_object, upd
+from .core import ISECT39, Rig, _mesh_object, anchor, cyl, ellipsoid, link, list_m, mat, no_isect, nrm, skin_like, skin_object, upd
+
+QUAD39 = os.environ.get("TPDB_QUAD39", "B")  # v0.39 bench (vision/isolation_v039.md): B
+ART39 = os.environ.get("TPDB_ART39", "B")  # v0.39 bench (vision/isolation_v039.md): B
+
+
+def far_mat(key, f=0.80):
+    """v0.39 (TPDB_QUAD39): a copy of a palette material that the renderer's cel shading darkens by f (render_assets.to_cel), for the far legs."""
+    m = mat(key).copy()
+    m.name = key + "_far"
+    m["tpdb_far"] = f
+    return m
 from .face import Face
 from .people import surface_points
 
@@ -23,22 +34,39 @@ def build_quadruped(spec):
 
     root = link(bpy.data.objects.new("ROOT", None))
     hip_z, chest_z, knee_z = 0.44 * LH, 0.46 * LH, 0.24 * LH
+    Q, ART = QUAD39 == "B", ART39 == "B"
+    if ART and kind == "cat":
+        # (a cat's back rises toward the hips: the hind legs are longer than the front)
+        hip_z, chest_z = 0.47 * LH, 0.43 * LH
+    hx = (0.088 if kind in ("dog", "goat") else 0.080) if Q else 0.075     # a wider stance, so the legs separate at three-quarters
+    neck_tail = P(0, -0.30, chest_z + 0.24) if (ART and kind == "goat") else P(0, -0.25, chest_z + 0.15)
     bones = {
         "hips": (P(0, 0.20, hip_z), P(0, 0.20, hip_z + 0.06), None),
         "spine": (P(0, 0.20, hip_z), P(0, -0.16, chest_z), "hips"),
-        "neck": (P(0, -0.16, chest_z), P(0, -0.25, chest_z + 0.15), "spine"),
-        "head": (P(0, -0.25, chest_z + 0.15), P(0, -0.25, chest_z + 0.40), "neck"),
+        "neck": (P(0, -0.16, chest_z), neck_tail, "spine"),
+        "head": (neck_tail, neck_tail + P(0, 0, 0.25), "neck"),
         "tail1": (P(0, 0.27, hip_z + 0.04), P(0, 0.38, hip_z + 0.14), "hips"),
-        "tail2": (P(0, 0.38, hip_z + 0.14), P(0, 0.44, hip_z + 0.27), "tail1"),
+        "tail2": (P(0, 0.38, hip_z + 0.14), P(0, 0.46, hip_z + 0.31) if (ART and kind == "cat") else P(0, 0.44, hip_z + 0.27), "tail1"),
     }
     for sd, sg in (("L", 1), ("R", -1)):
         bones.update({
-            f"fleg_{sd}": (P(sg * 0.075, -0.15, chest_z - 0.06), P(sg * 0.075, -0.15, knee_z), "spine"),
-            f"fshin_{sd}": (P(sg * 0.075, -0.15, knee_z), P(sg * 0.075, -0.16, 0.04), f"fleg_{sd}"),
-            f"bleg_{sd}": (P(sg * 0.075, 0.20, hip_z - 0.04), P(sg * 0.075, 0.25, knee_z), "hips"),
-            f"bshin_{sd}": (P(sg * 0.075, 0.25, knee_z), P(sg * 0.075, 0.21, 0.04), f"bleg_{sd}"),
+            f"fleg_{sd}": (P(sg * hx, -0.15, chest_z - 0.06), P(sg * hx, -0.15, knee_z), "spine"),
+            f"fshin_{sd}": (P(sg * hx, -0.15, knee_z), P(sg * hx, -0.16, 0.04), f"fleg_{sd}"),
         })
+        if Q:
+            # three bones: thigh forward to the stifle, gaskin back to the hock, cannon down to the paw (two made "table legs")
+            bones.update({
+                f"bleg_{sd}": (P(sg * hx, 0.20, hip_z - 0.04), P(sg * hx, 0.15, 0.27 * LH), "hips"),
+                f"bshin_{sd}": (P(sg * hx, 0.15, 0.27 * LH), P(sg * hx, 0.27, 0.13 * LH), f"bleg_{sd}"),
+                f"bmeta_{sd}": (P(sg * hx, 0.27, 0.13 * LH), P(sg * hx, 0.24, 0.04), f"bshin_{sd}"),
+            })
+        else:
+            bones.update({
+                f"bleg_{sd}": (P(sg * hx, 0.20, hip_z - 0.04), P(sg * hx, 0.25, knee_z), "hips"),
+                f"bshin_{sd}": (P(sg * hx, 0.25, knee_z), P(sg * hx, 0.21, 0.04), f"bleg_{sd}"),
+            })
     rig = Rig(root, bones)
+    paw_bone = "bmeta" if Q else "bshin"
     body, belly, acc = spec["body"], spec.get("belly", spec["body"]), spec.get("accent", spec["body"])
     k = S
     G = spec.get("girth", 1.0)
@@ -50,7 +78,47 @@ def build_quadruped(spec):
     wts = [{"hips": 1.0}, {"spine": 1.0}, {"neck": 1.0}, {"hips": 0.67, "spine": 0.33}, {"hips": 0.33, "spine": 0.67}]
     edges = [(0, 3), (3, 4), (4, 1), (1, 2)]
     LR = spec.get("leg_r", 1.0)
-    for sd, sg in (("L", 1), ("R", -1)):
+    if ART and kind == "dog":
+        # a deep chest and a tuck-up belly line, a visible shoulder and haunch
+        radii[1] = (0.128 * k * G, 0.140 * k * G)
+        radii[4] = (0.110 * k * G, 0.106 * k * G)
+        radii[3] = (0.106 * k * G, 0.110 * k * G)
+    if ART and kind == "goat":
+        # boxy, a straight back and a deep barrel
+        radii[1] = (0.130 * k * G, 0.142 * k * G)
+        radii[4] = (0.130 * k * G, 0.140 * k * G)
+        radii[3] = (0.128 * k * G, 0.138 * k * G)
+        radii[0] = (0.122 * k * G, 0.130 * k * G)
+    if ART and kind == "cat":
+        # slender
+        radii = [(r[0] * 0.88, r[1] * 0.90) if isinstance(r, tuple) else r for r in radii]
+    if Q:
+        legv = {"L": [], "R": []}
+        for sd, sg in (("L", 1), ("R", -1)):
+            fr = (0.058, 0.044, 0.034, 0.033) if not (ART and kind == "goat") else (0.054, 0.036, 0.026, 0.026)
+            hr_ = (0.095, 0.062, 0.040, 0.036) if not (ART and kind == "goat") else (0.090, 0.056, 0.030, 0.027)
+            if ART and kind == "cat":
+                fr, hr_ = (0.048, 0.038, 0.030, 0.030), (0.082, 0.054, 0.034, 0.031)
+            lv = [P(sg * hx, -0.15, chest_z - 0.07), P(sg * hx, -0.15, knee_z), P(sg * hx, -0.155, 0.10 * LH), P(sg * hx, -0.16, 0.035),
+                  P(sg * hx, 0.20, hip_z - 0.05), P(sg * hx, 0.15, 0.27 * LH), P(sg * hx, 0.27, 0.13 * LH), P(sg * hx, 0.24, 0.035)]
+            if ART and kind == "goat" and spec.get("leg_col", body) != body:
+                # the white legs start under the brown body
+                lv[0], lv[4] = P(sg * hx, -0.15, chest_z - 0.11), P(sg * hx, 0.19, hip_z - 0.10)
+                fr, hr_ = (0.044,) + fr[1:], (0.054,) + hr_[1:]
+            lr = [r * k * LR for r in fr + hr_]
+            lw = [{"spine": 0.4, f"fleg_{sd}": 0.6}, {f"fleg_{sd}": 0.5, f"fshin_{sd}": 0.5}, {f"fshin_{sd}": 1.0}, {f"fshin_{sd}": 1.0},
+                  {"hips": 0.4, f"bleg_{sd}": 0.6}, {f"bleg_{sd}": 0.5, f"bshin_{sd}": 0.5}, {f"bshin_{sd}": 0.5, f"bmeta_{sd}": 0.5}, {f"bmeta_{sd}": 1.0}]
+            legv[sd] = (lv, lr, lw)
+    if Q:
+        # stubs of the four legs' tops in the body chain, so the body keeps the hull it had (without them the hips closed in a flat face)
+        for sd, sg in (("L", 1), ("R", -1)):
+            i0 = len(verts)
+            verts += [P(sg * hx, -0.15, chest_z - 0.07), P(sg * hx, 0.20, hip_z - 0.05)]
+            # (inside the legs' tops; the goat's larger ones bulged out of its barrel and split the body in two lumps)
+            radii += [0.048 * k * LR, 0.072 * k * LR]
+            wts += [{"spine": 0.4, f"fleg_{sd}": 0.6}, {"hips": 0.4, f"bleg_{sd}": 0.6}]
+            edges += [(1, i0), (0, i0 + 1)]
+    for sd, sg in ((("L", 1), ("R", -1)) if not Q else ()):
         i0 = len(verts)
         verts += [P(sg * 0.075, -0.15, chest_z - 0.07), P(sg * 0.075, -0.15, knee_z), P(sg * 0.075, -0.16, 0.035)]
         radii += [0.058 * k * LR, 0.046 * k * LR, 0.040 * k * LR]
@@ -82,41 +150,111 @@ def build_quadruped(spec):
         wts += [{"tail1": 1.0}, {"tail1": 0.5, "tail2": 0.5}, {"tail2": 1.0}]
         edges += [(0, i0), (i0, i0 + 1), (i0 + 1, i0 + 2)]
     body_ob = skin_object("Body", verts, edges, radii, body, rig, wts)
+    leg_col = spec.get("leg_col", body)
+    if Q:
+        for sd in ("L", "R"):
+            lv, lr, lw = legv[sd]
+            ob = skin_object(f"Legs_{sd}", lv, [(0, 1), (1, 2), (2, 3), (4, 5), (5, 6), (6, 7)], lr, leg_col, rig, lw)
+            if sd == "L":
+                # the far side at three-quarters and in profile (yaw 45, 90, 135 turn the character's left away from the camera)
+                ob.data.materials[0] = far_mat(leg_col)
+            no_isect(ob)
 
     for sd, sg in (("L", 1), ("R", -1)):
-        ellipsoid(f"FPaw_{sd}", P(sg * 0.075, -0.180, 0.030), (0.046 * k * LR, 0.058 * k * LR, 0.032 * k), spec.get("paws", belly), rig, f"fshin_{sd}")
-        ellipsoid(f"BPaw_{sd}", P(sg * 0.075, 0.195, 0.030), (0.046 * k * LR, 0.058 * k * LR, 0.032 * k), spec.get("paws", belly), rig, f"bshin_{sd}")
-    ellipsoid("Chest", P(0, -0.22, chest_z - 0.02), (0.085 * k, 0.05 * k, 0.095 * k), belly, rig, "spine")
+        if Q and ART and kind == "goat":
+            # small split hooves, a notch between the two halves
+            for part, px in (("a", 0.010), ("b", -0.010)):
+                ellipsoid(f"FPaw_{sd}{part}", P(sg * hx + px, -0.170, 0.022), (0.012 * k, 0.026 * k, 0.020 * k), spec.get("paws", "charcoal"), rig, f"fshin_{sd}")
+                ellipsoid(f"BPaw_{sd}{part}", P(sg * hx + px, 0.230, 0.022), (0.012 * k, 0.026 * k, 0.020 * k), spec.get("paws", "charcoal"), rig, f"bmeta_{sd}")
+            continue
+        if Q:
+            # the paw the end of the leg, in its colour, a little wider than the wrist and toes forward
+            pc = leg_col if kind != "goat" else spec.get("paws", belly)
+            for nm, y_, bone in ((f"FPaw_{sd}", -0.182, f"fshin_{sd}"), (f"BPaw_{sd}", 0.222, f"bmeta_{sd}")):
+                ob = ellipsoid(nm, P(sg * hx, y_, 0.026), (0.043 * k * LR, 0.056 * k * LR, 0.026 * k), pc, rig, bone)
+                if sd == "L" and pc == leg_col:
+                    ob.data.materials[0] = far_mat(leg_col)
+                no_isect(ob)
+            continue
+        fp = ellipsoid(f"FPaw_{sd}", P(sg * 0.075, -0.180, 0.030), (0.046 * k * LR, 0.058 * k * LR, 0.032 * k), spec.get("paws", belly), rig, f"fshin_{sd}")
+        bp = ellipsoid(f"BPaw_{sd}", P(sg * 0.075, 0.195, 0.030), (0.046 * k * LR, 0.058 * k * LR, 0.032 * k), spec.get("paws", belly), rig, f"bshin_{sd}")
+        if ISECT39 == "B":
+            no_isect(fp)
+            no_isect(bp)
+    if not (ART and kind == "goat"):
+        # (no chest patch on the brown goat: at three-quarters its white oval stood on the shoulder like an egg)
+        chest_ob = ellipsoid("Chest", P(0, -0.22, chest_z - 0.02), (0.085 * k, 0.05 * k, 0.095 * k), belly, rig, "spine")
+        if Q or ISECT39 == "B":
+            no_isect(chest_ob)
 
     # spots on the flanks, sitting on the actual body surface
     if spec.get("spots"):
         pts = surface_points(body_ob)
         for i, (y, z, rx, rz, side) in enumerate(spec["spots"]):
             yy, zz = y * S, z * S
+            if ART and kind == "dog":
+                # v0.39 (bench round 1): halfway to the body's middle, onto the flank (on the slimmer back of revision "B" they stood over the outline
+                # "like small round bumps")
+                zc = 0.5 * (hip_z + chest_z)
+                zz = (zc + (z - zc) * 0.5) * S
             near = [q for q in pts if abs(q.y - yy) < 0.03 * S and abs(q.z - zz) < 0.03 * S and q.x * side > 0]
             xs = max((abs(q.x) for q in near), default=0.11 * S)
             bone = "hips" if y > 0.05 else "spine"
             skin_like(ellipsoid(f"Spot{i}", Vector((side * (xs - 0.004 * S), yy, zz)), (0.012 * k, rx * k, rz * k), spec["spot_col"], rig, bone), body_ob, rig)   # v0.15: bends with the flank
 
-    hc = P(0, -0.30, chest_z + 0.22)
+    hc = P(0, -0.30, chest_z + 0.22) if not (ART and kind == "goat") else neck_tail + P(0, -0.04, 0.06)
     hr = spec.get("head_r", 0.115 if kind == "dog" else 0.135) * k
-    ellipsoid("Head", hc, (hr * 1.02, hr, hr * 0.96), body, rig, "head", seg=36, rings=20)
+    if ART and kind == "cat":
+        hr *= 0.88           # a smaller head for the body (the sphere was about as large as the chest)
+    head_col = spec.get("head_col", body)
+    ellipsoid("Head", hc, (hr * 1.02, hr, hr * 0.96), head_col, rig, "head", seg=36, rings=20)
     ears = spec.get("ears", "flop" if kind == "dog" else "prick")
     if kind in ("dog", "goat"):
         sl = spec.get("snout", 1.0)
         snout_c = hc + Vector((0, -hr * 0.95, -0.045 * k))
-        ellipsoid("Snout", snout_c, (0.058 * k * (0.85 if kind == "goat" else 1.0), 0.062 * k * sl, 0.045 * k), belly, rig, "head")
-        nose_p = snout_c + Vector((0, -0.058 * k * sl, 0.012 * k))
+        if ART and kind == "goat":
+            snout_c = hc + Vector((0, -hr * 1.20, -0.040 * k))
+        if ART and kind in ("dog", "goat"):
+            # the muzzle grows out of the head through a stop, a tapered chain from inside the skull, with no line where it leaves it (the goat's
+            # longer and narrower: a long head, wedge-shaped from the side)
+            if kind == "goat":
+                mv = [hc + Vector((0, -hr * 0.40, -0.010 * k)), hc + Vector((0, -hr * 0.98, -0.030 * k)), snout_c + Vector((0, -0.040 * k * sl, -0.004 * k))]
+                mr = [0.066 * k, 0.052 * k, 0.038 * k]
+            else:
+                mv = [hc + Vector((0, -hr * 0.45, -0.020 * k)), hc + Vector((0, -hr * 0.92, -0.036 * k)), snout_c + Vector((0, -0.030 * k * sl, -0.002 * k))]
+                mr = [0.062 * k, 0.054 * k, 0.044 * k]
+            mz = skin_object("Snout", mv, [(0, 1), (1, 2)], mr, belly, rig, [{"head": 1.0}] * 3)
+            no_isect(mz)
+            nose_p = mv[-1] + Vector((0, -mr[-1] * 0.38, mr[-1] * 0.22))
+            mouth_p = mv[-1] + Vector((0, -mr[-1] * 0.10, -mr[-1] * 0.40))
+        else:
+            ellipsoid("Snout", snout_c, (0.058 * k * (0.85 if kind == "goat" else 1.0), 0.062 * k * sl, 0.045 * k), belly, rig, "head")
+            nose_p = snout_c + Vector((0, -0.058 * k * sl, 0.012 * k))
+            mouth_p = snout_c + Vector((0, -0.045 * k * sl, -0.032 * k))
         ellipsoid("NoseTip", nose_p, (0.020 * k, 0.014 * k, 0.015 * k), "outline" if kind == "dog" else "pink", rig, "head")
-        mouth_p = snout_c + Vector((0, -0.045 * k * sl, -0.032 * k))
     else:
         snout_c = hc + Vector((0, -hr * 0.90, -0.035 * k))
-        ellipsoid("Snout", snout_c, (0.040 * k, 0.030 * k, 0.028 * k), belly, rig, "head")
+        if ART:
+            # a whisker pad, two lobes, and whiskers: the strongest cat cue at small size
+            for sd, sg in (("L", 1), ("R", -1)):
+                ellipsoid(f"Snout_{sd}", snout_c + Vector((sg * 0.016 * k, -0.004 * k, -0.004 * k)), (0.026 * k, 0.024 * k, 0.022 * k), belly, rig, "head")
+                for i, dz in enumerate((0.006, -0.004, -0.014)):
+                    a0 = snout_c + Vector((sg * 0.026 * k, -0.012 * k, dz * k))
+                    # (0.095 long with a droop of 1.6 hung below the sleeping cat's ground point: shorter, and nearly level)
+                    a1 = a0 + Vector((sg * 0.068 * k, 0.004 * k, (dz * 0.4 + 0.003 * (1 - i)) * k))
+                    ob = cyl(f"Whisker_{sd}{i}", a0, a1, 0.0026 * k, "outline", seg=6)
+                    rig.attach(ob, "head")
+        else:
+            ellipsoid("Snout", snout_c, (0.040 * k, 0.030 * k, 0.028 * k), belly, rig, "head")
         nose_p = snout_c + Vector((0, -0.030 * k, 0.012 * k))
         ellipsoid("NoseTip", nose_p, (0.011 * k, 0.007 * k, 0.008 * k), "pink", rig, "head")
         mouth_p = snout_c + Vector((0, -0.024 * k, -0.025 * k))
     for sd, sg in (("L", 1), ("R", -1)):
-        if ears == "flop":
+        if ears == "flop" and ART:
+            el = spec.get("ear_len", 1.0)
+            ellipsoid(f"Ear_{sd}", hc + Vector((sg * hr * 0.84, 0.030 * k, -0.020 * k - 0.025 * k * (el - 1))), (0.036 * k, 0.055 * k, 0.088 * k * el), acc, rig, "head",
+                      rot=Quaternion((0, 1, 0), sg * 0.18))
+        elif ears == "flop":
             ellipsoid(f"Ear_{sd}", hc + Vector((sg * hr * 0.92, 0.02 * k, -0.035 * k)), (0.028 * k, 0.050 * k, 0.085 * k), acc, rig, "head",
                       rot=Quaternion((0, 1, 0), sg * 0.25))
         elif ears == "goat":
@@ -130,6 +268,11 @@ def build_quadruped(spec):
             ob.location = hc + Vector((sg * hr * 0.55, 0.0, hr * 0.85))
             ob.rotation_euler = (0.1, sg * 0.35, 0)
             ob.scale = (1, 0.55, 1)
+            if ART and kind == "cat":
+                # flat triangular wedges turned forward (the cones read as horns in profile)
+                ob.location = hc + Vector((sg * hr * 0.56, 0.004 * k, hr * 0.80))
+                ob.rotation_euler = (-0.22, sg * 0.30, 0)
+                ob.scale = (1.05, 0.26, 0.92)
             upd()
             rig.attach(ob, "head")
             if spec.get("inner_ear"):
@@ -139,6 +282,10 @@ def build_quadruped(spec):
                 ob2.location = hc + Vector((sg * hr * 0.55, -0.012 * k, hr * 0.82))
                 ob2.rotation_euler = (0.1, sg * 0.35, 0)
                 ob2.scale = (1, 0.40, 1)
+                if ART and kind == "cat":
+                    ob2.location = hc + Vector((sg * hr * 0.56, -0.010 * k, hr * 0.79))
+                    ob2.rotation_euler = (-0.22, sg * 0.30, 0)
+                    ob2.scale = (0.95, 0.16, 0.85)
                 upd()
                 rig.attach(ob2, "head")
     if spec.get("horns"):
@@ -198,15 +345,15 @@ def build_quadruped(spec):
 
     for sd, sg in (("L", 1), ("R", -1)):
         anchor(rig, f"eye_{sd}", face.at(sg * eye_dx, eye_z), "head")
-        anchor(rig, f"paw_F{sd}", P(sg * 0.075, -0.18, 0.0), f"fshin_{sd}")
-        anchor(rig, f"paw_B{sd}", P(sg * 0.075, 0.19, 0.0), f"bshin_{sd}")
+        anchor(rig, f"paw_F{sd}", P(sg * hx, -0.18, 0.0), f"fshin_{sd}")
+        anchor(rig, f"paw_B{sd}", P(sg * hx, 0.21 if Q else 0.19, 0.0), f"{paw_bone}_{sd}")
     mid = (face.at(eye_dx, eye_z) + face.at(-eye_dx, eye_z)) / 2
     anchor(rig, "gaze_target", mid + Vector((0, -1.0, 0)), "head")
     anchor(rig, "head_top", hc + Vector((0, 0, hr + 0.01)), "head")
     anchor(rig, "mouth", mouth_p, "head")
     anchor(rig, "back", P(0, 0.02, chest_z + 0.12), "spine")
     anchor(rig, "collar", P(0, -0.235, chest_z + 0.08), "neck")
-    names = make_quadruped_poses(rig, S, kind, hip_z, chest_z)
+    names = make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=hx, three=Q)
     return rig, states, names
 
 
@@ -214,17 +361,53 @@ SB = {"cx": 0.0, "tail": (-0.9, -0.45, -0.05), "tail2": (-0.2, -1.0, -0.05), "ne
       "bl": (0.09, 0.10, 0), "br": (-0.09, 0.14, 0), "bh": (0, -1, -0.3)}
 
 
-def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
+def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False):
     names = []
     LH = hip_z / 0.44
+    cat39 = ART39 == "B" and kind == "cat"
+    if cat39:
+        # (the redrawn cat's hips stand at 0.47 of its legs, not 0.44: its legs are no longer for that, so its drops are scaled as v0.38's)
+        LH = hip_z / 0.47
+    state = {"hip_drop": 0.0, "chest_drop": 0.0}
+    wide = hx / 0.075          # (a pose's paw targets at x 0.075 widened with the stance)
 
     def legs(front, back, fhint=(0, 0.6, 0.2), bhint=(0, -1, 0.1)):
         for sd in ("L", "R"):
-            rig.ik2(f"fleg_{sd}", f"fshin_{sd}", Vector(front[sd]) * S, fhint)
-            rig.ik2(f"bleg_{sd}", f"bshin_{sd}", Vector(back[sd]) * S, bhint)
+            f = Vector(front[sd])
+            b = Vector(back[sd])
+            if three:
+                f.x *= wide
+                b.x *= wide
+            rig.ik2(f"fleg_{sd}", f"fshin_{sd}", f * S, fhint)
+            if not three:
+                rig.ik2(f"bleg_{sd}", f"bshin_{sd}", b * S, bhint)
+                continue
+            # v0.39 (TPDB_QUAD39): through the hock. Standing, the hock behind and above the paw; crouched, lower; sitting or lying, the cannon
+            # laid flat on the ground behind the paw, under the haunch
+            if state["hip_drop"] >= 0.20:
+                # sitting, begging, lying: the hock close above the paw and a little behind, so the leg folds under the haunch as the two-bone
+                # leg did (the cannon laid flat behind the paw read as kneeling shins)
+                hock = b + Vector((0, 0.030, 0.062)) * LH
+                stifle_hint = bhint
+            elif state["hip_drop"] >= 0.08 or state["chest_drop"] >= 0.15:
+                hock = b + Vector((0, 0.080, 0.060)) * LH
+                stifle_hint = (0, -1, 0.35)
+            else:
+                hock = b + Vector((0, 0.045, 0.090)) * LH
+                stifle_hint = (0, -1, 0.25)
+            rig.ik2(f"bleg_{sd}", f"bshin_{sd}", hock * S, stifle_hint)
+            rig.aim(f"bmeta_{sd}", b * S)
 
     def body(hip_drop=0.0, chest_drop=0.0, head_pitch=0.0, head_turn=0.0, tail=(0, 0.6, 1.0), neck=(0, -0.5, 1.0), hip_back=0.0, chest_y=-0.16, chest_x=0.0,
              spine_scale=None):
+        state["hip_drop"], state["chest_drop"] = hip_drop, chest_drop
+        if cat39:
+            # lying (a drop of a quarter or more), the redrawn cat's hips and chest end where v0.38's did, 0.44 and 0.46 less the drop: from its
+            # hips at 0.47 and chest at 0.43 the chest came down to 0.07, the head onto the ground
+            if hip_drop >= 0.25:
+                hip_drop += 0.03
+            if chest_drop >= 0.25:
+                chest_drop -= 0.03
         hb = rig.arm.pose.bones["hips"]
         hb.location = (0, -hip_drop * S * LH, -hip_back * S)
         if spine_scale:
@@ -384,6 +567,12 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
 
     def graze():
         # v0.8: grazing, muzzle down in the grass (sniffing read as "about to butt" or "sniffing")
+        if ART39 == "B" and kind == "goat":
+            # v0.39 (TPDB_ART39): the long neck lowered to the grass on straight front legs, the hind legs a little bent at the hock (the front
+            # legs bent under a tall straight back read as "contorted")
+            body(chest_drop=0.03, neck=(0, -0.42, -0.91), head_pitch=-88, tail=(0, 0.35, 0.95))
+            legs(*paws(fy=-0.18))
+            return
         body(chest_drop=0.08, neck=(0, -0.75, -0.65), head_pitch=-82, tail=(0, 0.5, 0.8))
         legs(*paws(fy=-0.15))
 
@@ -473,6 +662,9 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z):
             plan.append((f"exp{i}", _exp))
     if kind == "goat":
         plan = [p for p in plan if p[0] != "sit"]       # goats lie down rather than sit
+        if ART39 == "B":
+            # (a goat stands, walks and grazes: the dog's play bow and sniff are not its poses)
+            plan = [p for p in plan if p[0] not in ("play_bow", "sniff")]
         plan.append(("graze", graze))
     for nm, fn in plan:
         pose(nm, fn)

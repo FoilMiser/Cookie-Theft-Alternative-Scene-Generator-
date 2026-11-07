@@ -99,6 +99,8 @@ def build_one(lib, tier, setting, seed, out_dir, forced=None, require_band=True,
     """Try cast/variant sets (seed, seed+1000, ...) and, for each, several layouts of the same rendered
     variants, until a scene places, passes the rules and lands in its tier band."""
     usage0 = dict(USAGE)        # template choice leans away from templates used so far; kept for exact regeneration
+    from . import templates as _TP
+    _TP.YAW_FORCE.clear()       # (revision 37: an isomorph's forced animal yaws end with it)
     tried = []
     for k in range(max_tries):
         s = seed + 1000 * k

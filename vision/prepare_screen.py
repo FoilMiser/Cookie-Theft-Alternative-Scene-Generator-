@@ -24,6 +24,7 @@ for src in srcs:
 names = sorted(where)
 random.Random(5).shuffle(names)
 key_map, keys = {}, {}
+ANGLE = {0: "facing the viewer", 45: "three-quarter front", 90: "profile", 135: "three-quarter back"}
 for i, n in enumerate(names, 1):
     k = f"pic_{i:02d}"
     key_map[k] = n
@@ -33,6 +34,16 @@ for i, n in enumerate(names, 1):
     keys[k] = {"items": [{"id": it["id"], "type": it["type"], "text": it["text"],
                           "accepted": (it["accepted"] if isinstance(it["accepted"], list) else it["accepted"].get("what", []))[:8]}
                          for it in r["items"]]}
+    # (v0.39: every animal drawn, with its angle, for the scorers' oddity tally by angle)
+    an = []
+    for e in r.get("elements", []):
+        a = e.get("asset") or {}
+        if a.get("family", "").startswith("animal.") and "__y" in a.get("variant", ""):
+            x = {"animal": a.get("labels", {}).get("everyday_name", a["family"][7:]), "angle": ANGLE.get(int(a["variant"].rsplit("__y", 1)[1]), "?")}
+            if x not in an:
+                an.append(x)
+    if an:
+        keys[k]["animals"] = an
 json.dump(key_map, open(os.path.join(out, "key_map.json"), "w"), indent=1)
 json.dump(keys, open(os.path.join(out, "keys.json"), "w"), indent=1)
 print(len(names), "pictures,", sum(len(v["items"]) for v in keys.values()), "items")

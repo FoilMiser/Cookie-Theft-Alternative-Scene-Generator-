@@ -73,6 +73,17 @@ def build_isomorph(lib, rec_a, setting, seed, out_dir, tries=14, layouts=10, log
     pcA, piA = rec_a["predicted"]["theta_0"]["content"], rec_a["predicted"]["theta_0"]["inference"]
     sigA = [tuple(x) for x in rec_a["signature"]]
     notes = []
+    from . import templates as _TP
+    from . import scene as _SCN
+    _TP.YAW_FORCE.clear()
+    if _SCN.PLACEMENT_REV >= 37:
+        # revision 37: each animal of form B takes the yaw of its partner in form A, so the pair differ in setting, not in angle
+        els = {e["id"]: e for e in rec_a["elements"]}
+        for it in rec_a["items"]:
+            for i in it.get("elements", []):
+                a = els.get(i, {}).get("asset") or {}
+                if a.get("family", "").startswith("animal.") and it.get("template") in _TP.ANIMAL_YAWS:
+                    _TP.YAW_FORCE[it["template"]] = int(a["variant"].rsplit("__y", 1)[1])
     for k in range(tries):
         s = seed + 1000 * k
         try:

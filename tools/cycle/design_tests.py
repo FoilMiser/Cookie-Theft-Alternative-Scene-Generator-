@@ -11,6 +11,16 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.39 (revision 37 and builder 0.39.0: the cast redrawn, the animals at more angles than profile, the broom's heap for summer, the caught ball
+    # short of the hands):
+    # a park: the goat grazing at an angle, a dog walked, a kicker
+    ("park", 3, 39401, {"events": ["goat_grazing", "walk_dog", "kick_ball"]}, "angled"),
+    # a street: a dog begging at a bench, a sweeper's summer heap, a shopper with a bag
+    ("street", 3, 39402, {"modules": ["dog_begs"], "events": ["sweep", "carry_bag"]}, "angled"),
+    # a garden: the washing hung out, a raker, a cat stalking a bird
+    ("garden", 3, 39403, {"modules": ["cat_stalks_bird"], "events": ["hang_laundry", "rake"]}, "stalkground"),
+    # a park: a game of catch, a dog at play, a reader on a bench
+    ("park", 3, 39404, {"events": ["play_catch", "dog_playing", "read_bench"]}, "angled"),
     # v0.38 (revision 36; tests 1 and 2 are v0.37's pictures 12 and 74 rebuilt on their seeds, tpdb_work/rb38.py):
     # a garden: the washing hung out, its shirt dripping, beside a planter and a sweeper (the picnic and its basket are the park's, and the washing
     # the garden's, so the two baskets never meet; and the washing and a watering can placed 0 of 12 together, with the basket or without it)
@@ -27,6 +37,10 @@ jobs = [
 def ok(rec, rule):
     if rule is None:
         return True
+    if rule == "angled":
+        # (revision 37: at least one template's animal turned from profile)
+        return any(e.get("asset", {}).get("family", "").startswith("animal.") and not e["asset"]["variant"].endswith("__y090")
+                   and not e["asset"]["family"].startswith(("animal.bird", "animal.duck")) for e in rec["elements"])
     if rule == "washbasket":
         return any(e["id"].startswith("washbasket") for e in rec["elements"])
     if rule == "stalkground":

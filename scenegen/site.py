@@ -49,30 +49,41 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v037", "v038"
+PREV, CUR = "v038", "v039"
 
-# the templates v0.38 redrew or ruled for the v0.37 screen (vision/flaws_v037.md): read on the bench (vision/isolation_v038.md) and in whole
-# test scenes (vision/design_tests_v038.md)
+# the templates v0.39 redrew or ruled for the v0.38 screen and Sam's notes (vision/flaws_v038.md, figure-fixes-v038.md, hang-laundry-gate-v038.md):
+# read on the bench (vision/isolation_v039.md) and in whole test scenes (vision/design_tests_v039.md)
 REDRAWN_NOTES = {
-    "hang_laundry": "v0.37's one failure: 'I can't tell whether the boy is hanging the T-shirt up or taking it down'. Now a basket of washing stands at the hanger's feet and all the washing drips; on the bench, with neither, no reader could tell up from down. 1.00 in three pictures, and no reader offers taking it down.",
-    "rain_coming": "A storm pointer was offered the cat on the fence, three screens running on one picture. Now no cat walks the fence in her picture, and in the garden no bird perches up high. Holds at 1.00: 'The clouds are the only thing up there'.",
-    "cat_stalks_bird": "On the ground, not the fence, under a storm pointer. Holds at 1.00.",
+    "play_catch": "The ball's trail could run from either end, and 'the ball sits right at the woman's hands'. Now the ball stops short of the catcher's hands. 1.00, and every reader names the thrower: 'so he appears to have just thrown the ball'.",
+    "sweep": "The broom's heap drawn for summer, after seven v0.38 pictures set autumn leaves against green trees. Holds at 1.00; no reader names the season now, but five pictures drew 'green rather than brown or autumn-coloured'.",
+    "rake": "The raked pile drawn for summer too. Holds at 1.00.",
+    "goat_grazing": "Rebuilt in v0.38's white and drawn at 45 and 135 as well as 90, after a brown coat on white legs read on the bench as 'a separate blanket, cloak or sack draped over a white animal'. 1.00 at each angle.",
+    "walk_dog": "Drawn at 90 only: at 45 the lead crossed the dog's back at every spot tried. Holds at 1.00.",
+    "dog_begs": "Drawn at 45 as well as 90. 1.00 at each angle.",
+    "ice_cream_drop": "Drawn at 45 as well as 90, the dog at the splat in all four pictures. v0.38's lowest, now 1.00.",
+    "paint_tracks": "Drawn at 45 as well as 90. 1.00 at each angle.",
+    "dog_playing": "Drawn at 45 as well as 90. 1.00 at each angle.",
+    "cat_stalks_bird": "Drawn at 45 as well as 90 on the ground. 1.00 at each angle.",
+    "blocked_hose": "The animal on the hose drawn at 45 and 135 as well as 90. 1.00 at each angle.",
+    "hang_laundry": "Read in five pictures, as asked: 1.00, and the one reader who raised taking it down settled it, 'the drips and the full basket suggest he is hanging it up'.",
 }
 
-# what the v0.38 screen readers made of the template that read least well (vision/flaws_v038.md)
+# what the v0.39 screen readers made of the templates that read least well (vision/flaws_v039.md)
 WEAK_NOTES = {
-    "ice_cream_drop": "Half right on the same picture in v0.37 and v0.38: 'It is not certain whether the boy dropped the ice cream himself or the dog knocked it out of his hand'. It passes the gate, the lowest of the 64.",
+    "dog_wants_walk": "The lowest, on one half mark: the dog with its lead at the door wants 'to go for a walk or wants to go inside'.",
+    "windy_hat": "1.00, but the one template a strict count takes under the gate: 'or as her throwing her hands up in alarm rather than reaching', as in v0.38.",
 }
-SCREEN_NOTE = ("The v0.38 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The washing was read on the bench first, and the rules in whole test scenes. "
-               "841 of 842 items had full marks and none was misread, and all 64 templates pass the gate. "
-               "The scorers themselves called 23 of those full marks hedged; halved, 58 of 64 would pass. "
-               "22 pictures were identical to the pixel in v0.37 and v0.38, and 291 of their 294 items scored the same. "
+SCREEN_NOTE = ("The v0.39 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. The redrawn cast was read on the bench first, and in whole test scenes. "
+               "1025 of 1030 items had full marks and none was misread, and all 64 templates pass the gate. "
+               "The scorers themselves called 11 of those full marks hedged; halved, 63 of 64 would pass. "
+               "On the 7 pictures with the same seed and events in v0.38 and v0.39, each drawn in its own cast, all 75 items scored the same. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:probes_v037/T3_garden_s23009.png@560,330,1060,760>probes/T3_garden_s23009.png@560,330,1060,760", "The washing hung out", "v0.37: 'I can't tell whether the boy is hanging the T-shirt up or taking it down'. v0.38: on the same seed, a basket of washing at his feet and all the washing dripping: 'He is reaching up and pegging a white T-shirt onto the line.'"),
-         ("crop:scenes_v037/T3_garden_s11954.png@0,0,1600,1000>scenes/T3_garden_s15498.png@0,0,1600,1000", "The storm pointer's garden", "v0.37: 'The man in green could be pointing at the storm clouds, or up at the cat or something on the fence', a third screen running. v0.38: no cat on the fence and no bird perched up high with a storm pointer; this cell's seed no longer placed, and the new garden reads 'pointing up towards the dark clouds'.")]
+FIXES = [("crop:scenes_v038/T2_garden_s012.png@1180,620,1600,1000>scenes/T2_garden_s012.png@1180,620,1600,1000", "The broom's heap", "v0.38: autumn leaves under green trees, remarked in seven pictures. v0.39: on the same seed, the heap drawn for summer: 'a small pile of green and brown leaves', and no reader sets the season against the trees."),
+         ("crop:scenes_v038/T1_park_s021.png@800,760,1080,1000>scenes/T1_park_s021.png@800,760,1080,1000", "The goat", "v0.38's goat, and on the same seed v0.39's, rebuilt with jointed legs and its own build. On the bench a brown coat on white legs read as 'a separate blanket, cloak or sack draped over a white animal', so it stays white: 'a white goat with grey curved horns'."),
+         ("crop:scenes_v038/T2_garden_s012.png@660,760,940,1000>scenes/T2_garden_s012.png@660,760,940,1000", "The playing dog, turned", "v0.38: every animal in profile (Sam: 'overly profile to the camera'). v0.39: on the same seed the play bow at 45, one of the angles revision 37 draws for eight templates; each reads at 1.00 on its own.")]
 
 
 

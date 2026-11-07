@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23046,
- "mirror": false,
+ "mirror": true,
  "versions": {
-  "generator": "0.38.0",
-  "cast_builder": "0.38.0",
+  "generator": "0.39.0",
+  "cast_builder": "0.39.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,16 +56,15 @@
   }
  },
  "features": [
-  "flowers",
-  "hose_reel",
-  "swing"
+  "clothesline",
+  "laundry"
  ],
  "templates": [
   {
-   "id": "hose_water",
-   "kind": "event",
+   "id": "dog_wants_walk",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -73,60 +72,100 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is watering the flowers with a hose",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "watering with a hose",
-     "spraying water",
-     "hosing the flowers",
-     "watering the garden"
-    ]
-   },
-   "key": "hose",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
    "elements": [
-    "hoser_1",
-    "hose_2",
-    "spray_4"
+    "waitingdog_1",
+    "leash_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "hose_water",
+   "template": "dog_wants_walk",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.235,
+    "s": -0.41,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
     "domain": null,
-    "area_px": 21296
+    "area_px": 8580
    },
-   "b": -1.417,
-   "p0": 0.805,
-   "pm1": 0.603,
+   "b": -1.016,
+   "p0": 0.734,
+   "pm1": 0.504,
    "aoi_cells": [
-    "MC",
-    "BL",
-    "BC"
+    "BR"
    ]
   },
   {
    "id": "i02",
+   "type": "inference",
+   "text": "The dog wants to go for a walk",
+   "accepted": [
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
+   ],
+   "key": "walk",
+   "elements": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "cues": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "effect": [
+    "waitingdog_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.542,
+    "r": 2,
+    "d": 0.161,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
+    "domain": null,
+    "area_px": 7124
+   },
+   "b": -0.026,
+   "p0": 0.506,
+   "pm1": 0.274,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -165,11 +204,11 @@
    "p0": 0.755,
    "pm1": 0.531,
    "aoi_cells": [
-    "TR"
+    "TL"
    ]
   },
   {
-   "id": "i03",
+   "id": "i04",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -201,7 +240,7 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19276
+    "area_px": 19280
    },
    "b": -1.01,
    "p0": 0.733,
@@ -211,7 +250,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i05",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -233,7 +272,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.733,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -241,18 +280,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43028
+    "area_px": 43040
    },
    "b": -1.502,
    "p0": 0.818,
    "pm1": 0.623,
    "aoi_cells": [
-    "TL",
-    "ML"
+    "TR",
+    "MR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -275,7 +314,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.886,
+    "s": 1.894,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -283,11 +322,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 218688
+    "area_px": 221180
    },
-   "b": -1.886,
-   "p0": 0.868,
-   "pm1": 0.708,
+   "b": -1.89,
+   "p0": 0.869,
+   "pm1": 0.709,
    "aoi_cells": [
     "ML",
     "MC",
@@ -295,20 +334,21 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
-   "text": "It is the back yard of a house",
+   "text": "Clothes are hanging on the line",
    "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
-    "garden"
+    "clothes",
+    "laundry",
+    "washing",
+    "clothesline",
+    "clothes line",
+    "towel",
+    "pants"
    ],
-   "key": "house",
+   "key": "laundry",
    "elements": [
-    "house"
+    "laundry"
    ],
    "cues": [],
    "effect": [],
@@ -321,37 +361,36 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.84,
+    "s": -0.103,
     "r": 0,
     "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 204952
+    "area_px": 13232
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -0.847,
+   "p0": 0.7,
+   "pm1": 0.462,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
+    "MC"
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
-   "text": "There is a swing set",
+   "text": "There is a flower bed",
    "accepted": [
-    "swing",
-    "swings",
-    "swing set"
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
    ],
-   "key": "swing",
+   "key": "flowers",
    "elements": [
-    "swing"
+    "flowers"
    ],
    "cues": [],
    "effect": [],
@@ -364,21 +403,20 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.602,
+    "s": 0.373,
     "r": 0,
     "d": 0.0,
-    "f": 0.34,
-    "a": 4.16,
-    "zipf_raw": 4.34,
-    "aoa_raw": 4.16,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 35772
+    "area_px": 25884
    },
-   "b": -1.283,
-   "p0": 0.783,
-   "pm1": 0.57,
+   "b": -1.259,
+   "p0": 0.779,
+   "pm1": 0.564,
    "aoi_cells": [
-    "MR",
     "BC",
     "BR"
    ]
@@ -386,18 +424,18 @@
  ],
  "counts": {
   "content": 7,
-  "inference_units": 0,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 7
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.81,
-   "inference": null
+   "content": 0.77,
+   "inference": 0.506
   },
   "theta_minus_1": {
-   "content": 0.618,
-   "inference": null
+   "content": 0.557,
+   "inference": 0.274
   }
  },
  "bands": {
@@ -424,9 +462,9 @@
  },
  "clutter": {
   "objects": 15,
-  "edge_density": 0.0373,
-  "png_bytes": 158087,
-  "jpeg_bytes": 180336
+  "edge_density": 0.036,
+  "png_bytes": 135852,
+  "jpeg_bytes": 169696
  },
  "signature": [
   [
@@ -456,6 +494,10 @@
   [
    "entity",
    0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -471,9 +513,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    1352.0,
+    52.0,
     22.0,
-    1548.0,
+    248.0,
     218.0
    ],
    "area_px": 13440,
@@ -486,13 +528,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    560.0,
+    634.0,
     68.0,
-    966.0,
+    1040.0,
     202.0
    ],
-   "area_px": 19276,
-   "visible_px": 19276,
+   "area_px": 19280,
+   "visible_px": 19280,
    "occlusion": 0.0
   },
   {
@@ -513,13 +555,13 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    1254.0,
+    38.0,
     614.0,
-    1562.0,
+    346.0,
     1000.0
    ],
-   "area_px": 81244,
-   "visible_px": 80792,
+   "area_px": 81248,
+   "visible_px": 80796,
    "occlusion": 0.006
   },
   {
@@ -528,13 +570,13 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    296.0,
+    1056.0,
     176.0,
-    544.0,
+    1304.0,
     452.0
    ],
-   "area_px": 44984,
-   "visible_px": 43028,
+   "area_px": 44992,
+   "visible_px": 43040,
    "occlusion": 0.043
   },
   {
@@ -543,14 +585,14 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    298.0,
+    0.0,
     426.0,
-    1600.0,
+    1302.0,
     618.0
    ],
-   "area_px": 240896,
-   "visible_px": 218688,
-   "occlusion": 0.092
+   "area_px": 240904,
+   "visible_px": 221180,
+   "occlusion": 0.082
   },
   {
    "id": "filler_bush_left",
@@ -558,14 +600,59 @@
    "role": "filler",
    "z": 648,
    "bbox": [
-    292.0,
+    1172.0,
     598.0,
-    428.0,
+    1308.0,
     684.0
    ],
-   "area_px": 8296,
-   "visible_px": 7496,
+   "area_px": 8292,
+   "visible_px": 7492,
    "occlusion": 0.096
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    380.0,
+    596.0,
+    500.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clothesline",
+   "label": "Clothesline",
+   "role": "setting",
+   "z": 705,
+   "bbox": [
+    624.0,
+    382.0,
+    994.0,
+    708.0
+   ],
+   "area_px": 13848,
+   "visible_px": 13372,
+   "occlusion": 0.034
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    822.0,
+    392.0,
+    952.0,
+    524.0
+   ],
+   "area_px": 13232,
+   "visible_px": 13232,
+   "occlusion": 0.0
   },
   {
    "id": "house",
@@ -573,57 +660,59 @@
    "role": "setting",
    "z": 781,
    "bbox": [
-    0.0,
+    1258.0,
     118.0,
-    342.0,
+    1600.0,
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
+   "visible_px": 199028,
+   "occlusion": 0.029
   },
   {
-   "id": "hoser_1",
-   "label": "person.ana__hose_spray__smile__y090",
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
    "role": "scored",
-   "z": 830,
+   "z": 806,
    "bbox": [
-    564.0,
-    554.0,
-    676.0,
-    834.0
+    1428.0,
+    664.0,
+    1522.0,
+    816.0
    ],
-   "area_px": 12812,
-   "visible_px": 12360,
-   "occlusion": 0.035,
+   "area_px": 7160,
+   "visible_px": 7124,
+   "occlusion": 0.005,
    "asset": {
-    "variant": "person.ana__hose_spray__smile__y090",
-    "family": "person.ana",
-    "scale": 0.4565,
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
     "mirrored": true,
     "labels": {
-     "everyday_name": "woman",
+     "everyday_name": "dog",
      "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
+      "dog",
+      "puppy",
+      "pup"
      ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
-     }
+     "category": "medium_animal"
     }
    }
   },
   {
-   "id": "hosejoin_3",
-   "label": "Garden hose at the hand",
-   "role": "background",
-   "z": 831
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    1352.0,
+    692.0,
+    1436.0,
+    818.0
+   ],
+   "area_px": 1456,
+   "visible_px": 1456,
+   "occlusion": 0.0
   },
   {
    "id": "flowers",
@@ -631,88 +720,28 @@
    "role": "setting",
    "z": 836,
    "bbox": [
-    318.0,
+    1028.0,
     694.0,
-    572.0,
+    1282.0,
     838.0
    ],
-   "area_px": 25880,
-   "visible_px": 23588,
-   "occlusion": 0.089
-  },
-  {
-   "id": "hose_2",
-   "label": "Garden hose",
-   "role": "scored",
-   "z": 836.5,
-   "bbox": [
-    278.0,
-    666.0,
-    600.0,
-    884.0
-   ],
-   "area_px": 6712,
-   "visible_px": 6264,
-   "occlusion": 0.067
-  },
-  {
-   "id": "spray_4",
-   "label": "Water spraying",
-   "role": "scored",
-   "z": 837,
-   "bbox": [
-    452.0,
-    664.0,
-    570.0,
-    802.0
-   ],
-   "area_px": 2672,
-   "visible_px": 2672,
+   "area_px": 25884,
+   "visible_px": 25884,
    "occlusion": 0.0
   },
   {
-   "id": "swing_seat",
-   "label": "Empty swing seat",
-   "role": "setting",
-   "z": 845,
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
    "bbox": [
-    1134.0,
-    474.0,
-    1224.0,
-    784.0
-   ],
-   "area_px": 4492,
-   "visible_px": 4420,
-   "occlusion": 0.016
-  },
-  {
-   "id": "swing",
-   "label": "Swing set",
-   "role": "setting",
-   "z": 846,
-   "bbox": [
-    1032.0,
+    362.0,
+    884.0,
     458.0,
-    1324.0,
-    856.0
+    962.0
    ],
-   "area_px": 35772,
-   "visible_px": 35772,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 886,
-   "bbox": [
-    254.0,
-    804.0,
-    318.0,
-    888.0
-   ],
-   "area_px": 4264,
-   "visible_px": 4264,
+   "area_px": 4404,
+   "visible_px": 4404,
    "occlusion": 0.0
   },
   {
@@ -721,13 +750,13 @@
    "role": "filler",
    "z": 975,
    "bbox": [
-    896.0,
+    522.0,
     892.0,
-    1078.0,
+    704.0,
     980.0
    ],
-   "area_px": 8776,
-   "visible_px": 8776,
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -750,11 +779,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "hose_water"
+   "modules": [
+    "dog_wants_walk"
    ]
   },
-  "placement_rev": 36
+  "placement_rev": 37
  },
  "probe": true
 }

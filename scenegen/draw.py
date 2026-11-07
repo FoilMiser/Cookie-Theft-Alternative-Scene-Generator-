@@ -1384,9 +1384,25 @@ SWEEP26 = "A"
 SWING35 = "T"           # chosen on the v0.35 bench (vision/isolation_v035.md)
 
 
+# v0.39 (revision 37, vision/flaws_v038.md O1): the broom's heap for summer. "A" autumn leaves as v0.38 ("a small seasonal inconsistency", seven
+# pictures from five readers in v0.38), "S" cut grass, twigs and a few brown leaves, "B" grit and dust as the fork's. By the bench (isolation_v039.md).
+HEAP39 = "S"
+
+
 def sweep_heap(x, y, s=1.0, f=1, style="A"):
     """A small heap ahead of the broom's head, on the ground at y."""
     bb = (x - 40 * s, y - 34 * s, x + 40 * s, y + 6 * s)
+    if style == "S":
+        svg = ""
+        cols = (C["leaf_green"], C["grass_dark"], C["khaki"], C["leaf_green"], C["leaf_brown"], C["grass_dark"],
+                C["leaf_green"], C["khaki"], C["grass_dark"], C["leaf_green"], C["leaf_brown"], C["grass_dark"])
+        pts = ((-30, 0, 12), (-14, 1, -28), (2, 2, 18), (18, 1, -14), (32, 0, 30), (-22, -8, -20), (-6, -9, 24), (10, -9, -34), (24, -7, 10), (-11, -17, 8), (6, -18, -18), (-2, -26, 30))
+        for (dx, dy, rot), c in zip(pts, cols):
+            svg += f'<ellipse cx="{x + dx * s:.1f}" cy="{y + dy * s:.1f}" rx="{10 * s:.1f}" ry="{4.6 * s:.1f}" fill="{c}" stroke="{OUT}" stroke-width="{OW * 0.45:.1f}" ' \
+                   f'transform="rotate({rot} {x + dx * s:.1f} {y + dy * s:.1f})"/>'
+        for (ax, ay, bx_, by_) in ((-26, -6, -6, -14), (4, -4, 26, -12), (-10, -20, 8, -22)):
+            svg += stroke(poly_d([(x + ax * s, y + ay * s), (x + bx_ * s, y + by_ * s)]), C["brown"], 2.2 * s, OW * 0.4)
+        return svg, bb
     if style == "B":
         svg = (f'<path d="M {P(x - 36 * s, y + 3 * s)} q {36 * s:.1f} {-48 * s:.1f} {72 * s:.1f} 0 z" fill="{C["gray"]}" '
                f'stroke="{OUT}" stroke-width="{OW * 0.6:.1f}" stroke-linejoin="round"/>')

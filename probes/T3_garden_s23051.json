@@ -6,8 +6,8 @@
  "seed": 23051,
  "mirror": true,
  "versions": {
-  "generator": "0.38.0",
-  "cast_builder": "0.38.0",
+  "generator": "0.39.0",
+  "cast_builder": "0.39.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,14 +58,16 @@
  "features": [
   "bench",
   "clothesline",
+  "feeder",
+  "hose_reel",
   "laundry"
  ],
  "templates": [
   {
-   "id": "windy_hat",
-   "kind": "inference",
+   "id": "read_bench",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   }
  ],
  "scene_load": 1,
@@ -73,151 +75,57 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is reaching up for a hat",
+   "text": "A grandmother is reading on the bench",
    "accepted": {
     "who": [
-     "woman",
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
      "lady",
-     "mother",
-     "mom",
-     "person"
+     "woman"
     ],
     "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "sitting and reading"
     ]
    },
-   "key": "hat",
+   "key": "reading",
    "elements": [
-    "hatperson_1"
+    "sitter_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "windy_hat",
+   "template": "read_bench",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.16,
+    "s": 0.011,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
     "domain": null,
-    "area_px": 19164
+    "area_px": 15544
    },
-   "b": -1.619,
-   "p0": 0.835,
-   "pm1": 0.65,
+   "b": -1.728,
+   "p0": 0.849,
+   "pm1": 0.674,
    "aoi_cells": [
-    "ML",
-    "BL"
+    "BR"
    ]
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "A hat is flying through the air",
-   "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
-   ],
-   "key": "hat",
-   "elements": [
-    "flyinghat_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.231,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 2696
-   },
-   "b": -0.423,
-   "p0": 0.604,
-   "pm1": 0.36,
-   "aoi_cells": [
-    "ML",
-    "MC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "inference",
-   "text": "The wind blew the woman's hat off",
-   "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
-   ],
-   "key": "wind",
-   "elements": [
-    "flyinghat_3",
-    "hatperson_1"
-   ],
-   "cues": [
-    "flyinghat_3",
-    "hatperson_1"
-   ],
-   "effect": [
-    "flyinghat_3"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -1.231,
-    "r": 1,
-    "d": 0.136,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
-    "domain": null,
-    "area_px": 2696
-   },
-   "b": 1.189,
-   "p0": 0.233,
-   "pm1": 0.101,
-   "aoi_cells": [
-    "ML",
-    "MC",
-    "BL"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -260,7 +168,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i03",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -302,7 +210,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -343,7 +251,51 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
+   "type": "entity",
+   "text": "There is a bird feeder",
+   "accepted": [
+    "bird feeder",
+    "feeder",
+    "birdhouse",
+    "bird house",
+    "bird table"
+   ],
+   "key": "feeder",
+   "elements": [
+    "feeder"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.432,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.54,
+    "a": 7.29,
+    "zipf_raw": 3.46,
+    "aoa_raw": 7.29,
+    "domain": null,
+    "area_px": 8324
+   },
+   "b": -0.502,
+   "p0": 0.623,
+   "pm1": 0.378,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i06",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -366,7 +318,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.886,
+    "s": 1.884,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -374,9 +326,9 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 218524
+    "area_px": 217788
    },
-   "b": -1.886,
+   "b": -1.885,
    "p0": 0.868,
    "pm1": 0.708,
    "aoi_cells": [
@@ -386,7 +338,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i07",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -412,7 +364,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.84,
+    "s": 1.826,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
@@ -420,11 +372,11 @@
     "zipf_raw": 5.71,
     "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 204952
+    "area_px": 200704
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -2.306,
+   "p0": 0.909,
+   "pm1": 0.787,
    "aoi_cells": [
     "TR",
     "MR",
@@ -432,7 +384,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i08",
    "type": "entity",
    "text": "Clothes are hanging on the line",
    "accepted": [
@@ -459,7 +411,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.133,
+    "s": -0.103,
     "r": 0,
     "d": 0.0,
     "f": 0.06,
@@ -467,17 +419,17 @@
     "zipf_raw": 4.06,
     "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 12676
+    "area_px": 13232
    },
-   "b": -0.832,
-   "p0": 0.697,
-   "pm1": 0.458,
+   "b": -0.847,
+   "p0": 0.7,
+   "pm1": 0.462,
    "aoi_cells": [
     "MC"
    ]
   },
   {
-   "id": "i10",
+   "id": "i09",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -518,62 +470,22 @@
     "BC",
     "BR"
    ]
-  },
-  {
-   "id": "i11",
-   "type": "entity",
-   "text": "There is a bench",
-   "accepted": [
-    "bench",
-    "seat"
-   ],
-   "key": "bench",
-   "elements": [
-    "bench"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.105,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.39,
-    "a": 4.21,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.21,
-    "domain": null,
-    "area_px": 13200
-   },
-   "b": -0.945,
-   "p0": 0.72,
-   "pm1": 0.486,
-   "aoi_cells": [
-    "BR"
-   ]
   }
  ],
  "counts": {
-  "content": 10,
-  "inference_units": 1,
+  "content": 9,
+  "inference_units": 0,
   "contradictions": 0,
-  "items_total": 11
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.772,
-   "inference": 0.233
+   "content": 0.782,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.567,
-   "inference": 0.101
+   "content": 0.581,
+   "inference": null
   }
  },
  "bands": {
@@ -585,10 +497,6 @@
  },
  "in_tier": false,
  "checks": {
-  "hatperson_1_looks_at_hat": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -599,14 +507,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "18 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0385,
-  "png_bytes": 152564,
-  "jpeg_bytes": 177584
+  "objects": 18,
+  "edge_density": 0.0398,
+  "png_bytes": 158226,
+  "jpeg_bytes": 184040
  },
  "signature": [
   [
@@ -644,14 +552,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "inference",
-   2
   ]
  ],
  "elements": [
@@ -719,21 +619,6 @@
    "occlusion": 0.006
   },
   {
-   "id": "breeze_2",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    1104.0,
-    76.0,
-    1262.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
-   "occlusion": 0.0
-  },
-  {
    "id": "tree",
    "label": "Tree behind the fence",
    "role": "setting",
@@ -760,8 +645,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 218524,
-   "occlusion": 0.093
+   "visible_px": 217788,
+   "occlusion": 0.096
   },
   {
    "id": "filler_bush_left",
@@ -779,6 +664,36 @@
    "occlusion": 0.096
   },
   {
+   "id": "feeder",
+   "label": "Bird table on a post",
+   "role": "setting",
+   "z": 652,
+   "bbox": [
+    318.0,
+    302.0,
+    392.0,
+    662.0
+   ],
+   "area_px": 8324,
+   "visible_px": 8324,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    380.0,
+    596.0,
+    500.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
    "id": "clothesline",
    "label": "Clothesline",
    "role": "setting",
@@ -790,8 +705,8 @@
     708.0
    ],
    "area_px": 13848,
-   "visible_px": 12128,
-   "occlusion": 0.124
+   "visible_px": 13372,
+   "occlusion": 0.034
   },
   {
    "id": "laundry",
@@ -800,12 +715,12 @@
    "z": 706,
    "bbox": [
     822.0,
-    340.0,
-    1016.0,
-    504.0
+    392.0,
+    952.0,
+    524.0
    ],
-   "area_px": 12676,
-   "visible_px": 12676,
+   "area_px": 13232,
+   "visible_px": 13232,
    "occlusion": 0.0
   },
   {
@@ -820,8 +735,8 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
+   "visible_px": 200704,
+   "occlusion": 0.021
   },
   {
    "id": "flowers",
@@ -839,6 +754,36 @@
    "occlusion": 0.0
   },
   {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 886,
+   "bbox": [
+    1282.0,
+    804.0,
+    1346.0,
+    888.0
+   ],
+   "area_px": 4264,
+   "visible_px": 4092,
+   "occlusion": 0.04
+  },
+  {
+   "id": "hose_tail",
+   "label": "End of the hose",
+   "role": "setting",
+   "z": 887,
+   "bbox": [
+    1194.0,
+    842.0,
+    1298.0,
+    924.0
+   ],
+   "area_px": 2004,
+   "visible_px": 2004,
+   "occlusion": 0.0
+  },
+  {
    "id": "bench",
    "label": "Garden bench",
    "role": "setting",
@@ -850,74 +795,75 @@
     930.0
    ],
    "area_px": 13200,
-   "visible_px": 13200,
-   "occlusion": 0.0
+   "visible_px": 9024,
+   "occlusion": 0.316
   },
   {
-   "id": "hatperson_1",
-   "label": "person.mei__reach_up__scared__y045",
+   "id": "sitter_1",
+   "label": "person.rosa__sit_read__neutral__y045",
    "role": "scored",
-   "z": 953.51,
+   "z": 931,
    "bbox": [
-    360.0,
-    632.0,
-    510.0,
-    956.0
+    1402.0,
+    698.0,
+    1526.0,
+    948.0
    ],
-   "area_px": 19164,
-   "visible_px": 19164,
+   "area_px": 15544,
+   "visible_px": 15544,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.mei__reach_up__scared__y045",
-    "family": "person.mei",
-    "scale": 0.5022,
-    "mirrored": false,
+    "variant": "person.rosa__sit_read__neutral__y045",
+    "family": "person.rosa",
+    "scale": 0.4939,
+    "mirrored": true,
     "labels": {
-     "everyday_name": "woman",
+     "everyday_name": "grandmother",
      "accepted_names": [
-      "woman",
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
       "lady",
-      "mother",
-      "mom",
-      "person"
+      "woman"
      ],
      "category": "adult_person",
      "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
      }
     }
    }
   },
   {
-   "id": "flyinghat_3",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 954.51,
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
    "bbox": [
-    472.0,
-    514.0,
-    564.0,
-    576.0
+    362.0,
+    884.0,
+    458.0,
+    962.0
    ],
-   "area_px": 2696,
-   "visible_px": 2696,
+   "area_px": 4404,
+   "visible_px": 4404,
    "occlusion": 0.0
   },
   {
-   "id": "gusts_4",
-   "label": "Wind lines and blowing leaves",
-   "role": "setting",
-   "z": 954.51,
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
    "bbox": [
-    204.0,
-    552.0,
-    506.0,
-    628.0
+    522.0,
+    892.0,
+    704.0,
+    980.0
    ],
-   "area_px": 5112,
-   "visible_px": 5112,
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -940,11 +886,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "windy_hat"
+   "events": [
+    "read_bench"
    ]
   },
-  "placement_rev": 36
+  "placement_rev": 37
  },
  "probe": true
 }

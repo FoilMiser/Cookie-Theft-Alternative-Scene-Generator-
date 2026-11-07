@@ -6,8 +6,8 @@
  "seed": 23040,
  "mirror": true,
  "versions": {
-  "generator": "0.38.0",
-  "cast_builder": "0.38.0",
+  "generator": "0.39.0",
+  "cast_builder": "0.39.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,7 +61,7 @@
  ],
  "templates": [
   {
-   "id": "carry_box",
+   "id": "dig",
    "kind": "event",
    "event": "e1",
    "units": 0
@@ -72,7 +72,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is carrying a box",
+   "text": "A grandmother is digging",
    "accepted": {
     "who": [
      "grandmother",
@@ -83,42 +83,43 @@
      "woman"
     ],
     "what": [
-     "carrying a box",
-     "holding a box",
-     "moving a box",
-     "box"
+     "digging",
+     "digging a hole",
+     "shoveling",
+     "using a shovel",
+     "spade"
     ]
    },
-   "key": "box",
+   "key": "digging",
    "elements": [
-    "carrier_1"
+    "digger_1",
+    "soil_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "carry_box",
+   "template": "dig",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.059,
+    "s": 0.203,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
+    "f": -0.01,
+    "a": 4.19,
+    "zipf_raw": 3.99,
+    "aoa_raw": 4.19,
     "domain": null,
-    "area_px": 16636
+    "area_px": 20368
    },
-   "b": -1.722,
-   "p0": 0.848,
-   "pm1": 0.673,
+   "b": -1.478,
+   "p0": 0.814,
+   "pm1": 0.617,
    "aoi_cells": [
-    "MC",
     "BC"
    ]
   },
@@ -476,11 +477,11 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.791,
+   "content": 0.787,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.593,
+   "content": 0.587,
    "inference": null
   }
  },
@@ -503,14 +504,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "13 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 13,
-  "edge_density": 0.0375,
-  "png_bytes": 148635,
-  "jpeg_bytes": 176331
+  "objects": 14,
+  "edge_density": 0.0378,
+  "png_bytes": 157092,
+  "jpeg_bytes": 179489
  },
  "signature": [
   [
@@ -735,21 +736,36 @@
    "occlusion": 0.0
   },
   {
-   "id": "carrier_1",
-   "label": "person.rosa__walk_box__neutral__y090",
+   "id": "soil_2",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 904.34,
+   "bbox": [
+    584.0,
+    872.0,
+    746.0,
+    924.0
+   ],
+   "area_px": 4372,
+   "visible_px": 3804,
+   "occlusion": 0.13
+  },
+  {
+   "id": "digger_1",
+   "label": "person.rosa__dig_lift__determined__y045",
    "role": "scored",
    "z": 905.34,
    "bbox": [
-    724.0,
-    624.0,
-    844.0,
-    912.0
+    692.0,
+    644.0,
+    846.0,
+    916.0
    ],
-   "area_px": 16636,
-   "visible_px": 16636,
+   "area_px": 16564,
+   "visible_px": 16564,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.rosa__walk_box__neutral__y090",
+    "variant": "person.rosa__dig_lift__determined__y045",
     "family": "person.rosa",
     "scale": 0.4844,
     "mirrored": true,
@@ -808,10 +824,10 @@
   "usage": {},
   "forced": {
    "events": [
-    "carry_box"
+    "dig"
    ]
   },
-  "placement_rev": 36
+  "placement_rev": 37
  },
  "probe": true
 }

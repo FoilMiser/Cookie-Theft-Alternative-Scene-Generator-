@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.38 was made, written so that a fresh session can make the next one (v0.39) from this
+How each release from v0.12 to v0.39 was made, written so that a fresh session can make the next one (v0.40) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -303,3 +303,18 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   before building on it (`verify_all.py` on a copy of the folder).
 - A clean screen can rest on its scorers. v0.38's two scorers listed 23 full marks given to readings the reader hedged; halved, 58 of 64 templates passed, not
   64. Count them (`tpdb_work/strict38.py`) and check them against the last screen's scorers on the identical pictures before calling a template fixed.
+- A clamp on a baked mesh acts on the rest pose, not the picture. The hoodie's hem was flattened below the waist, and at rest an adult's wrists hang at 0.785,
+  under the hem: every long sleeve was cut off at the hem's height, and the kicker's hands floated. The people sheet had it too, unseen. Before clamping, list
+  what lies past the clamp at rest (`flatten_below(..., spare=...)` keeps the vertices weighted to the named bones), and look at each bench crop at full size.
+- Bench a whole cast round as two: v0.38's cast against every switch on, two cut-outs to a reader, then the losers taken back and read once more on the same
+  seeds. A switch can lose for its neighbour: the belt band read as "a hoop or rubber ring" because the tucked tee above it was narrower than the waistband,
+  and with the tee untucked v0.38's belt drew nothing. Twenty-two readers read round 1 in about a minute each, side by side.
+- A colour edge on an animal is a line readers cut along. White legs under a brown goat read as "a sack or saddle blanket draped over a white animal"; brown
+  legs moved the edge to the neck, and the white head became "a separate white ball or egg with horns", the name going from goat to "goat, antelope or deer".
+  Put a coat's edge where the animal's own parts would carry it (a face blaze on a head of the body's colour, socks below the knee), and read it at 45 and 135,
+  where the neck hides.
+- An angle in a table is not an angle drawn: count what places. Revision 37 drew the dog walked on a lead at 45 half the time, and at 45 the lead from the
+  walker's hand crossed the dog's back at every spot (1893 lead curves in 12 probes, none clear), so every such try failed and the planner moved on, and the
+  set and probes held the walk only at 90. The probes stratified by angle (`tpdb_work/probe_angle39.py`) found it. Before the screen, count each
+  (template, angle) in the records; one that never places is dropped by drawing it at another angle with the draw kept (`templates.UNPLACED`), so the records
+  that drew the other angles rebuild as they were.
