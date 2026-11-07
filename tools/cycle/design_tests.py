@@ -11,24 +11,23 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
-    # v0.36: a garden: the grandfather under the bucket, with his moustache and the bucket sat higher, among others
-    ("garden", 3, 36401, {"contradictions": ["bucket_hat"], "events": ["rake", "cat_sleeping"]}, "tomasbucket"),
-    # a park: the same, by the pond
-    ("park", 3, 36402, {"contradictions": ["bucket_hat"], "events": ["fishing"]}, "tomasbucket"),
-    # a street: the same
-    ("street", 3, 36403, {"contradictions": ["bucket_hat"], "events": ["carry_bag"]}, "tomasbucket"),
-    # a park: the grandfather in his other poses, with the moustache, fishing or planting
-    ("garden", 3, 36404, {"events": ["plant_flowers", "rake"]}, "tomas"),
-    # a garden: the storm pointer, the washing line empty (revision 34)
-    ("garden", 3, 36405, {"modules": ["rain_coming"], "events": ["dig"]}, "clothesline"),
-    # a garden: sweeping on the path by the gate, every head clear of its knob (revision 34)
-    ("garden", 3, 36406, {"contradictions": ["sweep_fork"], "events": ["sweep"]}, None),
+    # v0.37 (revision 35; tests 1 and 2 are v0.36's pictures 73 and 63 rebuilt on their seeds, tpdb_work/rb37_73.py):
+    # a garden: sweeping with the fork and the broom on the path by the gate, no figure's drawing near its knob, nobody on a heap or the dustpan
+    ("garden", 3, 37401, {"contradictions": ["sweep_fork"], "events": ["sweep"]}, None),
+    # a garden: the storm pointer beside the fork sweeper, no clothesline
+    ("garden", 3, 37402, {"modules": ["rain_coming"], "contradictions": ["sweep_fork"], "events": ["rake"]}, "noline"),
+    # a garden: the storm pointer beside the broom sweeper and a digger, no clothesline
+    ("garden", 3, 37403, {"modules": ["rain_coming"], "events": ["dig", "sweep"]}, "noline"),
+    # a street: the spare crate nearer the viewer, clear of the fruit stall's leg
+    ("street", 3, 37404, {"events": ["read_bench", "carry_bag"]}, "filler_crates"),
 ]
 
 
 def ok(rec, rule):
     if rule is None:
         return True
+    if rule == "noline":
+        return not any(e["id"] in ("clothesline", "laundry") for e in rec["elements"])
     if rule == "tomasbucket":
         return any(e.get("asset", {}).get("variant", "").startswith("person.tomas__bucket_hat") for e in rec["elements"])
     if rule == "meisit":

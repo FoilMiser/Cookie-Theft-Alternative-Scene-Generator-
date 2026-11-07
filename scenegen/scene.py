@@ -200,7 +200,15 @@ class PlacementError(Exception):
 # the washing up; and keeps the box round every face 16 px clear of the garden gate's knob ("It could be a hair bun, or it could be the gate's
 # knob"). The box is drawn round the eyes and mouth, so the back of a head in profile can still reach the knob: it did on v0.36's picture 73, the
 # picture that asked for the rule, unchanged since v0.35 (vision/flaws_v036.md). The grandfather's white moustache and the bucket sat higher, so that his hair shows below its rim, are the cast's (vision/isolation_v036.md).
-PLACEMENT_REV = 34
+# 35 (v0.37) measures the knob against the drawing: no pixel of a person's mask, hair, hands and props included, within 16 px of the knob's edge
+# (revision 34's face box left the back of the sweeper's head over it, and a third screen read it as "dark hair in a bun"); and keeps a sweeper's
+# heap, and the fork sweeper's dustpan with it, as a thing on the ground that no one else's feet stand on, whichever of the two is placed first
+# (with the washing off the line, the storm pointer placed again and "Pointing woman's feet seem to stand on the red dustpan"); draws no
+# clothesline in a storm pointer's garden, posts and all, as revision 19 does for the painter and the hose (the empty line was offered in the
+# washing's place, "could be pointing at the storm clouds or at the empty washing line", and rebuilt off the dustpan she pointed up through its
+# post); and sets the street's spare crate 50 px nearer the viewer, clear of the fruit stall's right leg ("It looks slightly as though the leg
+# is standing on it").
+PLACEMENT_REV = 35
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
@@ -419,6 +427,8 @@ class Scene:
             hb = head_box(p)
             if hb[0] - 16 <= kx <= hb[2] + 16 and hb[1] - 16 <= ky <= hb[3] + 16:
                 return False
+            if PLACEMENT_REV >= 35 and not self.clear_of_knob(p):
+                return False
         if p is not None and PLACEMENT_REV >= 4 and p.family.startswith("animal.") and not self.animal_clear(p):
             return False
         if p is not None and PLACEMENT_REV >= 6 and not self.bird_gap(p, bbox, ignore):
@@ -633,6 +643,35 @@ class Scene:
             back = 220 if PLACEMENT_REV >= 21 else 150
             return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 50 * s)
         return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 16 * s)
+
+    def clear_of_knob(self, p, pad=16, r_knob=7):
+        """Revision 35: no pixel of the figure's drawing within pad of the gate knob's edge (revision 34's face box missed the back of a head)."""
+        from . import compose as K
+        import numpy as np
+        kx, ky = self.S.anchors["gate_knob"]
+        r = r_knob + pad
+        b = p.bbox()
+        if not (b[0] - r <= kx <= b[2] + r and b[1] - r <= ky <= b[3] + r):
+            return True
+        m = K.asset_mask(p, False)
+        s = K.MASK_SCALE
+        X0, X1 = max(0, int((kx - r) * s)), min(m.shape[1], int((kx + r) * s) + 2)
+        Y0, Y1 = max(0, int((ky - r) * s)), min(m.shape[0], int((ky + r) * s) + 2)
+        yy, xx = np.mgrid[Y0:Y1, X0:X1]
+        near = ((xx + 0.5) / s - kx) ** 2 + ((yy + 0.5) / s - ky) ** 2 <= r * r
+        return not bool((m[Y0:Y1, X0:X1] & near).any())
+
+    def feet_clear_of(self, bb, ignore=(), pad=8):
+        """Revision 35: no placed figure on the ground (other than those in ignore) has its feet on the box bb."""
+        for k, q in self.assets.items():
+            if k in ignore or not getattr(q, "family", "").startswith(("person.", "animal.")) or q.m["variant"].get("airborne"):
+                continue
+            b = q.bbox()
+            h = b[3] - b[1]
+            feet = (b[0], b[3] - 0.14 * h, b[2], b[3] + 4)
+            if min(feet[2], bb[2] + pad) > max(feet[0], bb[0] - pad) and min(feet[3], bb[3] + pad) > max(feet[1], bb[1] - pad):
+                return False
+        return True
 
     def feet_on_things(self, bbox, own=None, pad=8):
         """Revision 20: the feet box of a figure's bbox meets a thing of another event on the ground."""

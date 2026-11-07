@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.36.0"
+GENERATOR_VERSION = "0.37.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -306,6 +306,16 @@ def _plan(tier, setting, seed, lib, forced, bumped):
                 and any(c.id == "hose_water" for c in picked):
             # revision 19: nor beside someone hosing the flowers: she stands just in front of the line, and with heads kept
             # clear of the washing (above) there was nowhere left for her
+            need = set()
+            for c in picked:
+                need |= c.features(setting)
+            if {"clothesline", "laundry"} & need:
+                continue
+            feats -= {"clothesline", "laundry"}
+        if SCN.PLACEMENT_REV >= 35 and setting == "garden" and {"clothesline", "laundry"} & feats \
+                and any(c.id == "rain_coming" for c in picked):
+            # revision 35: nor under a storm pointer, posts and all. Revision 34 took the washing off, and the empty line was offered in its
+            # place ("could be pointing at the storm clouds or at the empty washing line"); placed again, she pointed up through its post
             need = set()
             for c in picked:
                 need |= c.features(setting)

@@ -513,6 +513,9 @@ class Sweep(T):
             f_ = 1 if tx > q.X else -1
             return D.sweep_heap(tx + f_ * 34 * s_, q.Y + 6 * s_, s_, f_, D.SWEEP26)
         accept = (lambda q: sc.fits(heap(q)[1], limit=0.05, ignore=(ep,))) if rev24 else None
+        if rev24 and SCN.PLACEMENT_REV >= 35:
+            # revision 35: and nobody's feet on the heap (the storm pointer stood on the fork sweeper's dustpan, placed after him)
+            accept = (lambda q: sc.fits(heap(q)[1], limit=0.05, ignore=(ep,)) and sc.feet_clear_of(heap(q)[1], ignore=(ep,)))
         p = sc.try_put(ep, self.vp, cands, want_face=sc.rng.choice([1, -1]), accept=accept)
         if not p:
             return False
@@ -520,6 +523,9 @@ class Sweep(T):
         if rev24:
             hs, hb = heap(p)
             sc.svg(sc.eid("sweepheap"), "What has been swept", hs, p.Y + 2, hb, "scored")
+            if SCN.PLACEMENT_REV >= 35:
+                # revision 35: a thing on the ground that no one placed later stands on
+                sc.groundthings.append((hb, sc.placing))
         return True
 
     def items(self, ep):
@@ -4823,6 +4829,9 @@ class SweepFork(Sweep):
         bb = (min(px - 28 * s, fx - f * 80 * ms), p.Y - 32 * s, max(px + 30 * s, fx - f * 80 * ms), p.Y + 4 * ms)
         if SCN.PLACEMENT_REV >= 8:
             bb = (min(bb[0], pbb[0]), bb[1], max(bb[2], pbb[2]), max(bb[3], pbb[3]))
+        if SCN.PLACEMENT_REV >= 35:
+            # revision 35: the heap and the dustpan, without the sweep marks behind the tines, as a thing on the ground
+            self.ground_bb = (min(px - 22 * s, pbb[0]), p.Y - 22 * s, max(px + 22 * s, pbb[2]), max(p.Y + 3 * s, pbb[3]))
         return pile, marks, bb
 
     def place(self):
@@ -4849,6 +4858,9 @@ class SweepFork(Sweep):
             if A and not on_path(A, fx, p.Y, 6):
                 return None
             pb = self.pile_geom(p)[2]
+            if SCN.PLACEMENT_REV >= 35 and not sc.feet_clear_of(self.ground_bb, ignore=(ep,)):
+                # revision 35: nobody's feet on the heap or the dustpan ("Pointing woman's feet seem to stand on the red dustpan")
+                return None
             if SCN.PLACEMENT_REV >= 8 and A:
                 # revision 8: the heap itself on the paving too (on the grass it read as a dug-up clod)
                 f_ = 1 if fx > p.X else -1
@@ -4875,6 +4887,9 @@ class SweepFork(Sweep):
         if SCN.PLACEMENT_REV >= 6:
             pile, marks, bb = self.pile_geom(sc.assets[ep])
             sc.svg(sc.eid("sweptpile"), "Swept-up dust and grit", pile + marks, sc.assets[ep].Y + 1, bb, "setting")
+            if SCN.PLACEMENT_REV >= 35:
+                # revision 35: a thing on the ground that no one placed later stands on
+                sc.groundthings.append((self.ground_bb, sc.placing))
             self.act(self.p, "sweeping", ["sweeping", "sweeping the path", "sweeping the ground", "cleaning"], "sweeping", [ep])
             self.contra("Something is wrong with what the person is sweeping with",
                         "The person is sweeping with a giant fork instead of a broom",

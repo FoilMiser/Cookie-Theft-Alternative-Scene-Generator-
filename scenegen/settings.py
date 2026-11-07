@@ -473,7 +473,12 @@ def build_street(features, sky):
     S.filler("bin_s", 1240, 930, "Bin", lambda x, y: (D.bin_(x, y, sz(y), C["slate"]), (x - 32 * sz(y), y - 82 * sz(y), x + 32 * sz(y), y)), (1205, 900, 1275, 950))
     S.filler("cafe", 160, 930, "Café table and chairs", lambda x, y: D.cafe_table(x, y, sz(y)), (60, 890, 260, 955))
     S.filler("pot_s", 1540, 950, "Flower pot", lambda x, y: (D.pot(x, y, C["grass_dark"], sz(y)), (x - 30, y - 90, x + 30, y)), (1505, 910, 1570, 970))
-    S.filler("crates", 1560, 760, "Crates", lambda x, y: (D.crate(x - 20, y, sz(y) * 0.8)[0], (x - 60, y - 80, x + 40, y)), (1500, 730, 1590, 780))
+    if _rev() >= 35:
+        # revision 35: 50 px nearer the viewer, so the stall's leg ends on the paving behind the crate's lid (moved in from the picture's edge by
+        # revision 15, the lid sat at the foot of the leg: "It looks slightly as though the leg is standing on it")
+        S.filler("crates", 1560, 810, "Crates", lambda x, y: (D.crate(x - 20, y, sz(y) * 0.8)[0], (x - 60, y - 80, x + 40, y)), (1500, 780, 1590, 830))
+    else:
+        S.filler("crates", 1560, 760, "Crates", lambda x, y: (D.crate(x - 20, y, sz(y) * 0.8)[0], (x - 60, y - 80, x + 40, y)), (1500, 730, 1590, 780))
     S.filler("planter_b", 860, 645, "Planter", lambda x, y: (D.planter(x, y, sz(y)), (x - 64 * sz(y), y - 80 * sz(y), x + 64 * sz(y), y)), (790, 630, 930, 665))
     S.filler("cafe_b", 480, 960, "Café table and chairs", lambda x, y: D.cafe_table(x, y, sz(y)), (380, 925, 580, 990))
     S.filler("bin_b", 120, 700, "Bin", lambda x, y: (D.bin_(x, y, sz(y), C["green"]), (x - 32 * sz(y), y - 82 * sz(y), x + 32 * sz(y), y)), (85, 670, 155, 720))

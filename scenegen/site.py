@@ -49,28 +49,31 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v035", "v036"
+PREV, CUR = "v036", "v037"
 
-# the templates whose drawing or placement v0.36 changed for the v0.35 screen (vision/flaws_v035.md); the drawing went to the isolation bench first
-# (vision/isolation_v036.md) and was read in whole test scenes (vision/design_tests_v036.md)
+# the templates whose placement v0.37 changed for the v0.36 screen (vision/flaws_v036.md); no drawing changed, and the rules were read in whole
+# test scenes (vision/design_tests_v037.md)
 REDRAWN_NOTES = {
-    "bucket_hat": "A grandfather under a bucket was 'a boy in a white shirt, brown waistcoat and dark trousers'. Now his white moustache, which his spec always gave him and no render drew, and the bucket sat higher, his white hair below its rim. 1.00: 'Old man, front centre: white hair, grey moustache', on the same seed.",
-    "rain_coming": "The washing was offered as what the storm pointer points at. Now the line is left empty in her picture. Holds at 1.00; its reader offered the empty line instead.",
+    "sweep_fork": "The gate's knob behind the sweeper's head in profile was read as a bun, three screens running, and the storm pointer stood on his dustpan. Now no part of anyone's drawing comes near the knob, and his heap and dustpan are kept clear of others' feet. Holds at 1.00; the sweeper by the gate is 'a boy with short dark hair, a green shirt and khaki trousers'.",
+    "sweep": "The broom's heap is kept clear of others' feet too, whichever is placed first. Holds at 1.00.",
+    "rain_coming": "The empty washing line was offered as what the storm pointer points at. Now there is no clothesline in her garden, posts and all. Holds at 1.00, the line gone.",
 }
 
-# what the v0.36 screen readers made of the templates that read poorly (vision/flaws_v036.md): none under 0.9
-WEAK_NOTES = {}
-SCREEN_NOTE = ("The v0.36 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. The grandfather under the bucket went to the isolation bench first, and every change was read in whole test scenes. "
-               "873 of 876 items had full marks and none was misread, and all 64 templates pass the gate. "
-               "The gate's knob is not fixed: the rule keeps it off the box round each face, and the sweeper it was for stands in profile, so his picture came back unchanged and read as a bun again. "
-               "60 pictures were identical to the pixel in v0.35 and v0.36, and 563 of their 576 items scored the same, the 12 that went up the clouds of two v0.35 readers who named nothing in the sky. "
+# what the v0.37 screen readers made of the templates that read poorly (vision/flaws_v037.md)
+WEAK_NOTES = {
+    "hang_laundry": "On a picture identical to v0.36's, where it had full marks: 'I can't tell whether the boy is hanging the T-shirt up or taking it down'. One scored item a picture, so one half mark takes it under the gate. A basket at the feet is the fix v0.31 held back for this.",
+}
+SCREEN_NOTE = ("The v0.37 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. No drawing changed; the rules were tried on the pictures that asked for them first, and read in whole test scenes. "
+               "870 of 876 items had full marks and none was misread, and 63 of 64 templates pass the gate. "
+               "The one failure is hanging the washing up, whose reader could not tell up from down on a picture identical to v0.36's. "
+               "75 pictures were identical to the pixel in v0.36 and v0.37, and 775 of their 783 items scored the same. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:vision/isolation_v036/round1/iso_08.png@0,0,420,420>vision/isolation_v036/round2/iso_03.png@0,0,420,420", "The grandfather under the bucket", "v0.35: 'A man with brown skin', his age not read. v0.36: his white moustache drawn, lying on the skin, and the bucket sat higher: 'An older man with grey hair and a grey moustache'. The same seed, cut out on the bench."),
-         ("crop:probes_v035/T3_garden_s23018.png@0,0,1600,1000>probes/T3_garden_s23018.png@0,0,1600,1000", "In a whole picture", "The seed of v0.35's one misread, 'a boy in a white shirt, brown waistcoat and dark trousers'. v0.36: 'Old man, front centre: white hair, grey moustache'."),
-         ("crop:probes_v035/T3_garden_s23013.png@0,0,1600,1000>probes/T3_garden_s23013.png@0,0,1600,1000", "The storm and the washing", "v0.35: 'could be pointing at the dark clouds (rain coming) or at the laundry on the line'. v0.36: the line empty. Its reader offered the empty line in place of the washing, and the picture, placed again, stands her on the dustpan of the fork sweeper, which is on the v0.37 list.")]
+FIXES = [("crop:probes_v036/T3_garden_s23008.png@0,420,420,940>probes/T3_garden_s23008.png@0,420,420,940", "The sweeper by the gate", "v0.36: 'a woman with dark hair in a bun', the gate's knob behind his head in profile, a third time. v0.37: no part of anyone's drawing near the knob, and on the same seed he stands lower on the path: 'a boy with short dark hair, a green shirt and khaki trousers'."),
+         ("crop:probes_v036/T3_garden_s23013.png@0,0,1600,1000>probes/T3_garden_s23013.png@0,0,1600,1000", "The storm pointer", "v0.36: 'Pointing woman's feet seem to stand on the red dustpan', and the empty line offered as what she points at. v0.37: the dustpan kept clear of others' feet, and no clothesline in her garden: 'most likely pointing at the storm clouds, but she could be pointing at something on the roof or in the tree'."),
+         ("crop:scenes_v036/T2_street_s1032.png@1150,500,1600,880>scenes/T2_street_s1032.png@1150,500,1600,880", "The crate by the stall", "v0.36: 'The small wooden crate sits right under the stall's right leg. It looks slightly as though the leg is standing on it.' v0.37: the crate 50 px nearer the viewer, 'Cardboard box, right, beside the fruit stall.'")]
 
 
 

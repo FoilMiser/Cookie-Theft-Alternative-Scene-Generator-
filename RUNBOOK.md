@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.36 was made, written so that a fresh session can make the next one (v0.37) from this
+How each release from v0.12 to v0.37 was made, written so that a fresh session can make the next one (v0.38) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -280,3 +280,11 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   what an older revision's records rebuild into: two of three v0.31 records did not rebuild under v0.32's code, a hose under storm clouds and a street with a
   watering can under a clear sky (its planner samples sets under both skies); with the watering templates' sky put back, the street rebuilt identical to the pixel. Records rebuild
   exactly with their own release's package, which is what the standing rule promises. A rule that must leave old records alone goes in `place()` or `feasible()`.
+- Rebuilding the picture a rule is for shows what the rule moves as well as whether it works. v0.37 rebuilt v0.36's picture 63 with the knob and dustpan rules
+  alone, and the storm pointer, off the dustpan, now pointed up through the left post of the empty line, which no reader had yet been shown. The line came out
+  of her garden before any reader saw the picture (`tpdb_work/rb37_73.py` rebuilds a probe from its record's own `regen`).
+- Read the comment on a thing before leaving it half drawn. Revision 34 left the washing line empty under a storm pointer, and the planner, where it hangs washing
+  on every line it draws, says why: "an empty line reads as a bare wire". The reader of her picture offered the empty line as what she pointed
+  at. Revision 19 also shows the way out: it drops the line, posts and all, in the planner (revision 35 does the same for the storm pointer).
+- A filler slot at the picture's edge is moved in by revision 15 until it shows whole, so where it is drawn is not where the slot says. The street's spare crate,
+  set at x 1560, was drawn 30 px further in, its lid at the foot of the fruit stall's leg. Look at where a filler is drawn (its element's `bbox` in the record) before moving it.
