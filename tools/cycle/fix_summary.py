@@ -6,11 +6,14 @@ import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
-NOTES = {("garden", 4): "the v0.36 seed, which placed again under revision 35 on its tenth layout, the picture unchanged",
-         ("park", 4): "the v0.36 seed, which placed again under revision 35, the picture unchanged",
-         ("street", 4): "v0.29 to v0.36's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed again "
-                        "under revision 35, the picture unchanged (regen.forced)",
-         ("playground", 4): "the v0.36 seed, which placed again under revision 35, the picture unchanged"}
+NOTES = {("garden", 3): "v0.37's seed (954) and the twelve after the showcase seed placed none under revision 36, whose storm pointer keeps the cat "
+                        "off the fence; three seed lists side by side found 498 and 666 together, and 498's, with a storm pointer, was kept (666's is in "
+                        "tpdb_work/old038)",
+         ("garden", 4): "the v0.37 seed, which placed again under revision 36 on its tenth layout, the picture unchanged",
+         ("park", 4): "the v0.37 seed, which placed again under revision 36, the picture unchanged",
+         ("street", 4): "v0.29 to v0.37's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed again "
+                        "under revision 36, the picture unchanged (regen.forced)",
+         ("playground", 4): "the v0.37 seed, which placed again under revision 36, the picture unchanged"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

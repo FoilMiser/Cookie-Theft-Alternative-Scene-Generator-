@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.36 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.38 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,23 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.38 (a basket of washing at the hanger's feet, by templates.BASKET38: hngO none as v0.37, hngB the basket, hngW the basket and the shirt dripping)
+    "hngO_1": ("garden", 38111, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngO_2": ("garden", 38112, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngO_3": ("garden", 38113, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngB_1": ("garden", 38111, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngB_2": ("garden", 38112, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngB_3": ("garden", 38113, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngW_1": ("garden", 38111, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngW_2": ("garden", 38112, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngW_3": ("garden", 38113, {"events": ["hang_laundry"]}, "event", "laundry"),
+    # round 2 (hngC the bundles drawn as cloth, a sleeve over the rim and the first drop forming on the hem; hngD the drops and no basket)
+    "hngC_1": ("garden", 38111, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngC_2": ("garden", 38112, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngC_3": ("garden", 38113, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngD_1": ("garden", 38111, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngD_2": ("garden", 38112, {"events": ["hang_laundry"]}, "event", "laundry"),
+    "hngD_3": ("garden", 38113, {"events": ["hang_laundry"]}, "event", "laundry"),
     # v0.36 (the grandfather under the bucket; the cast's switches by bench cast: bktM from TPDB_MOUSTACHE36=M, bktR from TPDB_BUCKET36=R, bktB both)
     # round 2: the moustache lying flatter (TPDB_MOUSTACHE36_FLAT=F) under the bucket, and the bold and flat ones in profile, kneeling to plant
     "bktF_1": ("garden", 36121, {"contradictions": ["bucket_hat"]}, "event", ("pose", "person.tomas__bucket_hat")),
@@ -551,6 +568,7 @@ NEW33 = {n for n in BENCH if n[:3] in ("stp", "kik") and BENCH[n][1] // 1000 == 
 NEW34 = {n for n in BENCH if n[:3] == "sea" and BENCH[n][1] // 1000 == 34}
 NEW35 = {n for n in BENCH if n[:3] == "swg" and BENCH[n][1] // 1000 == 35}
 NEW36 = {n for n in BENCH if n[:3] in ("bkt", "prf") and BENCH[n][1] // 1000 == 36}
+NEW38 = {n for n in BENCH if n[:3] == "hng" and BENCH[n][1] // 1000 == 38}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -620,6 +638,10 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
     if name in NEW36:
         for (m, k), v in _REL.items():
             setattr(m, k, v)
+    if name in NEW38:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        _T0.BASKET38 = name[3]
     rec = None
     for k in range(40):
         USAGE.clear()

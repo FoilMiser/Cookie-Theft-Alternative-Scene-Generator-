@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.37.0"
+GENERATOR_VERSION = "0.38.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -322,6 +322,20 @@ def _plan(tier, setting, seed, lib, forced, bumped):
             if {"clothesline", "laundry"} & need:
                 continue
             feats -= {"clothesline", "laundry"}
+        _fids = {t for v in (forced or {}).values() for t in v}
+        if SCN.PLACEMENT_REV >= 36 and {"cat_on_fence", "rain_coming"} <= {c.id for c in picked} and not {"cat_on_fence", "rain_coming"} <= _fids:
+            # revision 36: no cat walking the fence in a storm pointer's picture. Whichever way the arm points, the cat on the fence was the one
+            # thing up high to offer in the clouds' place, three screens running on one picture ("or up at the cat or something on the fence");
+            # revision 31 keeps things off her fingertip, and the cat was across the garden
+            continue
+        if SCN.PLACEMENT_REV >= 36 and setting == "garden" and any(c.id == "rain_coming" for c in picked) \
+                and any(c.id == "bird_perched" for c in picked) and "bird_perched" not in _fids:
+            # nor a bird perched up high in the garden, the same thing as the cat on its fence (an older screen, of a bird on a street's lamp: "he
+            # could be pointing at the dark storm clouds (warning of rain) or at the bird on the lamp post"): the cat's picture searched again put
+            # one on the fence top where the cat had sat. Dropped from the plan, not re-picked, and in the garden only, as the cat is: re-picked,
+            # two cells of the set that drew the pair in an earlier try no longer rebuilt, and dropped in every setting, the playground's did
+            # not (a plan changed in one try changes the template usage the next try plans with)
+            picked = [c for c in picked if c.id != "bird_perched"]
         if SCN.PLACEMENT_REV >= 14 and any(c.id == "square_wheel" for c in picked):
             # revision 14: no ordinary bicycle in a rack beside the square-wheeled one (as the fillers keep away since revision 9)
             feats.discard("bicycle")
@@ -419,6 +433,9 @@ def add_fillers(sc, target):
         if SCN.PLACEMENT_REV >= 26 and f["id"].startswith("bin") and any(k_.startswith("filler_bin") for k_ in sc.svgs):
             continue
         if f.get("needs") and not f["needs"](sc):
+            continue
+        # revision 36: no filler basket beside the hanger's basket of washing
+        if SCN.PLACEMENT_REV >= 36 and f["id"] == "basket" and any(k_.startswith("washbasket") for k_ in sc.svgs):
             continue
         svg, bb = f["fn"](f["x"], f["y"])
         # revision 15: never cut off by the picture's edge (a rubbish bin "cut off by the bottom-left picture edge"): a

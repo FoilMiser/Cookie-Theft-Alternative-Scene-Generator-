@@ -6,8 +6,8 @@
  "seed": 23034,
  "mirror": true,
  "versions": {
-  "generator": "0.37.0",
-  "cast_builder": "0.37.0",
+  "generator": "0.38.0",
+  "cast_builder": "0.38.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,12 +56,12 @@
   }
  },
  "features": [
-  "hose_reel"
+  "flowers"
  ],
  "templates": [
   {
-   "id": "blocked_hose",
-   "kind": "inference",
+   "id": "pan_watering",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   }
@@ -71,7 +71,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is holding a hose, looking into the nozzle",
+   "text": "A grandmother is watering the flowers",
    "accepted": {
     "who": [
      "grandmother",
@@ -82,186 +82,145 @@
      "woman"
     ],
     "what": [
-     "holding a hose",
-     "looking at the hose",
-     "looking into the nozzle",
-     "puzzled",
-     "confused"
+     "watering the flowers",
+     "watering the plants",
+     "pouring water"
     ]
    },
-   "key": "hose",
+   "key": "flowers",
    "elements": [
-    "hoseman_1",
-    "hose_3"
+    "waterer_1",
+    "water_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "blocked_hose",
+   "template": "pan_watering",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.419,
+    "s": 0.011,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 27608
+    "area_px": 15536
    },
-   "b": -1.509,
-   "p0": 0.819,
-   "pm1": 0.625,
+   "b": -1.578,
+   "p0": 0.829,
+   "pm1": 0.641,
    "aoi_cells": [
+    "MC",
+    "MR",
     "BC",
     "BR"
    ]
   },
   {
    "id": "i02",
-   "type": "action",
-   "text": "The goat is standing on the hose",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is watering with",
    "accepted": [
-    "goat standing on the hose",
-    "goat on the hose",
-    "stepping on the hose"
+    "something odd about the pan",
+    "that's strange",
+    "the watering can is wrong"
    ],
-   "key": "goat",
+   "key": "pan",
    "elements": [
-    "hoseanimal_2"
+    "waterer_1"
    ],
-   "cues": [],
-   "effect": [],
+   "cues": [
+    "waterer_1"
+   ],
+   "effect": [
+    "waterer_1"
+   ],
    "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "blocked_hose",
+   "animate": false,
+   "domain": "functional",
+   "template": "pan_watering",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "contradiction_notice",
     "chain": 0,
-    "animate": true,
-    "s": -0.224,
+    "animate": false,
+    "s": -0.058,
     "r": 0,
     "d": 0.0,
-    "f": 0.02,
-    "a": 5.21,
-    "zipf_raw": 4.02,
-    "aoa_raw": 5.21,
-    "domain": null,
-    "area_px": 11152
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 14100
    },
-   "b": -1.274,
-   "p0": 0.781,
-   "pm1": 0.568,
+   "b": -0.071,
+   "p0": 0.518,
+   "pm1": 0.283,
    "aoi_cells": [
-    "BC"
+    "MC",
+    "MR",
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i03",
-   "type": "action",
-   "text": "No water is coming out",
+   "type": "contradiction_explain",
+   "text": "The person is watering the flowers with a frying pan instead of a watering can",
    "accepted": [
-    "no water",
-    "water isn't coming out",
-    "hose isn't working",
-    "nothing coming out",
-    "hose is dry"
+    "watering with a frying pan",
+    "using a pan to water",
+    "a pan isn't for watering"
    ],
-   "key": "hose",
+   "key": "pan",
    "elements": [
-    "drip_4"
+    "waterer_1"
    ],
    "cues": [
-    "drip_4",
-    "hoseman_1"
+    "waterer_1"
    ],
-   "effect": [],
-   "chain": 0,
+   "effect": [
+    "waterer_1"
+   ],
+   "chain": 1,
    "animate": false,
-   "domain": null,
-   "template": "blocked_hose",
+   "domain": "functional",
+   "template": "pan_watering",
    "event": "e1",
    "features": {
-    "type": "action",
-    "chain": 0,
+    "type": "contradiction_explain",
+    "chain": 1,
     "animate": false,
-    "s": -3.048,
-    "r": 1,
+    "s": -0.058,
+    "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
-    "domain": null,
-    "area_px": 208
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 14100
    },
-   "b": 0.725,
-   "p0": 0.326,
-   "pm1": 0.151,
+   "b": 1.129,
+   "p0": 0.244,
+   "pm1": 0.106,
    "aoi_cells": [
-    "BC"
+    "MC",
+    "MR",
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i04",
-   "type": "inference",
-   "text": "The goat is blocking the water by standing on the hose",
-   "accepted": [
-    "the goat is stepping on the hose so the water can't come out",
-    "the hose is pinched",
-    "blocking the water",
-    "that's why there's no water"
-   ],
-   "key": "water",
-   "elements": [
-    "hoseanimal_2",
-    "drip_4",
-    "hoseman_1"
-   ],
-   "cues": [
-    "hoseanimal_2",
-    "drip_4",
-    "hoseman_1"
-   ],
-   "effect": [
-    "drip_4"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "blocked_hose",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -0.224,
-    "r": 2,
-    "d": 0.132,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": null,
-    "area_px": 11152
-   },
-   "b": 0.38,
-   "p0": 0.406,
-   "pm1": 0.201,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -304,7 +263,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -346,7 +305,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -387,7 +346,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -410,7 +369,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.946,
+    "s": 1.939,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -418,10 +377,10 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 237892
+    "area_px": 235456
    },
-   "b": -1.916,
-   "p0": 0.872,
+   "b": -1.913,
+   "p0": 0.871,
    "pm1": 0.714,
    "aoi_cells": [
     "ML",
@@ -430,7 +389,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -474,65 +433,22 @@
     "MR",
     "BR"
    ]
-  },
-  {
-   "id": "i10",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 25884
-   },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
-   "aoi_cells": [
-    "BC",
-    "BR"
-   ]
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 6,
   "inference_units": 1,
-  "contradictions": 0,
-  "items_total": 10
+  "contradictions": 1,
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.755,
-   "inference": 0.406
+   "content": 0.819,
+   "inference": 0.381
   },
   "theta_minus_1": {
-   "content": 0.563,
-   "inference": 0.201
+   "content": 0.633,
+   "inference": 0.195
   }
  },
  "bands": {
@@ -554,14 +470,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "12 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0366,
-  "png_bytes": 161058,
-  "jpeg_bytes": 174534
+  "objects": 12,
+  "edge_density": 0.0346,
+  "png_bytes": 136150,
+  "jpeg_bytes": 163998
  },
  "signature": [
   [
@@ -569,15 +485,11 @@
    0
   ],
   [
-   "action",
-   0
+   "contradiction_explain",
+   1
   ],
   [
-   "action",
-   0
-  ],
-  [
-   "entity",
+   "contradiction_notice",
    0
   ],
   [
@@ -599,10 +511,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "inference",
-   2
   ]
  ],
  "elements": [
@@ -696,23 +604,23 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 237892,
-   "occlusion": 0.013
+   "visible_px": 235456,
+   "occlusion": 0.023
   },
   {
-   "id": "filler_bush_left",
+   "id": "filler_bush_mid",
    "label": "Bush",
    "role": "filler",
    "z": 648,
    "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
+    526.0,
+    602.0,
+    654.0,
+    682.0
    ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
   },
   {
    "id": "filler_pots",
@@ -745,53 +653,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
-   "bbox": [
-    1028.0,
-    694.0,
-    1282.0,
-    838.0
-   ],
-   "area_px": 25884,
-   "visible_px": 25884,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 886,
-   "bbox": [
-    1282.0,
-    804.0,
-    1346.0,
-    888.0
-   ],
-   "area_px": 4264,
-   "visible_px": 3728,
-   "occlusion": 0.126
-  },
-  {
-   "id": "hoseman_1",
-   "label": "person.rosa__hose_inspect__puzzled__y090",
+   "id": "waterer_1",
+   "label": "person.rosa__water_pan__smile__y090",
    "role": "scored",
-   "z": 935.75,
+   "z": 835,
    "bbox": [
-    660.0,
-    642.0,
-    786.0,
-    940.0
+    966.0,
+    562.0,
+    1146.0,
+    840.0
    ],
-   "area_px": 15464,
-   "visible_px": 15180,
-   "occlusion": 0.018,
+   "area_px": 14120,
+   "visible_px": 14100,
+   "occlusion": 0.001,
    "asset": {
-    "variant": "person.rosa__hose_inspect__puzzled__y090",
+    "variant": "person.rosa__water_pan__smile__y090",
     "family": "person.rosa",
-    "scale": 0.4957,
+    "scale": 0.4583,
     "mirrored": false,
     "labels": {
      "everyday_name": "grandmother",
@@ -813,63 +691,49 @@
    }
   },
   {
-   "id": "drip_4",
-   "label": "Single drip from the dry nozzle",
-   "role": "scored",
-   "z": 937.75,
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
    "bbox": [
-    754.0,
-    702.0,
-    766.0,
-    726.0
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
    ],
-   "area_px": 208,
-   "visible_px": 208,
+   "area_px": 25884,
+   "visible_px": 25056,
+   "occlusion": 0.032
+  },
+  {
+   "id": "water_2",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 837,
+   "bbox": [
+    1138.0,
+    668.0,
+    1190.0,
+    808.0
+   ],
+   "area_px": 1436,
+   "visible_px": 1436,
    "occlusion": 0.0
   },
   {
-   "id": "hose_3",
-   "label": "Garden hose, pinched under the paw",
-   "role": "scored",
-   "z": 955.65,
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
    "bbox": [
-    722.0,
-    742.0,
-    1322.0,
-    972.0
+    522.0,
+    892.0,
+    704.0,
+    980.0
    ],
-   "area_px": 12728,
-   "visible_px": 12428,
-   "occlusion": 0.024
-  },
-  {
-   "id": "hoseanimal_2",
-   "label": "animal.goat_01__stand__neutral__y090",
-   "role": "scored",
-   "z": 956.65,
-   "bbox": [
-    848.0,
-    776.0,
-    1008.0,
-    962.0
-   ],
-   "area_px": 11152,
-   "visible_px": 11152,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.goat_01__stand__neutral__y090",
-    "family": "animal.goat_01",
-    "scale": 0.5034,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "goat",
-     "accepted_names": [
-      "goat",
-      "kid"
-     ],
-     "category": "medium_animal"
-    }
-   }
+   "area_px": 8772,
+   "visible_px": 8772,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -891,11 +755,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "blocked_hose"
+   "contradictions": [
+    "pan_watering"
    ]
   },
-  "placement_rev": 35
+  "placement_rev": 36
  },
  "probe": true
 }

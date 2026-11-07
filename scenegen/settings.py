@@ -91,7 +91,7 @@ def sky_layer(S, sky, horizon, sun_at=(1450, 120), clouds=((640, 120, 0.7), (900
 
 
 # ======================================================================= garden
-def laundry_svg(blow=0, lines=True, short=False):
+def laundry_svg(blow=0, lines=True, short=False, drip=False):
     """The jeans and the striped towel pegged on the garden line. blow (v0.14, -1 or 1): swung out with a gust, the hems
     lifted and carried downwind, with short wind lines past them (hanging straight down in a gust that blew a hat away,
     "the washing on the line is not moving at all"). v0.15: a fraction of that for a breeze (a kite flying beside
@@ -107,6 +107,11 @@ def laundry_svg(blow=0, lines=True, short=False):
             # line behind the woman's head can read as part of her clothing")
             for px in (656, 704):
                 laundry += D.rect(px - 3, line_y(px) - 9, 7, 16, C["wood_light"], 1, D.OW * 0.6)
+            if drip:
+                # v0.38 (revision 36): wet like the shirt being pinned up beside them ("Only the white T-shirt drips. The jeans are dry, which is a
+                # little odd", two design tests of four)
+                hem = line_y(x0) + 120
+                laundry += D.drop(x0 + 11, hem, forming=True) + D.drop(x0 + 48, hem + 14) + D.drop(x0 + 12, hem + 26)
             return laundry
         x0 = 724
         laundry += D.rect(x0, line_y(x0 + 25) - 2, 52, 92, C["yellow"], 3)
@@ -276,8 +281,9 @@ def build_garden(features, sky):
         S.anchors["clothesline"] = {"x0": 650, "x1": 930, "fn": line_y, "depth": 705}
     if "laundry" in features and "clothesline" in features:
         short = _rev() >= 19 and "laundry_short" in features
-        laundry = laundry_svg(short=short)
-        S.add("laundry", "Clothes hanging on the line", laundry, 706, "setting", (650, 396, 715, 520) if short else (650, 396, 780, 560),
+        drip = short and _rev() >= 36
+        laundry = laundry_svg(short=short, drip=drip)
+        S.add("laundry", "Clothes hanging on the line", laundry, 706, "setting", ((650, 396, 715, 548) if drip else (650, 396, 715, 520)) if short else (650, 396, 780, 560),
               entity=E("Clothes are hanging on the line", ["clothes", "laundry", "washing", "clothesline", "clothes line", "towel", "pants"], "laundry"))
     if "swing" in features:
         # v0.15: the frame stands 55 px further from the path (its right legs stood on the paving: "the swing set's legs

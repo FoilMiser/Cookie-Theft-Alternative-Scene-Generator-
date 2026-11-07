@@ -1008,6 +1008,17 @@ class Swing(T):
         return True
 
 
+# v0.38 (revision 36, vision/flaws_v037.md R1): a basket of washing on the grass at the hanger's feet. Three screens (v0.30, v0.31, v0.37) had a reader
+# who could not tell her hanging the washing out from taking it in, and the readers say what is missing: "there is no laundry basket to show which".
+# The basket is the garden's filler basket (draw.laundry_basket), which the readers of v0.23 to v0.35 named at once ("Laundry basket with blue, white
+# and pink clothes"). By the bench (vision/isolation_v038.md): "O" none (v0.37), "B" the basket, "W" the basket and the shirt dripping; round 2:
+# "C" as "W" with the bundles drawn as cloth and the first drop forming on the hem, "D" the drops and no basket. "C" won: with no basket three
+# readers of three were unsure which way the shirt went, with the basket alone two of three ("The full basket fits either reading"), and with
+# the drops all six who saw them leaned to hanging out; the cloth took the bundles from "balls or cushions" (three of three) to one "hat or a ball",
+# and one reader of "C" had no doubt left ("a laundry basket of clothes still to be hung").
+BASKET38 = "C"
+
+
 class HangLaundry(T):
     id = "hang_laundry"
     settings = ("garden",)
@@ -1053,6 +1064,37 @@ class HangLaundry(T):
                 return True
         return False
 
+    def basket_at(self, p, s):
+        """Revision 36: the basket of washing beside the hanger's feet, measured from her drawing: on the side she faces (under the shirt) or
+        else behind her heels, between the posts, on the lawn, clear of every scored thing and of others' feet. (Kept from under the dripping
+        shirt, it had room only a step further along the line, and the washing and a planter placed 3 of 12 together, where they had placed
+        12 of 12: its clothes drip instead, vision/design_tests_v038.md.)"""
+        sc = self.sc
+        from . import compose as K
+        import numpy as np
+        m = K.asset_mask(p, False)
+        ms = K.MASK_SCALE
+        r0, r1 = max(0, int((p.Y - 40 * s) * ms)), min(m.shape[0], int((p.Y + 2) * ms) + 1)
+        cols = np.nonzero(m[r0:r1].any(axis=0))[0]
+        if not len(cols):
+            return None
+        fx0, fx1 = cols.min() / ms, (cols.max() + 1) / ms
+        hl, hr = p.anchor("hand_L_grip"), p.anchor("hand_R_grip")
+        f = 1 if (hl[0] + hr[0]) / 2 >= p.anchor("mouth")[0] else -1
+        sb = 0.9 * s
+        for side in (f, -f):
+            bx = fx1 + 12 * s + 54 * sb if side > 0 else fx0 - 12 * s - 54 * sb
+            by = p.Y + 6 * s
+            svg, bb = D.laundry_basket(bx, by, sb, cloth=BASKET38 == "C")
+            if bb[0] < 646 or bb[2] > 936:
+                continue
+            if not all(sc.S.walkable(x_, by) for x_ in (bb[0], bx, bb[2])):
+                continue
+            if not sc.fits(bb, limit=0.04) or not sc.feet_clear_of(bb):
+                continue
+            return svg, bb
+        return None
+
     def place(self):
         if SCN.PLACEMENT_REV < 2:
             return self.place_rev1()
@@ -1096,16 +1138,41 @@ class HangLaundry(T):
                     hd = SCN.head_box(p)
                     if lb is not None and min(hd[2], lb[2] + 8) > max(hd[0], lb[0] - 8) and min(hd[3], lb[3] + 8) > max(hd[1], lb[1] - 8):
                         continue
+                bk = None
+                if SCN.PLACEMENT_REV >= 36 and BASKET38 in ("B", "W", "C"):
+                    # revision 36: the basket of washing at her feet (see BASKET38)
+                    bk = self.basket_at(p, s)
+                    if bk is None:
+                        continue
                 p.z = A["depth"] + 2          # in front of the line and the hung clothes
                 sc.assets[ep] = p
                 yt = A["fn"]((x0 + x1) / 2)
                 shirt = D.poly([(x0 - 4 * s, yt), (x1 + 4 * s, yt), (x1 + sl, yt + 24 * s), (x1 + 2 * s, yt + 32 * s), (x1 - 2 * s, yt + sh),
                                 (x0 + 2 * s, yt + sh), (x0 - 2 * s, yt + 32 * s), (x0 - sl, yt + 24 * s)], C["white"])
                 pegs = "".join(D.rect(x - 2 * s, yt - 4 * s, 4 * s, 9 * s, C["wood_light"], 1, D.OW * 0.6) for x in (x0 + 2 * s, x1 - 2 * s))
+                sbb = (x0 - sl, yt - 4 * s, x1 + sl, yt + sh)
+                if SCN.PLACEMENT_REV >= 36 and BASKET38 in ("W", "C", "D"):
+                    # the shirt dripping, three drops under its hem ("C": the first forming on the hem, the others falling)
+                    for k_, t_ in enumerate((0.28, 0.55, 0.8)):
+                        dx_, dy_ = x0 + (x1 - x0) * t_, yt + sh + (10, 22, 14)[k_] * s
+                        if BASKET38 == "C" and k_ == 0:
+                            hy_ = yt + sh
+                            pegs += D.shape(f"M {D.P(dx_ - 3 * s, hy_ - 1 * s)} Q {D.P(dx_ - 1.5 * s, hy_ + 5 * s)} {D.P(dx_ - 4.2 * s, hy_ + 8 * s)} "
+                                            f"Q {D.P(dx_, hy_ + 13 * s)} {D.P(dx_ + 4.2 * s, hy_ + 8 * s)} Q {D.P(dx_ + 1.5 * s, hy_ + 5 * s)} {D.P(dx_ + 3 * s, hy_ - 1 * s)} Z",
+                                            C["water_light"], D.OW * 0.5)
+                            continue
+                        pegs += D.shape(f"M {D.P(dx_, dy_ - 6 * s)} Q {D.P(dx_ + 4.5 * s, dy_ + 1 * s)} {D.P(dx_, dy_ + 4 * s)} Q {D.P(dx_ - 4.5 * s, dy_ + 1 * s)} {D.P(dx_, dy_ - 6 * s)} Z",
+                                        C["water_light"], D.OW * 0.5)
+                    sbb = (sbb[0], sbb[1], sbb[2], yt + sh + 28 * s)
                 es = sc.eid("shirt")
-                sc.svg(es, "Shirt being pinned up", shirt + pegs, A["depth"] + 1.5, (x0 - sl, yt - 4 * s, x1 + sl, yt + sh), "scored")
+                sc.svg(es, "Shirt being pinned up", shirt + pegs, A["depth"] + 1.5, sbb, "scored")
                 sc.legib_ok |= {("clothesline", ep), ("laundry", ep), (es, ep)}
-                self.act(self.p, "hanging up laundry", ["hanging laundry", "hanging clothes", "hanging up the washing", "pinning clothes", "clothesline"], "laundry", [ep, es])
+                els = [ep, es]
+                if bk is not None:
+                    eb = sc.svg(sc.eid("washbasket"), "Basket of washing at her feet", bk[0], bk[1][3], bk[1], "scored")
+                    sc.groundthings.append((bk[1], sc.placing))
+                    els.append(eb)
+                self.act(self.p, "hanging up laundry", ["hanging laundry", "hanging clothes", "hanging up the washing", "pinning clothes", "clothesline"], "laundry", els)
                 return True
         return False
 
@@ -3017,6 +3084,9 @@ class CatStalksBird(T):
         self.c = sc.animal(["cat"])
         self.b = sc.animal(["songbird"])
         self.on_fence = sc.setting_id == "garden" and sc.rng.random() < 0.6
+        if SCN.PLACEMENT_REV >= 36 and self.on_fence and "rain_coming" in getattr(sc, "picked_ids", ()):
+            # revision 36: on the ground under a storm pointer, as the cat walking the fence is kept out of her picture (see the planner)
+            self.on_fence = False
         # revision 6: a low, flat stalking crouch, belly to the ground and tail straight back (the old
         # crouch read as running)
         # revision 11: frozen mid-step with a front paw lifted, the hind legs bunched (crawling on four

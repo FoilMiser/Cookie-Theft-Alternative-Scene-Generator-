@@ -1196,15 +1196,33 @@ def rock(x, y, s=1.0):
     return svg, (x - 52 * s, y - 50 * s, x + 52 * s, y + 2)
 
 
-def laundry_basket(x, y, s=1.0):
-    """Wicker basket with folded clothes heaped in it."""
+def laundry_basket(x, y, s=1.0, cloth=False):
+    """Wicker basket with folded clothes heaped in it. cloth (v0.38, the hanger's basket only): a fold drawn in each bundle and a sleeve hanging
+    over the front rim (the smooth bundles were "balls or cushions" to three bench readers of six)."""
     svg = ""
     for dx, col in ((-24, C["blue"]), (4, C["white"]), (28, C["pink"])):
         svg += ell(x + dx * s, y - 50 * s, 24 * s, 14 * s, col, OW * 0.8)
+        if cloth:
+            svg += f'<path d="M {P(x + (dx - 14) * s, y - 52 * s)} Q {P(x + dx * s, y - 58 * s)} {P(x + (dx + 13) * s, y - 50 * s)}" fill="none" stroke="{OUT}" stroke-width="{1.6 * s:.1f}" stroke-linecap="round"/>'
     svg += shape(f"M {P(x - 50 * s, y - 46 * s)} L {P(x + 50 * s, y - 46 * s)} L {P(x + 40 * s, y)} L {P(x - 40 * s, y)} Z", "#c99a5a")
     for k in (1, 2):
         svg += line(x - 48 * s + k * 2, y - 46 * s + k * 15 * s, x + 48 * s - k * 2, y - 46 * s + k * 15 * s, "#a87a3c", 3 * s)
+    if cloth:
+        # a sleeve of the blue bundle over the rim, its cuff down the basket's front
+        svg += shape(f"M {P(x - 30 * s, y - 49 * s)} Q {P(x - 22 * s, y - 40 * s)} {P(x - 25 * s, y - 24 * s)} L {P(x - 13 * s, y - 23 * s)} "
+                     f"Q {P(x - 10 * s, y - 40 * s)} {P(x - 16 * s, y - 50 * s)} Z", C["blue"], OW * 0.8)
+        svg += line(x - 25.5 * s, y - 28 * s, x - 12.5 * s, y - 27 * s, OUT, 1.4 * s)
+        # and a drop forming at its cuff: the washing in the basket is wet too (under the dripping shirt, dry-looking clothes read as "about to get wet")
+        svg += drop(x - 19 * s, y - 23.5 * s, s, forming=True)
     return svg, (x - 54 * s, y - 66 * s, x + 54 * s, y)
+
+
+def drop(x, y, s=1.0, forming=False):
+    """v0.38: a water drop under wet washing; forming hangs from the hem or cuff at (x, y), otherwise it falls, centred at (x, y)."""
+    if forming:
+        return shape(f"M {P(x - 3 * s, y - 1 * s)} Q {P(x - 1.5 * s, y + 5 * s)} {P(x - 4.2 * s, y + 8 * s)} "
+                     f"Q {P(x, y + 13 * s)} {P(x + 4.2 * s, y + 8 * s)} Q {P(x + 1.5 * s, y + 5 * s)} {P(x + 3 * s, y - 1 * s)} Z", C["water_light"], OW * 0.5)
+    return shape(f"M {P(x, y - 6 * s)} Q {P(x + 4.5 * s, y + 1 * s)} {P(x, y + 4 * s)} Q {P(x - 4.5 * s, y + 1 * s)} {P(x, y - 6 * s)} Z", C["water_light"], OW * 0.5)
 
 
 def blowing_leaves(x0, y0, x1, y1, s=1.0, n=4):

@@ -49,31 +49,30 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v036", "v037"
+PREV, CUR = "v037", "v038"
 
-# the templates whose placement v0.37 changed for the v0.36 screen (vision/flaws_v036.md); no drawing changed, and the rules were read in whole
-# test scenes (vision/design_tests_v037.md)
+# the templates v0.38 redrew or ruled for the v0.37 screen (vision/flaws_v037.md): read on the bench (vision/isolation_v038.md) and in whole
+# test scenes (vision/design_tests_v038.md)
 REDRAWN_NOTES = {
-    "sweep_fork": "The gate's knob behind the sweeper's head in profile was read as a bun, three screens running, and the storm pointer stood on his dustpan. Now no part of anyone's drawing comes near the knob, and his heap and dustpan are kept clear of others' feet. Holds at 1.00; the sweeper by the gate is 'a boy with short dark hair, a green shirt and khaki trousers'.",
-    "sweep": "The broom's heap is kept clear of others' feet too, whichever is placed first. Holds at 1.00.",
-    "rain_coming": "The empty washing line was offered as what the storm pointer points at. Now there is no clothesline in her garden, posts and all. Holds at 1.00, the line gone.",
+    "hang_laundry": "v0.37's one failure: 'I can't tell whether the boy is hanging the T-shirt up or taking it down'. Now a basket of washing stands at the hanger's feet and all the washing drips; on the bench, with neither, no reader could tell up from down. 1.00 in three pictures, and no reader offers taking it down.",
+    "rain_coming": "A storm pointer was offered the cat on the fence, three screens running on one picture. Now no cat walks the fence in her picture, and in the garden no bird perches up high. Holds at 1.00: 'The clouds are the only thing up there'.",
+    "cat_stalks_bird": "On the ground, not the fence, under a storm pointer. Holds at 1.00.",
 }
 
-# what the v0.37 screen readers made of the templates that read poorly (vision/flaws_v037.md)
+# what the v0.38 screen readers made of the template that read least well (vision/flaws_v038.md)
 WEAK_NOTES = {
-    "hang_laundry": "On a picture identical to v0.36's, where it had full marks: 'I can't tell whether the boy is hanging the T-shirt up or taking it down'. One scored item a picture, so one half mark takes it under the gate. A basket at the feet is the fix v0.31 held back for this.",
+    "ice_cream_drop": "Half right on the same picture in v0.37 and v0.38: 'It is not certain whether the boy dropped the ice cream himself or the dog knocked it out of his hand'. It passes the gate, the lowest of the 64.",
 }
-SCREEN_NOTE = ("The v0.37 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures. No drawing changed; the rules were tried on the pictures that asked for them first, and read in whole test scenes. "
-               "870 of 876 items had full marks and none was misread, and 63 of 64 templates pass the gate. "
-               "The one failure is hanging the washing up, whose reader could not tell up from down on a picture identical to v0.36's. "
-               "75 pictures were identical to the pixel in v0.36 and v0.37, and 775 of their 783 items scored the same. "
+SCREEN_NOTE = ("The v0.38 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures. The washing was read on the bench first, and the rules in whole test scenes. "
+               "841 of 842 items had full marks and none was misread, and all 64 templates pass the gate. "
+               "The scorers themselves called 23 of those full marks hedged; halved, 58 of 64 would pass. "
+               "22 pictures were identical to the pixel in v0.37 and v0.38, and 291 of their 294 items scored the same. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:probes_v036/T3_garden_s23008.png@0,420,420,940>probes/T3_garden_s23008.png@0,420,420,940", "The sweeper by the gate", "v0.36: 'a woman with dark hair in a bun', the gate's knob behind his head in profile, a third time. v0.37: no part of anyone's drawing near the knob, and on the same seed he stands lower on the path: 'a boy with short dark hair, a green shirt and khaki trousers'."),
-         ("crop:probes_v036/T3_garden_s23013.png@0,0,1600,1000>probes/T3_garden_s23013.png@0,0,1600,1000", "The storm pointer", "v0.36: 'Pointing woman's feet seem to stand on the red dustpan', and the empty line offered as what she points at. v0.37: the dustpan kept clear of others' feet, and no clothesline in her garden: 'most likely pointing at the storm clouds, but she could be pointing at something on the roof or in the tree'."),
-         ("crop:scenes_v036/T2_street_s1032.png@1150,500,1600,880>scenes/T2_street_s1032.png@1150,500,1600,880", "The crate by the stall", "v0.36: 'The small wooden crate sits right under the stall's right leg. It looks slightly as though the leg is standing on it.' v0.37: the crate 50 px nearer the viewer, 'Cardboard box, right, beside the fruit stall.'")]
+FIXES = [("crop:probes_v037/T3_garden_s23009.png@560,330,1060,760>probes/T3_garden_s23009.png@560,330,1060,760", "The washing hung out", "v0.37: 'I can't tell whether the boy is hanging the T-shirt up or taking it down'. v0.38: on the same seed, a basket of washing at his feet and all the washing dripping: 'He is reaching up and pegging a white T-shirt onto the line.'"),
+         ("crop:scenes_v037/T3_garden_s11954.png@0,0,1600,1000>scenes/T3_garden_s15498.png@0,0,1600,1000", "The storm pointer's garden", "v0.37: 'The man in green could be pointing at the storm clouds, or up at the cat or something on the fence', a third screen running. v0.38: no cat on the fence and no bird perched up high with a storm pointer; this cell's seed no longer placed, and the new garden reads 'pointing up towards the dark clouds'.")]
 
 
 

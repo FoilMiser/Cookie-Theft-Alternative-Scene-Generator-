@@ -6,8 +6,8 @@
  "seed": 23039,
  "mirror": true,
  "versions": {
-  "generator": "0.37.0",
-  "cast_builder": "0.37.0",
+  "generator": "0.38.0",
+  "cast_builder": "0.38.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,60 +62,150 @@
  ],
  "templates": [
   {
-   "id": "cat_sleeping",
-   "kind": "event",
+   "id": "fish_in_tree",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A cat is sleeping",
+   "type": "entity",
+   "text": "There is a fish",
    "accepted": [
-    "cat sleeping",
-    "cat lying down",
-    "sleeping cat",
-    "cat napping",
-    "cat curled up",
-    "cat"
+    "fish",
+    "a fish",
+    "goldfish"
    ],
-   "key": "cat",
+   "key": "fish",
    "elements": [
-    "cat_sleeping_1"
+    "treefish_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "cat_sleeping",
+   "template": "fish_in_tree",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -1.278,
+    "animate": false,
+    "s": -1.312,
     "r": 0,
     "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "f": 0.9,
+    "a": 4.05,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
     "domain": null,
-    "area_px": 2524
+    "area_px": 2404
    },
-   "b": -0.975,
-   "p0": 0.726,
-   "pm1": 0.494,
+   "b": -0.494,
+   "p0": 0.621,
+   "pm1": 0.376,
    "aoi_cells": [
-    "BC"
+    "TR",
+    "MR"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong in the tree",
+   "accepted": [
+    "something in the tree",
+    "the tree looks odd",
+    "what's that in the tree"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_1"
+   ],
+   "cues": [
+    "treefish_1"
+   ],
+   "effect": [
+    "treefish_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 0.156,
+   "p0": 0.461,
+   "pm1": 0.239,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "A fish is sitting up in the tree, but fish live in water",
+   "accepted": [
+    "fish in a tree",
+    "fish can't live in trees",
+    "fish belong in water"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_1"
+   ],
+   "cues": [
+    "treefish_1"
+   ],
+   "effect": [
+    "treefish_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 1.356,
+   "p0": 0.205,
+   "pm1": 0.087,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -158,7 +248,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -200,7 +290,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -222,7 +312,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.734,
+    "s": 0.693,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -230,18 +320,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43040
+    "area_px": 40636
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.482,
+   "p0": 0.815,
+   "pm1": 0.618,
    "aoi_cells": [
     "TR",
     "MR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -284,7 +374,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -330,7 +420,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a swing set",
    "accepted": [
@@ -373,7 +463,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -418,18 +508,18 @@
  ],
  "counts": {
   "content": 8,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 8
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.797,
-   "inference": null
+   "content": 0.783,
+   "inference": 0.333
   },
   "theta_minus_1": {
-   "content": 0.598,
-   "inference": null
+   "content": 0.583,
+   "inference": 0.163
   }
  },
  "bands": {
@@ -437,7 +527,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -451,18 +541,26 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0355,
-  "png_bytes": 134940,
-  "jpeg_bytes": 171747
+  "objects": 15,
+  "edge_density": 0.0364,
+  "png_bytes": 139897,
+  "jpeg_bytes": 175822
  },
  "signature": [
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -570,8 +668,29 @@
     452.0
    ],
    "area_px": 44992,
-   "visible_px": 43040,
-   "occlusion": 0.043
+   "visible_px": 40636,
+   "occlusion": 0.097
+  },
+  {
+   "id": "limb_2",
+   "label": "Limb of the tree",
+   "role": "background",
+   "z": 450.2
+  },
+  {
+   "id": "treefish_1",
+   "label": "Fish sitting in the tree",
+   "role": "scored",
+   "z": 450.6,
+   "bbox": [
+    1066.0,
+    308.0,
+    1150.0,
+    344.0
+   ],
+   "area_px": 2404,
+   "visible_px": 2404,
+   "occlusion": 0.0
   },
   {
    "id": "fence",
@@ -664,36 +783,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "cat_sleeping_1",
-   "label": "animal.cat_02__sleep_tuck__sleepy__y045",
-   "role": "scored",
-   "z": 860.88,
-   "bbox": [
-    750.0,
-    828.0,
-    818.0,
-    882.0
-   ],
-   "area_px": 2524,
-   "visible_px": 2524,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.cat_02__sleep_tuck__sleepy__y045",
-    "family": "animal.cat_02",
-    "scale": 0.4679,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
-  },
-  {
    "id": "hose_reel",
    "label": "Hose reel",
    "role": "setting",
@@ -737,6 +826,21 @@
    "area_px": 4404,
    "visible_px": 4404,
    "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -758,11 +862,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "cat_sleeping"
+   "contradictions": [
+    "fish_in_tree"
    ]
   },
-  "placement_rev": 35
+  "placement_rev": 36
  },
  "probe": true
 }

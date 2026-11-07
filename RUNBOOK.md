@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.37 was made, written so that a fresh session can make the next one (v0.38) from this
+How each release from v0.12 to v0.38 was made, written so that a fresh session can make the next one (v0.39) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -288,3 +288,18 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   at. Revision 19 also shows the way out: it drops the line, posts and all, in the planner (revision 35 does the same for the storm pointer).
 - A filler slot at the picture's edge is moved in by revision 15 until it shows whole, so where it is drawn is not where the slot says. The street's spare crate,
   set at x 1560, was drawn 30 px further in, its lid at the foot of the fruit stall's leg. Look at where a filler is drawn (its element's `bbox` in the record) before moving it.
+- Before drawing a new thing, look for one already drawn. The garden has had a laundry basket since v0.4, a filler no v0.37 picture drew, and older readers had
+  named it at once; v0.38's fix for the washing was that basket set at the hanger's feet. `grep` the readers' descriptions for the thing a reading lacks, too:
+  "there is no laundry basket to show which" had been written in three screens.
+- A second cue can tell a story of its own. The drops said the shirt was wet, and so being hung out; under it, the basket's clothes with no drop on them read dry,
+  and a design test read "the dry laundry may be about to get wet". The fix was to make the story whole (everything on the line and in the basket wet), not to
+  move the basket: kept from under the shirt, it had room only where the planter kneels, and the washing and a planter placed 3 of 12 where they had placed 12.
+  Price a move in placement before taking it (`tpdb_work/bcost38.py` runs a forced set on twelve seeds with a switch either way).
+- Trace a placement over all its tries. `build_one` tries several seeds, and the first can fail on its cast before reaching the rule (the first trace of the basket
+  saw a woman too short to reach the line and nothing else); `max_tries=1` traced the wrong thing.
+- A planner rule changes more than the pictures it is about. A plan re-picked in one try moves the rest of that seed's plans, and a plan changed in one try
+  changes the template usage the next try plans with: keeping a perched bird from a storm pointer, re-picked, cost two set cells that show neither, and
+  dropped from the plan in every setting it still cost one. Write the rule where it must fire (the garden, for the fence), and rebuild every record of the set
+  before building on it (`verify_all.py` on a copy of the folder).
+- A clean screen can rest on its scorers. v0.38's two scorers listed 23 full marks given to readings the reader hedged; halved, 58 of 64 templates passed, not
+  64. Count them (`tpdb_work/strict38.py`) and check them against the last screen's scorers on the identical pictures before calling a template fixed.

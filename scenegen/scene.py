@@ -208,7 +208,13 @@ class PlacementError(Exception):
 # washing's place, "could be pointing at the storm clouds or at the empty washing line", and rebuilt off the dustpan she pointed up through its
 # post); and sets the street's spare crate 50 px nearer the viewer, clear of the fruit stall's right leg ("It looks slightly as though the leg
 # is standing on it").
-PLACEMENT_REV = 35
+# 36 (v0.38) sets a basket of washing on the grass at the hanger's feet, measured from her drawing, on the side she faces or else behind her heels,
+# between the line's posts and clear of others' feet, and drips the shirt she pins up, the jeans beside it and the sleeve over the basket's rim
+# (three screens had a reader who could not tell her hanging the washing out from taking it in, "there is no laundry basket to show which";
+# vision/isolation_v038.md; with the shirt alone dripping, the first design test read the drops as "falling toward a wooden laundry basket ... so
+# the dry laundry may be about to get wet"), with no filler basket beside it; and keeps a cat off the fence in a storm pointer's picture, the cat walking the fence re-picked and the stalking cat on the ground, and a bird perched in a storm pointer's garden dropped from the plan
+# ("The man in green could be pointing at the storm clouds, or up at the cat or something on the fence", three screens on one picture).
+PLACEMENT_REV = 36
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

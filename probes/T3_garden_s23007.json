@@ -6,8 +6,8 @@
  "seed": 23007,
  "mirror": false,
  "versions": {
-  "generator": "0.37.0",
-  "cast_builder": "0.37.0",
+  "generator": "0.38.0",
+  "cast_builder": "0.38.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,19 +60,19 @@
  ],
  "templates": [
   {
-   "id": "fish_in_tree",
-   "kind": "contradiction",
+   "id": "dog_wants_walk",
+   "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "water_flowers",
-   "kind": "event",
+   "id": "fish_in_tree",
+   "kind": "contradiction",
    "event": "e2",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "cat_sleeping",
+   "id": "water_flowers",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -82,6 +82,101 @@
  "items": [
   {
    "id": "i01",
+   "type": "action",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
+   "elements": [
+    "waitingdog_1",
+    "leash_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.414,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
+    "domain": null,
+    "area_px": 8528
+   },
+   "b": -0.774,
+   "p0": 0.684,
+   "pm1": 0.444,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "inference",
+   "text": "The dog wants to go for a walk",
+   "accepted": [
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
+   ],
+   "key": "walk",
+   "elements": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "cues": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "effect": [
+    "waitingdog_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.546,
+    "r": 2,
+    "d": 0.161,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
+    "domain": null,
+    "area_px": 7084
+   },
+   "b": 0.216,
+   "p0": 0.446,
+   "pm1": 0.229,
+   "aoi_cells": [
+    "TL",
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i03",
    "type": "action",
    "text": "A woman is watering the flowers",
    "accepted": {
@@ -101,8 +196,8 @@
    },
    "key": "flowers",
    "elements": [
-    "waterer_1",
-    "water_2"
+    "waterer_3",
+    "water_4"
    ],
    "cues": [],
    "effect": [],
@@ -110,12 +205,12 @@
    "animate": true,
    "domain": null,
    "template": "water_flowers",
-   "event": "e2",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.009,
+    "s": -0.017,
     "r": 0,
     "d": 0.0,
     "f": 0.64,
@@ -123,11 +218,11 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 15104
+    "area_px": 14944
    },
-   "b": -1.328,
-   "p0": 0.791,
-   "pm1": 0.581,
+   "b": -1.324,
+   "p0": 0.79,
+   "pm1": 0.58,
    "aoi_cells": [
     "MC",
     "BL",
@@ -135,7 +230,7 @@
    ]
   },
   {
-   "id": "i02",
+   "id": "i04",
    "type": "entity",
    "text": "There is a fish",
    "accepted": [
@@ -145,7 +240,7 @@
    ],
    "key": "fish",
    "elements": [
-    "treefish_3"
+    "treefish_5"
    ],
    "cues": [],
    "effect": [],
@@ -153,7 +248,7 @@
    "animate": false,
    "domain": null,
    "template": "fish_in_tree",
-   "event": "e1",
+   "event": "e2",
    "features": {
     "type": "entity",
     "chain": 0,
@@ -177,7 +272,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "contradiction_notice",
    "text": "Something is wrong in the tree",
    "accepted": [
@@ -187,19 +282,19 @@
    ],
    "key": "fish",
    "elements": [
-    "treefish_3"
+    "treefish_5"
    ],
    "cues": [
-    "treefish_3"
+    "treefish_5"
    ],
    "effect": [
-    "treefish_3"
+    "treefish_5"
    ],
    "chain": 0,
    "animate": false,
    "domain": "biological",
    "template": "fish_in_tree",
-   "event": "e1",
+   "event": "e2",
    "features": {
     "type": "contradiction_notice",
     "chain": 0,
@@ -223,7 +318,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "contradiction_explain",
    "text": "A fish is sitting up in the tree, but fish live in water",
    "accepted": [
@@ -233,19 +328,19 @@
    ],
    "key": "fish",
    "elements": [
-    "treefish_3"
+    "treefish_5"
    ],
    "cues": [
-    "treefish_3"
+    "treefish_5"
    ],
    "effect": [
-    "treefish_3"
+    "treefish_5"
    ],
    "chain": 1,
    "animate": false,
    "domain": "biological",
    "template": "fish_in_tree",
-   "event": "e1",
+   "event": "e2",
    "features": {
     "type": "contradiction_explain",
     "chain": 1,
@@ -269,51 +364,7 @@
    ]
   },
   {
-   "id": "i05",
-   "type": "action",
-   "text": "A cat is sleeping",
-   "accepted": [
-    "cat sleeping",
-    "cat lying down",
-    "sleeping cat",
-    "cat napping",
-    "cat curled up",
-    "cat"
-   ],
-   "key": "cat",
-   "elements": [
-    "cat_sleeping_5"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "cat_sleeping",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -1.23,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
-    "domain": null,
-    "area_px": 2700
-   },
-   "b": -0.759,
-   "p0": 0.681,
-   "pm1": 0.44,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -356,7 +407,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -398,7 +449,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i09",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -439,7 +490,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i10",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -470,7 +521,7 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 233488
+    "area_px": 233616
    },
    "b": -1.67,
    "p0": 0.842,
@@ -480,73 +531,27 @@
     "MC",
     "MR"
    ]
-  },
-  {
-   "id": "i10",
-   "type": "entity",
-   "text": "It is the back yard of a house",
-   "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
-    "garden"
-   ],
-   "key": "house",
-   "elements": [
-    "house"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 1.84,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
-    "domain": null,
-    "area_px": 204952
-   },
-   "b": -2.073,
-   "p0": 0.888,
-   "pm1": 0.745,
-   "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
-   ]
   }
  ],
  "counts": {
-  "content": 8,
-  "inference_units": 1,
+  "content": 7,
+  "inference_units": 2,
   "contradictions": 1,
   "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.741,
-   "inference": 0.284
+   "content": 0.721,
+   "inference": 0.338
   },
   "theta_minus_1": {
-   "content": 0.528,
-   "inference": 0.133
+   "content": 0.497,
+   "inference": 0.165
   }
  },
  "bands": {
   "content_count": false,
-  "inference_units": false,
+  "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
   "inference_completeness": true
@@ -563,14 +568,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "16 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0345,
-  "png_bytes": 140982,
-  "jpeg_bytes": 165589
+  "objects": 16,
+  "edge_density": 0.0362,
+  "png_bytes": 155536,
+  "jpeg_bytes": 171747
  },
  "signature": [
   [
@@ -610,8 +615,8 @@
    0
   ],
   [
-   "entity",
-   0
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -694,13 +699,13 @@
    "occlusion": 0.096
   },
   {
-   "id": "limb_4",
+   "id": "limb_6",
    "label": "Limb of the tree",
    "role": "background",
    "z": 450.2
   },
   {
-   "id": "treefish_3",
+   "id": "treefish_5",
    "label": "Fish sitting in the tree",
    "role": "scored",
    "z": 450.6,
@@ -726,23 +731,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 233488,
-   "occlusion": 0.031
-  },
-  {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    292.0,
-    598.0,
-    428.0,
-    684.0
-   ],
-   "area_px": 8296,
-   "visible_px": 7496,
-   "occlusion": 0.096
+   "visible_px": 233616,
+   "occlusion": 0.03
   },
   {
    "id": "filler_bush_mid",
@@ -758,6 +748,21 @@
    "area_px": 7424,
    "visible_px": 7424,
    "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    292.0,
+    598.0,
+    428.0,
+    684.0
+   ],
+   "area_px": 8296,
+   "visible_px": 7496,
+   "occlusion": 0.096
   },
   {
    "id": "filler_pots",
@@ -786,26 +791,71 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
+   "visible_px": 199020,
+   "occlusion": 0.029
+  },
+  {
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
+   "role": "scored",
+   "z": 806,
+   "bbox": [
+    80.0,
+    664.0,
+    176.0,
+    814.0
+   ],
+   "area_px": 7136,
+   "visible_px": 7084,
+   "occlusion": 0.007,
+   "asset": {
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    164.0,
+    694.0,
+    250.0,
+    818.0
+   ],
+   "area_px": 1444,
+   "visible_px": 1444,
    "occlusion": 0.0
   },
   {
-   "id": "waterer_1",
-   "label": "person.ana__water_plants__smile__y090",
+   "id": "waterer_3",
+   "label": "person.mei__water_plants__smile__y090",
    "role": "scored",
    "z": 820,
    "bbox": [
     518.0,
-    548.0,
-    636.0,
+    550.0,
+    634.0,
     826.0
    ],
-   "area_px": 13524,
-   "visible_px": 13320,
+   "area_px": 13376,
+   "visible_px": 13176,
    "occlusion": 0.015,
    "asset": {
-    "variant": "person.ana__water_plants__smile__y090",
-    "family": "person.ana",
+    "variant": "person.mei__water_plants__smile__y090",
+    "family": "person.mei",
     "scale": 0.4528,
     "mirrored": true,
     "labels": {
@@ -820,8 +870,8 @@
      "category": "adult_person",
      "person": {
       "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
+      "skin_tone": "skin4",
+      "hair": "black_bob"
      }
     }
    }
@@ -838,67 +888,37 @@
     838.0
    ],
    "area_px": 25880,
-   "visible_px": 24428,
+   "visible_px": 24440,
    "occlusion": 0.056
   },
   {
-   "id": "water_2",
+   "id": "water_4",
    "label": "Water from the can",
    "role": "scored",
    "z": 837,
    "bbox": [
-    442.0,
+    444.0,
     710.0,
     524.0,
     804.0
    ],
-   "area_px": 1784,
-   "visible_px": 1784,
+   "area_px": 1768,
+   "visible_px": 1768,
    "occlusion": 0.0
   },
   {
-   "id": "cat_sleeping_5",
-   "label": "animal.cat_02__sleep_tuck__sleepy__y045",
-   "role": "scored",
-   "z": 925.72,
-   "bbox": [
-    880.0,
-    890.0,
-    950.0,
-    944.0
-   ],
-   "area_px": 2700,
-   "visible_px": 2700,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.cat_02__sleep_tuck__sleepy__y045",
-    "family": "animal.cat_02",
-    "scale": 0.4919,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
-  },
-  {
-   "id": "filler_dog_bowl",
-   "label": "Dog bowl",
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
    "role": "filler",
-   "z": 968,
+   "z": 975,
    "bbox": [
-    1068.0,
-    954.0,
-    1132.0,
-    982.0
+    896.0,
+    892.0,
+    1078.0,
+    980.0
    ],
-   "area_px": 1408,
-   "visible_px": 1408,
+   "area_px": 8776,
+   "visible_px": 8776,
    "occlusion": 0.0
   }
  ],
@@ -922,14 +942,16 @@
   "usage": {},
   "forced": {
    "events": [
-    "water_flowers",
-    "cat_sleeping"
+    "water_flowers"
+   ],
+   "modules": [
+    "dog_wants_walk"
    ],
    "contradictions": [
     "fish_in_tree"
    ]
   },
-  "placement_rev": 35
+  "placement_rev": 36
  },
  "probe": true
 }
