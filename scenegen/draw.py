@@ -1387,11 +1387,51 @@ SWING35 = "T"           # chosen on the v0.35 bench (vision/isolation_v035.md)
 # v0.39 (revision 37, vision/flaws_v038.md O1): the broom's heap for summer. "A" autumn leaves as v0.38 ("a small seasonal inconsistency", seven
 # pictures from five readers in v0.38), "S" cut grass, twigs and a few brown leaves, "B" grit and dust as the fork's. By the bench (isolation_v039.md).
 HEAP39 = "S"
+# v0.40 (revision 38, vision/flaws_v039.md O1): "S" v0.39's heap ("Some of the raked leaves are green rather than brown or autumn-coloured, which looks
+# a little odd for raked fallen leaves", five pictures from four readers), "D" dry leaves and twigs, no green, "G" cut grass. By the bench.
+HEAP40 = "D"
+
+
+def leaf(cx, cy, L, W, rot, fill):
+    """v0.40: a leaf, pointed at both ends, with a midrib and a short stalk, centred at (cx, cy), length L, width W, turned rot degrees."""
+    r = math.radians(rot)
+    ux, uy = math.cos(r), math.sin(r)
+    vx, vy = -uy, ux
+    tip = (cx + ux * L / 2, cy + uy * L / 2)
+    base = (cx - ux * L / 2, cy - uy * L / 2)
+    c1 = (cx + vx * W * 2, cy + vy * W * 2)      # (a quadratic's control point at 2W gives the leaf a half-width of W)
+    c2 = (cx - vx * W * 2, cy - vy * W * 2)
+    stalk = (base[0] - ux * L * 0.22, base[1] - uy * L * 0.22)
+    svg = (f'<path d="M {P(*base)} Q {P(*c1)} {P(*tip)} Q {P(*c2)} {P(*base)} Z" fill="{fill}" stroke="{OUT}" stroke-width="{OW * 0.45:.1f}" stroke-linejoin="round"/>'
+           f'<path d="M {P(*stalk)} L {P(*tip)}" stroke="{OUT}" stroke-width="{OW * 0.35:.1f}" stroke-opacity="0.8" stroke-linecap="round"/>')
+    return svg
 
 
 def sweep_heap(x, y, s=1.0, f=1, style="A"):
     """A small heap ahead of the broom's head, on the ground at y."""
     bb = (x - 40 * s, y - 34 * s, x + 40 * s, y + 6 * s)
+    if style == "D":
+        # v0.40: dry leaves and twigs, browns and tans with one yellowed leaf, no green; each leaf pointed with a midrib and a stalk (as ovals
+        # they were "seeds, nuts, beans", "peanuts", "wood chips" on the bench)
+        svg = ""
+        cols = (C["leaf_brown"], C["khaki"], C["tan"], C["brown"], C["wood_light"], C["leaf_brown"],
+                C["khaki"], C["wood"], C["leaf_brown"], C["tan"], C["khaki"], C["brown"])
+        pts = ((-30, 0, 12), (-14, 1, -28), (2, 2, 18), (18, 1, -14), (32, 0, 30), (-22, -8, -20), (-6, -9, 24), (10, -9, -34), (24, -7, 10), (-11, -17, 8), (6, -18, -18), (-2, -26, 30))
+        for (dx, dy, rot), c in zip(pts, cols):
+            svg += leaf(x + dx * s, y + dy * s, 17 * s, 3.8 * s, rot, c)
+        for (ax, ay, bx_, by_) in ((-26, -6, -6, -14), (4, -4, 26, -12), (-10, -20, 8, -22), (-32, 1, -18, -4)):
+            svg += stroke(poly_d([(x + ax * s, y + ay * s), (x + bx_ * s, y + by_ * s)]), C["brown"], 2.2 * s, OW * 0.4)
+        return svg, bb
+    if style == "G":
+        # v0.40: cut grass, a low mound of clippings with short blades across it
+        svg = (f'<path d="M {P(x - 38 * s, y + 3 * s)} Q {P(x - 30 * s, y - 20 * s)} {P(x - 6 * s, y - 24 * s)} Q {P(x + 20 * s, y - 26 * s)} {P(x + 38 * s, y + 3 * s)} Z" '
+               f'fill="{C["leaf_green"]}" stroke="{OUT}" stroke-width="{OW * 0.6:.1f}" stroke-linejoin="round"/>')
+        for k, (dx, dy, ang) in enumerate(((-28, -2, 20), (-20, -10, -35), (-12, -4, 60), (-6, -17, 10), (2, -8, -50), (8, -19, 35), (14, -3, -15),
+                                           (20, -13, 55), (27, -4, -40), (-16, -16, -70), (12, -12, 80), (-2, -1, 25))):
+            r = math.radians(ang)
+            ux, uy = math.cos(r) * 6 * s, math.sin(r) * 6 * s
+            svg += f'<path d="M {P(x + dx * s - ux, y + dy * s - uy)} L {P(x + dx * s + ux, y + dy * s + uy)}" stroke="{C["grass_dark"] if k % 2 else C["green"]}" stroke-width="{2.0 * s:.1f}" stroke-linecap="round"/>'
+        return svg, bb
     if style == "S":
         svg = ""
         cols = (C["leaf_green"], C["grass_dark"], C["khaki"], C["leaf_green"], C["leaf_brown"], C["grass_dark"],

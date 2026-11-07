@@ -11,6 +11,16 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.40 (revision 38 and builder 0.40.0: the reach for a blown hat with one hand, the hose in two hands, the goat's graze and its tuft ahead of the
+    # muzzle, the heaps of dry leaves, the ice-cream eater not tiny at the back):
+    # a park: a hat blown off, an ice cream, the goat grazing at an angle
+    ("park", 3, 40401, {"modules": ["windy_hat"], "events": ["ice_cream", "goat_grazing"]}, "angled"),
+    # a garden: the hose inspected, a raker's dry leaves, the washing hung out
+    ("garden", 3, 40402, {"modules": ["blocked_hose"], "events": ["rake", "hang_laundry"]}, None),
+    # a street: a sweeper's dry leaves under the one tree, an ice cream, a reader on a bench
+    ("street", 3, 40403, {"events": ["sweep", "ice_cream", "read_bench"]}, None),
+    # a park: the goat at an angle, an ice cream, a kicker
+    ("park", 3, 40404, {"events": ["goat_grazing", "ice_cream", "kick_ball"]}, "angled"),
     # v0.39 (revision 37 and builder 0.39.0: the cast redrawn, the animals at more angles than profile, the broom's heap for summer, the caught ball
     # short of the hands):
     # a park: the goat grazing at an angle, a dog walked, a kicker

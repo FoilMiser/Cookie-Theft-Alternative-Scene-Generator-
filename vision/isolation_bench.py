@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.39 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.40 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,61 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.40 (vision/flaws_v039.md): first three letters the thing, the fourth the drawing. O v0.39's cast and scene (BENCH_CAST=assets/cast/out039,
+    # its library copied to tpdb_work/bench40/lib_O); N the v0.40 cast with every switch at B (BENCH_CAST=tpdb_work/bench40/out_N): the reach for the
+    # blown hat with one hand (wh0), the hose in two hands (hi0), the goat's graze with its tuft ahead of the muzzle (gt0, at 90, 45 and 135), the walking
+    # front foot flat (wk0 the boy with an ice cream, wd0 the grandfather and his dog); C the cast with TPDB_REACH40=C and TPDB_GRAZE40=C
+    # (BENCH_CAST=tpdb_work/bench40/out_C); the heaps (hp0 the broom's, rk0 the raked pile) O v0.39's summer heap, D dry leaves, G cut grass
+    "wh0O_1": ("garden", 40011, {"modules": ["windy_hat"]}, "event", None),
+    "wh0O_2": ("park", 40012, {"modules": ["windy_hat"]}, "event", None),
+    "wh0O_3": ("street", 40013, {"modules": ["windy_hat"]}, "event", None),
+    "wh0N_1": ("garden", 40011, {"modules": ["windy_hat"]}, "event", None),
+    "wh0N_2": ("park", 40012, {"modules": ["windy_hat"]}, "event", None),
+    "wh0N_3": ("street", 40013, {"modules": ["windy_hat"]}, "event", None),
+    "wh0C_1": ("garden", 40011, {"modules": ["windy_hat"]}, "event", None),
+    "wh0C_2": ("park", 40012, {"modules": ["windy_hat"]}, "event", None),
+    "wh0C_3": ("street", 40013, {"modules": ["windy_hat"]}, "event", None),
+    "hi0O_1": ("garden", 40021, {"modules": ["blocked_hose"]}, "event", ("fam", "blocked_hose", ["person.tomas"])),
+    "hi0O_2": ("garden", 40022, {"modules": ["blocked_hose"]}, "event", ("fam", "blocked_hose", ["person.tomas"])),
+    "hi0N_1": ("garden", 40021, {"modules": ["blocked_hose"]}, "event", ("fam", "blocked_hose", ["person.tomas"])),
+    "hi0N_2": ("garden", 40022, {"modules": ["blocked_hose"]}, "event", ("fam", "blocked_hose", ["person.tomas"])),
+    "gt0O_1": ("park", 40031, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt0O_2": ("park", 40032, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt0O_3": ("park", 40033, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "gt0N_1": ("park", 40031, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt0N_2": ("park", 40032, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt0N_3": ("park", 40033, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "gt0C_1": ("park", 40031, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt0C_2": ("park", 40032, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt0C_3": ("park", 40033, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "wk0O_1": ("street", 40041, {"events": ["ice_cream"]}, "event", ("pose", "person.leo__walk_ice_cream")),
+    "wk0O_2": ("park", 40042, {"events": ["ice_cream"]}, "event", ("pose", "person.leo__walk_ice_cream")),
+    "wk0N_1": ("street", 40041, {"events": ["ice_cream"]}, "event", ("pose", "person.leo__walk_ice_cream")),
+    "wk0N_2": ("park", 40042, {"events": ["ice_cream"]}, "event", ("pose", "person.leo__walk_ice_cream")),
+    "wd0O_1": ("park", 40051, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.tomas"])),
+    "wd0O_2": ("garden", 40052, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.tomas"])),
+    "wd0N_1": ("park", 40051, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.tomas"])),
+    "wd0N_2": ("garden", 40052, {"events": ["walk_dog"]}, "event", ("fam", "walk_dog", ["person.tomas"])),
+    "hp0O_1": ("street", 40061, {"events": ["sweep"]}, "event", None),
+    "hp0O_2": ("garden", 40062, {"events": ["sweep"]}, "event", None),
+    "hp0D_1": ("street", 40061, {"events": ["sweep"]}, "event", None),
+    "hp0D_2": ("garden", 40062, {"events": ["sweep"]}, "event", None),
+    "hp0G_1": ("street", 40061, {"events": ["sweep"]}, "event", None),
+    "hp0G_2": ("garden", 40062, {"events": ["sweep"]}, "event", None),
+    "rk0O_1": ("garden", 40071, {"events": ["rake"]}, "event", None),
+    "rk0D_1": ("garden", 40071, {"events": ["rake"]}, "event", None),
+    "rk0D_2": ("garden", 40072, {"events": ["rake"]}, "event", None),
+    "rk0G_1": ("garden", 40071, {"events": ["rake"]}, "event", None),
+    "rk0G_2": ("garden", 40072, {"events": ["rake"]}, "event", None),
+    # round 2 (BENCH_CAST=tpdb_work/bench40/out_C, the winners): the dry heap's leaves pointed with a midrib and a stalk, on round 1's seeds; the goat C
+    # with its bite joined to the tuft, at the three angles
+    "hp0D_3": ("street", 40061, {"events": ["sweep"]}, "event", None),
+    "hp0D_4": ("garden", 40062, {"events": ["sweep"]}, "event", None),
+    "rk0D_3": ("garden", 40071, {"events": ["rake"]}, "event", None),
+    "rk0D_4": ("garden", 40072, {"events": ["rake"]}, "event", None),
+    "gt0C_4": ("park", 40031, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt0C_5": ("park", 40032, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt0C_6": ("park", 40033, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
     # v0.39 (Sam's figure-fixes-v038.md: the cast's people and animals redrawn, and the animals at revision 37's angles; the swept heap for summer).
     # First three letters the thing, the fourth the drawing: O v0.38's cast with the animals at 90 (BENCH_CAST=assets/cast/out038), N the v0.39 cast
     # with its switches (TPDB_ISECT39=B TPDB_SHOE39=D TPDB_MID39=B TPDB_BELT39=B TPDB_BEN39=C TPDB_QUAD39=B TPDB_ART39=B) at revision 37's angles;
@@ -639,6 +694,7 @@ NEW35 = {n for n in BENCH if n[:3] == "swg" and BENCH[n][1] // 1000 == 35}
 NEW36 = {n for n in BENCH if n[:3] in ("bkt", "prf") and BENCH[n][1] // 1000 == 36}
 NEW38 = {n for n in BENCH if n[:3] == "hng" and BENCH[n][1] // 1000 == 38}
 NEW39 = {n for n in BENCH if n[2] == "9" and BENCH[n][1] // 1000 == 39}
+NEW40 = {n for n in BENCH if n[2] == "0" and BENCH[n][1] // 1000 == 40}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -718,6 +774,14 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         _T0.YAW39 = "O" if name[3] == "O" else "B"
         if name[:3] in ("hp9", "rk9"):
             _D.HEAP39 = name[3]
+    if name in NEW40:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        if name[3] == "O":
+            # v0.39's scene: its heap, its tuft, no least height for the ice-cream eater
+            _D.HEAP40, _T0.TUFT40, _T0.ICE40 = "S", "O", 0
+        elif name[:3] in ("hp0", "rk0"):
+            _D.HEAP40 = name[3]
     rec = None
     for k in range(40):
         USAGE.clear()

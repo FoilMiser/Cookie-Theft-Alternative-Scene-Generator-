@@ -567,6 +567,19 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False):
 
     def graze():
         # v0.8: grazing, muzzle down in the grass (sniffing read as "about to butt" or "sniffing")
+        g40 = os.environ.get("TPDB_GRAZE40", "C")
+        if ART39 == "B" and kind == "goat" and g40 in ("B", "C"):
+            # v0.40 (vision/flaws_v039.md O2): the back level on straight legs and the neck reaching forward and down, the head ahead of the front
+            # legs with its face showing. v0.39's neck straight down from a high back read "the back is a tall, hunched arch, the rear sticks up"
+            # on the bench, and in the screen the head "blends into the grass tuft". Hips and chest lowered together, the goat crouched on bent
+            # knees. "B" the mouth at the grass; "C" the chest a little higher, the head further ahead
+            if g40 == "B":
+                body(hip_drop=0.03, chest_drop=0.03, neck=(0, -0.60, -0.80), head_pitch=-62, tail=(0, 0.45, 0.85))
+                legs(*paws(fy=-0.18))
+            else:
+                body(hip_drop=0.0, chest_drop=-0.04, neck=(0, -0.55, -0.84), head_pitch=-60, tail=(0, 0.45, 0.85))
+                legs(*paws(fy=-0.16))
+            return
         if ART39 == "B" and kind == "goat":
             # v0.39 (TPDB_ART39): the long neck lowered to the grass on straight front legs, the hind legs a little bent at the hock (the front
             # legs bent under a tall straight back read as "contorted")

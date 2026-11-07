@@ -511,7 +511,9 @@ class Sweep(T):
             tx, _ = q.anchor("broom_tip")
             s_ = sz(q.Y)
             f_ = 1 if tx > q.X else -1
-            # (revision 37: drawn for summer, D.HEAP39)
+            # (revision 37: drawn for summer, D.HEAP39; revision 38: D.HEAP40)
+            if SCN.PLACEMENT_REV >= 38:
+                return D.sweep_heap(tx + f_ * 34 * s_, q.Y + 6 * s_, s_, f_, D.HEAP40)
             return D.sweep_heap(tx + f_ * 34 * s_, q.Y + 6 * s_, s_, f_, D.HEAP39 if (SCN.PLACEMENT_REV >= 37 and D.HEAP39 != "A") else D.SWEEP26)
         accept = (lambda q: sc.fits(heap(q)[1], limit=0.05, ignore=(ep,))) if rev24 else None
         if rev24 and SCN.PLACEMENT_REV >= 35:
@@ -574,7 +576,19 @@ class Rake(T):
             if SCN.PLACEMENT_REV >= 37 and D.HEAP39 == "S":
                 # revision 37: cut grass and a few brown leaves, as the swept heap (a pile of leaves raked "on a green summer day")
                 pal = [C["leaf_green"], C["grass_dark"], C["khaki"], C["leaf_green"], C["leaf_brown"], C["grass_dark"]]
-            leaves += D.ell(lx + dx, ly + dy, 9 * s, 5 * s, pal[i % len(pal)], D.OW * 0.5, rot=a * 40)
+            ry_ = 5 * s
+            if SCN.PLACEMENT_REV >= 38 and D.HEAP40 == "D":
+                # revision 38: dry leaves, as the swept heap
+                pal = [C["leaf_brown"], C["khaki"], C["tan"], C["brown"], C["wood_light"], C["khaki"]]
+            elif SCN.PLACEMENT_REV >= 38 and D.HEAP40 == "G":
+                # revision 38: cut grass, thin clippings
+                pal = [C["leaf_green"], C["green"], C["grass_dark"], C["leaf_green"]]
+                ry_ = 2.2 * s
+            if SCN.PLACEMENT_REV >= 38 and D.HEAP40 == "D":
+                # (revision 38: leaf-shaped, as the swept heap's dry leaves)
+                leaves += D.leaf(lx + dx, ly + dy, 16 * s, 3.6 * s, a * 40, pal[i % len(pal)])
+                continue
+            leaves += D.ell(lx + dx, ly + dy, 9 * s, ry_, pal[i % len(pal)], D.OW * 0.5, rot=a * 40)
         el = sc.svg(sc.eid("leaves"), "Pile of leaves", leaves, p.Y + 22 * s, (lx - 60 * s, ly - 20 * s, lx + 60 * s, ly + 20 * s), "scored")
         self.act(self.p, "raking leaves", ["raking", "raking leaves", "rake", "cleaning up leaves", "raking grass"], "raking", [ep, el])
         return True
@@ -1752,7 +1766,9 @@ class IceCream(T):
     def place(self):
         sc = self.sc
         ep = sc.eid("icecream")
-        if not sc.try_put(ep, self.vp, self.stand_spots(), want_face=sc.rng.choice([1, -1])):
+        # revision 38: not so small at the back that the cone is "something small and pink" (templates.ICE40)
+        acc = (lambda q: q.bbox()[3] - q.bbox()[1] >= ICE40) if (SCN.PLACEMENT_REV >= 38 and ICE40) else None
+        if not sc.try_put(ep, self.vp, self.stand_spots(), want_face=sc.rng.choice([1, -1]), accept=acc):
             return False
         self.act(self.p, "eating an ice cream", ["eating ice cream", "ice cream cone", "having an ice cream", "eating a cone"], "ice cream", [ep])
         return True
@@ -2035,6 +2051,9 @@ YAW39 = "B"
 ANIMAL_YAWS = {"walk_dog": (90, 45), "ice_cream_drop": (90, 45), "dog_begs": (90, 45), "paint_tracks": (90, 45), "dog_playing": (90, 45),
                "goat_grazing": (90, 45, 135), "cat_stalks_bird": (90, 45), "blocked_hose": (90, 45, 135)}
 YAW_FORCE = {}       # (an isomorph's animals take the yaws of its partner's, batch.build_isomorph)
+# v0.40 (revision 38): the goat's tuft ahead of its muzzle and behind its head ("O" as revision 37); the ice-cream eater's least height in px (0: any)
+TUFT40 = "B"
+ICE40 = 170
 # (the angles drawn but drawn at 90 instead: the dog walked at 45 never placed, its lead from the walker's hand crossing the dog's back to the collar
 # at every spot, which revision 12 forbids; 12 probes in four settings, 1893 lead curves, none clear. Dropped as the gate drops an angle, the draw
 # kept so that the records that drew 90 rebuild as they were)
@@ -2166,16 +2185,33 @@ class GoatGrazing(AnimalEvent):
             mx, my = a.anchor("mouth")
             s = sz(a.Y)
             f = 1 if mx > a.X else -1
+            tuft40 = SCN.PLACEMENT_REV >= 38 and TUFT40 == "B"
             blades = ""
+            bite = ""
             for k, (dx, h, lean) in enumerate(((-9, 22, -5), (-4, 28, -2), (1, 24, 3), (6, 30, 6), (11, 20, 8), (-13, 16, -8))):
                 bx_, by_ = mx + dx * s, a.Y + 2 * s
+                if tuft40:
+                    # revision 38: the tuft just ahead of the muzzle and a little shorter, drawn behind the goat's head (over it, the head was "hard
+                    # to tell ... from tuft", three pictures)
+                    bx_, h = mx + (f * 18 + dx * 0.8) * s, h * 0.8
                 blades += f'<path d="M {D.P(bx_ - 2.2 * s, by_)} Q {D.P(bx_ + lean * 0.5 * s, by_ - h * 0.6 * s)} {D.P(bx_ + lean * s, by_ - h * s)} Q {D.P(bx_ + lean * 0.4 * s + 1.5 * s, by_ - h * 0.5 * s)} {D.P(bx_ + 2.2 * s, by_)} Z" fill="{C["grass_dark"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.35:.1f}"/>'
             # a few blades hanging from the mouth
             for k, (ang, ln) in enumerate(((-30, 16), (-5, 20), (20, 15))):
                 r = math.radians(ang)
                 ex, ey = mx + f * math.sin(r) * ln * s, my + math.cos(r) * ln * s
-                blades += f'<path d="M {D.P(mx, my)} L {D.P(ex, ey)}" stroke="{C["grass_dark"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
-            sc.svg(sc.eid("grasstuft"), "Grass at the goat's mouth", blades, a.Y + 2, (mx - 18 * s, min(my, a.Y - 32 * s), mx + 20 * s, a.Y + 4 * s), "setting")
+                if tuft40:
+                    # (the bite runs from the mouth down to the tuft's top, so it is grass pulled from the tuft: hanging free from the mouth, it was
+                    # "not attached to the tuft", "floating near the mouth")
+                    ex, ey = mx + f * (8 + 5 * k) * s, a.Y + 2 * s - (17 - 3 * k) * s
+                    bite += f'<path d="M {D.P(mx, my)} Q {D.P((mx + ex) / 2, max(my, ey) + 3 * s)} {D.P(ex, ey)}" fill="none" stroke="{C["grass_dark"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
+                else:
+                    blades += f'<path d="M {D.P(mx, my)} L {D.P(ex, ey)}" stroke="{C["grass_dark"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
+            if tuft40:
+                x0, x1 = sorted((mx + (f * 18 - 13) * s, mx + (f * 18 + 11) * s))
+                sc.svg(sc.eid("grasstuft"), "Grass at the goat's mouth", blades, a.Y - 0.5, (x0 - 6 * s, a.Y - 26 * s, x1 + 6 * s, a.Y + 4 * s), "setting")
+                sc.svg(sc.eid("grassbite"), "Grass in the goat's mouth", bite, a.Y + 2, (mx - 18 * s, my, mx + 18 * s, my + 22 * s), "setting")
+            else:
+                sc.svg(sc.eid("grasstuft"), "Grass at the goat's mouth", blades, a.Y + 2, (mx - 18 * s, min(my, a.Y - 32 * s), mx + 20 * s, a.Y + 4 * s), "setting")
         return True
 
     def spot(self):

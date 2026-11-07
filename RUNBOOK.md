@@ -318,3 +318,13 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   set and probes held the walk only at 90. The probes stratified by angle (`tpdb_work/probe_angle39.py`) found it. Before the screen, count each
   (template, angle) in the records; one that never places is dropped by drawing it at another angle with the draw kept (`templates.UNPLACED`), so the records
   that drew the other angles rebuild as they were.
+- A bench cast rebuilt in part is two casts. v0.40's first N cast was built, then the reach was redrawn and three people rebuilt, and the bench's
+  windy-hat cut-outs of Ana still had the first reach, across her face. After any pose change, build the bench cast whole again, and run every case
+  of it again into a fresh library.
+- `render_set.py` skips a variant whose files exist. A library or gallery carried from the last release keeps its old renders of a redrawn pose
+  unless those files are deleted first (v0.40's goat graze came through unchanged, by an anchored pattern that matched nothing). After rendering,
+  compare a file of each redrawn variant against the last release's.
+- A reader can describe the wrong picture. v0.40's reader 7 wrote picture 56's park under picture 55's name, and the scorer found it: eleven items of 15 at
+  0, and the next description saying the two "look identical". Check the blind files are distinct (they were), set the wrong description aside, and read the
+  picture again with a fresh reader and score it with a fresh scorer, each with the screen's own prompt cut to the one picture; drop any oddity the mix-up
+  left on its neighbour.

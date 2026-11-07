@@ -6,8 +6,8 @@
  "seed": 23040,
  "mirror": true,
  "versions": {
-  "generator": "0.39.0",
-  "cast_builder": "0.39.0",
+  "generator": "0.40.0",
+  "cast_builder": "0.40.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,10 +61,10 @@
  ],
  "templates": [
   {
-   "id": "dig",
-   "kind": "event",
+   "id": "bucket_hat",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -72,7 +72,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is digging",
+   "text": "A grandmother is standing with hands on hips",
    "accepted": {
     "who": [
      "grandmother",
@@ -83,48 +83,138 @@
      "woman"
     ],
     "what": [
-     "digging",
-     "digging a hole",
-     "shoveling",
-     "using a shovel",
-     "spade"
+     "standing",
+     "standing there",
+     "hands on hips"
     ]
    },
-   "key": "digging",
+   "key": "standing",
    "elements": [
-    "digger_1",
-    "soil_2"
+    "buckethead_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "dig",
+   "template": "bucket_hat",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.203,
+    "s": 0.108,
     "r": 0,
     "d": 0.0,
-    "f": -0.01,
-    "a": 4.19,
-    "zipf_raw": 3.99,
-    "aoa_raw": 4.19,
+    "f": 0.86,
+    "a": 4.39,
+    "zipf_raw": 4.86,
+    "aoa_raw": 4.39,
     "domain": null,
-    "area_px": 20368
+    "area_px": 17808
    },
-   "b": -1.478,
-   "p0": 0.814,
-   "pm1": 0.617,
+   "b": -1.692,
+   "p0": 0.844,
+   "pm1": 0.666,
    "aoi_cells": [
+    "MC",
     "BC"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person has on their head",
+   "accepted": [
+    "funny hat",
+    "something on his head",
+    "that's strange"
+   ],
+   "key": "bucket",
+   "elements": [
+    "buckethead_1"
+   ],
+   "cues": [
+    "buckethead_1"
+   ],
+   "effect": [
+    "buckethead_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "functional",
+   "template": "bucket_hat",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": 0.108,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 17808
+   },
+   "b": -0.154,
+   "p0": 0.538,
+   "pm1": 0.3,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is wearing a bucket as a hat",
+   "accepted": [
+    "bucket on the head",
+    "wearing a bucket",
+    "a bucket is not a hat"
+   ],
+   "key": "bucket",
+   "elements": [
+    "buckethead_1"
+   ],
+   "cues": [
+    "buckethead_1"
+   ],
+   "effect": [
+    "buckethead_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "bucket_hat",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.108,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 17808
+   },
+   "b": 1.046,
+   "p0": 0.26,
+   "pm1": 0.114,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -167,7 +257,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -209,7 +299,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -250,7 +340,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -294,7 +384,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -317,7 +407,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.887,
+    "s": 1.87,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -325,11 +415,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 218760
+    "area_px": 213776
    },
-   "b": -1.886,
-   "p0": 0.868,
-   "pm1": 0.708,
+   "b": -1.878,
+   "p0": 0.867,
+   "pm1": 0.706,
    "aoi_cells": [
     "ML",
     "MC",
@@ -337,7 +427,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -383,7 +473,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a swing set",
    "accepted": [
@@ -426,7 +516,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -471,18 +561,18 @@
  ],
  "counts": {
   "content": 9,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 9
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.787,
-   "inference": null
+   "content": 0.79,
+   "inference": 0.399
   },
   "theta_minus_1": {
-   "content": 0.587,
-   "inference": null
+   "content": 0.592,
+   "inference": 0.207
   }
  },
  "bands": {
@@ -509,13 +599,21 @@
  },
  "clutter": {
   "objects": 14,
-  "edge_density": 0.0378,
-  "png_bytes": 157092,
-  "jpeg_bytes": 179489
+  "edge_density": 0.0385,
+  "png_bytes": 156071,
+  "jpeg_bytes": 179923
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -642,8 +740,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 218760,
-   "occlusion": 0.092
+   "visible_px": 213776,
+   "occlusion": 0.113
   },
   {
    "id": "filler_bush_left",
@@ -706,6 +804,44 @@
    "occlusion": 0.0
   },
   {
+   "id": "buckethead_1",
+   "label": "person.rosa__bucket_hat__smile__y045",
+   "role": "scored",
+   "z": 844.09,
+   "bbox": [
+    688.0,
+    536.0,
+    784.0,
+    850.0
+   ],
+   "area_px": 17808,
+   "visible_px": 17808,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__bucket_hat__smile__y045",
+    "family": "person.rosa",
+    "scale": 0.4617,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
    "id": "swing_seat",
    "label": "Empty swing seat",
    "role": "setting",
@@ -736,59 +872,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "soil_2",
-   "label": "Hole and pile of dirt",
-   "role": "scored",
-   "z": 904.34,
-   "bbox": [
-    584.0,
-    872.0,
-    746.0,
-    924.0
-   ],
-   "area_px": 4372,
-   "visible_px": 3804,
-   "occlusion": 0.13
-  },
-  {
-   "id": "digger_1",
-   "label": "person.rosa__dig_lift__determined__y045",
-   "role": "scored",
-   "z": 905.34,
-   "bbox": [
-    692.0,
-    644.0,
-    846.0,
-    916.0
-   ],
-   "area_px": 16564,
-   "visible_px": 16564,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.rosa__dig_lift__determined__y045",
-    "family": "person.rosa",
-    "scale": 0.4844,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "grandmother",
-     "accepted_names": [
-      "grandmother",
-      "grandma",
-      "old woman",
-      "older woman",
-      "lady",
-      "woman"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin1",
-      "hair": "gray_bun"
-     }
-    }
-   }
-  },
-  {
    "id": "filler_watering_can",
    "label": "Watering can",
    "role": "filler",
@@ -801,6 +884,21 @@
    ],
    "area_px": 4404,
    "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -823,11 +921,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "dig"
+   "contradictions": [
+    "bucket_hat"
    ]
   },
-  "placement_rev": 37
+  "placement_rev": 38
  },
  "probe": true
 }

@@ -219,7 +219,13 @@ class PlacementError(Exception):
 # and twigs and a few brown leaves (draw.HEAP39; "autumn leaves under green trees", seven pictures from five readers); and keeps the ball of a game of
 # catch five of its widths short of the catcher's hands ("the ball sits right at the woman's hands"). The cast's figures and animals are redrawn
 # (builder 0.39.0, vision/isolation_v039.md).
-PLACEMENT_REV = 37
+# 38 (v0.40) draws the broom's heap and the raked pile of dry leaves, leaf-shaped, and twigs, by the bench (draw.HEAP40 "D"; v0.39's green leaves were
+# "a little odd for raked fallen leaves", five pictures from four readers; cut grass read as "a green dustpan", dry ovals as "seeds, nuts, beans");
+# draws the goat's tuft just ahead of its muzzle and behind its head, with a few blades running from its mouth into it (templates.TUFT40; "hard to tell
+# head from tuft", three pictures); and keeps an ice-cream eater's figure at least
+# templates.ICE40 px tall (the only two half marks of 20 were eaters under 150 px at the back: "something small and pink"). The cast's reach for a
+# blown hat, the hose held in two hands, the goat's graze and the walking front foot are redrawn (builder 0.40.0, vision/isolation_v040.md).
+PLACEMENT_REV = 38
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

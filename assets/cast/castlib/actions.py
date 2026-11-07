@@ -219,7 +219,10 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
     P.place_legs(feet)
     if foot27:
         P.rig.aim_dir("foot_L", (0, -0.72, -0.70) if foot == "B" else (0, -0.86, -0.50))
-        P.rig.aim_dir("foot_R", (0, -1, 0.02))
+        if not (__import__("os").environ.get("TPDB_SHOE39", "D") == "D" and __import__("os").environ.get("TPDB_WALK40", "O") == "B"):
+            # (v0.40, vision/flaws_v039.md O5, TPDB_WALK40 "B": the front foot is left as place_legs plants it, sole flat. Aimed level here, it sat
+            # toe-up by the shoe's rest angle while the back foot tipped toe-down, and "The boy's feet point in different directions")
+            P.rig.aim_dir("foot_R", (0, -1, 0.02))
 
 
 def lo_run(P):
@@ -436,6 +439,19 @@ def up_point_up(P):
 
 def up_reach_up(P):
     A = P.A
+    r40 = __import__("os").environ.get("TPDB_REACH40", "C")
+    if r40 in ("B", "C"):
+        # v0.40 (vision/flaws_v039.md R1): one hand up toward the hat, which flies up and ahead of the head on the side faced; with both arms up
+        # the reader of the windy hat offered "throwing her hands up in alarm rather than reaching", as in v0.38. "B" the far hand up by the
+        # chest, open (startled); "C" the far arm down at the side
+        # (the far arm reaches: the near one, reaching up and ahead, crossed in front of the face at 45 like a hand shading the eyes)
+        reach = P.lm("sh_L") + nrm((0.12, -0.62, 0.78)) * A * 0.995
+        other = (P.lm("sh_R") + Vector((-0.02, -0.20, -0.12)) * P.u, (-1, 0.3, -0.8)) if r40 == "B" else P.rest_arm("R")
+        P.arms({"L": (reach, (1, 0.5, -0.2)), "R": other})
+        P.hand("L", "open", palm=(0, -0.3, 1))
+        if r40 == "B":
+            P.hand("R", "open", palm=(0, -1, 0.2))
+        return
     # near (right) arm up and out to the side, far (left) arm up and ahead: both hands stay clear of
     # the head at 45 and 90 degrees
     P.arms({"R": (P.lm("sh_R") + nrm((-0.40, 0.16, 0.92)) * A * 0.995, (-1, 0.5, -0.2)),
@@ -704,22 +720,25 @@ def _water_pan_v23(P, style):
     P.panchor("spout_aim", rim + Vector((0, -0.30, -0.14)) * u)
 
 
-def _nozzle(P, F):
+def _nozzle(P, F, drop=0.22):
     """A hose end held in the fist: the hose runs in from below and behind, a short brass nozzle
-    sticks out in front. No pistol grip, so it can never read as a gun."""
+    sticks out in front. No pistol grip, so it can never read as a gun. drop: how far the hose hangs below the fist before the
+    template's drawn hose takes over (v0.40: longer for the far hand to hold)."""
     u = P.u
     noz27 = __import__("os").environ.get("TPDB_NOZ", "B") == "B"
     pts = [F.p(0, 0.13 * u, -0.16 * u), F.p(0, 0.09 * u, -0.06 * u), F.p(0, 0.04 * u, -0.005 * u), F.p(0, -0.025 * u, 0.012 * u)]
     if noz27:
         # v0.27, chosen on the bench: the hose hangs from the fist, below it and in plain sight (run in from behind, past the forearm, it "seems to end at a rounded tip near her hip")
         pts = [F.p(0, -0.012 * u, -0.22 * u), F.p(0, 0.012 * u, -0.11 * u), F.p(0, 0.026 * u, -0.02 * u), F.p(0, -0.025 * u, 0.012 * u)]
+        if drop > 0.22:
+            pts = [F.p(0, -0.024 * u, -drop * u)] + pts
     P.prop("hose", tube_mesh("hose", pts, 0.030 * u if noz27 else 0.022 * u, "hose"))
     P.prop("collar", cyl("collar", F.p(0, -0.020 * u, 0.012 * u), F.p(0, -0.050 * u, 0.014 * u), 0.026 * u, "yellow", seg=18))
     P.prop("tip", cyl("tip", F.p(0, -0.048 * u, 0.014 * u), F.p(0, -0.105 * u, 0.017 * u), 0.020 * u, "yellow", r1=0.011 * u, seg=18))
     tip = F.p(0, -0.108 * u, 0.017 * u)
     P.panchor("nozzle", tip)
     P.panchor("nozzle_aim", tip + F.d(0, -0.40, -0.10) * u)
-    P.panchor("hose_in", F.p(0, -0.012 * u, -0.22 * u) if noz27 else F.p(0, 0.13 * u, -0.16 * u))
+    P.panchor("hose_in", (F.p(0, -0.024 * u, -drop * u) if drop > 0.22 else F.p(0, -0.012 * u, -0.22 * u)) if noz27 else F.p(0, 0.13 * u, -0.16 * u))
 
 
 def up_hose_spray(P):
@@ -733,6 +752,15 @@ def up_hose_inspect(P):
     u = P.u
     eyes = (P.lm("eye_L") + P.lm("eye_R")) / 2
     tR = eyes + Vector((-0.03, -0.24, -0.13)) * u
+    if __import__("os").environ.get("TPDB_HOSE40", "B") == "B":
+        # v0.40 (vision/flaws_v039.md O3): the near hand holds the nozzle up to the face, the far hand the hose below it, elbow down. Both hands
+        # together at the nozzle, the two white sleeves were "one long flat white shape stretched out to the nozzle"
+        P.arms({"R": (tR, (-1, 0.3, -0.7))})
+        g = P.grip("R")
+        F = Frame(g, frame_toward(g, (eyes - g)).q)
+        _nozzle(P, F, drop=0.46)
+        P.arms({"L": (F.p(0, -0.02 * u, -0.36 * u), (1, 0.2, -1.0))})
+        return
     P.arms({"R": (tR, (-1, 0.3, -0.7)), "L": (tR + Vector((0.08, 0.0, 0.04)) * u, (1, 0.3, -0.7))})
     g = P.grip("R")
     F = frame_toward(g, (eyes - g))

@@ -6,8 +6,8 @@
  "seed": 23025,
  "mirror": true,
  "versions": {
-  "generator": "0.39.0",
-  "cast_builder": "0.39.0",
+  "generator": "0.40.0",
+  "cast_builder": "0.40.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -72,7 +72,7 @@
    "units": 0
   },
   {
-   "id": "cat_sleeping",
+   "id": "rake",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -278,45 +278,55 @@
   {
    "id": "i05",
    "type": "action",
-   "text": "A cat is sleeping",
-   "accepted": [
-    "cat sleeping",
-    "cat lying down",
-    "sleeping cat",
-    "cat napping",
-    "cat curled up",
-    "cat"
-   ],
-   "key": "cat",
+   "text": "A grandfather is raking leaves",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "raking",
+     "raking leaves",
+     "rake",
+     "cleaning up leaves",
+     "raking grass"
+    ]
+   },
+   "key": "raking",
    "elements": [
-    "cat_sleeping_4"
+    "raker_4",
+    "leaves_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "cat_sleeping",
+   "template": "rake",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.287,
+    "s": 0.065,
     "r": 0,
     "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "f": -1.05,
+    "a": 5.32,
+    "zipf_raw": 2.95,
+    "aoa_raw": 5.32,
     "domain": null,
-    "area_px": 2492
+    "area_px": 16772
    },
-   "b": -0.731,
-   "p0": 0.675,
-   "pm1": 0.433,
+   "b": -0.858,
+   "p0": 0.702,
+   "pm1": 0.465,
    "aoi_cells": [
-    "BL"
+    "MC",
+    "BC"
    ]
   },
   {
@@ -469,7 +479,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.942,
+    "s": 1.924,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -477,11 +487,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 236632
+    "area_px": 230468
    },
-   "b": -1.674,
-   "p0": 0.842,
-   "pm1": 0.662,
+   "b": -1.665,
+   "p0": 0.841,
+   "pm1": 0.66,
    "aoi_cells": [
     "ML",
     "MC",
@@ -586,11 +596,11 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.759,
+   "content": 0.762,
    "inference": 0.388
   },
   "theta_minus_1": {
-   "content": 0.546,
+   "content": 0.549,
    "inference": 0.2
   }
  },
@@ -613,14 +623,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0369,
-  "png_bytes": 167759,
-  "jpeg_bytes": 175541
+  "objects": 17,
+  "edge_density": 0.0397,
+  "png_bytes": 199834,
+  "jpeg_bytes": 187358
  },
  "signature": [
   [
@@ -759,8 +769,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 236632,
-   "occlusion": 0.018
+   "visible_px": 230468,
+   "occlusion": 0.043
   },
   {
    "id": "filler_bush_mid",
@@ -823,6 +833,58 @@
    "occlusion": 0.0
   },
   {
+   "id": "raker_4",
+   "label": "person.tomas__rake__neutral__y045",
+   "role": "scored",
+   "z": 782.46,
+   "bbox": [
+    874.0,
+    516.0,
+    966.0,
+    812.0
+   ],
+   "area_px": 15848,
+   "visible_px": 15624,
+   "occlusion": 0.014,
+   "asset": {
+    "variant": "person.tomas__rake__neutral__y045",
+    "family": "person.tomas",
+    "scale": 0.4389,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "leaves_5",
+   "label": "Pile of leaves",
+   "role": "scored",
+   "z": 802.79,
+   "bbox": [
+    904.0,
+    784.0,
+    998.0,
+    810.0
+   ],
+   "area_px": 1148,
+   "visible_px": 1148,
+   "occlusion": 0.0
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -836,36 +898,6 @@
    "area_px": 25884,
    "visible_px": 25884,
    "occlusion": 0.0
-  },
-  {
-   "id": "cat_sleeping_4",
-   "label": "animal.cat_02__sleep_tuck__sleepy__y045",
-   "role": "scored",
-   "z": 836.23,
-   "bbox": [
-    412.0,
-    802.0,
-    480.0,
-    856.0
-   ],
-   "area_px": 2492,
-   "visible_px": 2492,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.cat_02__sleep_tuck__sleepy__y045",
-    "family": "animal.cat_02",
-    "scale": 0.4588,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
   },
   {
    "id": "kiteflyer_2",
@@ -942,18 +974,33 @@
    }
   },
   {
-   "id": "filler_dog_bowl",
-   "label": "Dog bowl",
+   "id": "filler_watering_can",
+   "label": "Watering can",
    "role": "filler",
-   "z": 968,
+   "z": 960,
    "bbox": [
-    468.0,
-    954.0,
-    532.0,
-    982.0
+    362.0,
+    884.0,
+    458.0,
+    962.0
    ],
-   "area_px": 1408,
-   "visible_px": 1408,
+   "area_px": 4404,
+   "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   },
   {
@@ -993,13 +1040,13 @@
   "forced": {
    "events": [
     "fly_kite",
-    "cat_sleeping"
+    "rake"
    ],
    "contradictions": [
     "sitting_on_air"
    ]
   },
-  "placement_rev": 37
+  "placement_rev": 38
  },
  "probe": true
 }
