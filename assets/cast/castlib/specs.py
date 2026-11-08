@@ -100,6 +100,12 @@ if MEI41 in ("B", "C"):
 if MEI41 == "C":
     PEOPLE["person.mei"].update(hem_drop=0.12)
 
+# v0.42 bench (TPDB_MEI42; figure-fixes-v041.md item 8, flaws_v041.md O3): still "a girl" in 8 of her 24 v0.41 pictures. The head before the
+# clothes (RUNBOOK): "B" her hair drawn back into a low bun at the nape, an adult's, and as tall as the men with a smaller head. "O": v0.41
+MEI42 = os.environ.get("TPDB_MEI42", "B")  # v0.42 bench (vision/isolation_v042.md): B
+if MEI42 == "B":
+    PEOPLE["person.mei"].update(hair="low_bun", scale=1.04, head_scale=0.92)
+
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",
                           labels=dict(everyday_name="dog", accepted_names=["dog", "puppy", "pup"], category="medium_animal")),
@@ -135,6 +141,14 @@ if os.environ.get("TPDB_ART39", "B") == "B":
         # (bench round 2: the legs brown as the body, the face white; white legs under a brown body read as "a sack or saddle blanket draped
         # over a white animal", three readers of three)
         QUADRUPEDS["animal.goat_01"].update(leg_col="brown")
+
+# v0.42 bench (TPDB_GOAT42, castlib/animals.py): the redrawn goat on shorter legs (with the back a fifth longer, its legs were "long"), a pointed beard
+# from the chin; "C" a red collar for the tether the scene draws
+GOAT42 = os.environ.get("TPDB_GOAT42", "C")  # v0.42 bench (vision/isolation_v042.md): C
+if GOAT42 in ("B", "C"):
+    QUADRUPEDS["animal.goat_01"].update(legs=1.0, beard_size=1.3)
+if GOAT42 == "C":
+    QUADRUPEDS["animal.goat_01"].update(collar="red")
 
 BIRDS = {
     "animal.bird_01": dict(kind="songbird", scale=1.6, body="red", belly="cream", wing_col="roof", accent="yellow", leg_col="orange",

@@ -6,8 +6,8 @@
  "seed": 23038,
  "mirror": true,
  "versions": {
-  "generator": "0.41.0",
-  "cast_builder": "0.41.0",
+  "generator": "0.42.0",
+  "cast_builder": "0.42.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,15 +57,13 @@
  },
  "features": [
   "bench",
-  "clothesline",
   "feeder",
-  "hose_reel",
-  "laundry"
+  "hose_reel"
  ],
  "templates": [
   {
-   "id": "blocked_hose",
-   "kind": "inference",
+   "id": "floating_box",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   }
@@ -74,199 +72,139 @@
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A man is holding a hose, looking into the nozzle",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "holding a hose",
-     "looking at the hose",
-     "looking into the nozzle",
-     "puzzled",
-     "confused"
-    ]
-   },
-   "key": "hose",
+   "type": "entity",
+   "text": "There is a box",
+   "accepted": [
+    "box",
+    "crate",
+    "wooden box",
+    "cardboard box"
+   ],
+   "key": "box",
    "elements": [
-    "hoseman_1",
-    "hose_3"
+    "floatbox_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "blocked_hose",
+   "template": "floating_box",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": 0.347,
+    "animate": false,
+    "s": -0.342,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
     "domain": null,
-    "area_px": 24940
+    "area_px": 9440
    },
-   "b": -1.473,
-   "p0": 0.814,
-   "pm1": 0.616,
+   "b": -1.021,
+   "p0": 0.735,
+   "pm1": 0.505,
    "aoi_cells": [
-    "MC",
-    "BC",
-    "BR"
+    "TC"
    ]
   },
   {
    "id": "i02",
-   "type": "action",
-   "text": "The goat is standing on the hose",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the box",
    "accepted": [
-    "goat standing on the hose",
-    "goat on the hose",
-    "stepping on the hose"
+    "the box is weird",
+    "something odd about the box",
+    "that box"
    ],
-   "key": "goat",
+   "key": "floating",
    "elements": [
-    "hoseanimal_2"
+    "floatbox_1"
    ],
-   "cues": [],
-   "effect": [],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
    "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "blocked_hose",
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "contradiction_notice",
     "chain": 0,
-    "animate": true,
-    "s": -0.284,
+    "animate": false,
+    "s": -0.342,
     "r": 0,
     "d": 0.0,
-    "f": 0.02,
-    "a": 5.21,
-    "zipf_raw": 4.02,
-    "aoa_raw": 5.21,
-    "domain": null,
-    "area_px": 10252
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9440
    },
-   "b": -1.244,
-   "p0": 0.776,
-   "pm1": 0.561,
+   "b": -0.129,
+   "p0": 0.532,
+   "pm1": 0.295,
    "aoi_cells": [
-    "BC"
+    "TC"
    ]
   },
   {
    "id": "i03",
-   "type": "action",
-   "text": "No water is coming out",
+   "type": "contradiction_explain",
+   "text": "The box is floating in the air with nothing holding it up",
    "accepted": [
-    "no water",
-    "water isn't coming out",
-    "hose isn't working",
-    "nothing coming out",
-    "hose is dry"
+    "floating box",
+    "box in the air",
+    "nothing holding it up",
+    "box should fall"
    ],
-   "key": "hose",
+   "key": "floating",
    "elements": [
-    "drip_4"
+    "floatbox_1"
    ],
    "cues": [
-    "drip_4",
-    "hoseman_1"
+    "floatbox_1"
    ],
-   "effect": [],
-   "chain": 0,
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 1,
    "animate": false,
-   "domain": null,
-   "template": "blocked_hose",
+   "domain": "physical",
+   "template": "floating_box",
    "event": "e1",
    "features": {
-    "type": "action",
-    "chain": 0,
+    "type": "contradiction_explain",
+    "chain": 1,
     "animate": false,
-    "s": -3.167,
-    "r": 1,
+    "s": -0.342,
+    "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
-    "domain": null,
-    "area_px": 176
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9440
    },
-   "b": 0.784,
-   "p0": 0.313,
-   "pm1": 0.144,
+   "b": 1.071,
+   "p0": 0.255,
+   "pm1": 0.112,
    "aoi_cells": [
-    "MC"
+    "TC"
    ]
   },
   {
    "id": "i04",
-   "type": "inference",
-   "text": "The goat is blocking the water by standing on the hose",
-   "accepted": [
-    "the goat is stepping on the hose so the water can't come out",
-    "the hose is pinched",
-    "blocking the water",
-    "that's why there's no water"
-   ],
-   "key": "water",
-   "elements": [
-    "hoseanimal_2",
-    "drip_4",
-    "hoseman_1"
-   ],
-   "cues": [
-    "hoseanimal_2",
-    "drip_4",
-    "hoseman_1"
-   ],
-   "effect": [
-    "drip_4"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "blocked_hose",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -0.284,
-    "r": 2,
-    "d": 0.135,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": null,
-    "area_px": 10252
-   },
-   "b": 0.414,
-   "p0": 0.398,
-   "pm1": 0.196,
-   "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -309,7 +247,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -351,7 +289,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -392,7 +330,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i07",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -436,7 +374,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -459,7 +397,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.866,
+    "s": 1.936,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -467,11 +405,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 212520
+    "area_px": 234500
    },
-   "b": -1.876,
-   "p0": 0.867,
-   "pm1": 0.706,
+   "b": -1.911,
+   "p0": 0.871,
+   "pm1": 0.713,
    "aoi_cells": [
     "ML",
     "MC",
@@ -479,7 +417,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -525,52 +463,7 @@
    ]
   },
   {
-   "id": "i11",
-   "type": "entity",
-   "text": "Clothes are hanging on the line",
-   "accepted": [
-    "clothes",
-    "laundry",
-    "washing",
-    "clothesline",
-    "clothes line",
-    "towel",
-    "pants"
-   ],
-   "key": "laundry",
-   "elements": [
-    "laundry"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.103,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.06,
-    "a": 6.05,
-    "zipf_raw": 4.06,
-    "aoa_raw": 6.05,
-    "domain": null,
-    "area_px": 13232
-   },
-   "b": -0.847,
-   "p0": 0.7,
-   "pm1": 0.462,
-   "aoi_cells": [
-    "MC"
-   ]
-  },
-  {
-   "id": "i12",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -594,7 +487,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.345,
+    "s": 0.373,
     "r": 0,
     "d": 0.0,
     "f": 0.64,
@@ -602,18 +495,18 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 24876
+    "area_px": 25884
    },
-   "b": -1.244,
-   "p0": 0.776,
-   "pm1": 0.561,
+   "b": -1.259,
+   "p0": 0.779,
+   "pm1": 0.564,
    "aoi_cells": [
     "BC",
     "BR"
    ]
   },
   {
-   "id": "i13",
+   "id": "i11",
    "type": "entity",
    "text": "There is a bench",
    "accepted": [
@@ -654,23 +547,23 @@
   }
  ],
  "counts": {
-  "content": 12,
+  "content": 9,
   "inference_units": 1,
-  "contradictions": 0,
-  "items_total": 13
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.734,
-   "inference": 0.398
+   "content": 0.772,
+   "inference": 0.394
   },
   "theta_minus_1": {
-   "content": 0.53,
-   "inference": 0.196
+   "content": 0.566,
+   "inference": 0.203
   }
  },
  "bands": {
-  "content_count": true,
+  "content_count": false,
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
@@ -688,26 +581,22 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0412,
-  "png_bytes": 170649,
-  "jpeg_bytes": 188670
+  "objects": 15,
+  "edge_density": 0.0368,
+  "png_bytes": 124723,
+  "jpeg_bytes": 172273
  },
  "signature": [
   [
-   "action",
-   0
+   "contradiction_explain",
+   1
   ],
   [
-   "action",
-   0
-  ],
-  [
-   "action",
+   "contradiction_notice",
    0
   ],
   [
@@ -745,10 +634,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "inference",
-   2
   ]
  ],
  "elements": [
@@ -842,8 +727,23 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 212520,
-   "occlusion": 0.118
+   "visible_px": 234500,
+   "occlusion": 0.027
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
   },
   {
    "id": "feeder",
@@ -876,36 +776,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "clothesline",
-   "label": "Clothesline",
-   "role": "setting",
-   "z": 705,
-   "bbox": [
-    624.0,
-    382.0,
-    994.0,
-    708.0
-   ],
-   "area_px": 13848,
-   "visible_px": 13372,
-   "occlusion": 0.034
-  },
-  {
-   "id": "laundry",
-   "label": "Clothes hanging on the line",
-   "role": "setting",
-   "z": 706,
-   "bbox": [
-    822.0,
-    392.0,
-    952.0,
-    524.0
-   ],
-   "area_px": 13232,
-   "visible_px": 13232,
-   "occlusion": 0.0
-  },
-  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -921,55 +791,18 @@
    "occlusion": 0.0
   },
   {
-   "id": "hoseman_1",
-   "label": "person.dev__hose_inspect__puzzled__y090",
+   "id": "floatbox_1",
+   "label": "Box floating in the air",
    "role": "scored",
-   "z": 803.12,
+   "z": 808.34,
    "bbox": [
-    668.0,
-    522.0,
-    794.0,
-    808.0
+    734.0,
+    234.0,
+    854.0,
+    342.0
    ],
-   "area_px": 14836,
-   "visible_px": 14308,
-   "occlusion": 0.036,
-   "asset": {
-    "variant": "person.dev__hose_inspect__puzzled__y090",
-    "family": "person.dev",
-    "scale": 0.4465,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
-     }
-    }
-   }
-  },
-  {
-   "id": "drip_4",
-   "label": "Single drip from the dry nozzle",
-   "role": "scored",
-   "z": 805.12,
-   "bbox": [
-    762.0,
-    574.0,
-    774.0,
-    596.0
-   ],
-   "area_px": 176,
-   "visible_px": 176,
+   "area_px": 9440,
+   "visible_px": 9440,
    "occlusion": 0.0
   },
   {
@@ -984,52 +817,8 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 24876,
-   "occlusion": 0.039
-  },
-  {
-   "id": "hose_3",
-   "label": "Garden hose, pinched under the paw",
-   "role": "scored",
-   "z": 838.65,
-   "bbox": [
-    714.0,
-    652.0,
-    1322.0,
-    872.0
-   ],
-   "area_px": 11712,
-   "visible_px": 10632,
-   "occlusion": 0.092
-  },
-  {
-   "id": "hoseanimal_2",
-   "label": "animal.goat_01__stand__neutral__y045",
-   "role": "scored",
-   "z": 839.65,
-   "bbox": [
-    874.0,
-    664.0,
-    996.0,
-    848.0
-   ],
-   "area_px": 10252,
-   "visible_px": 10252,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.goat_01__stand__neutral__y045",
-    "family": "animal.goat_01",
-    "scale": 0.46,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "goat",
-     "accepted_names": [
-      "goat",
-      "kid"
-     ],
-     "category": "medium_animal"
-    }
-   }
+   "visible_px": 25884,
+   "occlusion": 0.0
   },
   {
    "id": "hose_reel",
@@ -1043,7 +832,22 @@
     888.0
    ],
    "area_px": 4264,
-   "visible_px": 4264,
+   "visible_px": 4092,
+   "occlusion": 0.04
+  },
+  {
+   "id": "hose_tail",
+   "label": "End of the hose",
+   "role": "setting",
+   "z": 887,
+   "bbox": [
+    1194.0,
+    842.0,
+    1298.0,
+    924.0
+   ],
+   "area_px": 2004,
+   "visible_px": 2004,
    "occlusion": 0.0
   },
   {
@@ -1062,18 +866,18 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
+   "id": "filler_watering_can",
+   "label": "Watering can",
    "role": "filler",
-   "z": 975,
+   "z": 960,
    "bbox": [
-    522.0,
-    892.0,
-    704.0,
-    980.0
+    362.0,
+    884.0,
+    458.0,
+    962.0
    ],
-   "area_px": 8772,
-   "visible_px": 8772,
+   "area_px": 4404,
+   "visible_px": 4404,
    "occlusion": 0.0
   }
  ],
@@ -1096,11 +900,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "blocked_hose"
+   "contradictions": [
+    "floating_box"
    ]
   },
-  "placement_rev": 39
+  "placement_rev": 40
  },
  "probe": true
 }

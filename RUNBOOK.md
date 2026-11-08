@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.41 was made, written so that a fresh session can make the next one (v0.42) from this
+How each release from v0.12 to v0.42 was made, written so that a fresh session can make the next one (v0.43) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -337,3 +337,16 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - A remark can go as it came. The heaps' brown leaves under green trees drew remarks in five v0.40 pictures and in none of v0.41's 93, with the heap unchanged, and
   the bench's v0.40 cases drew none either; the bench's turning trees drew fruit. Before redrawing for a remark, count it on the pictures that came back unchanged,
   and bench the old drawing beside the new.
+- `isolation_bench.py` runs every case when it is given none. v0.42's first bench script picked its cases with `re.findall` on a pattern with groups, which returns
+  tuples; the picker failed, the lists came back empty, and four runs set off through every case since v0.23 before they were stopped. A script that starts the
+  bench now refuses an empty list (`tpdb_work/bench42_run.sh`).
+- Read what a count counts before acting on it. `probes.py` ended `SHORT {'windy_hat': 1}`, the number of pictures it had, and it was read as one short: one probe
+  was added where two were needed, and the screen started with `windy_hat` in two pictures.
+- A rule made after the screen moves more than its target. Keeping the square wheel off the stall changed one isomorph, and with it went the fourth picture of
+  `about_to_trip`, which then fell under the gate, and the third of `balloon` and `wave`. After such a rule, rebuild, count every template's pictures again, and
+  replace what the change took before reading the changed picture again.
+- Run the validator on a bench winner's renders before choosing it. The begging dog's rump, lower than v0.41's, failed the ground check after the bench, and the pose
+  went into the set 4 cm higher than the readers had read it.
+- A bench crop must show the thing at a size a reader can judge. Round 1 cut the dogs at 45 out with their whole template, the hose and the man, and nothing was said
+  of their chests or legs either way; round 2 cut out the dog alone (`crop` on its element). And a redraw can trade one remark for another: the reading dog's
+  shorter trunk took the "person" away and left its paper "standing upright on its own", the paws reaching less of it. When a pose changes, look at what it holds.

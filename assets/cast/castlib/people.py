@@ -23,6 +23,17 @@ HEAD_STYLE = __import__("os").environ.get("TPDB_HEAD", "B")   # v0.23: B (bench:
 SHOE39 = __import__("os").environ.get("TPDB_SHOE39", "D")  # v0.39 bench (vision/isolation_v039.md): D, one shoe, flat, toe forward
 MID39 = __import__("os").environ.get("TPDB_MID39", "C")  # v0.39 bench (vision/isolation_v039.md): C, B without the tuck
 BELT39 = __import__("os").environ.get("TPDB_BELT39", "O")  # v0.39 bench (vision/isolation_v039.md): O, the band read as "a hoop"
+# v0.42 bench switches (figure-fixes-v041.md), each "O" for v0.41's drawing:
+# TPDB_MID42 (item 3): MID39's seat and filled hip left a V across the front of the trousers, a "briefs" look (a contour where the hull folds
+#   between the hip node and the leg). "B": the seat and the hip nodes set back and smaller, blended into the waist and thigh; "C": the seat set
+#   back and no hip node
+# TPDB_BELT42 (item 2): the tube belt read as a ring round the waist with a strip of trouser above it. "B": no belt under an untucked tee (the
+#   tee's hem covers the waistband, as MID39 does for the hoodie and cardigan)
+# TPDB_FOOT42 (item 6): front-view shoes round blobs with no toe, bare legs even pegs. "B": the toe longer and flatter, so it shows below the
+#   cuff from the front, and a sole under it; a bare leg's calf fuller and set back, the knee and ankle narrower
+MID42 = __import__("os").environ.get("TPDB_MID42", "C")  # v0.42 bench (vision/isolation_v042.md): C
+BELT42 = __import__("os").environ.get("TPDB_BELT42", "B")  # v0.42 bench (vision/isolation_v042.md): B
+FOOT42 = __import__("os").environ.get("TPDB_FOOT42", "B")  # v0.42 bench (vision/isolation_v042.md): B
 
 
 def person_skeleton(kind):
@@ -261,7 +272,11 @@ def build_person(spec):
             radii[1] = (0.162 * k * max(B["waist"], B["hips"] * 0.96) * TI, 0.122 * k * dp * TI)
             if B["belly"] > 0:
                 radii[0] = (radii[0][0] * 1.04, radii[0][1] * 1.10)
-        if MID39 in ("B", "C"):
+        if MID39 in ("B", "C") and MID42 in ("B", "C"):
+            # v0.42 (TPDB_MID42): the seat further back and higher, a little narrower, so its bulge sits behind the hip line
+            verts[3] = P(0, 0.030 * s, pel - 0.058 * s)
+            radii[3] = (0.128 * k * B["hips"] * TI, 0.104 * k * dp * TI)
+        elif MID39 in ("B", "C"):
             # a seat: the back of the hips set back and deeper, so a profile has a rump, not a straight column
             verts[3] = P(0, 0.016 * s, pel - 0.070 * s)
             radii[3] = (0.136 * k * B["hips"] * TI, 0.110 * k * dp * TI)
@@ -269,7 +284,16 @@ def build_person(spec):
         for sd, sg in (("L", 1), ("R", -1)):
             i0 = len(verts)
             j0 = 3
-            if MID39 in ("B", "C"):
+            if MID39 in ("B", "C") and MID42 == "C":
+                pass            # (v0.42 "C": no hip node, the leg joined to the seat)
+            elif MID39 in ("B", "C") and MID42 == "B":
+                # v0.42 (TPDB_MID42 "B"): the hip node set back and smaller, so the hull does not fold over between it and the leg's top
+                verts.append(P(sg * hx * 0.88, 0.020 * s, J["hip"] - 0.010 * s))
+                radii.append(0.076 * k * B["hips"])
+                wts.append({"hips": 0.6, f"thigh_{sd}": 0.4})
+                edges.append((3, i0))
+                j0, i0 = i0, i0 + 1
+            elif MID39 in ("B", "C"):
                 # the hip filled where the thigh turns forward: a node between the seat and the top of the leg, its weight blended over two steps
                 # (one node at 0.35 hips and 0.65 thigh folded flat when sitting: "the thighs barely show going forward")
                 verts.append(P(sg * hx * 0.85, 0.004 * s, J["hip"] - 0.012 * s))
@@ -357,6 +381,14 @@ def build_person(spec):
             # v0.15: every bare leg runs down to the ankle joint, inside the shoe, so the foot never stands
             # apart from it
             top_z = J["knee"] + (0.14 if bottom == "shorts" else 0.10) * s
+            if SHOE39 == "D" and FOOT42 == "B":
+                # v0.42 (TPDB_FOOT42): the calf fuller and set back, the knee and the ankle narrower (an even tube, "pegs")
+                zc = J["knee"] - 0.33 * (J["knee"] - J["ankle"])
+                verts += [P(sg * hx, -0.006 * s, top_z), P(sg * hx, -0.01 * s, J["knee"]), P(sg * hx, 0.012 * s, zc), P(sg * hx, 0, J["ankle"])]
+                radii += [0.058 * k * LB, 0.045 * k * LB, 0.058 * k * LB, 0.029 * k * LB]
+                wts += [{f"thigh_{sd}": 1.0}, {f"thigh_{sd}": 0.5, f"shin_{sd}": 0.5}, {f"shin_{sd}": 1.0}, {f"shin_{sd}": 1.0}]
+                edges += [(i0, i0 + 1), (i0 + 1, i0 + 2), (i0 + 2, i0 + 3)]
+                continue
             if SHOE39 == "D":
                 # a calf a third of the way down the shin and a narrow ankle, ending inside the shoe
                 zc = J["knee"] - 0.35 * (J["knee"] - J["ankle"])
@@ -398,7 +430,7 @@ def build_person(spec):
         front = -bd
         skin_like(ellipsoid("Buckle", Vector((0, front - 0.006 * k, zb)), (0.018 * k, 0.006 * k, 0.014 * k), spec.get("buckle", "sun"), rig, "hips"), pants_ob, rig, TORSO)
     elif spec.get("belt") and bottom in ("pants", "shorts", "dress") and (bottom != "dress" or __import__("os").environ.get("TPDB_DRESS", "B") == "B") \
-            and not (bottom == "dress" and MID39 in ("B", "C")):
+            and not (bottom == "dress" and MID39 in ("B", "C")) and not (BELT42 == "B" and top == "tee" and not tucked):
         zb = (pel + (0.024 if bottom != "dress" else 0.050) * s) * S
         ring_pts = surface_points(pants_ob)
         band = [q for q in ring_pts if abs(q.z - zb) < 0.012 * S] or ring_pts
@@ -474,7 +506,7 @@ def build_person(spec):
     if ISECT39 == "B":
         for ob in list(bpy.context.scene.objects):
             nm = ob.name.split(".")[0]
-            if nm in ("Skin", "Legs", "Belt", "Buckle") or nm.startswith(("Heel_", "Toe_", "Shoe_", "Hand_", "Thumb_")):
+            if nm in ("Skin", "Legs", "Belt", "Buckle") or nm.startswith(("Heel_", "Toe_", "Shoe_", "Sole_", "Hand_", "Thumb_")):
                 no_isect(ob)
 
     for sd, sg in (("L", 1), ("R", -1)):
@@ -499,21 +531,37 @@ def build_person(spec):
 def shoe39(name, ankle, s, k, S, matkey, rig, bone):
     """v0.39 bench (TPDB_SHOE39 "D"): a shoe in one piece, a sphere shaped to a small round heel, a toe reaching ahead of the leg (about 1.4
     times the heel's length), wider than the ankle at the ball and flat on the ground. ankle is the foot's ground point under the ankle."""
+    f42 = FOOT42 == "B"
     bm = bmesh.new()
     bmesh.ops.create_uvsphere(bm, u_segments=32, v_segments=18, radius=1.0)
-    half_len, width, height = 0.098 * k, 0.058 * k, 0.040 * k
-    cy, cz = -0.052 * s * S, 0.038 * s * S
-    sole = 0.003 * s * S
+    half_len, width, height = (0.108 if f42 else 0.098) * k, 0.058 * k, 0.040 * k
+    cy, cz = (-0.062 if f42 else -0.052) * s * S, 0.038 * s * S
+    sole = (0.010 if f42 else 0.003) * s * S
     for v in bm.verts:
         x, y, z = v.co
         back = max(0.0, y)                    # +y is behind the ankle
         front = max(0.0, -y)
         w = width * (1.0 - 0.22 * back)       # narrower at the heel
-        h = height * (1.0 - 0.28 * front * front)   # lower at the toe
+        h = height * (1.0 - (0.42 if f42 else 0.28) * front * front)   # lower at the toe (v0.42: flatter, a toe cap below the cuff from the front)
         v.co = Vector((ankle.x + x * w, ankle.y + cy + y * half_len, max(cz + z * h, sole)))
     ob = _mesh_object(name, bm, matkey)
     upd()
     rig.attach(ob, bone)
+    if f42:
+        # v0.42 (TPDB_FOOT42): a sole, the shoe's outline a little larger and 1 cm deep, grey under a dark shoe and charcoal under the rest (cream
+        # read as a white disc under each shoe)
+        bm = bmesh.new()
+        bmesh.ops.create_uvsphere(bm, u_segments=32, v_segments=10, radius=1.0)
+        for v in bm.verts:
+            x, y, z = v.co
+            back = max(0.0, y)
+            w = width * 1.04 * (1.0 - 0.22 * back)
+            v.co = Vector((ankle.x + x * w, ankle.y + cy + y * half_len * 1.03, 0.0052 * s * S + z * 0.0052 * s * S))
+        dark = matkey in ("charcoal", "slate", "navy", "outline")
+        so = _mesh_object(name.replace("Shoe", "Sole"), bm, "gray" if dark else "charcoal")
+        upd()
+        rig.attach(so, bone)
+        no_isect(so)
     return ob
 
 
@@ -577,14 +625,14 @@ def build_hair(spec, rig, hc, HR, k):
     style, col = spec["hair"], spec["hair_col"]
     off = Vector((0, 0.006 * k, 0.012 * k))
     hcx = hc + off
-    if style in ("short", "long", "bun", "ponytail", "puffs") and spec.get("sideburns"):
+    if style in ("short", "long", "bun", "ponytail", "puffs", "low_bun") and spec.get("sideburns"):
         # v0.39 bench (TPDB_BEN39): short hair with sideburns, a strip forward of each ear down to the cheekbone, and a side part
         def keep39(c):
             if abs(c.x) > 0.74 and -0.58 < c.y < -0.20 and -0.20 < c.z < 0.50:
                 return True
             return _face_window(c, 0.46)
         _shell("Hair", hcx, HR, 0.012 * k, keep39, col, rig, k)
-    elif style in ("short", "long", "bun", "ponytail", "puffs"):
+    elif style in ("short", "long", "bun", "ponytail", "puffs", "low_bun"):
         _shell("Hair", hcx, HR, 0.012 * k, lambda c: _face_window(c, 0.46), col, rig, k)
     elif style == "curly":
         # (v0.19: below the temples the hair stays behind the ear, so a profile shows the cheek; covering the side of the
@@ -620,6 +668,9 @@ def build_hair(spec, rig, hc, HR, k):
                     [(0.15 * k, 0.09 * k), (0.15 * k, 0.07 * k), (0.12 * k, 0.04 * k)], col, rig)
     if style == "bun":
         ellipsoid("Bun", hc + Vector((0, 0.07 * k, HR[2] * 0.92)), (0.062 * k, 0.058 * k, 0.055 * k), col, rig, "head")
+    if style == "low_bun":
+        # v0.42 (TPDB_MEI42): the hair drawn back from the face and tied in a bun at the nape (a bun on top stood "like a topknot", v0.41)
+        ellipsoid("Bun", hc + Vector((0, HR[1] * 1.02, -0.035 * k)), (0.060 * k, 0.050 * k, 0.052 * k), col, rig, "head")
     if style == "ponytail":
         _blob_chain("Ponytail", [hc + Vector((0, HR[1] * 0.92, 0.07 * k)), hc + Vector((0, HR[1] * 1.25, -0.02 * k)),
                                  hc + Vector((0, HR[1] * 1.20, -0.17 * k))],

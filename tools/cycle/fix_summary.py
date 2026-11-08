@@ -6,12 +6,13 @@ import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
-NOTES = {("garden", 4): "the v0.40 seed, which placed again under revision 39 on its fourth layout, as in v0.39 and v0.40; the picture unchanged",
-         ("park", 4): "the v0.40 seed, which placed again under revision 39 on its 21st layout, as in v0.39 and v0.40; the picture unchanged",
-         ("street", 4): "v0.29 to v0.40's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed again "
-                        "under revision 39 on its fifth layout, as in v0.39 and v0.40; the picture unchanged (regen.forced)",
-         ("playground", 4): "the v0.40 seed (the 41st of v0.39's search), which placed again under revision 39 on its 38th layout, the picture "
-                            "unchanged"}
+NOTES = {("garden", 4): "the third seed of the search: v0.41's seed and the first new one did not place under revision 40 with the redrawn cast; "
+                            "on its eighth layout",
+         ("park", 4): "the v0.41 seed, which placed again under revision 40 on its 21st layout, as in v0.39 to v0.41; redrawn with the v0.42 cast",
+         ("street", 4): "v0.29 to v0.41's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed under "
+                        "revision 40 on its fourth layout (v0.39 to v0.41: the fifth) (regen.forced)",
+         ("playground", 4): "the 40th seed of the search: v0.41's seed (the 41st of v0.39's search) and 38 more did not place under revision 40 "
+                            "with the redrawn cast; on its 24th layout"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

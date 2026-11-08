@@ -1,6 +1,6 @@
 # Blind screen prompts
 
-The prompts given to the readers and the scorer in all thirty-eight screens (v0.4 to v0.41) and the v0.9 retest, with the
+The prompts given to the readers and the scorer in all thirty-nine screens (v0.4 to v0.42) and the v0.9 retest, with the
 picture count and paths left as placeholders. Each reader is a fresh model instance that sees only its
 own blind pictures (`vNN/blind/pic_NN.png`); the scorer sees only the descriptions and `keys.json`.
 In v0.6 four readers described 7, 6, 6 and 6 pictures. In v0.7 six readers described 7, 7, 7, 7, 7 and 6
@@ -97,6 +97,7 @@ In v0.38 nine readers described 9, 9, 9, 9, 8, 8, 8, 8 and 8 pictures (76 in all
 In v0.39 twelve readers described 8 pictures each (96 in all), and four scorers took pictures 1 to 24, 25 to 48, 49 to 72 and 73 to 96, on Claude Opus 5.5. The reader prompt was unchanged. Each picture's key now lists its animals with the angle each is drawn at, and the scorer prompt gained a sentence and a clause for the oddity tally by angle (figure-fixes-v038.md 4b.5): "Where the key lists the picture's "animals", end an oddity about one of them with its angle from the key in square brackets, e.g. "the dog's legs are hard to count [dog, three-quarter front]"", and the summary's oddities "with those about animals also counted by angle".
 In v0.40 twelve readers described 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7 and 7 pictures (94 in all), and four scorers took pictures 1 to 24, 25 to 48, 49 to 71 and 72 to 94, on Claude Opus 5.5, with v0.39's prompts. Reader 7 described picture 56 under picture 55's name; picture 55 was read again by a thirteenth reader and scored by a fifth scorer, each with the same prompt cut to the one picture (`tpdb_work/v040prompts/reader_13_pic55.txt`, `scorer_e.txt`).
 In v0.41 twelve readers described 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7 and 7 pictures (93 in all), and four scorers took pictures 1 to 24, 25 to 48, 49 to 71 and 72 to 93, on Claude Opus 5.5, with v0.39's prompts.
+In v0.42 twelve readers described 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 7 and 7 pictures (92), and four scorers took pictures 1 to 23, 24 to 46, 47 to 69 and 70 to 92, on Claude Opus 5.5, with v0.39's prompts. After the screen, picture 10 was redrawn under a new rule and picture 93 added as a probe; each was read by a reader of its own and scored by a scorer of its own, with the same prompts cut to the one picture (`tpdb_work/v042prompts/reader_r10.txt`, `scorer_e.txt`, `reader_r93.txt`, `scorer_f.txt`).
 One line was added to the scorer prompt, for the first time since v0.4: "List under "unintended" only what the describer presents as looking wrong, impossible or confusing,
 at most three for a picture, the most striking first; leave out hedges about small details." The isolation bench (`isolation_v025.md`, two rounds, 20 cut-outs) used the
 isolation prompt, and the design tests (`design_tests_v025.md`, six pictures, two each per reader) the reader prompt.

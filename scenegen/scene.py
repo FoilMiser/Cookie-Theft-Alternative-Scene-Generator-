@@ -229,7 +229,13 @@ class PlacementError(Exception):
 # in", two pictures of three); and with a heap of dry leaves drawn, turns the setting's trees, clusters of ochre and rust leaves over their crowns
 # (templates.SEASON41; "brown autumn leaves, while all the trees and hedges are fully green", five pictures from three readers, the third drawing of
 # the heap to draw it).
-PLACEMENT_REV = 39
+# 40 (v0.42) tethers the grazing goat, a rope from its collar to a peg in front of it (templates.GOAT42; "a goat in a public park is unusual", seven
+# pictures); draws the songbirds and the duck at 45 as well as 90 where they need no direction (templates.BIRD42, ANIMAL_YAWS40); crimps the stopped
+# hose where the paw stands on it (templates.KINK42; "I cannot see a clear kink, so it could also simply be turned off"); and keeps anyone else with an
+# ice cream out of a wider zone round the begging dog (templates.BEG40; "I can't tell who the dog is begging from ... Both have ice cream"). After
+# v0.42's screen it also keeps the square-wheeled bicycle or barrow clear of the stall and the bench (in front of the stall's legs, the bicycle was
+# "parked against the stall", and square_wheel fell under the gate).
+PLACEMENT_REV = 40
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

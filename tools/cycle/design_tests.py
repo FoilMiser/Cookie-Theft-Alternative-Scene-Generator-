@@ -11,6 +11,20 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.42 (builder 0.42.0: the goat, the dogs, the begging and reading dogs, the cat, the trousers' waist, shoes and calves, the woman in yellow redrawn;
+    # revision 40: the goat tethered, the birds and the duck at 45 too, the stopped hose crimped, no other ice cream near the begging dog):
+    # a garden: the goat grazing tethered, the hose stopped, the washing hung out
+    ("garden", 3, 42401, {"events": ["goat_grazing", "hang_laundry"], "modules": ["blocked_hose"], "yaws": {"goat_grazing": 90}}, None),
+    # a park: a dog begging in profile, an ice cream, birds fed at an angle
+    ("park", 3, 42402, {"modules": ["dog_begs"], "events": ["ice_cream", "feed_birds"], "yaws": {"dog_begs": 90, "feed_birds": 45}}, None),
+    # a street: a dog begging at an angle, an ice cream, a sweeper
+    ("street", 3, 42403, {"modules": ["dog_begs"], "events": ["ice_cream", "sweep"], "yaws": {"dog_begs": 45}}, None),
+    # a park: the goat at an angle, a duck at an angle, a reader on a bench
+    ("park", 3, 42404, {"events": ["goat_grazing", "ducks_swimming", "read_bench"], "yaws": {"goat_grazing": 45, "ducks_swimming": 45}}, None),
+    # a garden: a cat stalking a bird at an angle, the flowers watered, a raker
+    ("garden", 3, 42405, {"modules": ["cat_stalks_bird"], "events": ["water_flowers", "rake"], "yaws": {"cat_stalks_bird": 45}}, None),
+    # a park: a dog reading the paper, a perched bird at an angle, a kicker
+    ("park", 3, 42406, {"contradictions": ["dog_reading"], "events": ["bird_perched", "kick_ball"], "yaws": {"bird_perched": 45}}, None),
     # v0.41 (builder 0.41.0: the begging dog's forelegs folded, elbows forward and paws tipped down at the chest; revision 39 draws nothing new):
     # a street: a dog begging in profile, a sweeper, an ice cream
     ("street", 3, 41402, {"modules": ["dog_begs"], "events": ["sweep", "ice_cream"], "yaws": {"dog_begs": 90}}, None),

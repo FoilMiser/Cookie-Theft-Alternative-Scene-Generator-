@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.41 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.42 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,73 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.42 (vision/flaws_v041.md and Sam's figure-fixes-v041.md): first three letters the thing, the fourth the drawing. O v0.41's cast (BENCH_CAST=
+    # assets/cast/out041, its library copied to tpdb_work/bench42/lib_O) and revision 39's scene (templates.GOAT42, BIRD42, KINK42, BEG40 "O"); N the
+    # v0.42 cast with every switch on (BENCH_CAST=tpdb_work/bench42/out_N: TPDB_GOAT42=C TPDB_DOG42=B TPDB_BEG42=B TPDB_CAT42=C TPDB_MID42=C
+    # TPDB_BELT42=B TPDB_FOOT42=B TPDB_MEI42=B) and the goat tethered (GOAT42 "T"). On v0.41's cast: the hose crimped at the paw (hk2 K, KINK42 "K") and
+    # the birds at 45 (bd2 B, BIRD42 "B"; O at 90)
+    "gt2O_1": ("garden", 42011, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt2O_2": ("park", 42012, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt2O_3": ("garden", 42013, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "gt2N_1": ("garden", 42011, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt2N_2": ("park", 42012, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt2N_3": ("garden", 42013, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "bg2O_1": ("street", 42021, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg2O_2": ("park", 42022, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg2O_3": ("street", 42023, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
+    "bg2N_1": ("street", 42021, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg2N_2": ("park", 42022, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg2N_3": ("street", 42023, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
+    "rd2O_1": ("park", 42031, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd2O_2": ("garden", 42032, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd2N_1": ("park", 42031, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd2N_2": ("garden", 42032, {"contradictions": ["dog_reading"]}, "event", None),
+    "dg2O_1": ("garden", 42041, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "event", ("fam", "blocked_hose", ["animal.dog_01"])),
+    "dg2O_2": ("garden", 42042, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "event", ("fam", "blocked_hose", ["animal.dog_02"])),
+    "dg2N_1": ("garden", 42041, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "event", ("fam", "blocked_hose", ["animal.dog_01"])),
+    "dg2N_2": ("garden", 42042, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "event", ("fam", "blocked_hose", ["animal.dog_02"])),
+    "hk2O_1": ("garden", 42051, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 90}}, "event", None),
+    "hk2O_2": ("garden", 42052, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 90}}, "event", None),
+    "hk2O_3": ("garden", 42053, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 135}}, "event", None),
+    "hk2K_1": ("garden", 42051, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 90}}, "event", None),
+    "hk2K_2": ("garden", 42052, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 90}}, "event", None),
+    "hk2K_3": ("garden", 42053, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 135}}, "event", None),
+    "wv2O_1": ("garden", 42064, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.dev", "person.ben", "person.ana"])),
+    "wv2O_2": ("garden", 42062, {"events": ["rake"]}, "event", ("fam", "rake", ["person.dev", "person.ben", "person.ana"])),
+    "wv2O_3": ("street", 42065, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.dev", "person.ben", "person.ana"])),
+    "wv2N_1": ("garden", 42064, {"events": ["hang_laundry"]}, "event", ("fam", "hang_laundry", ["person.dev", "person.ben", "person.ana"])),
+    "wv2N_2": ("garden", 42062, {"events": ["rake"]}, "event", ("fam", "rake", ["person.dev", "person.ben", "person.ana"])),
+    "wv2N_3": ("street", 42065, {"events": ["sweep"]}, "event", ("fam", "sweep", ["person.dev", "person.ben", "person.ana"])),
+    "me2O_1": ("garden", 42071, {"events": ["water_flowers", "rake"]}, "full", ("fam", "water_flowers", ["person.mei"])),
+    "me2O_2": ("street", 42072, {"events": ["ice_cream", "photo"]}, "full", ("fam", "ice_cream", ["person.mei"])),
+    "me2O_3": ("park", 42073, {"events": ["read_bench", "photo"]}, "full", ("fam", "read_bench", ["person.mei"])),
+    "me2N_1": ("garden", 42071, {"events": ["water_flowers", "rake"]}, "full", ("fam", "water_flowers", ["person.mei"])),
+    "me2N_2": ("street", 42072, {"events": ["ice_cream", "photo"]}, "full", ("fam", "ice_cream", ["person.mei"])),
+    "me2N_3": ("park", 42073, {"events": ["read_bench", "photo"]}, "full", ("fam", "read_bench", ["person.mei"])),
+    "sc2O_1": ("garden", 42081, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc2O_2": ("park", 42082, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc2O_3": ("park", 42083, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 90}}, "event", None),
+    "sc2N_1": ("garden", 42081, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc2N_2": ("park", 42082, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc2N_3": ("park", 42083, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 90}}, "event", None),
+    "bd2O_1": ("park", 42091, {"events": ["bird_perched"]}, "event", None),
+    "bd2O_2": ("park", 42092, {"events": ["feed_birds"]}, "event", None),
+    "bd2O_3": ("park", 42093, {"events": ["ducks_swimming"]}, "event", None),
+    "bd2B_1": ("park", 42091, {"events": ["bird_perched"], "yaws": {"bird_perched": 45}}, "event", None),
+    "bd2B_2": ("park", 42092, {"events": ["feed_birds"], "yaws": {"feed_birds": 45}}, "event", None),
+    "bd2B_3": ("park", 42093, {"events": ["ducks_swimming"], "yaws": {"ducks_swimming": 45}}, "event", None),
+    # v0.42 round 2 (BENCH_CAST=tpdb_work/bench42/out_N2, every v0.42 cast switch on as in round 1, with the goat's graze bent at the hocks and the chest up
+    # and its nostrils on the muzzle, and the reading dog's trunk shorter as the begging dog's): the goat (gt3 N, round 1's seeds, tethered), the
+    # reading dog (rd3 N), and the dogs at 45 cut out close (dg3, O on v0.41's cast; in round 1 the whole template was cut out and the dog was small)
+    "gt3N_1": ("garden", 42011, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt3N_2": ("park", 42012, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt3N_3": ("garden", 42013, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "rd3N_1": ("park", 42031, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd3N_2": ("garden", 42032, {"contradictions": ["dog_reading"]}, "event", None),
+    "dg3O_1": ("garden", 42041, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_01"])),
+    "dg3O_2": ("garden", 42042, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_02"])),
+    "dg3N_1": ("garden", 42041, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_01"])),
+    "dg3N_2": ("garden", 42042, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_02"])),
     # v0.41 (vision/flaws_v040.md): first three letters the thing, the fourth the drawing. O v0.40's cast and scene (BENCH_CAST=assets/cast/out040, its
     # library copied to tpdb_work/bench41/lib_O, templates.BOX41 and SEASON41 "O"); N the v0.41 cast with every switch at B (BENCH_CAST=tpdb_work/bench41/out_N):
     # the begging dog leaning forward with its head tipped up less (bg1, at 90 twice and 45), the stalking cat's legs apart with the near forepaw lifted
@@ -760,6 +827,7 @@ NEW38 = {n for n in BENCH if n[:3] == "hng" and BENCH[n][1] // 1000 == 38}
 NEW39 = {n for n in BENCH if n[2] == "9" and BENCH[n][1] // 1000 == 39}
 NEW40 = {n for n in BENCH if n[2] == "0" and BENCH[n][1] // 1000 == 40}
 NEW41 = {n for n in BENCH if n[2] == "1" and BENCH[n][1] // 1000 == 41}
+NEW42 = {n for n in BENCH if n[2] in "23" and BENCH[n][1] // 1000 == 42}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -855,6 +923,19 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
             _T0.BOX41, _T0.SEASON41 = "O", "O"
         elif name[:3] == "hs1":
             _T0.SEASON41 = name[3]
+    if name in NEW42:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        # every revision-40 switch off, then on by the case's letter
+        _T0.GOAT42, _T0.BIRD42, _T0.KINK42, _T0.BEG40 = "O", "O", "O", "O"
+        if name[:4] in ("gt2N", "gt3N"):
+            _T0.GOAT42 = "T"
+        if name[:4] == "bd2B":
+            _T0.BIRD42 = "B"
+        if name[:4] == "hk2K":
+            _T0.KINK42 = "K"
+        if name[3] == "N":
+            _T0.BEG40 = "B"
     rec = None
     for k in range(40):
         USAGE.clear()

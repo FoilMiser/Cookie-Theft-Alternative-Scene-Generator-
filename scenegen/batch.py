@@ -82,7 +82,7 @@ def build_isomorph(lib, rec_a, setting, seed, out_dir, tries=14, layouts=10, log
         for it in rec_a["items"]:
             for i in it.get("elements", []):
                 a = els.get(i, {}).get("asset") or {}
-                if a.get("family", "").startswith("animal.") and it.get("template") in _TP.ANIMAL_YAWS:
+                if a.get("family", "").startswith("animal.") and it.get("template") in _TP.yaw_table():
                     _TP.YAW_FORCE[it["template"]] = int(a["variant"].rsplit("__y", 1)[1])
     for k in range(tries):
         s = seed + 1000 * k

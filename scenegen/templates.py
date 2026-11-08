@@ -1665,11 +1665,11 @@ class FeedBirds(T):
         # feeder seemed to face whatever was behind the birds, and a leaking bag was read instead)
         self.vp = sc.need(self.p, "feed_birds_low" if SCN.PLACEMENT_REV >= 5 else "feed_birds", sc.rng.choice(["smile", "content", "happy"]), 90)
         self.b1 = sc.animal(["songbird"])
-        self.vb1 = sc.need(self.b1, "peck", "neutral", 90)
+        self.vb1 = sc.need(self.b1, "peck", "neutral", animal_yaw(sc, self.id))
         self.vb2 = None
         try:
             self.b2 = sc.animal(["songbird"])
-            self.vb2 = sc.need(self.b2, "peck", "neutral", 90)
+            self.vb2 = sc.need(self.b2, "peck", "neutral", animal_yaw(sc, self.id))
         except PlacementError:
             pass
 
@@ -1770,6 +1770,10 @@ class IceCream(T):
         ep = sc.eid("icecream")
         # revision 38: not so small at the back that the cone is "something small and pink" (templates.ICE40)
         acc = (lambda q: q.bbox()[3] - q.bbox()[1] >= ICE40) if (SCN.PLACEMENT_REV >= 38 and ICE40) else None
+        if SCN.PLACEMENT_REV >= 40 and BEG40 == "B":
+            # revision 40: not near a begging dog (templates.BEG40)
+            acc0 = acc
+            acc = lambda q: (acc0 is None or acc0(q)) and not (getattr(sc, "beg_zone40", None) and sc.overlap(sc.beg_zone40, q.bbox()) > 0)
         if not sc.try_put(ep, self.vp, self.stand_spots(), want_face=sc.rng.choice([1, -1]), accept=acc):
             return False
         self.act(self.p, "eating an ice cream", ["eating ice cream", "ice cream cone", "having an ice cream", "eating a cone"], "ice cream", [ep])
@@ -2062,21 +2066,43 @@ BOX41 = "O"       # v0.41 bench (vision/isolation_v041.md): O
 SEASON41 = "O"    # v0.41 bench (vision/isolation_v041.md): O
 AUTUMN41 = ("#d9a23a", "#c9782f", "#e3b54c")
 AUTUMN41_EDGE = "#9a5a24"
+# v0.42 (revision 40; figure-fixes-v041.md items 1 and 9, vision/flaws_v041.md R1 and O1), each "O" as revision 39:
+# GOAT42 "T": the grazing goat tethered, a rope from its collar (TPDB_GOAT42 "C") to a peg in the ground in front of it (out of place in seven v0.41
+#   pictures: "a goat in a public park is unusual"; a tether makes it somebody's goat)
+# BIRD42 "B": the songbirds and the duck at 45 as well as 90, in the templates where they need no direction (ANIMAL_YAWS40; 34 of 39 animal cut-outs
+#   were in profile in v0.37, and after revision 37 the birds still were)
+# KINK42 "K": the stopped hose crimped where the paw stands on it, a flat band with creases and a sharp fold just past it ("I cannot see a clear kink,
+#   so it could also simply be turned off", v0.41 picture 84)
+# BEG40 "B": no one else with an ice cream near the begging dog (revision 26's zone of 120 units, which a walker in front passed: "I can't tell who
+#   the dog is begging from ... Both have ice cream", v0.41 picture 55)
+GOAT42 = "T"      # v0.42 bench (vision/isolation_v042.md): T
+BIRD42 = "B"      # v0.42 bench: B
+KINK42 = "O"      # v0.42 bench: O, the fold read as "a separate stray bit", and v0.41's hose already read as blocked under the paw
+BEG40 = "B"       # (a placement rule, read in the design tests)
+ANIMAL_YAWS40 = {"bird_perched": (90, 45), "feed_birds": (90, 45), "bird_steals": (90, 45), "ducks_swimming": (90, 45)}
 # (the angles drawn but drawn at 90 instead: the dog walked at 45 never placed, its lead from the walker's hand crossing the dog's back to the collar
 # at every spot, which revision 12 forbids; 12 probes in four settings, 1893 lead curves, none clear. Dropped as the gate drops an angle, the draw
 # kept so that the records that drew 90 rebuild as they were)
 UNPLACED = {("walk_dog", 45)}
 
 
+def yaw_table():
+    """The templates whose animal is drawn at more than one angle, and the angles (revision 40 adds the birds', templates.BIRD42)."""
+    if SCN.PLACEMENT_REV >= 40 and BIRD42 == "B":
+        return dict(ANIMAL_YAWS, **ANIMAL_YAWS40)
+    return ANIMAL_YAWS
+
+
 def animal_yaw(sc, tid, default=90):
     """Revision 37: the yaw a template's animal is drawn at."""
-    if SCN.PLACEMENT_REV < 37 or YAW39 == "O" or tid not in ANIMAL_YAWS:
+    tab = yaw_table()
+    if SCN.PLACEMENT_REV < 37 or YAW39 == "O" or tid not in tab:
         return default
     if tid in YAW_FORCE:
         return YAW_FORCE[tid]
     if tid in getattr(sc, "forced_yaws", {}):
         return int(sc.forced_yaws[tid])
-    y = sc.rng.choice(ANIMAL_YAWS[tid])
+    y = sc.rng.choice(tab[tid])
     return 90 if (tid, y) in UNPLACED else y
 
 
@@ -2214,6 +2240,8 @@ class GoatGrazing(AnimalEvent):
                     bite += f'<path d="M {D.P(mx, my)} Q {D.P((mx + ex) / 2, max(my, ey) + 3 * s)} {D.P(ex, ey)}" fill="none" stroke="{C["grass_dark"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
                 else:
                     blades += f'<path d="M {D.P(mx, my)} L {D.P(ex, ey)}" stroke="{C["grass_dark"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
+            if SCN.PLACEMENT_REV >= 40 and GOAT42 == "T":
+                _goat_tether(sc, a, f, s)
             if tuft40:
                 x0, x1 = sorted((mx + (f * 18 - 13) * s, mx + (f * 18 + 11) * s))
                 sc.svg(sc.eid("grasstuft"), "Grass at the goat's mouth", blades, a.Y - 0.5, (x0 - 6 * s, a.Y - 26 * s, x1 + 6 * s, a.Y + 4 * s), "setting")
@@ -2228,6 +2256,37 @@ class GoatGrazing(AnimalEvent):
             out = [(X, Y) for X, Y in out if not self.sc.on_element("path", X, Y) and not self.sc.on_element("path", X + 50 * sz(Y), Y)
                    and not self.sc.on_element("path", X - 50 * sz(Y), Y)]
         return out
+
+
+def _goat_tether(sc, a, f, s):
+    """Revision 40 (templates.GOAT42 "T"): a rope from the goat's collar falls to the ground in front of its near forefoot and runs along the ground,
+    toward the viewer and back under its belly, to a peg. The side under the belly first (ahead, the peg met the tuft at the muzzle); a peg on
+    anyone else, off the grass or out of the picture is not drawn, and the goat goes untethered."""
+    cx, cy = a.anchor("collar")
+    fl, fr = a.anchor("paw_FL"), a.anchor("paw_FR")
+    fp = fl if fl[1] >= fr[1] else fr
+    others = [q.bbox() for k_, q in sc.assets.items() if q is not a]
+    for back, dy in ((1, 40), (1, 26), (-1, 34)):
+        g1 = (fp[0] + f * 8 * s, a.Y + 5 * s)
+        peg = (g1[0] - back * f * 36 * s, a.Y + dy * s)
+        pb = (peg[0] - 8 * s, peg[1] - 26 * s, peg[0] + 8 * s, peg[1] + 3 * s)
+        if pb[0] < 8 or pb[2] > D.W - 8 or pb[3] > D.H - 4 or not sc.S.walkable(peg[0], peg[1]):
+            continue
+        run = (min(g1[0], peg[0]) - 4 * s, min(g1[1], peg[1] - 26 * s), max(g1[0], peg[0]) + 4 * s, peg[1] + 3 * s)
+        if any(sc.overlap(run, b) > 0 for b in others):
+            continue
+        top = (peg[0], peg[1] - 19 * s)
+        rope = (f"M {D.P(cx, cy)} Q {D.P(cx + f * 6 * s, (cy + g1[1]) / 2)} {D.P(g1[0], g1[1])} "
+                f"Q {D.P((g1[0] + top[0]) / 2, max(g1[1], top[1]) + 7 * s)} {D.P(*top)}")
+        svg = (f'<path d="{rope}" fill="none" stroke="{D.OUT}" stroke-width="{4.6 * s:.1f}" stroke-linecap="round"/>'
+               f'<path d="{rope}" fill="none" stroke="#c9a56a" stroke-width="{2.6 * s:.1f}" stroke-linecap="round"/>')
+        stake = (f'<path d="M {D.P(peg[0] - 4.5 * s, peg[1])} L {D.P(peg[0] - 4.5 * s, peg[1] - 22 * s)} Q {D.P(peg[0], peg[1] - 26 * s)} '
+                 f'{D.P(peg[0] + 4.5 * s, peg[1] - 22 * s)} L {D.P(peg[0] + 4.5 * s, peg[1])} Z" fill="{C["wood"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}"/>')
+        bb = (min(cx, g1[0], peg[0]) - 10 * s, min(cy, pb[1]) - 4, max(cx, g1[0], peg[0]) + 10 * s, pb[3])
+        sc.svg(sc.eid("tether"), "The goat's tether, a rope from its collar to a peg in the ground", svg + stake, a.Y + dy * s, bb, "setting")
+        sc.keepout.append(run)
+        return True
+    return False
 
 
 class DogPlaying(AnimalEvent):
@@ -2301,7 +2360,7 @@ class BirdPerched(T):
     def bind(self):
         sc = self.sc
         self.b = sc.animal(["songbird"])
-        self.vb = sc.need(self.b, sc.rng.choice(["perch", "sing"]), sc.rng.choice(["neutral", "sing"]), 90)
+        self.vb = sc.need(self.b, sc.rng.choice(["perch", "sing"]), sc.rng.choice(["neutral", "sing"]), animal_yaw(sc, self.id))
 
     def perches(self):
         S = self.sc.S
@@ -2385,7 +2444,7 @@ class DucksSwimming(T):
     def bind(self):
         sc = self.sc
         self.d = sc.animal(["duck"])
-        self.vd = sc.need(self.d, "swim", "neutral", 90)
+        self.vd = sc.need(self.d, "swim", "neutral", animal_yaw(sc, self.id))
 
     def place(self):
         sc = self.sc
@@ -2986,6 +3045,15 @@ def _pinched_hose(sc, reel, pinch, front_x, hand, Y, s):
     else:
         down = D.hose_path([(px - f * 10 * s, py + 1 * s), (front_x, py + 7 * s), (gx, py + 5 * s), ((gx + gr) / 2, py + 6 * s), (gr, py + 4 * s),
                             (hm[0] - f * 2 * s, py - 2 * s), hm, (hx - f * 16 * s, hy + (py - hy) * 0.15), (hx, hy)], 0.5)
+    if SCN.PLACEMENT_REV >= 40 and KINK42 == "K":
+        # revision 40 (templates.KINK42): crimped where the paw stands, the flat band wider with two creases across it, and just past it, on the side
+        # away from the water, a sharp fold standing up off the ground
+        flat = D.ell(px, py + 1.5 * s, 24 * s, 3.6 * s, C["hose"], D.OW * 0.7)
+        for dx in (-10, 10):
+            flat += D.stroke(f"M {D.P(px + dx * s - 1.2 * s, py - 1.4 * s)} L {D.P(px + dx * s + 1.2 * s, py + 4.4 * s)}", D.OUT, 1.6 * s, 0)
+        kx = px - f * 26 * s
+        fold = D.hose_path([(kx + f * 9 * s, py + 2 * s), (kx + f * 2 * s, py - 16 * s), (kx - f * 2 * s, py - 16 * s), (kx - f * 9 * s, py + 3 * s)], 0.6)
+        down = fold + down
     svg = up + down + bulge + flat
     xs = [rx, x0, gx, gr, hx]
     bb = (min(xs) - 12, min(ry, hy) - 10, max(xs) + 12, max(py, Y) + 30 * s)
@@ -4006,6 +4074,12 @@ class DogBegs(T):
                     zone = (db[0] - 120 * sd, db[1] - 40 * sd, db[2] + 120 * sd, db[3] + 40 * sd)
                     if any(sc.overlap(zone, q.bbox()) > 0 for k_, q in sc.assets.items() if k_ != ep):
                         continue
+                    if SCN.PLACEMENT_REV >= 40 and BEG40 == "B":
+                        # revision 40: and no one else with an ice cream in a wider zone, in front of the bench as well (templates.BEG40)
+                        zone40 = (db[0] - 380 * sd, db[1] - 120 * sd, db[2] + 380 * sd, db[3] + 260 * sd)
+                        if any(sc.overlap(zone40, q.bbox()) > 0 for k_, q in sc.assets.items() if k_ != ep and "ice_cream" in str(q.v)):
+                            continue
+                        sc.beg_zone40 = zone40
                     sc.airzones.append(zone)
                 sc.assets[ed] = d
                 n, dn = sc.name(self.p), sc.name(self.d)
@@ -4445,7 +4519,7 @@ class BirdSteals(T):
         self.vp = sc.need(self.p, "sit_read", "focused", 45)
         # revision 5: the blue bird (a red bird against the tomato and crust read as a tipped-over cup)
         self.b = sc.animal(["songbird"], prefer=("animal.bird_02",))
-        self.vb = sc.need(self.b, "peck", "neutral", 90)
+        self.vb = sc.need(self.b, "peck", "neutral", animal_yaw(sc, self.id))
 
     def place(self):
         sc = self.sc
@@ -5253,6 +5327,10 @@ class SquareWheel(T):
                 # people stand by (a barrow's handles over a blanket, a bicycle's wheel over the sandbox's frame)
                 if not sc.setting_clear((bb[0] - 10, bb[1], bb[2] + 10, bb[3] + 12), only=("sandbox", "blanket", "pond")):
                     continue
+            if SCN.PLACEMENT_REV >= 40 and not sc.setting_clear((bb[0] - 10, bb[1], bb[2] + 10, bb[3] + 12), only=("stall", "bench")):
+                # revision 40: and clear of the stall and the bench (in front of the fruit stall's legs, its square wheels among them, the bicycle was
+                # "parked against the stall", and nothing wrong with it was seen: v0.42 picture 10)
+                continue
             if SCN.PLACEMENT_REV >= 20:
                 # revision 20: nobody's feet on it (a boy's foot over its handles: "about to trip over / run into" them)
                 own = getattr(sc, "placing", None)

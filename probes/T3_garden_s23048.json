@@ -6,8 +6,8 @@
  "seed": 23048,
  "mirror": false,
  "versions": {
-  "generator": "0.41.0",
-  "cast_builder": "0.41.0",
+  "generator": "0.42.0",
+  "cast_builder": "0.42.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,8 +60,8 @@
  ],
  "templates": [
   {
-   "id": "dog_wants_walk",
-   "kind": "inference",
+   "id": "bucket_hat",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   }
@@ -71,100 +71,149 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A dog is sitting by the door with its leash in its mouth",
-   "accepted": [
-    "dog with a leash",
-    "dog holding a leash",
-    "dog by the door",
-    "leash in its mouth"
-   ],
-   "key": "leash",
+   "text": "A grandmother is standing with hands on hips",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "standing",
+     "standing there",
+     "hands on hips"
+    ]
+   },
+   "key": "standing",
    "elements": [
-    "waitingdog_1",
-    "leash_2"
+    "buckethead_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "dog_wants_walk",
+   "template": "bucket_hat",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.41,
+    "s": 0.17,
     "r": 0,
     "d": 0.0,
-    "f": -0.53,
-    "a": 5.79,
-    "zipf_raw": 3.47,
-    "aoa_raw": 5.79,
+    "f": 0.86,
+    "a": 4.39,
+    "zipf_raw": 4.86,
+    "aoa_raw": 4.39,
     "domain": null,
-    "area_px": 8584
+    "area_px": 19444
    },
-   "b": -1.016,
-   "p0": 0.734,
-   "pm1": 0.504,
+   "b": -1.723,
+   "p0": 0.849,
+   "pm1": 0.673,
    "aoi_cells": [
-    "BL"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i02",
-   "type": "inference",
-   "text": "The dog wants to go for a walk",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person has on their head",
    "accepted": [
-    "the dog wants a walk",
-    "wants to go out",
-    "waiting to be taken for a walk",
-    "asking for a walk"
+    "funny hat",
+    "something on his head",
+    "that's strange"
    ],
-   "key": "walk",
+   "key": "bucket",
    "elements": [
-    "waitingdog_1",
-    "leash_2",
-    "house"
+    "buckethead_1"
    ],
    "cues": [
-    "waitingdog_1",
-    "leash_2",
-    "house"
+    "buckethead_1"
    ],
    "effect": [
-    "waitingdog_1"
+    "buckethead_1"
    ],
-   "chain": 1,
+   "chain": 0,
    "animate": false,
-   "domain": null,
-   "template": "dog_wants_walk",
+   "domain": "functional",
+   "template": "bucket_hat",
    "event": "e1",
    "features": {
-    "type": "inference",
-    "chain": 1,
+    "type": "contradiction_notice",
+    "chain": 0,
     "animate": false,
-    "s": -0.542,
-    "r": 2,
-    "d": 0.161,
+    "s": 0.17,
+    "r": 0,
+    "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 5.08,
-    "aoa_raw": 3.45,
-    "domain": null,
-    "area_px": 7124
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 19444
    },
-   "b": -0.026,
-   "p0": 0.506,
-   "pm1": 0.274,
+   "b": -0.185,
+   "p0": 0.546,
+   "pm1": 0.307,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is wearing a bucket as a hat",
+   "accepted": [
+    "bucket on the head",
+    "wearing a bucket",
+    "a bucket is not a hat"
+   ],
+   "key": "bucket",
+   "elements": [
+    "buckethead_1"
+   ],
+   "cues": [
+    "buckethead_1"
+   ],
+   "effect": [
+    "buckethead_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "bucket_hat",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.17,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.07,
+    "aoa_raw": 5.61,
+    "domain": "functional",
+    "area_px": 19444
+   },
+   "b": 1.015,
+   "p0": 0.266,
+   "pm1": 0.118,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -207,7 +256,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -249,7 +298,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -290,7 +339,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -313,7 +362,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.897,
+    "s": 1.89,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -321,11 +370,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 222056
+    "area_px": 219812
    },
-   "b": -1.892,
+   "b": -1.888,
    "p0": 0.869,
-   "pm1": 0.709,
+   "pm1": 0.708,
    "aoi_cells": [
     "ML",
     "MC",
@@ -333,7 +382,53 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
+   "type": "entity",
+   "text": "It is the back yard of a house",
+   "accepted": [
+    "house",
+    "home",
+    "backyard",
+    "back yard",
+    "yard",
+    "garden"
+   ],
+   "key": "house",
+   "elements": [
+    "house"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.84,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
+    "domain": null,
+    "area_px": 204952
+   },
+   "b": -2.313,
+   "p0": 0.91,
+   "pm1": 0.788,
+   "aoi_cells": [
+    "TL",
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i09",
    "type": "entity",
    "text": "There is a swing set",
    "accepted": [
@@ -376,7 +471,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -420,19 +515,19 @@
   }
  ],
  "counts": {
-  "content": 7,
+  "content": 8,
   "inference_units": 1,
-  "contradictions": 0,
-  "items_total": 8
+  "contradictions": 1,
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.782,
-   "inference": 0.506
+   "content": 0.812,
+   "inference": 0.406
   },
   "theta_minus_1": {
-   "content": 0.572,
-   "inference": 0.274
+   "content": 0.62,
+   "inference": 0.212
   }
  },
  "bands": {
@@ -454,14 +549,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "13 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0366,
-  "png_bytes": 142142,
-  "jpeg_bytes": 175281
+  "objects": 13,
+  "edge_density": 0.0378,
+  "png_bytes": 153792,
+  "jpeg_bytes": 178202
  },
  "signature": [
   [
@@ -469,32 +564,40 @@
    0
   ],
   [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "inference",
+   "contradiction_explain",
    1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
   ]
  ],
  "elements": [
@@ -588,8 +691,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 222056,
-   "occlusion": 0.078
+   "visible_px": 219812,
+   "occlusion": 0.088
   },
   {
    "id": "filler_bush_left",
@@ -618,52 +721,7 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 199032,
-   "occlusion": 0.029
-  },
-  {
-   "id": "waitingdog_1",
-   "label": "animal.dog_01__sit_wait__neutral__y045",
-   "role": "scored",
-   "z": 806,
-   "bbox": [
-    78.0,
-    664.0,
-    172.0,
-    816.0
-   ],
-   "area_px": 7160,
-   "visible_px": 7124,
-   "occlusion": 0.005,
-   "asset": {
-    "variant": "animal.dog_01__sit_wait__neutral__y045",
-    "family": "animal.dog_01",
-    "scale": 0.4476,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "dog",
-     "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "leash_2",
-   "label": "Leash in the dog's mouth",
-   "role": "scored",
-   "z": 807,
-   "bbox": [
-    164.0,
-    692.0,
-    248.0,
-    818.0
-   ],
-   "area_px": 1460,
-   "visible_px": 1460,
+   "visible_px": 204952,
    "occlusion": 0.0
   },
   {
@@ -710,6 +768,44 @@
    "area_px": 35772,
    "visible_px": 35772,
    "occlusion": 0.0
+  },
+  {
+   "id": "buckethead_1",
+   "label": "person.rosa__bucket_hat__smile__y045",
+   "role": "scored",
+   "z": 901.96,
+   "bbox": [
+    674.0,
+    580.0,
+    772.0,
+    908.0
+   ],
+   "area_px": 19444,
+   "visible_px": 19444,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__bucket_hat__smile__y045",
+    "family": "person.rosa",
+    "scale": 0.4831,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
   },
   {
    "id": "filler_watering_can",
@@ -761,11 +857,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "dog_wants_walk"
+   "contradictions": [
+    "bucket_hat"
    ]
   },
-  "placement_rev": 39
+  "placement_rev": 40
  },
  "probe": true
 }

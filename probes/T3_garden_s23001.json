@@ -6,8 +6,8 @@
  "seed": 23001,
  "mirror": true,
  "versions": {
-  "generator": "0.41.0",
-  "cast_builder": "0.41.0",
+  "generator": "0.42.0",
+  "cast_builder": "0.42.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,13 +62,13 @@
  ],
  "templates": [
   {
-   "id": "windy_hat",
+   "id": "sprinkler_package",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "sitting_on_air",
+   "id": "sweep_fork",
    "kind": "contradiction",
    "event": "e2",
    "units": 1
@@ -85,7 +85,140 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is reaching up for a hat",
+   "text": "A sprinkler is spraying water",
+   "accepted": [
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
+   ],
+   "key": "sprinkler",
+   "elements": [
+    "sprinkler_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": 0.08,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
+    "domain": null,
+    "area_px": 17132
+   },
+   "b": -0.095,
+   "p0": 0.524,
+   "pm1": 0.288,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.471,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
+    "domain": null,
+    "area_px": 7880
+   },
+   "b": -0.542,
+   "p0": 0.632,
+   "pm1": 0.387,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_1",
+    "package_2"
+   ],
+   "cues": [
+    "sprinkler_1",
+    "package_2"
+   ],
+   "effect": [
+    "package_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.08,
+    "r": 1,
+    "d": 0.246,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
+    "domain": null,
+    "area_px": 17132
+   },
+   "b": 0.305,
+   "p0": 0.424,
+   "pm1": 0.213,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A man is sweeping",
    "accepted": {
     "who": [
      "man",
@@ -95,141 +228,141 @@
      "person"
     ],
     "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "cleaning"
     ]
    },
-   "key": "hat",
+   "key": "sweeping",
    "elements": [
-    "hatperson_1"
+    "sweeper_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
+   "template": "sweep_fork",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.073,
+    "s": 0.417,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 16964
+    "area_px": 27544
    },
-   "b": -1.336,
-   "p0": 0.792,
-   "pm1": 0.583,
+   "b": -1.285,
+   "p0": 0.783,
+   "pm1": 0.571,
    "aoi_cells": [
-    "ML",
     "BL"
    ]
   },
   {
-   "id": "i02",
-   "type": "entity",
-   "text": "A hat is flying through the air",
+   "id": "i05",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is sweeping with",
    "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
+    "the broom is strange",
+    "something's wrong with the broom",
+    "that's odd",
+    "a fork is not for sweeping"
    ],
-   "key": "hat",
+   "key": "fork",
    "elements": [
-    "flyinghat_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.426,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 2048
-   },
-   "b": -0.086,
-   "p0": 0.521,
-   "pm1": 0.286,
-   "aoi_cells": [
-    "ML"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "inference",
-   "text": "The wind blew the man's hat off",
-   "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
-   ],
-   "key": "wind",
-   "elements": [
-    "flyinghat_4",
-    "hatperson_1"
+    "sweeper_3"
    ],
    "cues": [
-    "flyinghat_4",
-    "hatperson_1"
+    "sweeper_3"
    ],
    "effect": [
-    "flyinghat_4"
+    "sweeper_3"
    ],
-   "chain": 2,
+   "chain": 0,
    "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
+   "domain": "functional",
+   "template": "sweep_fork",
+   "event": "e2",
    "features": {
-    "type": "inference",
-    "chain": 2,
+    "type": "contradiction_notice",
+    "chain": 0,
     "animate": false,
-    "s": -1.426,
-    "r": 1,
-    "d": 0.127,
+    "s": 0.417,
+    "r": 0,
+    "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
-    "domain": null,
-    "area_px": 2048
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 27544
    },
-   "b": 1.515,
-   "p0": 0.18,
-   "pm1": 0.075,
+   "b": -0.069,
+   "p0": 0.517,
+   "pm1": 0.283,
    "aoi_cells": [
-    "ML",
     "BL"
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
+   "type": "contradiction_explain",
+   "text": "The person is sweeping with a giant fork instead of a broom",
+   "accepted": [
+    "sweeping with a fork",
+    "a fork instead of a broom",
+    "you can't sweep with a fork",
+    "a giant fork",
+    "a huge dinner fork"
+   ],
+   "key": "fork",
+   "elements": [
+    "sweeper_3"
+   ],
+   "cues": [
+    "sweeper_3"
+   ],
+   "effect": [
+    "sweeper_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "sweep_fork",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.417,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 27544
+   },
+   "b": 1.131,
+   "p0": 0.244,
+   "pm1": 0.106,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i07",
    "type": "action",
-   "text": "A grandfather is sitting and reading",
+   "text": "A grandfather is digging",
    "accepted": {
     "who": [
      "grandfather",
@@ -237,152 +370,6 @@
      "old man",
      "older man",
      "man"
-    ],
-    "what": [
-     "sitting and reading",
-     "sitting",
-     "reading",
-     "reading a book"
-    ]
-   },
-   "key": "sitting",
-   "elements": [
-    "airsitter_6"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "sitting_on_air",
-   "event": "e2",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.007,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.86,
-    "a": 3.47,
-    "zipf_raw": 4.86,
-    "aoa_raw": 3.47,
-    "domain": null,
-    "area_px": 15156
-   },
-   "b": -1.394,
-   "p0": 0.801,
-   "pm1": 0.597,
-   "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i05",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with how the person is sitting",
-   "accepted": [
-    "something odd about how they're sitting",
-    "that person looks strange",
-    "something's missing"
-   ],
-   "key": "chair",
-   "elements": [
-    "airsitter_6"
-   ],
-   "cues": [
-    "airsitter_6"
-   ],
-   "effect": [
-    "airsitter_6"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "sitting_on_air",
-   "event": "e2",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.007,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.69,
-    "aoa_raw": 3.43,
-    "domain": "physical",
-    "area_px": 15156
-   },
-   "b": -0.057,
-   "p0": 0.514,
-   "pm1": 0.28,
-   "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i06",
-   "type": "contradiction_explain",
-   "text": "The person is sitting on nothing: there is no chair or bench under them",
-   "accepted": [
-    "sitting on nothing",
-    "there's no chair",
-    "sitting in the air",
-    "invisible chair",
-    "nothing to sit on"
-   ],
-   "key": "chair",
-   "elements": [
-    "airsitter_6"
-   ],
-   "cues": [
-    "airsitter_6"
-   ],
-   "effect": [
-    "airsitter_6"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "sitting_on_air",
-   "event": "e2",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.007,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.69,
-    "aoa_raw": 3.43,
-    "domain": "physical",
-    "area_px": 15156
-   },
-   "b": 1.143,
-   "p0": 0.242,
-   "pm1": 0.105,
-   "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i07",
-   "type": "action",
-   "text": "A woman is digging",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
     ],
     "what": [
      "digging",
@@ -394,8 +381,8 @@
    },
    "key": "digging",
    "elements": [
-    "digger_7",
-    "soil_8"
+    "digger_5",
+    "soil_6"
    ],
    "cues": [],
    "effect": [],
@@ -408,7 +395,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.247,
+    "s": 0.15,
     "r": 0,
     "d": 0.0,
     "f": -0.01,
@@ -416,13 +403,15 @@
     "zipf_raw": 3.99,
     "aoa_raw": 4.19,
     "domain": null,
-    "area_px": 21660
+    "area_px": 18912
    },
-   "b": -1.26,
-   "p0": 0.779,
-   "pm1": 0.565,
+   "b": -1.212,
+   "p0": 0.771,
+   "pm1": 0.553,
    "aoi_cells": [
+    "ML",
     "MC",
+    "BL",
     "BC"
    ]
   },
@@ -620,7 +609,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.861,
+    "s": 1.875,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -628,11 +617,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 210920
+    "area_px": 215052
    },
-   "b": -1.633,
-   "p0": 0.837,
-   "pm1": 0.653,
+   "b": -1.641,
+   "p0": 0.838,
+   "pm1": 0.655,
    "aoi_cells": [
     "ML",
     "MC",
@@ -713,7 +702,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.133,
+    "s": -0.103,
     "r": 0,
     "d": 0.0,
     "f": 0.06,
@@ -721,11 +710,11 @@
     "zipf_raw": 4.06,
     "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 12676
+    "area_px": 13232
    },
-   "b": -0.592,
-   "p0": 0.644,
-   "pm1": 0.399,
+   "b": -0.607,
+   "p0": 0.647,
+   "pm1": 0.403,
    "aoi_cells": [
     "MC"
    ]
@@ -782,12 +771,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.728,
-   "inference": 0.312
+   "content": 0.713,
+   "inference": 0.395
   },
   "theta_minus_1": {
-   "content": 0.511,
-   "inference": 0.153
+   "content": 0.492,
+   "inference": 0.201
   }
  },
  "bands": {
@@ -795,14 +784,10 @@
   "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
-  "hatperson_1_looks_at_hat": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -812,15 +797,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": true,
-   "detail": "20 drawn objects (tier band 20-30)"
+   "result": false,
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 20,
-  "edge_density": 0.0407,
-  "png_bytes": 206893,
-  "jpeg_bytes": 192111
+  "objects": 17,
+  "edge_density": 0.0446,
+  "png_bytes": 211495,
+  "jpeg_bytes": 197610
  },
  "signature": [
   [
@@ -881,7 +866,7 @@
   ],
   [
    "inference",
-   2
+   1
   ]
  ],
  "elements": [
@@ -945,38 +930,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 73864,
-   "occlusion": 0.091
-  },
-  {
-   "id": "breeze_2",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    1104.0,
-    76.0,
-    1262.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
-   "occlusion": 0.0
-  },
-  {
-   "id": "breeze_3",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    584.0,
-    280.0,
-    742.0,
-    320.0
-   ],
-   "area_px": 1320,
-   "visible_px": 1320,
-   "occlusion": 0.0
+   "visible_px": 50456,
+   "occlusion": 0.379
   },
   {
    "id": "tree",
@@ -1005,8 +960,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 210920,
-   "occlusion": 0.124
+   "visible_px": 215052,
+   "occlusion": 0.107
   },
   {
    "id": "filler_bush_left",
@@ -1050,8 +1005,8 @@
     708.0
    ],
    "area_px": 13848,
-   "visible_px": 12128,
-   "occlusion": 0.124
+   "visible_px": 13372,
+   "occlusion": 0.034
   },
   {
    "id": "laundry",
@@ -1060,79 +1015,12 @@
    "z": 706,
    "bbox": [
     822.0,
-    340.0,
-    1016.0,
-    504.0
-   ],
-   "area_px": 12676,
-   "visible_px": 12676,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hatperson_1",
-   "label": "person.ben__reach_up__scared__y045",
-   "role": "scored",
-   "z": 755.51,
-   "bbox": [
-    108.0,
-    470.0,
-    234.0,
-    760.0
-   ],
-   "area_px": 16964,
-   "visible_px": 16964,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ben__reach_up__scared__y045",
-    "family": "person.ben",
-    "scale": 0.4289,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
-  },
-  {
-   "id": "flyinghat_4",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 756.51,
-   "bbox": [
-    186.0,
-    360.0,
-    266.0,
-    414.0
-   ],
-   "area_px": 2048,
-   "visible_px": 2048,
-   "occlusion": 0.0
-  },
-  {
-   "id": "gusts_5",
-   "label": "Wind lines and blowing leaves",
-   "role": "setting",
-   "z": 756.51,
-   "bbox": [
-    0.0,
     392.0,
-    216.0,
-    458.0
+    952.0,
+    524.0
    ],
-   "area_px": 3412,
-   "visible_px": 3412,
+   "area_px": 13232,
+   "visible_px": 13232,
    "occlusion": 0.0
   },
   {
@@ -1151,38 +1039,38 @@
    "occlusion": 0.0
   },
   {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
+   "id": "soil_6",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 791.52,
    "bbox": [
-    1028.0,
-    694.0,
-    1282.0,
-    838.0
+    328.0,
+    760.0,
+    476.0,
+    810.0
    ],
-   "area_px": 25884,
-   "visible_px": 25884,
-   "occlusion": 0.0
+   "area_px": 3696,
+   "visible_px": 3048,
+   "occlusion": 0.175
   },
   {
-   "id": "airsitter_6",
-   "label": "person.tomas__sit_read__neutral__y045",
+   "id": "digger_5",
+   "label": "person.tomas__dig_lift__determined__y045",
    "role": "scored",
-   "z": 854.28,
+   "z": 792.52,
    "bbox": [
-    688.0,
-    622.0,
-    814.0,
-    868.0
+    426.0,
+    544.0,
+    576.0,
+    806.0
    ],
-   "area_px": 15156,
-   "visible_px": 15156,
+   "area_px": 15864,
+   "visible_px": 15864,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.tomas__sit_read__neutral__y045",
+    "variant": "person.tomas__dig_lift__determined__y045",
     "family": "person.tomas",
-    "scale": 0.4655,
+    "scale": 0.4426,
     "mirrored": true,
     "labels": {
      "everyday_name": "grandfather",
@@ -1203,70 +1091,100 @@
    }
   },
   {
-   "id": "soil_8",
-   "label": "Hole and pile of dirt",
-   "role": "scored",
-   "z": 906.71,
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
    "bbox": [
-    714.0,
-    874.0,
-    876.0,
-    926.0
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
    ],
-   "area_px": 4352,
-   "visible_px": 3684,
-   "occlusion": 0.153
+   "area_px": 25884,
+   "visible_px": 25884,
+   "occlusion": 0.0
   },
   {
-   "id": "digger_7",
-   "label": "person.ana__dig_lift__determined__y045",
+   "id": "sprinkler_1",
+   "label": "Sprinkler spraying",
    "role": "scored",
-   "z": 907.71,
+   "z": 958.17,
    "bbox": [
-    822.0,
-    644.0,
-    982.0,
-    920.0
+    608.0,
+    824.0,
+    1600.0,
+    988.0
    ],
-   "area_px": 17976,
-   "visible_px": 17976,
-   "occlusion": 0.0,
+   "area_px": 17240,
+   "visible_px": 17132,
+   "occlusion": 0.006
+  },
+  {
+   "id": "package_2",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 968.17,
+   "bbox": [
+    554.0,
+    900.0,
+    670.0,
+    982.0
+   ],
+   "area_px": 7880,
+   "visible_px": 7880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "sweeper_3",
+   "label": "person.ben__sweep_giant_fork__neutral__y045",
+   "role": "scored",
+   "z": 982.54,
+   "bbox": [
+    88.0,
+    660.0,
+    288.0,
+    990.0
+   ],
+   "area_px": 27848,
+   "visible_px": 27544,
+   "occlusion": 0.011,
    "asset": {
-    "variant": "person.ana__dig_lift__determined__y045",
-    "family": "person.ana",
-    "scale": 0.4853,
-    "mirrored": true,
+    "variant": "person.ben__sweep_giant_fork__neutral__y045",
+    "family": "person.ben",
+    "scale": 0.513,
+    "mirrored": false,
     "labels": {
-     "everyday_name": "woman",
+     "everyday_name": "man",
      "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
+      "man",
+      "guy",
+      "father",
+      "dad",
       "person"
      ],
      "category": "adult_person",
      "person": {
       "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
+      "skin_tone": "skin1",
+      "hair": "short_brown"
      }
     }
    }
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
+   "id": "sweptpile_4",
+   "label": "Swept-up dust and grit",
+   "role": "setting",
+   "z": 983.54,
    "bbox": [
-    362.0,
-    884.0,
-    458.0,
-    962.0
+    186.0,
+    926.0,
+    442.0,
+    992.0
    ],
-   "area_px": 4404,
-   "visible_px": 4404,
+   "area_px": 5648,
+   "visible_px": 5648,
    "occlusion": 0.0
   }
  ],
@@ -1277,10 +1195,10 @@
  "attempts": [
   [
    23001,
-   "layout 9: accepted after 8 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 8,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 23001,
@@ -1293,13 +1211,13 @@
     "dig"
    ],
    "modules": [
-    "windy_hat"
+    "sprinkler_package"
    ],
    "contradictions": [
-    "sitting_on_air"
+    "sweep_fork"
    ]
   },
-  "placement_rev": 39
+  "placement_rev": 40
  },
  "probe": true
 }

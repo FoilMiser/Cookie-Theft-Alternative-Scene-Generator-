@@ -2,12 +2,12 @@
  "name": "T3_park_s23032",
  "tier": 3,
  "setting": "park",
- "sky": "clear",
+ "sky": "dark",
  "seed": 23032,
  "mirror": true,
  "versions": {
-  "generator": "0.41.0",
-  "cast_builder": "0.41.0",
+  "generator": "0.42.0",
+  "cast_builder": "0.42.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,19 +61,19 @@
  ],
  "templates": [
   {
-   "id": "windy_hat",
+   "id": "rain_coming",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "ducks_swimming",
+   "id": "feed_birds",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "run",
+   "id": "carry_bag",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -84,315 +84,137 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A duck is swimming in the pond",
-   "accepted": [
-    "duck",
-    "duck swimming",
-    "ducks",
-    "duck in the pond",
-    "duck in the water"
-   ],
-   "key": "duck",
+   "text": "A woman is feeding the birds",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "feeding the birds",
+     "feeding pigeons",
+     "throwing seeds",
+     "feeding birds",
+     "birds"
+    ]
+   },
+   "key": "birds",
    "elements": [
-    "duck_1"
+    "feeder_person_1",
+    "bird_2",
+    "bird_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "ducks_swimming",
+   "template": "feed_birds",
    "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.411,
+    "s": 0.162,
     "r": 0,
     "d": 0.0,
-    "f": 0.21,
-    "a": 3.5,
-    "zipf_raw": 4.21,
-    "aoa_raw": 3.5,
+    "f": 0.6,
+    "a": 3.52,
+    "zipf_raw": 4.6,
+    "aoa_raw": 3.52,
     "domain": null,
-    "area_px": 2092
+    "area_px": 19224
    },
-   "b": -0.497,
-   "p0": 0.622,
-   "pm1": 0.377,
+   "b": -1.401,
+   "p0": 0.802,
+   "pm1": 0.599,
    "aoi_cells": [
-    "MC"
+    "BC"
    ]
   },
   {
    "id": "i02",
    "type": "action",
-   "text": "A man is reaching up for a hat",
+   "text": "A teenager is carrying a shopping bag",
    "accepted": {
     "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
     ],
     "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
+     "carrying a bag",
+     "shopping",
+     "shopping bag",
+     "holding a bag"
     ]
    },
-   "key": "hat",
+   "key": "bag",
    "elements": [
-    "hatperson_2"
+    "carrier_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.207,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 20480
-   },
-   "b": -1.402,
-   "p0": 0.803,
-   "pm1": 0.599,
-   "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "entity",
-   "text": "A hat is flying through the air",
-   "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
-   ],
-   "key": "hat",
-   "elements": [
-    "flyinghat_6"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.278,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 2524
-   },
-   "b": -0.16,
-   "p0": 0.54,
-   "pm1": 0.302,
-   "aoi_cells": [
-    "MR"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "inference",
-   "text": "The wind blew the man's hat off",
-   "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
-   ],
-   "key": "wind",
-   "elements": [
-    "flyinghat_6",
-    "hatperson_2"
-   ],
-   "cues": [
-    "flyinghat_6",
-    "hatperson_2"
-   ],
-   "effect": [
-    "flyinghat_6"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -1.278,
-    "r": 1,
-    "d": 0.143,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
-    "domain": null,
-    "area_px": 2524
-   },
-   "b": 1.461,
-   "p0": 0.188,
-   "pm1": 0.079,
-   "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i05",
-   "type": "action",
-   "text": "A man is running",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "running",
-     "jogging",
-     "out for a run",
-     "exercising"
-    ]
-   },
-   "key": "running",
-   "elements": [
-    "runner_8"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "run",
+   "template": "carry_bag",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.176,
+    "s": -0.105,
     "r": 0,
     "d": 0.0,
-    "f": 1.23,
-    "a": 4.47,
-    "zipf_raw": 5.23,
-    "aoa_raw": 4.47,
+    "f": 0.79,
+    "a": 4.28,
+    "zipf_raw": 4.79,
+    "aoa_raw": 4.28,
     "domain": null,
-    "area_px": 11940
+    "area_px": 13200
    },
-   "b": -1.421,
-   "p0": 0.805,
-   "pm1": 0.604,
+   "b": -1.325,
+   "p0": 0.79,
+   "pm1": 0.581,
    "aoi_cells": [
-    "ML",
-    "MC"
+    "BL"
    ]
   },
   {
-   "id": "i06",
+   "id": "i03",
    "type": "entity",
-   "text": "It is a sunny day",
+   "text": "Dark clouds are coming",
    "accepted": [
-    "sun",
-    "sunny",
-    "sunshine",
-    "nice day",
-    "sunny day"
-   ],
-   "key": "sun",
-   "elements": [
-    "sun"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.092,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.97,
-    "a": 3.4,
-    "zipf_raw": 4.97,
-    "aoa_raw": 3.4,
-    "domain": null,
-    "area_px": 13440
-   },
-   "b": -0.885,
-   "p0": 0.708,
-   "pm1": 0.471,
-   "aoi_cells": [
-    "TL"
-   ]
-  },
-  {
-   "id": "i07",
-   "type": "entity",
-   "text": "There are a few white clouds",
-   "accepted": [
+    "dark clouds",
+    "storm clouds",
     "clouds",
-    "white clouds",
-    "a few clouds",
-    "fluffy clouds"
+    "cloudy",
+    "storm",
+    "gray sky"
    ],
    "key": "clouds",
    "elements": [
-    "clouds_white"
+    "clouds_dark"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "setting",
-   "event": null,
+   "template": "rain_coming",
+   "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.055,
+    "s": 1.001,
     "r": 0,
     "d": 0.0,
     "f": 0.16,
@@ -400,18 +222,124 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 16532
+    "area_px": 62768
    },
-   "b": -0.716,
-   "p0": 0.672,
-   "pm1": 0.429,
+   "b": -1.188,
+   "p0": 0.766,
+   "pm1": 0.547,
    "aoi_cells": [
+    "TL",
     "TC",
     "TR"
    ]
   },
   {
-   "id": "i08",
+   "id": "i04",
+   "type": "action",
+   "text": "A child is pointing up at the sky",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "pointing at the sky",
+     "pointing at the clouds",
+     "pointing up",
+     "looking up",
+     "worried"
+    ]
+   },
+   "key": "pointing",
+   "elements": [
+    "skywatcher_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.637,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.2,
+    "a": 4.55,
+    "zipf_raw": 4.2,
+    "aoa_raw": 4.55,
+    "domain": null,
+    "area_px": 6232
+   },
+   "b": -0.882,
+   "p0": 0.707,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "inference",
+   "text": "It is about to rain",
+   "accepted": [
+    "it's going to rain",
+    "a storm is coming",
+    "rain is coming",
+    "it might rain",
+    "going to get wet"
+   ],
+   "key": "rain",
+   "elements": [
+    "clouds_dark",
+    "skywatcher_6"
+   ],
+   "cues": [
+    "clouds_dark",
+    "skywatcher_6"
+   ],
+   "effect": [
+    "clouds_dark"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 1.001,
+    "r": 1,
+    "d": 0.248,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.71,
+    "aoa_raw": 3.6,
+    "domain": null,
+    "area_px": 62768
+   },
+   "b": -0.153,
+   "p0": 0.538,
+   "pm1": 0.3,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR",
+    "MC"
+   ]
+  },
+  {
+   "id": "i06",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -436,7 +364,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.863,
+    "s": 0.833,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -444,18 +372,18 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 51656
+    "area_px": 49540
    },
-   "b": -1.284,
-   "p0": 0.783,
-   "pm1": 0.571,
+   "b": -1.27,
+   "p0": 0.781,
+   "pm1": 0.567,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -478,7 +406,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.108,
+    "s": 1.179,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -486,11 +414,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 72960
+    "area_px": 80600
    },
-   "b": -1.188,
-   "p0": 0.766,
-   "pm1": 0.547,
+   "b": -1.224,
+   "p0": 0.773,
+   "pm1": 0.556,
    "aoi_cells": [
     "MC",
     "MR",
@@ -499,7 +427,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i08",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -522,7 +450,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.009,
+    "s": 1.012,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -530,9 +458,9 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 63472
+    "area_px": 63708
    },
-   "b": -1.4,
+   "b": -1.401,
    "p0": 0.802,
    "pm1": 0.599,
    "aoi_cells": [
@@ -541,7 +469,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i09",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -585,7 +513,7 @@
    ]
   },
   {
-   "id": "i12",
+   "id": "i10",
    "type": "entity",
    "text": "There is a park bench",
    "accepted": [
@@ -627,7 +555,7 @@
    ]
   },
   {
-   "id": "i13",
+   "id": "i11",
    "type": "entity",
    "text": "There are flowers",
    "accepted": [
@@ -669,23 +597,23 @@
   }
  ],
  "counts": {
-  "content": 12,
+  "content": 10,
   "inference_units": 1,
   "contradictions": 0,
-  "items_total": 13
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.708,
-   "inference": 0.188
+   "content": 0.742,
+   "inference": 0.538
   },
   "theta_minus_1": {
-   "content": 0.481,
-   "inference": 0.079
+   "content": 0.52,
+   "inference": 0.3
   }
  },
  "bands": {
-  "content_count": true,
+  "content_count": false,
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
@@ -693,7 +621,7 @@
  },
  "in_tier": false,
  "checks": {
-  "hatperson_2_looks_at_hat": {
+  "skywatcher_6_looks_at_clouds": {
    "result": false,
    "detail": ""
   },
@@ -706,15 +634,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": true,
-   "detail": "22 drawn objects (tier band 20-30)"
+   "result": false,
+   "detail": "18 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 22,
-  "edge_density": 0.0282,
-  "png_bytes": 205475,
-  "jpeg_bytes": 143763
+  "objects": 18,
+  "edge_density": 0.0262,
+  "png_bytes": 204129,
+  "jpeg_bytes": 132909
  },
  "signature": [
   [
@@ -758,16 +686,8 @@
    0
   ],
   [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
    "inference",
-   2
+   1
   ]
  ],
  "elements": [
@@ -778,33 +698,18 @@
    "z": -100
   },
   {
-   "id": "sun",
-   "label": "Sun",
-   "role": "setting",
-   "z": -99,
-   "bbox": [
-    72.0,
-    12.0,
-    268.0,
-    208.0
-   ],
-   "area_px": 13440,
-   "visible_px": 13440,
-   "occlusion": 0.0
-  },
-  {
-   "id": "clouds_white",
-   "label": "Small white clouds",
-   "role": "setting",
+   "id": "clouds_dark",
+   "label": "Dark clouds rolling in",
+   "role": "scored",
    "z": -98,
    "bbox": [
-    680.0,
-    52.0,
-    1156.0,
-    168.0
+    472.0,
+    8.0,
+    1200.0,
+    196.0
    ],
-   "area_px": 16532,
-   "visible_px": 16532,
+   "area_px": 62768,
+   "visible_px": 62768,
    "occlusion": 0.0
   },
   {
@@ -819,8 +724,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 106180,
-   "occlusion": 0.318
+   "visible_px": 113264,
+   "occlusion": 0.272
   },
   {
    "id": "tree_line",
@@ -846,8 +751,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 51656,
-   "occlusion": 0.001
+   "visible_px": 49540,
+   "occlusion": 0.042
   },
   {
    "id": "pond",
@@ -861,38 +766,8 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 72960,
-   "occlusion": 0.136
-  },
-  {
-   "id": "breeze_4",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    324.0,
-    76.0,
-    482.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
-   "occlusion": 0.0
-  },
-  {
-   "id": "breeze_5",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    1354.0,
-    240.0,
-    1512.0,
-    280.0
-   ],
-   "area_px": 1320,
-   "visible_px": 1320,
-   "occlusion": 0.0
+   "visible_px": 80600,
+   "occlusion": 0.045
   },
   {
    "id": "tree_small",
@@ -925,6 +800,21 @@
    "occlusion": 0.0
   },
   {
+   "id": "filler_bush_l",
+   "label": "Bush",
+   "role": "filler",
+   "z": 640,
+   "bbox": [
+    1448.0,
+    596.0,
+    1568.0,
+    672.0
+   ],
+   "area_px": 6628,
+   "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
    "id": "filler_bush_r",
    "label": "Bush",
    "role": "filler",
@@ -940,86 +830,57 @@
    "occlusion": 0.0
   },
   {
-   "id": "duck_1",
-   "label": "animal.duck_01__swim__neutral__y090",
-   "role": "scored",
-   "z": 662,
+   "id": "filler_bin",
+   "label": "Bin",
+   "role": "filler",
+   "z": 652,
    "bbox": [
-    898.0,
-    608.0,
-    972.0,
-    666.0
+    594.0,
+    584.0,
+    650.0,
+    654.0
    ],
-   "area_px": 2092,
-   "visible_px": 2092,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.duck_01__swim__neutral__y090",
-    "family": "animal.duck_01",
-    "scale": 0.3942,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "duck",
-     "accepted_names": [
-      "duck",
-      "duckling",
-      "bird"
-     ],
-     "category": "water_bird"
-    }
-   }
+   "area_px": 3228,
+   "visible_px": 3228,
+   "occlusion": 0.0
   },
   {
-   "id": "runner_8",
-   "label": "person.ben__run__smile__y090",
+   "id": "skywatcher_6",
+   "label": "person.kai__point_up__worried__y045",
    "role": "scored",
-   "z": 671.55,
+   "z": 655.02,
    "bbox": [
-    456.0,
-    430.0,
-    588.0,
-    676.0
+    712.0,
+    484.0,
+    792.0,
+    658.0
    ],
-   "area_px": 11940,
-   "visible_px": 11940,
+   "area_px": 6232,
+   "visible_px": 6232,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.ben__run__smile__y090",
-    "family": "person.ben",
-    "scale": 0.3978,
-    "mirrored": true,
+    "variant": "person.kai__point_up__worried__y045",
+    "family": "person.kai",
+    "scale": 0.3916,
+    "mirrored": false,
     "labels": {
-     "everyday_name": "man",
+     "everyday_name": "child",
      "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
      ],
-     "category": "adult_person",
+     "category": "child_person",
      "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
      }
     }
    }
-  },
-  {
-   "id": "speedlines_9",
-   "label": "Motion lines behind the runner",
-   "role": "setting",
-   "z": 672.55,
-   "bbox": [
-    542.0,
-    494.0,
-    616.0,
-    560.0
-   ],
-   "area_px": 224,
-   "visible_px": 224,
-   "occlusion": 0.0
   },
   {
    "id": "tree",
@@ -1033,22 +894,7 @@
     762.0
    ],
    "area_px": 63708,
-   "visible_px": 63472,
-   "occlusion": 0.004
-  },
-  {
-   "id": "treegust_3",
-   "label": "Leaves blowing off the tree",
-   "role": "setting",
-   "z": 760.6,
-   "bbox": [
-    256.0,
-    382.0,
-    434.0,
-    470.0
-   ],
-   "area_px": 1248,
-   "visible_px": 1248,
+   "visible_px": 63708,
    "occlusion": 0.0
   },
   {
@@ -1067,73 +913,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "hatperson_2",
-   "label": "person.dev__reach_up__surprised__y045",
-   "role": "scored",
-   "z": 903.03,
-   "bbox": [
-    1000.0,
-    590.0,
-    1136.0,
-    908.0
-   ],
-   "area_px": 20480,
-   "visible_px": 20480,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.dev__reach_up__surprised__y045",
-    "family": "person.dev",
-    "scale": 0.4835,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
-     }
-    }
-   }
-  },
-  {
-   "id": "flyinghat_6",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 904.03,
-   "bbox": [
-    1086.0,
-    462.0,
-    1174.0,
-    522.0
-   ],
-   "area_px": 2524,
-   "visible_px": 2524,
-   "occlusion": 0.0
-  },
-  {
-   "id": "gusts_7",
-   "label": "Wind lines and blowing leaves",
-   "role": "setting",
-   "z": 904.03,
-   "bbox": [
-    828.0,
-    498.0,
-    1118.0,
-    572.0
-   ],
-   "area_px": 4792,
-   "visible_px": 4792,
-   "occlusion": 0.0
-  },
-  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -1149,34 +928,154 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_rock",
-   "label": "Rock",
-   "role": "filler",
-   "z": 960,
+   "id": "feeder_person_1",
+   "label": "person.ana__feed_birds_low__smile__y090",
+   "role": "scored",
+   "z": 961.22,
    "bbox": [
-    712.0,
-    914.0,
-    808.0,
-    962.0
+    898.0,
+    666.0,
+    1010.0,
+    966.0
    ],
-   "area_px": 3740,
-   "visible_px": 3740,
-   "occlusion": 0.0
+   "area_px": 16680,
+   "visible_px": 16640,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.ana__feed_birds_low__smile__y090",
+    "family": "person.ana",
+    "scale": 0.5051,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin2",
+      "hair": "long_dark"
+     }
+    }
+   }
   },
   {
-   "id": "filler_bin_p2",
-   "label": "Bin",
-   "role": "filler",
-   "z": 980,
+   "id": "seeds_4",
+   "label": "Seeds",
+   "role": "setting",
+   "z": 962.22,
    "bbox": [
-    1500.0,
-    892.0,
-    1570.0,
-    982.0
+    822.0,
+    810.0,
+    906.0,
+    972.0
    ],
-   "area_px": 5276,
-   "visible_px": 5276,
-   "occlusion": 0.0
+   "area_px": 704,
+   "visible_px": 612,
+   "occlusion": 0.131
+  },
+  {
+   "id": "bird_2",
+   "label": "animal.bird_01__peck__neutral__y045",
+   "role": "scored",
+   "z": 967.22,
+   "bbox": [
+    854.0,
+    930.0,
+    902.0,
+    970.0
+   ],
+   "area_px": 1176,
+   "visible_px": 1176,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_01__peck__neutral__y045",
+    "family": "animal.bird_01",
+    "scale": 0.3653,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "robin",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
+  },
+  {
+   "id": "carrier_5",
+   "label": "person.leo__walk_bag__neutral__y090",
+   "role": "scored",
+   "z": 970.61,
+   "bbox": [
+    222.0,
+    692.0,
+    332.0,
+    974.0
+   ],
+   "area_px": 13200,
+   "visible_px": 13200,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__walk_bag__neutral__y090",
+    "family": "person.leo",
+    "scale": 0.5086,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "bird_3",
+   "label": "animal.bird_02__peck__neutral__y090",
+   "role": "scored",
+   "z": 973.22,
+   "bbox": [
+    756.0,
+    936.0,
+    822.0,
+    976.0
+   ],
+   "area_px": 1408,
+   "visible_px": 1408,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.bird_02__peck__neutral__y090",
+    "family": "animal.bird_02",
+    "scale": 0.3669,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "bird",
+     "accepted_names": [
+      "bird",
+      "bluebird",
+      "little bird"
+     ],
+     "category": "bird"
+    }
+   }
   }
  ],
  "canvas": [
@@ -1199,14 +1098,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "ducks_swimming",
-    "run"
+    "feed_birds",
+    "carry_bag"
    ],
    "modules": [
-    "windy_hat"
+    "rain_coming"
    ]
   },
-  "placement_rev": 39
+  "placement_rev": 40
  },
  "probe": true
 }

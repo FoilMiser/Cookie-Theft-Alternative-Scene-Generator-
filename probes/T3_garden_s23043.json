@@ -6,8 +6,8 @@
  "seed": 23043,
  "mirror": false,
  "versions": {
-  "generator": "0.41.0",
-  "cast_builder": "0.41.0",
+  "generator": "0.42.0",
+  "cast_builder": "0.42.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,18 +60,83 @@
  ],
  "templates": [
   {
-   "id": "bucket_hat",
-   "kind": "contradiction",
+   "id": "wave",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  },
+  {
+   "id": "carry_box",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 3,
  "items": [
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is standing with hands on hips",
+   "text": "A grandmother is sweeping",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "broom"
+    ]
+   },
+   "key": "sweeping",
+   "elements": [
+    "sweeper_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "sweep",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.091,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
+    "domain": null,
+    "area_px": 17404
+   },
+   "b": -1.123,
+   "p0": 0.755,
+   "pm1": 0.531,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A woman is carrying a box",
    "accepted": {
     "who": [
      "woman",
@@ -81,131 +146,95 @@
      "person"
     ],
     "what": [
-     "standing",
-     "standing there",
-     "hands on hips"
+     "carrying a box",
+     "holding a box",
+     "moving a box",
+     "box"
     ]
    },
-   "key": "standing",
+   "key": "box",
    "elements": [
-    "buckethead_1"
+    "carrier_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "bucket_hat",
-   "event": "e1",
+   "template": "carry_box",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.1,
+    "s": -0.081,
     "r": 0,
     "d": 0.0,
-    "f": 0.86,
-    "a": 4.39,
-    "zipf_raw": 4.86,
-    "aoa_raw": 4.39,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
     "domain": null,
-    "area_px": 13288
+    "area_px": 13648
    },
-   "b": -1.588,
-   "p0": 0.83,
-   "pm1": 0.643,
-   "aoi_cells": [
-    "MC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with what the person has on their head",
-   "accepted": [
-    "funny hat",
-    "something on his head",
-    "that's strange"
-   ],
-   "key": "bucket",
-   "elements": [
-    "buckethead_1"
-   ],
-   "cues": [
-    "buckethead_1"
-   ],
-   "effect": [
-    "buckethead_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "functional",
-   "template": "bucket_hat",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.1,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.07,
-    "aoa_raw": 5.61,
-    "domain": "functional",
-    "area_px": 13288
-   },
-   "b": -0.05,
-   "p0": 0.512,
-   "pm1": 0.279,
+   "b": -1.412,
+   "p0": 0.804,
+   "pm1": 0.602,
    "aoi_cells": [
     "MC"
    ]
   },
   {
    "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The person is wearing a bucket as a hat",
-   "accepted": [
-    "bucket on the head",
-    "wearing a bucket",
-    "a bucket is not a hat"
-   ],
-   "key": "bucket",
+   "type": "action",
+   "text": "A grandfather is waving",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "waving",
+     "waving hello",
+     "saying hello",
+     "waving goodbye",
+     "waving at someone"
+    ]
+   },
+   "key": "waving",
    "elements": [
-    "buckethead_1"
+    "waver_4"
    ],
-   "cues": [
-    "buckethead_1"
-   ],
-   "effect": [
-    "buckethead_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "functional",
-   "template": "bucket_hat",
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "wave",
    "event": "e1",
    "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.1,
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.287,
     "r": 0,
     "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.07,
-    "aoa_raw": 5.61,
-    "domain": "functional",
-    "area_px": 13288
+    "f": -0.25,
+    "a": 4.26,
+    "zipf_raw": 3.75,
+    "aoa_raw": 4.26,
+    "domain": null,
+    "area_px": 22932
    },
-   "b": 1.15,
-   "p0": 0.24,
-   "pm1": 0.104,
+   "b": -1.208,
+   "p0": 0.77,
+   "pm1": 0.552,
    "aoi_cells": [
-    "MC"
+    "BC",
+    "BR"
    ]
   },
   {
@@ -244,9 +273,9 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
    "aoi_cells": [
     "TR"
    ]
@@ -286,9 +315,9 @@
     "domain": null,
     "area_px": 19276
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
    "aoi_cells": [
     "TC"
    ]
@@ -326,9 +355,9 @@
     "domain": null,
     "area_px": 43028
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.262,
+   "p0": 0.779,
+   "pm1": 0.565,
    "aoi_cells": [
     "TL",
     "ML"
@@ -366,11 +395,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 227536
+    "area_px": 227824
    },
-   "b": -1.901,
-   "p0": 0.87,
-   "pm1": 0.711,
+   "b": -1.661,
+   "p0": 0.84,
+   "pm1": 0.659,
    "aoi_cells": [
     "ML",
     "MC",
@@ -414,9 +443,9 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -2.073,
+   "p0": 0.888,
+   "pm1": 0.745,
    "aoi_cells": [
     "TL",
     "ML",
@@ -458,9 +487,9 @@
     "domain": null,
     "area_px": 25880
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.018,
+   "p0": 0.735,
+   "pm1": 0.504,
    "aoi_cells": [
     "BL",
     "BC"
@@ -468,19 +497,19 @@
   }
  ],
  "counts": {
-  "content": 7,
-  "inference_units": 1,
-  "contradictions": 1,
+  "content": 9,
+  "inference_units": 0,
+  "contradictions": 0,
   "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.814,
-   "inference": 0.376
+   "content": 0.774,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.623,
-   "inference": 0.192
+   "content": 0.564,
+   "inference": null
   }
  },
  "bands": {
@@ -488,7 +517,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -507,9 +536,9 @@
  },
  "clutter": {
   "objects": 15,
-  "edge_density": 0.0348,
-  "png_bytes": 143386,
-  "jpeg_bytes": 167464
+  "edge_density": 0.0372,
+  "png_bytes": 187877,
+  "jpeg_bytes": 173309
  },
  "signature": [
   [
@@ -517,11 +546,11 @@
    0
   ],
   [
-   "contradiction_explain",
-   1
+   "action",
+   0
   ],
   [
-   "contradiction_notice",
+   "action",
    0
   ],
   [
@@ -610,8 +639,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 80792,
-   "occlusion": 0.006
+   "visible_px": 75140,
+   "occlusion": 0.075
   },
   {
    "id": "tree",
@@ -640,8 +669,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 227536,
-   "occlusion": 0.055
+   "visible_px": 227824,
+   "occlusion": 0.054
   },
   {
    "id": "filler_bush_left",
@@ -659,38 +688,23 @@
    "occlusion": 0.096
   },
   {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    946.0,
-    602.0,
-    1074.0,
-    682.0
-   ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
-  },
-  {
-   "id": "buckethead_1",
-   "label": "person.mei__bucket_hat__neutral__y045",
+   "id": "carrier_3",
+   "label": "person.mei__walk_box__neutral__y090",
    "role": "scored",
-   "z": 652.4,
+   "z": 676.17,
    "bbox": [
-    716.0,
-    386.0,
-    796.0,
-    656.0
+    746.0,
+    430.0,
+    854.0,
+    680.0
    ],
-   "area_px": 13288,
-   "visible_px": 13288,
+   "area_px": 13648,
+   "visible_px": 13648,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.mei__bucket_hat__neutral__y045",
+    "variant": "person.mei__walk_box__neutral__y090",
     "family": "person.mei",
-    "scale": 0.3907,
+    "scale": 0.3995,
     "mirrored": true,
     "labels": {
      "everyday_name": "woman",
@@ -709,21 +723,6 @@
      }
     }
    }
-  },
-  {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
-   "bbox": [
-    1100.0,
-    596.0,
-    1220.0,
-    702.0
-   ],
-   "area_px": 8080,
-   "visible_px": 8080,
-   "occlusion": 0.0
   },
   {
    "id": "house",
@@ -786,33 +785,108 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
+   "id": "sweeper_1",
+   "label": "person.rosa__sweep__smile__y045",
+   "role": "scored",
+   "z": 906.77,
    "bbox": [
-    1142.0,
-    884.0,
-    1238.0,
-    962.0
+    1294.0,
+    622.0,
+    1390.0,
+    940.0
    ],
-   "area_px": 4400,
-   "visible_px": 4400,
+   "area_px": 18044,
+   "visible_px": 17404,
+   "occlusion": 0.035,
+   "asset": {
+    "variant": "person.rosa__sweep__smile__y045",
+    "family": "person.rosa",
+    "scale": 0.4849,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "sweepheap_2",
+   "label": "What has been swept",
+   "role": "scored",
+   "z": 908.77,
+   "bbox": [
+    1328.0,
+    880.0,
+    1412.0,
+    920.0
+   ],
+   "area_px": 1712,
+   "visible_px": 1712,
    "occlusion": 0.0
   },
   {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
+   "id": "waver_4",
+   "label": "person.tomas__wave__smile__y045",
+   "role": "scored",
+   "z": 987.93,
    "bbox": [
-    896.0,
-    892.0,
-    1078.0,
-    980.0
+    982.0,
+    658.0,
+    1106.0,
+    994.0
    ],
-   "area_px": 8776,
-   "visible_px": 8776,
+   "area_px": 22932,
+   "visible_px": 22932,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.tomas__wave__smile__y045",
+    "family": "person.tomas",
+    "scale": 0.515,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "wavelines_5",
+   "label": "Motion lines by the waving hand",
+   "role": "setting",
+   "z": 988.93,
+   "bbox": [
+    966.0,
+    662.0,
+    1020.0,
+    692.0
+   ],
+   "area_px": 148,
+   "visible_px": 148,
    "occlusion": 0.0
   }
  ],
@@ -823,10 +897,10 @@
  "attempts": [
   [
    23043,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 2: accepted after 1 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 1,
  "knob": 0,
  "regen": {
   "base_seed": 23043,
@@ -835,11 +909,13 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "bucket_hat"
+   "events": [
+    "wave",
+    "sweep",
+    "carry_box"
    ]
   },
-  "placement_rev": 39
+  "placement_rev": 40
  },
  "probe": true
 }
