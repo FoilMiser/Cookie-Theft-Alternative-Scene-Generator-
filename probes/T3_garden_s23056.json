@@ -6,8 +6,8 @@
  "seed": 23056,
  "mirror": true,
  "versions": {
-  "generator": "0.40.0",
-  "cast_builder": "0.40.0",
+  "generator": "0.41.0",
+  "cast_builder": "0.41.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,69 +60,207 @@
  ],
  "templates": [
   {
-   "id": "fly_kite",
-   "kind": "event",
+   "id": "floating_box",
+   "kind": "contradiction",
    "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
    "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
+   "type": "entity",
+   "text": "There is a box",
+   "accepted": [
+    "box",
+    "crate",
+    "wooden box",
+    "cardboard box"
+   ],
+   "key": "box",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.337,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 9508
+   },
+   "b": -0.903,
+   "p0": 0.712,
+   "pm1": 0.476,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the box",
+   "accepted": [
+    "the box is weird",
+    "something odd about the box",
+    "that box"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.337,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9508
+   },
+   "b": -0.012,
+   "p0": 0.503,
+   "pm1": 0.271,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The box is floating in the air with nothing holding it up",
+   "accepted": [
+    "floating box",
+    "box in the air",
+    "nothing holding it up",
+    "box should fall"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.337,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9508
+   },
+   "b": 1.188,
+   "p0": 0.234,
+   "pm1": 0.101,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "action",
-   "text": "A teenager is flying a kite",
+   "text": "A man is sweeping",
    "accepted": {
     "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
     ],
     "what": [
-     "flying a kite",
-     "kite"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "broom"
     ]
    },
-   "key": "kite",
+   "key": "sweeping",
    "elements": [
-    "kiteflyer_1",
-    "kite_2"
+    "sweeper_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "fly_kite",
-   "event": "e1",
+   "template": "sweep",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.139,
+    "s": 0.266,
     "r": 0,
     "d": 0.0,
-    "f": -0.45,
-    "a": 4.58,
-    "zipf_raw": 3.55,
-    "aoa_raw": 4.58,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 18600
+    "area_px": 22248
    },
-   "b": -1.315,
-   "p0": 0.788,
-   "pm1": 0.578,
+   "b": -1.33,
+   "p0": 0.791,
+   "pm1": 0.582,
    "aoi_cells": [
-    "TL",
-    "MC",
-    "BC"
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i02",
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -157,15 +295,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
     "TL"
    ]
   },
   {
-   "id": "i03",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -199,15 +337,15 @@
     "domain": null,
     "area_px": 19280
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.89,
+   "p0": 0.709,
+   "pm1": 0.473,
    "aoi_cells": [
     "TC"
    ]
   },
   {
-   "id": "i04",
+   "id": "i07",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -239,16 +377,16 @@
     "domain": null,
     "area_px": 43040
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.382,
+   "p0": 0.799,
+   "pm1": 0.594,
    "aoi_cells": [
     "TR",
     "MR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -271,7 +409,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.895,
+    "s": 1.897,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -279,11 +417,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 221496
+    "area_px": 222068
    },
-   "b": -1.89,
-   "p0": 0.869,
-   "pm1": 0.709,
+   "b": -1.772,
+   "p0": 0.855,
+   "pm1": 0.684,
    "aoi_cells": [
     "ML",
     "MC",
@@ -291,7 +429,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -327,9 +465,9 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -2.193,
+   "p0": 0.9,
+   "pm1": 0.767,
    "aoi_cells": [
     "TR",
     "MR",
@@ -337,7 +475,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i10",
    "type": "entity",
    "text": "There is a swing set",
    "accepted": [
@@ -370,9 +508,9 @@
     "domain": null,
     "area_px": 35772
    },
-   "b": -1.283,
-   "p0": 0.783,
-   "pm1": 0.57,
+   "b": -1.163,
+   "p0": 0.762,
+   "pm1": 0.541,
    "aoi_cells": [
     "ML",
     "BL",
@@ -380,7 +518,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i11",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -414,9 +552,9 @@
     "domain": null,
     "area_px": 25884
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.139,
+   "p0": 0.757,
+   "pm1": 0.535,
    "aoi_cells": [
     "BC",
     "BR"
@@ -424,19 +562,19 @@
   }
  ],
  "counts": {
-  "content": 8,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 8
+  "content": 9,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.804,
-   "inference": null
+   "content": 0.78,
+   "inference": 0.368
   },
   "theta_minus_1": {
-   "content": 0.608,
-   "inference": null
+   "content": 0.572,
+   "inference": 0.186
   }
  },
  "bands": {
@@ -444,7 +582,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -463,13 +601,25 @@
  },
  "clutter": {
   "objects": 14,
-  "edge_density": 0.0389,
-  "png_bytes": 164294,
-  "jpeg_bytes": 184515
+  "edge_density": 0.0388,
+  "png_bytes": 168226,
+  "jpeg_bytes": 179782
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -562,8 +712,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "visible_px": 56764,
+   "occlusion": 0.301
   },
   {
    "id": "tree",
@@ -592,8 +742,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 221496,
-   "occlusion": 0.081
+   "visible_px": 222068,
+   "occlusion": 0.078
   },
   {
    "id": "filler_bush_left",
@@ -623,6 +773,21 @@
    ],
    "area_px": 204952,
    "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "floatbox_1",
+   "label": "Box floating in the air",
+   "role": "scored",
+   "z": 812.48,
+   "bbox": [
+    718.0,
+    234.0,
+    838.0,
+    342.0
+   ],
+   "area_px": 9508,
+   "visible_px": 9508,
    "occlusion": 0.0
   },
   {
@@ -671,6 +836,58 @@
    "occlusion": 0.0
   },
   {
+   "id": "sweeper_2",
+   "label": "person.dev__sweep__neutral__y045",
+   "role": "scored",
+   "z": 953.64,
+   "bbox": [
+    100.0,
+    642.0,
+    206.0,
+    990.0
+   ],
+   "area_px": 22900,
+   "visible_px": 22248,
+   "occlusion": 0.028,
+   "asset": {
+    "variant": "person.dev__sweep__neutral__y045",
+    "family": "person.dev",
+    "scale": 0.5023,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
+     }
+    }
+   }
+  },
+  {
+   "id": "sweepheap_3",
+   "label": "What has been swept",
+   "role": "scored",
+   "z": 955.64,
+   "bbox": [
+    138.0,
+    926.0,
+    226.0,
+    968.0
+   ],
+   "area_px": 1824,
+   "visible_px": 1824,
+   "occlusion": 0.0
+  },
+  {
    "id": "filler_watering_can",
    "label": "Watering can",
    "role": "filler",
@@ -683,74 +900,6 @@
    ],
    "area_px": 4404,
    "visible_px": 4404,
-   "occlusion": 0.0
-  },
-  {
-   "id": "kiteflyer_1",
-   "label": "person.leo__fly_kite__smile__y090",
-   "role": "scored",
-   "z": 968.45,
-   "bbox": [
-    758.0,
-    692.0,
-    866.0,
-    972.0
-   ],
-   "area_px": 12664,
-   "visible_px": 12652,
-   "occlusion": 0.001,
-   "asset": {
-    "variant": "person.leo__fly_kite__smile__y090",
-    "family": "person.leo",
-    "scale": 0.5078,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
-  },
-  {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
-   "bbox": [
-    522.0,
-    892.0,
-    704.0,
-    980.0
-   ],
-   "area_px": 8772,
-   "visible_px": 8772,
-   "occlusion": 0.0
-  },
-  {
-   "id": "kite_2",
-   "label": "Kite",
-   "role": "scored",
-   "z": 1500,
-   "bbox": [
-    320.0,
-    84.0,
-    766.0,
-    704.0
-   ],
-   "area_px": 5948,
-   "visible_px": 5948,
    "occlusion": 0.0
   }
  ],
@@ -774,10 +923,13 @@
   "usage": {},
   "forced": {
    "events": [
-    "fly_kite"
+    "sweep"
+   ],
+   "contradictions": [
+    "floating_box"
    ]
   },
-  "placement_rev": 38
+  "placement_rev": 39
  },
  "probe": true
 }

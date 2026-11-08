@@ -91,6 +91,15 @@ if BEN39 in ("B", "C"):
 if BEN39 == "C":
     PEOPLE["person.ben"].update(facial_hair="mustache", facial_hair_col="hair_brown")
 
+# v0.41 bench (TPDB_MEI41): the woman in yellow was "a girl" in 6 of her 27 v0.40 pictures (5 of 24 in v0.39), watering, eating an ice cream, carrying
+# a box, reading. "B": as Ben's in v0.39, as tall as the men with a smaller head, and a woman's figure, a fuller bust and hips; "C": B with the dress
+# below the knee. "O": v0.40. (On a first look, B at 1.02 and a head of 0.94 was barely v0.40, and her hair in a bun stood on top like a topknot.)
+MEI41 = os.environ.get("TPDB_MEI41", "O")  # v0.41 bench (vision/isolation_v041.md): O
+if MEI41 in ("B", "C"):
+    PEOPLE["person.mei"].update(scale=1.05, head_scale=0.90, build=dict(chest=1.06, waist=0.86, hips=1.14))
+if MEI41 == "C":
+    PEOPLE["person.mei"].update(hem_drop=0.12)
+
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",
                           labels=dict(everyday_name="dog", accepted_names=["dog", "puppy", "pup"], category="medium_animal")),

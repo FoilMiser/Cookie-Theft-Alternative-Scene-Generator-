@@ -6,8 +6,8 @@
  "seed": 23049,
  "mirror": true,
  "versions": {
-  "generator": "0.40.0",
-  "cast_builder": "0.40.0",
+  "generator": "0.41.0",
+  "cast_builder": "0.41.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -55,13 +55,15 @@
    }
   }
  },
- "features": [],
+ "features": [
+  "flowers"
+ ],
  "templates": [
   {
-   "id": "paint_fence",
-   "kind": "event",
+   "id": "pan_watering",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -69,7 +71,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is painting the fence",
+   "text": "A man is watering the flowers",
    "accepted": {
     "who": [
      "man",
@@ -79,47 +81,145 @@
      "person"
     ],
     "what": [
-     "painting the fence",
-     "painting",
-     "paint roller",
-     "painting the wall"
+     "watering the flowers",
+     "watering the plants",
+     "pouring water"
     ]
    },
-   "key": "paint",
+   "key": "flowers",
    "elements": [
-    "painter_1",
-    "paintstripe_2"
+    "waterer_1",
+    "water_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "paint_fence",
+   "template": "pan_watering",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.425,
+    "s": 0.136,
     "r": 0,
     "d": 0.0,
-    "f": 0.52,
-    "a": 4.45,
-    "zipf_raw": 4.52,
-    "aoa_raw": 4.45,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 27872
+    "area_px": 18544
    },
-   "b": -1.748,
-   "p0": 0.852,
-   "pm1": 0.679,
+   "b": -1.64,
+   "p0": 0.838,
+   "pm1": 0.655,
    "aoi_cells": [
-    "ML"
+    "MC",
+    "MR",
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is watering with",
+   "accepted": [
+    "something odd about the pan",
+    "that's strange",
+    "the watering can is wrong"
+   ],
+   "key": "pan",
+   "elements": [
+    "waterer_1"
+   ],
+   "cues": [
+    "waterer_1"
+   ],
+   "effect": [
+    "waterer_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "functional",
+   "template": "pan_watering",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": 0.078,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 17088
+   },
+   "b": -0.139,
+   "p0": 0.535,
+   "pm1": 0.297,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is watering the flowers with a frying pan instead of a watering can",
+   "accepted": [
+    "watering with a frying pan",
+    "using a pan to water",
+    "a pan isn't for watering"
+   ],
+   "key": "pan",
+   "elements": [
+    "waterer_1"
+   ],
+   "cues": [
+    "waterer_1"
+   ],
+   "effect": [
+    "waterer_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "pan_watering",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.078,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 17088
+   },
+   "b": 1.061,
+   "p0": 0.257,
+   "pm1": 0.113,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -162,7 +262,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -204,7 +304,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -245,7 +345,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -268,7 +368,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.869,
+    "s": 1.937,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -276,11 +376,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 213232
+    "area_px": 234780
    },
-   "b": -1.877,
-   "p0": 0.867,
-   "pm1": 0.706,
+   "b": -1.912,
+   "p0": 0.871,
+   "pm1": 0.713,
    "aoi_cells": [
     "ML",
     "MC",
@@ -288,7 +388,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -332,65 +432,22 @@
     "MR",
     "BR"
    ]
-  },
-  {
-   "id": "i07",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 25884
-   },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
-   "aoi_cells": [
-    "BC",
-    "BR"
-   ]
   }
  ],
  "counts": {
-  "content": 7,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 7
+  "content": 6,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.816,
-   "inference": null
+   "content": 0.821,
+   "inference": 0.396
   },
   "theta_minus_1": {
-   "content": 0.628,
-   "inference": null
+   "content": 0.635,
+   "inference": 0.205
   }
  },
  "bands": {
@@ -412,14 +469,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "12 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0328,
-  "png_bytes": 133820,
-  "jpeg_bytes": 160671
+  "objects": 12,
+  "edge_density": 0.034,
+  "png_bytes": 139203,
+  "jpeg_bytes": 163574
  },
  "signature": [
   [
@@ -427,7 +484,11 @@
    0
   ],
   [
-   "entity",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -542,23 +603,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 213232,
-   "occlusion": 0.115
-  },
-  {
-   "id": "paintstripe_2",
-   "label": "Freshly painted boards",
-   "role": "scored",
-   "z": 616,
-   "bbox": [
-    184.0,
-    426.0,
-    282.0,
-    618.0
-   ],
-   "area_px": 17088,
-   "visible_px": 16276,
-   "occlusion": 0.048
+   "visible_px": 234780,
+   "occlusion": 0.025
   },
   {
    "id": "filler_bush_mid",
@@ -576,70 +622,18 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_bush_left",
-   "label": "Bush",
+   "id": "filler_pots",
+   "label": "Flower pots",
    "role": "filler",
-   "z": 648,
+   "z": 700,
    "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
+    380.0,
+    596.0,
+    500.0,
+    702.0
    ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
-  },
-  {
-   "id": "painter_1",
-   "label": "person.ben__paint__neutral__y090",
-   "role": "scored",
-   "z": 668,
-   "bbox": [
-    242.0,
-    412.0,
-    368.0,
-    672.0
-   ],
-   "area_px": 11596,
-   "visible_px": 11596,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ben__paint__neutral__y090",
-    "family": "person.ben",
-    "scale": 0.3965,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
-  },
-  {
-   "id": "painttin_3",
-   "label": "Tin of paint",
-   "role": "prop",
-   "z": 680,
-   "bbox": [
-    370.0,
-    634.0,
-    408.0,
-    682.0
-   ],
-   "area_px": 1612,
-   "visible_px": 1612,
+   "area_px": 8080,
+   "visible_px": 8080,
    "occlusion": 0.0
   },
   {
@@ -669,22 +663,59 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 25884,
-   "occlusion": 0.0
+   "visible_px": 25080,
+   "occlusion": 0.031
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
+   "id": "waterer_1",
+   "label": "person.ben__water_pan__smile__y090",
+   "role": "scored",
+   "z": 850,
    "bbox": [
-    362.0,
-    884.0,
-    458.0,
-    962.0
+    962.0,
+    552.0,
+    1164.0,
+    856.0
    ],
-   "area_px": 4404,
-   "visible_px": 4404,
+   "area_px": 17088,
+   "visible_px": 17088,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ben__water_pan__smile__y090",
+    "family": "person.ben",
+    "scale": 0.4639,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "water_2",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 851,
+   "bbox": [
+    1156.0,
+    662.0,
+    1210.0,
+    804.0
+   ],
+   "area_px": 1456,
+   "visible_px": 1456,
    "occlusion": 0.0
   },
   {
@@ -722,11 +753,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "paint_fence"
+   "contradictions": [
+    "pan_watering"
    ]
   },
-  "placement_rev": 38
+  "placement_rev": 39
  },
  "probe": true
 }

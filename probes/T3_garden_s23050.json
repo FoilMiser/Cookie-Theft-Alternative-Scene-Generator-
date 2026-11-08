@@ -6,8 +6,8 @@
  "seed": 23050,
  "mirror": true,
  "versions": {
-  "generator": "0.40.0",
-  "cast_builder": "0.40.0",
+  "generator": "0.41.0",
+  "cast_builder": "0.41.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,10 +58,10 @@
  "features": [],
  "templates": [
   {
-   "id": "dog_wants_walk",
-   "kind": "inference",
+   "id": "paint_fence",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   }
  ],
  "scene_load": 1,
@@ -69,100 +69,58 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A dog is sitting by the door with its leash in its mouth",
-   "accepted": [
-    "dog with a leash",
-    "dog holding a leash",
-    "dog by the door",
-    "leash in its mouth"
-   ],
-   "key": "leash",
+   "text": "A grandmother is painting the fence",
+   "accepted": {
+    "who": [
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
+    ],
+    "what": [
+     "painting the fence",
+     "painting",
+     "paint roller",
+     "painting the wall"
+    ]
+   },
+   "key": "paint",
    "elements": [
-    "waitingdog_1",
-    "leash_2"
+    "painter_1",
+    "paintstripe_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "dog_wants_walk",
+   "template": "paint_fence",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.41,
+    "s": 0.581,
     "r": 0,
     "d": 0.0,
-    "f": -0.53,
-    "a": 5.79,
-    "zipf_raw": 3.47,
-    "aoa_raw": 5.79,
+    "f": 0.52,
+    "a": 4.45,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
     "domain": null,
-    "area_px": 8580
+    "area_px": 34720
    },
-   "b": -1.016,
-   "p0": 0.734,
-   "pm1": 0.504,
+   "b": -1.826,
+   "p0": 0.861,
+   "pm1": 0.696,
    "aoi_cells": [
-    "BR"
+    "MC"
    ]
   },
   {
    "id": "i02",
-   "type": "inference",
-   "text": "The dog wants to go for a walk",
-   "accepted": [
-    "the dog wants a walk",
-    "wants to go out",
-    "waiting to be taken for a walk",
-    "asking for a walk"
-   ],
-   "key": "walk",
-   "elements": [
-    "waitingdog_1",
-    "leash_2",
-    "house"
-   ],
-   "cues": [
-    "waitingdog_1",
-    "leash_2",
-    "house"
-   ],
-   "effect": [
-    "waitingdog_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "dog_wants_walk",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": -0.542,
-    "r": 2,
-    "d": 0.161,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 5.08,
-    "aoa_raw": 3.45,
-    "domain": null,
-    "area_px": 7124
-   },
-   "b": -0.026,
-   "p0": 0.506,
-   "pm1": 0.274,
-   "aoi_cells": [
-    "TR",
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i03",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -205,7 +163,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i03",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -247,7 +205,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i04",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -288,7 +246,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -311,7 +269,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.944,
+    "s": 1.837,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -319,15 +277,61 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 237192
+    "area_px": 204020
    },
-   "b": -1.915,
-   "p0": 0.872,
-   "pm1": 0.714,
+   "b": -1.861,
+   "p0": 0.865,
+   "pm1": 0.703,
    "aoi_cells": [
     "ML",
     "MC",
     "MR"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "It is the back yard of a house",
+   "accepted": [
+    "house",
+    "home",
+    "backyard",
+    "back yard",
+    "yard",
+    "garden"
+   ],
+   "key": "house",
+   "elements": [
+    "house"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.84,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.71,
+    "a": 3.16,
+    "zipf_raw": 5.71,
+    "aoa_raw": 3.16,
+    "domain": null,
+    "area_px": 204952
+   },
+   "b": -2.313,
+   "p0": 0.91,
+   "pm1": 0.788,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
    ]
   },
   {
@@ -375,19 +379,19 @@
   }
  ],
  "counts": {
-  "content": 6,
-  "inference_units": 1,
+  "content": 7,
+  "inference_units": 0,
   "contradictions": 0,
   "items_total": 7
  },
  "predicted": {
   "theta_0": {
-   "content": 0.782,
-   "inference": 0.506
+   "content": 0.817,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.573,
-   "inference": 0.274
+   "content": 0.63,
+   "inference": null
   }
  },
  "bands": {
@@ -409,14 +413,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0345,
-  "png_bytes": 132889,
-  "jpeg_bytes": 165674
+  "objects": 15,
+  "edge_density": 0.0339,
+  "png_bytes": 137013,
+  "jpeg_bytes": 164024
  },
  "signature": [
   [
@@ -444,8 +448,8 @@
    0
   ],
   [
-   "inference",
-   1
+   "entity",
+   0
   ]
  ],
  "elements": [
@@ -539,8 +543,38 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 237192,
-   "occlusion": 0.015
+   "visible_px": 204020,
+   "occlusion": 0.153
+  },
+  {
+   "id": "paintstripe_2",
+   "label": "Freshly painted boards",
+   "role": "scored",
+   "z": 616,
+   "bbox": [
+    828.0,
+    426.0,
+    972.0,
+    618.0
+   ],
+   "area_px": 25640,
+   "visible_px": 24692,
+   "occlusion": 0.037
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
   },
   {
    "id": "filler_bush_mid",
@@ -558,19 +592,57 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
+   "id": "painter_1",
+   "label": "person.rosa__paint__smile__y090",
+   "role": "scored",
+   "z": 668,
    "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
+    754.0,
+    434.0,
+    868.0,
+    670.0
    ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
+   "area_px": 10028,
+   "visible_px": 10028,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__paint__smile__y090",
+    "family": "person.rosa",
+    "scale": 0.3965,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "painttin_3",
+   "label": "Tin of paint",
+   "role": "prop",
+   "z": 680,
+   "bbox": [
+    712.0,
+    634.0,
+    750.0,
+    682.0
+   ],
+   "area_px": 1612,
+   "visible_px": 1612,
+   "occlusion": 0.0
   },
   {
    "id": "filler_pots",
@@ -599,52 +671,7 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 199028,
-   "occlusion": 0.029
-  },
-  {
-   "id": "waitingdog_1",
-   "label": "animal.dog_01__sit_wait__neutral__y045",
-   "role": "scored",
-   "z": 806,
-   "bbox": [
-    1428.0,
-    664.0,
-    1522.0,
-    816.0
-   ],
-   "area_px": 7160,
-   "visible_px": 7124,
-   "occlusion": 0.005,
-   "asset": {
-    "variant": "animal.dog_01__sit_wait__neutral__y045",
-    "family": "animal.dog_01",
-    "scale": 0.4476,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "dog",
-     "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "leash_2",
-   "label": "Leash in the dog's mouth",
-   "role": "scored",
-   "z": 807,
-   "bbox": [
-    1352.0,
-    692.0,
-    1436.0,
-    818.0
-   ],
-   "area_px": 1456,
-   "visible_px": 1456,
+   "visible_px": 204952,
    "occlusion": 0.0
   },
   {
@@ -712,11 +739,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "dog_wants_walk"
+   "events": [
+    "paint_fence"
    ]
   },
-  "placement_rev": 38
+  "placement_rev": 39
  },
  "probe": true
 }

@@ -6,8 +6,8 @@
  "seed": 23024,
  "mirror": false,
  "versions": {
-  "generator": "0.40.0",
-  "cast_builder": "0.40.0",
+  "generator": "0.41.0",
+  "cast_builder": "0.41.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,23 +56,23 @@
   }
  },
  "features": [
-  "bench"
+  "flowers"
  ],
  "templates": [
   {
-   "id": "floating_box",
+   "id": "water_upward",
    "kind": "contradiction",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "read_bench",
+   "id": "fly_kite",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "cat_sleeping",
+   "id": "wave",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -83,7 +83,203 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A child is reading on the bench",
+   "text": "A grandfather is watering the flowers",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "watering the flowers",
+     "watering the plants",
+     "watering can"
+    ]
+   },
+   "key": "flowers",
+   "elements": [
+    "waterer_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.079,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 13692
+   },
+   "b": -1.292,
+   "p0": 0.784,
+   "pm1": 0.572,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the water from the watering can",
+   "accepted": [
+    "the water is weird",
+    "something's wrong with the water",
+    "that's not right"
+   ],
+   "key": "water",
+   "elements": [
+    "water_2"
+   ],
+   "cues": [
+    "water_2"
+   ],
+   "effect": [
+    "water_2"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.368,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 2224
+   },
+   "b": 0.624,
+   "p0": 0.349,
+   "pm1": 0.165,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The water is going up into the air instead of falling down onto the flowers",
+   "accepted": [
+    "water going up",
+    "water going the wrong way",
+    "water should fall down",
+    "water flowing upward"
+   ],
+   "key": "water",
+   "elements": [
+    "water_2"
+   ],
+   "cues": [
+    "water_2"
+   ],
+   "effect": [
+    "water_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.368,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 2224
+   },
+   "b": 1.824,
+   "p0": 0.139,
+   "pm1": 0.056,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A girl is flying a kite",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "flying a kite",
+     "kite"
+    ]
+   },
+   "key": "kite",
+   "elements": [
+    "kiteflyer_3",
+    "kite_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "fly_kite",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.137,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.45,
+    "a": 4.58,
+    "zipf_raw": 3.55,
+    "aoa_raw": 4.58,
+    "domain": null,
+    "area_px": 12612
+   },
+   "b": -0.936,
+   "p0": 0.718,
+   "pm1": 0.484,
+   "aoi_cells": [
+    "TR",
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A child is waving",
    "accepted": {
     "who": [
      "child",
@@ -94,217 +290,41 @@
      "daughter"
     ],
     "what": [
-     "reading",
-     "reading a book",
-     "sitting on the bench",
-     "sitting and reading"
+     "waving",
+     "waving hello",
+     "saying hello",
+     "waving goodbye",
+     "waving at someone"
     ]
    },
-   "key": "reading",
+   "key": "waving",
    "elements": [
-    "sitter_1"
+    "waver_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "read_bench",
-   "event": "e2",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.417,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.14,
-    "a": 4.11,
-    "zipf_raw": 5.14,
-    "aoa_raw": 4.11,
-    "domain": null,
-    "area_px": 8500
-   },
-   "b": -1.274,
-   "p0": 0.781,
-   "pm1": 0.568,
-   "aoi_cells": [
-    "BL"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "entity",
-   "text": "There is a box",
-   "accepted": [
-    "box",
-    "crate",
-    "wooden box",
-    "cardboard box"
-   ],
-   "key": "box",
-   "elements": [
-    "floatbox_2"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.384,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
-    "domain": null,
-    "area_px": 8904
-   },
-   "b": -0.76,
-   "p0": 0.681,
-   "pm1": 0.44,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the box",
-   "accepted": [
-    "the box is weird",
-    "something odd about the box",
-    "that box"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_2"
-   ],
-   "cues": [
-    "floatbox_2"
-   ],
-   "effect": [
-    "floatbox_2"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.384,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 8904
-   },
-   "b": 0.132,
-   "p0": 0.467,
-   "pm1": 0.244,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "contradiction_explain",
-   "text": "The box is floating in the air with nothing holding it up",
-   "accepted": [
-    "floating box",
-    "box in the air",
-    "nothing holding it up",
-    "box should fall"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_2"
-   ],
-   "cues": [
-    "floatbox_2"
-   ],
-   "effect": [
-    "floatbox_2"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.384,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 8904
-   },
-   "b": 1.332,
-   "p0": 0.209,
-   "pm1": 0.089,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i05",
-   "type": "action",
-   "text": "A cat is sleeping",
-   "accepted": [
-    "cat sleeping",
-    "cat lying down",
-    "sleeping cat",
-    "cat napping",
-    "cat curled up",
-    "cat"
-   ],
-   "key": "cat",
-   "elements": [
-    "cat_sleeping_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "cat_sleeping",
+   "template": "wave",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.267,
+    "s": -0.343,
     "r": 0,
     "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "f": -0.25,
+    "a": 4.26,
+    "zipf_raw": 3.75,
+    "aoa_raw": 4.26,
     "domain": null,
-    "area_px": 2564
+    "area_px": 9432
    },
-   "b": -0.741,
-   "p0": 0.677,
-   "pm1": 0.436,
+   "b": -0.894,
+   "p0": 0.71,
+   "pm1": 0.474,
    "aoi_cells": [
     "BC"
    ]
@@ -459,7 +479,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.946,
+    "s": 1.935,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -467,11 +487,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 237884
+    "area_px": 234068
    },
-   "b": -1.676,
+   "b": -1.671,
    "p0": 0.842,
-   "pm1": 0.663,
+   "pm1": 0.662,
    "aoi_cells": [
     "ML",
     "MC",
@@ -505,7 +525,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.833,
+    "s": 1.84,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
@@ -513,9 +533,9 @@
     "zipf_raw": 5.71,
     "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 202884
+    "area_px": 204952
    },
-   "b": -2.07,
+   "b": -2.073,
    "p0": 0.888,
    "pm1": 0.745,
    "aoi_cells": [
@@ -523,65 +543,22 @@
     "ML",
     "BL"
    ]
-  },
-  {
-   "id": "i11",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 25880
-   },
-   "b": -1.018,
-   "p0": 0.735,
-   "pm1": 0.504,
-   "aoi_cells": [
-    "BL",
-    "BC"
-   ]
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 8,
   "inference_units": 1,
   "contradictions": 1,
-  "items_total": 11
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.753,
-   "inference": 0.338
+   "content": 0.764,
+   "inference": 0.244
   },
   "theta_minus_1": {
-   "content": 0.537,
-   "inference": 0.166
+   "content": 0.552,
+   "inference": 0.11
   }
  },
  "bands": {
@@ -589,7 +566,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -603,16 +580,20 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0354,
-  "png_bytes": 132492,
-  "jpeg_bytes": 168329
+  "objects": 15,
+  "edge_density": 0.0381,
+  "png_bytes": 177268,
+  "jpeg_bytes": 179791
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -627,14 +608,6 @@
   ],
   [
    "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
    0
   ],
   [
@@ -749,23 +722,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 237884,
-   "occlusion": 0.013
-  },
-  {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    292.0,
-    598.0,
-    428.0,
-    684.0
-   ],
-   "area_px": 8296,
-   "visible_px": 7496,
-   "occlusion": 0.096
+   "visible_px": 234068,
+   "occlusion": 0.028
   },
   {
    "id": "filler_pots",
@@ -783,21 +741,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "floatbox_2",
-   "label": "Box floating in the air",
-   "role": "scored",
-   "z": 771.36,
-   "bbox": [
-    672.0,
-    236.0,
-    794.0,
-    336.0
-   ],
-   "area_px": 8904,
-   "visible_px": 8904,
-   "occlusion": 0.0
-  },
-  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -809,8 +752,45 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 202884,
-   "occlusion": 0.01
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "waterer_1",
+   "label": "person.tomas__water_plants__smile__y090",
+   "role": "scored",
+   "z": 820,
+   "bbox": [
+    518.0,
+    542.0,
+    634.0,
+    826.0
+   ],
+   "area_px": 13884,
+   "visible_px": 13692,
+   "occlusion": 0.014,
+   "asset": {
+    "variant": "person.tomas__water_plants__smile__y090",
+    "family": "person.tomas",
+    "scale": 0.4528,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
   },
   {
    "id": "flowers",
@@ -824,72 +804,42 @@
     838.0
    ],
    "area_px": 25880,
-   "visible_px": 25880,
+   "visible_px": 25592,
+   "occlusion": 0.011
+  },
+  {
+   "id": "water_2",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 837,
+   "bbox": [
+    424.0,
+    574.0,
+    526.0,
+    720.0
+   ],
+   "area_px": 2224,
+   "visible_px": 2224,
    "occlusion": 0.0
   },
   {
-   "id": "cat_sleeping_3",
-   "label": "animal.cat_02__sleep_tuck__sleepy__y045",
+   "id": "waver_5",
+   "label": "person.kai__wave__smile__y000",
    "role": "scored",
-   "z": 852.4,
+   "z": 866.89,
    "bbox": [
-    958.0,
-    816.0,
-    1026.0,
-    870.0
+    932.0,
+    660.0,
+    1036.0,
+    872.0
    ],
-   "area_px": 2564,
-   "visible_px": 2564,
+   "area_px": 9436,
+   "visible_px": 9432,
    "occlusion": 0.0,
    "asset": {
-    "variant": "animal.cat_02__sleep_tuck__sleepy__y045",
-    "family": "animal.cat_02",
-    "scale": 0.4648,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
-  },
-  {
-   "id": "bench",
-   "label": "Garden bench",
-   "role": "setting",
-   "z": 928,
-   "bbox": [
-    38.0,
-    804.0,
-    242.0,
-    930.0
-   ],
-   "area_px": 13200,
-   "visible_px": 10148,
-   "occlusion": 0.231
-  },
-  {
-   "id": "sitter_1",
-   "label": "person.kai__sit_read__neutral__y045",
-   "role": "scored",
-   "z": 931,
-   "bbox": [
-    88.0,
-    738.0,
-    182.0,
-    920.0
-   ],
-   "area_px": 8500,
-   "visible_px": 8500,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.kai__sit_read__neutral__y045",
+    "variant": "person.kai__wave__smile__y000",
     "family": "person.kai",
-    "scale": 0.4939,
+    "scale": 0.4701,
     "mirrored": false,
     "labels": {
      "everyday_name": "child",
@@ -911,18 +861,85 @@
    }
   },
   {
-   "id": "filler_dog_bowl",
-   "label": "Dog bowl",
-   "role": "filler",
-   "z": 968,
+   "id": "wavelines_6",
+   "label": "Motion lines by the waving hand",
+   "role": "setting",
+   "z": 867.89,
    "bbox": [
-    1068.0,
-    954.0,
-    1132.0,
-    982.0
+    918.0,
+    666.0,
+    968.0,
+    694.0
    ],
-   "area_px": 1408,
-   "visible_px": 1408,
+   "area_px": 144,
+   "visible_px": 144,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    896.0,
+    892.0,
+    1078.0,
+    980.0
+   ],
+   "area_px": 8776,
+   "visible_px": 8776,
+   "occlusion": 0.0
+  },
+  {
+   "id": "kiteflyer_3",
+   "label": "person.nia__fly_kite__smile__y090",
+   "role": "scored",
+   "z": 978.41,
+   "bbox": [
+    700.0,
+    788.0,
+    776.0,
+    980.0
+   ],
+   "area_px": 6568,
+   "visible_px": 6556,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.nia__fly_kite__smile__y090",
+    "family": "person.nia",
+    "scale": 0.5115,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "kite_4",
+   "label": "Kite",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    770.0,
+    126.0,
+    1180.0,
+    808.0
+   ],
+   "area_px": 6056,
+   "visible_px": 6056,
    "occlusion": 0.0
   }
  ],
@@ -946,14 +963,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "read_bench",
-    "cat_sleeping"
+    "fly_kite",
+    "wave"
    ],
    "contradictions": [
-    "floating_box"
+    "water_upward"
    ]
   },
-  "placement_rev": 38
+  "placement_rev": 39
  },
  "probe": true
 }

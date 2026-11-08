@@ -526,6 +526,7 @@ class Sweep(T):
         if rev24:
             hs, hb = heap(p)
             sc.svg(sc.eid("sweepheap"), "What has been swept", hs, p.Y + 2, hb, "scored")
+            _autumn(sc)
             if SCN.PLACEMENT_REV >= 35:
                 # revision 35: a thing on the ground that no one placed later stands on
                 sc.groundthings.append((hb, sc.placing))
@@ -590,6 +591,7 @@ class Rake(T):
                 continue
             leaves += D.ell(lx + dx, ly + dy, 9 * s, ry_, pal[i % len(pal)], D.OW * 0.5, rot=a * 40)
         el = sc.svg(sc.eid("leaves"), "Pile of leaves", leaves, p.Y + 22 * s, (lx - 60 * s, ly - 20 * s, lx + 60 * s, ly + 20 * s), "scored")
+        _autumn(sc)
         self.act(self.p, "raking leaves", ["raking", "raking leaves", "rake", "cleaning up leaves", "raking grass"], "raking", [ep, el])
         return True
 
@@ -2054,6 +2056,12 @@ YAW_FORCE = {}       # (an isomorph's animals take the yaws of its partner's, ba
 # v0.40 (revision 38): the goat's tuft ahead of its muzzle and behind its head ("O" as revision 37); the ice-cream eater's least height in px (0: any)
 TUFT40 = "B"
 ICE40 = 170
+# v0.41 (revision 39): the floating box hangs level ("L"; "O" tilted, "tilted as if tumbling", read as "falling or thrown in"); with a heap of dry
+# leaves drawn, the setting's trees turning ("A"; "O" green, "brown autumn leaves, while all the trees ... are fully green")
+BOX41 = "O"       # v0.41 bench (vision/isolation_v041.md): O
+SEASON41 = "O"    # v0.41 bench (vision/isolation_v041.md): O
+AUTUMN41 = ("#d9a23a", "#c9782f", "#e3b54c")
+AUTUMN41_EDGE = "#9a5a24"
 # (the angles drawn but drawn at 90 instead: the dog walked at 45 never placed, its lead from the walker's hand crossing the dog's back to the collar
 # at every spot, which revision 12 forbids; 12 probes in four settings, 1893 lead curves, none clear. Dropped as the gate drops an angle, the draw
 # kept so that the records that drew 90 rebuild as they were)
@@ -3490,6 +3498,39 @@ def _leaf_clusters(tree, clusters, cid):
         body += "".join(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="{r:.1f}" fill="{LEAF_HI}" stroke="{LEAF_EDGE}" stroke-width="2.6"/>' for a, b, r in parts)
         body += "".join(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="{max(0.5, r - 1.6):.1f}" fill="{LEAF_HI}"/>' for a, b, r in parts)
     return _crown_clip(tree, cid) + f'<g clip-path="url(#{cid})">{body}</g>'
+
+
+def _autumn(sc):
+    """Revision 39: with a heap of dry leaves drawn, the setting's trees turning, once a picture: clusters of ochre and rust leaves over their crowns,
+    of the same shape as revision 11's clusters (under green crowns, five v0.40 pictures from three readers remarked "brown autumn leaves, while
+    all the trees and hedges are fully green", as v0.38's autumn heap was remarked; vision/flaws_v040.md O1)."""
+    if SCN.PLACEMENT_REV < 39 or SEASON41 == "O" or D.HEAP40 != "D" or getattr(sc, "autumn41", False):
+        return
+    sc.autumn41 = True
+    for key in ("tree", "tree_small"):
+        T_ = sc.S.anchors.get(key)
+        el = next((e for e in sc.S.elements if e["id"] == key), None)
+        if not T_ or not el or "parts" not in T_:
+            continue
+        cx, cy, R = T_["canopy"]
+        body = ""
+        if SEASON41 == "B":
+            # (v0.41 bench B: the whole crown ochre, rust clusters over it and two green ones left)
+            x0, y0, x1, y1 = T_["bbox"]
+            body += f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{x1 - x0:.1f}" height="{y1 - y0:.1f}" fill="{AUTUMN41[0]}"/>'
+        for i, (x, y) in enumerate(((cx + 0.38 * R, cy - 0.50 * R), (cx - 0.58 * R, cy + 0.10 * R), (cx + 0.62 * R, cy + 0.38 * R),
+                                    (cx - 0.12 * R, cy + 0.52 * R), (cx - 0.40 * R, cy - 0.58 * R), (cx + 0.15 * R, cy - 0.05 * R))):
+            r = 0.19 * R
+            fill = AUTUMN41[i % 3]
+            if SEASON41 == "B":
+                r = 0.24 * R
+                fill = (AUTUMN41[1], LEAF_HI, AUTUMN41[2], AUTUMN41[1], AUTUMN41[2], LEAF_HI)[i]
+            parts = [(x, y, r), (x + 0.9 * r, y + 0.35 * r, 0.75 * r), (x - 0.85 * r, y + 0.4 * r, 0.7 * r)]
+            body += "".join(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="{q:.1f}" fill="{fill}" stroke="{AUTUMN41_EDGE}" stroke-width="2.6"/>' for a, b, q in parts)
+            body += "".join(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="{max(0.5, q - 1.6):.1f}" fill="{fill}"/>' for a, b, q in parts)
+        cid = "au%d" % abs(int(cx))
+        sc.svg(sc.eid("autumnleaves"), "Leaves turning on the tree", _crown_clip(T_, cid) + f'<g clip-path="url(#{cid})">{body}</g>', el["z"] + 0.05,
+               T_["bbox"], "background")
 
 
 def _crown_texture(tree, avoid, k):
@@ -5123,8 +5164,13 @@ class FloatingBox(T):
                     # the treetops read as "resting at a tilt on top of the hedge")
                     lift = max(lift, Y - (min(tl) - 40 - 26 * k))
             # revision 11: no ground shadow under a box raised high (it read as a shadow with nothing above it)
-            svg, bb = D.floating_crate(X, Y, k, lift=lift, col=sc.rng.choice([C["wood_light"], C["khaki"]]), tilt=sc.rng.choice([-1, 1]) * self.k3(16, 12, 9),
-                                       ground_shadow=SCN.PLACEMENT_REV < 11 or lift < 160 * s)
+            col_ = sc.rng.choice([C["wood_light"], C["khaki"]])
+            tilt_ = sc.rng.choice([-1, 1]) * self.k3(16, 12, 9)
+            if SCN.PLACEMENT_REV >= 39 and BOX41 == "L":
+                # revision 39: level, with the draws kept (tilted, it was "tilted as if tumbling", and its unsure sections offered "falling or
+                # thrown in", two pictures of three)
+                tilt_ = 0.0
+            svg, bb = D.floating_crate(X, Y, k, lift=lift, col=col_, tilt=tilt_, ground_shadow=SCN.PLACEMENT_REV < 11 or lift < 160 * s)
             if bb[1] < 40 or not sc.fits((bb[0], bb[1], bb[2], Y), limit=0.03):
                 continue
             if SCN.PLACEMENT_REV >= 4 and not sc.air_clear((bb[0] - 12, bb[1] - 12, bb[2] + 12, bb[3] + 12), 4):

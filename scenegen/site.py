@@ -49,36 +49,32 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v039", "v040"
+PREV, CUR = "v040", "v041"
 
-# the templates v0.40 redrew or ruled for the v0.39 screen (vision/flaws_v039.md): read on the bench (vision/isolation_v040.md) and in whole test
-# scenes (vision/design_tests_v040.md)
+# the templates v0.41 redrew or read for the v0.40 screen (vision/flaws_v040.md): read on the bench (vision/isolation_v041.md) and in whole test
+# scenes (vision/design_tests_v041.md)
 REDRAWN_NOTES = {
-    "windy_hat": "Both arms up, a reader saw her 'throwing her hands up in alarm rather than reaching'. Now one hand reaches for the hat, the other at the side. Holds at 1.00 in five pictures, and passes the strict count it failed in v0.39.",
-    "blocked_hose": "The two white sleeves to the nozzle were 'one long flat white shape'. Now one hand holds the nozzle up, the other the hose below it. 0.98, on one half mark about the cause, not the hands.",
-    "goat_grazing": "The head was lost in the tuft: 'hard to tell head from tuft'. Now the back is level, the head reaches ahead, and the tuft is drawn ahead of the muzzle with grass running into the mouth. Holds at 1.00 at every angle.",
-    "sweep": "The heap drawn of dry leaves, after v0.39's green ones were 'a little odd for raked fallen leaves'. Holds at 1.00; five pictures still set brown leaves against green trees.",
-    "rake": "The raked pile drawn of dry leaves too. Holds at 1.00.",
-    "ice_cream": "An eater drawn small at the back held 'something small and pink'. Now an eater is at least 170 px tall. From 0.95 to 1.00 in 17 pictures.",
+    "dog_begs": "In profile the begging dog was 'stiff and human-like', and on the bench every beg had its forelegs held out level, 'like stiff rods'. Now the forelegs fold, elbows forward and paws tipped down at the chest. Holds at 1.00 at 90 and 45.",
+    "floating_box": "Read strictly at 0.833 in v0.40, as 'falling or thrown in'. Hung level on the bench, it read no better, and in the park as a box on the ground far off, so it is unchanged. Holds at 1.00 in five pictures, 0.967 read strictly.",
+    "play_catch": "0.917 in v0.40 on one half mark. Not changed: on the identical picture the catch read in full. 1.00 in five pictures.",
+    "cat_stalks_bird": "The legs at 45 'bunched up and a bit tangled'. Every spread of the paws drew the same on the bench, so it is unchanged. No remark in the screen.",
+    "sweep": "The brown leaves under green trees drew no remark this time, with the heap unchanged; trees turning over it read as fruit on the bench. One broom read as 'a yellow broom or fan rake'.",
 }
 
-# what the v0.40 screen readers made of the templates that read least well (vision/flaws_v040.md)
+# what the v0.41 screen readers made of the templates that read least well (vision/flaws_v041.md)
 WEAK_NOTES = {
-    "play_catch": "The lowest, on one half mark on a picture whose catch v0.39 read in full: the catcher 'ready to catch the ball or just having thrown it'.",
-    "floating_box": "1.00, but one of five under a strict count: the box in mid-air, its readers allowing 'falling or thrown in'.",
+    "rain_coming": "The lowest, on one half mark on a picture identical to v0.40's: the clouds 'dark rain clouds', the rain unsaid.",
+    "blocked_hose": "1.00, but under a strict count: the dog on the hose given as the cause, and 'it could also simply be turned off'.",
 }
-SCREEN_NOTE = ("The v0.40 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. The redrawn reach, hose and graze were read on the bench first, and in whole test scenes. "
-               "1011 of 1014 items had full marks and none was misread, and all 64 templates pass the gate. "
-               "The scorers themselves called 21 of those full marks hedged; halved, 59 of 64 would pass. "
-               "28 pictures were identical to the pixel in v0.39 and v0.40, and 326 of their 328 items scored the same. "
+SCREEN_NOTE = ("The v0.41 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. The begging dog's folded forelegs were read on the bench first, and in whole test scenes. "
+               "999 of 1008 items had full marks and none was misread, and all 64 templates pass the gate. "
+               "The scorers themselves called 16 of those full marks hedged; halved, 62 of 64 would pass. "
+               "43 pictures were identical to the pixel in v0.40 and v0.41, and 523 of their 532 items scored the same. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:probes_v039/T3_garden_s23001.png@0,340,420,900>probes/T3_garden_s23001.png@0,340,420,900", "The blown hat", "v0.39: both arms thrown up, read as 'throwing her hands up in alarm rather than reaching'. v0.40, on the same seed: one hand reaches for the cap, the other at the side: 'He reaches up with one arm toward an orange cap'."),
-         ("crop:scenes_v039/T3_garden_s4013.png@740,560,1020,940>scenes/T3_garden_s4013.png@740,560,1020,940", "The hose in two hands", "v0.39: both hands at the nozzle, 'one long flat white shape stretched out to the nozzle'. v0.40, on the same seed: one hand holds the nozzle up, the other the hose below it."),
-         ("crop:scenes_v039/T1_park_s021.png@700,740,1060,1000>scenes/T1_park_s021.png@700,740,1060,1000", "The goat grazing", "v0.39: the tuft drawn over the head, 'hard to tell head from tuft'. v0.40, on the same seed: the back level, the head ahead, the tuft ahead of the muzzle with grass running into the mouth."),
-         ("crop:scenes_v039/T2_garden_s012.png@1180,620,1600,1000>scenes/T2_garden_s012.png@1180,620,1600,1000", "The broom's heap", "v0.39: green and brown leaves, 'a little odd for raked fallen leaves'. v0.40, on the same seed: dry leaves, leaf-shaped. Five pictures still set brown leaves against green trees.")]
+FIXES = [("crop:scenes_v040/T3_playground_s1043.png@880,470,1240,760>scenes/T3_playground_s1043.png@880,470,1240,760", "The begging dog", "v0.40: the forelegs held out level, on the bench 'like stiff rods'. v0.41, on the same seed: the forelegs folded, elbows forward and paws tipped down at the chest, read 'Sitting up on its hind legs with its front paws raised, begging'.")]
 
 
 

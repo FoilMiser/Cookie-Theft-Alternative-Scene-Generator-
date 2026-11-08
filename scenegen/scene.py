@@ -225,7 +225,11 @@ class PlacementError(Exception):
 # head from tuft", three pictures); and keeps an ice-cream eater's figure at least
 # templates.ICE40 px tall (the only two half marks of 20 were eaters under 150 px at the back: "something small and pink"). The cast's reach for a
 # blown hat, the hose held in two hands, the goat's graze and the walking front foot are redrawn (builder 0.40.0, vision/isolation_v040.md).
-PLACEMENT_REV = 38
+# 39 (v0.41) hangs the floating box level, its draws kept (templates.BOX41; tilted, it was "tilted as if tumbling" and offered as "falling or thrown
+# in", two pictures of three); and with a heap of dry leaves drawn, turns the setting's trees, clusters of ochre and rust leaves over their crowns
+# (templates.SEASON41; "brown autumn leaves, while all the trees and hedges are fully green", five pictures from three readers, the third drawing of
+# the heap to draw it).
+PLACEMENT_REV = 39
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.40 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.41 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,70 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.41 (vision/flaws_v040.md): first three letters the thing, the fourth the drawing. O v0.40's cast and scene (BENCH_CAST=assets/cast/out040, its
+    # library copied to tpdb_work/bench41/lib_O, templates.BOX41 and SEASON41 "O"); N the v0.41 cast with every switch at B (BENCH_CAST=tpdb_work/bench41/out_N):
+    # the begging dog leaning forward with its head tipped up less (bg1, at 90 twice and 45), the stalking cat's legs apart with the near forepaw lifted
+    # ahead (sc1, at 45 twice and 90), the woman in yellow taller with a smaller head and a woman's figure (me1, watering, eating an ice cream, reading
+    # as she walks, sitting on nothing); C the cast with TPDB_BEG41=C TPDB_STALK41=C TPDB_MEI41=C (BENCH_CAST=tpdb_work/bench41/out_C; C's Mei in a
+    # dress below the knee); and on v0.40's cast, revision 39's scene: the floating box level (fb1 L), and the trees turning over a heap of dry
+    # leaves (hs1 A), each whole picture
+    "bg1O_1": ("street", 41011, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1O_2": ("park", 41012, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1O_3": ("street", 41013, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
+    "bg1N_1": ("street", 41011, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1N_2": ("park", 41012, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1N_3": ("street", 41013, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
+    "bg1C_1": ("street", 41011, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1C_2": ("park", 41012, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1C_3": ("street", 41013, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
+    "sc1O_1": ("garden", 41021, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc1O_2": ("park", 41022, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc1O_3": ("park", 41023, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 90}}, "event", None),
+    "sc1N_1": ("garden", 41021, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc1N_2": ("park", 41022, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc1N_3": ("park", 41023, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 90}}, "event", None),
+    "sc1C_1": ("garden", 41021, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc1C_2": ("park", 41022, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "sc1C_3": ("park", 41023, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 90}}, "event", None),
+    "me1O_1": ("garden", 41031, {"events": ["water_flowers"]}, "event", ("fam", "water_flowers", ["person.mei"])),
+    "me1O_2": ("street", 41032, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.mei"])),
+    "me1O_3": ("park", 41033, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.mei"])),
+    "me1O_4": ("garden", 41034, {"contradictions": ["sitting_on_air"]}, "event", ("fam", "sitting_on_air", ["person.mei"])),
+    "me1N_1": ("garden", 41031, {"events": ["water_flowers"]}, "event", ("fam", "water_flowers", ["person.mei"])),
+    "me1N_2": ("street", 41032, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.mei"])),
+    "me1N_3": ("park", 41033, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.mei"])),
+    "me1N_4": ("garden", 41034, {"contradictions": ["sitting_on_air"]}, "event", ("fam", "sitting_on_air", ["person.mei"])),
+    "me1C_1": ("garden", 41031, {"events": ["water_flowers"]}, "event", ("fam", "water_flowers", ["person.mei"])),
+    "me1C_2": ("street", 41032, {"events": ["ice_cream"]}, "event", ("fam", "ice_cream", ["person.mei"])),
+    "me1C_3": ("park", 41033, {"modules": ["about_to_trip"]}, "event", ("fam", "about_to_trip", ["person.mei"])),
+    "me1C_4": ("garden", 41034, {"contradictions": ["sitting_on_air"]}, "event", ("fam", "sitting_on_air", ["person.mei"])),
+    "fb1O_1": ("garden", 41041, {"contradictions": ["floating_box"]}, "full", None),
+    "fb1O_2": ("park", 41042, {"contradictions": ["floating_box"]}, "full", None),
+    "fb1O_3": ("street", 41043, {"contradictions": ["floating_box"]}, "full", None),
+    "fb1L_1": ("garden", 41041, {"contradictions": ["floating_box"]}, "full", None),
+    "fb1L_2": ("park", 41042, {"contradictions": ["floating_box"]}, "full", None),
+    "fb1L_3": ("street", 41043, {"contradictions": ["floating_box"]}, "full", None),
+    "hs1O_1": ("garden", 41051, {"events": ["sweep"]}, "full", None),
+    "hs1O_2": ("street", 41052, {"events": ["sweep"]}, "full", None),
+    "hs1O_3": ("park", 41053, {"events": ["rake"]}, "full", None),
+    "hs1A_1": ("garden", 41051, {"events": ["sweep"]}, "full", None),
+    "hs1A_2": ("street", 41052, {"events": ["sweep"]}, "full", None),
+    "hs1A_3": ("park", 41053, {"events": ["rake"]}, "full", None),
+    # (B: the whole crown ochre, rust clusters over it and two green ones left; A's clusters looked like fruit close up)
+    "hs1B_1": ("garden", 41051, {"events": ["sweep"]}, "full", None),
+    "hs1B_2": ("street", 41052, {"events": ["sweep"]}, "full", None),
+    "hs1B_3": ("park", 41053, {"events": ["rake"]}, "full", None),
+    # round 2 (BENCH_CAST=tpdb_work/bench41/out_F, TPDB_BEG41=F, the rest as v0.40): the begging dog's forelegs folded, elbows forward and paws
+    # tipped down at the chest, beside v0.40's on three more seeds (O on out040)
+    "bg1F_1": ("street", 41011, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1F_2": ("park", 41012, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1F_3": ("street", 41013, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
+    "bg1F_4": ("park", 41014, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1F_5": ("street", 41015, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1F_6": ("park", 41016, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
+    "bg1O_4": ("park", 41014, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1O_5": ("street", 41015, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", None),
+    "bg1O_6": ("park", 41016, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", None),
     # v0.40 (vision/flaws_v039.md): first three letters the thing, the fourth the drawing. O v0.39's cast and scene (BENCH_CAST=assets/cast/out039,
     # its library copied to tpdb_work/bench40/lib_O); N the v0.40 cast with every switch at B (BENCH_CAST=tpdb_work/bench40/out_N): the reach for the
     # blown hat with one hand (wh0), the hose in two hands (hi0), the goat's graze with its tuft ahead of the muzzle (gt0, at 90, 45 and 135), the walking
@@ -695,6 +759,7 @@ NEW36 = {n for n in BENCH if n[:3] in ("bkt", "prf") and BENCH[n][1] // 1000 == 
 NEW38 = {n for n in BENCH if n[:3] == "hng" and BENCH[n][1] // 1000 == 38}
 NEW39 = {n for n in BENCH if n[2] == "9" and BENCH[n][1] // 1000 == 39}
 NEW40 = {n for n in BENCH if n[2] == "0" and BENCH[n][1] // 1000 == 40}
+NEW41 = {n for n in BENCH if n[2] == "1" and BENCH[n][1] // 1000 == 41}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -782,6 +847,14 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
             _D.HEAP40, _T0.TUFT40, _T0.ICE40 = "S", "O", 0
         elif name[:3] in ("hp0", "rk0"):
             _D.HEAP40 = name[3]
+    if name in NEW41:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        if name[3] == "O":
+            # v0.40's scene: the box tilted, the trees green over the heap
+            _T0.BOX41, _T0.SEASON41 = "O", "O"
+        elif name[:3] == "hs1":
+            _T0.SEASON41 = name[3]
     rec = None
     for k in range(40):
         USAGE.clear()

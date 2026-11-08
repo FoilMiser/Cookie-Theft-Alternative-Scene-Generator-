@@ -293,7 +293,7 @@ def build_person(spec):
         if tucked:
             flatten_above(pants_ob, (pel + 0.062 * s) * S)
     else:
-        hem_z = J["knee"] + (0.05 if bottom == "skirt" else 0.03) * s
+        hem_z = J["knee"] + (0.05 if bottom == "skirt" else 0.03) * s - spec.get("hem_drop", 0.0) * s    # (v0.41 bench: a longer dress, TPDB_MEI41 C)
         verts = [P(0, 0, pel + 0.055 * s), P(0, 0, pel - 0.020 * s), P(0, 0.004 * s, hem_z)]
         radii = [(0.136 * k * B["waist"] * TI, 0.104 * k * dp * TI), (0.158 * k * B["hips"] * TI, 0.122 * k * dp * TI),
                  (0.205 * k * B["hips"], 0.165 * k * dp)]

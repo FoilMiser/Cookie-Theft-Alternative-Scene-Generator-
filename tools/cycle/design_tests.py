@@ -11,6 +11,13 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.41 (builder 0.41.0: the begging dog's forelegs folded, elbows forward and paws tipped down at the chest; revision 39 draws nothing new):
+    # a street: a dog begging in profile, a sweeper, an ice cream
+    ("street", 3, 41402, {"modules": ["dog_begs"], "events": ["sweep", "ice_cream"], "yaws": {"dog_begs": 90}}, None),
+    # a park: a dog begging at an angle, a kicker, a raker
+    ("park", 3, 41405, {"modules": ["dog_begs"], "events": ["kick_ball", "rake"], "yaws": {"dog_begs": 45}}, None),
+    # a park: a dog begging in profile, a game of catch
+    ("park", 3, 41406, {"modules": ["dog_begs"], "events": ["play_catch"], "yaws": {"dog_begs": 90}}, None),
     # v0.40 (revision 38 and builder 0.40.0: the reach for a blown hat with one hand, the hose in two hands, the goat's graze and its tuft ahead of the
     # muzzle, the heaps of dry leaves, the ice-cream eater not tiny at the back):
     # a park: a hat blown off, an ice cream, the goat grazing at an angle

@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.39 was made, written so that a fresh session can make the next one (v0.40) from this
+How each release from v0.12 to v0.41 was made, written so that a fresh session can make the next one (v0.42) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -328,3 +328,12 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   0, and the next description saying the two "look identical". Check the blind files are distinct (they were), set the wrong description aside, and read the
   picture again with a fresh reader and score it with a fresh scorer, each with the screen's own prompt cut to the one picture; drop any oddity the mix-up
   left on its neighbour.
+- A pose's head aims a check. v0.41's leaning begging dog, its head tipped up 18 or 20 degrees, placed on none of 40 street seeds at 45, where v0.40's placed on the
+  first: its gaze ray (`library.looks_at`) passed under the eater's food. Run every new pose's cases at every angle its template draws before the readers, and when
+  one fails every seed, count which check says no (wrap `Scene.gaze_ok` and `Scene.fits` and count their answers) instead of reading the failure's last line.
+- Read what every variant on the bench shares, the old one too. Round 1 of v0.41 read two new begs beside v0.40's, and the remark on all of them was the forelegs
+  held out level, "like stiff rods", which neither new drawing touched. Round 2 folded the forelegs on v0.40's body and won; a choice among the round-1 variants
+  would have taken a lean that bought nothing.
+- A remark can go as it came. The heaps' brown leaves under green trees drew remarks in five v0.40 pictures and in none of v0.41's 93, with the heap unchanged, and
+  the bench's v0.40 cases drew none either; the bench's turning trees drew fruit. Before redrawing for a remark, count it on the pictures that came back unchanged,
+  and bench the old drawing beside the new.

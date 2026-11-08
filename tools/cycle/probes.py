@@ -15,7 +15,7 @@ os.makedirs(OUT, exist_ok=True)
 NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # v0.39: five pictures for the one-item templates nearest the gate (with three, one half mark takes one under 0.9: hang_laundry in v0.30 and v0.37)
 # v0.40: five for windy_hat and dog_wants_walk, v0.39's lowest by the strict count and by the gate (vision/flaws_v039.md R1, R2)
-NEED_T = {"windy_hat": 5, "dog_wants_walk": 5}
+NEED_T = {"play_catch": 5, "floating_box": 5}
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):

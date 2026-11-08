@@ -6,8 +6,8 @@
  "seed": 23038,
  "mirror": true,
  "versions": {
-  "generator": "0.40.0",
-  "cast_builder": "0.40.0",
+  "generator": "0.41.0",
+  "cast_builder": "0.41.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,15 +57,17 @@
  },
  "features": [
   "bench",
+  "clothesline",
   "feeder",
-  "hose_reel"
+  "hose_reel",
+  "laundry"
  ],
  "templates": [
   {
-   "id": "kick_ball",
-   "kind": "event",
+   "id": "blocked_hose",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -73,58 +75,198 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A teenager is kicking a ball",
+   "text": "A man is holding a hose, looking into the nozzle",
    "accepted": {
     "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
     ],
     "what": [
-     "kicking a ball",
-     "playing soccer",
-     "playing football",
-     "kicking"
+     "holding a hose",
+     "looking at the hose",
+     "looking into the nozzle",
+     "puzzled",
+     "confused"
     ]
    },
-   "key": "ball",
+   "key": "hose",
    "elements": [
-    "kicker_1",
-    "ball_2"
+    "hoseman_1",
+    "hose_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "kick_ball",
+   "template": "blocked_hose",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.039,
+    "s": 0.347,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 2.9,
-    "zipf_raw": 5.04,
-    "aoa_raw": 2.9,
+    "f": -0.27,
+    "a": 5.33,
+    "zipf_raw": 3.73,
+    "aoa_raw": 5.33,
     "domain": null,
-    "area_px": 14484
+    "area_px": 24940
    },
-   "b": -1.672,
-   "p0": 0.842,
-   "pm1": 0.662,
+   "b": -1.473,
+   "p0": 0.814,
+   "pm1": 0.616,
+   "aoi_cells": [
+    "MC",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "The goat is standing on the hose",
+   "accepted": [
+    "goat standing on the hose",
+    "goat on the hose",
+    "stepping on the hose"
+   ],
+   "key": "goat",
+   "elements": [
+    "hoseanimal_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "blocked_hose",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.284,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.02,
+    "a": 5.21,
+    "zipf_raw": 4.02,
+    "aoa_raw": 5.21,
+    "domain": null,
+    "area_px": 10252
+   },
+   "b": -1.244,
+   "p0": 0.776,
+   "pm1": 0.561,
    "aoi_cells": [
     "BC"
    ]
   },
   {
-   "id": "i02",
+   "id": "i03",
+   "type": "action",
+   "text": "No water is coming out",
+   "accepted": [
+    "no water",
+    "water isn't coming out",
+    "hose isn't working",
+    "nothing coming out",
+    "hose is dry"
+   ],
+   "key": "hose",
+   "elements": [
+    "drip_4"
+   ],
+   "cues": [
+    "drip_4",
+    "hoseman_1"
+   ],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "blocked_hose",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": -3.167,
+    "r": 1,
+    "d": 0.0,
+    "f": -0.27,
+    "a": 5.33,
+    "zipf_raw": 3.73,
+    "aoa_raw": 5.33,
+    "domain": null,
+    "area_px": 176
+   },
+   "b": 0.784,
+   "p0": 0.313,
+   "pm1": 0.144,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "The goat is blocking the water by standing on the hose",
+   "accepted": [
+    "the goat is stepping on the hose so the water can't come out",
+    "the hose is pinched",
+    "blocking the water",
+    "that's why there's no water"
+   ],
+   "key": "water",
+   "elements": [
+    "hoseanimal_2",
+    "drip_4",
+    "hoseman_1"
+   ],
+   "cues": [
+    "hoseanimal_2",
+    "drip_4",
+    "hoseman_1"
+   ],
+   "effect": [
+    "drip_4"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "blocked_hose",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -0.284,
+    "r": 2,
+    "d": 0.135,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": null,
+    "area_px": 10252
+   },
+   "b": 0.414,
+   "p0": 0.398,
+   "pm1": 0.196,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -167,7 +309,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -209,7 +351,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i07",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -250,7 +392,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i08",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -294,7 +436,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i09",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -317,7 +459,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.939,
+    "s": 1.866,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -325,11 +467,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 235496
+    "area_px": 212520
    },
-   "b": -1.913,
-   "p0": 0.871,
-   "pm1": 0.714,
+   "b": -1.876,
+   "p0": 0.867,
+   "pm1": 0.706,
    "aoi_cells": [
     "ML",
     "MC",
@@ -337,7 +479,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i10",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -383,7 +525,52 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i11",
+   "type": "entity",
+   "text": "Clothes are hanging on the line",
+   "accepted": [
+    "clothes",
+    "laundry",
+    "washing",
+    "clothesline",
+    "clothes line",
+    "towel",
+    "pants"
+   ],
+   "key": "laundry",
+   "elements": [
+    "laundry"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.103,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
+    "domain": null,
+    "area_px": 13232
+   },
+   "b": -0.847,
+   "p0": 0.7,
+   "pm1": 0.462,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i12",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -407,7 +594,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.373,
+    "s": 0.345,
     "r": 0,
     "d": 0.0,
     "f": 0.64,
@@ -415,18 +602,18 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 25884
+    "area_px": 24876
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.244,
+   "p0": 0.776,
+   "pm1": 0.561,
    "aoi_cells": [
     "BC",
     "BR"
    ]
   },
   {
-   "id": "i09",
+   "id": "i13",
    "type": "entity",
    "text": "There is a bench",
    "accepted": [
@@ -467,23 +654,23 @@
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 0,
+  "content": 12,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 13
  },
  "predicted": {
   "theta_0": {
-   "content": 0.783,
-   "inference": null
+   "content": 0.734,
+   "inference": 0.398
   },
   "theta_minus_1": {
-   "content": 0.583,
-   "inference": null
+   "content": 0.53,
+   "inference": 0.196
   }
  },
  "bands": {
-  "content_count": false,
+  "content_count": true,
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
@@ -501,16 +688,24 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "18 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0364,
-  "png_bytes": 135939,
-  "jpeg_bytes": 171514
+  "objects": 18,
+  "edge_density": 0.0412,
+  "png_bytes": 170649,
+  "jpeg_bytes": 188670
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -546,6 +741,14 @@
   [
    "entity",
    0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   2
   ]
  ],
  "elements": [
@@ -639,23 +842,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 235496,
-   "occlusion": 0.022
-  },
-  {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
-   ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
+   "visible_px": 212520,
+   "occlusion": 0.118
   },
   {
    "id": "feeder",
@@ -670,6 +858,51 @@
    ],
    "area_px": 8324,
    "visible_px": 8324,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    380.0,
+    596.0,
+    500.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clothesline",
+   "label": "Clothesline",
+   "role": "setting",
+   "z": 705,
+   "bbox": [
+    624.0,
+    382.0,
+    994.0,
+    708.0
+   ],
+   "area_px": 13848,
+   "visible_px": 13372,
+   "occlusion": 0.034
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    822.0,
+    392.0,
+    952.0,
+    524.0
+   ],
+   "area_px": 13232,
+   "visible_px": 13232,
    "occlusion": 0.0
   },
   {
@@ -688,6 +921,58 @@
    "occlusion": 0.0
   },
   {
+   "id": "hoseman_1",
+   "label": "person.dev__hose_inspect__puzzled__y090",
+   "role": "scored",
+   "z": 803.12,
+   "bbox": [
+    668.0,
+    522.0,
+    794.0,
+    808.0
+   ],
+   "area_px": 14836,
+   "visible_px": 14308,
+   "occlusion": 0.036,
+   "asset": {
+    "variant": "person.dev__hose_inspect__puzzled__y090",
+    "family": "person.dev",
+    "scale": 0.4465,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
+     }
+    }
+   }
+  },
+  {
+   "id": "drip_4",
+   "label": "Single drip from the dry nozzle",
+   "role": "scored",
+   "z": 805.12,
+   "bbox": [
+    762.0,
+    574.0,
+    774.0,
+    596.0
+   ],
+   "area_px": 176,
+   "visible_px": 176,
+   "occlusion": 0.0
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -699,8 +984,52 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 25884,
-   "occlusion": 0.0
+   "visible_px": 24876,
+   "occlusion": 0.039
+  },
+  {
+   "id": "hose_3",
+   "label": "Garden hose, pinched under the paw",
+   "role": "scored",
+   "z": 838.65,
+   "bbox": [
+    714.0,
+    652.0,
+    1322.0,
+    872.0
+   ],
+   "area_px": 11712,
+   "visible_px": 10632,
+   "occlusion": 0.092
+  },
+  {
+   "id": "hoseanimal_2",
+   "label": "animal.goat_01__stand__neutral__y045",
+   "role": "scored",
+   "z": 839.65,
+   "bbox": [
+    874.0,
+    664.0,
+    996.0,
+    848.0
+   ],
+   "area_px": 10252,
+   "visible_px": 10252,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.goat_01__stand__neutral__y045",
+    "family": "animal.goat_01",
+    "scale": 0.46,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "goat",
+     "accepted_names": [
+      "goat",
+      "kid"
+     ],
+     "category": "medium_animal"
+    }
+   }
   },
   {
    "id": "hose_reel",
@@ -714,75 +1043,7 @@
     888.0
    ],
    "area_px": 4264,
-   "visible_px": 4092,
-   "occlusion": 0.04
-  },
-  {
-   "id": "hose_tail",
-   "label": "End of the hose",
-   "role": "setting",
-   "z": 887,
-   "bbox": [
-    1194.0,
-    842.0,
-    1298.0,
-    924.0
-   ],
-   "area_px": 2004,
-   "visible_px": 2004,
-   "occlusion": 0.0
-  },
-  {
-   "id": "kicker_1",
-   "label": "person.leo__kick_low__smile__y090",
-   "role": "scored",
-   "z": 912.21,
-   "bbox": [
-    662.0,
-    656.0,
-    858.0,
-    912.0
-   ],
-   "area_px": 13036,
-   "visible_px": 12964,
-   "occlusion": 0.006,
-   "asset": {
-    "variant": "person.leo__kick_low__smile__y090",
-    "family": "person.leo",
-    "scale": 0.4869,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
-  },
-  {
-   "id": "ball_2",
-   "label": "Ball",
-   "role": "scored",
-   "z": 914.21,
-   "bbox": [
-    630.0,
-    840.0,
-    756.0,
-    926.0
-   ],
-   "area_px": 1520,
-   "visible_px": 1520,
+   "visible_px": 4264,
    "occlusion": 0.0
   },
   {
@@ -798,6 +1059,21 @@
    ],
    "area_px": 13200,
    "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -820,11 +1096,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "kick_ball"
+   "modules": [
+    "blocked_hose"
    ]
   },
-  "placement_rev": 38
+  "placement_rev": 39
  },
  "probe": true
 }

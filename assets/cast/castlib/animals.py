@@ -562,6 +562,19 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False):
         # bird" twice, this one as "crouched low ... stalking" three times, so this one stays)
         body(hip_drop=0.10, chest_drop=0.22, tail=(0, 1.0, -0.12), neck=(0, -1.0, 0.10), head_pitch=0)
         rig.aim_dir("tail2", (0, 1.0, 0.2))
+        s41 = os.environ.get("TPDB_STALK41", "O")    # v0.41 bench (vision/isolation_v041.md): O
+        if s41 == "B":
+            # v0.41 (vision/flaws_v040.md O3): at 45 the lifted far forepaw crossed the near leg and the hind paws stood under the belly, "legs
+            # bunched up and a bit tangled under its body" (two pictures). The paws apart, the hind ones further back, and the near forepaw
+            # lifted, reaching ahead mid-step
+            legs({"L": (0.10, -0.40, 0.09), "R": (-0.10, -0.28, 0.035)}, {"L": (0.10, 0.20, 0.035), "R": (-0.10, 0.25, 0.035)},
+                 fhint=(0, 1, -0.6), bhint=(0, -1, 0.7))
+            return
+        if s41 == "C":
+            # (v0.41: the paws apart, the far forepaw just off the ground)
+            legs({"L": (0.10, -0.30, 0.035), "R": (-0.10, -0.38, 0.06)}, {"L": (0.10, 0.22, 0.035), "R": (-0.10, 0.27, 0.035)},
+                 fhint=(0, 1, -0.6), bhint=(0, -1, 0.7))
+            return
         legs({"L": (0.085, -0.27, 0.035), "R": (-0.085, -0.33, 0.17)}, {"L": (0.08, 0.15, 0.035), "R": (-0.08, 0.18, 0.035)},
              fhint=(0, 1, -0.6), bhint=(0, -1, 0.7))
 
@@ -598,6 +611,31 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False):
         # less steeply, the head tipped right up toward the food (the upright sit read as rearing up,
         # standing and looking up as just watching)
         style = os.environ.get("TPDB_BEG", "A3")   # v0.23: A3 (bench A and A2: "sits up ... as if begging" in all four)
+        b41 = os.environ.get("TPDB_BEG41", "F")
+        if style == "A3" and b41 == "F":
+            # v0.41 bench round 2 (vision/isolation_v041.md): A3's body and head with the forelegs folded, the elbows forward and the paws tipped
+            # down at the chest. In round 1 every beg, A3 too, had forelegs held out "like stiff rods", "like a human arm reaching out"
+            body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=0.0, tail=(-0.55, 0.45, -0.70), neck=(0, -0.20, 1), head_pitch=38)
+            rig.aim_dir("tail2", (-0.35, -0.90, -0.05))
+            fz = chest_z * 0.72
+            legs({"L": (0.065, -0.14, fz), "R": (-0.065, -0.14, fz)}, {"L": (0.10, -0.06, 0.035), "R": (-0.10, -0.04, 0.035)},
+                 fhint=(0, -1, -0.2), bhint=(0, -1, 0.35))
+            return
+        if style == "A3" and b41 in ("B", "C"):
+            # v0.41 (vision/flaws_v040.md O2): A3 in profile was "stretched-upright", "far-back head tilt", "stiff and human-like" (two pictures at 90;
+            # none at 45). The body leans forward from the haunches, the head is tipped up less, toward the person rather than the sky, and the
+            # forepaws are held out ahead and lower. "B" leaning further; "C" between B and A3. (The head at 30: tipped up 18 or 20, at 45 the gaze
+            # passed under the eater's food, and the template placed on none of 40 street seeds)
+            if b41 == "B":
+                body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.14, chest_y=-0.15, tail=(-0.55, 0.45, -0.70), neck=(0, -0.45, 1), head_pitch=30)
+                fy, fz = -0.30, chest_z * 0.48
+            else:
+                body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.20, chest_y=-0.10, tail=(-0.55, 0.45, -0.70), neck=(0, -0.40, 1), head_pitch=30)
+                fy, fz = -0.26, chest_z * 0.57
+            rig.aim_dir("tail2", (-0.35, -0.90, -0.05))
+            legs({"L": (0.065, fy, fz), "R": (-0.065, fy, fz)}, {"L": (0.10, -0.06, 0.035), "R": (-0.10, -0.04, 0.035)},
+                 fhint=(0, -0.2, -1), bhint=(0, -1, 0.35))
+            return
         if style == "A3":
             # as A2, the tail curled tight round the near haunch instead of laid out on the ground behind (laid out, the
             # sitting dog's "lower body stretches long and flat ... like a kangaroo")
@@ -663,8 +701,8 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False):
         plan.append(("sleep_paws_turn", sleep_paws_turn))
     if kind == "cat":
         plan.append(("sleep_tuck", sleep_tuck))
-    if os.environ.get("TPDB_EXP") and kind in ("cat", "dog"):
-        # pose experiments for the isolation bench (never set in a release build)
+    if os.environ.get("TPDB_EXP") and kind in ("cat", "dog", "goat"):
+        # pose experiments for the isolation bench (never set in a release build; v0.41: the goat too)
         for i, d in enumerate(json.loads(os.environ["TPDB_EXP"])):
             def _exp(d=d):
                 body(**d["body"])
