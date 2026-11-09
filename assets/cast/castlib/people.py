@@ -78,6 +78,10 @@ TORSO = {"hips", "spine", "chest", "neck"}
 def build_person(spec):
     kind = "child" if spec["age"] in ("child",) else "adult"
     J = person_skeleton(kind)
+    if spec.get("neck_add"):
+        # v0.43 (TPDB_ADULT43): a longer neck, the head raised with it
+        J = dict(J, head_base=J["head_base"] + spec["neck_add"], head_c=J["head_c"] + spec["neck_add"])
+    AF = bool(spec.get("adult_face"))
     S = spec.get("scale", 1.0)
     s = J["s"]
     HS = spec.get("head_scale", 1.0)
@@ -108,6 +112,8 @@ def build_person(spec):
     hr = J["head_r"] * S * HS
     hc = P(0, 0, J["head_c"]) + Vector((0, 0, (HS - 1) * J["head_r"] * S * 0.6))
     HR = (hr * 1.04, hr * 0.98, hr * 0.96)
+    if AF:
+        HR = (hr * 0.99, hr * 0.98, hr * 1.00)      # v0.43 (TPDB_ADULT43): a narrower, taller face
     sh = {sd: P(sg * sx, 0, J["sh_z"]) for sd, sg in (("L", 1), ("R", -1))}
     el = {sd: P(sg * (sx + 0.015 * s), 0, J["el_z"]) for sd, sg in (("L", 1), ("R", -1))}
     wr = {sd: P(sg * (sx + 0.025 * s), 0, J["wr_z"]) for sd, sg in (("L", 1), ("R", -1))}
@@ -484,6 +490,10 @@ def build_person(spec):
         ellipsoid(f"Ear_{sd}", hc + Vector((sg * HR[0] * 0.97, 0.005, -0.012 * kh)), (0.016 * kh, 0.026 * kh, 0.034 * kh), spec["skin"], rig, "head")
     face = Face(rig, "head", hc, HR, kh)
     eye_dx, eye_z = 0.060 * kh, 0.010 * kh
+    kf = kh
+    if AF:
+        # v0.43 (TPDB_ADULT43): the eyes and mouth smaller and set lower in the face (the girls' large eyes high in a round face)
+        eye_dx, eye_z, kf = 0.056 * kh, -0.002 * kh, kh * 0.88
     if HEAD_STYLE == "B" and spec.get("hair") == "bald_ring":
         # v0.23 bench B: a fuller nose standing out from the face, so a profile shows which way the face is turned
         ellipsoid("Nose", face.at(0, eye_z - 0.044 * kh, 0.010 * kh), (0.026 * kh, 0.030 * kh, 0.022 * kh), spec["skin"], rig, "head")
@@ -502,7 +512,7 @@ def build_person(spec):
                                                 Vector((sg * 0.11 * S, -0.135 * S, J["sh_z"] * S)), Vector((sg * 0.125 * S, -0.150 * S, (J["chest"] - 0.06) * S)),
                                                 Vector((sg * 0.165 * S, -0.065 * S, (J["chest"] - 0.14) * S))],
                         [(0.026 * S, 0.010 * S)] * 5, spec.get("backpack2", "charcoal"), rig, bone="chest")
-    build_people_face(face, eye_dx, eye_z, kh, glasses=spec.get("glasses", False))
+    build_people_face(face, eye_dx, eye_z, kf, glasses=spec.get("glasses", False), mouth_col="red" if AF else None)
     if ISECT39 == "B":
         for ob in list(bpy.context.scene.objects):
             nm = ob.name.split(".")[0]
@@ -519,7 +529,7 @@ def build_person(spec):
     anchor(rig, "seat", P(0, 0.02 * s, J["pelvis"] - 0.10 * s), "hips")
     anchor(rig, "mouth", face.at(0, eye_z - 0.080 * kh), "head")
     anchor(rig, "chest", P(0, -0.12 * s, J["chest"]), "spine")
-    states = people_expression_states(face, eye_dx, eye_z, kh)
+    states = people_expression_states(face, eye_dx, eye_z, kf)
 
     ctx = PersonCtx()
     ctx.J, ctx.S, ctx.s, ctx.k, ctx.kh, ctx.HS = J, S, s, k, kh, HS

@@ -11,6 +11,22 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.43 (builder 0.43.0: the dogs' legs, the goat's horns and beard, the reading dog lying down over a paper on the ground, the two women's heads
+    # and faces; revision 41: the reading dog kept from the trip, a dog on the stopped hose, the goat's rope slack, the stalking cat in profile, the
+    # begging dog's mouth closed):
+    # a park: the trip, the reading dog, a kicker
+    ("park", 3, 43401, {"modules": ["about_to_trip"], "contradictions": ["dog_reading"], "events": ["kick_ball"]}, "trip"),
+    # a street: the trip, the reading dog, an ice cream
+    ("street", 3, 43402, {"modules": ["about_to_trip"], "contradictions": ["dog_reading"], "events": ["ice_cream"]}, "trip"),
+    # a garden: the hose stopped by a dog at an angle, the goat grazing at 135, a raker (with the flowers watered as well, the garden's one hose
+    # reel was the waterer's and the forced set could not be drawn)
+    ("garden", 3, 43403, {"modules": ["blocked_hose"], "events": ["goat_grazing", "rake"], "yaws": {"blocked_hose": 45, "goat_grazing": 135}}, None),
+    # a playground: a dog begging at an angle, the woman in yellow, a child on the slide
+    ("playground", 3, 43404, {"modules": ["dog_begs"], "events": ["ice_cream", "slide"], "yaws": {"dog_begs": 45}}, "mei"),
+    # a park: the woman in purple, a child with a balloon, the goat at an angle
+    ("park", 3, 43405, {"events": ["photo", "balloon", "goat_grazing"], "yaws": {"goat_grazing": 45}}, "ana"),
+    # a garden: a cat stalking a bird, a planter, a child on the swing
+    ("garden", 3, 43406, {"modules": ["cat_stalks_bird"], "events": ["plant_flowers", "swing"]}, None),
     # v0.42 (builder 0.42.0: the goat, the dogs, the begging and reading dogs, the cat, the trousers' waist, shoes and calves, the woman in yellow redrawn;
     # revision 40: the goat tethered, the birds and the duck at 45 too, the stopped hose crimped, no other ice cream near the begging dog):
     # a garden: the goat grazing tethered, the hose stopped, the washing hung out
@@ -100,6 +116,8 @@ def ok(rec, rule):
         return any(it.get("template") == "about_to_trip" and any(els.get(i, {}).get("asset", {}).get("variant", "").startswith("person.mei") for i in it["elements"]) for it in rec["items"])
     if rule == "trip":
         return any(it.get("template") == "about_to_trip" for it in rec["items"])
+    if rule in ("mei", "ana"):
+        return any(e.get("asset", {}).get("family") == "person." + rule for e in rec["elements"])
     if rule == "noreel":
         return not any(e["id"] == "hose_reel" for e in rec["elements"]) and any(it.get("template") == "pan_watering" for it in rec["items"])
     if rule == "kick_ball":

@@ -1,4 +1,4 @@
-"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.42 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
+"""python vision/isolation_bench.py OUT [names...] : the isolation bench (v0.43 back to v0.23 cases; earlier cases in isolation_v012.md to v022.md).
 
 BENCH_LIB=<dir> runs it against another variant library (the side-by-side readings swapped a pose in a copy).
 
@@ -22,6 +22,63 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.43 (vision/flaws_v042.md and Sam's figure-fixes-v042.md): first three letters the thing, the fourth the drawing. O v0.42's cast and scene
+    # (BENCH_CAST=assets/cast/out042, a copy of its library); N the v0.43 cast with every switch on (BENCH_CAST=tpdb_work/bench43/out_N: TPDB_DOG43=B
+    # TPDB_GOAT43=B TPDB_READ43=B TPDB_ADULT43=B) and revision 41's TRIP43, HOSE43 and BEGX43 "B"; the reading dog A on out_NA (TPDB_READ43=A, the
+    # others as N) and B on out_N (templates.READ43 the case's letter); the stalking cat at 135 (ct4C, templates.CAT43 "C") on v0.42's cast
+    "rd4O_1": ("park", 43011, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4O_2": ("garden", 43012, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4O_3": ("street", 43013, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4A_1": ("park", 43011, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4A_2": ("garden", 43012, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4A_3": ("street", 43013, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4B_1": ("park", 43011, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4B_2": ("garden", 43012, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd4B_3": ("street", 43013, {"contradictions": ["dog_reading"]}, "event", None),
+    "bg4O_1": ("street", 43021, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", ("fam", "dog_begs", ["animal.dog_01"])),
+    "bg4O_2": ("park", 43022, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", ("fam", "dog_begs", ["animal.dog_02"])),
+    "bg4N_1": ("street", 43021, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", ("fam", "dog_begs", ["animal.dog_01"])),
+    "bg4N_2": ("park", 43022, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", ("fam", "dog_begs", ["animal.dog_02"])),
+    "dg4O_1": ("garden", 43031, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_01"])),
+    "dg4O_2": ("garden", 43032, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_02"])),
+    "dg4O_3": ("garden", 43033, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 90}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_02"])),
+    "dg4N_1": ("garden", 43031, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_01"])),
+    "dg4N_2": ("garden", 43032, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 45}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_02"])),
+    "dg4N_3": ("garden", 43033, {"modules": ["blocked_hose"], "yaws": {"blocked_hose": 90}}, "hoseanimal", ("fam", "blocked_hose", ["animal.dog_02"])),
+    "gt4O_1": ("park", 43041, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt4O_2": ("garden", 43042, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "gt4O_3": ("park", 43043, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "gt4N_1": ("park", 43041, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt4N_2": ("garden", 43042, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "gt4N_3": ("park", 43043, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 90}}, "event", None),
+    "ad4O_1": ("playground", 43051, {"events": ["ice_cream", "slide"]}, "full", ("fam", "ice_cream", ["person.mei"])),
+    "ad4O_2": ("park", 43052, {"events": ["read_bench", "kick_ball"]}, "full", ("fam", "read_bench", ["person.mei"])),
+    "ad4O_3": ("park", 43053, {"events": ["photo", "balloon"]}, "full", ("fam", "photo", ["person.ana"])),
+    "ad4O_4": ("street", 43054, {"events": ["sweep", "jump"]}, "full", ("fam", "sweep", ["person.ana"])),
+    "ad4B_1": ("playground", 43051, {"events": ["ice_cream", "slide"]}, "full", ("fam", "ice_cream", ["person.mei"])),
+    "ad4B_2": ("park", 43052, {"events": ["read_bench", "kick_ball"]}, "full", ("fam", "read_bench", ["person.mei"])),
+    "ad4B_3": ("park", 43053, {"events": ["photo", "balloon"]}, "full", ("fam", "photo", ["person.ana"])),
+    "ad4B_4": ("street", 43054, {"events": ["sweep", "jump"]}, "full", ("fam", "sweep", ["person.ana"])),
+    "ct4O_1": ("park", 43061, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 45}}, "event", None),
+    "ct4C_1": ("park", 43061, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 135}}, "event", None),
+    "ct4C_2": ("garden", 43062, {"modules": ["cat_stalks_bird"], "yaws": {"cat_stalks_bird": 135}}, "event", None),
+    # v0.43 round 2 (BENCH_CAST=tpdb_work/bench43/out_N2: TPDB_DOG43=B TPDB_GOAT43=C TPDB_READ43=A TPDB_ADULT43=B, the begging head v0.42's; O on v0.42's
+    # cast): the reading dog lying down with a larger paper slanted flat, the head higher (rd5A, round 1's seeds); the begging dog with the redrawn legs
+    # and its mouth closed (bg5N, BEGX43 "B") beside v0.42's, at 90 and 45; the goat's horns, beard and slack rope (gt5C, TETHER43 "R") beside v0.42's
+    # at 135 and 45; the woman in yellow with darker shoes (ad5B)
+    "rd5A_1": ("park", 43011, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd5A_2": ("garden", 43012, {"contradictions": ["dog_reading"]}, "event", None),
+    "rd5A_3": ("street", 43013, {"contradictions": ["dog_reading"]}, "event", None),
+    "bg5O_1": ("street", 43121, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", ("fam", "dog_begs", ["animal.dog_01"])),
+    "bg5O_2": ("street", 43122, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", ("fam", "dog_begs", ["animal.dog_02"])),
+    "bg5N_1": ("street", 43121, {"modules": ["dog_begs"], "yaws": {"dog_begs": 90}}, "event", ("fam", "dog_begs", ["animal.dog_01"])),
+    "bg5N_2": ("street", 43122, {"modules": ["dog_begs"], "yaws": {"dog_begs": 45}}, "event", ("fam", "dog_begs", ["animal.dog_02"])),
+    "gt5O_1": ("garden", 43141, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "gt5O_2": ("park", 43142, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "gt5C_1": ("garden", 43141, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 135}}, "event", None),
+    "gt5C_2": ("park", 43142, {"events": ["goat_grazing"], "yaws": {"goat_grazing": 45}}, "event", None),
+    "ad5B_1": ("street", 43151, {"events": ["ice_cream", "jump"]}, "full", ("fam", "ice_cream", ["person.mei"])),
+    "ad5B_2": ("garden", 43152, {"events": ["water_flowers", "swing"]}, "full", ("fam", "water_flowers", ["person.mei"])),
     # v0.42 (vision/flaws_v041.md and Sam's figure-fixes-v041.md): first three letters the thing, the fourth the drawing. O v0.41's cast (BENCH_CAST=
     # assets/cast/out041, its library copied to tpdb_work/bench42/lib_O) and revision 39's scene (templates.GOAT42, BIRD42, KINK42, BEG40 "O"); N the
     # v0.42 cast with every switch on (BENCH_CAST=tpdb_work/bench42/out_N: TPDB_GOAT42=C TPDB_DOG42=B TPDB_BEG42=B TPDB_CAT42=C TPDB_MID42=C
@@ -828,6 +885,7 @@ NEW39 = {n for n in BENCH if n[2] == "9" and BENCH[n][1] // 1000 == 39}
 NEW40 = {n for n in BENCH if n[2] == "0" and BENCH[n][1] // 1000 == 40}
 NEW41 = {n for n in BENCH if n[2] == "1" and BENCH[n][1] // 1000 == 41}
 NEW42 = {n for n in BENCH if n[2] in "23" and BENCH[n][1] // 1000 == 42}
+NEW43 = {n for n in BENCH if n[2] in "45" and BENCH[n][1] // 1000 == 43}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -936,6 +994,18 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
             _T0.KINK42 = "K"
         if name[3] == "N":
             _T0.BEG40 = "B"
+    if name in NEW43:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        # every revision-41 switch off, then on by the case's letter
+        _T0.TRIP43, _T0.READ43, _T0.HOSE43, _T0.CAT43, _T0.BEGX43 = "O", "O", "O", "O", "O"
+        if name[:4] in ("rd4A", "rd4B", "rd5A", "rd5B"):
+            _T0.READ43 = name[3]
+        if name[3] in "NAB":
+            _T0.TRIP43, _T0.HOSE43, _T0.BEGX43 = "B", "B", "B"
+        if name[:4] in ("ct4C", "ct5C"):
+            _T0.CAT43 = "C"
+        _T0.TETHER43 = "R" if name[:4] == "gt5C" else "O"
     rec = None
     for k in range(40):
         USAGE.clear()

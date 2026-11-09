@@ -5,14 +5,15 @@ from cfg import ROOT, WORK, TAG, PREV  # noqa: E402
 import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
-OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
-NOTES = {("garden", 4): "the third seed of the search: v0.41's seed and the first new one did not place under revision 40 with the redrawn cast; "
-                            "on its eighth layout",
-         ("park", 4): "the v0.41 seed, which placed again under revision 40 on its 21st layout, as in v0.39 to v0.41; redrawn with the v0.42 cast",
-         ("street", 4): "v0.29 to v0.41's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed under "
-                        "revision 40 on its fourth layout (v0.39 to v0.41: the fifth) (regen.forced)",
-         ("playground", 4): "the 40th seed of the search: v0.41's seed (the 41st of v0.39's search) and 38 more did not place under revision 40 "
-                            "with the redrawn cast; on its 24th layout"}
+OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4), ("playground", 3)}
+NOTES = {("garden", 4): "the fourth seed of the search: v0.42's seed and two new ones did not place under revision 41 with the redrawn cast",
+         ("park", 4): "the v0.42 seed, which placed again under revision 41 on the same layout, as in v0.39 to v0.42; redrawn with the v0.43 cast",
+         ("street", 4): "v0.29 to v0.42's template set, forced on the v0.32 seed as there (free search failed 39 seeds in v0.32), placed under "
+                        "revision 41 on v0.42's layout (regen.forced)",
+         ("playground", 4): "the v0.42 seed (the 40th of its search), which placed again under revision 41 on the same layout; redrawn with the "
+                            "v0.43 cast",
+         ("playground", 3): "the showcase pass and its search placed nothing on 13 base seeds under revision 41; two new seed lists side by side "
+                            "(tpdb_work/t3pg43.sh) each placed on their first seed, and the second's is kept"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

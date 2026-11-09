@@ -6,8 +6,8 @@
  "seed": 23042,
  "mirror": false,
  "versions": {
-  "generator": "0.42.0",
-  "cast_builder": "0.42.0",
+  "generator": "0.43.0",
+  "cast_builder": "0.43.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,15 +58,14 @@
  "features": [
   "bench",
   "feeder",
-  "flowers",
-  "swing"
+  "flowers"
  ],
  "templates": [
   {
-   "id": "swing",
-   "kind": "event",
+   "id": "sitting_on_air",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -74,56 +73,149 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is on the swing",
+   "text": "A teenager is sitting and having a drink",
    "accepted": {
     "who": [
+     "teenager",
+     "teen",
+     "boy",
      "girl",
-     "little girl",
-     "child",
      "kid",
-     "daughter"
+     "young person"
     ],
     "what": [
-     "on the swing",
-     "swinging",
-     "playing on the swing",
-     "sitting on a swing"
+     "sitting and having a drink",
+     "sitting",
+     "having a drink",
+     "drinking"
     ]
    },
-   "key": "swing",
+   "key": "sitting",
    "elements": [
-    "swinger_1"
+    "airsitter_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "swing",
+   "template": "sitting_on_air",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.71,
+    "s": -0.048,
     "r": 0,
     "d": 0.0,
-    "f": 0.34,
-    "a": 4.16,
-    "zipf_raw": 4.34,
-    "aoa_raw": 4.16,
+    "f": 0.86,
+    "a": 3.47,
+    "zipf_raw": 4.86,
+    "aoa_raw": 3.47,
     "domain": null,
-    "area_px": 5620
+    "area_px": 14300
    },
-   "b": -1.127,
-   "p0": 0.755,
-   "pm1": 0.532,
+   "b": -1.614,
+   "p0": 0.834,
+   "pm1": 0.649,
    "aoi_cells": [
-    "BR"
+    "BC"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with how the person is sitting",
+   "accepted": [
+    "something odd about how they're sitting",
+    "that person looks strange",
+    "something's missing"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_1"
+   ],
+   "cues": [
+    "airsitter_1"
+   ],
+   "effect": [
+    "airsitter_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.048,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 14300
+   },
+   "b": -0.276,
+   "p0": 0.569,
+   "pm1": 0.327,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is sitting on nothing: there is no chair or bench under them",
+   "accepted": [
+    "sitting on nothing",
+    "there's no chair",
+    "sitting in the air",
+    "invisible chair",
+    "nothing to sit on"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_1"
+   ],
+   "cues": [
+    "airsitter_1"
+   ],
+   "effect": [
+    "airsitter_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.048,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 14300
+   },
+   "b": 0.924,
+   "p0": 0.284,
+   "pm1": 0.127,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -166,7 +258,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -208,7 +300,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -249,7 +341,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -293,7 +385,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -316,7 +408,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.883,
+    "s": 1.934,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -324,11 +416,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 217512
+    "area_px": 233792
    },
-   "b": -1.885,
-   "p0": 0.868,
-   "pm1": 0.708,
+   "b": -1.91,
+   "p0": 0.871,
+   "pm1": 0.713,
    "aoi_cells": [
     "ML",
     "MC",
@@ -336,7 +428,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -382,7 +474,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -425,7 +517,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a bench",
    "accepted": [
@@ -467,18 +559,18 @@
  ],
  "counts": {
   "content": 9,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 9
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.773,
-   "inference": null
+   "content": 0.783,
+   "inference": 0.426
   },
   "theta_minus_1": {
-   "content": 0.568,
-   "inference": null
+   "content": 0.582,
+   "inference": 0.227
   }
  },
  "bands": {
@@ -500,18 +592,26 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0396,
-  "png_bytes": 147720,
-  "jpeg_bytes": 183547
+  "objects": 14,
+  "edge_density": 0.0373,
+  "png_bytes": 136931,
+  "jpeg_bytes": 173881
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -638,8 +738,23 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 217512,
-   "occlusion": 0.097
+   "visible_px": 233792,
+   "occlusion": 0.029
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    946.0,
+    602.0,
+    1074.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bush_left",
@@ -662,13 +777,28 @@
    "role": "setting",
    "z": 652,
    "bbox": [
-    1368.0,
+    1208.0,
     302.0,
-    1442.0,
+    1282.0,
     662.0
    ],
    "area_px": 8324,
    "visible_px": 8324,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    1100.0,
+    596.0,
+    1220.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
    "occlusion": 0.0
   },
   {
@@ -702,73 +832,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "swingseat_2",
-   "label": "Swing seat and ropes",
-   "role": "setting",
-   "z": 844,
-   "bbox": [
-    1072.0,
-    474.0,
-    1226.0,
-    784.0
-   ],
-   "area_px": 4452,
-   "visible_px": 3032,
-   "occlusion": 0.319
-  },
-  {
-   "id": "swinger_1",
-   "label": "person.nia__sit_swing__laughing__y000",
-   "role": "scored",
-   "z": 845,
-   "bbox": [
-    1090.0,
-    660.0,
-    1164.0,
-    800.0
-   ],
-   "area_px": 5620,
-   "visible_px": 5620,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.nia__sit_swing__laughing__y000",
-    "family": "person.nia",
-    "scale": 0.462,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "girl",
-     "accepted_names": [
-      "girl",
-      "little girl",
-      "child",
-      "kid",
-      "daughter"
-     ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin2",
-      "hair": "puffs"
-     }
-    }
-   }
-  },
-  {
-   "id": "swing",
-   "label": "Swing set",
-   "role": "setting",
-   "z": 846,
-   "bbox": [
-    976.0,
-    458.0,
-    1324.0,
-    856.0
-   ],
-   "area_px": 37116,
-   "visible_px": 37116,
-   "occlusion": 0.0
-  },
-  {
    "id": "bench",
    "label": "Garden bench",
    "role": "setting",
@@ -799,19 +862,42 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
+   "id": "airsitter_1",
+   "label": "person.leo__sit_drink__focused__y045",
+   "role": "scored",
+   "z": 974.18,
    "bbox": [
-    896.0,
-    892.0,
-    1078.0,
-    980.0
+    802.0,
+    740.0,
+    928.0,
+    986.0
    ],
-   "area_px": 8776,
-   "visible_px": 8776,
-   "occlusion": 0.0
+   "area_px": 14300,
+   "visible_px": 14300,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__sit_drink__focused__y045",
+    "family": "person.leo",
+    "scale": 0.5099,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
   }
  ],
  "canvas": [
@@ -833,11 +919,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "swing"
+   "contradictions": [
+    "sitting_on_air"
    ]
   },
-  "placement_rev": 40
+  "placement_rev": 41
  },
  "probe": true
 }

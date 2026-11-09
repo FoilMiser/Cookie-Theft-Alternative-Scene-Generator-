@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.42 was made, written so that a fresh session can make the next one (v0.43) from this
+How each release from v0.12 to v0.43 was made, written so that a fresh session can make the next one (v0.44) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -350,3 +350,17 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - A bench crop must show the thing at a size a reader can judge. Round 1 cut the dogs at 45 out with their whole template, the hose and the man, and nothing was said
   of their chests or legs either way; round 2 cut out the dog alone (`crop` on its element). And a redraw can trade one remark for another: the reading dog's
   shorter trunk took the "person" away and left its paper "standing upright on its own", the paws reaching less of it. When a pose changes, look at what it holds.
+- A bench win can lose in whole pictures, and the cut-out is why. The reading dog lying over a paper on the ground read as reading in three of three cut-outs and in
+  both design tests, and in the screen, small among other events, as a dog "lying on an open newspaper", pawing at it or tearing it, in all five pictures, with the
+  screen's one misread. Read a pose that changes what a thing is doing in whole pictures before choosing it, at the size the set draws it, and a thing laid flat under
+  an animal as something it may lie on.
+- A head's pitch on a tipped trunk is not the angle it shows. On the begging dog's upright trunk, head pitches of 38, 22 and 12 drew nearly the same nose; only 0
+  lowered it. And the lowered head placed on none of 12 seeds at 45, the gaze check counting 2772 refusals and no pass in four: at three-quarters it faced the
+  viewer. Look at the renders of every value before tuning, and price the pose at every angle its template draws (`tpdb_work/place43.py` counts each check's answers).
+- A rule priced in two settings can still fail in a third, or seem to. The stalking cat in profile with a gap before its bird placed 12 of 12 in the garden and the
+  park, and the tier-3 playground then failed 13 base seeds, most failures naming the cat; priced in the playground's own sets, the rule changed nothing, and two
+  fresh seed lists placed the cell at once. Price a rule in every setting its template draws, and read a failure log's last template as a symptom.
+- A stopped job can leave a render folder in the release library. The calibration stopped by PID left `.render_6572` in `lib043`, and `prune_lib.py` reported it
+  as `UNKNOWN`. Read the prune's report, look inside such a folder, and delete it before the library is validated and packaged.
+- `psub.sub` cannot delete: it skips a pair whose replacement is already in the file, and a deletion's replacement is always inside the text it replaces. Delete
+  with a plain replace, or keep a word of context that changes.

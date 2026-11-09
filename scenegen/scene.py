@@ -235,7 +235,15 @@ class PlacementError(Exception):
 # ice cream out of a wider zone round the begging dog (templates.BEG40; "I can't tell who the dog is begging from ... Both have ice cream"). After
 # v0.42's screen it also keeps the square-wheeled bicycle or barrow clear of the stall and the bench (in front of the stall's legs, the bicycle was
 # "parked against the stall", and square_wheel fell under the gate).
-PLACEMENT_REV = 40
+# 41 (v0.43) keeps the reading dog out of a zone round the trip's walker and box and away from anyone reading as they walk (templates.TRIP43; in v0.42's
+# picture 51 it sat just behind the boy reading as he walked, and the box "has no obvious owner or purpose"); draws the reading dog's paper with its
+# foot on the ground or laid flat under the paws of a dog lying down (templates.READ43; held up by the paws alone it "stands upright on its own");
+# puts a dog, not a goat, on the stopped hose (templates.HOSE43; a goat in a back garden was "unusual"); draws the stalking cat at 90 only, not 45
+# (templates.CAT43; at 45 its legs "bunched together in a tangle of lines", at 135 as well on the bench), with a gap between its front and the bird
+# (in profile its face was "right up against" the bird, "it already has the bird at its mouth"); closes the begging dog's mouth (templates.BEGX43);
+# and draws the goat's rope slack, keeps room for its peg in front of the goat and never leaves it untethered (templates.TETHER43; the rope was "a
+# J-shaped hook or walking-stick handle", and at the picture's foot every peg fell off the edge).
+PLACEMENT_REV = 41
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

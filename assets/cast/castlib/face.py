@@ -65,7 +65,7 @@ MOUTH_W = 0.034
 LINE = 0.0072
 
 
-def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", skin_key="skin1"):
+def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", skin_key="skin1", mouth_col=None):
     for side, s in (("L", 1), ("R", -1)):
         x = s * eye_dx
         face.place(f"eye_{side}", ellipsoid("eye", (0, 0, 0), (1, 1, 1), "outline"),
@@ -100,6 +100,8 @@ def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", s
     m27 = __import__("os").environ.get("TPDB_MOUTH", "B") == "B"
     lw = LINE * k * (0.86 if m27 else 1.0)
     mc = "throat" if m27 else "outline"
+    if mouth_col:
+        mc, lw = mouth_col, lw * 1.15      # v0.43 (TPDB_ADULT43): lips, a line in a lip colour
     out = 0.003 * k
     face.curve_on("m_smile", smooth_curve([(-mw, mz + 0.009 * k), (0, mz - 0.011 * k), (mw, mz + 0.009 * k)], 8), lw, mc, out)
     face.curve_on("m_frown", smooth_curve([(-mw, mz - 0.011 * k), (0, mz + 0.007 * k), (mw, mz - 0.011 * k)], 8), lw, mc, out)

@@ -2,12 +2,12 @@
  "name": "T3_garden_s23010",
  "tier": 3,
  "setting": "garden",
- "sky": "dark",
+ "sky": "clear",
  "seed": 23010,
  "mirror": true,
  "versions": {
-  "generator": "0.42.0",
-  "cast_builder": "0.42.0",
+  "generator": "0.43.0",
+  "cast_builder": "0.43.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,7 +62,7 @@
  ],
  "templates": [
   {
-   "id": "rain_coming",
+   "id": "sprinkler_package",
    "kind": "inference",
    "event": "e1",
    "units": 1
@@ -74,7 +74,7 @@
    "units": 1
   },
   {
-   "id": "goat_grazing",
+   "id": "dog_sleeping",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -108,7 +108,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.409,
+    "s": -0.447,
     "r": 0,
     "d": 0.0,
     "f": -0.53,
@@ -116,11 +116,11 @@
     "zipf_raw": 3.47,
     "aoa_raw": 5.79,
     "domain": null,
-    "area_px": 8592
+    "area_px": 8148
    },
-   "b": -0.777,
-   "p0": 0.685,
-   "pm1": 0.444,
+   "b": -0.757,
+   "p0": 0.681,
+   "pm1": 0.44,
    "aoi_cells": [
     "BR"
    ]
@@ -158,19 +158,19 @@
     "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": -0.542,
+    "s": -0.584,
     "r": 2,
-    "d": 0.161,
+    "d": 0.162,
     "f": 0.0,
     "a": 4.47,
     "zipf_raw": 5.08,
     "aoa_raw": 3.45,
     "domain": null,
-    "area_px": 7124
+    "area_px": 6712
    },
-   "b": 0.214,
-   "p0": 0.447,
-   "pm1": 0.229,
+   "b": 0.236,
+   "p0": 0.441,
+   "pm1": 0.225,
    "aoi_cells": [
     "TR",
     "MR",
@@ -180,73 +180,249 @@
   {
    "id": "i03",
    "type": "action",
-   "text": "A goat is eating grass",
+   "text": "A sprinkler is spraying water",
    "accepted": [
-    "goat eating",
-    "goat eating grass",
-    "goat grazing",
-    "goat"
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
    ],
-   "key": "goat",
+   "key": "sprinkler",
    "elements": [
-    "goat_grazing_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "goat_grazing",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.395,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.02,
-    "a": 5.21,
-    "zipf_raw": 4.02,
-    "aoa_raw": 5.21,
-    "domain": null,
-    "area_px": 8760
-   },
-   "b": -0.949,
-   "p0": 0.721,
-   "pm1": 0.487,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "entity",
-   "text": "Dark clouds are coming",
-   "accepted": [
-    "dark clouds",
-    "storm clouds",
-    "clouds",
-    "cloudy",
-    "storm",
-    "gray sky"
-   ],
-   "key": "clouds",
-   "elements": [
-    "clouds_dark"
+    "sprinkler_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "rain_coming",
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": 0.044,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
+    "domain": null,
+    "area_px": 16276
+   },
+   "b": -0.077,
+   "p0": 0.519,
+   "pm1": 0.284,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
    "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.001,
+    "s": -0.568,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
+    "domain": null,
+    "area_px": 6864
+   },
+   "b": -0.494,
+   "p0": 0.621,
+   "pm1": 0.376,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_3",
+    "package_4"
+   ],
+   "cues": [
+    "sprinkler_3",
+    "package_4"
+   ],
+   "effect": [
+    "package_4"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.044,
+    "r": 1,
+    "d": 0.246,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
+    "domain": null,
+    "area_px": 16276
+   },
+   "b": 0.323,
+   "p0": 0.42,
+   "pm1": 0.21,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "action",
+   "text": "A dog is sleeping",
+   "accepted": [
+    "dog sleeping",
+    "dog lying down",
+    "sleeping dog",
+    "dog resting",
+    "dog"
+   ],
+   "key": "dog",
+   "elements": [
+    "dog_sleeping_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_sleeping",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.063,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 3416
+   },
+   "b": -0.939,
+   "p0": 0.719,
+   "pm1": 0.485,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TL"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
     "r": 0,
     "d": 0.0,
     "f": 0.16,
@@ -254,125 +430,17 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 62768
+    "area_px": 19280
    },
-   "b": -1.188,
-   "p0": 0.766,
-   "pm1": 0.547,
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
    "aoi_cells": [
-    "TL",
-    "TC",
-    "TR"
+    "TC"
    ]
   },
   {
-   "id": "i05",
-   "type": "action",
-   "text": "A child is pointing up at the sky",
-   "accepted": {
-    "who": [
-     "child",
-     "kid",
-     "boy",
-     "girl",
-     "son",
-     "daughter"
-    ],
-    "what": [
-     "pointing at the sky",
-     "pointing at the clouds",
-     "pointing up",
-     "looking up",
-     "worried"
-    ]
-   },
-   "key": "pointing",
-   "elements": [
-    "skywatcher_7"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "rain_coming",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.414,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.2,
-    "a": 4.55,
-    "zipf_raw": 4.2,
-    "aoa_raw": 4.55,
-    "domain": null,
-    "area_px": 8528
-   },
-   "b": -0.993,
-   "p0": 0.73,
-   "pm1": 0.498,
-   "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i06",
-   "type": "inference",
-   "text": "It is about to rain",
-   "accepted": [
-    "it's going to rain",
-    "a storm is coming",
-    "rain is coming",
-    "it might rain",
-    "going to get wet"
-   ],
-   "key": "rain",
-   "elements": [
-    "clouds_dark",
-    "skywatcher_7"
-   ],
-   "cues": [
-    "clouds_dark",
-    "skywatcher_7"
-   ],
-   "effect": [
-    "clouds_dark"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "rain_coming",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": 1.001,
-    "r": 1,
-    "d": 0.327,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.71,
-    "aoa_raw": 3.6,
-    "domain": null,
-    "area_px": 62768
-   },
-   "b": -0.058,
-   "p0": 0.514,
-   "pm1": 0.28,
-   "aoi_cells": [
-    "TL",
-    "TC",
-    "TR",
-    "BC"
-   ]
-  },
-  {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -413,7 +481,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -457,7 +525,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -500,7 +568,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i12",
    "type": "entity",
    "text": "There is a swing set",
    "accepted": [
@@ -543,7 +611,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i13",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -587,19 +655,19 @@
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 11,
   "inference_units": 2,
   "contradictions": 0,
-  "items_total": 11
+  "items_total": 13
  },
  "predicted": {
   "theta_0": {
-   "content": 0.729,
-   "inference": 0.481
+   "content": 0.69,
+   "inference": 0.431
   },
   "theta_minus_1": {
-   "content": 0.504,
-   "inference": 0.255
+   "content": 0.46,
+   "inference": 0.218
   }
  },
  "bands": {
@@ -611,10 +679,6 @@
  },
  "in_tier": false,
  "checks": {
-  "skywatcher_7_looks_at_clouds": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -625,14 +689,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "19 drawn objects (tier band 20-30)"
+   "detail": "16 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 19,
-  "edge_density": 0.0398,
-  "png_bytes": 182552,
-  "jpeg_bytes": 185597
+  "objects": 16,
+  "edge_density": 0.0412,
+  "png_bytes": 167955,
+  "jpeg_bytes": 189732
  },
  "signature": [
   [
@@ -645,6 +709,14 @@
   ],
   [
    "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -688,18 +760,33 @@
    "z": -100
   },
   {
-   "id": "clouds_dark",
-   "label": "Dark clouds rolling in",
-   "role": "scored",
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    52.0,
+    22.0,
+    248.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
    "z": -98,
    "bbox": [
-    478.0,
-    18.0,
-    1120.0,
-    206.0
+    634.0,
+    68.0,
+    1040.0,
+    202.0
    ],
-   "area_px": 62768,
-   "visible_px": 62768,
+   "area_px": 19280,
+   "visible_px": 19280,
    "occlusion": 0.0
   },
   {
@@ -801,8 +888,8 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 198992,
-   "occlusion": 0.029
+   "visible_px": 199392,
+   "occlusion": 0.027
   },
   {
    "id": "waitingdog_1",
@@ -810,13 +897,13 @@
    "role": "scored",
    "z": 806,
    "bbox": [
-    1424.0,
-    664.0,
+    1422.0,
+    670.0,
     1520.0,
     816.0
    ],
-   "area_px": 7172,
-   "visible_px": 7124,
+   "area_px": 6760,
+   "visible_px": 6712,
    "occlusion": 0.007,
    "asset": {
     "variant": "animal.dog_01__sit_wait__neutral__y045",
@@ -840,72 +927,13 @@
    "role": "scored",
    "z": 807,
    "bbox": [
-    1350.0,
-    688.0,
-    1434.0,
+    1348.0,
+    694.0,
+    1432.0,
     818.0
    ],
-   "area_px": 1468,
-   "visible_px": 1468,
-   "occlusion": 0.0
-  },
-  {
-   "id": "grasstuft_5",
-   "label": "Grass at the goat's mouth",
-   "role": "setting",
-   "z": 812.71,
-   "bbox": [
-    646.0,
-    792.0,
-    680.0,
-    816.0
-   ],
-   "area_px": 432,
-   "visible_px": 396,
-   "occlusion": 0.083
-  },
-  {
-   "id": "goat_grazing_3",
-   "label": "animal.goat_01__graze__neutral__y135",
-   "role": "scored",
-   "z": 813.21,
-   "bbox": [
-    662.0,
-    708.0,
-    794.0,
-    822.0
-   ],
-   "area_px": 8884,
-   "visible_px": 8760,
-   "occlusion": 0.014,
-   "asset": {
-    "variant": "animal.goat_01__graze__neutral__y135",
-    "family": "animal.goat_01",
-    "scale": 0.4503,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "goat",
-     "accepted_names": [
-      "goat",
-      "kid"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "grassbite_6",
-   "label": "Grass in the goat's mouth",
-   "role": "setting",
-   "z": 815.21,
-   "bbox": [
-    660.0,
-    786.0,
-    680.0,
-    806.0
-   ],
-   "area_px": 116,
-   "visible_px": 116,
+   "area_px": 1436,
+   "visible_px": 1436,
    "occlusion": 0.0
   },
   {
@@ -922,44 +950,6 @@
    "area_px": 25884,
    "visible_px": 25884,
    "occlusion": 0.0
-  },
-  {
-   "id": "skywatcher_7",
-   "label": "person.kai__point_up__worried__y045",
-   "role": "scored",
-   "z": 837.01,
-   "bbox": [
-    854.0,
-    636.0,
-    950.0,
-    842.0
-   ],
-   "area_px": 8528,
-   "visible_px": 8528,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.kai__point_up__worried__y045",
-    "family": "person.kai",
-    "scale": 0.4591,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "child",
-     "accepted_names": [
-      "child",
-      "kid",
-      "boy",
-      "girl",
-      "son",
-      "daughter"
-     ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin3",
-      "hair": "curly_dark"
-     }
-    }
-   }
   },
   {
    "id": "swing_seat",
@@ -992,49 +982,64 @@
    "occlusion": 0.0
   },
   {
-   "id": "tether_4",
-   "label": "The goat's tether, a rope from its collar to a peg in the ground",
-   "role": "setting",
-   "z": 851.13,
+   "id": "sprinkler_3",
+   "label": "Sprinkler spraying",
+   "role": "scored",
+   "z": 864.53,
    "bbox": [
-    692.0,
-    758.0,
-    734.0,
-    852.0
+    612.0,
+    738.0,
+    1600.0,
+    892.0
    ],
-   "area_px": 744,
-   "visible_px": 744,
+   "area_px": 16372,
+   "visible_px": 16276,
+   "occlusion": 0.006
+  },
+  {
+   "id": "package_4",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 874.53,
+   "bbox": [
+    562.0,
+    810.0,
+    670.0,
+    886.0
+   ],
+   "area_px": 6864,
+   "visible_px": 6864,
    "occlusion": 0.0
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
+   "id": "dog_sleeping_5",
+   "label": "animal.dog_02__sleep_paws_turn__sleepy__y045",
+   "role": "scored",
+   "z": 958.7,
    "bbox": [
-    362.0,
-    884.0,
-    458.0,
-    962.0
+    1054.0,
+    924.0,
+    1154.0,
+    970.0
    ],
-   "area_px": 4404,
-   "visible_px": 4404,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
-   "bbox": [
-    522.0,
-    892.0,
-    704.0,
-    980.0
-   ],
-   "area_px": 8772,
-   "visible_px": 8772,
-   "occlusion": 0.0
+   "area_px": 3416,
+   "visible_px": 3416,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.dog_02__sleep_paws_turn__sleepy__y045",
+    "family": "animal.dog_02",
+    "scale": 0.5042,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
   }
  ],
  "canvas": [
@@ -1057,14 +1062,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "goat_grazing"
+    "dog_sleeping"
    ],
    "modules": [
-    "rain_coming",
+    "sprinkler_package",
     "dog_wants_walk"
    ]
   },
-  "placement_rev": 40
+  "placement_rev": 41
  },
  "probe": true
 }

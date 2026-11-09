@@ -2084,13 +2084,52 @@ ANIMAL_YAWS40 = {"bird_perched": (90, 45), "feed_birds": (90, 45), "bird_steals"
 # at every spot, which revision 12 forbids; 12 probes in four settings, 1893 lead curves, none clear. Dropped as the gate drops an angle, the draw
 # kept so that the records that drew 90 rebuild as they were)
 UNPLACED = {("walk_dog", 45)}
+# v0.43 (revision 41; figure-fixes-v042.md items 1, 2, 4, 6 and 8, vision/flaws_v042.md R1, R2, O4 and O5), each "O" as revision 40:
+# TRIP43 "B": the reading dog kept out of a zone round the trip's walker and box, and away from anyone reading as they walk (in v0.42's picture 51 it sat
+#   just behind the boy reading as he walked, and the box "has no obvious owner or purpose": two readers side by side split the cue)
+# READ43 "A" or "B", with the cast's TPDB_READ43: "A" the paper laid open flat on the ground under the forepaws of a dog lying down ("down_read"); "B"
+#   the paper's foot on the ground in front of the sitting dog and its top under the forepaws, leaning on them (held up by the forepaws alone, it
+#   "stands upright on its own", three v0.42 descriptions)
+# HOSE43 "B": the animal on the stopped hose a dog (a goat on it in a back garden was "unusual", v0.42 picture 30, the one goat with no tether)
+# CAT43 "B": the stalking cat in profile only; "C": at 90 and 135 (at 45 its legs "bunched together in a tangle of lines", on the bench in v0.41 and
+#   v0.42 and in the screens; two redraws of the legs stayed tangled)
+# BEGX43 "B": the begging dog's mouth closed and its eyes open ("neutral"; its nose up with the tongue out read "howling" on the v0.42 bench)
+# TETHER43 "R": the goat's rope slack, bowed out from the collar and lying in a loose curve on the grass to a knot round the foot of the peg (an even
+#   arc from the collar to the peg's top read as "a J-shaped hook or walking-stick handle" and "a rigid wire or stick", v0.43 bench round 1)
+TETHER43 = "R"    # v0.43 bench (vision/isolation_v043.md): R
+TRIP43 = "B"      # (a placement rule, read in the design tests)
+READ43 = "A"      # v0.43 bench: A
+HOSE43 = "B"      # (a placement rule)
+CAT43 = "B"       # v0.43 bench: B, at 135 the legs as tangled as at 45
+BEGX43 = "B"      # v0.43 bench: B
+ANIMAL_YAWS41 = {"cat_stalks_bird": (90, 135)}
 
 
 def yaw_table():
-    """The templates whose animal is drawn at more than one angle, and the angles (revision 40 adds the birds', templates.BIRD42)."""
+    """The templates whose animal is drawn at more than one angle, and the angles (revision 40 adds the birds', templates.BIRD42; revision 41 the
+    stalking cat's, templates.CAT43)."""
+    tab = ANIMAL_YAWS
     if SCN.PLACEMENT_REV >= 40 and BIRD42 == "B":
-        return dict(ANIMAL_YAWS, **ANIMAL_YAWS40)
-    return ANIMAL_YAWS
+        tab = dict(ANIMAL_YAWS, **ANIMAL_YAWS40)
+    if SCN.PLACEMENT_REV >= 41 and CAT43 == "C":
+        tab = dict(tab, **ANIMAL_YAWS41)
+    if SCN.PLACEMENT_REV >= 41 and CAT43 == "B":
+        tab = {k: v for k, v in tab.items() if k != "cat_stalks_bird"}
+    return tab
+
+
+def _reader_near43(sc, X, Y):
+    """Revision 41 (templates.TRIP43): whether a reading dog standing at (X, Y) would be in the trip's zone or near someone reading as they walk."""
+    s = sz(Y)
+    z = getattr(sc, "trip_zone43", None)
+    if z and z[0] - 60 * s <= X <= z[2] + 60 * s and z[1] <= Y <= z[3] + 40 * s:
+        return True
+    for q in sc.assets.values():
+        if "walk_read" in str(q.v):
+            b = q.bbox()
+            if b[0] - 380 * s <= X <= b[2] + 380 * s and b[1] - 40 * s <= Y <= b[3] + 150 * s:
+                return True
+    return False
 
 
 def animal_yaw(sc, tid, default=90):
@@ -2241,7 +2280,9 @@ class GoatGrazing(AnimalEvent):
                 else:
                     blades += f'<path d="M {D.P(mx, my)} L {D.P(ex, ey)}" stroke="{C["grass_dark"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
             if SCN.PLACEMENT_REV >= 40 and GOAT42 == "T":
-                _goat_tether(sc, a, f, s)
+                tied = _goat_tether(sc, a, f, s)
+                if SCN.PLACEMENT_REV >= 41 and TETHER43 == "R" and not tied:
+                    return False        # revision 41: never untethered (templates.TETHER43)
             if tuft40:
                 x0, x1 = sorted((mx + (f * 18 - 13) * s, mx + (f * 18 + 11) * s))
                 sc.svg(sc.eid("grasstuft"), "Grass at the goat's mouth", blades, a.Y - 0.5, (x0 - 6 * s, a.Y - 26 * s, x1 + 6 * s, a.Y + 4 * s), "setting")
@@ -2255,6 +2296,9 @@ class GoatGrazing(AnimalEvent):
         if SCN.PLACEMENT_REV >= 4:      # grazing on grass, not on the path
             out = [(X, Y) for X, Y in out if not self.sc.on_element("path", X, Y) and not self.sc.on_element("path", X + 50 * sz(Y), Y)
                    and not self.sc.on_element("path", X - 50 * sz(Y), Y)]
+        if SCN.PLACEMENT_REV >= 41 and TETHER43 == "R":
+            # revision 41: room in front of it for the tether's peg (at the picture's foot every peg fell off the edge, and the goat went untethered)
+            out = [(X, Y) for X, Y in out if Y + 48 * sz(Y) < D.H - 6]
         return out
 
 
@@ -2278,10 +2322,20 @@ def _goat_tether(sc, a, f, s):
         top = (peg[0], peg[1] - 19 * s)
         rope = (f"M {D.P(cx, cy)} Q {D.P(cx + f * 6 * s, (cy + g1[1]) / 2)} {D.P(g1[0], g1[1])} "
                 f"Q {D.P((g1[0] + top[0]) / 2, max(g1[1], top[1]) + 7 * s)} {D.P(*top)}")
+        knot = ""
+        if SCN.PLACEMENT_REV >= 41 and TETHER43 == "R":
+            # revision 41 (templates.TETHER43): slack, bowed out from the collar, then lying on the grass in a loose S to a knot round the peg's foot
+            mx_, my_ = (g1[0] + peg[0]) / 2, (g1[1] + peg[1]) / 2 + 2 * s
+            foot = (peg[0] + (g1[0] - peg[0]) * 0.12, peg[1] - 5 * s)
+            rope = (f"M {D.P(cx, cy)} C {D.P(cx + f * 16 * s, cy + (g1[1] - cy) * 0.35)} {D.P(g1[0] + f * 10 * s, g1[1] - 9 * s)} {D.P(g1[0], g1[1])} "
+                    f"C {D.P(g1[0] + (mx_ - g1[0]) * 0.5, g1[1] + 7 * s)} {D.P(mx_ - (mx_ - g1[0]) * 0.3, my_ - 6 * s)} {D.P(mx_, my_)} "
+                    f"S {D.P(foot[0] + (mx_ - foot[0]) * 0.3, foot[1] + 6 * s)} {D.P(*foot)}")
+            knot = (f'<ellipse cx="{peg[0]:.1f}" cy="{peg[1] - 6 * s:.1f}" rx="{6.2 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="{D.OUT}" stroke-width="{4.0 * s:.1f}"/>'
+                    f'<ellipse cx="{peg[0]:.1f}" cy="{peg[1] - 6 * s:.1f}" rx="{6.2 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="#c9a56a" stroke-width="{2.2 * s:.1f}"/>')
         svg = (f'<path d="{rope}" fill="none" stroke="{D.OUT}" stroke-width="{4.6 * s:.1f}" stroke-linecap="round"/>'
                f'<path d="{rope}" fill="none" stroke="#c9a56a" stroke-width="{2.6 * s:.1f}" stroke-linecap="round"/>')
         stake = (f'<path d="M {D.P(peg[0] - 4.5 * s, peg[1])} L {D.P(peg[0] - 4.5 * s, peg[1] - 22 * s)} Q {D.P(peg[0], peg[1] - 26 * s)} '
-                 f'{D.P(peg[0] + 4.5 * s, peg[1] - 22 * s)} L {D.P(peg[0] + 4.5 * s, peg[1])} Z" fill="{C["wood"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}"/>')
+                 f'{D.P(peg[0] + 4.5 * s, peg[1] - 22 * s)} L {D.P(peg[0] + 4.5 * s, peg[1])} Z" fill="{C["wood"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}"/>') + knot
         bb = (min(cx, g1[0], peg[0]) - 10 * s, min(cy, pb[1]) - 4, max(cx, g1[0], peg[0]) + 10 * s, pb[3])
         sc.svg(sc.eid("tether"), "The goat's tether, a rope from its collar to a peg in the ground", svg + stake, a.Y + dy * s, bb, "setting")
         sc.keepout.append(run)
@@ -2917,7 +2971,8 @@ class BlockedHose(T):
     def bind(self):
         sc = self.sc
         self.p = sc.person(GROWN)
-        self.a = sc.animal(["dog", "goat"])
+        # (revision 41: a dog, never a goat, templates.HOSE43)
+        self.a = sc.animal(["dog"] if (SCN.PLACEMENT_REV >= 41 and HOSE43 == "B") else ["dog", "goat"])
         self.vp = sc.need(self.p, "hose_inspect", "puzzled", 90)
         self.va = sc.need(self.a, "stand", sc.rng.choice(["neutral", "happy"]), animal_yaw(sc, self.id))
 
@@ -3297,6 +3352,12 @@ class CatStalksBird(T):
             b = sc.placed(self.vb, bx, by, sc.mirror_for(self.vb, -want), eid=eb)
             if not sc.fits(b.bbox(), limit=0.05):
                 continue
+            if SCN.PLACEMENT_REV >= 41 and CAT43 == "B":
+                # revision 41: a gap between the cat's front and the bird (in profile its whole length reached toward it, and its face "right up
+                # against" the bird read "it already has the bird at its mouth", v0.43 design test 6)
+                gap = (b.bbox()[0] - c.bbox()[2]) if want > 0 else (c.bbox()[0] - b.bbox()[2])
+                if gap < 45 * sz(Y):
+                    continue
             ok = sc.gaze_ok(c, (b.bbox()[0] - 10, b.bbox()[1] - 30, b.bbox()[2] + 10, b.bbox()[3] + 10))
             if ok and SCN.PLACEMENT_REV >= 12:
                 # revision 12: the cat and its bird have the ground to themselves, now and later: nobody walks past them
@@ -3994,6 +4055,13 @@ class AboutToTrip(T):
                     continue
                 if not sc.setting_clear(beyond, only=sc.LANE_STRUCT):
                     continue
+            if SCN.PLACEMENT_REV >= 41 and TRIP43 == "B":
+                # revision 41: no reading dog near the walker or the box (templates.TRIP43), and none placed there later
+                pb_ = p.bbox()
+                z43 = (min(pb_[0], bb[0]) - 380 * s, min(pb_[1], bb[1]) - 60 * s, max(pb_[2], bb[2]) + 380 * s, max(pb_[3], bb[3]) + 150 * s)
+                if any(sc.overlap(z43, q.bbox()) > 0 for k_, q in sc.assets.items() if k_.startswith("readingdog")):
+                    continue
+                sc.trip_zone43 = z43
             sc.assets[ep] = p
             if beyond is not None:
                 sc.lanes.append((beyond, self))
@@ -4031,7 +4099,9 @@ class DogBegs(T):
         self.d = sc.animal(["dog"])
         # revision 7: sitting square with the head tipped up at the food (the upright sit read as rearing up,
         # standing and looking up as just watching)
-        self.vd = sc.need(self.d, "beg" if SCN.PLACEMENT_REV >= 7 else sc.rng.choice(["sit", "look_up"]), "happy", animal_yaw(sc, self.id))
+        # (revision 41: the mouth closed, templates.BEGX43)
+        self.vd = sc.need(self.d, "beg" if SCN.PLACEMENT_REV >= 7 else sc.rng.choice(["sit", "look_up"]),
+                          "neutral" if (SCN.PLACEMENT_REV >= 41 and BEGX43 == "B") else "happy", animal_yaw(sc, self.id))
 
     def place(self):
         sc = self.sc
@@ -5527,15 +5597,55 @@ class DogReading(T):
         # revision 4: sitting up with the front paws raised, holding the paper (sitting with the paws
         # on the ground, the paper seemed to stand up by itself)
         self.hold = SCN.PLACEMENT_REV >= 4
-        self.vd = sc.need(self.d, "sit_up_hold" if self.hold else "sit_look_down", "neutral", 90)
+        # revision 41 (templates.READ43 "A"): lying down over a paper laid on the ground
+        self.down = SCN.PLACEMENT_REV >= 41 and READ43 == "A"
+        self.vd = sc.need(self.d, "down_read" if self.down else ("sit_up_hold" if self.hold else "sit_look_down"), "neutral", 90)
 
     def place(self):
         sc = self.sc
         ed = sc.eid("readingdog")
 
+        def paper43(d, f, s):
+            # revision 41 (templates.READ43)
+            (ax, ay), (bx, by) = d.anchor("paw_FL"), d.anchor("paw_FR")
+            px, py = (ax + bx) / 2, (ay + by) / 2
+            k = s * 1.05
+            if READ43 == "A":
+                # "A": laid open flat on the ground, its near edge under the forepaws, foreshortened and slanted as the ground is (bench round 1: drawn
+                # squarely and small it was "an open book", "flat ... or upright and open toward the viewer"; round 2 set further out, the dog looked "past" it)
+                k = s * 1.30
+                cx, cy = px + f * 30 * s, py + 5 * s
+                svg0, bb0 = D.newspaper(cx, cy, k, f, style=8)
+                sq, t = 0.42, -0.55 * f
+                svg = f'<g transform="matrix(1 0 {t:.3f} {sq} {-t * cy:.2f} {cy * (1 - sq):.2f})">{svg0}</g>'
+                pts = [(x_ + t * (y_ - cy), cy + sq * (y_ - cy)) for x_ in (bb0[0], bb0[2]) for y_ in (bb0[1], bb0[3])]
+                bb = (min(q[0] for q in pts), min(q[1] for q in pts), max(q[0] for q in pts), max(q[1] for q in pts))
+                if not sc.S.walkable(cx, bb[3] - 2) or sc.S.in_soft(cx, bb[3] - 2):
+                    return None
+            else:
+                # "B": its foot on the ground in front of the dog, its top under the forepaws, leaning back on them
+                fx, fy = px + f * 44 * s, d.Y + 2 * s
+                tx, ty = px + f * 4 * s, py + 4 * s
+                L = math.hypot(tx - fx, fy - ty)
+                k = max(0.85 * k, min(1.3 * k, L / 58))
+                cx, cy = (fx + tx) / 2, (fy + ty) / 2
+                ang = math.degrees(math.atan2(tx - fx, fy - ty))
+                svg0, _ = D.newspaper(cx, cy, k, f, style=8)
+                svg = f'<g transform="rotate({ang:.2f} {cx:.2f} {cy:.2f})">{svg0}</g>'
+                w, h = 74 * k / 2, 58 * k / 2
+                ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+                pts = [(cx + dx * ca - dy * sa, cy + dx * sa + dy * ca) for dx in (-w, w) for dy in (-h - 8 * k, h + 8 * k)]
+                bb = (min(q[0] for q in pts) - 3, min(q[1] for q in pts), max(q[0] for q in pts) + 3, max(q[1] for q in pts))
+            self.np = (svg, bb)
+            if not sc.air_clear((bb[0] - 10, bb[1] - 10, bb[2] + 10, bb[3] + 4), 4):
+                return None
+            return [bb]
+
         def paper(d):
             f = d.facing() or 1
             s = sz(d.Y)
+            if SCN.PLACEMENT_REV >= 41 and READ43 in ("A", "B"):
+                return paper43(d, f, s)
             if self.hold:
                 (ax, ay), (bx, by) = d.anchor("paw_FL"), d.anchor("paw_FR")
                 px, py = (ax + bx) / 2, (ay + by) / 2
@@ -5570,13 +5680,22 @@ class DogReading(T):
             return [self.np[1]]
         # revision 4: the paper keeps clear of every other scored thing (laid over a parcel, it read as part of it)
         xl = 0.05 if SCN.PLACEMENT_REV >= 4 else 0.3
-        d = self.place_with(ed, self.vd, self.stand_spots(y_range=(sc.S.horizon + 150, 975)), want_face=sc.rng.choice([1, -1]), extras=paper, limit=0.12, xlimit=xl, ground_extras=False)
+        spots = self.stand_spots(y_range=(sc.S.horizon + 150, 975))
+        if SCN.PLACEMENT_REV >= 41 and TRIP43 == "B":
+            spots = [(X, Y) for X, Y in spots if not _reader_near43(sc, X, Y)]     # revision 41 (templates.TRIP43)
+        d = self.place_with(ed, self.vd, spots, want_face=sc.rng.choice([1, -1]), extras=paper, limit=0.12, xlimit=xl, ground_extras=False)
         if not d:
             return False
         svg, bb = self.np
-        en = sc.svg(sc.eid("newspaper"), "Newspaper held by the dog", svg, d.Y - 1 if SCN.PLACEMENT_REV >= 23 and D.PAW25 == "C" else d.Y + 1, bb, "scored")
+        down = SCN.PLACEMENT_REV >= 41 and READ43 == "A"
+        en = sc.svg(sc.eid("newspaper"), "Newspaper open on the ground under the dog's paws" if down else "Newspaper held by the dog", svg,
+                    d.Y - 1 if SCN.PLACEMENT_REV >= 23 and D.PAW25 == "C" else d.Y + 1, bb, "scored")
         dn = sc.name(self.d)
-        it = self.ent(f"A {dn} is sitting up holding a newspaper", [f"{dn} sitting", f"{dn} with a newspaper", f"{dn} holding a paper"], "dog", [ed, en], animate=True)
+        if down:
+            it = self.ent(f"A {dn} is lying down with its paws on an open newspaper", [f"{dn} lying down", f"{dn} with a newspaper", f"{dn} lying on a newspaper",
+                                                                                         f"{dn} looking at a newspaper"], "dog", [ed, en], animate=True)
+        else:
+            it = self.ent(f"A {dn} is sitting up holding a newspaper", [f"{dn} sitting", f"{dn} with a newspaper", f"{dn} holding a paper"], "dog", [ed, en], animate=True)
         it["type"] = "action"
         self.contra(f"Something is wrong with the {dn}",
                     f"The {dn} is reading a newspaper, but dogs can't read",

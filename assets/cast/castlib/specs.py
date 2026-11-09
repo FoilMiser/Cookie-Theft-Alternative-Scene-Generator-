@@ -106,6 +106,20 @@ MEI42 = os.environ.get("TPDB_MEI42", "B")  # v0.42 bench (vision/isolation_v042.
 if MEI42 == "B":
     PEOPLE["person.mei"].update(hair="low_bun", scale=1.04, head_scale=0.92)
 
+# v0.43 bench (TPDB_ADULT43; figure-fixes-v042.md item 3, vision/flaws_v042.md O1 and O2): the woman in yellow still "girl" in 6 of her 14 v0.42 pictures,
+# her bun "a dark ponytail", and the woman in purple "girl" or "girl or young woman" in about ten of her 23; both drawn with the girls' large head and
+# round face. The head first (RUNBOOK): "B" the head smaller again and the neck longer, a narrower, taller face with smaller eyes set lower and
+# red lips, and the woman in yellow's bob back (v0.41). "C": B with the clothes and hair as well, the yellow dress to mid-calf and the woman in
+# purple's long loose hair tied back in a ponytail (on a first look, tied back, it vanished from the front and she looked short-haired). "O": v0.42
+ADULT43 = os.environ.get("TPDB_ADULT43", "B")  # v0.43 bench (vision/isolation_v043.md): B
+if ADULT43 in ("B", "C"):
+    # (and the woman in yellow's red shoes a darker red: "flat and splayed, almost flipper-like", bench round 1; figure-fixes-v042.md item 9)
+    PEOPLE["person.mei"].update(hair="bob", head_scale=0.85, neck_add=0.025, adult_face=True, shoes="throat")
+    PEOPLE["person.ana"].update(head_scale=0.90, neck_add=0.025, adult_face=True)
+if ADULT43 == "C":
+    PEOPLE["person.mei"].update(hem_drop=0.12)
+    PEOPLE["person.ana"].update(hair="ponytail", tie="charcoal")
+
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",
                           labels=dict(everyday_name="dog", accepted_names=["dog", "puppy", "pup"], category="medium_animal")),
@@ -149,6 +163,9 @@ if GOAT42 in ("B", "C"):
     QUADRUPEDS["animal.goat_01"].update(legs=1.0, beard_size=1.3)
 if GOAT42 == "C":
     QUADRUPEDS["animal.goat_01"].update(collar="red")
+# v0.43 bench (TPDB_GOAT43, castlib/animals.py): the beard larger and grey, so it shows on the white face (twice unseen in v0.42: "a ram or horned sheep")
+if os.environ.get("TPDB_GOAT43", "C") in ("B", "C") and GOAT42 in ("B", "C"):
+    QUADRUPEDS["animal.goat_01"].update(beard_size=1.9, beard_col="gray")
 
 BIRDS = {
     "animal.bird_01": dict(kind="songbird", scale=1.6, body="red", belly="cream", wing_col="roof", accent="yellow", leg_col="orange",

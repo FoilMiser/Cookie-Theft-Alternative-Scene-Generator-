@@ -30,6 +30,24 @@ BEG42 = os.environ.get("TPDB_BEG42", "B")  # v0.42 bench (vision/isolation_v042.
 # bench cut-out, knobs at the joints in the walk, and the head large for the body. "B": the head a tenth smaller, the legs' radii blended, and
 # the stalk's stride spread with the near legs outside the far ones; "C": the far legs outside. "O": v0.41
 CAT42 = os.environ.get("TPDB_CAT42", "O")  # v0.42 bench (vision/isolation_v042.md): O, the legs tangled either way
+# v0.43 bench (TPDB_DOG43; figure-fixes-v042.md items 5 and 6): the dogs' legs "long, stiff and tube-like" and the spotted dog's hind legs "pasted onto
+# the body" on the v0.42 bench, its far legs pale and floating; the begging dog's nose "almost straight up", once "howling". "B": the legs a tenth
+# shorter and tapered, thick at the shoulder and narrow at the paw; the hind leg's thigh drawn as part of the body, the leg leaving it above the
+# stifle; a brown patch over the spotted dog's near hip; the far legs a step darker again. "O": v0.42. (The begging head lowered, the nose up at
+# about 35 degrees, was tried and left: at 45 the gaze check refused it on every spot of 12 street seeds, the face turned to the viewer, as
+# v0.41's leaning beg had been; tpdb_work/begp43.sh)
+DOG43 = os.environ.get("TPDB_DOG43", "B")  # v0.43 bench (vision/isolation_v043.md): B
+# v0.43 bench (TPDB_GOAT43; figure-fixes-v042.md item 4): grazing at 45 and 135 "the back is high and hunched"; the beard twice unseen ("a ram or
+# horned sheep"); the horns stacked segments, "springs or screws"; standing, the neck straight up, "a little llama-like". "B": grazing with the
+# withers raised, the hips a little lower and the hind feet further back, the neck bent down from the withers and the front knees a little bent;
+# the beard larger and grey (specs.py); each horn one smooth tapered curve; standing, the neck forward at about 35 degrees. "C": B with v0.42's
+# graze (bench round 1: B's grazing legs "cramped", "folded under the chest"). "O": v0.42
+GOAT43 = os.environ.get("TPDB_GOAT43", "C")  # v0.43 bench (vision/isolation_v043.md): C
+# v0.43 bench (TPDB_READ43; figure-fixes-v042.md item 2, vision/flaws_v042.md R2): the reading dog's paper "stands upright on its own" in three v0.42
+# descriptions, the shorter trunk's paws reaching only its edge. "A": lying down like a sphinx, the head bowed over the forepaws, which rest on a
+# paper laid open on the ground ("down_read"); "B": sitting as v0.42, the head bowed toward the page and the forepaws lower, on the top of a paper
+# whose foot rests on the ground (the paper is the scene's, templates.READ43). "O": v0.42
+READ43 = os.environ.get("TPDB_READ43", "A")  # v0.43 bench (vision/isolation_v043.md): A
 
 
 def _frame_quat(d, side):
@@ -59,6 +77,11 @@ def build_quadruped(spec):
 
     Q, ART = QUAD39 == "B", ART39 == "B"
     G42 = kind == "goat" and GOAT42 in ("B", "C") and Q and ART
+    G43 = G42 and GOAT43 in ("B", "C")
+    D43 = kind == "dog" and DOG43 == "B" and Q and ART
+    if D43:
+        LH *= 0.90       # v0.43 (TPDB_DOG43): the legs a tenth shorter
+    FARF = (0.58 if D43 else 0.68) if (DOG42 == "B" and kind == "dog") else 0.80
     yb = 0.07 if G42 else 0.0       # v0.42: the goat's back a fifth longer, everything behind the chest moved back by up to yb
 
     def P(x, y, z):
@@ -146,12 +169,17 @@ def build_quadruped(spec):
                 fr, hr_ = (0.043, 0.036, 0.031, 0.030), (0.068, 0.049, 0.036, 0.031)
             elif ART and kind == "cat":
                 fr, hr_ = (0.048, 0.038, 0.030, 0.030), (0.082, 0.054, 0.034, 0.031)
+            if D43:
+                # v0.43 (TPDB_DOG43): tapered, thick at the shoulder and narrow at the paw; the hind leg's top inside the thigh the body now draws
+                fr, hr_ = (0.064, 0.043, 0.031, 0.028), (0.052, 0.058, 0.036, 0.029)
             lv = [P(sg * hx, -0.15, chest_z - 0.07), P(sg * hx, -0.15, knee_z), P(sg * hx, -0.155, 0.10 * LH), P(sg * hx, -0.16, 0.035),
                   P(sg * hx, 0.20, hip_z - 0.05), P(sg * hx, 0.15, 0.27 * LH), P(sg * hx, 0.27, 0.13 * LH), P(sg * hx, 0.24, 0.035)]
             if ART and kind == "goat" and spec.get("leg_col", body) != body:
                 # the white legs start under the brown body
                 lv[0], lv[4] = P(sg * hx, -0.15, chest_z - 0.11), P(sg * hx, 0.19, hip_z - 0.10)
                 fr, hr_ = (0.044,) + fr[1:], (0.054,) + hr_[1:]
+            if D43:
+                lv[4] = P(sg * hx, 0.172, 0.34 * LH)
             lr = [r * k * LR for r in fr + hr_]
             lw = [{"spine": 0.4, f"fleg_{sd}": 0.6}, {f"fleg_{sd}": 0.5, f"fshin_{sd}": 0.5}, {f"fshin_{sd}": 1.0}, {f"fshin_{sd}": 1.0},
                   {"hips": 0.4, f"bleg_{sd}": 0.6}, {f"bleg_{sd}": 0.5, f"bshin_{sd}": 0.5}, {f"bshin_{sd}": 0.5, f"bmeta_{sd}": 0.5}, {f"bmeta_{sd}": 1.0}]
@@ -165,6 +193,12 @@ def build_quadruped(spec):
             radii += [0.048 * k * LR, 0.072 * k * LR]
             wts += [{"spine": 0.4, f"fleg_{sd}": 0.6}, {"hips": 0.4, f"bleg_{sd}": 0.6}]
             edges += [(1, i0), (0, i0 + 1)]
+            if D43:
+                # v0.43 (TPDB_DOG43): the thigh part of the body, down to just above the stifle, so the haunch runs into the leg with no seam
+                verts += [P(sg * hx, 0.168, 0.31 * LH)]
+                radii += [0.064 * k * LR]
+                wts += [{"hips": 0.15, f"bleg_{sd}": 0.85}]
+                edges += [(i0 + 1, i0 + 2)]
     for sd, sg in ((("L", 1), ("R", -1)) if not Q else ()):
         i0 = len(verts)
         verts += [P(sg * 0.075, -0.15, chest_z - 0.07), P(sg * 0.075, -0.15, knee_z), P(sg * 0.075, -0.16, 0.035)]
@@ -213,7 +247,7 @@ def build_quadruped(spec):
             ob = skin_object(f"Legs_{sd}", lv, [(0, 1), (1, 2), (2, 3), (4, 5), (5, 6), (6, 7)], lr, leg_col, rig, lw)
             if sd == "L":
                 # the far side at three-quarters and in profile (yaw 45, 90, 135 turn the character's left away from the camera)
-                ob.data.materials[0] = far_mat(leg_col, 0.68 if (DOG42 == "B" and kind == "dog") else 0.80)
+                ob.data.materials[0] = far_mat(leg_col, FARF)
             no_isect(ob)
             if DOG42 == "B" and kind == "dog" and sd == "R" and spec.get("spots"):
                 # v0.42: a brown patch on the near foreleg, so the white legs part from a pale ground
@@ -239,7 +273,7 @@ def build_quadruped(spec):
             for nm, y_, bone in ((f"FPaw_{sd}", -0.182, f"fshin_{sd}"), (f"BPaw_{sd}", 0.222, f"bmeta_{sd}")):
                 ob = ellipsoid(nm, P(sg * hx, y_, 0.026), (0.043 * k * LR, 0.056 * k * LR, 0.026 * k), pc, rig, bone)
                 if sd == "L" and pc == leg_col:
-                    ob.data.materials[0] = far_mat(leg_col, 0.68 if (DOG42 == "B" and kind == "dog") else 0.80)
+                    ob.data.materials[0] = far_mat(leg_col, FARF)
                 no_isect(ob)
             continue
         fp = ellipsoid(f"FPaw_{sd}", P(sg * 0.075, -0.180, 0.030), (0.046 * k * LR, 0.058 * k * LR, 0.032 * k), spec.get("paws", belly), rig, f"fshin_{sd}")
@@ -272,6 +306,12 @@ def build_quadruped(spec):
             xs = max((abs(q.x) for q in near), default=0.11 * S)
             bone = "hips" if y > 0.05 else "spine"
             skin_like(ellipsoid(f"Spot{i}", Vector((side * (xs - 0.004 * S), yy, zz)), (0.012 * k, rx * k, rz * k), spec["spot_col"], rig, bone), body_ob, rig)   # v0.15: bends with the flank
+        if D43:
+            # v0.43 (TPDB_DOG43): a brown patch over the near hip, which the thigh runs into (white on white, the hind leg was "pasted onto the body")
+            yy, zz = 0.19 * S, (hip_z - 0.03) * S
+            near = [q for q in pts if abs(q.y - yy) < 0.03 * S and abs(q.z - zz) < 0.03 * S and q.x < 0]
+            xs = max((abs(q.x) for q in near), default=0.11 * S)
+            skin_like(ellipsoid("HipSpot", Vector((-(xs - 0.004 * S), yy, zz)), (0.014 * k, 0.068 * k, 0.060 * k), spec["spot_col"], rig, "hips"), body_ob, rig)
 
     hc = P(0, -0.30, chest_z + 0.22) if not (ART and kind == "goat") else neck_tail + P(0, -0.04, 0.06)
     hr = spec.get("head_r", 0.115 if kind == "dog" else 0.135) * k
@@ -401,6 +441,14 @@ def build_quadruped(spec):
                 base = hc + Vector((sg * 0.026, 0.006, 0.070)) * k
             arc = [base + Vector((sg * 0.012 * t * hs, (0.075 * t * t + 0.020 * t) * hs, (0.085 * t - 0.050 * t * t * t) * hs)) * k
                    for t in (0.0, 0.3, 0.55, 0.8, 1.0)]
+            if G43:
+                # v0.43 (TPDB_GOAT43): one smooth tapered horn on the same arc (five stacked pieces read as "springs or screws")
+                ts = [i / 8 for i in range(9)]
+                arc = [base + Vector((sg * 0.012 * t * hs, (0.075 * t * t + 0.020 * t) * hs, (0.085 * t - 0.050 * t * t * t) * hs)) * k for t in ts]
+                rr = [0.019 * k * min(hs, 1.25) * (1 - 0.8 * t) for t in ts]
+                no_isect(skin_object(f"Horn_{sd}", arc, [(i, i + 1) for i in range(len(arc) - 1)], rr, spec.get("horn_col", "khaki"), rig,
+                                     [{"head": 1.0}] * len(arc)))
+                continue
             for i in range(len(arc) - 1):
                 r0 = 0.019 * k * min(hs, 1.25) * (1 - 0.8 * i / 4)
                 r1 = 0.019 * k * min(hs, 1.25) * (1 - 0.8 * (i + 1) / 4)
@@ -477,6 +525,7 @@ SB = {"cx": 0.0, "tail": (-0.9, -0.45, -0.05), "tail2": (-0.2, -1.0, -0.05), "ne
 
 def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb=0.0):
     names = []
+    g43 = bool(yb) and GOAT43 in ("B", "C")
     LH = hip_z / 0.44
     if yb:
         LH = chest_z / 0.46      # (v0.42's goat: its hips raised level with its chest, not longer legs)
@@ -556,6 +605,11 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         names.append(name)
 
     def stand():
+        if g43:
+            # v0.43 (TPDB_GOAT43): the neck forward at about 35 degrees, the face level (straight up, "a little llama-like")
+            body(neck=(0, -0.78, 1.0), head_pitch=4)
+            legs(*paws())
+            return
         body()
         legs(*paws())
 
@@ -585,6 +639,16 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         rig.aim_dir("head", (0, math.sin(p), math.cos(p)))
 
     def sit_up_hold():
+        if BEG42 == "B" and READ43 == "B":
+            # v0.43 (TPDB_READ43): sitting a little more upright, the head bowed toward the page and the forepaws lower, on the top of a paper whose
+            # foot is on the ground (its paper stood "upright on its own")
+            body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=-0.05, tail=(0.10, 0.90, 0.25), neck=(0, -0.50, 1), head_pitch=-34,
+                 head_turn=-15, spine_scale=(1.12, 0.80, 1.12))
+            rig.aim_dir("tail2", (0.0, 0.25, 1.0))
+            fz = chest_z * 0.72
+            legs({"L": (0.065, -0.27, fz - 0.02), "R": (-0.065, -0.27, fz - 0.10)}, {"L": (0.12, 0.09, 0.035), "R": (-0.12, 0.11, 0.035)},
+                 fhint=(0, 0.4, -1), bhint=(0, -1, 0.35))
+            return
         # sitting up on the haunches, front legs raised to hold something in front of the chest,
         # head bent down over it (a dog "reading" with its paws on the paper)
         # v0.26 bench (TPDB_READDOG): the head bent over the paper showed only its round back and an ear in profile ("could be taken
@@ -613,6 +677,17 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         # clearly touches it", on the bench)
         legs({"L": (0.065, -0.25, fz + 0.055), "R": (-0.065, -0.25, fz - 0.055)}, {"L": (0.11, -0.17, 0.035), "R": (-0.11, -0.15, 0.035)},
              fhint=(0, 0.4, -1), bhint=(0, -0.3, 1))
+
+    def down_read():
+        # v0.43 (TPDB_READ43 "A"): lying down like a sphinx, the trunk short, the forepaws out in front on a paper laid open on the ground (the
+        # scene draws it), the head bowed over them and turned a little to the viewer
+        # (bench round 1: with the nose down on the page each reader offered "sniffing" beside "reading"; round 2, the head raised, it looked "past the
+        # paper". Between the two, bowed toward the page)
+        body(hip_drop=0.33, chest_drop=0.33, hip_back=-0.05, chest_y=-0.10, tail=(0.9, -0.55, -0.05), neck=(0, -0.60, 0.80), head_pitch=-40,
+             head_turn=-15, spine_scale=(1.12, 0.85, 1.10))
+        legs({"L": (0.05, -0.42, 0.025), "R": (-0.05, -0.40, 0.025)}, {"L": (0.12, 0.10, 0.03), "R": (-0.12, 0.13, 0.03)}, fhint=(0, 0.7, 0.7),
+             bhint=(0, -1, -0.2))
+        rig.aim_dir("tail2", (-0.1, -1, -0.05))
 
     def sleep():
         # lying down, head resting on the front paws, tail curled along the side, eyes closed by expression
@@ -719,6 +794,13 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
     def graze():
         # v0.8: grazing, muzzle down in the grass (sniffing read as "about to butt" or "sniffing")
         g40 = os.environ.get("TPDB_GRAZE40", "C")
+        if g43 and GOAT43 == "B":
+            # v0.43 (TPDB_GOAT43): the withers raised and the hips a little lower, the hind feet further back so the hind legs stay straight, the neck
+            # bent down from the withers, the front knees a little bent (at 45 and 135 the rump stood highest, "the back is high and hunched")
+            body(hip_drop=0.045, chest_drop=-0.04, neck=(0, -0.62, -0.78), head_pitch=-50, tail=(0, 0.45, 0.85))
+            legs({"L": (0.075, -0.13, 0.04), "R": (-0.075, -0.13, 0.04)}, {"L": (0.075, 0.25, 0.04), "R": (-0.075, 0.25, 0.04)}, fhint=(0, -1, 0.1),
+                 bhint=(0, -1, 0.25))
+            return
         if kind == "goat" and yb:
             # v0.42's goat: on its shorter legs and longer neck, the neck reaching further forward, so the head is ahead of the front legs, the back level
             # (bench round 2 sloped it down to the rump, the hind legs bent: still "hunched" at 135, and at 90 "kneeling or bowing on its front legs")
@@ -759,8 +841,10 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         if style == "A3" and BEG42 == "B":
             # v0.42 (TPDB_BEG42): on the haunches, the rump on the ground, the stifles up, the hocks flat and the hind paws forward under the body; the
             # trunk upright, shorter and rounder; the forelegs folded as v0.41's, the head tipped up as much (the gaze check)
-            body(hip_drop=0.38, hip_back=-0.04, chest_drop=-0.30, chest_y=0.16, tail=(-0.55, 0.45, -0.70), neck=(0, -0.28, 1), head_pitch=38,
-                 spine_scale=(1.12, 0.80, 1.12))
+            # (v0.43, TPDB_DOG43's shorter legs: the hips 0.01 higher, as the validator's ground rule needs; at 0.38 the rump was 32.9 px past the
+            # ground point, 31 allowed)
+            body(hip_drop=0.37 if (kind == "dog" and DOG43 == "B") else 0.38, hip_back=-0.04, chest_drop=-0.30, chest_y=0.16, tail=(-0.55, 0.45, -0.70),
+                 neck=(0, -0.28, 1), head_pitch=38, spine_scale=(1.12, 0.80, 1.12))
             state["hock"] = (0, 0.085, 0.012)
             rig.aim_dir("tail2", (-0.35, -0.90, -0.05))
             fz = chest_z * 0.72
@@ -848,6 +932,8 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         plan.append(("sit_wait", sit_wait))
         plan.append(("beg", beg))
         plan.append(("sit_up_hold", sit_up_hold))
+        if READ43 == "A":
+            plan.append(("down_read", down_read))
     if kind == "cat":
         plan.append(("stalk_paw", stalk_paw))
     if kind == "dog":

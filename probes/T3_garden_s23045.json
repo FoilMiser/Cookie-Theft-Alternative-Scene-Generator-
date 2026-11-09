@@ -6,8 +6,8 @@
  "seed": 23045,
  "mirror": false,
  "versions": {
-  "generator": "0.42.0",
-  "cast_builder": "0.42.0",
+  "generator": "0.43.0",
+  "cast_builder": "0.43.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,10 +61,10 @@
  ],
  "templates": [
   {
-   "id": "rake",
-   "kind": "event",
+   "id": "sweep_fork",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -72,7 +72,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is raking leaves",
+   "text": "A woman is sweeping",
    "accepted": {
     "who": [
      "woman",
@@ -82,49 +82,139 @@
      "person"
     ],
     "what": [
-     "raking",
-     "raking leaves",
-     "rake",
-     "cleaning up leaves",
-     "raking grass"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "cleaning"
     ]
    },
-   "key": "raking",
+   "key": "sweeping",
    "elements": [
-    "raker_1",
-    "leaves_2"
+    "sweeper_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "rake",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.022,
+    "s": 0.365,
     "r": 0,
     "d": 0.0,
-    "f": -1.05,
-    "a": 5.32,
-    "zipf_raw": 2.95,
-    "aoa_raw": 5.32,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 14828
+    "area_px": 25596
    },
-   "b": -1.054,
-   "p0": 0.742,
-   "pm1": 0.513,
+   "b": -1.5,
+   "p0": 0.818,
+   "pm1": 0.622,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BR"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is sweeping with",
+   "accepted": [
+    "the broom is strange",
+    "something's wrong with the broom",
+    "that's odd",
+    "a fork is not for sweeping"
+   ],
+   "key": "fork",
+   "elements": [
+    "sweeper_1"
+   ],
+   "cues": [
+    "sweeper_1"
+   ],
+   "effect": [
+    "sweeper_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "functional",
+   "template": "sweep_fork",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": 0.365,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 25596
+   },
+   "b": -0.283,
+   "p0": 0.57,
+   "pm1": 0.328,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is sweeping with a giant fork instead of a broom",
+   "accepted": [
+    "sweeping with a fork",
+    "a fork instead of a broom",
+    "you can't sweep with a fork",
+    "a giant fork",
+    "a huge dinner fork"
+   ],
+   "key": "fork",
+   "elements": [
+    "sweeper_1"
+   ],
+   "cues": [
+    "sweeper_1"
+   ],
+   "effect": [
+    "sweeper_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "sweep_fork",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.365,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 25596
+   },
+   "b": 0.917,
+   "p0": 0.286,
+   "pm1": 0.128,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -167,7 +257,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -209,7 +299,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -250,7 +340,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -273,7 +363,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.863,
+    "s": 1.894,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -281,11 +371,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 211492
+    "area_px": 221172
    },
-   "b": -1.874,
-   "p0": 0.867,
-   "pm1": 0.706,
+   "b": -1.89,
+   "p0": 0.869,
+   "pm1": 0.709,
    "aoi_cells": [
     "ML",
     "MC",
@@ -293,7 +383,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -339,7 +429,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "Clothes are hanging on the line",
    "accepted": [
@@ -384,7 +474,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -429,18 +519,18 @@
  ],
  "counts": {
   "content": 8,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 8
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.788,
-   "inference": null
+   "content": 0.798,
+   "inference": 0.428
   },
   "theta_minus_1": {
-   "content": 0.586,
-   "inference": null
+   "content": 0.6,
+   "inference": 0.228
   }
  },
  "bands": {
@@ -462,18 +552,26 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0364,
-  "png_bytes": 143862,
-  "jpeg_bytes": 170090
+  "objects": 14,
+  "edge_density": 0.0387,
+  "png_bytes": 160903,
+  "jpeg_bytes": 175971
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -566,8 +664,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 80792,
-   "occlusion": 0.006
+   "visible_px": 50852,
+   "occlusion": 0.374
   },
   {
    "id": "tree",
@@ -596,8 +694,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 211492,
-   "occlusion": 0.122
+   "visible_px": 221172,
+   "occlusion": 0.082
   },
   {
    "id": "filler_bush_left",
@@ -630,43 +728,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "raker_1",
-   "label": "person.mei__rake__neutral__y045",
-   "role": "scored",
-   "z": 703.02,
-   "bbox": [
-    810.0,
-    452.0,
-    898.0,
-    732.0
-   ],
-   "area_px": 14024,
-   "visible_px": 13828,
-   "occlusion": 0.014,
-   "asset": {
-    "variant": "person.mei__rake__neutral__y045",
-    "family": "person.mei",
-    "scale": 0.4094,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
-  },
-  {
    "id": "clothesline",
    "label": "Clothesline",
    "role": "setting",
@@ -694,21 +755,6 @@
    ],
    "area_px": 13236,
    "visible_px": 13236,
-   "occlusion": 0.0
-  },
-  {
-   "id": "leaves_2",
-   "label": "Pile of leaves",
-   "role": "scored",
-   "z": 721.98,
-   "bbox": [
-    852.0,
-    704.0,
-    938.0,
-    728.0
-   ],
-   "area_px": 1000,
-   "visible_px": 1000,
    "occlusion": 0.0
   },
   {
@@ -742,21 +788,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
-   "bbox": [
-    1142.0,
-    884.0,
-    1238.0,
-    962.0
-   ],
-   "area_px": 4400,
-   "visible_px": 4400,
-   "occlusion": 0.0
-  },
-  {
    "id": "filler_wheelbarrow",
    "label": "Wheelbarrow",
    "role": "filler",
@@ -769,6 +800,58 @@
    ],
    "area_px": 8776,
    "visible_px": 8776,
+   "occlusion": 0.0
+  },
+  {
+   "id": "sweeper_1",
+   "label": "person.mei__sweep_giant_fork__neutral__y045",
+   "role": "scored",
+   "z": 985.14,
+   "bbox": [
+    1344.0,
+    668.0,
+    1544.0,
+    992.0
+   ],
+   "area_px": 25876,
+   "visible_px": 25596,
+   "occlusion": 0.011,
+   "asset": {
+    "variant": "person.mei__sweep_giant_fork__neutral__y045",
+    "family": "person.mei",
+    "scale": 0.514,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "black_bob"
+     }
+    }
+   }
+  },
+  {
+   "id": "sweptpile_2",
+   "label": "Swept-up dust and grit",
+   "role": "setting",
+   "z": 986.14,
+   "bbox": [
+    1188.0,
+    928.0,
+    1442.0,
+    994.0
+   ],
+   "area_px": 5576,
+   "visible_px": 5576,
    "occlusion": 0.0
   }
  ],
@@ -791,11 +874,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "rake"
+   "contradictions": [
+    "sweep_fork"
    ]
   },
-  "placement_rev": 40
+  "placement_rev": 41
  },
  "probe": true
 }

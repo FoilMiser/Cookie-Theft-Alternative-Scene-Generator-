@@ -49,38 +49,37 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v041", "v042"
+PREV, CUR = "v042", "v043"
 
-# the templates v0.42 redrew or ruled for the v0.41 screen and Sam's notes on the figures (vision/flaws_v041.md, tpdb_work/figure-fixes-v041.md): read on
-# the bench (vision/isolation_v042.md) and in whole test scenes (vision/design_tests_v042.md)
+# the templates v0.43 redrew or ruled for the v0.42 screen and Sam's notes on the figures (vision/flaws_v042.md, tpdb_work/figure-fixes-v042.md): read on
+# the bench (vision/isolation_v043.md) and in whole test scenes (vision/design_tests_v043.md)
 REDRAWN_NOTES = {
-    "goat_grazing": "Out of place in seven v0.41 pictures and once 'a sheep'; its head a ball with an ear like an eye socket. Now a wedge head on a neck, a level back on shorter legs, and tethered to a peg when it grazes: tied up in six descriptions, out of place twice, both softened. 1.00 at 90, 45 and 135.",
-    "dog_begs": "At 90 'upright', 'kneeling', 'human-like'. Now on its haunches with a shorter trunk; no reader saw it kneel, and nobody else with an ice cream comes near it. 1.00 in five pictures.",
-    "dog_reading": "Its hind legs stretched out 'like a person sitting'. Now folded, the trunk shorter, and no reader called it a person; but its paper 'stands upright on its own' three times. 0.917.",
-    "bird_perched": "The songbirds and the duck were drawn only in profile. Now at 45 as well, in four templates, each 1.00 at both angles.",
-    "square_wheel": "After the screen: in front of a fruit stall's legs the bicycle was 'parked against the stall', and nothing wrong was seen. Now kept off the stall and the bench. 1.00 in four pictures.",
-    "blocked_hose": "Read strictly at 0.896 in v0.41. A crimp at the paw was read on the bench and not taken; 1.00, and 1.00 read strictly.",
+    "about_to_trip": "Under the gate in v0.42, on a reader who saw the box beside a boy reading as he walked, the reading dog just behind him. The reading dog is now kept away from the trip: 1.00 in five pictures.",
+    "dog_reading": "Its paper 'stands upright on its own' in v0.42. Now lying down over a paper on the ground: never a person and no paper standing, but in whole pictures 'lying on an open newspaper', pawing at it or tearing it. 0.53, under the gate.",
+    "dog_begs": "Its nose 'almost straight up', once 'howling'. A lowered head did not place at 45; the mouth is now closed, and it begs in all four pictures. 1.00.",
+    "goat_grazing": "Its horns stacked segments, its beard unseen, a garden goat untethered. Now smooth horns, a grey beard and a slack rope it is never drawn without: tethered in all six pictures, unusual in four. 1.00.",
+    "cat_stalks_bird": "Its legs tangled at 45, and at 135 on the bench. Now in profile only, with a gap before the bird. 1.00.",
+    "photo": "0.833 read strictly in v0.42, on three items. Probed five times: 0.90, once 'binoculars (or a camera)'.",
 }
 
-# what the v0.42 screen readers made of the templates that read least well (vision/flaws_v042.md)
+# what the v0.43 screen readers made of the templates that read least well (vision/flaws_v043.md)
 WEAK_NOTES = {
-    "about_to_trip": "Under the gate at 0.889, on one reader who saw the box and the boy reading as he walked, with a reading dog beside him, and no trip. Not redrawn; 1.00 in five pictures in v0.41.",
-    "plant_flowers": "1.00, but under a strict count: 'planting the potted flower, picking flowers, or weeding'.",
+    "dog_reading": "Under the gate at 0.53, the one misread: lying over a paper on the ground, the dog read as lying on it, pawing at it or tearing it. Read as reading on the bench and in the design tests, at a larger size.",
+    "dog_wants_walk": "Under the gate at 0.83 on one picture of three, its red lead 'attached' to its red collar. Not redrawn; 0.92 in v0.42 on a half mark of the same kind.",
 }
-SCREEN_NOTE = ("The v0.42 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+SCREEN_NOTE = ("The v0.43 screen read the set pictures and enough probe pictures that every template appeared in at least three "
                "screened pictures, and every angle an animal is drawn at in at least two. The redrawn cast was read on the bench first, and in whole test scenes. "
-               "1010 of 1020 items had full marks and none was misread, and 63 of 64 templates pass the gate; the trip falls, on one reader. "
-               "A rule made after the screen moved one picture, which was read again by a fresh reader and scorer. "
-               "Every person, dog and goat is drawn anew, so no picture repeats v0.41's. "
+               "977 of 1003 items had full marks and one was misread, and 62 of 64 templates pass the gate; the reading dog falls, lying over its paper, and the dog by the door. "
+               "Every dog, goat and woman is drawn anew, so no picture repeats v0.42's. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:scenes_v041/T4_park_s728923.png@960,480,1200,680>scenes/T4_park_s728923.png@960,480,1200,680", "The grazing goat",
-          "v0.41: a ball of a head on a hunched body, out of place in seven pictures. v0.42, on the same seed and layout: a wedge head on a neck, a level back, and a rope to a peg, read 'tied by rope to a wooden stake, grazing'."),
-         ("pair:animal.dog_01__beg__happy__y090>animal.dog_01__beg__happy__y090", "The begging dog",
-          "v0.41: upright on its knees, 'a figure kneeling upright almost like a person' on the bench. v0.42: on its haunches with a shorter trunk, and no screen reader saw it kneel."),
-         ("pair:person.ben__stand__smile__y000>person.ben__stand__smile__y000", "The trousers' waist",
-          "v0.41: a belt as a ring under the tee, and a V across the front of the trousers. v0.42: no belt under an untucked tee and no hip node; no reader mentioned a belt or the waist.")]
+FIXES = [("pair:person.mei__stand__smile__y000>person.mei__stand__smile__y000", "The woman in yellow",
+          "v0.42: the girls' large round head, a low bun, 'girl' in six of her fourteen pictures. v0.43: a smaller head on a longer neck, a narrower face with smaller eyes set lower, red lips and her bob: 'a woman' in fifteen of her sixteen."),
+         ("pair:animal.goat_01__stand__neutral__y090>animal.goat_01__stand__neutral__y090", "The goat",
+          "v0.42: horns of stacked pieces, a cream beard, the neck straight up. v0.43: one smooth curve for each horn, a larger grey beard, the neck forward; tethered in all six pictures, its rope slack."),
+         ("pair:animal.dog_02__stand__neutral__y090>animal.dog_02__stand__neutral__y090", "The dogs' legs",
+          "v0.42: even tubes, 'thin and stiff like stilts' on the bench. v0.43: a tenth shorter and tapered, the thigh part of the body, a brown patch over the spotted dog's hip; no reader called them stiff.")]
 
 
 
