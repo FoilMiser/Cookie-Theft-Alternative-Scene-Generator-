@@ -103,7 +103,7 @@ Eleven fresh readers, who had never seen the key, described every picture of the
 | Readers' remarks per picture (recounted in v0.26) | 8.8 | 5.4 | 6.4 | 4.8 | 4.7 | 4.8 | 4.9 | 4.4 | 4.3 | 4.4 | 4.4 | 4.4 | 3.9 | 3.9 | 4.4 | 4.0 | 4.0 | 3.9 | 4.2 | 3.9 | 5.6 | 5.9 | 5.3 | 5.8 | 5.1 | 5.2 | 5.2 | 3.5 | 3.3 | 3.2 | 3.1 | 2.9 | 3.1 | 2.8 | 3.4 | 3.1 | 3.0 | 3.2 | 3.0 | 3.1 | 3.3 |
 
 Across all 82 pictures 920 of 927 scored items had full marks, and one was misread. Of the 7 under full marks:
-- four are the ice cream of the girl in pink walking with it in profile, in three probes, the misread a flower or a lollipop;
+- three are the ice cream of the girl in pink walking with it in profile, one in each of three probes, the misread a flower or a lollipop;
 - one is the thief bird, "about to steal it or just perching", and one the camera, "a camera (or binoculars)";
 - one is the lost balloon, "holding the string by its very tip, or has just let go", and one a picture's clouds, not mentioned.
 
@@ -131,7 +131,7 @@ What this release redrew or ruled, and the one that fell under the gate (mean of
 | `seesaw_heavy` | 1.00 (9 items) | 1.00 (9 items) | 1.00 (3) |
 | `ice_cream` | 1.00 (19 items) | 0.85 (13 items) | — |
 
-`dog_reading`, sitting up in glasses, reads 1.00 in five pictures, its glasses named in two and its paper "floating" beside it in two. `dog_wants_walk`, its lead yellow, reads 1.00 in five. `photo` reads 0.90 again, once "a camera (or binoculars)". `goat_grazing`, in the park only, reads 1.00 in four pictures, tethered and "a little unusual" in all four, never a sheep. `cat_stalks_bird` reads 1.00 in three, its ears and whiskers unremarked. `lost_balloon` reads 0.944, one picture read two ways. `water_upward`, `run`, `sandbox` and `seesaw_heavy` read 1.00 in three pictures each. `ice_cream` falls at 0.846, all four marks the girl in pink walking with her ice cream in profile.
+`dog_reading`, sitting up in glasses, reads 1.00 in five pictures, its glasses named in two and its paper "floating" beside it in two. `dog_wants_walk`, its lead yellow, reads 1.00 in five. `photo` reads 0.90 again, once "a camera (or binoculars)". `goat_grazing`, in the park only, reads 1.00 in four pictures, tethered and "a little unusual" in all four, never a sheep. `cat_stalks_bird` reads 1.00 in three, its ears and whiskers unremarked. `lost_balloon` reads 0.944, one picture read two ways. `water_upward`, `run`, `sandbox` and `seesaw_heavy` read 1.00 in three pictures each. `ice_cream` falls at 0.846, all three marks the girl in pink walking with her ice cream in profile.
 
 ### The legibility gate
 
@@ -141,7 +141,7 @@ What this release redrew or ruled, and the one that fell under the gate (mean of
 | Read well, but in fewer than two pictures | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | Fail | 10 | 5 | 5 | 5 | 1 | 3 | 1 | 3 | 1 | 1 | 4 | 4 | 0 | 3 | 1 | 0 | 1 | 3 | 5 | 1 | 3 | 0 | 1 | 1 | 1 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 1 | 2 | 1 |
 
-Every template was screened in at least three pictures (41 in three, 11 in four, 5 in five, 3 in six, 2 in seven, 1 in nine and 1 in thirteen), and 63 of 64 pass. `ice_cream` falls at 0.846 with the misread, in thirteen pictures, all four marks on the girl in pink. The lowest that pass are `photo` (0.90), `lost_balloon` (0.944) and `bird_steals` (0.967). Per angle (`vision/v044/gate_yaw.json`), all 24 (template, angle) pairs pass. The gate is a filter, and the pilot with people is the test of difficulty.
+Every template was screened in at least three pictures (41 in three, 11 in four, 5 in five, 3 in six, 2 in seven, 1 in nine and 1 in thirteen), and 63 of 64 pass. `ice_cream` falls at 0.846 with the misread, in thirteen pictures, all three marks on the girl in pink. The lowest that pass are `photo` (0.90), `lost_balloon` (0.944) and `bird_steals` (0.967). Per angle (`vision/v044/gate_yaw.json`), all 24 (template, angle) pairs pass. The gate is a filter, and the pilot with people is the test of difficulty.
 
 Templates that did not pass (`vision/flaws_v044.md` gives what the readers saw and the next fix):
 
@@ -271,7 +271,7 @@ Exact rebuilds hold within a release: a v0.43 record rebuilds with the v0.43 pac
   until the pilot fit.
 - The blind screen used AI readers. It is a filter for illegible drawing; the pilot with people
   remains the test of difficulty.
-- One template falls under the legibility gate after the v0.44 screen: `ice_cream` (0.85, 13 pictures), with the screen's one misread. All four marks under full
+- One template falls under the legibility gate after the v0.44 screen: `ice_cream` (0.85, 13 pictures), with the screen's one misread. All three marks under full
   are the girl in pink walking with her ice cream in profile, "a small pink thing", "a tiny pink dot", a sweet, a flower or a blown kiss. A first count failed it on her
   scoop, which the props' colour rule had made cream against her pink dress ("something small and white"); after the screen it was put back to pink, as in v0.43, the
   three pictures were rebuilt and read again, and they did no better: at her size the cone is too small to be one. The other 63 pass, v0.43's two among them,

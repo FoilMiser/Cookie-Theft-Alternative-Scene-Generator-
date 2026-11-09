@@ -35,7 +35,7 @@ Every dog, cat, goat and person is drawn anew, so no picture is identical to v0.
 The set's contradictions are back to 1.00 from 0.712: the reading dog, in five of the set's pictures, read in full.
 
 Across all 82 pictures, 920 of the 927 scored items had full marks, and one was misread. The 7 under full marks:
-- **Four on the ice cream, in three probes of the girl in pink walking with one in profile.** At first her scoop was cream (the colour rule, against her pink dress): "something small and white" at her mouth, "a sweet or snack she is eating, a dandelion clock she is about to blow" (6, 32, 49), three half marks. After the screen the scoop was put back to pink, as in v0.43, the three pictures were rebuilt, and fresh readers read them again: "a small pink thing up near her mouth or chin, as if she is eating a sweet or smelling something" (6), "something small and pink up to her mouth or nose", a flower or a lollipop (32, the misread), "a small pink object in it, as if she is eating a sweet, smelling a small flower or blowing a kiss" (49). The colour was not the cause: at her size, walking in profile, the cone is too small to be one.
+- **Three on the ice cream, one in each of three probes of the girl in pink walking with one in profile.** At first her scoop was cream (the colour rule, against her pink dress): "something small and white" at her mouth, "a sweet or snack she is eating, a dandelion clock she is about to blow" (6, 32, 49), three half marks. After the screen the scoop was put back to pink, as in v0.43, the three pictures were rebuilt, and fresh readers read them again: "a small pink thing up near her mouth or chin, as if she is eating a sweet or smelling something" (6), "something small and pink up to her mouth or nose", a flower or a lollipop (32, the misread), "a small pink object in it, as if she is eating a sweet, smelling a small flower or blowing a kiss" (49). The colour was not the cause: at her size, walking in profile, the cone is too small to be one.
 - **The thief bird (23):** "could be read as about to steal it or just perching".
 - **The camera (23):** "a camera (or binoculars)".
 - **The lost balloon (44):** "holding the string by its very tip, or has just let go and is reaching for it".
@@ -69,7 +69,7 @@ The scorers gave one, three, three and no items under full marks, of 250, 225, 2
 
 Every template was screened in at least three pictures. By count: 41 in three, 11 in four, 5 in five, 3 in six, 2 in seven, 1 in nine and 1 in thirteen, with 457 scored items behind the verdicts.
 
-**The one failure.** `ice_cream` is at 0.846 (13 items, 13 pictures), with the misread, all four marks the girl in pink walking with her ice cream in profile, the pose all three of her probes drew. It read 1.00 in v0.43, in 19 items.
+**The one failure.** `ice_cream` is at 0.846 (13 items, 13 pictures), with the misread, all three marks the girl in pink walking with her ice cream in profile, the pose all three of her probes drew. It read 1.00 in v0.43, in 19 items.
 
 The lowest that pass:
 - `photo` (0.90, 5 items, 5 pictures);
