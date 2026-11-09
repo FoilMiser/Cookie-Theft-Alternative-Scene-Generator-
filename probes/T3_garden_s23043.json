@@ -6,8 +6,8 @@
  "seed": 23043,
  "mirror": false,
  "versions": {
-  "generator": "0.43.0",
-  "cast_builder": "0.43.0",
+  "generator": "0.44.0",
+  "cast_builder": "0.44.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,10 +60,10 @@
  ],
  "templates": [
   {
-   "id": "kick_ball",
-   "kind": "event",
+   "id": "windy_hat",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -71,52 +71,51 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A teenager is kicking a ball",
+   "text": "A grandmother is reaching up for a hat",
    "accepted": {
     "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
     ],
     "what": [
-     "kicking a ball",
-     "playing soccer",
-     "playing football",
-     "kicking"
+     "reaching for the hat",
+     "trying to catch the hat",
+     "surprised",
+     "reaching up"
     ]
    },
-   "key": "ball",
+   "key": "hat",
    "elements": [
-    "kicker_1",
-    "ball_2"
+    "hatperson_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "kick_ball",
+   "template": "windy_hat",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.225,
+    "s": 0.017,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 2.9,
-    "zipf_raw": 5.04,
-    "aoa_raw": 2.9,
+    "f": 0.53,
+    "a": 3.33,
+    "zipf_raw": 4.53,
+    "aoa_raw": 3.33,
     "domain": null,
-    "area_px": 11144
+    "area_px": 15660
    },
-   "b": -1.579,
-   "p0": 0.829,
-   "pm1": 0.641,
+   "b": -1.547,
+   "p0": 0.824,
+   "pm1": 0.633,
    "aoi_cells": [
     "MC",
     "BC"
@@ -124,6 +123,98 @@
   },
   {
    "id": "i02",
+   "type": "entity",
+   "text": "A hat is flying through the air",
+   "accepted": [
+    "hat in the air",
+    "hat flying",
+    "flying hat",
+    "cap",
+    "hat"
+   ],
+   "key": "hat",
+   "elements": [
+    "flyinghat_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "windy_hat",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.356,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.53,
+    "a": 3.33,
+    "zipf_raw": 4.53,
+    "aoa_raw": 3.33,
+    "domain": null,
+    "area_px": 2260
+   },
+   "b": -0.361,
+   "p0": 0.589,
+   "pm1": 0.345,
+   "aoi_cells": [
+    "MC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The wind blew the grandmother's hat off",
+   "accepted": [
+    "the wind blew the hat off",
+    "it's windy",
+    "the hat blew away",
+    "the wind took the hat"
+   ],
+   "key": "wind",
+   "elements": [
+    "flyinghat_3",
+    "hatperson_1"
+   ],
+   "cues": [
+    "flyinghat_3",
+    "hatperson_1"
+   ],
+   "effect": [
+    "flyinghat_3"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "windy_hat",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -1.356,
+    "r": 1,
+    "d": 0.126,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.84,
+    "aoa_raw": 3.89,
+    "domain": null,
+    "area_px": 2260
+   },
+   "b": 1.239,
+   "p0": 0.225,
+   "pm1": 0.096,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -166,7 +257,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -208,7 +299,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -249,7 +340,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -272,7 +363,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.932,
+    "s": 1.914,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -280,11 +371,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 233288
+    "area_px": 227344
    },
-   "b": -1.909,
-   "p0": 0.871,
-   "pm1": 0.713,
+   "b": -1.9,
+   "p0": 0.87,
+   "pm1": 0.711,
    "aoi_cells": [
     "ML",
     "MC",
@@ -292,7 +383,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -338,7 +429,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -382,19 +473,19 @@
   }
  ],
  "counts": {
-  "content": 7,
-  "inference_units": 0,
+  "content": 8,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 7
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.814,
-   "inference": null
+   "content": 0.785,
+   "inference": 0.225
   },
   "theta_minus_1": {
-   "content": 0.623,
-   "inference": null
+   "content": 0.587,
+   "inference": 0.096
   }
  },
  "bands": {
@@ -406,6 +497,10 @@
  },
  "in_tier": false,
  "checks": {
+  "hatperson_1_looks_at_hat": {
+   "result": false,
+   "detail": ""
+  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -416,14 +511,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0348,
-  "png_bytes": 142910,
-  "jpeg_bytes": 169307
+  "objects": 17,
+  "edge_density": 0.0364,
+  "png_bytes": 157414,
+  "jpeg_bytes": 173768
  },
  "signature": [
   [
@@ -453,6 +548,14 @@
   [
    "entity",
    0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   2
   ]
  ],
  "elements": [
@@ -520,6 +623,21 @@
    "occlusion": 0.006
   },
   {
+   "id": "breeze_2",
+   "label": "Wind lines",
+   "role": "setting",
+   "z": 0,
+   "bbox": [
+    1118.0,
+    76.0,
+    1276.0,
+    116.0
+   ],
+   "area_px": 1368,
+   "visible_px": 1368,
+   "occlusion": 0.0
+  },
+  {
    "id": "tree",
    "label": "Tree behind the fence",
    "role": "setting",
@@ -546,8 +664,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 233288,
-   "occlusion": 0.032
+   "visible_px": 227344,
+   "occlusion": 0.056
   },
   {
    "id": "filler_bush_mid",
@@ -580,59 +698,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "kicker_1",
-   "label": "person.leo__kick_low__smile__y090",
-   "role": "scored",
-   "z": 742.91,
-   "bbox": [
-    672.0,
-    518.0,
-    846.0,
-    742.0
-   ],
-   "area_px": 9996,
-   "visible_px": 9948,
-   "occlusion": 0.005,
-   "asset": {
-    "variant": "person.leo__kick_low__smile__y090",
-    "family": "person.leo",
-    "scale": 0.4242,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
-  },
-  {
-   "id": "ball_2",
-   "label": "Ball",
-   "role": "scored",
-   "z": 744.91,
-   "bbox": [
-    642.0,
-    682.0,
-    756.0,
-    754.0
-   ],
-   "area_px": 1196,
-   "visible_px": 1196,
-   "occlusion": 0.0
-  },
-  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -645,6 +710,74 @@
    ],
    "area_px": 204952,
    "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hatperson_1",
+   "label": "person.rosa__reach_up__scared__y045",
+   "role": "scored",
+   "z": 823.55,
+   "bbox": [
+    608.0,
+    552.0,
+    730.0,
+    828.0
+   ],
+   "area_px": 15660,
+   "visible_px": 15660,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__reach_up__scared__y045",
+    "family": "person.rosa",
+    "scale": 0.4541,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandmother",
+     "accepted_names": [
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
+     }
+    }
+   }
+  },
+  {
+   "id": "flyinghat_3",
+   "label": "Hat blowing away",
+   "role": "scored",
+   "z": 824.55,
+   "bbox": [
+    564.0,
+    434.0,
+    648.0,
+    490.0
+   ],
+   "area_px": 2260,
+   "visible_px": 2260,
+   "occlusion": 0.0
+  },
+  {
+   "id": "gusts_4",
+   "label": "Wind lines and blowing leaves",
+   "role": "setting",
+   "z": 824.55,
+   "bbox": [
+    618.0,
+    468.0,
+    892.0,
+    536.0
+   ],
+   "area_px": 4236,
+   "visible_px": 4236,
    "occlusion": 0.0
   },
   {
@@ -742,11 +875,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "kick_ball"
+   "modules": [
+    "windy_hat"
    ]
   },
-  "placement_rev": 41
+  "placement_rev": 42
  },
  "probe": true
 }

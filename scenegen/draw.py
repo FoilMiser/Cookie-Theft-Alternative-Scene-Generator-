@@ -259,10 +259,29 @@ SQUARE_STYLE20 = "C"
 
 
 WHEEL27 = "B"
+# v0.44 (revision 42, figure-review-v043.md item 10): the square wheel, a dark open square with an inner grid of spokes, read as "a drain grate" once in
+# the v0.43 screen, and the bicycle's two square wheels as parked on crates. "B": a rounded-square tyre on thin spokes round a round hub, as the round
+# wheels are drawn, and the bicycle's other wheel round. "O": v0.43
+WHEEL44 = "O"     # v0.44 bench (vision/isolation_v044.md): O ("square-ish", a bicycle's one rounded square "buckled or squashed")
+# v0.44 (revision 42, figure-review-v043.md item 8): the upward water, an even white-edged band before the street's dark shop door, read as a bent
+# tube. "B": a ribbon tapering as it rises, with drops breaking off its top third, and never in the street (templates.WaterUpward). "O": v0.43
+WATER44 = "B"     # v0.44 bench (vision/isolation_v044.md): B
 
 
 def wheel(cx, cy, r, square=False, col=None, v12=None):
     col = col or C["charcoal"]
+    if square and WHEEL44 == "B":
+        # v0.44 (WHEEL44): a rounded-square tyre on eight thin spokes round a round hub, the ground showing through
+        t = max(3.0, r * 0.20)
+        svg = ""
+        for i in range(8):
+            a = i * math.pi / 4
+            c_, s_ = math.cos(a), math.sin(a)
+            L = (r - t) / max(abs(c_), abs(s_))
+            svg += line(cx, cy, cx + c_ * L, cy + s_ * L, C["slate"], max(1.2, r * 0.05))
+        box_ = f'x="{cx - r + t / 2:.1f}" y="{cy - r + t / 2:.1f}" width="{2 * r - t:.1f}" height="{2 * r - t:.1f}" rx="{r * 0.22:.1f}" fill="none"'
+        svg += f'<rect {box_} stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
+        return svg + circ(cx, cy, r * 0.16, C["gray"], OW * 0.6)
     if square and v12 == "barrow20":
         t = max(3.5, r * 0.30)
         style = SQUARE_STYLE20
@@ -456,7 +475,7 @@ def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, he
     seat = (x - f * (22 if wide else 18) * s, y - 92 * s)
     bars = (x + f * (42 if wide else 34) * s, y - 102 * s)
     crank = (x, y - r)
-    svg = wheel(a[0], a[1], r, square, C["charcoal"], v12="bike" if wide else None) + wheel(b[0], b[1], r, square, C["charcoal"], v12="bike" if wide else None)
+    svg = wheel(a[0], a[1], r, square, C["charcoal"], v12="bike" if wide else None) + wheel(b[0], b[1], r, square and WHEEL44 != "B", C["charcoal"], v12="bike" if wide else None)
     frame = f"M {P(*a)} L {P(*crank)} L {P(seat[0], seat[1] + 12 * s)} Z M {P(*crank)} L {P(bars[0] - f * 6 * s, bars[1] + 14 * s)} L {P(seat[0], seat[1] + 12 * s)} M {P(bars[0] - f * 6 * s, bars[1] + 14 * s)} L {P(*b)}"
     svg += stroke(frame, col, 6 * s)
     if wide:
@@ -1025,6 +1044,37 @@ def water_stream(p0, direction, s=1.0, length=170, upward=False, spread=0.0, spl
         c1 = (p0[0] + dx * L * 0.30, p0[1] - L * 0.08)
         c2 = (p0[0] + dx * L * 0.48, p0[1] - L * 0.42)
         end = (p0[0] + dx * L * 0.50, p0[1] - L * 0.78)
+        if WATER44 == "B":
+            # v0.44 (WATER44): a ribbon 12 px wide at the spout and 4 px at its top, a white glint, drops breaking off both sides of its top third
+            # and a few above it
+            def bez(t, a=p0, b=c1, c=c2, d=end):
+                u_ = 1 - t
+                return (u_ ** 3 * a[0] + 3 * u_ * u_ * t * b[0] + 3 * u_ * t * t * c[0] + t ** 3 * d[0],
+                        u_ ** 3 * a[1] + 3 * u_ * u_ * t * b[1] + 3 * u_ * t * t * c[1] + t ** 3 * d[1])
+            left, right = [], []
+            for k in range(25):
+                t = k / 24
+                x0, y0 = bez(t)
+                x1, y1 = bez(min(1.0, t + 0.01))
+                nn = math.hypot(x1 - x0, y1 - y0) or 1
+                nx, ny = -(y1 - y0) / nn, (x1 - x0) / nn
+                w = (12.0 - 8.0 * t) * s / 2
+                left.append((x0 + nx * w, y0 + ny * w))
+                right.append((x0 - nx * w, y0 - ny * w))
+            ribbon = "M " + " L ".join(P(*q) for q in left + right[::-1]) + " Z"
+            svg = f'<path d="{ribbon}" fill="{C["water_light"]}" stroke="{OUT}" stroke-width="{OW * 0.55:.1f}" stroke-linejoin="round"/>'
+            glint = " ".join(P(*bez(k / 20)) for k in range(1, 14))
+            svg += f'<path d="M {glint}" fill="none" stroke="{C["white"]}" stroke-width="{1.8 * s:.1f}" stroke-linecap="round" stroke-opacity="0.85"/>'
+            for t, off, side in ((0.62, 10, 1), (0.72, 12, -1), (0.82, 12, 1), (0.92, 11, -1)):
+                x0, y0 = bez(t)
+                x1, y1 = bez(t + 0.01)
+                nn = math.hypot(x1 - x0, y1 - y0) or 1
+                nx, ny = -(y1 - y0) / nn, (x1 - x0) / nn
+                svg += circ(x0 + side * nx * off * s, y0 + side * ny * off * s, 2.8 * s, C["water_light"], OW * 0.45)
+            svg += drops(end[0], end[1] - 18 * s, s * 1.1, 3, 16)
+            xs = [p0[0], c1[0], c2[0], end[0]]
+            ys = [p0[1], c1[1], c2[1], end[1]]
+            return svg, (min(xs) - 16, min(ys) - 30 * s, max(xs) + 16, max(ys) + 22 * s), end
     elif upward:
         c1 = (p0[0] + dx * L * 0.35, p0[1] + dy * L * 0.35)
         end = (p0[0] + dx * L * 0.55, p0[1] - L * 0.75)

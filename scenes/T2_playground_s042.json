@@ -6,8 +6,8 @@
  "seed": 42,
  "mirror": true,
  "versions": {
-  "generator": "0.43.0",
-  "cast_builder": "0.43.0",
+  "generator": "0.44.0",
+  "cast_builder": "0.44.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,7 +57,8 @@
  },
  "features": [
   "bench",
-  "sandbox"
+  "sandbox",
+  "slide"
  ],
  "templates": [
   {
@@ -67,28 +68,75 @@
    "units": 1
   },
   {
-   "id": "sandbox",
+   "id": "slide",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "play_catch",
+   "id": "sandbox",
    "kind": "event",
    "event": "e3",
    "units": 0
-  },
-  {
-   "id": "drink_bench",
-   "kind": "event",
-   "event": "e4",
-   "units": 0
   }
  ],
- "scene_load": 4,
+ "scene_load": 3,
  "items": [
   {
    "id": "i01",
+   "type": "action",
+   "text": "A child is sliding down the slide",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "going down the slide",
+     "sliding down",
+     "sliding",
+     "on the slide",
+     "playing on the slide"
+    ]
+   },
+   "key": "slide",
+   "elements": [
+    "slidekid_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "slide",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.705,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.3,
+    "a": 4.79,
+    "zipf_raw": 4.3,
+    "aoa_raw": 4.79,
+    "domain": null,
+    "area_px": 5660
+   },
+   "b": -0.878,
+   "p0": 0.706,
+   "pm1": 0.47,
+   "aoi_cells": [
+    "MR"
+   ]
+  },
+  {
+   "id": "i02",
    "type": "action",
    "text": "A girl is building a sandcastle in the sandbox",
    "accepted": {
@@ -110,8 +158,8 @@
    },
    "key": "sandcastle",
    "elements": [
-    "sandkid_1",
-    "sandcastle_2"
+    "sandkid_2",
+    "sandcastle_3"
    ],
    "cues": [],
    "effect": [],
@@ -119,12 +167,12 @@
    "animate": true,
    "domain": null,
    "template": "sandbox",
-   "event": "e2",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.318,
+    "s": -0.3,
     "r": 0,
     "d": 0.0,
     "f": -1.73,
@@ -132,81 +180,27 @@
     "zipf_raw": 2.27,
     "aoa_raw": 5.42,
     "domain": null,
-    "area_px": 9764
+    "area_px": 10024
    },
-   "b": -0.342,
-   "p0": 0.585,
-   "pm1": 0.341,
+   "b": -0.471,
+   "p0": 0.616,
+   "pm1": 0.371,
    "aoi_cells": [
     "BR"
    ]
   },
   {
-   "id": "i02",
-   "type": "action",
-   "text": "A woman is sitting on the bench with a drink",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "drinking",
-     "having coffee",
-     "drinking tea",
-     "sitting on the bench",
-     "cup",
-     "mug"
-    ]
-   },
-   "key": "drinking",
-   "elements": [
-    "sitter_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "drink_bench",
-   "event": "e4",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.215,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.71,
-    "a": 3.47,
-    "zipf_raw": 4.71,
-    "aoa_raw": 3.47,
-    "domain": null,
-    "area_px": 11300
-   },
-   "b": -1.126,
-   "p0": 0.755,
-   "pm1": 0.531,
-   "aoi_cells": [
-    "ML",
-    "BL"
-   ]
-  },
-  {
    "id": "i03",
    "type": "action",
-   "text": "A child is holding a kite string",
+   "text": "A teenager is holding a kite string",
    "accepted": {
     "who": [
-     "child",
-     "kid",
+     "teenager",
+     "teen",
      "boy",
      "girl",
-     "son",
-     "daughter"
+     "kid",
+     "young person"
     ],
     "what": [
      "holding a kite",
@@ -232,7 +226,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.326,
+    "s": -0.048,
     "r": 0,
     "d": 0.0,
     "f": -0.45,
@@ -240,11 +234,11 @@
     "zipf_raw": 3.55,
     "aoa_raw": 4.58,
     "domain": null,
-    "area_px": 9656
+    "area_px": 14304
    },
-   "b": -0.722,
-   "p0": 0.673,
-   "pm1": 0.431,
+   "b": -0.981,
+   "p0": 0.727,
+   "pm1": 0.495,
    "aoi_cells": [
     "ML",
     "BL"
@@ -274,7 +268,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.529,
+    "s": -0.531,
     "r": 0,
     "d": 0.0,
     "f": -0.45,
@@ -282,11 +276,11 @@
     "zipf_raw": 3.55,
     "aoa_raw": 4.58,
     "domain": null,
-    "area_px": 7256
+    "area_px": 7232
    },
-   "b": -0.121,
-   "p0": 0.53,
-   "pm1": 0.293,
+   "b": -0.239,
+   "p0": 0.559,
+   "pm1": 0.318,
    "aoi_cells": [
     "ML"
    ]
@@ -324,19 +318,19 @@
     "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": -0.529,
+    "s": -0.531,
     "r": 2,
-    "d": 0.285,
+    "d": 0.272,
     "f": 0.0,
     "a": 4.47,
     "zipf_raw": 4.68,
     "aoa_raw": 3.89,
     "domain": null,
-    "area_px": 7256
+    "area_px": 7232
    },
-   "b": 0.476,
-   "p0": 0.383,
-   "pm1": 0.186,
+   "b": 0.342,
+   "p0": 0.415,
+   "pm1": 0.207,
    "aoi_cells": [
     "ML",
     "BL"
@@ -344,108 +338,88 @@
   },
   {
    "id": "i06",
-   "type": "action",
-   "text": "A teenager is throwing a ball",
-   "accepted": {
-    "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
-    ],
-    "what": [
-     "throwing a ball",
-     "throwing",
-     "playing catch",
-     "playing ball"
-    ]
-   },
-   "key": "ball",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
    "elements": [
-    "thrower_8",
-    "ball_10"
+    "sun"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "play_catch",
-   "event": "e3",
+   "template": "setting",
+   "event": null,
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -0.143,
+    "animate": false,
+    "s": -0.092,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 2.9,
-    "zipf_raw": 5.04,
-    "aoa_raw": 2.9,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
     "domain": null,
-    "area_px": 12500
+    "area_px": 13440
    },
-   "b": -1.261,
-   "p0": 0.779,
-   "pm1": 0.565,
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "TR"
    ]
   },
   {
    "id": "i07",
-   "type": "action",
-   "text": "A man is catching the ball",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "catching the ball",
-     "catching",
-     "playing catch",
-     "playing ball"
-    ]
-   },
-   "key": "ball",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
    "elements": [
-    "catcher_9"
+    "clouds_white"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "play_catch",
-   "event": "e3",
+   "template": "setting",
+   "event": null,
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -0.037,
+    "animate": false,
+    "s": -0.012,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 2.9,
-    "zipf_raw": 5.04,
-    "aoa_raw": 2.9,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 14524
+    "area_px": 15048
    },
-   "b": -1.314,
-   "p0": 0.788,
-   "pm1": 0.578,
+   "b": -0.682,
+   "p0": 0.664,
+   "pm1": 0.421,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "TL",
+    "TC"
    ]
   },
   {
@@ -472,7 +446,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.107,
+    "s": 1.148,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -480,11 +454,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 72904
+    "area_px": 77200
    },
-   "b": -1.137,
-   "p0": 0.757,
-   "pm1": 0.534,
+   "b": -1.277,
+   "p0": 0.782,
+   "pm1": 0.569,
    "aoi_cells": [
     "ML",
     "MC",
@@ -515,7 +489,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.839,
+    "s": 0.84,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -523,11 +497,11 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 49940
+    "area_px": 50016
    },
-   "b": -1.195,
-   "p0": 0.768,
-   "pm1": 0.549,
+   "b": -1.315,
+   "p0": 0.788,
+   "pm1": 0.578,
    "aoi_cells": [
     "TL",
     "ML"
@@ -542,12 +516,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.704,
-   "inference": 0.383
+   "content": 0.694,
+   "inference": 0.415
   },
   "theta_minus_1": {
-   "content": 0.478,
-   "inference": 0.186
+   "content": 0.462,
+   "inference": 0.207
   }
  },
  "bands": {
@@ -569,14 +543,14 @@
   },
   "clutter_band": {
    "result": true,
-   "detail": "18 drawn objects (tier band 16-24)"
+   "detail": "16 drawn objects (tier band 16-24)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0346,
-  "png_bytes": 198320,
-  "jpeg_bytes": 162035
+  "objects": 16,
+  "edge_density": 0.0331,
+  "png_bytes": 153077,
+  "jpeg_bytes": 150718
  },
  "signature": [
   [
@@ -592,11 +566,11 @@
    0
   ],
   [
-   "action",
+   "entity",
    0
   ],
   [
-   "action",
+   "entity",
    0
   ],
   [
@@ -677,8 +651,8 @@
     956.0
    ],
    "area_px": 36428,
-   "visible_px": 30256,
-   "occlusion": 0.169
+   "visible_px": 29988,
+   "occlusion": 0.177
   },
   {
    "id": "fence",
@@ -692,8 +666,8 @@
     620.0
    ],
    "area_px": 91648,
-   "visible_px": 72904,
-   "occlusion": 0.205
+   "visible_px": 77200,
+   "occlusion": 0.158
   },
   {
    "id": "filler_bush_pl2",
@@ -711,6 +685,21 @@
    "occlusion": 0.0
   },
   {
+   "id": "filler_bin_pl",
+   "label": "Bin",
+   "role": "filler",
+   "z": 650,
+   "bbox": [
+    1012.0,
+    582.0,
+    1068.0,
+    652.0
+   ],
+   "area_px": 3212,
+   "visible_px": 3212,
+   "occlusion": 0.0
+  },
+  {
    "id": "bench",
    "label": "Bench",
    "role": "setting",
@@ -722,45 +711,8 @@
     682.0
    ],
    "area_px": 9776,
-   "visible_px": 6824,
-   "occlusion": 0.302
-  },
-  {
-   "id": "sitter_3",
-   "label": "person.mei__sit_drink__smile__y045",
-   "role": "scored",
-   "z": 683,
-   "bbox": [
-    376.0,
-    488.0,
-    486.0,
-    708.0
-   ],
-   "area_px": 11300,
-   "visible_px": 11300,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.mei__sit_drink__smile__y045",
-    "family": "person.mei",
-    "scale": 0.402,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
+   "visible_px": 9776,
+   "occlusion": 0.0
   },
   {
    "id": "tree",
@@ -774,8 +726,8 @@
     702.0
    ],
    "area_px": 57704,
-   "visible_px": 49940,
-   "occlusion": 0.135
+   "visible_px": 50016,
+   "occlusion": 0.133
   },
   {
    "id": "crownleaves_6",
@@ -795,8 +747,8 @@
     518.0
    ],
    "area_px": 7340,
-   "visible_px": 7256,
-   "occlusion": 0.011
+   "visible_px": 7232,
+   "occlusion": 0.015
   },
   {
    "id": "slide",
@@ -810,101 +762,49 @@
     726.0
    ],
    "area_px": 22992,
-   "visible_px": 22992,
-   "occlusion": 0.0
+   "visible_px": 21760,
+   "occlusion": 0.054
   },
   {
-   "id": "catcher_9",
-   "label": "person.ben__catch__smile__y090",
+   "id": "slidekid_1",
+   "label": "person.kai__slide_down__smile__y090",
    "role": "scored",
-   "z": 794.93,
+   "z": 721,
    "bbox": [
-    862.0,
-    508.0,
-    992.0,
-    800.0
+    1122.0,
+    494.0,
+    1232.0,
+    648.0
    ],
-   "area_px": 14524,
-   "visible_px": 14524,
+   "area_px": 5660,
+   "visible_px": 5660,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.ben__catch__smile__y090",
-    "family": "person.ben",
-    "scale": 0.4435,
+    "variant": "person.kai__slide_down__smile__y090",
+    "family": "person.kai",
+    "scale": 0.4161,
     "mirrored": true,
     "labels": {
-     "everyday_name": "man",
+     "everyday_name": "child",
      "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
-  },
-  {
-   "id": "thrower_8",
-   "label": "person.leo__throw_ball__smile__y090",
-   "role": "scored",
-   "z": 819.23,
-   "bbox": [
-    618.0,
-    572.0,
-    754.0,
-    824.0
-   ],
-   "area_px": 11520,
-   "visible_px": 11520,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.leo__throw_ball__smile__y090",
-    "family": "person.leo",
-    "scale": 0.4525,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
+      "child",
+      "kid",
       "boy",
       "girl",
-      "kid",
-      "young person"
+      "son",
+      "daughter"
      ],
-     "category": "teen_person",
+     "category": "child_person",
      "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
      }
     }
    }
   },
   {
-   "id": "ball_10",
-   "label": "Ball in the air",
-   "role": "scored",
-   "z": 820.23,
-   "bbox": [
-    758.0,
-    492.0,
-    850.0,
-    610.0
-   ],
-   "area_px": 980,
-   "visible_px": 980,
-   "occlusion": 0.0
-  },
-  {
-   "id": "sandkid_1",
+   "id": "sandkid_2",
    "label": "person.nia__sand_build__smile__y045",
    "role": "scored",
    "z": 896.16,
@@ -914,8 +814,8 @@
     1306.0,
     906.0
    ],
-   "area_px": 5860,
-   "visible_px": 5860,
+   "area_px": 6120,
+   "visible_px": 6120,
    "occlusion": 0.0,
    "asset": {
     "variant": "person.nia__sand_build__smile__y045",
@@ -941,14 +841,14 @@
    }
   },
   {
-   "id": "sandcastle_2",
+   "id": "sandcastle_3",
    "label": "Sandcastle",
    "role": "scored",
    "z": 902.16,
    "bbox": [
-    1174.0,
+    1172.0,
     810.0,
-    1250.0,
+    1248.0,
     902.0
    ],
    "area_px": 3904,
@@ -972,38 +872,38 @@
   },
   {
    "id": "kitekid_4",
-   "label": "person.kai__fly_kite__puzzled__y090",
+   "label": "person.leo__fly_kite__puzzled__y090",
    "role": "scored",
    "z": 977.14,
    "bbox": [
-    384.0,
-    756.0,
-    472.0,
+    368.0,
+    698.0,
+    476.0,
     980.0
    ],
-   "area_px": 8264,
-   "visible_px": 8252,
-   "occlusion": 0.001,
+   "area_px": 13036,
+   "visible_px": 13016,
+   "occlusion": 0.002,
    "asset": {
-    "variant": "person.kai__fly_kite__puzzled__y090",
-    "family": "person.kai",
+    "variant": "person.leo__fly_kite__puzzled__y090",
+    "family": "person.leo",
     "scale": 0.511,
     "mirrored": true,
     "labels": {
-     "everyday_name": "child",
+     "everyday_name": "teenager",
      "accepted_names": [
-      "child",
-      "kid",
+      "teenager",
+      "teen",
       "boy",
       "girl",
-      "son",
-      "daughter"
+      "kid",
+      "young person"
      ],
-     "category": "child_person",
+     "category": "teen_person",
      "person": {
-      "age_group": "child",
-      "skin_tone": "skin3",
-      "hair": "curly_dark"
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
      }
     }
    }
@@ -1016,11 +916,11 @@
    "bbox": [
     88.0,
     420.0,
-    388.0,
-    788.0
+    374.0,
+    722.0
    ],
-   "area_px": 1404,
-   "visible_px": 1404,
+   "area_px": 1288,
+   "visible_px": 1288,
    "occlusion": 0.0
   }
  ],
@@ -1042,46 +942,41 @@
   "placements": 14,
   "require_band": true,
   "usage": {
-   "cat_sleeping": 1,
-   "drink_bench": 1,
    "rake": 1,
-   "kite_in_tree": 1,
-   "read_bench": 1,
-   "jump": 1,
-   "water_flowers": 1,
-   "about_to_trip": 1,
-   "cat_stalks_bird": 1,
-   "dog_reading": 1,
-   "bird_perched": 1,
    "paint_fence": 1,
-   "dog_sleeping": 1,
-   "kick_ball": 1,
-   "ice_cream": 1,
-   "fly_kite": 1,
-   "lost_balloon": 2,
-   "balloon": 1,
-   "ducks_swimming": 1,
-   "picnic": 1,
-   "rain_coming": 1,
-   "ice_cream_drop": 1,
-   "ducks_bread": 1,
-   "feed_birds": 1,
-   "dog_playing": 2,
    "birds_flying": 1,
-   "run": 2,
-   "wave": 1,
-   "push_stroller": 1,
-   "play_catch": 1,
-   "carry_bag": 1,
-   "ball_in_tree": 1,
-   "dog_begs": 1,
-   "sweep_fork": 1,
-   "walk_dog": 1,
+   "dog_wants_walk": 1,
+   "jump": 1,
    "sweep": 1,
+   "play_catch": 1,
+   "drink_bench": 1,
+   "cat_sleeping": 1,
+   "kick_ball": 1,
+   "kite_in_tree": 1,
+   "plant_flowers": 1,
+   "dog_sleeping": 1,
+   "run": 1,
+   "lost_balloon": 1,
+   "square_wheel": 1,
+   "fishing": 1,
+   "bird_perched": 1,
+   "ducks_swimming": 1,
    "photo": 1,
-   "sandbox": 1
+   "read_bench": 1,
+   "cat_stalks_bird": 1,
+   "carry_box": 1,
+   "carry_bag": 1,
+   "feed_birds": 1,
+   "about_to_trip": 1,
+   "dog_begs": 1,
+   "ball_in_tree": 1,
+   "water_flowers": 1,
+   "ice_cream": 1,
+   "walk_dog": 1,
+   "dog_playing": 1,
+   "wave": 1
   },
   "forced": null,
-  "placement_rev": 41
+  "placement_rev": 42
  }
 }

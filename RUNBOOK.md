@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.43 was made, written so that a fresh session can make the next one (v0.44) from this
+How each release from v0.12 to v0.44 was made, written so that a fresh session can make the next one (v0.45) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -364,3 +364,19 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   as `UNKNOWN`. Read the prune's report, look inside such a folder, and delete it before the library is validated and packaged.
 - `psub.sub` cannot delete: it skips a pair whose replacement is already in the file, and a deletion's replacement is always inside the text it replaces. Delete
   with a plain replace, or keep a word of context that changes.
+- A rule written for one clash can make another. The props' colour rule (`TPDB_PROP44`) turned a pink scoop cream wherever pink was near a garment's hue: pale on pale
+  skin, the man in red's cone tip read as "a moustache or a chocolate smear" in two design tests, and the girl in pink's ice cream as "something small and white" in
+  the screen. Check a recoloured prop against the skin and the face it sits by, and read it where the rule fires, not only where it fixes.
+- A post-screen fix is a guess until it is read. The scoop put back to pink, the three pictures rebuilt and read again did no better (two half marks and a misread,
+  where the first read gave three half marks): the cone was too small, not the wrong colour. Before fixing after a screen, ask what else the misreads share (here one
+  child, one pose, at one size), and when the re-read comes back, report it as it is.
+- Measure what a pose leaves room for before writing the scene's part of it. The reading dog's paws raised to chest height stood 126 render px above the ground (0.472
+  scene px a render px at sz 1), room for a paper 0.73 times v0.42's, so the paper placed on no seed; at eye level the tan dog's left room for 1.1, the white dog's for
+  0.83. Read the anchors of the render (`paw_FL`, `paw_FR`) against the ground point first. And fold every fit check into the size loop: the tilt, checked after the
+  loop had chosen a size, refused every spot.
+- A switch the bench sets at run time is invisible to anything read at import. A template's `exclusive` is a class attribute the planner reads, and an exclusive that
+  depends on a switch must be computed when the planner asks (`templates._Ex44`, a descriptor), or the bench plans with the release's value.
+- `G.regenerate` writes a probe's record without its `probe` flag, which `probes.py` adds; `summarize_screen.py` then counts the probe as a set picture (24 pictures, 317
+  items, where the set is 21 and 286). After regenerating a probe, put `"probe": true` back, in its place and in the generator's format (`indent=1`, no final newline),
+  and verify. And `isos.py`'s alternative lists (`ISO_X`, `ISO_Y`) are one group each, which stops at its first success: to search one source alone, call
+  `build_isomorph` for it (`tpdb_work/iso44b.py`).

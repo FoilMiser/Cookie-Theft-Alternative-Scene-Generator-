@@ -18,7 +18,7 @@ NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # v0.41: five for play_catch and floating_box (vision/flaws_v040.md R1, R2); v0.42: five for blocked_hose and rain_coming, v0.41's two under the
 # strict count (vision/flaws_v041.md R1, R2); v0.43: five for about_to_trip (under the gate in v0.42, on one zero in three pictures), plant_flowers
 # and photo (under the strict count; vision/flaws_v042.md R1, R3)
-NEED_T = {"about_to_trip": 5, "plant_flowers": 5, "photo": 5}
+NEED_T = {"dog_reading": 5, "dog_wants_walk": 5, "photo": 5}      # v0.44: the two v0.43 failures (R1, R2), and the lowest pass (R3)
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):

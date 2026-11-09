@@ -48,6 +48,24 @@ GOAT43 = os.environ.get("TPDB_GOAT43", "C")  # v0.43 bench (vision/isolation_v04
 # paper laid open on the ground ("down_read"); "B": sitting as v0.42, the head bowed toward the page and the forepaws lower, on the top of a paper
 # whose foot rests on the ground (the paper is the scene's, templates.READ43). "O": v0.42
 READ43 = os.environ.get("TPDB_READ43", "A")  # v0.43 bench (vision/isolation_v043.md): A
+# v0.44 bench (TPDB_READ44; figure-fixes-v043.md item 1, figure-review-v043.md item 7, vision/flaws_v043.md R1): lying over a paper on the ground the
+# reading dog was "lying on an open newspaper" in four of five v0.43 pictures and "apparently tearing it up" in the fifth; sitting up (v0.42) it read
+# 0.917, but looked straight ahead past the paper. "A": sitting up as v0.42, both forepaws raised to the paper's top edge (the scene hangs the paper
+# from them, templates.READ44), the head bowed about 20 degrees toward the page and turned a little to the viewer, so the face still shows (bowed
+# right over it in v0.26 it was "a monkey, an otter, or a person in a costume"); a "read" expression, the eyes in round reading glasses. "O": v0.43
+READ44 = os.environ.get("TPDB_READ44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.44 bench (TPDB_CAT44; figure-review-v043.md item 3): in profile the cat's ears are wedges seen edge on and its whiskers point at the viewer, so the
+# head is a plain ball (v0.39 "cat or small black dog"); revision 41 draws the stalking cat only in profile. "A": each ear turned about 40 degrees
+# about the vertical and a little taller, so its triangle shows at 90 and 45; the muzzle lobes larger and further forward; the whiskers angled
+# forward as well as out, so they reach past the head's outline in profile. "O": v0.43
+CAT44 = os.environ.get("TPDB_CAT44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.44 bench (TPDB_GOAT44; figure-review-v043.md item 25): grazing, the beard "sticks out as a hard grey wedge", a tusk or a spike. "A": a shorter,
+# blunt tuft angled back toward the throat, so it hangs nearly straight down when the head is lowered to graze. "O": v0.43
+GOAT44 = os.environ.get("TPDB_GOAT44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.44 bench (TPDB_NOSE44; figure-review-v043.md item 16): at 90 the tan dog's black nose and the happy tongue stand off the muzzle, "a black dot and a
+# red dot in front of the muzzle" that could be a ball, a fly or the lead's end. "A": the nose set back into the muzzle's end, the tongue rooted in
+# the mouth. "O": v0.43
+NOSE44 = os.environ.get("TPDB_NOSE44", "A")  # v0.44 (vision/isolation_v044.md; read in the design tests): A
 
 
 def _frame_quat(d, side):
@@ -358,6 +376,8 @@ def build_quadruped(spec):
             mz = skin_object("Snout", mv, [(0, 1), (1, 2)], mr, belly, rig, [{"head": 1.0}] * 3)
             no_isect(mz)
             nose_p = mv[-1] + Vector((0, -mr[-1] * 0.38, mr[-1] * 0.22))
+            if kind == "dog" and NOSE44 == "A":
+                nose_p = mv[-1] + Vector((0, -mr[-1] * 0.10, mr[-1] * 0.30))     # v0.44 (TPDB_NOSE44): set into the muzzle's end
             mouth_p = mv[-1] + Vector((0, -mr[-1] * 0.10, -mr[-1] * 0.40))
         else:
             ellipsoid("Snout", snout_c, (0.058 * k * (0.85 if kind == "goat" else 1.0), 0.062 * k * sl, 0.045 * k), belly, rig, "head")
@@ -374,11 +394,20 @@ def build_quadruped(spec):
         if ART:
             # a whisker pad, two lobes, and whiskers: the strongest cat cue at small size
             for sd, sg in (("L", 1), ("R", -1)):
-                ellipsoid(f"Snout_{sd}", snout_c + Vector((sg * 0.016 * k, -0.004 * k, -0.004 * k)), (0.026 * k, 0.024 * k, 0.022 * k), belly, rig, "head")
+                if CAT44 == "A":
+                    # v0.44 (TPDB_CAT44): the lobes larger and further forward, so the muzzle stands out of the head's round in profile
+                    ellipsoid(f"Snout_{sd}", snout_c + Vector((sg * 0.017 * k, -0.014 * k, -0.006 * k)), (0.030 * k, 0.030 * k, 0.025 * k), belly, rig, "head")
+                else:
+                    ellipsoid(f"Snout_{sd}", snout_c + Vector((sg * 0.016 * k, -0.004 * k, -0.004 * k)), (0.026 * k, 0.024 * k, 0.022 * k), belly, rig, "head")
                 for i, dz in enumerate((0.006, -0.004, -0.014)):
                     a0 = snout_c + Vector((sg * 0.026 * k, -0.012 * k, dz * k))
                     # (0.095 long with a droop of 1.6 hung below the sleeping cat's ground point: shorter, and nearly level)
                     a1 = a0 + Vector((sg * 0.068 * k, 0.004 * k, (dz * 0.4 + 0.003 * (1 - i)) * k))
+                    if CAT44 == "A":
+                        # v0.44 (TPDB_CAT44): forward as well as out, so they reach past the head's outline in profile; a little up, so the sleeping
+                        # cat's, its head lowered, stay above its ground point (the validator: +49.9 px below it, 43.8 allowed)
+                        a0 = a0 + Vector((0, -0.010 * k, 0))
+                        a1 = a0 + Vector((sg * 0.060 * k, -0.024 * k, (dz * 0.4 + 0.003 * (1 - i) + 0.016) * k))
                     ob = cyl(f"Whisker_{sd}{i}", a0, a1, 0.0026 * k, "outline", seg=6)
                     rig.attach(ob, "head")
         else:
@@ -416,6 +445,10 @@ def build_quadruped(spec):
                 ob.location = hc + Vector((sg * hr * 0.56, 0.004 * k, hr * 0.80))
                 ob.rotation_euler = (-0.22, sg * 0.30, 0)
                 ob.scale = (1.05, 0.26, 0.92)
+                if CAT44 == "A":
+                    # v0.44 (TPDB_CAT44): turned about 40 degrees about the vertical and taller, so the triangle shows in profile
+                    ob.rotation_euler = (-0.22, sg * 0.30, sg * 0.70)
+                    ob.scale = (1.05, 0.26, 1.15)
             upd()
             rig.attach(ob, "head")
             if spec.get("inner_ear"):
@@ -429,6 +462,10 @@ def build_quadruped(spec):
                     ob2.location = hc + Vector((sg * hr * 0.56, -0.010 * k, hr * 0.79))
                     ob2.rotation_euler = (-0.22, sg * 0.30, 0)
                     ob2.scale = (0.95, 0.16, 0.85)
+                    if CAT44 == "A":
+                        ob2.location = hc + Vector((sg * hr * 0.56, -0.010 * k, hr * 0.80))
+                        ob2.rotation_euler = (-0.22, sg * 0.30, sg * 0.70)
+                        ob2.scale = (0.95, 0.16, 1.06)
                 upd()
                 rig.attach(ob2, "head")
     if spec.get("horns"):
@@ -459,7 +496,11 @@ def build_quadruped(spec):
         if G42:
             # v0.42: a pointed tuft hanging from under the jaw, behind the muzzle (at the muzzle's end it made the face a beak)
             root_ = mv[1] + Vector((0, -0.010, -mr[1] * 0.80))
-            ob = cyl("Beard", root_, root_ + Vector((0, 0.012, -0.050 * bs)) * k, 0.020 * k, spec.get("beard_col", belly), r1=0.004 * k)
+            if GOAT44 == "A":
+                # v0.44 (TPDB_GOAT44): shorter and blunt, angled back toward the throat, so it hangs nearly straight down when the head is lowered
+                ob = cyl("Beard", root_, root_ + Vector((0, 0.028, -0.030 * bs)) * k, 0.019 * k, spec.get("beard_col", belly), r1=0.007 * k)
+            else:
+                ob = cyl("Beard", root_, root_ + Vector((0, 0.012, -0.050 * bs)) * k, 0.020 * k, spec.get("beard_col", belly), r1=0.004 * k)
             rig.attach(ob, "head")
         elif bs > 1.0:
             # v0.17: a pointed tuft growing from the chin (an oval hung below the snout read as a tongue or a tag)
@@ -488,7 +529,19 @@ def build_quadruped(spec):
         face.curve_on(f"arcdn_{sd}", [(x - w, eye_z + 0.002 * k), (x, eye_z - 0.012 * k), (x + w, eye_z + 0.002 * k)], 0.006 * k, "outline", 0.004 * k)
         face.place(f"brow_{sd}", ellipsoid("brow", (0, 0, 0), (1, 1, 1), "outline"),
                    face.frame(x, eye_z + 0.040 * k, 0.004 * k, spin=-math.radians(20) * sg, scale=(0.020 * k, 0.006 * k, 0.006 * k)))
-    face.obj("tongue", ellipsoid("Tongue", mouth_p + Vector((0, -0.006 * k, -0.018 * k)), (0.020 * k, 0.010 * k, 0.026 * k), "throat", rig, "head"))
+    if NOSE44 == "A" and kind == "dog":
+        # v0.44 (TPDB_NOSE44): rooted in the mouth
+        face.obj("tongue", ellipsoid("Tongue", mouth_p + Vector((0, 0.006 * k, -0.013 * k)), (0.018 * k, 0.012 * k, 0.022 * k), "throat", rig, "head"))
+    else:
+        face.obj("tongue", ellipsoid("Tongue", mouth_p + Vector((0, -0.006 * k, -0.018 * k)), (0.020 * k, 0.010 * k, 0.026 * k), "throat", rig, "head"))
+    if READ44 == "A" and kind == "dog":
+        # v0.44 (TPDB_READ44): round reading glasses for the "read" expression, a ring round each eye and a bridge over the muzzle
+        for sd, sg in (("L", 1), ("R", -1)):
+            x = sg * eye_dx
+            ring = [(x + r_e * 1.55 * math.cos(a), eye_z + r_e * 1.60 * math.sin(a)) for a in [i / 28 * 2 * math.pi for i in range(28)]]
+            ob = face.curve_on(f"glass_{sd}", ring, 0.0055 * k, "outline", 0.010 * k)
+            ob.data.splines[0].use_cyclic_u = True
+        face.curve_on("glass_bridge", [(-eye_dx + r_e * 1.55, eye_z + 0.004 * k), (eye_dx - r_e * 1.55, eye_z + 0.004 * k)], 0.005 * k, "outline", 0.012 * k)
 
     expr = {
         "neutral": {"eye_L", "eye_R", "catch_L", "catch_R"},
@@ -497,6 +550,8 @@ def build_quadruped(spec):
         "alert": {"eye_L", "eye_R", "catch_L", "catch_R"},
         "sad": {"eye_L", "eye_R", "catch_L", "catch_R", "brow_L", "brow_R"},
     }
+    if READ44 == "A" and kind == "dog":
+        expr["read"] = {"eye_L", "eye_R", "catch_L", "catch_R", "glass_L", "glass_R", "glass_bridge"}     # v0.44 (TPDB_READ44)
     states = {}
     for name, show in expr.items():
         st = {key_ob.name: {"hide": key not in show} for key, key_ob in face.objs.items()}
@@ -639,6 +694,16 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         rig.aim_dir("head", (0, math.sin(p), math.cos(p)))
 
     def sit_up_hold():
+        if BEG42 == "B" and READ44 == "A":
+            # v0.44 (TPDB_READ44): sitting up as v0.42, both forepaws raised level to the paper's top edge, the far one a little ahead so both show
+            # on it in profile; the head bowed about 20 degrees and turned a little to the viewer
+            body(hip_drop=0.40, hip_back=-0.04, chest_drop=-0.30, chest_y=0.0, tail=(0.10, 0.90, 0.25), neck=(0, -0.30, 1), head_pitch=-26,
+                 head_turn=-20, spine_scale=(1.12, 0.80, 1.12))
+            rig.aim_dir("tail2", (0.0, 0.25, 1.0))
+            fz = chest_z * 0.72
+            legs({"L": (0.065, -0.21, fz + 0.13), "R": (-0.065, -0.25, fz + 0.135)}, {"L": (0.12, 0.09, 0.035), "R": (-0.12, 0.11, 0.035)},
+                 fhint=(0, 0.4, -1), bhint=(0, -1, 0.35))
+            return
         if BEG42 == "B" and READ43 == "B":
             # v0.43 (TPDB_READ43): sitting a little more upright, the head bowed toward the page and the forepaws lower, on the top of a paper whose
             # foot is on the ground (its paper stood "upright on its own")

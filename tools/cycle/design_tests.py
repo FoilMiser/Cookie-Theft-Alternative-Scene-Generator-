@@ -11,6 +11,21 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.44 (builder 0.44.0: the reading dog sitting up in glasses, the cat's ears, the goat's beard, the dogs' noses, props in colours of their own, the
+    # run, the sand spade, the nozzle inspected face up, the call from the seesaw, the content face; revision 42: the reading dog's paper hung from its
+    # paws, the waiting dog's yellow lead, the goat in the park only, the stalking cat clear of trees, the lost balloon high, the upward water tapering):
+    # a park: the reading dog, a balloon lost, a runner
+    ("park", 3, 44401, {"contradictions": ["dog_reading"], "modules": ["lost_balloon"], "events": ["run"]}, None),
+    # a garden: the dog by the door, a cat stalking a bird, the water going up
+    ("garden", 3, 44402, {"modules": ["dog_wants_walk", "cat_stalks_bird"], "contradictions": ["water_upward"]}, None),
+    # a playground: the seesaw stuck, a sandcastle, an ice cream
+    ("playground", 3, 44403, {"modules": ["seesaw_heavy"], "events": ["sandbox", "ice_cream"]}, None),
+    # a park: the goat at an angle, an ice cream eaten with a content face, a photographer
+    ("park", 3, 44404, {"events": ["goat_grazing", "ice_cream", "photo"], "yaws": {"goat_grazing": 45}}, "content"),
+    # a street: the reading dog, a shopper with a bag, a dog begging
+    ("street", 3, 44405, {"contradictions": ["dog_reading"], "events": ["carry_bag"], "modules": ["dog_begs"]}, None),
+    # a garden: the hose stopped and inspected, a raker, a child on the swing (with a planter, plant_flowers placed on none of 80 seeds)
+    ("garden", 3, 44406, {"modules": ["blocked_hose"], "events": ["rake", "swing"]}, None),
     # v0.43 (builder 0.43.0: the dogs' legs, the goat's horns and beard, the reading dog lying down over a paper on the ground, the two women's heads
     # and faces; revision 41: the reading dog kept from the trip, a dog on the stopped hose, the goat's rope slack, the stalking cat in profile, the
     # begging dog's mouth closed):
@@ -129,6 +144,8 @@ def ok(rec, rule):
         return any(it.get("template") == "pan_watering" for it in rec["items"])
     if rule == "windyswing":
         return any(e["id"] == "swing_seat" for e in rec["elements"])
+    if rule == "content":
+        return any("__content__" in e.get("asset", {}).get("variant", "") for e in rec["elements"])
     if rule == "stalkfence":
         return any(it.get("template") == "cat_stalks_bird" and "fence" in it["text"] for it in rec["items"])
     return any(e["id"] == rule for e in rec["elements"])

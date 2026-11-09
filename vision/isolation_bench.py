@@ -22,6 +22,40 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.44 (vision/flaws_v043.md, Sam's figure-fixes-v043.md and figure-review-v043.md), whole pictures: v0.43's lesson was that a cut-out read the
+    # lying reading dog as reading and the whole picture did not. A tier-3 picture with the changed templates forced among the planner's own; the
+    # fourth letter the drawing: O v0.43's cast (BENCH_CAST=assets/cast/out043) and revision 41's rules; N the v0.44 cast with every switch on
+    # (tpdb_work/bench44/out_N: TPDB_READ44 CAT44 GOAT44 NOSE44 PROP44 RUN44 SPADE44 INSPECT44 CALL44 CONTENT44 "A") and every revision-42 switch on;
+    # the reading dog A sitting up with its paper hung from its paws, G the same in reading glasses (templates.READ44)
+    "rd6O_1": ("park", 44011, {"contradictions": ["dog_reading"], "events": ["goat_grazing"], "modules": ["lost_balloon"], "yaws": {"goat_grazing": 45}}, "full", None),
+    "rd6A_1": ("park", 44011, {"contradictions": ["dog_reading"], "events": ["goat_grazing"], "modules": ["lost_balloon"], "yaws": {"goat_grazing": 45}}, "full", None),
+    "rd6G_1": ("park", 44011, {"contradictions": ["dog_reading"], "events": ["goat_grazing"], "modules": ["lost_balloon"], "yaws": {"goat_grazing": 45}}, "full", None),
+    "rd6O_2": ("garden", 44012, {"contradictions": ["dog_reading"], "modules": ["cat_stalks_bird"], "events": ["paint_fence"]}, "full", None),
+    "rd6A_2": ("garden", 44012, {"contradictions": ["dog_reading"], "modules": ["cat_stalks_bird"], "events": ["paint_fence"]}, "full", None),
+    "rd6G_2": ("garden", 44012, {"contradictions": ["dog_reading"], "modules": ["cat_stalks_bird"], "events": ["paint_fence"]}, "full", None),
+    "rd6O_3": ("street", 44013, {"contradictions": ["dog_reading", "square_wheel"], "events": ["run", "carry_bag"]}, "full", None),
+    "rd6A_3": ("street", 44013, {"contradictions": ["dog_reading", "square_wheel"], "events": ["run", "carry_bag"]}, "full", None),
+    "rd6G_3": ("street", 44013, {"contradictions": ["dog_reading", "square_wheel"], "events": ["run", "carry_bag"]}, "full", None),
+    "pg6O_1": ("playground", 44021, {"modules": ["seesaw_heavy"], "events": ["sandbox", "run"]}, "full", None),
+    "pg6N_1": ("playground", 44021, {"modules": ["seesaw_heavy"], "events": ["sandbox", "run"]}, "full", None),
+    "gd6O_1": ("garden", 44022, {"modules": ["blocked_hose", "cat_stalks_bird"], "events": ["dig"]}, "full", None),
+    "gd6N_1": ("garden", 44022, {"modules": ["blocked_hose", "cat_stalks_bird"], "events": ["dig"]}, "full", None),
+    "pk6O_1": ("park", 44023, {"events": ["goat_grazing", "run", "ice_cream", "water_flowers"], "contradictions": ["square_wheel"], "yaws": {"goat_grazing": 45}}, "full", None),
+    "pk6N_1": ("park", 44023, {"events": ["goat_grazing", "run", "ice_cream", "water_flowers"], "contradictions": ["square_wheel"], "yaws": {"goat_grazing": 45}}, "full", None),
+    "gd6O_2": ("garden", 44024, {"modules": ["dog_wants_walk"], "contradictions": ["water_upward", "square_wheel"]}, "full", None),
+    "gd6N_2": ("garden", 44024, {"modules": ["dog_wants_walk"], "contradictions": ["water_upward", "square_wheel"]}, "full", None),
+    # v0.44 round 2 (BENCH_CAST=tpdb_work/bench44/out_N, every revision-42 switch on): the reading dog in glasses with its paper tilted, its far side
+    # sagging (rd7T, templates.READ44 "G", READ44T "T"; hung square it "stands upright on its own", four of six round-1 readings), new seeds; the
+    # waiting dog's lead yellow (green read as "a garden hose"), hanging from the mouth to a loop clear of the ground (wn7B) or lying in a loop on the
+    # ground as v0.43's (wn7C)
+    "rd7T_1": ("park", 44111, {"contradictions": ["dog_reading"], "events": ["kick_ball"]}, "full", None),
+    "rd7T_2": ("garden", 44112, {"contradictions": ["dog_reading"], "events": ["rake"]}, "full", None),
+    "rd7T_3": ("street", 44113, {"contradictions": ["dog_reading"], "events": ["ice_cream"]}, "full", None),
+    "rd7T_4": ("playground", 44114, {"contradictions": ["dog_reading"], "events": ["slide"]}, "full", None),
+    "wn7B_1": ("garden", 44121, {"modules": ["dog_wants_walk"], "events": ["rake"]}, "full", None),
+    "wn7B_2": ("garden", 44122, {"modules": ["dog_wants_walk"], "events": ["hang_laundry"]}, "full", None),
+    "wn7C_1": ("garden", 44121, {"modules": ["dog_wants_walk"], "events": ["rake"]}, "full", None),
+    "wn7C_2": ("garden", 44122, {"modules": ["dog_wants_walk"], "events": ["hang_laundry"]}, "full", None),
     # v0.43 (vision/flaws_v042.md and Sam's figure-fixes-v042.md): first three letters the thing, the fourth the drawing. O v0.42's cast and scene
     # (BENCH_CAST=assets/cast/out042, a copy of its library); N the v0.43 cast with every switch on (BENCH_CAST=tpdb_work/bench43/out_N: TPDB_DOG43=B
     # TPDB_GOAT43=B TPDB_READ43=B TPDB_ADULT43=B) and revision 41's TRIP43, HOSE43 and BEGX43 "B"; the reading dog A on out_NA (TPDB_READ43=A, the
@@ -886,6 +920,7 @@ NEW40 = {n for n in BENCH if n[2] == "0" and BENCH[n][1] // 1000 == 40}
 NEW41 = {n for n in BENCH if n[2] == "1" and BENCH[n][1] // 1000 == 41}
 NEW42 = {n for n in BENCH if n[2] in "23" and BENCH[n][1] // 1000 == 42}
 NEW43 = {n for n in BENCH if n[2] in "45" and BENCH[n][1] // 1000 == 43}
+NEW44 = {n for n in BENCH if n[2] in "67" and BENCH[n][1] // 1000 == 44}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -1006,6 +1041,18 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         if name[:4] in ("ct4C", "ct5C"):
             _T0.CAT43 = "C"
         _T0.TETHER43 = "R" if name[:4] == "gt5C" else "O"
+    if name in NEW44:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        # every revision-42 switch off (O, v0.43), then on for N, A and G
+        _T0.READ44, _T0.LEAD44, _T0.GOAT44, _T0.CAT44, _T0.BAL44, _D.WATER44, _D.WHEEL44 = "O", "O", "O", "O", "O", "O", "O"
+        if name[3] in "NAGTBC":
+            _T0.LEAD44, _T0.GOAT44, _T0.CAT44, _T0.BAL44, _D.WATER44, _D.WHEEL44 = "B", "B", "B", "B", "B", "B"
+            _T0.READ44 = "G" if name[3] in "GT" else "A"
+        if name[:4] == "rd7T":
+            _T0.READ44T = "T"
+        if name[:4] in ("wn7B", "wn7C"):
+            _T0.LEAD44 = name[3]
     rec = None
     for k in range(40):
         USAGE.clear()

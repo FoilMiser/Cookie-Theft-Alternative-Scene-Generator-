@@ -115,7 +115,11 @@ def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", s
     face.place("m_laugh", half_ellipsoid("laugh", "throat"), face.frame(0, mz + 0.012 * k, 0.0, scale=(mw * 1.45, 0.010 * k, 0.042 * k)))
     face.place("m_tongue", ellipsoid("tongue", (0, 0, 0), (1, 1, 1), "red"), face.frame(0, mz - 0.020 * k, 0.003 * k, scale=(mw * 0.62, 0.004 * k, 0.012 * k)))
     face.place("m_O", ellipsoid("O", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.006 * k, 0.0, scale=(0.017 * k, 0.010 * k, 0.022 * k)))
-    face.place("m_ooh", ellipsoid("ooh", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.010 * k, 0.0, scale=(0.015 * k, 0.010 * k, 0.030 * k)))
+    if __import__("os").environ.get("TPDB_CALL44", "A") == "A":     # v0.44 bench (vision/isolation_v044.md): A
+        # v0.44 (TPDB_CALL44): wider open, so the call shows at scene size ("a 4 px o")
+        face.place("m_ooh", ellipsoid("ooh", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.012 * k, 0.0, scale=(0.021 * k, 0.010 * k, 0.037 * k)))
+    else:
+        face.place("m_ooh", ellipsoid("ooh", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.010 * k, 0.0, scale=(0.015 * k, 0.010 * k, 0.030 * k)))
     face.place("m_o", ellipsoid("o", (0, 0, 0), (1, 1, 1), "outline"), face.frame(0, mz, 0.0, scale=(0.009 * k, 0.008 * k, 0.011 * k)))
     face.place("m_teeth", ellipsoid("teeth", (0, 0, 0), (1, 1, 1), "cream"), face.frame(0, mz - 0.002 * k, 0.001 * k, scale=(mw * 1.05, 0.010 * k, 0.012 * k)))
     face.curve_on("m_teeth_line", [(-mw * 0.92, mz - 0.002 * k), (mw * 0.92, mz - 0.002 * k)], lw * 0.55, "outline", 0.010 * k)
@@ -159,6 +163,12 @@ PEOPLE_EXPRESSIONS = {
     "calling":     dict(eyes="bean",   brow=(0.016, 0, 0.016, 0),     mouth="m_ooh"),
     "suspicious":  dict(eyes="half",   brow=(-0.010, -14, 0.006, 0),  mouth="m_slant", look=(0.75, 0.0)),
 }
+
+# v0.44 bench (figure-review-v043.md item 18, TPDB_CONTENT44): the "content" face's closed lids under low brows merge into "><", brain freeze or
+# crying, in all nine content renders (mostly eating ice cream). "A": the happy face's upward arcs, the brows a little raised and level. "O": v0.43
+CONTENT44 = __import__("os").environ.get("TPDB_CONTENT44", "A")  # v0.44 (vision/isolation_v044.md; read in the design tests): A
+if CONTENT44 == "A":
+    PEOPLE_EXPRESSIONS["content"] = dict(eyes="happy", brow=(0.006, 0, 0.006, 0), mouth="m_smile", blush=True)
 
 GLANCE_YAW_DEG, GLANCE_PITCH_DEG = 24.0, 20.0
 

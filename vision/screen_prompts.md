@@ -1,6 +1,6 @@
 # Blind screen prompts
 
-The prompts given to the readers and the scorer in all forty screens (v0.4 to v0.43) and the v0.9 retest, with the
+The prompts given to the readers and the scorer in all forty-one screens (v0.4 to v0.44) and the v0.9 retest, with the
 picture count and paths left as placeholders. Each reader is a fresh model instance that sees only its
 own blind pictures (`vNN/blind/pic_NN.png`); the scorer sees only the descriptions and `keys.json`.
 In v0.6 four readers described 7, 6, 6 and 6 pictures. In v0.7 six readers described 7, 7, 7, 7, 7 and 6
@@ -99,6 +99,7 @@ In v0.40 twelve readers described 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7 and 7 pictures
 In v0.41 twelve readers described 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7 and 7 pictures (93 in all), and four scorers took pictures 1 to 24, 25 to 48, 49 to 71 and 72 to 93, on Claude Opus 5.5, with v0.39's prompts.
 In v0.42 twelve readers described 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 7 and 7 pictures (92), and four scorers took pictures 1 to 23, 24 to 46, 47 to 69 and 70 to 92, on Claude Opus 5.5, with v0.39's prompts. After the screen, picture 10 was redrawn under a new rule and picture 93 added as a probe; each was read by a reader of its own and scored by a scorer of its own, with the same prompts cut to the one picture (`tpdb_work/v042prompts/reader_r10.txt`, `scorer_e.txt`, `reader_r93.txt`, `scorer_f.txt`).
 In v0.43 twelve readers described 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7 and 7 pictures (94), and four scorers took pictures 1 to 24, 25 to 48, 49 to 71 and 72 to 94, on Claude Opus 5.5, with v0.39's prompts.
+In v0.44 eleven readers described 8, 8, 8, 8, 8, 7, 7, 7, 7, 7 and 7 pictures (82), and four scorers took pictures 1 to 21, 22 to 42, 43 to 62 and 63 to 82, on Claude Opus 5.5, with v0.39's prompts. After the screen pictures 6, 32 and 49 were rebuilt and each read again by a fresh reader and scorer, with the same prompts cut to the one picture (`tpdb_work/v044prompts/reader_r06.txt`, `reader_r32.txt`, `reader_r49.txt`, `scorer_e.txt` to `scorer_g.txt`).
 One line was added to the scorer prompt, for the first time since v0.4: "List under "unintended" only what the describer presents as looking wrong, impossible or confusing,
 at most three for a picture, the most striking first; leave out hedges about small details." The isolation bench (`isolation_v025.md`, two rounds, 20 cut-outs) used the
 isolation prompt, and the design tests (`design_tests_v025.md`, six pictures, two each per reader) the reader prompt.

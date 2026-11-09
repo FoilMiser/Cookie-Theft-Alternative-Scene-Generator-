@@ -13,6 +13,53 @@ from mathutils import Matrix, Quaternion, Vector
 import bmesh
 
 from .core import Frame, _mesh_object, anchor, box, cyl, ellipsoid, flat_prism, frame_toward, half_ellipsoid, nrm, tube_mesh, upd
+from .core import PALETTE as _PAL44
+
+import colorsys as _cs44
+import os as _os44
+
+# v0.44 bench (figure-review-v043.md item 1, TPDB_PROP44): a prop the same colour as the clothes behind it vanishes into them: the yellow shopping bag
+# on the woman in yellow's dress read as an apron panel, the teal watering can on the grandmother's teal cardigan, a pink scoop on a pink dress.
+# "A": each such prop takes the first colour of its list whose hue is at least 20 degrees from every saturated garment the person wears (the clashes
+# named are 0 degrees apart; at 40, the pink scoop by the red shirt went cream, pale on pale skin, and the cone's tip read as "a moustache or a
+# chocolate smear" in both v0.44 design tests that drew it). "O": v0.43
+PROP44 = _os44.environ.get("TPDB_PROP44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.44 bench (figure-review-v043.md item 2, TPDB_RUN44): running read as a lunge, the hips low and the back shoe planted flat behind, nothing off the
+# ground. "A": the hips up, the back shin kicked up behind, the front foot a little off the ground, the lean 16 degrees, no sole under the raised
+# foot. "O": v0.43
+RUN44 = _os44.environ.get("TPDB_RUN44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.44 bench (figure-review-v043.md item 14, TPDB_THROW44): the throw's straight arm up and forward, its fingers together, read as pointing. "A": the
+# follow-through, the throwing arm at shoulder height across the front of the body, the hand open with its palm to the viewer, the other arm back.
+# "O": v0.43
+THROW44 = _os44.environ.get("TPDB_THROW44", "O")  # v0.44: O (A looked no better than v0.43's; not benched)
+# v0.44 bench (figure-review-v043.md item 6, TPDB_SPADE44): the sand spade's small red blade, apart from its blue handle, read as a floating red cross
+# (a first-aid sign). "A": the handle runs into a blade twice the size with a pointed foot. "O": v0.43
+SPADE44 = _os44.environ.get("TPDB_SPADE44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.44 bench (figure-review-v043.md item 15, TPDB_INSPECT44): looking into the hose's nozzle, the head tipped 20 degrees down hid the brows and the
+# mouth, and the inference rests on the puzzled face. "A": the head level, turned 20 degrees toward the viewer. "O": v0.43
+INSPECT44 = _os44.environ.get("TPDB_INSPECT44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.44 bench (figure-review-v043.md item 13, TPDB_CALL44): stuck up on the seesaw and calling out, both hands at the chest and a small "o" of a mouth
+# read as nervous or praying. "A": one hand on the handle, the other cupped at a wider open mouth (face.CALL44). "O": v0.43
+CALL44 = _os44.environ.get("TPDB_CALL44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+
+
+def _pcol(P, default, alts):
+    """v0.44 (TPDB_PROP44): the prop's colour: the first of default and alts whose hue is at least 20 degrees from every saturated garment the person
+    wears (shirt, trousers or dress, vest, cardigan's inner)."""
+    if PROP44 != "A":
+        return default
+    spec = P.c.spec
+
+    def hsv(key):
+        h = _PAL44[key].lstrip("#")
+        return _cs44.rgb_to_hsv(*(int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)))
+    worn = [spec[k] for k in ("shirt", "pants", "vest", "inner") if spec.get(k) in _PAL44 and not (k == "pants" and spec.get("bottom") == "dress")]
+    worn = [hsv(k) for k in worn if hsv(k)[1] >= 0.30]
+    for col in (default,) + tuple(alts):
+        h0, s0, v0 = hsv(col)
+        if s0 < 0.30 or all(min(abs(h0 - h), 1 - abs(h0 - h)) * 360 >= 20 for h, s, v in worn):
+            return col
+    return default
 
 
 class Poser:
@@ -226,6 +273,15 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
 
 
 def lo_run(P):
+    if RUN44 == "A":
+        # v0.44 (TPDB_RUN44): off the ground, the back shin kicked up behind, the front foot just lifted, the hips up, leaning into the run; the
+        # raised back foot without its sole (a grey plate under a raised shoe)
+        feet = {"L": (0.0, 0.20, 0.32), "R": (0.0, -0.24, 0.05)}
+        P.torso(lean=16, drop=P.drop_hips_for(feet), head_pitch=4)
+        P.place_legs(feet, hint={"L": (0, -1, -0.6), "R": (0, -1, 0.5)})
+        P.rig.aim_dir("foot_L", (0, 0.55, -0.83))
+        P.hides.setdefault(P.cur, []).append("Sole_L")
+        return
     feet = {"L": (0.0, 0.30, 0.16), "R": (0.0, -0.26, 0.0)}
     P.torso(lean=12, drop=P.drop_hips_for(feet) + 0.03 * P.u, head_pitch=4)
     P.place_legs(feet, hint={"L": (0, -1, -0.2), "R": (0, -1, 0.4)})
@@ -639,11 +695,12 @@ def up_water_can(P):
     g = P.grip("R")
     F = Frame.euler(g, rx=48)
     body_c = F.p(0, 0.01 * u, -0.13 * u)
-    P.prop("can", cyl("can", F.p(0, 0.01 * u, -0.215 * u), F.p(0, 0.01 * u, -0.045 * u), 0.085 * u, "teal", seg=24))
+    cc = _pcol(P, "teal", ("gray", "red", "blue"))      # v0.44 (TPDB_PROP44)
+    P.prop("can", cyl("can", F.p(0, 0.01 * u, -0.215 * u), F.p(0, 0.01 * u, -0.045 * u), 0.085 * u, cc, seg=24))
     P.prop("handle", tube_mesh("handle", [F.p(0, 0.075 * u, -0.05 * u), F.p(0, 0.05 * u, 0.0), F.p(0, 0.0, 0.016 * u),
-                                          F.p(0, -0.05 * u, 0.0), F.p(0, -0.075 * u, -0.05 * u)], 0.012 * u, "teal"))
+                                          F.p(0, -0.05 * u, 0.0), F.p(0, -0.075 * u, -0.05 * u)], 0.012 * u, cc))
     s0, s1 = F.p(0, -0.07 * u, -0.19 * u), F.p(0, -0.27 * u, -0.06 * u)
-    P.prop("spout", cyl("spout", s0, s1, 0.018 * u, "teal", r1=0.012 * u))
+    P.prop("spout", cyl("spout", s0, s1, 0.018 * u, cc, r1=0.012 * u))
     d = (s1 - s0).normalized()
     P.prop("rose", cyl("rose", s1 - d * 0.005 * u, s1 + d * 0.03 * u, 0.014 * u, "gray", r1=0.032 * u))
     P.panchor("spout", s1 + d * 0.03 * u)
@@ -971,6 +1028,17 @@ def up_spade_pat(P):
     u = P.u
     P.arms({"R": (Vector((-0.08 * u, -0.34 * u, 0.36 * u)), (-0.8, 0.4, -0.5)), "L": (Vector((0.10 * u, -0.33 * u, 0.33 * u)), (0.8, 0.4, -0.5))})
     g = P.grip("R")
+    if SPADE44 == "A":
+        # v0.44 (TPDB_SPADE44): the handle runs down into a blade twice the size, square at the top and pointed at the foot, its flat face turned
+        # half to the viewer (seen at 45)
+        top = g - Vector((0, 0.04, 0.09)) * u
+        P.prop("handle", cyl("handle", g + Vector((0, 0.0, 0.05)) * u, top - Vector((0, 0.004, 0.02)) * u, 0.018 * u, "blue"))
+        ax, ay = Vector((0.70, -0.70, 0.0)), Vector((0.0, -0.20, -0.98)).normalized()
+        outline = [(-0.075, 0.0), (0.075, 0.0), (0.075, 0.11), (0.0, 0.17), (-0.075, 0.11)]
+        P.prop("blade", flat_prism("blade", [(x * u, y * u) for x, y in outline], top, ax, ay, ax.cross(ay), 0.014 * u, "red"))
+        P.panchor("spade_tip", top + ay * 0.17 * u)
+        P.panchor("build_point", Vector((0.0, -0.44 * u, 0.0)))
+        return
     P.prop("handle", cyl("handle", g + Vector((0, 0.0, 0.05)) * u, g - Vector((0, 0.03, 0.05)) * u, 0.018 * u, "blue"))
     P.prop("blade", box("blade", g - Vector((0, 0.05, 0.10)) * u, (0.08 * u, 0.014 * u, 0.08 * u), "red", bevel=0.01 * u))
     P.panchor("spade_tip", g - Vector((0, 0.06, 0.15)) * u)
@@ -1086,14 +1154,15 @@ def _hang_bag(P, sd, kind):
         # to the hand in a V. A as tall as it is wide; B wider and shorter
         w, h = (0.25, 0.27) if BAG_STYLE == "A" else (0.33, 0.23)
         top = g - Vector((0, 0, 0.12 * u))
-        P.prop("bag", box("bag", top - Vector((0, 0, h / 2 * u)), (0.10 * u, w * u, h * u), "yellow"), bone)
+        P.prop("bag", box("bag", top - Vector((0, 0, h / 2 * u)), (0.10 * u, w * u, h * u), _pcol(P, "yellow", ("blue", "red", "green"))), bone)
         for y in (-0.075, 0.075):
             P.prop(f"strap{'a' if y < 0 else 'b'}", tube_mesh("strap", [top + Vector((0, y * u, 0)), g + Vector((0, y * 0.2 * u, 0.01 * u))], 0.010 * u, "charcoal"), bone)
     elif kind == "bag":
         top = g - Vector((0, 0, 0.09 * u))
-        P.prop("bag", box("bag", top - Vector((0, 0, 0.14 * u)), (0.24 * u, 0.11 * u, 0.28 * u), "yellow"), bone)
+        bc = _pcol(P, "yellow", ("blue", "red", "green"))
+        P.prop("bag", box("bag", top - Vector((0, 0, 0.14 * u)), (0.24 * u, 0.11 * u, 0.28 * u), bc), bone)
         for x in (-0.06, 0.06):
-            P.prop(f"strap{'a' if x < 0 else 'b'}", tube_mesh("strap", [top + Vector((x * u, 0, 0)), g + Vector((x * 0.3 * u, 0, 0.01 * u))], 0.008 * u, "yellow"), bone)
+            P.prop(f"strap{'a' if x < 0 else 'b'}", tube_mesh("strap", [top + Vector((x * u, 0, 0)), g + Vector((x * 0.3 * u, 0, 0.01 * u))], 0.008 * u, bc), bone)
     elif kind == "basket":
         top = g - Vector((0, 0, 0.14 * u))
         bowl = half_ellipsoid("basket", "wood_light")
@@ -1174,6 +1243,8 @@ def up_ice_cream(P):
         P.prop("scoop", ellipsoid("scoop", g + Vector((0, 0, 0.130)) * u, (0.050 * u, 0.050 * u, 0.043 * u), "pink"))
         return
     P.prop("cone", cyl("cone", g + Vector((0, 0, 0.05)) * u, g + Vector((0, 0, -0.07)) * u, 0.040 * u, "wood_light", r1=0.004 * u))
+    # (v0.44 screen: the scoop is not in TPDB_PROP44's rule. Cream against the girl in pink's dress it was "something small and white", "a sweet,
+    # a dandelion clock", three half marks and ice_cream under the gate; pink, as in v0.43, read in full)
     P.prop("scoop", ellipsoid("scoop", g + Vector((0, 0, 0.085)) * u, (0.046 * u, 0.046 * u, 0.040 * u), "pink"))
 
 
@@ -1266,6 +1337,15 @@ def up_throw(P):
     """Follow-through just after the release: throwing arm straight out ahead and up, hand open and
     empty, other arm back. The ball itself is drawn in flight by the scene, leaving from `release`."""
     u = P.u
+    if THROW44 == "A":
+        # v0.44 (TPDB_THROW44): the follow-through, the throwing arm swung down and across the front of the body, the palm open to the viewer,
+        # the other arm swung back
+        P.arms({"R": (P.lm("sh_R") + nrm((0.45, -0.72, -0.52)) * P.A * 0.97, (-1, 0.2, -0.8)),
+                "L": (P.lm("sh_L") + nrm((0.20, 0.80, -0.45)) * P.A * 0.97, (0.2, -0.5, -0.4))})
+        P.hand("R", "open", palm=(-1, -0.25, 0.1))
+        w, d, n, t = P.hand_frame("R", (-1, -0.25, 0.1))
+        P.panchor("release", w + d * 0.16 * u + n * 0.03 * u, "hand_R")
+        return
     P.arms({"R": (P.lm("sh_R") + nrm((0.05, -0.85, 0.42)) * P.A * 0.99, (-1, 0.4, -0.6)),
             "L": (P.lm("sh_L") + nrm((0.25, 0.55, -0.80)) * P.A * 0.97, (0.2, -0.5, -0.4))})
     P.hand("R", "open", palm=(0, -1, -0.4))
@@ -1304,8 +1384,9 @@ def up_balloon(P):
     g = P.grip("R")
     b = Vector((g.x, g.y - 0.07 * u, P.lm("head_top").z + 0.40 * u))
     P.prop("string", tube_mesh("string", [g, g.lerp(b, 0.5) + Vector((0.03 * u, 0, 0)), b - Vector((0, 0, 0.17 * u))], 0.0045 * u, "outline"))
-    P.prop("balloon", ellipsoid("balloon", b, (0.135 * u, 0.13 * u, 0.165 * u), "yellow"))
-    P.prop("knot", cyl("knot", b - Vector((0, 0, 0.18 * u)), b - Vector((0, 0, 0.155 * u)), 0.006 * u, "yellow", r1=0.018 * u))
+    bc = _pcol(P, "yellow", ("red", "blue"))      # v0.44 (TPDB_PROP44)
+    P.prop("balloon", ellipsoid("balloon", b, (0.135 * u, 0.13 * u, 0.165 * u), bc))
+    P.prop("knot", cyl("knot", b - Vector((0, 0, 0.18 * u)), b - Vector((0, 0, 0.155 * u)), 0.006 * u, bc, r1=0.018 * u))
 
 
 def up_paint(P):
@@ -1457,6 +1538,17 @@ def up_grip_handle(P):
     P.panchor("handle", (P.grip("L") + P.grip("R")) / 2)
 
 
+def up_grip_call(P):
+    """v0.44 (TPDB_CALL44): stuck up on the seesaw and calling: the near hand on the handle in front of the chest, the far hand cupped just in front
+    of the open mouth, clear of the face (both hands at the chest read as nervous or praying)."""
+    u = P.u
+    c = P.lm("chest")
+    m = P.lm("mouth")
+    P.arms({"R": (c + Vector((-0.07, -0.20, -0.02)) * u, (-1, 0.3, -0.7)), "L": (m + Vector((0.05, -0.11, -0.03)) * u, (1, 0.3, -0.7))})
+    P.hand("L", "open", palm=(-0.6, -0.3, 0))
+    P.panchor("handle", P.grip("R"))
+
+
 def up_grip_reach(P):
     """v0.14: the far hand gripping the handle in front of the chest, the near arm reaching out and up toward the
     other end, the hand open: holding on and calling to the one below."""
@@ -1564,7 +1656,7 @@ UPPER = {
     "hold_ball": up_hold_ball, "kite": up_kite, "balloon": up_balloon, "paint": up_paint, "photo": up_photo,
     "flowers": up_flowers, "feed_birds": up_feed_birds, "walk_dog": up_walk_dog, "fish": up_fish,
     "bucket_hat": up_bucket_hat, "trowel": up_trowel, "empty_cone": up_empty_cone, "empty_cone_low": up_empty_cone_low,
-    "sweep_dinner_fork": up_sweep_dinner_fork, "sweep_giant_fork": up_sweep_giant_fork, "spade_pat": up_spade_pat, "feed_birds_low": up_feed_birds_low, "grip_handle": up_grip_handle, "grip_reach": up_grip_reach, "balloon_reach": up_balloon_reach, "read_open": up_read_open,
+    "sweep_dinner_fork": up_sweep_dinner_fork, "sweep_giant_fork": up_sweep_giant_fork, "spade_pat": up_spade_pat, "feed_birds_low": up_feed_birds_low, "grip_handle": up_grip_handle, "grip_call": up_grip_call, "grip_reach": up_grip_reach, "balloon_reach": up_balloon_reach, "read_open": up_read_open,
 }
 
 # v0.18: the reading walker's head bent 20 degrees, not 30 (bent further, the dark-haired woman's face was hidden: "no
@@ -1579,7 +1671,9 @@ WALK_READ_PITCH_OTHERS = -30
 ACTIONS = [
     ("stand", "stand", {}, None, "standing", ["idle"]),
     ("walk", "walk", {}, "walk_swing", "walking", ["move"]),
-    ("run", "run", {}, "run_swing", "running", ["move"]),
+    # (v0.44, TPDB_RUN44 "A": both feet off the ground, so the variant is airborne: the validator's ground rule does not apply, and its shadow is the
+    # jumper's, a little lighter)
+    ("run", "run", {}, "run_swing", "running", ["move", "airborne"] if RUN44 == "A" else ["move"]),
     ("kick_low", "kick_low", {}, "kick_swing", "kicking a ball along the ground", ["ball"]),
     ("wave", "stand", {"head_roll": -6, "side": -3}, "wave", "waving", ["social"]),
     ("point", "stand", {}, "point", "pointing", ["social", "look"]),
@@ -1606,7 +1700,9 @@ ACTIONS = [
     ("water_plants", "stand", {"lean": 6, "head_pitch": -22}, "water_can", "watering the plants", ["garden", "water"]),
     ("water_pan", "stand", {"lean": 6, "head_pitch": -22}, "water_pan", "watering the plants with a frying pan", ["garden", "water", "misuse"]),
     ("hose_spray", "stand", {"lean": 4, "head_pitch": -14}, "hose_spray", "spraying the hose", ["garden", "water", "hose"]),
-    ("hose_inspect", "stand", {"head_pitch": -20, "lean": 4}, "hose_inspect", "looking into the hose nozzle", ["garden", "hose", "look"]),
+    # (v0.44, TPDB_INSPECT44 "A": the head level and turned toward the viewer, so the puzzled brows and mouth show)
+    ("hose_inspect", "stand", {"head_pitch": 2, "head_turn": 20, "lean": 4} if INSPECT44 == "A" else {"head_pitch": -20, "lean": 4}, "hose_inspect",
+     "looking into the hose nozzle", ["garden", "hose", "look"]),
     ("sweep", "stand", {"lean": 10, "head_pitch": -18}, "sweep", "sweeping", ["chore"]),
     ("rake", "stand", {"lean": 14, "head_pitch": -20}, "rake", "raking leaves", ["chore", "garden"]),
     ("dig_lift", "dig_lunge", {}, "dig_lift", "digging, lifting a spadeful of earth", ["chore", "garden"]),
@@ -1648,7 +1744,7 @@ ACTIONS = [
     ("feed_birds_low", "stand", {"lean": 16, "head_pitch": -40}, "feed_birds_low", "feeding the birds", ["birds"]),
     ("jump_tuck", "jump_tuck", {}, "cheer", "doing a star jump for joy", ["move", "airborne", "emotion"]),
     ("seesaw_stuck", "sit_dangle", {}, "grip_handle", "up high on a seesaw, holding on", ["sit", "seesaw"]),
-    ("seesaw_stuck_call", "sit_hang", {}, "grip_handle", "stuck up in the air, holding on tight, calling out", ["sit", "seesaw"]),
+    ("seesaw_stuck_call", "sit_hang", {}, "grip_call" if CALL44 == "A" else "grip_handle", "stuck up in the air, holding on tight, calling out", ["sit", "seesaw"]),
     ("seesaw_low", "sit_low", {}, "cross_arms", "sitting on the low end of a seesaw", ["sit", "seesaw"]),
     # v0.9
     ("balloon_reach", "stand", {"head_pitch": 26, "lean": -3}, "balloon_reach", "holding balloons and reaching for one that got away", ["balloon", "reach"]),

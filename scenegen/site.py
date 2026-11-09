@@ -49,37 +49,37 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v042", "v043"
+PREV, CUR = "v043", "v044"
 
-# the templates v0.43 redrew or ruled for the v0.42 screen and Sam's notes on the figures (vision/flaws_v042.md, tpdb_work/figure-fixes-v042.md): read on
-# the bench (vision/isolation_v043.md) and in whole test scenes (vision/design_tests_v043.md)
+# the templates v0.44 redrew or ruled for the v0.43 screen and Sam's notes on the figures (vision/flaws_v043.md, tpdb_work/figure-fixes-v043.md,
+# tpdb_work/figure-review-v043.md): read on the bench, in whole pictures (vision/isolation_v044.md), and in whole test scenes (vision/design_tests_v044.md)
 REDRAWN_NOTES = {
-    "about_to_trip": "Under the gate in v0.42, on a reader who saw the box beside a boy reading as he walked, the reading dog just behind him. The reading dog is now kept away from the trip: 1.00 in five pictures.",
-    "dog_reading": "Its paper 'stands upright on its own' in v0.42. Now lying down over a paper on the ground: never a person and no paper standing, but in whole pictures 'lying on an open newspaper', pawing at it or tearing it. 0.53, under the gate.",
-    "dog_begs": "Its nose 'almost straight up', once 'howling'. A lowered head did not place at 45; the mouth is now closed, and it begs in all four pictures. 1.00.",
-    "goat_grazing": "Its horns stacked segments, its beard unseen, a garden goat untethered. Now smooth horns, a grey beard and a slack rope it is never drawn without: tethered in all six pictures, unusual in four. 1.00.",
-    "cat_stalks_bird": "Its legs tangled at 45, and at 135 on the bench. Now in profile only, with a gap before the bird. 1.00.",
-    "photo": "0.833 read strictly in v0.42, on three items. Probed five times: 0.90, once 'binoculars (or a camera)'.",
+    "dog_reading": "Under the gate in v0.43, lying 'on an open newspaper'. Now sitting up in reading glasses, its paper hung from its paws: 'as if reading' in all five pictures, the glasses named twice. 1.00.",
+    "dog_wants_walk": "Under the gate in v0.43, its red lead 'attached' to its red collar. Now a yellow lead hanging from its mouth to a loop: 'as if it wants a walk' in all five pictures. 1.00.",
+    "goat_grazing": "Unusual in gardens and twice a sheep from behind. Now in the park only, never at 135: tethered in all four pictures, never a sheep, 'a little unusual' in all four. 1.00.",
+    "cat_stalks_bird": "A plain ball of a head in profile, its ears edge on. Now the ears and whiskers show, and the cat keeps clear of trees. 1.00.",
+    "water_upward": "'Like a bent tube' before the street's slate door. Now a tapering ribbon with drops, never in the street. 1.00.",
+    "lost_balloon": "Its string's end landed on a handlebar or the hedge. Now high on a long string, its curled end clear of everything. 0.944, one picture read two ways.",
 }
 
-# what the v0.43 screen readers made of the templates that read least well (vision/flaws_v043.md)
+# what the v0.44 screen readers made of the templates that read least well (vision/flaws_v044.md)
 WEAK_NOTES = {
-    "dog_reading": "Under the gate at 0.53, the one misread: lying over a paper on the ground, the dog read as lying on it, pawing at it or tearing it. Read as reading on the bench and in the design tests, at a larger size.",
-    "dog_wants_walk": "Under the gate at 0.83 on one picture of three, its red lead 'attached' to its red collar. Not redrawn; 0.92 in v0.42 on a half mark of the same kind.",
+    "ice_cream": "Under the gate at 0.85 with the one misread: the girl in pink walking with her ice cream in profile, 'a small pink thing', a sweet or a flower, in three probes. Her scoop, made cream by the colour rule, was put back to pink after the screen and read again, no better: the cone is too small at her size.",
+    "photo": "0.90 again, once 'a camera (or binoculars)'.",
 }
-SCREEN_NOTE = ("The v0.43 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. The redrawn cast was read on the bench first, and in whole test scenes. "
-               "977 of 1003 items had full marks and one was misread, and 62 of 64 templates pass the gate; the reading dog falls, lying over its paper, and the dog by the door. "
-               "Every dog, goat and woman is drawn anew, so no picture repeats v0.42's. "
+SCREEN_NOTE = ("The v0.44 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. The redrawn cast was read on the bench first, in whole pictures, and in whole test scenes. "
+               "920 of 927 items had full marks and one was misread, and 63 of 64 templates pass the gate; the ice cream falls, on the girl in pink walking with it in profile. "
+               "Every dog, cat, goat and person is drawn anew, so no picture repeats v0.43's. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("pair:person.mei__stand__smile__y000>person.mei__stand__smile__y000", "The woman in yellow",
-          "v0.42: the girls' large round head, a low bun, 'girl' in six of her fourteen pictures. v0.43: a smaller head on a longer neck, a narrower face with smaller eyes set lower, red lips and her bob: 'a woman' in fifteen of her sixteen."),
-         ("pair:animal.goat_01__stand__neutral__y090>animal.goat_01__stand__neutral__y090", "The goat",
-          "v0.42: horns of stacked pieces, a cream beard, the neck straight up. v0.43: one smooth curve for each horn, a larger grey beard, the neck forward; tethered in all six pictures, its rope slack."),
-         ("pair:animal.dog_02__stand__neutral__y090>animal.dog_02__stand__neutral__y090", "The dogs' legs",
-          "v0.42: even tubes, 'thin and stiff like stilts' on the bench. v0.43: a tenth shorter and tapered, the thigh part of the body, a brown patch over the spotted dog's hip; no reader called them stiff.")]
+FIXES = [("pair:animal.dog_01__down_read__neutral__y090>animal.dog_01__sit_up_hold__read__y090", "The reading dog",
+          "v0.43: lying down over a paper on the ground, 'lying on an open newspaper' in four of its five pictures. v0.44: sitting up in round reading glasses, its paws raised to hold the paper's top edge: 'as if reading' in all five."),
+         ("pair:animal.cat_01__stalk_paw__alert__y090>animal.cat_01__stalk_paw__alert__y090", "The cat in profile",
+          "v0.43: the ears seen edge on and the whiskers pointing at the viewer, a plain ball of a head. v0.44: the ears turned so their triangles show, the muzzle forward, the whiskers past the head; stalking in all three pictures."),
+         ("pair:person.dev__run__determined__y090>person.dev__run__determined__y090", "The run",
+          "v0.43: the back shoe planted flat behind, the hips low, read in Sam's review as a lunge. v0.44: off the ground, the back shin kicked up behind, leaning into the run; running in all three pictures.")]
 
 
 

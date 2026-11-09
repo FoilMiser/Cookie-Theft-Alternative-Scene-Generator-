@@ -4,10 +4,10 @@
  "setting": "park",
  "sky": "clear",
  "seed": 1021,
- "mirror": true,
+ "mirror": false,
  "versions": {
-  "generator": "0.43.0",
-  "cast_builder": "0.43.0",
+  "generator": "0.44.0",
+  "cast_builder": "0.44.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -55,22 +55,25 @@
    }
   }
  },
- "features": [],
+ "features": [
+  "bench",
+  "flowers"
+ ],
  "templates": [
   {
-   "id": "kick_ball",
+   "id": "drink_bench",
    "kind": "event",
    "event": "e1",
    "units": 0
   },
   {
-   "id": "ice_cream",
+   "id": "cat_sleeping",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "fly_kite",
+   "id": "kick_ball",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -80,6 +83,105 @@
  "items": [
   {
    "id": "i01",
+   "type": "action",
+   "text": "A man is sitting on the bench with a drink",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "drinking",
+     "having coffee",
+     "drinking tea",
+     "sitting on the bench",
+     "cup",
+     "mug"
+    ]
+   },
+   "key": "drinking",
+   "elements": [
+    "sitter_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "drink_bench",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.029,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.71,
+    "a": 3.47,
+    "zipf_raw": 4.71,
+    "aoa_raw": 3.47,
+    "domain": null,
+    "area_px": 15944
+   },
+   "b": -1.368,
+   "p0": 0.797,
+   "pm1": 0.591,
+   "aoi_cells": [
+    "MC",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A cat is sleeping",
+   "accepted": [
+    "cat sleeping",
+    "cat lying down",
+    "sleeping cat",
+    "cat napping",
+    "cat curled up",
+    "cat"
+   ],
+   "key": "cat",
+   "elements": [
+    "cat_sleeping_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "cat_sleeping",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.147,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.78,
+    "a": 3.68,
+    "zipf_raw": 4.78,
+    "aoa_raw": 3.68,
+    "domain": null,
+    "area_px": 3036
+   },
+   "b": -0.8,
+   "p0": 0.69,
+   "pm1": 0.45,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
    "type": "action",
    "text": "A teenager is kicking a ball",
    "accepted": {
@@ -100,8 +202,8 @@
    },
    "key": "ball",
    "elements": [
-    "kicker_1",
-    "ball_2"
+    "kicker_3",
+    "ball_4"
    ],
    "cues": [],
    "effect": [],
@@ -109,12 +211,12 @@
    "animate": true,
    "domain": null,
    "template": "kick_ball",
-   "event": "e1",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.014,
+    "s": -0.092,
     "r": 0,
     "d": 0.0,
     "f": 1.04,
@@ -122,118 +224,14 @@
     "zipf_raw": 5.04,
     "aoa_raw": 2.9,
     "domain": null,
-    "area_px": 15600
+    "area_px": 13432
    },
-   "b": -1.459,
-   "p0": 0.811,
-   "pm1": 0.613,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A woman is eating an ice cream",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "eating ice cream",
-     "ice cream cone",
-     "having an ice cream",
-     "eating a cone"
-    ]
-   },
-   "key": "ice cream",
-   "elements": [
-    "icecream_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "ice_cream",
-   "event": "e2",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.067,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.47,
-    "a": 3.33,
-    "zipf_raw": 4.47,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 16804
-   },
-   "b": -1.315,
-   "p0": 0.788,
-   "pm1": 0.578,
+   "b": -1.406,
+   "p0": 0.803,
+   "pm1": 0.6,
    "aoi_cells": [
     "MR",
     "BR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "action",
-   "text": "A child is flying a kite",
-   "accepted": {
-    "who": [
-     "child",
-     "kid",
-     "boy",
-     "girl",
-     "son",
-     "daughter"
-    ],
-    "what": [
-     "flying a kite",
-     "kite"
-    ]
-   },
-   "key": "kite",
-   "elements": [
-    "kiteflyer_4",
-    "kite_5"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "fly_kite",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.044,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.45,
-    "a": 4.58,
-    "zipf_raw": 3.55,
-    "aoa_raw": 4.58,
-    "domain": null,
-    "area_px": 14384
-   },
-   "b": -0.983,
-   "p0": 0.728,
-   "pm1": 0.496,
-   "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
    ]
   },
   {
@@ -268,14 +266,14 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 63708
+    "area_px": 63700
    },
    "b": -1.401,
    "p0": 0.802,
    "pm1": 0.599,
    "aoi_cells": [
-    "ML",
-    "BL"
+    "MR",
+    "BR"
    ]
   }
  ],
@@ -287,11 +285,11 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.782,
+   "content": 0.773,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.571,
+   "content": 0.56,
    "inference": null
   }
  },
@@ -314,14 +312,14 @@
   },
   "clutter_band": {
    "result": true,
-   "detail": "13 drawn objects (tier band 12-18)"
+   "detail": "14 drawn objects (tier band 12-18)"
   }
  },
  "clutter": {
-  "objects": 13,
-  "edge_density": 0.0221,
-  "png_bytes": 184555,
-  "jpeg_bytes": 121662
+  "objects": 14,
+  "edge_density": 0.0237,
+  "png_bytes": 181332,
+  "jpeg_bytes": 126518
  },
  "signature": [
   [
@@ -354,9 +352,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    72.0,
+    1332.0,
     12.0,
-    268.0,
+    1528.0,
     208.0
    ],
    "area_px": 13440,
@@ -369,9 +367,9 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    680.0,
+    444.0,
     52.0,
-    1156.0,
+    920.0,
     168.0
    ],
    "area_px": 16532,
@@ -389,9 +387,9 @@
     1600.0,
     522.0
    ],
-   "area_px": 155668,
-   "visible_px": 114752,
-   "occlusion": 0.263
+   "area_px": 155664,
+   "visible_px": 115096,
+   "occlusion": 0.261
   },
   {
    "id": "tree_line",
@@ -411,14 +409,14 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    292.0,
+    1042.0,
     520.0,
-    558.0,
+    1308.0,
     1000.0
    ],
-   "area_px": 51712,
-   "visible_px": 51636,
-   "occlusion": 0.001
+   "area_px": 51696,
+   "visible_px": 43444,
+   "occlusion": 0.16
   },
   {
    "id": "pond",
@@ -426,14 +424,14 @@
    "role": "setting",
    "z": -70,
    "bbox": [
-    798.0,
+    138.0,
     570.0,
-    1462.0,
+    802.0,
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 76320,
-   "occlusion": 0.096
+   "visible_px": 84408,
+   "occlusion": 0.0
   },
   {
    "id": "tree_small",
@@ -441,13 +439,13 @@
    "role": "setting",
    "z": 575,
    "bbox": [
-    1402.0,
+    22.0,
     394.0,
-    1578.0,
+    198.0,
     578.0
    ],
-   "area_px": 22560,
-   "visible_px": 22560,
+   "area_px": 22556,
+   "visible_px": 22556,
    "occlusion": 0.0
   },
   {
@@ -456,9 +454,9 @@
    "role": "setting",
    "z": 640,
    "bbox": [
-    644.0,
+    904.0,
     202.0,
-    696.0,
+    956.0,
     642.0
    ],
    "area_px": 8176,
@@ -471,71 +469,86 @@
    "role": "setting",
    "z": 760,
    "bbox": [
-    56.0,
+    1256.0,
     338.0,
-    344.0,
+    1544.0,
     762.0
    ],
-   "area_px": 63708,
-   "visible_px": 63708,
+   "area_px": 63700,
+   "visible_px": 63700,
    "occlusion": 0.0
   },
   {
-   "id": "icecream_3",
-   "label": "person.ana__eat_ice_cream__smile__y045",
-   "role": "scored",
-   "z": 886.65,
+   "id": "bench",
+   "label": "Park bench",
+   "role": "setting",
+   "z": 830,
    "bbox": [
-    1274.0,
-    600.0,
-    1356.0,
-    894.0
+    976.0,
+    718.0,
+    1184.0,
+    832.0
    ],
-   "area_px": 16804,
-   "visible_px": 16804,
+   "area_px": 12180,
+   "visible_px": 8444,
+   "occlusion": 0.307
+  },
+  {
+   "id": "sitter_1",
+   "label": "person.ben__sit_drink__smile__y045",
+   "role": "scored",
+   "z": 833,
+   "bbox": [
+    1008.0,
+    608.0,
+    1140.0,
+    866.0
+   ],
+   "area_px": 15944,
+   "visible_px": 15944,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.ana__eat_ice_cream__smile__y045",
-    "family": "person.ana",
-    "scale": 0.4775,
-    "mirrored": true,
+    "variant": "person.ben__sit_drink__smile__y045",
+    "family": "person.ben",
+    "scale": 0.4576,
+    "mirrored": false,
     "labels": {
-     "everyday_name": "woman",
+     "everyday_name": "man",
      "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
+      "man",
+      "guy",
+      "father",
+      "dad",
       "person"
      ],
      "category": "adult_person",
      "person": {
       "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
+      "skin_tone": "skin1",
+      "hair": "short_brown"
      }
     }
    }
   },
   {
-   "id": "kicker_1",
-   "label": "person.leo__kick_low__determined__y090",
+   "id": "kicker_3",
+   "label": "person.leo__kick_low__smile__y090",
    "role": "scored",
-   "z": 956.16,
+   "z": 856.81,
    "bbox": [
-    828.0,
-    692.0,
-    1036.0,
-    956.0
+    1194.0,
+    610.0,
+    1386.0,
+    856.0
    ],
-   "area_px": 14068,
-   "visible_px": 14004,
+   "area_px": 12080,
+   "visible_px": 12024,
    "occlusion": 0.005,
    "asset": {
-    "variant": "person.leo__kick_low__determined__y090",
+    "variant": "person.leo__kick_low__smile__y090",
     "family": "person.leo",
-    "scale": 0.5032,
-    "mirrored": true,
+    "scale": 0.4664,
+    "mirrored": false,
     "labels": {
      "everyday_name": "teenager",
      "accepted_names": [
@@ -556,72 +569,64 @@
    }
   },
   {
-   "id": "ball_2",
+   "id": "ball_4",
    "label": "Ball",
    "role": "scored",
-   "z": 958.16,
+   "z": 858.81,
    "bbox": [
-    796.0,
-    888.0,
-    930.0,
-    970.0
+    1292.0,
+    792.0,
+    1416.0,
+    870.0
    ],
-   "area_px": 1596,
-   "visible_px": 1596,
+   "area_px": 1408,
+   "visible_px": 1408,
    "occlusion": 0.0
   },
   {
-   "id": "kiteflyer_4",
-   "label": "person.kai__fly_kite__smile__y090",
-   "role": "scored",
-   "z": 980.07,
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 936,
    "bbox": [
-    122.0,
-    758.0,
-    210.0,
-    984.0
+    180.0,
+    792.0,
+    420.0,
+    940.0
    ],
-   "area_px": 8332,
-   "visible_px": 8324,
-   "occlusion": 0.001,
+   "area_px": 23996,
+   "visible_px": 23996,
+   "occlusion": 0.0
+  },
+  {
+   "id": "cat_sleeping_2",
+   "label": "animal.cat_02__sleep_tuck__sleepy__y045",
+   "role": "scored",
+   "z": 947.63,
+   "bbox": [
+    634.0,
+    910.0,
+    706.0,
+    968.0
+   ],
+   "area_px": 3036,
+   "visible_px": 3036,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.kai__fly_kite__smile__y090",
-    "family": "person.kai",
-    "scale": 0.5121,
-    "mirrored": false,
+    "variant": "animal.cat_02__sleep_tuck__sleepy__y045",
+    "family": "animal.cat_02",
+    "scale": 0.5001,
+    "mirrored": true,
     "labels": {
-     "everyday_name": "child",
+     "everyday_name": "cat",
      "accepted_names": [
-      "child",
-      "kid",
-      "boy",
-      "girl",
-      "son",
-      "daughter"
+      "cat",
+      "kitten",
+      "kitty"
      ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin3",
-      "hair": "curly_dark"
-     }
+     "category": "small_animal"
     }
    }
-  },
-  {
-   "id": "kite_5",
-   "label": "Kite",
-   "role": "scored",
-   "z": 1500,
-   "bbox": [
-    204.0,
-    94.0,
-    566.0,
-    782.0
-   ],
-   "area_px": 6060,
-   "visible_px": 6060,
-   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -631,14 +636,14 @@
  "attempts": [
   [
    21,
-   "could not place play_catch"
+   "19 drawn objects (tier band 12-18); 20 drawn objects (tier band 12-18)"
   ],
   [
    1021,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 4: accepted after 3 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 3,
  "knob": 0,
  "regen": {
   "base_seed": 21,
@@ -646,21 +651,15 @@
   "placements": 14,
   "require_band": true,
   "usage": {
-   "cat_sleeping": 1,
-   "drink_bench": 1,
    "rake": 1,
-   "kite_in_tree": 1,
-   "read_bench": 1,
-   "jump": 1,
-   "water_flowers": 1,
-   "about_to_trip": 1,
-   "cat_stalks_bird": 1,
-   "dog_reading": 1,
-   "bird_perched": 1,
    "paint_fence": 1,
-   "dog_sleeping": 1
+   "birds_flying": 1,
+   "dog_wants_walk": 1,
+   "jump": 1,
+   "sweep": 1,
+   "play_catch": 1
   },
   "forced": null,
-  "placement_rev": 41
+  "placement_rev": 42
  }
 }

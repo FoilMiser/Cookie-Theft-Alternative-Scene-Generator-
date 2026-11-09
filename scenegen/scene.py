@@ -243,7 +243,15 @@ class PlacementError(Exception):
 # (in profile its face was "right up against" the bird, "it already has the bird at its mouth"); closes the begging dog's mouth (templates.BEGX43);
 # and draws the goat's rope slack, keeps room for its peg in front of the goat and never leaves it untethered (templates.TETHER43; the rope was "a
 # J-shaped hook or walking-stick handle", and at the picture's foot every peg fell off the edge).
-PLACEMENT_REV = 41
+# 42 (v0.44) sits the reading dog up again, its paper hung from its raised forepaws by the top edge and tilted, its far side sagging, the dog in
+# reading glasses, in the front half of the picture, off the path, 400 px from any other dog and always the tan dog, so never with the dog by the door
+# (templates.READ44; lying over a paper on the ground it was "lying on an open newspaper" in four of five v0.43 pictures, and small, far back or on
+# the path in all five); hangs the waiting dog's lead, yellow, from its mouth to a loop clear of the ground (templates.LEAD44; red on the red collar
+# it was "attached" to the collar, green "a garden hose"); grazes the goat in the park only, never at 135 (templates.GOAT44; "unusual" in gardens,
+# "possibly a sheep" from behind); keeps the stalking cat its own length clear of a tree (templates.CAT44; before a dark canopy its face was a blob);
+# floats the lost balloon high on a long string, its curled end clear of everything (templates.BAL44; the end landed on a handlebar, the hedge);
+# and draws the upward water as a tapering ribbon, never in the street (draw.WATER44; "like a bent tube" before the slate shop door).
+PLACEMENT_REV = 42
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
@@ -385,6 +393,14 @@ class Scene:
                 pool = [f for f in pool if f == "animal.cat_02"]
             else:
                 pool = [f for f in pool if f != "animal.cat_02"]
+        if PLACEMENT_REV >= 42 and list(kinds) == ["dog"] and "dog_reading" in getattr(self, "picked_ids", ()):
+            from . import templates as _TP
+            if _TP.READ44 in ("A", "G"):
+                # revision 42 (templates.READ44): the reading dog sitting up is always the tan dog; every other dog event leaves it free
+                if getattr(self, "binding", None) == "dog_reading":
+                    pool = [f for f in pool if f == "animal.dog_01"]
+                else:
+                    pool = [f for f in pool if f != "animal.dog_01"]
         if not pool:
             raise PlacementError(f"no free animal of kind {kinds}")
         if prefer and PLACEMENT_REV >= 5:

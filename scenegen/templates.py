@@ -2103,6 +2103,38 @@ HOSE43 = "B"      # (a placement rule)
 CAT43 = "B"       # v0.43 bench: B, at 135 the legs as tangled as at 45
 BEGX43 = "B"      # v0.43 bench: B
 ANIMAL_YAWS41 = {"cat_stalks_bird": (90, 135)}
+# v0.44 (revision 42; figure-fixes-v043.md items 1 to 3, figure-review-v043.md items 4, 5 and 7, vision/flaws_v043.md R1, R2 and O1), each "O" as
+# revision 41:
+# READ44 "A": the reading dog sitting up (the cast's TPDB_READ44), its paper hung from its raised forepaws by the top edge, larger, its foot clear of
+#   the ground; the dog in the front half of the picture, off the path and at least 400 px from any other dog. "G": as A, in reading glasses (the
+#   "read" expression). Lying over a paper on the ground it was "lying on an open newspaper" in four of five v0.43 pictures, and small, far back or on
+#   the path beside another dog in all five
+# LEAD44 "B": the waiting dog's lead yellow, not its collar's colour nor the door's, hanging from its mouth to a loop held clear of the ground (red on the
+#   red collar, it was "attached" to the collar and "lying loose in a loop on the ground", v0.43 picture 55)
+# GOAT44 "B": the grazing goat in the park only, and never at 135 (in gardens "unusual", and from behind at 135 twice "possibly a sheep", its beard
+#   and horns hidden)
+# CAT44 "B": the stalking cat at least its own length clear of a tree (in front of a dark canopy its face was a blob, probe s23037)
+# BAL44 "B": the lost balloon high above the reaching hand on a string at least nine-tenths of the child's height, its free end clear of everything
+#   for 60 px and curled (about 80 px above the held bunch, its string's end landed on a bicycle's handlebar, the hedge, between two players)
+READ44 = "G"      # v0.44 bench (vision/isolation_v044.md): G
+READ44T = "T"     # (with READ44: "T" the paper tilted 9 degrees about the paws, its far side sagging) v0.44 bench round 2: T
+LEAD44 = "B"      # v0.44 bench round 2: B, yellow (green read as "a garden hose"; yellow on the ground "possibly a thin yellow hose")
+
+
+class _Ex44:
+    """Revision 42 (templates.READ44): a template's exclusive resources, with "tan_dog" when the reading dog sits up. The reading dog is then always the
+    tan dog (its raised paws hang the paper clear of the ground; the white dog's are too low), so it and the dog by the door, who wants the tan dog
+    too, are never drawn together (scene.animal keeps the tan dog from every other dog event). Read when the planner asks, so a switch set at run time
+    counts."""
+
+    def __init__(self, base):
+        self.base = base
+
+    def __get__(self, obj, cls):
+        return self.base + (("tan_dog",) if SCN.PLACEMENT_REV >= 42 and READ44 in ("A", "G") else ())
+GOAT44 = "B"      # (a placement rule)
+CAT44 = "B"       # (a placement rule)
+BAL44 = "B"       # v0.44 bench: B
 
 
 def yaw_table():
@@ -2115,6 +2147,8 @@ def yaw_table():
         tab = dict(tab, **ANIMAL_YAWS41)
     if SCN.PLACEMENT_REV >= 41 and CAT43 == "B":
         tab = {k: v for k, v in tab.items() if k != "cat_stalks_bird"}
+    if SCN.PLACEMENT_REV >= 42 and GOAT44 == "B":
+        tab = dict(tab, goat_grazing=(90, 45))        # revision 42 (templates.GOAT44): not at 135
     return tab
 
 
@@ -2241,6 +2275,12 @@ class GoatGrazing(AnimalEvent):
     settings = ("garden", "park")
     kinds, pose, exprs, yaw = ("goat",), "sniff", ("neutral", "happy"), 90
     text = ("A goat is eating grass", ["goat eating", "goat eating grass", "goat grazing", "goat"], "goat")
+
+    @classmethod
+    def feasible(cls, setting, sky):
+        if SCN.PLACEMENT_REV >= 42 and GOAT44 == "B" and setting != "park":
+            return False        # revision 42 (templates.GOAT44): in the park only
+        return super().feasible(setting, sky)
 
     def bind(self):
         # revision 6: muzzle down in the grass with a tuft in its mouth (sniffing read as "about to butt")
@@ -3322,6 +3362,8 @@ class CatStalksBird(T):
                 if not (A["x0"] < bx < A["x1"]):
                     continue
                 b = sc.placed(self.vb, bx, A["y"], sc.mirror_for(self.vb, -want), depth_y=A["depth"], eid=eb)
+                if SCN.PLACEMENT_REV >= 42 and CAT44 == "B" and not sc.clear_of_setting(c.bbox(), ("tree", "tree_small"), c.bbox()[2] - c.bbox()[0]):
+                    continue        # revision 42 (templates.CAT44): its own length clear of a tree
                 if SCN.PLACEMENT_REV >= 12:
                     # revision 12: the cat and its bird on the fence clear of the clothesline, the bird table and the swing,
                     # as the cat walking the fence is (between the line's posts the stalking cat seemed to be on the line)
@@ -3346,6 +3388,8 @@ class CatStalksBird(T):
                 continue
             if SCN.PLACEMENT_REV >= 6 and not self.dog_free(c):
                 continue
+            if SCN.PLACEMENT_REV >= 42 and CAT44 == "B" and not sc.clear_of_setting(c.bbox(), ("tree", "tree_small"), c.bbox()[2] - c.bbox()[0]):
+                continue        # revision 42 (templates.CAT44): its own length clear of a tree
             bx, by = X + want * sc.rng.uniform(*self.k3((110, 160), (150, 240), (240, 330))) * sz(Y) * near, Y + sc.rng.uniform(-12, 12)
             if not sc.S.walkable(bx, by):
                 continue
@@ -4786,9 +4830,25 @@ def _lost_balloon_place7(self):
         # the loose one: just out of reach above the reaching hand, drifting away
         send = (reach[0] + f * sc.rng.uniform(10, 24) * s, reach[1] - sc.rng.uniform(28, 42) * s)
         lx, ly = send[0] + f * 24 * s, send[1] - (38 + 92) * bs * s
+        bal44 = SCN.PLACEMENT_REV >= 42 and BAL44 == "B"
+        if bal44:
+            # revision 42 (templates.BAL44): high above the hand on a string at least nine-tenths of the child's height, the string's free end clear
+            # of everything for 60 px and curled
+            pb_ = p.bbox()
+            lx, ly = send[0] + f * 30 * s, send[1] - 38 * bs * s - max(92 * bs * s, 0.9 * (pb_[3] - pb_[1]))
+            endz = (send[0] - 60, send[1] - 60, send[0] + 60, send[1] + 60)
+            if not sc.fits(endz, limit=0.0) or not sc.air_clear(endz, 2):
+                continue
         if ly < 70 or min(b1[1], b2[1]) - 36 * bs * s < 40:
             continue
         loose, lbb = D.balloon(lx, ly, bs * s, cols[2], string_to=send)
+        if bal44:
+            cx_, cy_ = send
+            loose += (f'<path d="M {D.P(cx_, cy_)} c {f * 4 * s:.1f} {3 * s:.1f} {f * 6 * s:.1f} {9 * s:.1f} {f * 1 * s:.1f} {11 * s:.1f} '
+                      f'c {-f * 4 * s:.1f} {2 * s:.1f} {-f * 6 * s:.1f} {-3 * s:.1f} {-f * 3 * s:.1f} {-5 * s:.1f}" fill="none" stroke="{D.OUT}" stroke-width="2.5"/>')
+            lbb = (min(lbb[0], cx_ - 10 * s), lbb[1], max(lbb[2], cx_ + 10 * s), max(lbb[3], cy_ + 14 * s))
+            if not sc.setting_clear((lx - 30 * s, ly - 36 * s, lx + 30 * s, ly + 40 * s)):
+                continue        # (against open sky)
         if sc.overlap(lbb, bbb) > 0:
             continue
         res = (lbb[0] - 14 * s, lbb[1], lbb[2] + 14 * s, lbb[3])
@@ -4809,6 +4869,8 @@ def _lost_balloon_place7(self):
         sc.airzones.append(zone)
         sc.assets[ep] = p
         sc.airzones += [res, bbb]
+        if bal44:
+            sc.airzones.append(endz)        # (and nothing placed later comes near the string's end)
         sc.checks[f"{ep}_looks_at_balloon"] = sc.gaze_ok(p, (lbb[0] - 30, lbb[1] - 30, lbb[2] + 30, lbb[3] + 30))
         eh = sc.svg(sc.eid("heldbal"), "Balloons held by the child", bunch, 1499, bbb, "scored")
         eb = sc.svg(sc.eid("loosebal"), "Balloon floating away", loose, 1500, res, "scored")
@@ -5006,7 +5068,7 @@ class DogWantsWalk(T):
     id = "dog_wants_walk"
     kind = "inference"
     settings = ("garden",)
-    exclusive = ("door",)
+    exclusive = _Ex44(("door",))
     units, content = 1, 1
 
     def bind(self):
@@ -5048,6 +5110,25 @@ class DogWantsWalk(T):
             leash += f'<path d="M {D.P(mx, my)} C {D.P(*c1_)} {D.P(*c2_)} {D.P(lx, gy - 2)}" fill="none" stroke="{C["red"]}" stroke-width="{6 * s:.1f}" stroke-linecap="round"/>'
             leash += D.ell(lx + 18 * s, gy - 2, 20 * s, 7 * s, "none", D.OW * 0.6) + f'<ellipse cx="{lx + 18 * s:.1f}" cy="{gy - 2:.1f}" rx="{20 * s:.1f}" ry="{7 * s:.1f}" fill="none" stroke="{C["red"]}" stroke-width="{4 * s:.1f}"/>'
             el_bb = (min(mx - 10, lx - 6 * s), my - 6, max(mx + 10, lx + 42 * s), gy + 8)
+            if SCN.PLACEMENT_REV >= 42 and LEAD44 == "C":
+                # (bench round 2: v0.43's lead and loop on the ground, in yellow)
+                leash = leash.replace(C["red"], C["yellow"])
+            if SCN.PLACEMENT_REV >= 42 and LEAD44 == "B":
+                # revision 42 (templates.LEAD44): a lead in a colour of its own, not the collar's, hanging from the mouth to its handle's loop,
+                # the loop clear of the ground
+                lc = C["yellow"]      # (bench round 1: blue hung against the garden's blue door; green read as "a garden hose")
+                dn_ = 1 if lx > mx else -1
+                hy_ = my + max(30 * s, (gy - my) * 0.42)
+                bend = (mx + dn_ * 5 * s, hy_)
+                lp = (bend[0] + dn_ * 2 * s, hy_ + 12 * s)
+                if lp[1] + 13 * s > gy - 10 * s:
+                    continue
+                d_ = f"M {D.P(mx, my)} C {D.P(mx + dn_ * 9 * s, my + 16 * s)} {D.P(bend[0] + dn_ * 3 * s, hy_ - 14 * s)} {D.P(*bend)}"
+                leash = f'<path d="{d_}" fill="none" stroke="{D.OUT}" stroke-width="{6 * s + 2:.1f}" stroke-linecap="round"/>'
+                leash += f'<path d="{d_}" fill="none" stroke="{lc}" stroke-width="{6 * s:.1f}" stroke-linecap="round"/>'
+                leash += (f'<ellipse cx="{lp[0]:.1f}" cy="{lp[1]:.1f}" rx="{8 * s:.1f}" ry="{13 * s:.1f}" fill="none" stroke="{D.OUT}" stroke-width="{4 * s + 2:.1f}"/>'
+                          f'<ellipse cx="{lp[0]:.1f}" cy="{lp[1]:.1f}" rx="{8 * s:.1f}" ry="{13 * s:.1f}" fill="none" stroke="{lc}" stroke-width="{4 * s:.1f}"/>')
+                el_bb = (min(mx, lp[0]) - 14 * s, my - 6, max(mx, lp[0]) + 14 * s, lp[1] + 16 * s)
             if not sc.fits(el_bb, limit=0.05, ignore=(ed,)):
                 continue
             sc.assets[ed] = d
@@ -5075,6 +5156,12 @@ class WaterUpward(WaterFlowers):
     domain = "physical"
     upward = True
     units, content = 1, 1
+
+    @classmethod
+    def feasible(cls, setting, sky):
+        if SCN.PLACEMENT_REV >= 42 and D.WATER44 == "B" and setting == "street":
+            return False        # revision 42 (draw.WATER44): on a light ground (before the street's slate shop door it read as a bent tube)
+        return super(WaterUpward, cls).feasible(setting, sky)
 
     def items(self, ep, ew):
         self.act(self.p, "watering the flowers", ["watering the flowers", "watering the plants", "watering can"], "flowers", [ep])
@@ -5588,6 +5675,7 @@ class DogReading(T):
     kind = "contradiction"
     domain = "biological"
     units, content = 1, 1
+    exclusive = _Ex44(())
 
     def bind(self):
         sc = self.sc
@@ -5598,8 +5686,15 @@ class DogReading(T):
         # on the ground, the paper seemed to stand up by itself)
         self.hold = SCN.PLACEMENT_REV >= 4
         # revision 41 (templates.READ43 "A"): lying down over a paper laid on the ground
-        self.down = SCN.PLACEMENT_REV >= 41 and READ43 == "A"
-        self.vd = sc.need(self.d, "down_read" if self.down else ("sit_up_hold" if self.hold else "sit_look_down"), "neutral", 90)
+        # revision 42 (templates.READ44 "A" or "G"): sitting up again, the paper hung from its raised forepaws ("G" in reading glasses)
+        self.r44 = SCN.PLACEMENT_REV >= 42 and READ44 in ("A", "G")
+        if self.r44 and self.d != "animal.dog_01":
+            # (the tan dog only: the white dog's raised paws are too low to hang a paper clear of the ground, and figure-review-v043.md item 7
+            # asks for one dog reading everywhere)
+            raise PlacementError("the reading dog is the tan dog (templates.READ44)")
+        self.down = SCN.PLACEMENT_REV >= 41 and READ43 == "A" and not self.r44
+        self.vd = sc.need(self.d, "down_read" if self.down else ("sit_up_hold" if self.hold else "sit_look_down"),
+                          "read" if self.r44 and READ44 == "G" else "neutral", 90)
 
     def place(self):
         sc = self.sc
@@ -5641,9 +5736,40 @@ class DogReading(T):
                 return None
             return [bb]
 
+        def paper44(d, f, s):
+            # revision 42 (templates.READ44): hung from the raised forepaws by its top edge, the paws a little inside its near edge, as large as its
+            # foot's clearance of the ground allows (from 1.30 times the v0.42 paper down to 1.05, v0.42's size)
+            (ax, ay), (bx, by) = d.anchor("paw_FL"), d.anchor("paw_FR")
+            px, top = (ax + bx) / 2, min(ay, by) + 2 * s
+            for kf in (1.30, 1.20, 1.10, 1.05):
+                k = s * kf
+                w, h = 74 * k, 58 * k
+                cx, cy = px - f * 9 * s + f * w / 2, top + h / 2
+                svg, bb = D.newspaper(cx, cy, k, f, style=8)
+                if READ44T == "T":
+                    # (bench round 2: tilted about the paws, its far side sagging as a sheet held at one end does; hung square it "stands upright
+                    # on its own" or "floats slightly above the grass", four of six round-1 readings)
+                    ang = f * 9.0
+                    ca, sa = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+                    pts = [(px + (x_ - px) * ca - (y_ - top) * sa, top + (x_ - px) * sa + (y_ - top) * ca) for x_ in (bb[0], bb[2]) for y_ in (bb[1], bb[3])]
+                    bb = (min(q[0] for q in pts), min(q[1] for q in pts), max(q[0] for q in pts), max(q[1] for q in pts))
+                    if bb[3] <= d.Y - 2 * s:        # (the box is the paper's grown by 8 px: its lowest corner about 10 px clear of the ground)
+                        svg = f'<g transform="rotate({ang:.2f} {px:.2f} {top:.2f})">{svg}</g>'
+                        break
+                elif cy + h / 2 + 6 * k <= d.Y - 12 * s:
+                    break
+            else:
+                return None
+            self.np = (svg, bb)
+            if not sc.air_clear((bb[0] - 10, bb[1] - 10, bb[2] + 10, bb[3] + 4), 4):
+                return None
+            return [bb]
+
         def paper(d):
             f = d.facing() or 1
             s = sz(d.Y)
+            if self.r44:
+                return paper44(d, f, s)
             if SCN.PLACEMENT_REV >= 41 and READ43 in ("A", "B"):
                 return paper43(d, f, s)
             if self.hold:
@@ -5680,16 +5806,25 @@ class DogReading(T):
             return [self.np[1]]
         # revision 4: the paper keeps clear of every other scored thing (laid over a parcel, it read as part of it)
         xl = 0.05 if SCN.PLACEMENT_REV >= 4 else 0.3
-        spots = self.stand_spots(y_range=(sc.S.horizon + 150, 975))
+        y_lo = sc.S.horizon + 150
+        if self.r44:
+            y_lo = max(y_lo, sc.S.horizon + 0.45 * (975 - sc.S.horizon))     # revision 42 (templates.READ44): in the front half
+        spots = self.stand_spots(y_range=(y_lo, 975))
         if SCN.PLACEMENT_REV >= 41 and TRIP43 == "B":
             spots = [(X, Y) for X, Y in spots if not _reader_near43(sc, X, Y)]     # revision 41 (templates.TRIP43)
+        if self.r44:
+            # (off the path, and at least 400 px from any other dog)
+            spots = [(X, Y) for X, Y in spots if not sc.on_element("path", X, Y)
+                     and not any(q.family.startswith("animal.dog") and abs(q.X - X) < 400 for q in sc.assets.values())]
         d = self.place_with(ed, self.vd, spots, want_face=sc.rng.choice([1, -1]), extras=paper, limit=0.12, xlimit=xl, ground_extras=False)
         if not d:
             return False
+        if self.r44:
+            sc.no_dog.append((d.X - 400, d.Y - 140, d.X + 400, d.Y + 90))
         svg, bb = self.np
-        down = SCN.PLACEMENT_REV >= 41 and READ43 == "A"
+        down = self.down
         en = sc.svg(sc.eid("newspaper"), "Newspaper open on the ground under the dog's paws" if down else "Newspaper held by the dog", svg,
-                    d.Y - 1 if SCN.PLACEMENT_REV >= 23 and D.PAW25 == "C" else d.Y + 1, bb, "scored")
+                    d.Y - 1 if (SCN.PLACEMENT_REV >= 23 and D.PAW25 == "C") or self.r44 else d.Y + 1, bb, "scored")
         dn = sc.name(self.d)
         if down:
             it = self.ent(f"A {dn} is lying down with its paws on an open newspaper", [f"{dn} lying down", f"{dn} with a newspaper", f"{dn} lying on a newspaper",

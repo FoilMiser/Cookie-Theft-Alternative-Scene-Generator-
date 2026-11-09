@@ -2,12 +2,12 @@
  "name": "T3_garden_s23024",
  "tier": 3,
  "setting": "garden",
- "sky": "dark",
+ "sky": "clear",
  "seed": 23024,
  "mirror": false,
  "versions": {
-  "generator": "0.43.0",
-  "cast_builder": "0.43.0",
+  "generator": "0.44.0",
+  "cast_builder": "0.44.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,22 +60,22 @@
  ],
  "templates": [
   {
-   "id": "rain_coming",
+   "id": "paint_tracks",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "about_to_trip",
+   "id": "dog_wants_walk",
    "kind": "inference",
    "event": "e2",
    "units": 1
   },
   {
-   "id": "plant_flowers",
-   "kind": "event",
+   "id": "water_upward",
+   "kind": "contradiction",
    "event": "e3",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 3,
@@ -83,7 +83,102 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is planting flowers",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
+   "elements": [
+    "waitingdog_1",
+    "leash_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.509,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
+    "domain": null,
+    "area_px": 7460
+   },
+   "b": -0.727,
+   "p0": 0.674,
+   "pm1": 0.432,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "inference",
+   "text": "The dog wants to go for a walk",
+   "accepted": [
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
+   ],
+   "key": "walk",
+   "elements": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "cues": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "effect": [
+    "waitingdog_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.587,
+    "r": 2,
+    "d": 0.162,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
+    "domain": null,
+    "area_px": 6688
+   },
+   "b": 0.238,
+   "p0": 0.441,
+   "pm1": 0.225,
+   "aoi_cells": [
+    "TL",
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "action",
+   "text": "A grandmother is watering the flowers",
    "accepted": {
     "who": [
      "grandmother",
@@ -94,216 +189,396 @@
      "woman"
     ],
     "what": [
-     "planting flowers",
-     "planting",
-     "gardening",
-     "kneeling in the garden"
+     "watering the flowers",
+     "watering the plants",
+     "watering can"
     ]
    },
-   "key": "planting",
+   "key": "flowers",
    "elements": [
-    "planter_1",
-    "pot_2"
+    "waterer_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "plant_flowers",
+   "template": "water_upward",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.056,
+    "s": -0.118,
     "r": 0,
     "d": 0.0,
-    "f": -0.19,
-    "a": 3.95,
-    "zipf_raw": 3.81,
-    "aoa_raw": 3.95,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 14144
+    "area_px": 12948
    },
-   "b": -1.055,
-   "p0": 0.742,
-   "pm1": 0.514,
+   "b": -1.273,
+   "p0": 0.781,
+   "pm1": 0.568,
    "aoi_cells": [
     "MC",
-    "BL",
     "BC"
    ]
   },
   {
-   "id": "i02",
+   "id": "i04",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the water from the watering can",
+   "accepted": [
+    "the water is weird",
+    "something's wrong with the water",
+    "that's not right"
+   ],
+   "key": "water",
+   "elements": [
+    "water_4"
+   ],
+   "cues": [
+    "water_4"
+   ],
+   "effect": [
+    "water_4"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.456,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 1964
+   },
+   "b": 0.668,
+   "p0": 0.339,
+   "pm1": 0.159,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "contradiction_explain",
+   "text": "The water is going up into the air instead of falling down onto the flowers",
+   "accepted": [
+    "water going up",
+    "water going the wrong way",
+    "water should fall down",
+    "water flowing upward"
+   ],
+   "key": "water",
+   "elements": [
+    "water_4"
+   ],
+   "cues": [
+    "water_4"
+   ],
+   "effect": [
+    "water_4"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.456,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 1964
+   },
+   "b": 1.868,
+   "p0": 0.134,
+   "pm1": 0.054,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i06",
    "type": "action",
-   "text": "A teenager is reading while walking",
+   "text": "A grandfather is painting the fence",
    "accepted": {
     "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
     ],
     "what": [
-     "reading while walking",
-     "walking and reading",
-     "not looking where he's going",
-     "reading a book"
+     "painting the fence",
+     "painting",
+     "paint roller",
+     "painting the wall"
     ]
    },
-   "key": "reading",
+   "key": "paint",
    "elements": [
-    "reader_3"
+    "painter_5",
+    "paintstripe_6"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "about_to_trip",
-   "event": "e2",
+   "template": "paint_fence",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.026,
+    "s": 0.598,
     "r": 0,
     "d": 0.0,
-    "f": 1.14,
-    "a": 4.11,
-    "zipf_raw": 5.14,
-    "aoa_raw": 4.11,
+    "f": 0.52,
+    "a": 4.45,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
     "domain": null,
-    "area_px": 15876
+    "area_px": 35548
    },
-   "b": -1.495,
-   "p0": 0.817,
-   "pm1": 0.621,
+   "b": -1.595,
+   "p0": 0.831,
+   "pm1": 0.645,
    "aoi_cells": [
-    "BC"
+    "MC",
+    "MR"
    ]
   },
   {
-   "id": "i03",
-   "type": "entity",
-   "text": "There is a box on the ground in front of a teenager",
+   "id": "i07",
+   "type": "action",
+   "text": "A dog is walking away from the paint",
    "accepted": [
-    "box",
-    "crate",
-    "a box in the way"
+    "dog walking",
+    "dog",
+    "dog with paint on its feet"
    ],
-   "key": "box",
+   "key": "dog",
    "elements": [
-    "obstacle_4"
+    "paintdog_8"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "about_to_trip",
-   "event": "e2",
+   "template": "paint_tracks",
+   "event": "e1",
    "features": {
-    "type": "entity",
+    "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": -0.478,
+    "animate": true,
+    "s": -0.88,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
     "domain": null,
-    "area_px": 7800
+    "area_px": 4424
    },
-   "b": -0.713,
-   "p0": 0.671,
-   "pm1": 0.429,
+   "b": -1.03,
+   "p0": 0.737,
+   "pm1": 0.507,
    "aoi_cells": [
-    "BC"
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i04",
-   "type": "inference",
-   "text": "The teenager is going to trip over a box",
-   "accepted": [
-    "going to trip over the box",
-    "going to fall",
-    "will bump into it",
-    "isn't looking where they're going"
-   ],
-   "key": "trip",
-   "elements": [
-    "reader_3",
-    "obstacle_4"
-   ],
-   "cues": [
-    "reader_3",
-    "obstacle_4"
-   ],
-   "effect": [
-    "obstacle_4"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "about_to_trip",
-   "event": "e2",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": 0.026,
-    "r": 1,
-    "d": 0.094,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.22,
-    "domain": null,
-    "area_px": 15876
-   },
-   "b": 0.15,
-   "p0": 0.463,
-   "pm1": 0.24,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i05",
+   "id": "i08",
    "type": "entity",
-   "text": "Dark clouds are coming",
+   "text": "There are paw prints in paint on the grass",
    "accepted": [
-    "dark clouds",
-    "storm clouds",
-    "clouds",
-    "cloudy",
-    "storm",
-    "gray sky"
+    "paw prints",
+    "footprints",
+    "paint prints",
+    "blue prints",
+    "tracks"
    ],
-   "key": "clouds",
+   "key": "footprints",
    "elements": [
-    "clouds_dark"
+    "prints_10",
+    "tray_9"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "rain_coming",
+   "template": "paint_tracks",
    "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.001,
+    "s": -1.182,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.71,
+    "a": 5.78,
+    "zipf_raw": 3.29,
+    "aoa_raw": 5.78,
+    "domain": null,
+    "area_px": 2888
+   },
+   "b": 0.164,
+   "p0": 0.459,
+   "pm1": 0.238,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "inference",
+   "text": "The dog stepped in the paint and left footprints",
+   "accepted": [
+    "the dog walked through the paint",
+    "the dog stepped in the tray",
+    "the dog made the footprints",
+    "paint on the dog's paws"
+   ],
+   "key": "paint",
+   "elements": [
+    "paintdog_8",
+    "prints_10",
+    "tray_9"
+   ],
+   "cues": [
+    "paintdog_8",
+    "prints_10",
+    "tray_9"
+   ],
+   "effect": [
+    "prints_10"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "paint_tracks",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -0.88,
+    "r": 2,
+    "d": 0.148,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
+    "domain": null,
+    "area_px": 4424
+   },
+   "b": 0.968,
+   "p0": 0.275,
+   "pm1": 0.123,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
+   "aoi_cells": [
+    "TR"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
     "r": 0,
     "d": 0.0,
     "f": 0.16,
@@ -311,124 +586,17 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 62768
+    "area_px": 19276
    },
-   "b": -1.188,
-   "p0": 0.766,
-   "pm1": 0.547,
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
    "aoi_cells": [
-    "TL",
-    "TC",
-    "TR"
+    "TC"
    ]
   },
   {
-   "id": "i06",
-   "type": "action",
-   "text": "A child is pointing up at the sky",
-   "accepted": {
-    "who": [
-     "child",
-     "kid",
-     "boy",
-     "girl",
-     "son",
-     "daughter"
-    ],
-    "what": [
-     "pointing at the sky",
-     "pointing at the clouds",
-     "pointing up",
-     "looking up",
-     "worried"
-    ]
-   },
-   "key": "pointing",
-   "elements": [
-    "skywatcher_5"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "rain_coming",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.272,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.2,
-    "a": 4.55,
-    "zipf_raw": 4.2,
-    "aoa_raw": 4.55,
-    "domain": null,
-    "area_px": 10420
-   },
-   "b": -1.064,
-   "p0": 0.743,
-   "pm1": 0.516,
-   "aoi_cells": [
-    "BR"
-   ]
-  },
-  {
-   "id": "i07",
-   "type": "inference",
-   "text": "It is about to rain",
-   "accepted": [
-    "it's going to rain",
-    "a storm is coming",
-    "rain is coming",
-    "it might rain",
-    "going to get wet"
-   ],
-   "key": "rain",
-   "elements": [
-    "clouds_dark",
-    "skywatcher_5"
-   ],
-   "cues": [
-    "clouds_dark",
-    "skywatcher_5"
-   ],
-   "effect": [
-    "clouds_dark"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "rain_coming",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": 1.001,
-    "r": 1,
-    "d": 0.525,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.71,
-    "aoa_raw": 3.6,
-    "domain": null,
-    "area_px": 62768
-   },
-   "b": 0.179,
-   "p0": 0.455,
-   "pm1": 0.235,
-   "aoi_cells": [
-    "TL",
-    "TC",
-    "TR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i08",
+   "id": "i12",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -469,7 +637,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i13",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -492,7 +660,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.944,
+    "s": 1.834,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -500,78 +668,32 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 237184
+    "area_px": 203168
    },
-   "b": -1.675,
-   "p0": 0.842,
-   "pm1": 0.663,
+   "b": -1.62,
+   "p0": 0.835,
+   "pm1": 0.65,
    "aoi_cells": [
     "ML",
     "MC",
     "MR"
    ]
-  },
-  {
-   "id": "i10",
-   "type": "entity",
-   "text": "It is the back yard of a house",
-   "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
-    "garden"
-   ],
-   "key": "house",
-   "elements": [
-    "house"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 1.84,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
-    "domain": null,
-    "area_px": 204952
-   },
-   "b": -2.073,
-   "p0": 0.888,
-   "pm1": 0.745,
-   "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
-   ]
   }
  ],
  "counts": {
-  "content": 8,
-  "inference_units": 2,
-  "contradictions": 0,
-  "items_total": 10
+  "content": 9,
+  "inference_units": 3,
+  "contradictions": 1,
+  "items_total": 13
  },
  "predicted": {
   "theta_0": {
-   "content": 0.781,
-   "inference": 0.459
+   "content": 0.721,
+   "inference": 0.297
   },
   "theta_minus_1": {
-   "content": 0.575,
-   "inference": 0.238
+   "content": 0.502,
+   "inference": 0.14
   }
  },
  "bands": {
@@ -579,14 +701,10 @@
   "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
-  "skywatcher_5_looks_at_clouds": {
-   "result": false,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -597,14 +715,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "19 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0375,
-  "png_bytes": 181382,
-  "jpeg_bytes": 176213
+  "objects": 19,
+  "edge_density": 0.0368,
+  "png_bytes": 175973,
+  "jpeg_bytes": 171463
  },
  "signature": [
   [
@@ -620,6 +738,18 @@
    0
   ],
   [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
    "entity",
    0
   ],
@@ -645,7 +775,7 @@
   ],
   [
    "inference",
-   1
+   2
   ]
  ],
  "elements": [
@@ -656,18 +786,33 @@
    "z": -100
   },
   {
-   "id": "clouds_dark",
-   "label": "Dark clouds rolling in",
-   "role": "scored",
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    1352.0,
+    22.0,
+    1548.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
    "z": -98,
    "bbox": [
-    480.0,
-    18.0,
-    1122.0,
-    206.0
+    560.0,
+    68.0,
+    966.0,
+    202.0
    ],
-   "area_px": 62768,
-   "visible_px": 62768,
+   "area_px": 19276,
+   "visible_px": 19276,
    "occlusion": 0.0
   },
   {
@@ -694,8 +839,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 70372,
-   "occlusion": 0.134
+   "visible_px": 75504,
+   "occlusion": 0.071
   },
   {
    "id": "tree",
@@ -724,52 +869,149 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 237184,
-   "occlusion": 0.015
+   "visible_px": 203168,
+   "occlusion": 0.157
   },
   {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
+   "id": "paintstripe_6",
+   "label": "Freshly painted boards",
+   "role": "scored",
+   "z": 616,
    "bbox": [
-    946.0,
-    602.0,
-    1074.0,
+    950.0,
+    426.0,
+    1094.0,
+    618.0
+   ],
+   "area_px": 25640,
+   "visible_px": 24560,
+   "occlusion": 0.042
+  },
+  {
+   "id": "painter_5",
+   "label": "person.tomas__paint__neutral__y090",
+   "role": "scored",
+   "z": 668,
+   "bbox": [
+    1048.0,
+    422.0,
+    1168.0,
+    672.0
+   ],
+   "area_px": 10988,
+   "visible_px": 10988,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.tomas__paint__neutral__y090",
+    "family": "person.tomas",
+    "scale": 0.3965,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
+   "id": "painttin_7",
+   "label": "Tin of paint",
+   "role": "prop",
+   "z": 680,
+   "bbox": [
+    1170.0,
+    634.0,
+    1208.0,
     682.0
    ],
-   "area_px": 7424,
-   "visible_px": 7424,
+   "area_px": 1612,
+   "visible_px": 1460,
+   "occlusion": 0.094
+  },
+  {
+   "id": "tray_9",
+   "label": "Paint tray",
+   "role": "scored",
+   "z": 693.04,
+   "bbox": [
+    1180.0,
+    674.0,
+    1258.0,
+    696.0
+   ],
+   "area_px": 1448,
+   "visible_px": 1412,
+   "occlusion": 0.025
+  },
+  {
+   "id": "prints_10",
+   "label": "Paint paw prints",
+   "role": "scored",
+   "z": 694.04,
+   "bbox": [
+    1232.0,
+    694.0,
+    1434.0,
+    746.0
+   ],
+   "area_px": 1476,
+   "visible_px": 1476,
    "occlusion": 0.0
   },
   {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
+   "id": "paintdog_8",
+   "label": "animal.dog_02__walk__happy__y045",
+   "role": "scored",
+   "z": 743.12,
    "bbox": [
-    292.0,
-    598.0,
-    428.0,
-    684.0
+    1450.0,
+    648.0,
+    1542.0,
+    748.0
    ],
-   "area_px": 8296,
-   "visible_px": 7496,
-   "occlusion": 0.096
+   "area_px": 4776,
+   "visible_px": 4424,
+   "occlusion": 0.074,
+   "asset": {
+    "variant": "animal.dog_02__walk__happy__y045",
+    "family": "animal.dog_02",
+    "scale": 0.4243,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
   },
   {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
+   "id": "paintpaws_11",
+   "label": "Paint on the dog's paws",
+   "role": "setting",
+   "z": 746.12,
    "bbox": [
-    1100.0,
-    596.0,
-    1220.0,
-    702.0
+    1454.0,
+    730.0,
+    1538.0,
+    748.0
    ],
-   "area_px": 8080,
-   "visible_px": 8080,
+   "area_px": 436,
+   "visible_px": 436,
    "occlusion": 0.0
   },
   {
@@ -784,27 +1026,72 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
+   "visible_px": 199360,
+   "occlusion": 0.027
+  },
+  {
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
+   "role": "scored",
+   "z": 806,
+   "bbox": [
+    80.0,
+    670.0,
+    176.0,
+    816.0
+   ],
+   "area_px": 6736,
+   "visible_px": 6688,
+   "occlusion": 0.007,
+   "asset": {
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    168.0,
+    694.0,
+    188.0,
+    772.0
+   ],
+   "area_px": 772,
+   "visible_px": 772,
    "occlusion": 0.0
   },
   {
-   "id": "planter_1",
-   "label": "person.rosa__kneel_plant__smile__y090",
+   "id": "waterer_3",
+   "label": "person.rosa__water_plants__smile__y090",
    "role": "scored",
-   "z": 830,
+   "z": 820,
    "bbox": [
-    528.0,
-    628.0,
-    680.0,
-    836.0
+    520.0,
+    550.0,
+    634.0,
+    826.0
    ],
-   "area_px": 12448,
-   "visible_px": 11644,
-   "occlusion": 0.065,
+   "area_px": 13156,
+   "visible_px": 12948,
+   "occlusion": 0.016,
    "asset": {
-    "variant": "person.rosa__kneel_plant__smile__y090",
+    "variant": "person.rosa__water_plants__smile__y090",
     "family": "person.rosa",
-    "scale": 0.4565,
+    "scale": 0.4528,
     "mirrored": true,
     "labels": {
      "everyday_name": "grandmother",
@@ -837,129 +1124,38 @@
     838.0
    ],
    "area_px": 25880,
-   "visible_px": 23600,
-   "occlusion": 0.088
+   "visible_px": 25528,
+   "occlusion": 0.014
   },
   {
-   "id": "pot_2",
-   "label": "Flower pot",
+   "id": "water_4",
+   "label": "Water from the can",
    "role": "scored",
-   "z": 837.69,
+   "z": 837,
    "bbox": [
-    486.0,
-    774.0,
-    534.0,
-    840.0
+    432.0,
+    578.0,
+    526.0,
+    724.0
    ],
-   "area_px": 2500,
-   "visible_px": 2500,
+   "area_px": 1964,
+   "visible_px": 1964,
    "occlusion": 0.0
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
    "role": "filler",
-   "z": 960,
+   "z": 975,
    "bbox": [
-    1142.0,
-    884.0,
-    1238.0,
-    962.0
+    896.0,
+    892.0,
+    1078.0,
+    980.0
    ],
-   "area_px": 4400,
-   "visible_px": 4400,
+   "area_px": 8776,
+   "visible_px": 8776,
    "occlusion": 0.0
-  },
-  {
-   "id": "skywatcher_5",
-   "label": "person.kai__point_up__worried__y045",
-   "role": "scored",
-   "z": 962.37,
-   "bbox": [
-    1400.0,
-    742.0,
-    1504.0,
-    966.0
-   ],
-   "area_px": 10420,
-   "visible_px": 10420,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.kai__point_up__worried__y045",
-    "family": "person.kai",
-    "scale": 0.5055,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "child",
-     "accepted_names": [
-      "child",
-      "kid",
-      "boy",
-      "girl",
-      "son",
-      "daughter"
-     ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin3",
-      "hair": "curly_dark"
-     }
-    }
-   }
-  },
-  {
-   "id": "obstacle_4",
-   "label": "a box in the way",
-   "role": "scored",
-   "z": 970.12,
-   "bbox": [
-    852.0,
-    906.0,
-    950.0,
-    994.0
-   ],
-   "area_px": 7800,
-   "visible_px": 7800,
-   "occlusion": 0.0
-  },
-  {
-   "id": "reader_3",
-   "label": "person.leo__walk_read_open__neutral__y090",
-   "role": "scored",
-   "z": 970.12,
-   "bbox": [
-    944.0,
-    698.0,
-    1084.0,
-    974.0
-   ],
-   "area_px": 15876,
-   "visible_px": 15876,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.leo__walk_read_open__neutral__y090",
-    "family": "person.leo",
-    "scale": 0.5084,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
   }
  ],
  "canvas": [
@@ -981,15 +1177,15 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "plant_flowers"
-   ],
    "modules": [
-    "rain_coming",
-    "about_to_trip"
+    "paint_tracks",
+    "dog_wants_walk"
+   ],
+   "contradictions": [
+    "water_upward"
    ]
   },
-  "placement_rev": 41
+  "placement_rev": 42
  },
  "probe": true
 }
