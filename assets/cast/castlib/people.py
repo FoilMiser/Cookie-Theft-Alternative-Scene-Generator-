@@ -6,7 +6,7 @@ import bpy  # noqa: F401
 import bmesh
 from mathutils import Quaternion, Vector
 
-from .core import ISECT39, Rig, anchor, cyl, ellipsoid, flatten_above, flatten_below, link, mat, no_isect, skin_like, skin_object, tube, tube_mesh, upd, _mesh_object
+from .core import ISECT39, Rig, anchor, cyl, ellipsoid, flatten_above, flatten_below, link, mat, no_isect, skin_like, skin_object, smooth_curve, tube, tube_mesh, upd, _mesh_object
 from .face import Face, build_people_face, people_expression_states
 
 # v0.23 (TPDB_HEAD; the release builds with B): the older man's fringe of hair kept to the back, and a fuller nose
@@ -38,6 +38,29 @@ FOOT42 = __import__("os").environ.get("TPDB_FOOT42", "B")  # v0.42 bench (vision
 # seven-tenths of its length, so under a tipped shoe the plate stands clear of the toe and the heel like a blade: "black ice skates" under a walker's
 # dark shoes. "A": the plate no longer than the flat underside and no wider than the shoe, dark under every shoe. (actions.py has "H".)
 SOLE45 = __import__("os").environ.get("TPDB_SOLE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.46 bench switches (vision/isolation_v046.md), each "O" for v0.45's drawing:
+# TPDB_NECK46 "B": the necks under a scaled-down head (the two women's, 0.85 and 0.90, and ben's, 0.95). v0.43 raised the women's heads by
+#   2.5 cm on a neck thinned with the smaller head, and a head scaled down rose off the shoulders besides, so the neck showing was twice the
+#   others' and thinner: "a neck that is too long". A scaled-down head's chin sits where a full-size head's does, no neck is added, and the
+#   neck keeps its full width.
+# TPDB_ARM46 "B": a tee's sleeve ends nearer the arm's width and the bare arm is a little fuller (the sleeve stood off the arm like a shoulder
+#   pad); the resting arm hangs nearer the body and straighter (actions.py: it hung a hand's width out from the hip, bent at the elbow)
+# TPDB_CLEAN46 "B": no seam line at the wrist (hand and forearm are one skin: the line made a jointed doll's hand); the safety vest's two
+#   silver bands lie on the vest all the way round (their width was measured from points that a thin slice of the vest often did not have,
+#   so in profile they stood off the chest and the back like a hoop, and cut into the vest elsewhere in a zigzag of seam lines)
+NECK46 = __import__("os").environ.get("TPDB_NECK46", "B")
+CLEAN46 = __import__("os").environ.get("TPDB_CLEAN46", "B")
+ARM46 = __import__("os").environ.get("TPDB_ARM46", "B")
+# TPDB_COLLAR46 "B" (second round): every grown figure's neckline higher and neck fuller. The bench's reviewers called the grandmother's neck
+#   "long and thin" and a man's "a thin stalk" in both casts: the top's neckline lay 5 cm under the chin round a neck a third of the head's
+#   width, and where the shoulders were lowered (TPDB_ARM46) more of it showed. ("C": higher and fuller still, a trial.)
+COLLAR46 = __import__("os").environ.get("TPDB_COLLAR46", "B")
+# TPDB_MOUSTACHE46 "C" (after the second round; build_facial_hair): the moustache a smooth curve that follows the face, as thick as v0.45's
+#   over most of its length and rounded off at its two ends. "B", the second round's, thinned from the middle on: on the grandfather a
+#   reviewer found v0.45's "a little easier to see".
+MOUSTACHE46 = __import__("os").environ.get("TPDB_MOUSTACHE46", "C")
+COLLAR46_DZ = {"O": 0.0, "B": 0.014, "C": 0.022}[COLLAR46]
+COLLAR46_NR = {"O": 0.054, "B": 0.062, "C": 0.068}[COLLAR46]
 
 
 def person_skeleton(kind):
@@ -82,7 +105,7 @@ TORSO = {"hips", "spine", "chest", "neck"}
 def build_person(spec):
     kind = "child" if spec["age"] in ("child",) else "adult"
     J = person_skeleton(kind)
-    if spec.get("neck_add"):
+    if spec.get("neck_add") and NECK46 == "O":
         # v0.43 (TPDB_ADULT43): a longer neck, the head raised with it
         J = dict(J, head_base=J["head_base"] + spec["neck_add"], head_c=J["head_c"] + spec["neck_add"])
     AF = bool(spec.get("adult_face"))
@@ -118,6 +141,9 @@ def build_person(spec):
     HR = (hr * 1.04, hr * 0.98, hr * 0.96)
     if AF:
         HR = (hr * 0.99, hr * 0.98, hr * 1.00)      # v0.43 (TPDB_ADULT43): a narrower, taller face
+    if NECK46 == "B" and HS < 1.0:
+        # v0.46: the chin of a scaled-down head where a full-size head's is
+        hc = P(0, 0, J["head_c"] - J["head_r"] * 0.96) + Vector((0, 0, HR[2]))
     sh = {sd: P(sg * sx, 0, J["sh_z"]) for sd, sg in (("L", 1), ("R", -1))}
     el = {sd: P(sg * (sx + 0.015 * s), 0, J["el_z"]) for sd, sg in (("L", 1), ("R", -1))}
     wr = {sd: P(sg * (sx + 0.025 * s), 0, J["wr_z"]) for sd, sg in (("L", 1), ("R", -1))}
@@ -142,7 +168,8 @@ def build_person(spec):
     TI = 1.12
 
     # --- torso (shirt / dress top / cardigan / hoodie) ----------------------
-    verts = [P(0, 0, pel + 0.035 * s), P(0, 0, pel + 0.13 * s), P(0, 0, ch - 0.01 * s), P(0, 0, nk - 0.020 * s)]
+    cdz = COLLAR46_DZ if kind == "adult" else 0.0
+    verts = [P(0, 0, pel + 0.035 * s), P(0, 0, pel + 0.13 * s), P(0, 0, ch - 0.01 * s), P(0, 0, nk - 0.020 * s + cdz)]
     radii = [(0.142 * k * B["waist"] * 1.05 * TI, 0.108 * k * dp * TI), (0.132 * k * B["waist"] * TI, 0.104 * k * dp * TI),
              (0.160 * k * B["chest"] * TI, 0.116 * k * dp * TI), (0.128 * k * B["chest"] * TI, 0.086 * k * dp * TI)]
     tucked = MID39 == "B" and top in ("tee", "long", "vest") and bottom in ("pants", "shorts")
@@ -170,7 +197,10 @@ def build_person(spec):
     for sd, sg in (("L", 1), ("R", -1)):
         i0 = len(verts)
         shp = sh[sd] + Vector((-sg * 0.006 * k, 0, 0.004 * k))
-        verts.append(shp); radii.append(0.060 * k * LB); wts.append({"chest": 0.45, f"upper_arm_{sd}": 0.55})
+        if ARM46 == "B":
+            # (the shoulder's ball lower and smaller: it stood above the neckline, a peak at each corner of the shirt from the front)
+            shp = sh[sd] + Vector((-sg * 0.010 * k, 0, -0.012 * k))
+        verts.append(shp); radii.append((0.056 if ARM46 == "B" else 0.060) * k * LB); wts.append({"chest": 0.45, f"upper_arm_{sd}": 0.55})
         edges.append((3, i0))
         if long_sleeve:
             verts += [el[sd], wr[sd] + (el[sd] - wr[sd]) * 0.08]
@@ -178,7 +208,7 @@ def build_person(spec):
             wts += [{f"upper_arm_{sd}": 0.5, f"forearm_{sd}": 0.5}, {f"forearm_{sd}": 1.0}]
             edges += [(i0, i0 + 1), (i0 + 1, i0 + 2)]
         else:
-            verts.append(sh[sd].lerp(el[sd], 0.50)); radii.append(0.057 * k * LB); wts.append({f"upper_arm_{sd}": 1.0})
+            verts.append(sh[sd].lerp(el[sd], 0.50)); radii.append((0.054 if ARM46 == "B" else 0.057) * k * LB); wts.append({f"upper_arm_{sd}": 1.0})
             edges.append((i0, i0 + 1))
     shirt = skin_object("Shirt", verts, edges, radii, top_col, rig, wts)
     if hemmed:
@@ -187,7 +217,7 @@ def build_person(spec):
     if top == "vest":
         # a sleeveless layer over the shirt: wider than the shirt everywhere below the shoulders,
         # open down the front (a strip of shirt shows through) so it reads as a vest, not a bib
-        vv = [P(0, 0, pel + 0.040 * s), P(0, 0, pel + 0.13 * s), P(0, 0, ch - 0.01 * s), P(0, 0, nk - 0.016 * s)]
+        vv = [P(0, 0, pel + 0.040 * s), P(0, 0, pel + 0.13 * s), P(0, 0, ch - 0.01 * s), P(0, 0, nk - 0.016 * s + cdz)]
         # v0.31 bench (isolation_v031.md): "B" wider than the shirt by enough that the shirt cannot come through (it did, and drew "a jagged edge against the white shirt"); "C" wider still
         vest31 = __import__("os").environ.get("TPDB_VEST", "B") if spec.get("vest_style") != "hivis" else "O"
         vk31 = {"O": (1.075, 1.10), "B": (1.12, 1.20), "C": (1.16, 1.28)}[vest31]
@@ -215,12 +245,26 @@ def build_person(spec):
                 hh = 0.020 * k
                 bm = bmesh.new()
                 rows = []
+                if CLEAN46 == "B":
+                    from mathutils.bvhtree import BVHTree
+                    upd()
+                    bvh46 = BVHTree.FromObject(vest, bpy.context.evaluated_depsgraph_get())
+                    c46 = sum((q for q in vest_pts if abs(q.z - zb) < 0.05 * S), Vector((0, 0, 0)))
+                    n46 = max(1, sum(1 for q in vest_pts if abs(q.z - zb) < 0.05 * S))
+                    c46 = Vector((c46.x / n46, c46.y / n46, 0))
                 for zz in (zb - hh, zb + hh):
                     ring_pts = [q for q in vest_pts if abs(q.z - zz) < 0.012 * S] or vest_pts
                     row = []
                     for j in range(64):
                         a = j / 64 * 2 * math.pi
                         dirv = Vector((math.cos(a), math.sin(a), 0))
+                        if CLEAN46 == "B":
+                            # the vest's own surface in this direction at this height, by a ray from outside
+                            o46 = Vector((c46.x, c46.y, zz)) + dirv * 1.0
+                            hit = bvh46.ray_cast(o46, -dirv, 1.0)[0]
+                            pt = (hit if hit is not None else Vector((c46.x, c46.y, zz)) + dirv * 0.15 * k) + dirv * 0.004 * k
+                            row.append(bm.verts.new(Vector((pt.x, pt.y, zz))))
+                            continue
                         rad = max((q.x * dirv.x + q.y * dirv.y for q in ring_pts if (q.x * dirv.x + q.y * dirv.y) > 0 and
                                    abs(q.x * dirv.y - q.y * dirv.x) < 0.02 * k), default=0.15 * k)
                         row.append(bm.verts.new(Vector((dirv.x * (rad + 0.004 * k), dirv.y * (rad + 0.004 * k), zz))))
@@ -231,6 +275,8 @@ def build_person(spec):
                     bm.faces.new((a0, a1, b1, b0))
                 bmesh.ops.solidify(bm, geom=bm.faces[:], thickness=0.003 * k)
                 band = _mesh_object(f"VestBand{i}", bm, "silver", smooth=True)
+                if CLEAN46 == "B":
+                    no_isect(band)
                 upd()
                 skin_like(band, vest, rig, TORSO)
         else:
@@ -456,7 +502,7 @@ def build_person(spec):
 
     # --- skin: neck + forearms (+ upper arms for sleeveless) ---------------
     verts = [P(0, 0, nk - 0.05 * s), P(0, 0, J["head_base"] + 0.03 * s)]
-    neck_r = (0.060 if kind == "child" else 0.054) * (1.0 + 0.5 * (HS - 1))
+    neck_r = (0.060 if kind == "child" else COLLAR46_NR) * (1.0 + 0.5 * (HS - 1) if NECK46 == "O" or HS > 1.0 else 1.0)
     radii = [neck_r * k * 1.1, neck_r * k]
     wts = [{"chest": 1.0}, {"neck": 0.5, "head": 0.5}]
     edges = [(0, 1)]
@@ -465,9 +511,14 @@ def build_person(spec):
             i0 = len(verts)
             start = sh[sd].lerp(el[sd], 0.38)
             verts += [start, el[sd], wr[sd]]
-            radii += [0.046 * k * LB, 0.043 * k * LB, 0.037 * k * LB]
+            radii += [0.049 * k * LB, 0.045 * k * LB, 0.038 * k * LB] if ARM46 == "B" else [0.046 * k * LB, 0.043 * k * LB, 0.037 * k * LB]
             wts += [{f"upper_arm_{sd}": 1.0}, {f"upper_arm_{sd}": 0.5, f"forearm_{sd}": 0.5}, {f"forearm_{sd}": 1.0}]
             edges += [(i0, i0 + 1), (i0 + 1, i0 + 2)]
+            if CLEAN46 == "B":
+                # v0.46: the forearm runs on, narrowing, to the middle of the hand. It ended at the wrist wider than the hand's top, and the
+                # rim of that end was the line across every wrist
+                verts.append(wr[sd] + Vector((0, 0, -0.040 * k))); radii.append(0.024 * k * LB); wts.append({f"hand_{sd}": 1.0})
+                edges.append((i0 + 2, i0 + 3))
     else:
         for sd in ("L", "R"):
             i0 = len(verts)
@@ -475,13 +526,18 @@ def build_person(spec):
             radii += [0.040 * k * LB, 0.037 * k * LB]
             wts += [{f"forearm_{sd}": 1.0}, {f"forearm_{sd}": 1.0}]
             edges += [(i0, i0 + 1)]
+            if CLEAN46 == "B":
+                verts.append(wr[sd] + Vector((0, 0, -0.040 * k))); radii.append(0.024 * k * LB); wts.append({f"hand_{sd}": 1.0})
+                edges.append((i0 + 1, i0 + 2))
     skin_object("Skin", verts, edges, radii, spec["skin"], rig, wts)
 
     for sd, sg in (("L", 1), ("R", -1)):
         hcen = wr[sd] + Vector((0.002 * sg, 0, -0.042 * k))
-        ellipsoid(f"Hand_{sd}", hcen, (0.040 * k, 0.034 * k, 0.050 * k), spec["skin"], rig, f"hand_{sd}")
-        ellipsoid(f"Thumb_{sd}", hcen + Vector((-sg * 0.012 * k, -0.030 * k, 0.012 * k)), (0.015 * k, 0.016 * k, 0.026 * k),
-                  spec["skin"], rig, f"hand_{sd}", rot=Quaternion((1, 0, 0), 0.5))
+        h46 = ellipsoid(f"Hand_{sd}", hcen, (0.040 * k, 0.034 * k, 0.050 * k), spec["skin"], rig, f"hand_{sd}")
+        t46 = ellipsoid(f"Thumb_{sd}", hcen + Vector((-sg * 0.012 * k, -0.030 * k, 0.012 * k)), (0.015 * k, 0.016 * k, 0.026 * k),
+                        spec["skin"], rig, f"hand_{sd}", rot=Quaternion((1, 0, 0), 0.5))
+        if CLEAN46 == "B":
+            no_isect(h46)       # v0.46: no seam where the hand passes into the forearm (the thumb keeps its own line on the hand)
         if SHOE39 == "D":
             shoe39(f"Shoe_{sd}", P(sg * hx, 0, 0), s, k, S, spec["shoes"], rig, f"foot_{sd}")
         else:
@@ -516,7 +572,7 @@ def build_person(spec):
                                                 Vector((sg * 0.11 * S, -0.135 * S, J["sh_z"] * S)), Vector((sg * 0.125 * S, -0.150 * S, (J["chest"] - 0.06) * S)),
                                                 Vector((sg * 0.165 * S, -0.065 * S, (J["chest"] - 0.14) * S))],
                         [(0.026 * S, 0.010 * S)] * 5, spec.get("backpack2", "charcoal"), rig, bone="chest")
-    build_people_face(face, eye_dx, eye_z, kf, glasses=spec.get("glasses", False), mouth_col="red" if AF else None)
+    build_people_face(face, eye_dx, eye_z, kf, glasses=spec.get("glasses", False), skin_key=spec["skin"], mouth_col="red" if AF else None)
     if ISECT39 == "B":
         for ob in list(bpy.context.scene.objects):
             nm = ob.name.split(".")[0]
@@ -725,7 +781,20 @@ def build_facial_hair(spec, rig, face, eye_z, k):
             # face like something held in the mouth (two bench readers: "a pipe, cigar or whistle")
             pts = [(x, z + 0.006 * k) for x, z in pts]
             rad, out = 0.015 * k, 0.006 * k
-        ob = face.curve_on("mustache36", pts, rad, col, out)
+        if MOUSTACHE46 in ("B", "C"):
+            # v0.46: the same moustache through five times the points, so that it follows the face (between seven points it cut under the
+            # skin and came out again, a notched edge), and thinning to its two ends (it ended as thick as its middle: in profile "a dark
+            # brown blob", "a moustache, or dirt"). "B" thins from the middle on, to 0.38 of its thickness; "C" keeps its thickness over
+            # most of its length and rounds off only the ends, to 0.70
+            dense = [(q.x, q.z) for q in smooth_curve([(x, 0.0, z) for x, z in pts], n=6)]
+            ob = face.curve_on("mustache36", dense, rad, col, out)
+            n = len(dense) - 1
+            taper, power = (0.62, 1.6) if MOUSTACHE46 == "B" else (0.30, 2.6)
+            for i, q in enumerate(ob.data.splines[0].points):
+                t = abs(i / n - 0.5) * 2
+                q.radius = 1.0 - taper * t ** power
+        else:
+            ob = face.curve_on("mustache36", pts, rad, col, out)
         ob.name = "FH_mustache36"
     elif fh in ("mustache", "beard"):
         pts = [(-0.034 * k, mz + 0.006 * k), (-0.016 * k, mz + 0.020 * k), (0, mz + 0.018 * k), (0.016 * k, mz + 0.020 * k), (0.034 * k, mz + 0.006 * k)]

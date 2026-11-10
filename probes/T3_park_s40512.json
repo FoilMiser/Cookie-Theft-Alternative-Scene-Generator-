@@ -4,10 +4,10 @@
  "setting": "park",
  "sky": "clear",
  "seed": 40512,
- "mirror": false,
+ "mirror": true,
  "versions": {
-  "generator": "0.45.0",
-  "cast_builder": "0.45.0",
+  "generator": "0.46.0",
+  "cast_builder": "0.46.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,10 +61,10 @@
  ],
  "templates": [
   {
-   "id": "bird_steals",
-   "kind": "inference",
+   "id": "bird_perched",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   },
   {
    "id": "ice_cream",
@@ -78,7 +78,50 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is reading on the bench",
+   "text": "A bird is sitting on a branch",
+   "accepted": [
+    "bird",
+    "bird on the branch",
+    "little bird",
+    "bird sitting",
+    "bird singing"
+   ],
+   "key": "bird",
+   "elements": [
+    "bird_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "bird_perched",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.391,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.63,
+    "a": 3.52,
+    "zipf_raw": 4.63,
+    "aoa_raw": 3.52,
+    "domain": null,
+    "area_px": 2152
+   },
+   "b": -0.754,
+   "p0": 0.68,
+   "pm1": 0.439,
+   "aoi_cells": [
+    "ML"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A woman is eating an ice cream",
    "accepted": {
     "who": [
      "woman",
@@ -86,154 +129,6 @@
      "mother",
      "mom",
      "person"
-    ],
-    "what": [
-     "reading",
-     "reading a book",
-     "sitting on the bench",
-     "not paying attention"
-    ]
-   },
-   "key": "reading",
-   "elements": [
-    "benchreader_1"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "bird_steals",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.012,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.14,
-    "a": 4.11,
-    "zipf_raw": 5.14,
-    "aoa_raw": 4.11,
-    "domain": null,
-    "area_px": 15044
-   },
-   "b": -1.596,
-   "p0": 0.831,
-   "pm1": 0.645,
-   "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A bird is pecking at a sandwich on the bench",
-   "accepted": [
-    "bird eating the sandwich",
-    "bird on the bench",
-    "bird pecking",
-    "sandwich"
-   ],
-   "key": "sandwich",
-   "elements": [
-    "thief_2",
-    "sandwich_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "bird_steals",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -1.184,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.13,
-    "a": 4.79,
-    "zipf_raw": 4.13,
-    "aoa_raw": 4.79,
-    "domain": null,
-    "area_px": 2880
-   },
-   "b": -0.707,
-   "p0": 0.67,
-   "pm1": 0.427,
-   "aoi_cells": [
-    "BR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "inference",
-   "text": "The bird is stealing the sandwich while the woman is busy reading",
-   "accepted": [
-    "the bird is stealing the food",
-    "she doesn't notice the bird",
-    "the bird is eating her lunch",
-    "he isn't watching his sandwich"
-   ],
-   "key": "stealing",
-   "elements": [
-    "thief_2",
-    "benchreader_1"
-   ],
-   "cues": [
-    "thief_2",
-    "benchreader_1"
-   ],
-   "effect": [
-    "sandwich_3"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "bird_steals",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -1.796,
-    "r": 1,
-    "d": 0.048,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.23,
-    "aoa_raw": 6.17,
-    "domain": null,
-    "area_px": 1216
-   },
-   "b": 1.486,
-   "p0": 0.185,
-   "pm1": 0.077,
-   "aoi_cells": [
-    "MC",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "action",
-   "text": "A grandmother is eating an ice cream",
-   "accepted": {
-    "who": [
-     "grandmother",
-     "grandma",
-     "old woman",
-     "older woman",
-     "lady",
-     "woman"
     ],
     "what": [
      "eating ice cream",
@@ -244,7 +139,7 @@
    },
    "key": "ice cream",
    "elements": [
-    "icecream_4"
+    "icecream_5"
    ],
    "cues": [],
    "effect": [],
@@ -257,7 +152,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.023,
+    "s": 0.037,
     "r": 0,
     "d": 0.0,
     "f": 0.47,
@@ -265,17 +160,18 @@
     "zipf_raw": 4.47,
     "aoa_raw": 3.33,
     "domain": null,
-    "area_px": 15804
+    "area_px": 16120
    },
-   "b": -1.413,
-   "p0": 0.804,
-   "pm1": 0.602,
+   "b": -1.419,
+   "p0": 0.805,
+   "pm1": 0.603,
    "aoi_cells": [
+    "MC",
     "BC"
    ]
   },
   {
-   "id": "i05",
+   "id": "i03",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -314,11 +210,11 @@
    "p0": 0.732,
    "pm1": 0.501,
    "aoi_cells": [
-    "TR"
+    "TL"
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -356,12 +252,12 @@
    "p0": 0.698,
    "pm1": 0.459,
    "aoi_cells": [
-    "TL",
-    "TC"
+    "TC",
+    "TR"
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -394,18 +290,18 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 51640
+    "area_px": 51656
    },
    "b": -1.405,
    "p0": 0.803,
    "pm1": 0.6,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -428,7 +324,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.182,
+    "s": 1.208,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -436,20 +332,20 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 81016
+    "area_px": 84072
    },
-   "b": -1.345,
-   "p0": 0.793,
-   "pm1": 0.585,
+   "b": -1.358,
+   "p0": 0.795,
+   "pm1": 0.589,
    "aoi_cells": [
-    "ML",
     "MC",
-    "BL",
-    "BC"
+    "MR",
+    "BC",
+    "BR"
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -472,7 +368,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.012,
+    "s": 0.973,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -480,18 +376,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 63700
+    "area_px": 60352
    },
-   "b": -1.521,
-   "p0": 0.821,
-   "pm1": 0.627,
+   "b": -1.501,
+   "p0": 0.818,
+   "pm1": 0.623,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i10",
+   "id": "i08",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -535,7 +431,49 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i09",
+   "type": "entity",
+   "text": "There is a park bench",
+   "accepted": [
+    "bench",
+    "park bench",
+    "seat"
+   ],
+   "key": "bench",
+   "elements": [
+    "bench"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.161,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.39,
+    "a": 4.21,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.21,
+    "domain": null,
+    "area_px": 12184
+   },
+   "b": -0.796,
+   "p0": 0.689,
+   "pm1": 0.449,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i10",
    "type": "entity",
    "text": "There are flowers",
    "accepted": [
@@ -566,30 +504,30 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 23996
+    "area_px": 23992
    },
    "b": -1.111,
    "p0": 0.752,
    "pm1": 0.528,
    "aoi_cells": [
-    "BL"
+    "BR"
    ]
   }
  ],
  "counts": {
   "content": 10,
-  "inference_units": 1,
+  "inference_units": 0,
   "contradictions": 0,
-  "items_total": 11
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.754,
-   "inference": 0.185
+   "content": 0.741,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.536,
-   "inference": 0.077
+   "content": 0.518,
+   "inference": null
   }
  },
  "bands": {
@@ -611,14 +549,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "19 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 19,
-  "edge_density": 0.0264,
-  "png_bytes": 193291,
-  "jpeg_bytes": 135360
+  "objects": 17,
+  "edge_density": 0.0253,
+  "png_bytes": 173377,
+  "jpeg_bytes": 130341
  },
  "signature": [
   [
@@ -630,10 +568,6 @@
    0
   ],
   [
-   "action",
-   0
-  ],
-  [
    "entity",
    0
   ],
@@ -662,8 +596,8 @@
    0
   ],
   [
-   "inference",
-   2
+   "entity",
+   0
   ]
  ],
  "elements": [
@@ -679,9 +613,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    1332.0,
+    72.0,
     12.0,
-    1528.0,
+    268.0,
     208.0
    ],
    "area_px": 13440,
@@ -694,9 +628,9 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    444.0,
+    680.0,
     52.0,
-    920.0,
+    1156.0,
     168.0
    ],
    "area_px": 16532,
@@ -714,8 +648,8 @@
     1600.0,
     522.0
    ],
-   "area_px": 155664,
-   "visible_px": 115096,
+   "area_px": 155668,
+   "visible_px": 115100,
    "occlusion": 0.261
   },
   {
@@ -736,13 +670,13 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    1042.0,
+    292.0,
     520.0,
-    1308.0,
+    558.0,
     1000.0
    ],
-   "area_px": 51696,
-   "visible_px": 51640,
+   "area_px": 51712,
+   "visible_px": 51656,
    "occlusion": 0.001
   },
   {
@@ -751,29 +685,14 @@
    "role": "setting",
    "z": -70,
    "bbox": [
-    138.0,
+    798.0,
     570.0,
-    802.0,
+    1462.0,
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 81016,
-   "occlusion": 0.04
-  },
-  {
-   "id": "filler_bush_b",
-   "label": "Bush",
-   "role": "filler",
-   "z": 560,
-   "bbox": [
-    814.0,
-    526.0,
-    906.0,
-    584.0
-   ],
-   "area_px": 3880,
-   "visible_px": 3880,
-   "occlusion": 0.0
+   "visible_px": 84072,
+   "occlusion": 0.004
   },
   {
    "id": "tree_small",
@@ -781,13 +700,13 @@
    "role": "setting",
    "z": 575,
    "bbox": [
-    22.0,
+    1402.0,
     394.0,
-    198.0,
+    1578.0,
     578.0
    ],
-   "area_px": 22556,
-   "visible_px": 22556,
+   "area_px": 22560,
+   "visible_px": 22560,
    "occlusion": 0.0
   },
   {
@@ -796,9 +715,9 @@
    "role": "setting",
    "z": 640,
    "bbox": [
-    904.0,
+    644.0,
     202.0,
-    956.0,
+    696.0,
     642.0
    ],
    "area_px": 8176,
@@ -811,9 +730,9 @@
    "role": "filler",
    "z": 640,
    "bbox": [
-    32.0,
+    1448.0,
     596.0,
-    152.0,
+    1568.0,
     672.0
    ],
    "area_px": 6628,
@@ -826,13 +745,28 @@
    "role": "filler",
    "z": 650,
    "bbox": [
-    1448.0,
+    32.0,
     606.0,
-    1568.0,
+    152.0,
     682.0
    ],
    "area_px": 6628,
    "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bin",
+   "label": "Bin",
+   "role": "filler",
+   "z": 652,
+   "bbox": [
+    594.0,
+    584.0,
+    650.0,
+    654.0
+   ],
+   "area_px": 3228,
+   "visible_px": 3228,
    "occlusion": 0.0
   },
   {
@@ -841,100 +775,60 @@
    "role": "setting",
    "z": 760,
    "bbox": [
-    1256.0,
+    56.0,
     338.0,
-    1544.0,
+    344.0,
     762.0
    ],
-   "area_px": 63700,
-   "visible_px": 63700,
-   "occlusion": 0.0
+   "area_px": 63708,
+   "visible_px": 60352,
+   "occlusion": 0.053
   },
   {
-   "id": "bench",
-   "label": "Park bench",
+   "id": "limb_3",
+   "label": "Limb of the tree",
+   "role": "background",
+   "z": 760.75
+  },
+  {
+   "id": "perch_2",
+   "label": "End of the branch under the bird",
    "role": "setting",
-   "z": 830,
+   "z": 760.8,
    "bbox": [
-    976.0,
-    718.0,
-    1184.0,
-    832.0
+    216.0,
+    516.0,
+    300.0,
+    542.0
    ],
-   "area_px": 12180,
-   "visible_px": 6648,
-   "occlusion": 0.454
+   "area_px": 1272,
+   "visible_px": 1204,
+   "occlusion": 0.053
   },
   {
-   "id": "benchreader_1",
-   "label": "person.mei__sit_read__neutral__y045",
-   "role": "scored",
-   "z": 833,
-   "bbox": [
-    1008.0,
-    616.0,
-    1138.0,
-    864.0
-   ],
-   "area_px": 15324,
-   "visible_px": 15044,
-   "occlusion": 0.018,
-   "asset": {
-    "variant": "person.mei__sit_read__neutral__y045",
-    "family": "person.mei",
-    "scale": 0.4576,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
+   "id": "crownleaves_4",
+   "label": "Leaves on the tree",
+   "role": "background",
+   "z": 760.9
   },
   {
-   "id": "sandwich_3",
-   "label": "Sandwich on the bench",
+   "id": "bird_1",
+   "label": "animal.bird_02__sing__sing__y090",
    "role": "scored",
-   "z": 833.5,
+   "z": 761,
    "bbox": [
-    1082.0,
-    738.0,
-    1150.0,
-    772.0
+    234.0,
+    464.0,
+    310.0,
+    528.0
    ],
-   "area_px": 1708,
-   "visible_px": 1664,
-   "occlusion": 0.026
-  },
-  {
-   "id": "thief_2",
-   "label": "animal.bird_02__peck__neutral__y045",
-   "role": "scored",
-   "z": 834,
-   "bbox": [
-    1132.0,
-    732.0,
-    1182.0,
-    772.0
-   ],
-   "area_px": 1216,
-   "visible_px": 1216,
+   "area_px": 2152,
+   "visible_px": 2152,
    "occlusion": 0.0,
    "asset": {
-    "variant": "animal.bird_02__peck__neutral__y045",
+    "variant": "animal.bird_02__sing__sing__y090",
     "family": "animal.bird_02",
-    "scale": 0.3664,
+    "scale": 0.4309,
     "mirrored": true,
     "labels": {
      "everyday_name": "bird",
@@ -948,57 +842,71 @@
    }
   },
   {
+   "id": "bench",
+   "label": "Park bench",
+   "role": "setting",
+   "z": 830,
+   "bbox": [
+    416.0,
+    718.0,
+    624.0,
+    832.0
+   ],
+   "area_px": 12184,
+   "visible_px": 12184,
+   "occlusion": 0.0
+  },
+  {
+   "id": "icecream_5",
+   "label": "person.ana__eat_ice_cream__happy__y045",
+   "role": "scored",
+   "z": 842.81,
+   "bbox": [
+    716.0,
+    568.0,
+    796.0,
+    848.0
+   ],
+   "area_px": 16120,
+   "visible_px": 16120,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ana__eat_ice_cream__happy__y045",
+    "family": "person.ana",
+    "scale": 0.4612,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin2",
+      "hair": "long_dark"
+     }
+    }
+   }
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
    "z": 936,
    "bbox": [
-    180.0,
+    1180.0,
     792.0,
-    420.0,
+    1420.0,
     940.0
    ],
-   "area_px": 23996,
-   "visible_px": 23996,
+   "area_px": 23992,
+   "visible_px": 23992,
    "occlusion": 0.0
-  },
-  {
-   "id": "icecream_4",
-   "label": "person.rosa__walk_ice_cream__smile__y090",
-   "role": "scored",
-   "z": 953.42,
-   "bbox": [
-    608.0,
-    660.0,
-    718.0,
-    956.0
-   ],
-   "area_px": 15804,
-   "visible_px": 15804,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.rosa__walk_ice_cream__smile__y090",
-    "family": "person.rosa",
-    "scale": 0.5022,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "grandmother",
-     "accepted_names": [
-      "grandmother",
-      "grandma",
-      "old woman",
-      "older woman",
-      "lady",
-      "woman"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin1",
-      "hair": "gray_bun"
-     }
-    }
-   }
   },
   {
    "id": "filler_rock",
@@ -1006,28 +914,13 @@
    "role": "filler",
    "z": 960,
    "bbox": [
-    792.0,
+    712.0,
     914.0,
-    888.0,
+    808.0,
     962.0
    ],
    "area_px": 3740,
    "visible_px": 3740,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_bin_p2",
-   "label": "Bin",
-   "role": "filler",
-   "z": 980,
-   "bbox": [
-    30.0,
-    892.0,
-    100.0,
-    982.0
-   ],
-   "area_px": 5276,
-   "visible_px": 5276,
    "occlusion": 0.0
   }
  ],
@@ -1050,15 +943,13 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "bird_steals"
+   "events": [
+    "bird_perched",
+    "ice_cream"
    ],
    "yaws": {
-    "bird_steals": 45
-   },
-   "events": [
-    "ice_cream"
-   ]
+    "bird_perched": 90
+   }
   },
   "placement_rev": 43
  },

@@ -35,7 +35,21 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.45.0"
+BUILDER_VERSION = "0.46.0"
+
+# v0.46 bench switch (vision/isolation_v046.md), "O" for v0.45's drawing. TPDB_STYLE46 "B": the whole figure's outer edge
+# is drawn at 9.5 px (4.5 px in a picture at the set's median scale, the settings' own line) and the lines inside it at
+# 5.5 px; and the cel shading has two tones, a shadow and the flat colour, with no pool of light on top. v0.45's figures
+# had one 5 px line, under half the weight of the settings' line, and three soft tones against the settings' flat fills.
+STYLE46 = os.environ.get("TPDB_STYLE46", "B")
+# (after round 3, TPDB_SHADE46 "B": the shadow tone 0.86 of the flat colour for 0.72. As a hard-edged band the darker tone was read as a
+# mark on the cloth: "a darker, dull yellow band that looks like a stain or a shadow pasted on", "dark shading patches on the trousers
+# look like stains rather than folds". "O" keeps the first three rounds' tone.)
+SHADE46 = {"O": 0.72, "B": 0.86}[os.environ.get("TPDB_SHADE46", "B")]
+# (after the validator's first run on the release renders, TPDB_INK46 "B": the line is drawn unlit, in the palette's outline colour, which
+# is the settings' own line colour. Lit like a surface it came out darker, (28, 28, 34) for (38, 38, 46): render_assets.setup_outline.
+# "O" keeps the lit line of every release before, and of the bench's rounds 1 to 3.)
+INK46 = os.environ.get("TPDB_INK46", "B")
 
 
 def write_config(out_dir, fam, cls, labels, poses, expressions, states, affordances, prop_objects=(), extra=None):
@@ -48,7 +62,9 @@ def write_config(out_dir, fam, cls, labels, poses, expressions, states, affordan
         "expression_states": states,
         "yaws": [0, 45, 90],
         "mirror_ok": True,
-        "outline": {"method": "lineart", "width_px": 5.0},
+        "outline": ({"method": "lineart", "width_px": 5.5, "silhouette_px": 9.5, **({"unlit": True} if INK46 == "B" else {})} if STYLE46 == "B"
+                    else {"method": "lineart", "width_px": 5.0}),
+        **({"cel": {"shadow": SHADE46, "light": 1.0}} if STYLE46 == "B" else {}),
         "affordances": affordances,
         "contradiction_roles": [],
         "license": {"source": "original", "author": "TPDB stand-in cast (procedural)"},

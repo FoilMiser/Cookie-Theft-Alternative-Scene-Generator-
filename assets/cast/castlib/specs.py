@@ -116,6 +116,11 @@ if ADULT43 in ("B", "C"):
     # (and the woman in yellow's red shoes a darker red: "flat and splayed, almost flipper-like", bench round 1; figure-fixes-v042.md item 9)
     PEOPLE["person.mei"].update(hair="bob", head_scale=0.85, neck_add=0.025, adult_face=True, shoes="throat")
     PEOPLE["person.ana"].update(head_scale=0.90, neck_add=0.025, adult_face=True)
+# v0.46 bench (vision/isolation_v046.md, TPDB_MEI46), "O" for v0.45's drawing. "B": her waist less pinched, 0.94 for 0.86 of the standard figure's
+# (between a chest of 0.92 and hips of 1.02 it drew her in two lumps, the dress an hourglass)
+MEI46 = os.environ.get("TPDB_MEI46", "B")
+if MEI46 == "B":
+    PEOPLE["person.mei"]["build"] = dict(PEOPLE["person.mei"].get("build", {}), waist=0.94)
 if ADULT43 == "C":
     PEOPLE["person.mei"].update(hem_drop=0.12)
     PEOPLE["person.ana"].update(hair="ponytail", tie="charcoal")

@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23055,
- "mirror": true,
+ "mirror": false,
  "versions": {
-  "generator": "0.45.0",
-  "cast_builder": "0.45.0",
+  "generator": "0.46.0",
+  "cast_builder": "0.46.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,24 +56,161 @@
   }
  },
  "features": [
-  "bench",
-  "feeder",
-  "flowers"
+  "feeder"
  ],
  "templates": [
   {
-   "id": "plant_flowers",
-   "kind": "event",
+   "id": "sprinkler_package",
+   "kind": "inference",
    "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
    "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
    "type": "action",
-   "text": "A teenager is planting flowers",
+   "text": "A sprinkler is spraying water",
+   "accepted": [
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
+   ],
+   "key": "sprinkler",
+   "elements": [
+    "sprinkler_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": 0.022,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
+    "domain": null,
+    "area_px": 15788
+   },
+   "b": -0.186,
+   "p0": 0.546,
+   "pm1": 0.307,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.501,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
+    "domain": null,
+    "area_px": 7552
+   },
+   "b": -0.648,
+   "p0": 0.657,
+   "pm1": 0.413,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_1",
+    "package_2"
+   ],
+   "cues": [
+    "sprinkler_1",
+    "package_2"
+   ],
+   "effect": [
+    "package_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.022,
+    "r": 1,
+    "d": 0.228,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
+    "domain": null,
+    "area_px": 15788
+   },
+   "b": 0.193,
+   "p0": 0.452,
+   "pm1": 0.233,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A teenager is sweeping",
    "accepted": {
     "who": [
      "teenager",
@@ -84,49 +221,47 @@
      "young person"
     ],
     "what": [
-     "planting flowers",
-     "planting",
-     "gardening",
-     "kneeling in the garden"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "broom"
     ]
    },
-   "key": "planting",
+   "key": "sweeping",
    "elements": [
-    "planter_1",
-    "pot_2"
+    "sweeper_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "plant_flowers",
-   "event": "e1",
+   "template": "sweep",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.09,
+    "s": 0.026,
     "r": 0,
     "d": 0.0,
-    "f": -0.19,
-    "a": 3.95,
-    "zipf_raw": 3.81,
-    "aoa_raw": 3.95,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 13480
+    "area_px": 15872
    },
-   "b": -1.278,
-   "p0": 0.782,
-   "pm1": 0.569,
+   "b": -1.21,
+   "p0": 0.77,
+   "pm1": 0.552,
    "aoi_cells": [
-    "MC",
-    "BC",
+    "MR",
     "BR"
    ]
   },
   {
-   "id": "i02",
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -161,15 +296,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
-    "TL"
+    "TR"
    ]
   },
   {
-   "id": "i03",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -201,17 +336,17 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19280
+    "area_px": 19276
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.89,
+   "p0": 0.709,
+   "pm1": 0.473,
    "aoi_cells": [
     "TC"
    ]
   },
   {
-   "id": "i04",
+   "id": "i07",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -233,7 +368,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.734,
+    "s": 0.733,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -241,18 +376,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43040
+    "area_px": 43028
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.382,
+   "p0": 0.799,
+   "pm1": 0.594,
    "aoi_cells": [
-    "TR",
-    "MR"
+    "TL",
+    "ML"
    ]
   },
   {
-   "id": "i05",
+   "id": "i08",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -285,18 +420,18 @@
     "zipf_raw": 3.46,
     "aoa_raw": 7.29,
     "domain": null,
-    "area_px": 8692
+    "area_px": 8688
    },
-   "b": -0.517,
-   "p0": 0.626,
-   "pm1": 0.382,
+   "b": -0.397,
+   "p0": 0.598,
+   "pm1": 0.354,
    "aoi_cells": [
-    "TL",
-    "ML"
+    "TR",
+    "MR"
    ]
   },
   {
-   "id": "i06",
+   "id": "i09",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -327,11 +462,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 233800
+    "area_px": 233792
    },
-   "b": -1.91,
-   "p0": 0.871,
-   "pm1": 0.713,
+   "b": -1.79,
+   "p0": 0.857,
+   "pm1": 0.688,
    "aoi_cells": [
     "ML",
     "MC",
@@ -339,7 +474,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i10",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -375,26 +510,28 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -2.193,
+   "p0": 0.9,
+   "pm1": 0.767,
    "aoi_cells": [
-    "TR",
-    "MR",
-    "BR"
+    "TL",
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i08",
+   "id": "i11",
    "type": "entity",
-   "text": "There is a bench",
+   "text": "There is a flower bed",
    "accepted": [
-    "bench",
-    "seat"
+    "flowers",
+    "flower bed",
+    "flowerbed",
+    "garden"
    ],
-   "key": "bench",
+   "key": "flowers",
    "elements": [
-    "bench"
+    "flowers"
    ],
    "cues": [],
    "effect": [],
@@ -407,38 +544,39 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.105,
+    "s": 0.373,
     "r": 0,
     "d": 0.0,
-    "f": 0.39,
-    "a": 4.21,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.21,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 13200
+    "area_px": 25880
    },
-   "b": -0.945,
-   "p0": 0.72,
-   "pm1": 0.486,
+   "b": -1.139,
+   "p0": 0.757,
+   "pm1": 0.535,
    "aoi_cells": [
-    "BR"
+    "BL",
+    "BC"
    ]
   }
  ],
  "counts": {
-  "content": 8,
-  "inference_units": 0,
+  "content": 10,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 8
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.777,
-   "inference": null
+   "content": 0.733,
+   "inference": 0.452
   },
   "theta_minus_1": {
-   "content": 0.574,
-   "inference": null
+   "content": 0.518,
+   "inference": 0.233
   }
  },
  "bands": {
@@ -460,16 +598,20 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0381,
-  "png_bytes": 143669,
-  "jpeg_bytes": 177482
+  "objects": 15,
+  "edge_density": 0.0402,
+  "png_bytes": 165759,
+  "jpeg_bytes": 181789
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -501,6 +643,14 @@
   [
    "entity",
    0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -516,9 +666,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    52.0,
+    1352.0,
     22.0,
-    248.0,
+    1548.0,
     218.0
    ],
    "area_px": 13440,
@@ -531,13 +681,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    634.0,
+    560.0,
     68.0,
-    1040.0,
+    966.0,
     202.0
    ],
-   "area_px": 19280,
-   "visible_px": 19280,
+   "area_px": 19276,
+   "visible_px": 19276,
    "occlusion": 0.0
   },
   {
@@ -558,14 +708,14 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    38.0,
+    1254.0,
     614.0,
-    346.0,
+    1562.0,
     1000.0
    ],
-   "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "area_px": 81244,
+   "visible_px": 64352,
+   "occlusion": 0.208
   },
   {
    "id": "tree",
@@ -573,13 +723,13 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    1056.0,
+    296.0,
     176.0,
-    1304.0,
+    544.0,
     452.0
    ],
-   "area_px": 44992,
-   "visible_px": 43040,
+   "area_px": 44984,
+   "visible_px": 43028,
    "occlusion": 0.043
   },
   {
@@ -588,29 +738,14 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    0.0,
+    298.0,
     426.0,
-    1302.0,
+    1600.0,
     618.0
    ],
-   "area_px": 240904,
-   "visible_px": 233800,
+   "area_px": 240896,
+   "visible_px": 233792,
    "occlusion": 0.029
-  },
-  {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    526.0,
-    602.0,
-    654.0,
-    682.0
-   ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
   },
   {
    "id": "filler_bush_left",
@@ -618,14 +753,29 @@
    "role": "filler",
    "z": 648,
    "bbox": [
-    1172.0,
+    292.0,
     598.0,
-    1308.0,
+    428.0,
     684.0
    ],
-   "area_px": 8292,
-   "visible_px": 7492,
+   "area_px": 8296,
+   "visible_px": 7496,
    "occlusion": 0.096
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    946.0,
+    602.0,
+    1074.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
   },
   {
    "id": "feeder",
@@ -633,13 +783,13 @@
    "role": "setting",
    "z": 652,
    "bbox": [
-    318.0,
+    1208.0,
     302.0,
-    392.0,
+    1282.0,
     664.0
    ],
-   "area_px": 8692,
-   "visible_px": 8692,
+   "area_px": 8688,
+   "visible_px": 8688,
    "occlusion": 0.0
   },
   {
@@ -648,9 +798,9 @@
    "role": "filler",
    "z": 700,
    "bbox": [
-    380.0,
+    1100.0,
     596.0,
-    500.0,
+    1220.0,
     702.0
    ],
    "area_px": 8080,
@@ -663,9 +813,9 @@
    "role": "setting",
    "z": 781,
    "bbox": [
-    1258.0,
+    0.0,
     118.0,
-    1600.0,
+    342.0,
     784.0
    ],
    "area_px": 204952,
@@ -678,48 +828,33 @@
    "role": "setting",
    "z": 836,
    "bbox": [
-    1028.0,
+    318.0,
     694.0,
-    1282.0,
+    572.0,
     838.0
    ],
-   "area_px": 25884,
-   "visible_px": 22968,
-   "occlusion": 0.113
+   "area_px": 25880,
+   "visible_px": 25880,
+   "occlusion": 0.0
   },
   {
-   "id": "dugsoil_3",
-   "label": "Hole dug by the trowel",
-   "role": "prop",
-   "z": 837,
-   "bbox": [
-    1042.0,
-    800.0,
-    1086.0,
-    816.0
-   ],
-   "area_px": 396,
-   "visible_px": 312,
-   "occlusion": 0.212
-  },
-  {
-   "id": "planter_1",
-   "label": "person.leo__kneel_plant__neutral__y090",
+   "id": "sweeper_3",
+   "label": "person.leo__sweep__smile__y045",
    "role": "scored",
-   "z": 838,
+   "z": 902.04,
    "bbox": [
-    908.0,
-    630.0,
-    1054.0,
-    820.0
+    1388.0,
+    638.0,
+    1476.0,
+    934.0
    ],
-   "area_px": 11028,
-   "visible_px": 11028,
-   "occlusion": 0.0,
+   "area_px": 16404,
+   "visible_px": 15872,
+   "occlusion": 0.032,
    "asset": {
-    "variant": "person.leo__kneel_plant__neutral__y090",
+    "variant": "person.leo__sweep__smile__y045",
     "family": "person.leo",
-    "scale": 0.451,
+    "scale": 0.4832,
     "mirrored": false,
     "labels": {
      "everyday_name": "teenager",
@@ -741,63 +876,48 @@
    }
   },
   {
-   "id": "pot_2",
-   "label": "Flower pot",
+   "id": "sweepheap_4",
+   "label": "What has been swept",
    "role": "scored",
-   "z": 841.7,
+   "z": 904.04,
    "bbox": [
-    1076.0,
-    778.0,
-    1124.0,
-    844.0
+    1418.0,
+    874.0,
+    1502.0,
+    916.0
    ],
-   "area_px": 2452,
-   "visible_px": 2452,
+   "area_px": 1712,
+   "visible_px": 1712,
    "occlusion": 0.0
   },
   {
-   "id": "bench",
-   "label": "Garden bench",
-   "role": "setting",
-   "z": 928,
+   "id": "sprinkler_1",
+   "label": "Sprinkler spraying",
+   "role": "scored",
+   "z": 933.55,
    "bbox": [
-    1358.0,
-    804.0,
-    1562.0,
-    930.0
-   ],
-   "area_px": 13200,
-   "visible_px": 13200,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
-   "bbox": [
-    362.0,
-    884.0,
-    458.0,
+    0.0,
+    800.0,
+    918.0,
     962.0
    ],
-   "area_px": 4404,
-   "visible_px": 4404,
-   "occlusion": 0.0
+   "area_px": 15896,
+   "visible_px": 15788,
+   "occlusion": 0.007
   },
   {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
+   "id": "package_2",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 943.55,
    "bbox": [
-    522.0,
-    892.0,
-    704.0,
-    980.0
+    858.0,
+    876.0,
+    972.0,
+    956.0
    ],
-   "area_px": 8772,
-   "visible_px": 8772,
+   "area_px": 7552,
+   "visible_px": 7552,
    "occlusion": 0.0
   }
  ],
@@ -808,10 +928,10 @@
  "attempts": [
   [
    23055,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 5: accepted after 4 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 4,
  "knob": 0,
  "regen": {
   "base_seed": 23055,
@@ -821,7 +941,10 @@
   "usage": {},
   "forced": {
    "events": [
-    "plant_flowers"
+    "sweep"
+   ],
+   "modules": [
+    "sprinkler_package"
    ]
   },
   "placement_rev": 43

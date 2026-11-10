@@ -6,8 +6,8 @@
  "seed": 23027,
  "mirror": true,
  "versions": {
-  "generator": "0.45.0",
-  "cast_builder": "0.45.0",
+  "generator": "0.46.0",
+  "cast_builder": "0.46.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,19 +60,19 @@
  ],
  "templates": [
   {
-   "id": "fishing",
-   "kind": "event",
+   "id": "ice_cream_drop",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "photo",
-   "kind": "event",
+   "id": "ladder_nothing",
+   "kind": "contradiction",
    "event": "e2",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "run",
+   "id": "fishing",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -110,12 +110,12 @@
    "animate": true,
    "domain": null,
    "template": "fishing",
-   "event": "e1",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.022,
+    "s": 0.008,
     "r": 0,
     "d": 0.0,
     "f": 0.47,
@@ -123,11 +123,11 @@
     "zipf_raw": 4.47,
     "aoa_raw": 4.72,
     "domain": null,
-    "area_px": 14832
+    "area_px": 15464
    },
-   "b": -1.27,
-   "p0": 0.781,
-   "pm1": 0.567,
+   "b": -1.285,
+   "p0": 0.783,
+   "pm1": 0.571,
    "aoi_cells": [
     "MC",
     "MR",
@@ -137,111 +137,331 @@
   {
    "id": "i02",
    "type": "action",
-   "text": "A man is running",
+   "text": "A child is holding an empty cone, looking down at the ice cream on the ground, upset",
    "accepted": {
     "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
     ],
     "what": [
-     "running",
-     "jogging",
-     "out for a run",
-     "exercising"
+     "holding an empty cone",
+     "looking at the dropped ice cream",
+     "sad",
+     "upset",
+     "empty cone",
+     "crying"
     ]
    },
-   "key": "running",
+   "key": "cone",
    "elements": [
-    "runner_3"
+    "conekid_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "run",
-   "event": "e3",
+   "template": "ice_cream_drop",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.102,
+    "s": -0.276,
     "r": 0,
     "d": 0.0,
-    "f": 1.23,
-    "a": 4.47,
-    "zipf_raw": 5.23,
-    "aoa_raw": 4.47,
+    "f": -0.17,
+    "a": 4.67,
+    "zipf_raw": 3.83,
+    "aoa_raw": 4.67,
     "domain": null,
-    "area_px": 13256
+    "area_px": 10368
    },
-   "b": -1.458,
-   "p0": 0.811,
-   "pm1": 0.613,
+   "b": -0.951,
+   "p0": 0.721,
+   "pm1": 0.488,
    "aoi_cells": [
-    "ML",
-    "MC",
     "BL",
     "BC"
    ]
   },
   {
    "id": "i03",
-   "type": "action",
-   "text": "A man is taking a photo",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "taking a picture",
-     "taking a photo",
-     "photographing",
-     "camera"
-    ]
-   },
-   "key": "camera",
+   "type": "entity",
+   "text": "Ice cream is lying on the ground",
+   "accepted": [
+    "ice cream on the ground",
+    "dropped ice cream",
+    "ice cream fell",
+    "ice cream",
+    "scoop on the ground"
+   ],
+   "key": "ice cream",
    "elements": [
-    "photographer_5"
+    "splat_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "ice_cream_drop",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.344,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.47,
+    "a": 3.33,
+    "zipf_raw": 4.47,
+    "aoa_raw": 3.33,
+    "domain": null,
+    "area_px": 2300
+   },
+   "b": -0.109,
+   "p0": 0.527,
+   "pm1": 0.291,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A dog is licking the ice cream",
+   "accepted": [
+    "dog eating the ice cream",
+    "dog licking it",
+    "dog sniffing the ice cream"
+   ],
+   "key": "dog",
+   "elements": [
+    "lickdog_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "photo",
-   "event": "e2",
+   "template": "ice_cream_drop",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.251,
+    "s": -0.259,
     "r": 0,
     "d": 0.0,
-    "f": 0.87,
-    "a": 6.0,
-    "zipf_raw": 4.87,
-    "aoa_raw": 6.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
     "domain": null,
-    "area_px": 21796
+    "area_px": 10612
    },
-   "b": -1.526,
-   "p0": 0.821,
-   "pm1": 0.629,
+   "b": -1.341,
+   "p0": 0.793,
+   "pm1": 0.584,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "inference",
+   "text": "The child dropped the ice cream",
+   "accepted": [
+    "the child dropped the ice cream",
+    "the ice cream fell off the cone",
+    "dropped it",
+    "lost the ice cream"
+   ],
+   "key": "dropped",
+   "elements": [
+    "splat_5",
+    "conekid_3",
+    "lickdog_4"
+   ],
+   "cues": [
+    "splat_5",
+    "conekid_3",
+    "lickdog_4"
+   ],
+   "effect": [
+    "splat_5"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "ice_cream_drop",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -1.344,
+    "r": 2,
+    "d": 0.084,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.73,
+    "aoa_raw": 3.26,
+    "domain": null,
+    "area_px": 2300
+   },
+   "b": 0.523,
+   "p0": 0.372,
+   "pm1": 0.179,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "There is a ladder",
+   "accepted": [
+    "ladder",
+    "a ladder",
+    "step ladder"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "ladder_nothing",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.446,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.03,
+    "a": 4.4,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
+    "domain": null,
+    "area_px": 8156
+   },
+   "b": -0.426,
+   "p0": 0.605,
+   "pm1": 0.36,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i04",
+   "id": "i07",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the ladder",
+   "accepted": [
+    "the ladder is odd",
+    "something strange about the ladder",
+    "that ladder"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_6"
+   ],
+   "cues": [
+    "ladder_6"
+   ],
+   "effect": [
+    "ladder_6"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.446,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 8156
+   },
+   "b": 0.163,
+   "p0": 0.459,
+   "pm1": 0.238,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "contradiction_explain",
+   "text": "The ladder is leaning on nothing, so it should fall over",
+   "accepted": [
+    "leaning on nothing",
+    "nothing holding it up",
+    "it should fall",
+    "not against anything",
+    "ladder standing by itself"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_6"
+   ],
+   "cues": [
+    "ladder_6"
+   ],
+   "effect": [
+    "ladder_6"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.446,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 8156
+   },
+   "b": 1.363,
+   "p0": 0.204,
+   "pm1": 0.086,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i09",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -284,7 +504,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i10",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -327,7 +547,51 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i11",
+   "type": "entity",
+   "text": "There is a path",
+   "accepted": [
+    "path",
+    "walkway",
+    "trail",
+    "footpath",
+    "sidewalk"
+   ],
+   "key": "path",
+   "elements": [
+    "path"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.726,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.71,
+    "a": 6.11,
+    "zipf_raw": 4.71,
+    "aoa_raw": 6.11,
+    "domain": null,
+    "area_px": 42568
+   },
+   "b": -1.216,
+   "p0": 0.771,
+   "pm1": 0.554,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i12",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -350,7 +614,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.141,
+    "s": 1.136,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -358,11 +622,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 76432
+    "area_px": 75956
    },
-   "b": -1.204,
+   "b": -1.202,
    "p0": 0.769,
-   "pm1": 0.551,
+   "pm1": 0.55,
    "aoi_cells": [
     "MC",
     "MR",
@@ -371,7 +635,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i13",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -413,7 +677,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i14",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -457,7 +721,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i15",
    "type": "entity",
    "text": "There are flowers",
    "accepted": [
@@ -499,34 +763,30 @@
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 9
+  "content": 12,
+  "inference_units": 2,
+  "contradictions": 1,
+  "items_total": 15
  },
  "predicted": {
   "theta_0": {
-   "content": 0.744,
-   "inference": null
+   "content": 0.707,
+   "inference": 0.345
   },
   "theta_minus_1": {
-   "content": 0.524,
-   "inference": null
+   "content": 0.48,
+   "inference": 0.168
   }
  },
  "bands": {
-  "content_count": false,
-  "inference_units": false,
+  "content_count": true,
+  "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
-  "photographer_5_photographs_fisher_1": {
-   "result": true,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -536,15 +796,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "result": true,
+   "detail": "20 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0256,
-  "png_bytes": 211139,
-  "jpeg_bytes": 135287
+  "objects": 20,
+  "edge_density": 0.0277,
+  "png_bytes": 213907,
+  "jpeg_bytes": 141090
  },
  "signature": [
   [
@@ -560,7 +820,11 @@
    0
   ],
   [
-   "entity",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -582,6 +846,26 @@
   [
    "entity",
    0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -633,8 +917,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 112684,
-   "occlusion": 0.276
+   "visible_px": 111672,
+   "occlusion": 0.283
   },
   {
    "id": "tree_line",
@@ -660,8 +944,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 34856,
-   "occlusion": 0.326
+   "visible_px": 42568,
+   "occlusion": 0.177
   },
   {
    "id": "pond",
@@ -675,8 +959,8 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 76432,
-   "occlusion": 0.094
+   "visible_px": 75956,
+   "occlusion": 0.1
   },
   {
    "id": "line_2",
@@ -692,6 +976,21 @@
    "area_px": 780,
    "visible_px": 776,
    "occlusion": 0.005
+  },
+  {
+   "id": "filler_bush_b",
+   "label": "Bush",
+   "role": "filler",
+   "z": 560,
+   "bbox": [
+    694.0,
+    526.0,
+    786.0,
+    584.0
+   ],
+   "area_px": 3880,
+   "visible_px": 3880,
+   "occlusion": 0.0
   },
   {
    "id": "tree_small",
@@ -754,55 +1053,33 @@
    "occlusion": 0.0
   },
   {
-   "id": "runner_3",
-   "label": "person.ben__run__determined__y090",
-   "role": "scored",
-   "z": 754.6,
+   "id": "filler_bin",
+   "label": "Bin",
+   "role": "filler",
+   "z": 652,
    "bbox": [
-    464.0,
-    478.0,
-    600.0,
-    750.0
+    594.0,
+    584.0,
+    650.0,
+    654.0
    ],
-   "area_px": 13256,
-   "visible_px": 13256,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ben__run__determined__y090",
-    "family": "person.ben",
-    "scale": 0.4285,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
+   "area_px": 3228,
+   "visible_px": 3228,
+   "occlusion": 0.0
   },
   {
-   "id": "speedlines_4",
-   "label": "Motion lines behind the runner",
-   "role": "setting",
-   "z": 755.6,
+   "id": "ladder_6",
+   "label": "Ladder leaning on nothing",
+   "role": "scored",
+   "z": 673.07,
    "bbox": [
-    430.0,
-    550.0,
-    508.0,
-    624.0
+    380.0,
+    420.0,
+    484.0,
+    680.0
    ],
-   "area_px": 300,
-   "visible_px": 300,
+   "area_px": 8156,
+   "visible_px": 8156,
    "occlusion": 0.0
   },
   {
@@ -822,20 +1099,20 @@
   },
   {
    "id": "fisher_1",
-   "label": "person.ana__fish__smile__y090",
+   "label": "person.ana__fish__neutral__y090",
    "role": "scored",
    "z": 835,
    "bbox": [
     872.0,
-    494.0,
-    1168.0,
+    492.0,
+    1170.0,
     840.0
    ],
-   "area_px": 14056,
-   "visible_px": 14056,
+   "area_px": 14688,
+   "visible_px": 14688,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.ana__fish__smile__y090",
+    "variant": "person.ana__fish__neutral__y090",
     "family": "person.ana",
     "scale": 0.4583,
     "mirrored": false,
@@ -873,41 +1150,57 @@
    "occlusion": 0.0
   },
   {
-   "id": "photographer_5",
-   "label": "person.dev__photo__smile__y045",
+   "id": "conekid_3",
+   "label": "person.kai__cone_dropped__sad__y045",
    "role": "scored",
-   "z": 957.44,
+   "z": 943.6,
    "bbox": [
-    320.0,
-    640.0,
-    434.0,
-    962.0
+    496.0,
+    728.0,
+    584.0,
+    948.0
    ],
-   "area_px": 21796,
-   "visible_px": 21796,
+   "area_px": 10368,
+   "visible_px": 10368,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.dev__photo__smile__y045",
-    "family": "person.dev",
-    "scale": 0.5037,
+    "variant": "person.kai__cone_dropped__sad__y045",
+    "family": "person.kai",
+    "scale": 0.4986,
     "mirrored": false,
     "labels": {
-     "everyday_name": "man",
+     "everyday_name": "child",
      "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
      ],
-     "category": "adult_person",
+     "category": "child_person",
      "person": {
-      "age_group": "adult",
+      "age_group": "child",
       "skin_tone": "skin3",
-      "hair": "buzz_beard"
+      "hair": "curly_dark"
      }
     }
    }
+  },
+  {
+   "id": "splat_5",
+   "label": "Ice cream on the ground",
+   "role": "scored",
+   "z": 953.19,
+   "bbox": [
+    378.0,
+    932.0,
+    520.0,
+    980.0
+   ],
+   "area_px": 2356,
+   "visible_px": 2300,
+   "occlusion": 0.024
   },
   {
    "id": "filler_rock",
@@ -925,19 +1218,34 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_bin_p2",
-   "label": "Bin",
-   "role": "filler",
-   "z": 980,
+   "id": "lickdog_4",
+   "label": "animal.dog_01__sniff__neutral__y090",
+   "role": "scored",
+   "z": 973.5,
    "bbox": [
-    1500.0,
-    892.0,
-    1570.0,
-    982.0
+    246.0,
+    836.0,
+    438.0,
+    980.0
    ],
-   "area_px": 5276,
-   "visible_px": 5276,
-   "occlusion": 0.0
+   "area_px": 10612,
+   "visible_px": 10612,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.dog_01__sniff__neutral__y090",
+    "family": "animal.dog_01",
+    "scale": 0.5096,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
   }
  ],
  "canvas": [
@@ -947,10 +1255,10 @@
  "attempts": [
   [
    23027,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 9: accepted after 8 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 8,
  "knob": 0,
  "regen": {
   "base_seed": 23027,
@@ -960,9 +1268,13 @@
   "usage": {},
   "forced": {
    "events": [
-    "fishing",
-    "photo",
-    "run"
+    "fishing"
+   ],
+   "modules": [
+    "ice_cream_drop"
+   ],
+   "contradictions": [
+    "ladder_nothing"
    ]
   },
   "placement_rev": 43

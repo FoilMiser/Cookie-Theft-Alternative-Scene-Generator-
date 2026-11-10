@@ -6,8 +6,8 @@
  "seed": 23059,
  "mirror": false,
  "versions": {
-  "generator": "0.45.0",
-  "cast_builder": "0.45.0",
+  "generator": "0.46.0",
+  "cast_builder": "0.46.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,10 +61,10 @@
  ],
  "templates": [
   {
-   "id": "ducks_swimming",
-   "kind": "event",
+   "id": "ducks_bread",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -72,30 +72,82 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A duck is swimming in the pond",
-   "accepted": [
-    "duck",
-    "duck swimming",
-    "ducks",
-    "duck in the pond",
-    "duck in the water"
-   ],
-   "key": "duck",
+   "text": "A child is throwing bread to the ducks",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "feeding the ducks",
+     "throwing bread",
+     "feeding the birds",
+     "bread"
+    ]
+   },
+   "key": "bread",
    "elements": [
-    "duck_1"
+    "duckfeeder_1",
+    "crumbs_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "ducks_swimming",
+   "template": "ducks_bread",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.4,
+    "s": -0.526,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.5,
+    "a": 3.58,
+    "zipf_raw": 4.5,
+    "aoa_raw": 3.58,
+    "domain": null,
+    "area_px": 7284
+   },
+   "b": -1.267,
+   "p0": 0.78,
+   "pm1": 0.566,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A duck is swimming toward the shore",
+   "accepted": [
+    "duck",
+    "duck swimming",
+    "ducks in the pond"
+   ],
+   "key": "duck",
+   "elements": [
+    "hungryduck_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ducks_bread",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.395,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -103,18 +155,66 @@
     "zipf_raw": 4.21,
     "aoa_raw": 3.5,
     "domain": null,
-    "area_px": 2124
+    "area_px": 2140
    },
-   "b": -0.743,
+   "b": -0.745,
    "p0": 0.678,
-   "pm1": 0.436,
+   "pm1": 0.437,
    "aoi_cells": [
-    "ML",
-    "BL"
+    "MC"
    ]
   },
   {
-   "id": "i02",
+   "id": "i03",
+   "type": "inference",
+   "text": "The duck has come to eat the bread",
+   "accepted": [
+    "the duck wants the bread",
+    "the ducks are hungry",
+    "the duck is swimming over for food",
+    "the duck is eating the bread"
+   ],
+   "key": "hungry",
+   "elements": [
+    "hungryduck_2",
+    "crumbs_3"
+   ],
+   "cues": [
+    "hungryduck_2",
+    "crumbs_3"
+   ],
+   "effect": [
+    "crumbs_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "ducks_bread",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -1.395,
+    "r": 1,
+    "d": 0.019,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.45,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 2140
+   },
+   "b": 0.53,
+   "p0": 0.371,
+   "pm1": 0.178,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -157,7 +257,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -200,7 +300,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -244,7 +344,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -267,7 +367,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.19,
+    "s": 1.179,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -275,11 +375,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 81948
+    "area_px": 80624
    },
-   "b": -1.469,
-   "p0": 0.813,
-   "pm1": 0.615,
+   "b": -1.464,
+   "p0": 0.812,
+   "pm1": 0.614,
    "aoi_cells": [
     "ML",
     "MC",
@@ -288,7 +388,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -330,7 +430,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -374,7 +474,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a park bench",
    "accepted": [
@@ -416,7 +516,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There are flowers",
    "accepted": [
@@ -458,19 +558,19 @@
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 0,
+  "content": 10,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.753,
-   "inference": null
+   "content": 0.756,
+   "inference": 0.371
   },
   "theta_minus_1": {
-   "content": 0.534,
-   "inference": null
+   "content": 0.538,
+   "inference": 0.178
   }
  },
  "bands": {
@@ -478,7 +578,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -492,16 +592,20 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0234,
-  "png_bytes": 143772,
-  "jpeg_bytes": 121590
+  "objects": 17,
+  "edge_density": 0.0245,
+  "png_bytes": 156167,
+  "jpeg_bytes": 125723
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -537,6 +641,10 @@
   [
    "entity",
    0
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -630,23 +738,23 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 81948,
-   "occlusion": 0.029
+   "visible_px": 80624,
+   "occlusion": 0.045
   },
   {
-   "id": "filler_bush_b",
-   "label": "Bush",
-   "role": "filler",
-   "z": 560,
+   "id": "crumbs_3",
+   "label": "Bread crumbs flying toward the water",
+   "role": "scored",
+   "z": -64,
    "bbox": [
-    814.0,
-    526.0,
-    906.0,
-    584.0
+    570.0,
+    632.0,
+    790.0,
+    698.0
    ],
-   "area_px": 3880,
-   "visible_px": 3880,
-   "occlusion": 0.0
+   "area_px": 1328,
+   "visible_px": 1308,
+   "occlusion": 0.015
   },
   {
    "id": "tree_small",
@@ -724,24 +832,24 @@
    "occlusion": 0.0
   },
   {
-   "id": "duck_1",
-   "label": "animal.duck_01__swim__neutral__y090",
+   "id": "hungryduck_2",
+   "label": "animal.duck_01__swim_look__neutral__y090",
    "role": "scored",
-   "z": 676,
+   "z": 662,
    "bbox": [
-    206.0,
-    620.0,
-    282.0,
-    676.0
+    628.0,
+    612.0,
+    702.0,
+    662.0
    ],
-   "area_px": 2124,
-   "visible_px": 2124,
+   "area_px": 2140,
+   "visible_px": 2140,
    "occlusion": 0.0,
    "asset": {
-    "variant": "animal.duck_01__swim__neutral__y090",
+    "variant": "animal.duck_01__swim_look__neutral__y090",
     "family": "animal.duck_01",
-    "scale": 0.3994,
-    "mirrored": true,
+    "scale": 0.3942,
+    "mirrored": false,
     "labels": {
      "everyday_name": "duck",
      "accepted_names": [
@@ -750,6 +858,44 @@
       "bird"
      ],
      "category": "water_bird"
+    }
+   }
+  },
+  {
+   "id": "duckfeeder_1",
+   "label": "person.kai__feed_birds__smile__y090",
+   "role": "scored",
+   "z": 700,
+   "bbox": [
+    808.0,
+    522.0,
+    874.0,
+    702.0
+   ],
+   "area_px": 5976,
+   "visible_px": 5976,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.kai__feed_birds__smile__y090",
+    "family": "person.kai",
+    "scale": 0.4083,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
     }
    }
   },
@@ -833,8 +979,8 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "ducks_swimming"
+   "modules": [
+    "ducks_bread"
    ]
   },
   "placement_rev": 43

@@ -21,7 +21,10 @@ NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # v0.44: five for dog_reading and dog_wants_walk, the two v0.43 failures (R1, R2), and photo, the lowest pass (R3)
 # v0.45: five for v0.44's three lowest, each redrawn (ice_cream, photo, lost_balloon; vision/flaws_v044.md R1 to R3), and for the two templates whose
 # drawing changed most (plant_flowers digs in the bed with a trowel, paint_fence stands a step forward with a new roller)
-NEED_T = {"ice_cream": 5, "photo": 5, "lost_balloon": 5, "plant_flowers": 5, "paint_fence": 5}
+# v0.46: five for v0.45's three lowest, which v0.46 carries (bird_steals, square_wheel, cat_stalks_bird; vision/flaws_v045.md R1 to R3), for the
+# reading dog, which failed v0.45's first count and was drawn again after its screen, and for the ice cream, the pose in which the bench's reviewers
+# named the neck (vision/isolation_v046.md)
+NEED_T = {"bird_steals": 5, "square_wheel": 5, "cat_stalks_bird": 5, "dog_reading": 5, "ice_cream": 5}
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):

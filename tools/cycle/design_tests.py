@@ -11,6 +11,22 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.46 (builder 0.46.0: the cast's line and its two flat tones, the necks under the smaller heads, the arms and sleeves, the safety vest's
+    # bands, the glasses, the moustache, the line mouth; revision 43's rules as they were):
+    # a street: the woman in the yellow dress with an ice cream, a photographer, a sweeper
+    ("street", 3, 46401, {"events": ["ice_cream", "photo", "sweep"]}, "meiice"),
+    # a park: the woman in the yellow dress reading on a bench, a dog walked, birds fed
+    ("park", 3, 46402, {"events": ["read_bench", "walk_dog", "feed_birds"]}, "meisit"),
+    # a garden: the older woman in glasses, flowers watered, leaves raked, the fence painted (with flowers planted as well, the waterer or the
+    # planter was placed on none of 80 seeds)
+    ("garden", 3, 46403, {"events": ["water_flowers", "rake", "paint_fence"]}, "rosa"),
+    # a street: the carrier in the safety vest, a wave, a shopper
+    ("street", 3, 46404, {"events": ["carry_box", "wave", "carry_bag"]}, "jo"),
+    # a playground: the teenager kicking a ball, a child on the slide, a reader on a bench
+    ("playground", 3, 46405, {"events": ["kick_ball", "slide", "read_bench"]}, "teen"),
+    # a park: the older man with the moustache, an angler, a pram pushed, birds fed (with a picnic for the birds, the picnic was placed on none
+    # of 80 seeds)
+    ("park", 3, 46406, {"events": ["fishing", "push_stroller", "feed_birds"]}, "tomas"),
     # v0.45 (builder 0.45.0: the ice cream, the camera, the shoes' soles, the hose inspector's face, the trowel, the roller, the carried box, the
     # swimming duck, the kite's reel; revision 43: the lost balloon's string end, the roller on bare wood, the planter digging in the bed, the picnic's
     # food, the goat's stake clear of structures, the swimmer's waterline, the slide's ladder):
@@ -147,7 +163,9 @@ def ok(rec, rule):
         return any(it.get("template") == "about_to_trip" and any(els.get(i, {}).get("asset", {}).get("variant", "").startswith("person.mei") for i in it["elements"]) for it in rec["items"])
     if rule == "trip":
         return any(it.get("template") == "about_to_trip" for it in rec["items"])
-    if rule in ("mei", "ana"):
+    if rule == "meiice":
+        return any(e.get("asset", {}).get("variant", "").startswith("person.mei__") and "ice_cream" in e["asset"]["variant"] for e in rec["elements"])
+    if rule in ("mei", "ana", "rosa", "jo"):
         return any(e.get("asset", {}).get("family") == "person." + rule for e in rec["elements"])
     if rule == "noreel":
         return not any(e["id"] == "hose_reel" for e in rec["elements"]) and any(it.get("template") == "pan_watering" for it in rec["items"])

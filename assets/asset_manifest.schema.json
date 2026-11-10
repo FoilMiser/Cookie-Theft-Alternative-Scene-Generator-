@@ -228,6 +228,34 @@
             "width_px": {
               "type": "number",
               "minimum": 0
+            },
+            "silhouette_px": {
+              "description": "from v0.46: the width of the line round the whole figure's outer edge, when it is drawn wider than the lines inside it (width_px)",
+              "type": "number",
+              "minimum": 0
+            },
+            "unlit": {
+              "description": "from v0.46: true when the line takes no light, and so is the palette's outline colour (lit by the scene, as in every release before, it came out darker than its ink)",
+              "type": "boolean"
+            }
+          }
+        },
+        "cel": {
+          "description": "from v0.46: the cel shading's tones as factors on the flat colour in linear light, when a cast sets its own",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "shadow",
+            "light"
+          ],
+          "properties": {
+            "shadow": {
+              "type": "number",
+              "minimum": 0
+            },
+            "light": {
+              "type": "number",
+              "minimum": 0
             }
           }
         }

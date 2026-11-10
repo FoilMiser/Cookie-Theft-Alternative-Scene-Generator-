@@ -404,3 +404,20 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   "a tuft of grass".
 - `scenes/` and `probes/` hold list-shaped JSON beside the records (the summaries): a script that globs `*.json` skips what is not a dict. A score can be the string
   `"misread"`. And `probes.py`'s `SHORT` is a count of pictures per template: 0 means the template has none at all.
+- A soft warning that jumps is a finding. v0.46's first validator run passed every record, and 374 of the library's 386 carried the palette warning where
+  v0.45's had 83 of 382. The colour off the palette was the line's own: Line Art's strokes were lit by the lamp and had come out at (28, 28, 34) for the
+  palette's (38, 38, 46) in every release since Line Art came in, and a thin line hid it. Before calling a warning noise, measure which colour it is about.
+- When a heavier line closes over a small feature, give the feature a thin edge of its own; do not take its edge away. v0.46's inner line closed over the
+  line mouth ("a dark smudge"). The mouth with no edge, thickened to be seen, was the one shape in a figure with no dark edge, and a reviewer read it as
+  "a cut or blood". The coloured line at v0.45's width riding on a wider dark line of its own, both kept out of Line Art, ended that reading.
+- A crop that cuts a thing off what it is tied to changes what it is. Both reviewers of the woman walking the dog read the lead, which the figure's crop
+  cut off from the dog, as "a thin red stick (a cane)". Cut a figure with everything it holds or is tied to, to the far end.
+- When reviewers disagree about a length, take it from the model. Of one neck in one pose, one wrote "too long and too thin" and another "a little too
+  thick and slightly long"; the model's own numbers said the neck that shows had gone from 8.2 cm to 3.9 cm. Report both, and do not redraw for a
+  remark that the old drawing and the new one both get.
+- A round folder holds only what a reviewer may see. From v0.46's round 4 the map of which picture is which lies outside the folder until the reviews
+  are in (`FIG_MAP`), the prompt says not to list the folder, and the draw of "a" and "b" is balanced (`FIG_BALANCE`): round 3's coin had put v0.45's
+  drawing first in eight pairs of twelve.
+- `render_set.py` skips a record that is there. After part of a cast is built again, move those families' records aside by exact names before
+  rendering (`tpdb_work/v046/aside_people.py`), in the library, the gallery and the bench's library alike, or the folder is two casts. Blender also
+  leaves a `.blend1` beside a cast file it saves over: look for them and remove them by name before packaging.

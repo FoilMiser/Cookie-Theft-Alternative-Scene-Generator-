@@ -22,6 +22,32 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.46 (the cast's drawing; vision/isolation_v046.md), whole pictures, a tier-3 picture with a few templates forced among the planner's own, on
+    # revision 43's rules both times. The fourth letter the cast: O v0.45's (BENCH_CAST=assets/cast/out045, a copy of its library); N the v0.46 cast
+    # with every switch on (tpdb_work/v046/out_b5: TPDB_STYLE46 NECK46 ARM46 MEI46 CLEAN46 "B": the figure's outer edge drawn at the settings' own
+    # weight and the lines inside it thinner, two flat tones, the two women's necks short, shoulders and arms, no wrist line, the vest's bands on
+    # the vest, the glasses a plain wire). Round 2 built the N cases again with tpdb_work/v046/out_b6 (out_b5 with the eight grown figures rebuilt:
+    # TPDB_COLLAR46 and GLASSW46 "B", MOUSTACHE46 "B": a wider neck with the neckline nearer the chin, the glasses' wire a little heavier, the
+    # moustache a smooth line thinning to its ends), and round 3's figure cut-outs (tpdb_work/v046/figpairs.py) come from a third build with
+    # out_b7 (out_b6 with ben and tomas rebuilt: MOUSTACHE46 "C", the moustache its full thickness with rounded ends). Rounds 4 and 5 used the
+    # release's own cast, assets/cast/out046, built whole (SHADE46 and INK46 "B": the shadow tone lighter, the line the palette's colour; and the
+    # line mouth, MOUTH46 "C" in round 4 and "D" in round 5, for which the ten people were built again), with tpdb_work/v046/lib_R4
+    "stxO_1": ("street", 46011, {"events": ["ice_cream", "photo", "sweep"]}, "full", ("fam", "ice_cream", ["person.mei"])),
+    "stxN_1": ("street", 46011, {"events": ["ice_cream", "photo", "sweep"]}, "full", ("fam", "ice_cream", ["person.mei"])),
+    "pkxO_1": ("park", 46012, {"events": ["read_bench", "walk_dog", "feed_birds"]}, "full", ("fam", "read_bench", ["person.mei"])),
+    "pkxN_1": ("park", 46012, {"events": ["read_bench", "walk_dog", "feed_birds"]}, "full", ("fam", "read_bench", ["person.mei"])),
+    "pgxO_1": ("playground", 46013, {"events": ["slide"], "modules": ["ice_cream_drop"]}, "full", None),
+    "pgxN_1": ("playground", 46013, {"events": ["slide"], "modules": ["ice_cream_drop"]}, "full", None),
+    "gdxO_1": ("garden", 46014, {"events": ["water_flowers", "rake"], "modules": ["cat_stalks_bird"]}, "full", ("fam", "water_flowers", ["person.rosa"])),
+    "gdxN_1": ("garden", 46014, {"events": ["water_flowers", "rake"], "modules": ["cat_stalks_bird"]}, "full", ("fam", "water_flowers", ["person.rosa"])),
+    "stxO_2": ("street", 46015, {"events": ["carry_box", "wave", "walk_dog"]}, "full", ("fam", "carry_box", ["person.jo"])),
+    "stxN_2": ("street", 46015, {"events": ["carry_box", "wave", "walk_dog"]}, "full", ("fam", "carry_box", ["person.jo"])),
+    "pkxO_2": ("park", 46016, {"events": ["picnic", "fly_kite"], "contradictions": ["dog_reading"]}, "full", None),
+    "pkxN_2": ("park", 46016, {"events": ["picnic", "fly_kite"], "contradictions": ["dog_reading"]}, "full", None),
+    "gdxO_2": ("garden", 46017, {"events": ["carry_box", "plant_flowers"], "modules": ["bird_steals"]}, "full", None),
+    "gdxN_2": ("garden", 46017, {"events": ["carry_box", "plant_flowers"], "modules": ["bird_steals"]}, "full", None),
+    "pgxO_2": ("playground", 46018, {"events": ["seesaw", "kick_ball", "photo"]}, "full", None),
+    "pgxN_2": ("playground", 46018, {"events": ["seesaw", "kick_ball", "photo"]}, "full", None),
     # v0.45 (vision/flaws_v044.md and the look review of v0.44's pictures), whole pictures, a tier-3 picture with the changed templates forced among
     # the planner's own. The fourth letter the drawing: O v0.44's cast (BENCH_CAST=assets/cast/out044) and revision 42's rules (every revision-43
     # switch "O"); N the v0.45 cast with every switch on (tpdb_work/bench45/out_N: TPDB_ICE45 CAM45 SOLE45 HOSE45 TROWEL45 PAINT45 BOX45 DUCK45 "A")
@@ -949,6 +975,7 @@ NEW42 = {n for n in BENCH if n[2] in "23" and BENCH[n][1] // 1000 == 42}
 NEW43 = {n for n in BENCH if n[2] in "45" and BENCH[n][1] // 1000 == 43}
 NEW44 = {n for n in BENCH if n[2] in "67" and BENCH[n][1] // 1000 == 44}
 NEW45 = {n for n in BENCH if n[2] in "89" and BENCH[n][1] // 1000 == 45}
+NEW46 = {n for n in BENCH if n[2] == "x" and BENCH[n][1] // 1000 == 46}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -1087,6 +1114,10 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         # every revision-43 switch off (O, v0.44), on for N
         v45 = "B" if name[3] == "N" else "O"
         _T0.BAL45 = _T0.PAINT45 = _T0.PLANT45 = _T0.PICNIC45 = _T0.TETHER45 = _L0.SWIM45 = _Q0.SLIDE45 = v45
+    if name in NEW46:
+        # the release's own scene both times: only the cast differs (BENCH_CAST)
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
     rec = None
     for k in range(40):
         USAGE.clear()

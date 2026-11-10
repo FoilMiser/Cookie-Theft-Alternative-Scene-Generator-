@@ -6,8 +6,8 @@
  "seed": 23042,
  "mirror": false,
  "versions": {
-  "generator": "0.45.0",
-  "cast_builder": "0.45.0",
+  "generator": "0.46.0",
+  "cast_builder": "0.46.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,16 +56,15 @@
   }
  },
  "features": [
-  "bench",
   "feeder",
   "flowers"
  ],
  "templates": [
   {
-   "id": "dig",
-   "kind": "event",
+   "id": "dog_wants_walk",
+   "kind": "inference",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -73,59 +72,100 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A teenager is digging",
-   "accepted": {
-    "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
-    ],
-    "what": [
-     "digging",
-     "digging a hole",
-     "shoveling",
-     "using a shovel",
-     "spade"
-    ]
-   },
-   "key": "digging",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
    "elements": [
-    "digger_1",
-    "soil_2"
+    "waitingdog_1",
+    "leash_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "dig",
+   "template": "dog_wants_walk",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.178,
+    "s": -0.48,
     "r": 0,
     "d": 0.0,
-    "f": -0.01,
-    "a": 4.19,
-    "zipf_raw": 3.99,
-    "aoa_raw": 4.19,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
     "domain": null,
-    "area_px": 19668
+    "area_px": 7772
    },
-   "b": -1.466,
-   "p0": 0.812,
-   "pm1": 0.614,
+   "b": -0.981,
+   "p0": 0.727,
+   "pm1": 0.495,
    "aoi_cells": [
-    "BC"
+    "BL"
    ]
   },
   {
    "id": "i02",
+   "type": "inference",
+   "text": "The dog wants to go for a walk",
+   "accepted": [
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
+   ],
+   "key": "walk",
+   "elements": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "cues": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "effect": [
+    "waitingdog_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.555,
+    "r": 2,
+    "d": 0.162,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
+    "domain": null,
+    "area_px": 7000
+   },
+   "b": -0.018,
+   "p0": 0.504,
+   "pm1": 0.272,
+   "aoi_cells": [
+    "TL",
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i03",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -168,7 +208,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i04",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -210,7 +250,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i05",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -251,7 +291,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -295,7 +335,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -335,52 +375,6 @@
     "ML",
     "MC",
     "MR"
-   ]
-  },
-  {
-   "id": "i07",
-   "type": "entity",
-   "text": "It is the back yard of a house",
-   "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
-    "garden"
-   ],
-   "key": "house",
-   "elements": [
-    "house"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 1.84,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
-    "domain": null,
-    "area_px": 204952
-   },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
-   "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
    ]
   },
   {
@@ -425,62 +419,22 @@
     "BL",
     "BC"
    ]
-  },
-  {
-   "id": "i09",
-   "type": "entity",
-   "text": "There is a bench",
-   "accepted": [
-    "bench",
-    "seat"
-   ],
-   "key": "bench",
-   "elements": [
-    "bench"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.105,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.39,
-    "a": 4.21,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.21,
-    "domain": null,
-    "area_px": 13200
-   },
-   "b": -0.945,
-   "p0": 0.72,
-   "pm1": 0.486,
-   "aoi_cells": [
-    "BL"
-   ]
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 0,
+  "content": 7,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.781,
-   "inference": null
+   "content": 0.758,
+   "inference": 0.504
   },
   "theta_minus_1": {
-   "content": 0.578,
-   "inference": null
+   "content": 0.544,
+   "inference": 0.272
   }
  },
  "bands": {
@@ -507,9 +461,9 @@
  },
  "clutter": {
   "objects": 15,
-  "edge_density": 0.0379,
-  "png_bytes": 144888,
-  "jpeg_bytes": 177404
+  "edge_density": 0.0357,
+  "png_bytes": 132538,
+  "jpeg_bytes": 168799
  },
  "signature": [
   [
@@ -541,12 +495,8 @@
    0
   ],
   [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -715,7 +665,52 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
+   "visible_px": 199200,
+   "occlusion": 0.028
+  },
+  {
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
+   "role": "scored",
+   "z": 806,
+   "bbox": [
+    80.0,
+    670.0,
+    176.0,
+    816.0
+   ],
+   "area_px": 7048,
+   "visible_px": 7000,
+   "occlusion": 0.007,
+   "asset": {
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    168.0,
+    694.0,
+    188.0,
+    772.0
+   ],
+   "area_px": 772,
+   "visible_px": 772,
    "occlusion": 0.0
   },
   {
@@ -734,74 +729,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "bench",
-   "label": "Garden bench",
-   "role": "setting",
-   "z": 928,
-   "bbox": [
-    38.0,
-    804.0,
-    242.0,
-    930.0
-   ],
-   "area_px": 13200,
-   "visible_px": 13200,
-   "occlusion": 0.0
-  },
-  {
-   "id": "soil_2",
-   "label": "Hole and pile of dirt",
-   "role": "scored",
-   "z": 938.63,
-   "bbox": [
-    924.0,
-    904.0,
-    1092.0,
-    958.0
-   ],
-   "area_px": 4536,
-   "visible_px": 3960,
-   "occlusion": 0.127
-  },
-  {
-   "id": "digger_1",
-   "label": "person.leo__dig_lift__neutral__y045",
-   "role": "scored",
-   "z": 939.63,
-   "bbox": [
-    832.0,
-    690.0,
-    978.0,
-    950.0
-   ],
-   "area_px": 15708,
-   "visible_px": 15708,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.leo__dig_lift__neutral__y045",
-    "family": "person.leo",
-    "scale": 0.4971,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
-  },
-  {
    "id": "filler_watering_can",
    "label": "Watering can",
    "role": "filler",
@@ -814,6 +741,21 @@
    ],
    "area_px": 4400,
    "visible_px": 4400,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    896.0,
+    892.0,
+    1078.0,
+    980.0
+   ],
+   "area_px": 8776,
+   "visible_px": 8776,
    "occlusion": 0.0
   }
  ],
@@ -836,8 +778,8 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "dig"
+   "modules": [
+    "dog_wants_walk"
    ]
   },
   "placement_rev": 43

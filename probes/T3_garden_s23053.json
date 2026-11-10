@@ -6,8 +6,8 @@
  "seed": 23053,
  "mirror": false,
  "versions": {
-  "generator": "0.45.0",
-  "cast_builder": "0.45.0",
+  "generator": "0.46.0",
+  "cast_builder": "0.46.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,18 +60,157 @@
  ],
  "templates": [
   {
-   "id": "paint_fence",
-   "kind": "event",
+   "id": "floating_box",
+   "kind": "contradiction",
    "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
    "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
+   "type": "entity",
+   "text": "There is a box",
+   "accepted": [
+    "box",
+    "crate",
+    "wooden box",
+    "cardboard box"
+   ],
+   "key": "box",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.317,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 9780
+   },
+   "b": -0.913,
+   "p0": 0.714,
+   "pm1": 0.478,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the box",
+   "accepted": [
+    "the box is weird",
+    "something odd about the box",
+    "that box"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.317,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9780
+   },
+   "b": -0.022,
+   "p0": 0.505,
+   "pm1": 0.273,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The box is floating in the air with nothing holding it up",
+   "accepted": [
+    "floating box",
+    "box in the air",
+    "nothing holding it up",
+    "box should fall"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.317,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 9780
+   },
+   "b": 1.178,
+   "p0": 0.235,
+   "pm1": 0.102,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "action",
-   "text": "A man is painting the fence",
+   "text": "A man is sweeping",
    "accepted": {
     "who": [
      "man",
@@ -81,49 +220,47 @@
      "person"
     ],
     "what": [
-     "painting the fence",
-     "painting",
-     "paint roller",
-     "painting the wall"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "broom"
     ]
    },
-   "key": "paint",
+   "key": "sweeping",
    "elements": [
-    "painter_1",
-    "paintstripe_2"
+    "sweeper_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "paint_fence",
-   "event": "e1",
+   "template": "sweep",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.594,
+    "s": 0.092,
     "r": 0,
     "d": 0.0,
-    "f": 0.52,
-    "a": 4.45,
-    "zipf_raw": 4.52,
-    "aoa_raw": 4.45,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 35368
+    "area_px": 17416
    },
-   "b": -1.833,
-   "p0": 0.862,
-   "pm1": 0.697,
+   "b": -1.243,
+   "p0": 0.776,
+   "pm1": 0.56,
    "aoi_cells": [
-    "MC",
     "MR",
     "BR"
    ]
   },
   {
-   "id": "i02",
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -158,15 +295,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
     "TR"
    ]
   },
   {
-   "id": "i03",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -200,15 +337,15 @@
     "domain": null,
     "area_px": 19276
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.89,
+   "p0": 0.709,
+   "pm1": 0.473,
    "aoi_cells": [
     "TC"
    ]
   },
   {
-   "id": "i04",
+   "id": "i07",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -240,16 +377,16 @@
     "domain": null,
     "area_px": 43028
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.382,
+   "p0": 0.799,
+   "pm1": 0.594,
    "aoi_cells": [
     "TL",
     "ML"
    ]
   },
   {
-   "id": "i05",
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -272,7 +409,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.847,
+    "s": 1.927,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -280,11 +417,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 206844
+    "area_px": 231444
    },
-   "b": -1.866,
-   "p0": 0.866,
-   "pm1": 0.704,
+   "b": -1.786,
+   "p0": 0.856,
+   "pm1": 0.687,
    "aoi_cells": [
     "ML",
     "MC",
@@ -292,7 +429,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -328,9 +465,9 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -2.193,
+   "p0": 0.9,
+   "pm1": 0.767,
    "aoi_cells": [
     "TL",
     "ML",
@@ -338,7 +475,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i10",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -372,9 +509,9 @@
     "domain": null,
     "area_px": 25880
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.139,
+   "p0": 0.757,
+   "pm1": 0.535,
    "aoi_cells": [
     "BL",
     "BC"
@@ -382,19 +519,19 @@
   }
  ],
  "counts": {
-  "content": 7,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 7
+  "content": 8,
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.818,
-   "inference": null
+   "content": 0.78,
+   "inference": 0.37
   },
   "theta_minus_1": {
-   "content": 0.63,
-   "inference": null
+   "content": 0.574,
+   "inference": 0.188
   }
  },
  "bands": {
@@ -402,7 +539,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -421,13 +558,25 @@
  },
  "clutter": {
   "objects": 13,
-  "edge_density": 0.0328,
-  "png_bytes": 126837,
-  "jpeg_bytes": 159143
+  "edge_density": 0.0354,
+  "png_bytes": 140767,
+  "jpeg_bytes": 165628
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -516,8 +665,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 80792,
-   "occlusion": 0.006
+   "visible_px": 80416,
+   "occlusion": 0.01
   },
   {
    "id": "tree",
@@ -546,23 +695,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 206844,
-   "occlusion": 0.141
-  },
-  {
-   "id": "paintstripe_2",
-   "label": "Freshly painted boards",
-   "role": "scored",
-   "z": 616,
-   "bbox": [
-    858.0,
-    426.0,
-    1002.0,
-    618.0
-   ],
-   "area_px": 23156,
-   "visible_px": 23156,
-   "occlusion": 0.0
+   "visible_px": 231444,
+   "occlusion": 0.039
   },
   {
    "id": "filler_bush_left",
@@ -580,24 +714,54 @@
    "occlusion": 0.096
   },
   {
-   "id": "painter_1",
-   "label": "person.dev__paint__smile__y090",
-   "role": "scored",
-   "z": 704,
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
    "bbox": [
-    1000.0,
-    446.0,
-    1128.0,
-    708.0
+    1100.0,
+    596.0,
+    1220.0,
+    702.0
    ],
-   "area_px": 12212,
-   "visible_px": 12212,
-   "occlusion": 0.0,
+   "area_px": 8080,
+   "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    0.0,
+    118.0,
+    342.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "sweeper_2",
+   "label": "person.dev__sweep__smile__y045",
+   "role": "scored",
+   "z": 783.9,
+   "bbox": [
+    1278.0,
+    510.0,
+    1372.0,
+    816.0
+   ],
+   "area_px": 18000,
+   "visible_px": 17416,
+   "occlusion": 0.032,
    "asset": {
-    "variant": "person.dev__paint__smile__y090",
+    "variant": "person.dev__sweep__smile__y045",
     "family": "person.dev",
-    "scale": 0.4098,
-    "mirrored": true,
+    "scale": 0.4394,
+    "mirrored": false,
     "labels": {
      "everyday_name": "man",
      "accepted_names": [
@@ -617,33 +781,33 @@
    }
   },
   {
-   "id": "painttin_3",
-   "label": "Tin of paint",
-   "role": "prop",
-   "z": 716,
+   "id": "sweepheap_3",
+   "label": "What has been swept",
+   "role": "scored",
+   "z": 785.9,
    "bbox": [
-    1130.0,
-    668.0,
-    1170.0,
-    718.0
+    1312.0,
+    760.0,
+    1388.0,
+    796.0
    ],
-   "area_px": 1748,
-   "visible_px": 1748,
+   "area_px": 1440,
+   "visible_px": 1440,
    "occlusion": 0.0
   },
   {
-   "id": "house",
-   "label": "Back of the house",
-   "role": "setting",
-   "z": 781,
+   "id": "floatbox_1",
+   "label": "Box floating in the air",
+   "role": "scored",
+   "z": 830.99,
    "bbox": [
-    0.0,
-    118.0,
-    342.0,
-    784.0
+    770.0,
+    232.0,
+    898.0,
+    336.0
    ],
-   "area_px": 204952,
-   "visible_px": 204952,
+   "area_px": 9780,
+   "visible_px": 9780,
    "occlusion": 0.0
   },
   {
@@ -675,21 +839,6 @@
    "area_px": 4400,
    "visible_px": 4400,
    "occlusion": 0.0
-  },
-  {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
-   "bbox": [
-    896.0,
-    892.0,
-    1078.0,
-    980.0
-   ],
-   "area_px": 8776,
-   "visible_px": 8776,
-   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -712,7 +861,10 @@
   "usage": {},
   "forced": {
    "events": [
-    "paint_fence"
+    "sweep"
+   ],
+   "contradictions": [
+    "floating_box"
    ]
   },
   "placement_rev": 43

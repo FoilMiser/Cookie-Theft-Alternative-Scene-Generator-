@@ -136,15 +136,14 @@ def setup_light(scene):
     return sun
 
 
-def setup_outline(scene, root, width_px):
-    """Scene Line Art at a fixed pixel width (radius in meters = px / 2 / PPM)."""
-    gp = bpy.data.objects.get("TPDB_LINEART")
+def _lineart(name, width_px, unlit=False):
+    gp = bpy.data.objects.get(name)
     if gp is None:
         for o in bpy.context.view_layer.objects:
             o.select_set(False)
         bpy.ops.object.grease_pencil_add(type="LINEART_SCENE")
         gp = bpy.context.active_object
-        gp.name = "TPDB_LINEART"
+        gp.name = name
     mod = next(m for m in gp.modifiers if m.type == "LINEART")
     mod.radius = (width_px / 2.0) / PPM
     mod.use_contour = True
@@ -153,10 +152,54 @@ def setup_outline(scene, root, width_px):
     mat = mod.target_material or (gp.material_slots[0].material if gp.material_slots else None)
     if mat is not None and mat.grease_pencil is not None:
         mat.grease_pencil.color = (*[srgb_to_linear(c) for c in INK], 1.0)
+    if unlit:
+        for layer in gp.data.layers:
+            layer.use_lights = False
+    return gp, mod
+
+
+def setup_outline(scene, root, width_px, silhouette_px=None, unlit=False):
+    """Scene Line Art at a fixed pixel width (radius in meters = px / 2 / PPM).
+    v0.46: with silhouette_px, a second pass draws the whole figure's outer edge at that width, the weight of
+    the settings' outlines once the figure is scaled into a picture; the lines inside keep width_px.
+    v0.46, unlit: the Line Art layers take no light. Lit by the scene like a surface, the line came out at (28, 28, 34) for the ink
+    it was given, (38, 38, 46), in every release since Line Art came in: unseen by the validator while the line was 5 px wide, and
+    7 to 8 % of a figure's solid pixels at v0.46's widths (its first run on the release renders put 374 of 386 records under the
+    palette share). Unlit, the line is the palette's outline colour, which is the settings' own line colour (scenegen/draw.py OUT)."""
+    gp, _ = _lineart("TPDB_LINEART", width_px, unlit)
+    if silhouette_px:
+        _, mod = _lineart("TPDB_LINEART_SIL", silhouette_px, unlit)
+        mod.silhouette_filtering = "GROUP"
+        mod.use_intersection = False
+        mod.use_material = False
+        mod.use_edge_mark = False
+        mod.use_loose = False
     return gp
 
 
-def to_cel(materials):
+def bench_overrides(outline, cel_tones):
+    """v0.46 bench: TPDB_LINE46="inner[,silhouette]" (px at render size), TPDB_CEL46="shadow,light" and TPDB_INK46
+    ("B" the line unlit, "O" lit) replace the family's own values, so one built cast can be rendered in several styles."""
+    env = os.environ.get("TPDB_LINE46")
+    if env:
+        a, _, b = env.partition(",")
+        outline = {k: v for k, v in outline.items() if k != "silhouette_px"}
+        outline["width_px"] = float(a)
+        if b:
+            outline["silhouette_px"] = float(b)
+    env = os.environ.get("TPDB_CEL46")
+    if env:
+        a, _, b = env.partition(",")
+        cel_tones = {"shadow": float(a), "light": float(b)}
+    env = os.environ.get("TPDB_INK46")
+    if env:
+        outline = {k: v for k, v in outline.items() if k != "unlit"}
+        if env == "B":
+            outline["unlit"] = True
+    return outline, cel_tones
+
+
+def to_cel(materials, shadow=SHADOW_FACTOR, light=HIGHLIGHT_FACTOR):
     """Three-tone cel from a fixed virtual light, in the Clawd manner: a light pool on
     surfaces facing up toward the light, the exact palette color elsewhere, and a darker
     settle on surfaces facing down and away. Uses the surface normal only, so the result
@@ -187,10 +230,10 @@ def to_cel(materials):
         ramp = nt.nodes.new("ShaderNodeValToRGB")
         ramp.color_ramp.interpolation = "CONSTANT"
         e0, e1 = ramp.color_ramp.elements[0], ramp.color_ramp.elements[1]
-        e0.position, e0.color = 0.0, (SHADOW_FACTOR, SHADOW_FACTOR, SHADOW_FACTOR, 1)
+        e0.position, e0.color = 0.0, (shadow, shadow, shadow, 1)
         e1.position, e1.color = SETTLE_BELOW, (1, 1, 1, 1)
         e2 = ramp.color_ramp.elements.new(LIGHT_POOL_AT)
-        e2.color = (HIGHLIGHT_FACTOR, HIGHLIGHT_FACTOR, HIGHLIGHT_FACTOR, 1)
+        e2.color = (light, light, light, 1)
         remap = nt.nodes.new("ShaderNodeMapRange")       # dot in [-1, 1] -> [0, 1]
         remap.inputs["From Min"].default_value = -1.0
         remap.inputs["From Max"].default_value = 1.0
@@ -419,10 +462,12 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
     cam = setup_camera(scene)
     setup_light(scene)
     outline = cfg.get("outline", {"method": "lineart", "width_px": 4.0})
+    cel_tones = cfg.get("cel")       # v0.46: the family's own tones, {"shadow": .., "light": ..}; None = the three-tone default
+    outline, cel_tones = bench_overrides(outline, cel_tones)
     if outline["method"] == "lineart":
-        setup_outline(scene, root, outline["width_px"])
+        setup_outline(scene, root, outline["width_px"], outline.get("silhouette_px"), outline.get("unlit", False))
     if cel:
-        to_cel({s.material for o in asset_objects(root) for s in o.material_slots})
+        to_cel({s.material for o in asset_objects(root) for s in o.material_slots}, **(cel_tones or {}))
 
     blend_sha = sha256(blend_path)
     expressions = cfg.get("expressions", ["none"])
@@ -514,6 +559,7 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
                         "light_rig": LIGHT_RIG,
                         "view_transform": scene.view_settings.view_transform,
                         "outline": outline,
+                        **({"cel": cel_tones} if cel_tones else {}),
                     },
                     "files": {
                         "image": {"path": os.path.basename(img_path), "sha256": sha256(img_path), "width": w, "height": h},

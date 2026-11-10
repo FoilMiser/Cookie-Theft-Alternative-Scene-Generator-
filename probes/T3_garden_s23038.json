@@ -6,8 +6,8 @@
  "seed": 23038,
  "mirror": true,
  "versions": {
-  "generator": "0.45.0",
-  "cast_builder": "0.45.0",
+  "generator": "0.46.0",
+  "cast_builder": "0.46.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,13 +62,25 @@
  ],
  "templates": [
   {
-   "id": "sweep_fork",
-   "kind": "contradiction",
+   "id": "wave",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  },
+  {
+   "id": "carry_box",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 3,
  "items": [
   {
    "id": "i01",
@@ -86,7 +98,7 @@
      "sweeping",
      "sweeping the path",
      "sweeping the ground",
-     "cleaning"
+     "broom"
     ]
    },
    "key": "sweeping",
@@ -98,13 +110,13 @@
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "sweep_fork",
-   "event": "e1",
+   "template": "sweep",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.372,
+    "s": 0.242,
     "r": 0,
     "d": 0.0,
     "f": -0.21,
@@ -112,106 +124,120 @@
     "zipf_raw": 3.79,
     "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 25864
+    "area_px": 21512
    },
-   "b": -1.503,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.198,
+   "p0": 0.768,
+   "pm1": 0.549,
    "aoi_cells": [
+    "ML",
     "BL"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with what the person is sweeping with",
-   "accepted": [
-    "the broom is strange",
-    "something's wrong with the broom",
-    "that's odd",
-    "a fork is not for sweeping"
-   ],
-   "key": "fork",
+   "type": "action",
+   "text": "A teenager is carrying a box",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "carrying a box",
+     "holding a box",
+     "moving a box",
+     "box"
+    ]
+   },
+   "key": "box",
    "elements": [
-    "sweeper_1"
+    "carrier_3"
    ],
-   "cues": [
-    "sweeper_1"
-   ],
-   "effect": [
-    "sweeper_1"
-   ],
+   "cues": [],
+   "effect": [],
    "chain": 0,
-   "animate": false,
-   "domain": "functional",
-   "template": "sweep_fork",
-   "event": "e1",
+   "animate": true,
+   "domain": null,
+   "template": "carry_box",
+   "event": "e3",
    "features": {
-    "type": "contradiction_notice",
+    "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": 0.372,
+    "animate": true,
+    "s": -0.007,
     "r": 0,
     "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.03,
-    "aoa_raw": 3.63,
-    "domain": "functional",
-    "area_px": 25864
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 15156
    },
-   "b": -0.286,
-   "p0": 0.571,
-   "pm1": 0.329,
+   "b": -1.449,
+   "p0": 0.81,
+   "pm1": 0.61,
    "aoi_cells": [
-    "BL"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The person is sweeping with a giant fork instead of a broom",
-   "accepted": [
-    "sweeping with a fork",
-    "a fork instead of a broom",
-    "you can't sweep with a fork",
-    "a giant fork",
-    "a huge dinner fork"
-   ],
-   "key": "fork",
+   "type": "action",
+   "text": "A woman is waving",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "waving",
+     "waving hello",
+     "saying hello",
+     "waving goodbye",
+     "waving at someone"
+    ]
+   },
+   "key": "waving",
    "elements": [
-    "sweeper_1"
+    "waver_4"
    ],
-   "cues": [
-    "sweeper_1"
-   ],
-   "effect": [
-    "sweeper_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "functional",
-   "template": "sweep_fork",
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "wave",
    "event": "e1",
    "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": 0.372,
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.263,
     "r": 0,
     "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.03,
-    "aoa_raw": 3.63,
-    "domain": "functional",
-    "area_px": 25864
+    "f": -0.25,
+    "a": 4.26,
+    "zipf_raw": 3.75,
+    "aoa_raw": 4.26,
+    "domain": null,
+    "area_px": 22176
    },
-   "b": 0.914,
-   "p0": 0.286,
-   "pm1": 0.129,
+   "b": -1.196,
+   "p0": 0.768,
+   "pm1": 0.549,
    "aoi_cells": [
-    "BL"
+    "MC",
+    "BC"
    ]
   },
   {
@@ -250,9 +276,9 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -0.885,
+   "p0": 0.708,
+   "pm1": 0.471,
    "aoi_cells": [
     "TL"
    ]
@@ -292,9 +318,9 @@
     "domain": null,
     "area_px": 19280
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.77,
+   "p0": 0.684,
+   "pm1": 0.443,
    "aoi_cells": [
     "TC"
    ]
@@ -332,9 +358,9 @@
     "domain": null,
     "area_px": 43040
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.262,
+   "p0": 0.779,
+   "pm1": 0.565,
    "aoi_cells": [
     "TR",
     "MR"
@@ -376,9 +402,9 @@
     "domain": null,
     "area_px": 8692
    },
-   "b": -0.517,
-   "p0": 0.626,
-   "pm1": 0.382,
+   "b": -0.277,
+   "p0": 0.569,
+   "pm1": 0.327,
    "aoi_cells": [
     "TL",
     "ML"
@@ -416,11 +442,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 233800
+    "area_px": 233976
    },
-   "b": -1.91,
-   "p0": 0.871,
-   "pm1": 0.713,
+   "b": -1.67,
+   "p0": 0.842,
+   "pm1": 0.662,
    "aoi_cells": [
     "ML",
     "MC",
@@ -464,9 +490,9 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -2.073,
+   "p0": 0.888,
+   "pm1": 0.745,
    "aoi_cells": [
     "TR",
     "MR",
@@ -508,9 +534,9 @@
     "domain": null,
     "area_px": 25884
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.018,
+   "p0": 0.735,
+   "pm1": 0.504,
    "aoi_cells": [
     "BC",
     "BR"
@@ -549,28 +575,28 @@
     "domain": null,
     "area_px": 13200
    },
-   "b": -0.945,
-   "p0": 0.72,
-   "pm1": 0.486,
+   "b": -0.705,
+   "p0": 0.669,
+   "pm1": 0.427,
    "aoi_cells": [
     "BR"
    ]
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 1,
-  "contradictions": 1,
+  "content": 11,
+  "inference_units": 0,
+  "contradictions": 0,
   "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.781,
-   "inference": 0.429
+   "content": 0.747,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.579,
-   "inference": 0.229
+   "content": 0.532,
+   "inference": null
   }
  },
  "bands": {
@@ -592,14 +618,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "19 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0408,
-  "png_bytes": 171867,
-  "jpeg_bytes": 183992
+  "objects": 19,
+  "edge_density": 0.0434,
+  "png_bytes": 204394,
+  "jpeg_bytes": 193071
  },
  "signature": [
   [
@@ -607,11 +633,11 @@
    0
   ],
   [
-   "contradiction_explain",
-   1
+   "action",
+   0
   ],
   [
-   "contradiction_notice",
+   "action",
    0
   ],
   [
@@ -708,8 +734,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 51772,
-   "occlusion": 0.363
+   "visible_px": 66208,
+   "occlusion": 0.185
   },
   {
    "id": "tree",
@@ -738,23 +764,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 233800,
+   "visible_px": 233976,
    "occlusion": 0.029
-  },
-  {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    526.0,
-    602.0,
-    654.0,
-    682.0
-   ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
   },
   {
    "id": "filler_bush_left",
@@ -862,38 +873,61 @@
    "occlusion": 0.0
   },
   {
-   "id": "bench",
-   "label": "Garden bench",
-   "role": "setting",
-   "z": 928,
+   "id": "carrier_3",
+   "label": "person.leo__walk_box__neutral__y090",
+   "role": "scored",
+   "z": 895.28,
    "bbox": [
-    1358.0,
-    804.0,
-    1562.0,
-    930.0
+    886.0,
+    632.0,
+    996.0,
+    900.0
    ],
-   "area_px": 13200,
-   "visible_px": 13200,
-   "occlusion": 0.0
+   "area_px": 15156,
+   "visible_px": 15156,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__walk_box__neutral__y090",
+    "family": "person.leo",
+    "scale": 0.4807,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
   },
   {
    "id": "sweeper_1",
-   "label": "person.dev__sweep_giant_fork__neutral__y045",
+   "label": "person.dev__sweep__neutral__y045",
    "role": "scored",
-   "z": 965.91,
+   "z": 907.43,
    "bbox": [
-    76.0,
-    654.0,
-    270.0,
-    972.0
+    170.0,
+    604.0,
+    276.0,
+    944.0
    ],
-   "area_px": 26164,
-   "visible_px": 25864,
-   "occlusion": 0.011,
+   "area_px": 22204,
+   "visible_px": 21512,
+   "occlusion": 0.031,
    "asset": {
-    "variant": "person.dev__sweep_giant_fork__neutral__y045",
+    "variant": "person.dev__sweep__neutral__y045",
     "family": "person.dev",
-    "scale": 0.5068,
+    "scale": 0.4852,
     "mirrored": false,
     "labels": {
      "everyday_name": "man",
@@ -914,33 +948,100 @@
    }
   },
   {
-   "id": "sweptpile_2",
-   "label": "Swept-up dust and grit",
-   "role": "setting",
-   "z": 966.91,
+   "id": "sweepheap_2",
+   "label": "What has been swept",
+   "role": "scored",
+   "z": 909.43,
    "bbox": [
-    178.0,
-    910.0,
-    422.0,
-    974.0
+    210.0,
+    880.0,
+    294.0,
+    920.0
    ],
-   "area_px": 5352,
-   "visible_px": 5352,
+   "area_px": 1712,
+   "visible_px": 1712,
    "occlusion": 0.0
   },
   {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
    "bbox": [
-    522.0,
-    892.0,
-    704.0,
-    980.0
+    1358.0,
+    804.0,
+    1562.0,
+    930.0
    ],
-   "area_px": 8772,
-   "visible_px": 8772,
+   "area_px": 13200,
+   "visible_px": 13200,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    362.0,
+    884.0,
+    458.0,
+    962.0
+   ],
+   "area_px": 4404,
+   "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "waver_4",
+   "label": "person.mei__wave__smile__y045",
+   "role": "scored",
+   "z": 968.61,
+   "bbox": [
+    576.0,
+    630.0,
+    706.0,
+    976.0
+   ],
+   "area_px": 22176,
+   "visible_px": 22176,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.mei__wave__smile__y045",
+    "family": "person.mei",
+    "scale": 0.5078,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "black_bob"
+     }
+    }
+   }
+  },
+  {
+   "id": "wavelines_5",
+   "label": "Motion lines by the waving hand",
+   "role": "setting",
+   "z": 969.61,
+   "bbox": [
+    562.0,
+    634.0,
+    616.0,
+    664.0
+   ],
+   "area_px": 156,
+   "visible_px": 156,
    "occlusion": 0.0
   }
  ],
@@ -963,8 +1064,10 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "sweep_fork"
+   "events": [
+    "wave",
+    "sweep",
+    "carry_box"
    ]
   },
   "placement_rev": 43

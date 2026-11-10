@@ -60,6 +60,17 @@ def palette_targets(pal):
     return np.array(tones)
 
 
+_PAL, _CEL_TARGETS = {}, {}
+
+
+def cel_targets(cel):
+    """v0.46: a cast that sets its own cel tones (render.cel in the record) is measured against those tones, not the palette file's."""
+    key = (cel["shadow"], cel["light"])
+    if key not in _CEL_TARGETS:
+        _CEL_TARGETS[key] = palette_targets(dict(_PAL, shadow_factor=cel["shadow"], highlight_factor=cel["light"] if cel["light"] != 1.0 else None))
+    return _CEL_TARGETS[key]
+
+
 def check(path, schema, targets):
     hard, soft, info = [], [], {}
     folder = os.path.dirname(path)
@@ -118,7 +129,8 @@ def check(path, schema, targets):
         extent += 0.55          # a held tool can rest on the ground ahead of the feet (broom, rake, shovel)
     reach = extent * np.sin(np.radians(r["camera"]["tilt_deg"])) * r["pixels_per_meter"]
     below = bbox[3] - gy
-    max_below = reach + r["outline"]["width_px"] / 2 + GROUND_TOL_PX
+    # (from v0.46 the figure's outer edge may be drawn wider than the lines inside it)
+    max_below = reach + max(r["outline"]["width_px"], r["outline"].get("silhouette_px") or 0) / 2 + GROUND_TOL_PX
     info["ground_offset_px"] = round(float(below), 1)
     # a figure drawn in two pieces (render_assets.py, from v0.31): each piece is checked by its base pose, and the piece without
     # the body (the far leg, or the legs) shares its twin's origin, so the twin carries the ground rule
@@ -165,6 +177,8 @@ def check(path, schema, targets):
     if ratio > SOFT_PER_EDGE_MAX:
         soft.append(f"soft edge band {ratio:.1f} px wide on average (limit {SOFT_PER_EDGE_MAX})")
 
+    if m.get("render", {}).get("cel") and _PAL:
+        targets = cel_targets(m["render"]["cel"])
     px = rgba[solid][:, :3]
     if len(px) > 50000:
         px = px[np.random.default_rng(0).choice(len(px), 50000, replace=False)]
@@ -196,7 +210,8 @@ def main():
     ap.add_argument("--palette", default="palette.json")
     a = ap.parse_args()
     schema = json.load(open(a.schema))
-    targets = palette_targets(json.load(open(a.palette)))
+    _PAL.update(json.load(open(a.palette)))
+    targets = palette_targets(_PAL)
     report, failed = [], 0
     for p in sorted(glob.glob(os.path.join(a.library, "*.json"))):
         if p.endswith("validation_report.json"):

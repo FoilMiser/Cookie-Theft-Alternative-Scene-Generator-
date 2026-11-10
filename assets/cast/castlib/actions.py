@@ -170,9 +170,13 @@ class Poser:
         roll = math.radians(head_roll)
         rig.aim_dir("head", (math.sin(roll), math.sin(p), math.cos(p)), twist=math.radians(head_turn))
 
-    def rest_arm(self, sd, out=0.16, fwd=-0.04):
+    def rest_arm(self, sd, out=None, fwd=-0.04):
         sg = 1 if sd == "L" else -1
-        return self.lm(f"sh_{sd}") + nrm((sg * out, fwd, -1)) * self.A * 0.97, (sg * 0.2, 0.6, 0)
+        # v0.46 bench (TPDB_ARM46 "B"): the resting arm nearer the body and straighter
+        b46 = __import__("os").environ.get("TPDB_ARM46", "B") == "B"
+        if out is None:
+            out = 0.12 if b46 else 0.16
+        return self.lm(f"sh_{sd}") + nrm((sg * out, fwd, -1)) * self.A * (0.985 if b46 else 0.97), (sg * 0.2, 0.6, 0)
 
     def hand_frame(self, sd, palm):
         """Fingers along the hand bone, palm facing `palm` (world), thumb on the thumb side."""
