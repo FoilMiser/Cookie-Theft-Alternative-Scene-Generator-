@@ -1,0 +1,1372 @@
+{
+ "name": "T3_garden_s5013",
+ "tier": 3,
+ "setting": "garden",
+ "sky": "clear",
+ "seed": 5013,
+ "mirror": false,
+ "versions": {
+  "generator": "0.45.0",
+  "cast_builder": "0.45.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "bench"
+ ],
+ "templates": [
+  {
+   "id": "sprinkler_package",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "square_wheel",
+   "kind": "contradiction",
+   "event": "e2",
+   "units": 1
+  },
+  {
+   "id": "kick_ball",
+   "kind": "event",
+   "event": "e3",
+   "units": 0
+  },
+  {
+   "id": "read_bench",
+   "kind": "event",
+   "event": "e4",
+   "units": 0
+  },
+  {
+   "id": "play_catch",
+   "kind": "event",
+   "event": "e5",
+   "units": 0
+  },
+  {
+   "id": "dog_playing",
+   "kind": "event",
+   "event": "e6",
+   "units": 0
+  }
+ ],
+ "scene_load": 6,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A child is reading on the bench",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "sitting and reading"
+    ]
+   },
+   "key": "reading",
+   "elements": [
+    "sitter_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "read_bench",
+   "event": "e4",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.412,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
+    "domain": null,
+    "area_px": 8560
+   },
+   "b": -0.916,
+   "p0": 0.714,
+   "pm1": 0.479,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A sprinkler is spraying water",
+   "accepted": [
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
+   ],
+   "key": "sprinkler",
+   "elements": [
+    "sprinkler_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": 0.07,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
+    "domain": null,
+    "area_px": 16880
+   },
+   "b": 0.27,
+   "p0": 0.433,
+   "pm1": 0.219,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.497,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
+    "domain": null,
+    "area_px": 7596
+   },
+   "b": -0.17,
+   "p0": 0.542,
+   "pm1": 0.304,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_2",
+    "package_3"
+   ],
+   "cues": [
+    "sprinkler_2",
+    "package_3"
+   ],
+   "effect": [
+    "package_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 0.07,
+    "r": 1,
+    "d": 0.259,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
+    "domain": null,
+    "area_px": 16880
+   },
+   "b": 0.686,
+   "p0": 0.335,
+   "pm1": 0.156,
+   "aoi_cells": [
+    "BL",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "entity",
+   "text": "There is a wheelbarrow",
+   "accepted": [
+    "wheelbarrow",
+    "cart",
+    "barrow"
+   ],
+   "key": "wheelbarrow",
+   "elements": [
+    "square_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "square_wheel",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.022,
+    "r": 0,
+    "d": 0.0,
+    "f": -1.34,
+    "a": 6.78,
+    "zipf_raw": 2.66,
+    "aoa_raw": 6.78,
+    "domain": null,
+    "area_px": 14832
+   },
+   "b": 0.133,
+   "p0": 0.467,
+   "pm1": 0.244,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the wheelbarrow",
+   "accepted": [
+    "something's wrong with the wheels",
+    "funny wheels",
+    "weird wheelbarrow"
+   ],
+   "key": "wheel",
+   "elements": [
+    "square_4"
+   ],
+   "cues": [
+    "square_4"
+   ],
+   "effect": [
+    "square_4"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "square_wheel",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.022,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.5,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 14832
+   },
+   "b": 0.311,
+   "p0": 0.423,
+   "pm1": 0.212,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "contradiction_explain",
+   "text": "The wheelbarrow has square wheels, so it could not roll",
+   "accepted": [
+    "square wheels",
+    "the wheels aren't round",
+    "it can't roll"
+   ],
+   "key": "wheel",
+   "elements": [
+    "square_4"
+   ],
+   "cues": [
+    "square_4"
+   ],
+   "effect": [
+    "square_4"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "square_wheel",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.022,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.5,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 14832
+   },
+   "b": 1.511,
+   "p0": 0.181,
+   "pm1": 0.075,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "action",
+   "text": "A teenager is kicking a ball",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "kicking a ball",
+     "playing soccer",
+     "playing football",
+     "kicking"
+    ]
+   },
+   "key": "ball",
+   "elements": [
+    "kicker_5",
+    "ball_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "kick_ball",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.033,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 2.9,
+    "zipf_raw": 5.04,
+    "aoa_raw": 2.9,
+    "domain": null,
+    "area_px": 16036
+   },
+   "b": -1.109,
+   "p0": 0.752,
+   "pm1": 0.527,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "action",
+   "text": "A girl is throwing a ball",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "throwing a ball",
+     "throwing",
+     "playing catch",
+     "playing ball"
+    ]
+   },
+   "key": "ball",
+   "elements": [
+    "thrower_7",
+    "ball_9"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "play_catch",
+   "event": "e5",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.715,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 2.9,
+    "zipf_raw": 5.04,
+    "aoa_raw": 2.9,
+    "domain": null,
+    "area_px": 5584
+   },
+   "b": -0.735,
+   "p0": 0.676,
+   "pm1": 0.434,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "action",
+   "text": "A woman is catching the ball",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "catching the ball",
+     "catching",
+     "playing catch",
+     "playing ball"
+    ]
+   },
+   "key": "ball",
+   "elements": [
+    "catcher_8"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "play_catch",
+   "event": "e5",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.137,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 2.9,
+    "zipf_raw": 5.04,
+    "aoa_raw": 2.9,
+    "domain": null,
+    "area_px": 12612
+   },
+   "b": -1.024,
+   "p0": 0.736,
+   "pm1": 0.506,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i11",
+   "type": "action",
+   "text": "A dog is playing",
+   "accepted": [
+    "dog playing",
+    "playful dog",
+    "dog wants to play",
+    "dog"
+   ],
+   "key": "dog",
+   "elements": [
+    "dog_playing_10"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_playing",
+   "event": "e6",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.969,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 3900
+   },
+   "b": -0.626,
+   "p0": 0.652,
+   "pm1": 0.408,
+   "aoi_cells": [
+    "MR"
+   ]
+  },
+  {
+   "id": "i12",
+   "type": "entity",
+   "text": "It is a sunny day",
+   "accepted": [
+    "sun",
+    "sunny",
+    "sunshine",
+    "nice day",
+    "sunny day"
+   ],
+   "key": "sun",
+   "elements": [
+    "sun"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.092,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.97,
+    "a": 3.4,
+    "zipf_raw": 4.97,
+    "aoa_raw": 3.4,
+    "domain": null,
+    "area_px": 13440
+   },
+   "b": -0.525,
+   "p0": 0.628,
+   "pm1": 0.383,
+   "aoi_cells": [
+    "TR"
+   ]
+  },
+  {
+   "id": "i13",
+   "type": "entity",
+   "text": "There are a few white clouds",
+   "accepted": [
+    "clouds",
+    "white clouds",
+    "a few clouds",
+    "fluffy clouds"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_white"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.164,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 19276
+   },
+   "b": -0.41,
+   "p0": 0.601,
+   "pm1": 0.357,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i14",
+   "type": "entity",
+   "text": "There is a tree",
+   "accepted": [
+    "tree",
+    "trees"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.733,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 43028
+   },
+   "b": -0.902,
+   "p0": 0.711,
+   "pm1": 0.476,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i15",
+   "type": "entity",
+   "text": "There is a fence",
+   "accepted": [
+    "fence",
+    "wooden fence",
+    "gate"
+   ],
+   "key": "fence",
+   "elements": [
+    "fence"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.911,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 6.28,
+    "zipf_raw": 4.21,
+    "aoa_raw": 6.28,
+    "domain": null,
+    "area_px": 226328
+   },
+   "b": -1.298,
+   "p0": 0.785,
+   "pm1": 0.574,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "MR"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 12,
+  "inference_units": 2,
+  "contradictions": 1,
+  "items_total": 15
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.641,
+   "inference": 0.313
+  },
+  "theta_minus_1": {
+   "content": 0.409,
+   "inference": 0.148
+  }
+ },
+ "bands": {
+  "content_count": true,
+  "inference_units": true,
+  "contradictions": true,
+  "content_completeness": true,
+  "inference_completeness": true
+ },
+ "in_tier": true,
+ "checks": {
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": true,
+   "detail": "20 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 20,
+  "edge_density": 0.0444,
+  "png_bytes": 219907,
+  "jpeg_bytes": 202045
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "sun",
+   "label": "Sun",
+   "role": "setting",
+   "z": -99,
+   "bbox": [
+    1352.0,
+    22.0,
+    1548.0,
+    218.0
+   ],
+   "area_px": 13440,
+   "visible_px": 13440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clouds_white",
+   "label": "Small white clouds",
+   "role": "setting",
+   "z": -98,
+   "bbox": [
+    560.0,
+    68.0,
+    966.0,
+    202.0
+   ],
+   "area_px": 19276,
+   "visible_px": 19276,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees beyond the fence",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Lawn",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Paved path to the gate",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    1254.0,
+    614.0,
+    1562.0,
+    1000.0
+   ],
+   "area_px": 81244,
+   "visible_px": 77152,
+   "occlusion": 0.05
+  },
+  {
+   "id": "tree",
+   "label": "Tree behind the fence",
+   "role": "setting",
+   "z": 440,
+   "bbox": [
+    296.0,
+    176.0,
+    544.0,
+    452.0
+   ],
+   "area_px": 44984,
+   "visible_px": 43028,
+   "occlusion": 0.043
+  },
+  {
+   "id": "fence",
+   "label": "Wooden fence with a gate",
+   "role": "setting",
+   "z": 615,
+   "bbox": [
+    298.0,
+    426.0,
+    1600.0,
+    618.0
+   ],
+   "area_px": 240896,
+   "visible_px": 226328,
+   "occlusion": 0.06
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    292.0,
+    598.0,
+    428.0,
+    684.0
+   ],
+   "area_px": 8296,
+   "visible_px": 7496,
+   "occlusion": 0.096
+  },
+  {
+   "id": "dog_playing_10",
+   "label": "animal.dog_02__play_bow__happy__y045",
+   "role": "scored",
+   "z": 655.09,
+   "bbox": [
+    1306.0,
+    566.0,
+    1392.0,
+    660.0
+   ],
+   "area_px": 3916,
+   "visible_px": 3900,
+   "occlusion": 0.004,
+   "asset": {
+    "variant": "animal.dog_02__play_bow__happy__y045",
+    "family": "animal.dog_02",
+    "scale": 0.3917,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "toyball_11",
+   "label": "Toy ball by the dog",
+   "role": "setting",
+   "z": 656.09,
+   "bbox": [
+    1282.0,
+    574.0,
+    1406.0,
+    660.0
+   ],
+   "area_px": 616,
+   "visible_px": 616,
+   "occlusion": 0.0
+  },
+  {
+   "id": "thrower_7",
+   "label": "person.nia__throw_ball__determined__y090",
+   "role": "scored",
+   "z": 712.66,
+   "bbox": [
+    890.0,
+    564.0,
+    968.0,
+    714.0
+   ],
+   "area_px": 4648,
+   "visible_px": 4648,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.nia__throw_ball__determined__y090",
+    "family": "person.nia",
+    "scale": 0.413,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
+  },
+  {
+   "id": "catcher_8",
+   "label": "person.mei__catch__smile__y090",
+   "role": "scored",
+   "z": 736.37,
+   "bbox": [
+    578.0,
+    470.0,
+    694.0,
+    742.0
+   ],
+   "area_px": 12612,
+   "visible_px": 12612,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.mei__catch__smile__y090",
+    "family": "person.mei",
+    "scale": 0.4218,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "black_bob"
+     }
+    }
+   }
+  },
+  {
+   "id": "ball_9",
+   "label": "Ball in the air",
+   "role": "scored",
+   "z": 737.37,
+   "bbox": [
+    722.0,
+    464.0,
+    888.0,
+    594.0
+   ],
+   "area_px": 936,
+   "visible_px": 936,
+   "occlusion": 0.0
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    0.0,
+    118.0,
+    342.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 202872,
+   "occlusion": 0.01
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    318.0,
+    694.0,
+    572.0,
+    838.0
+   ],
+   "area_px": 25880,
+   "visible_px": 25880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
+   "bbox": [
+    38.0,
+    804.0,
+    242.0,
+    930.0
+   ],
+   "area_px": 13200,
+   "visible_px": 10152,
+   "occlusion": 0.231
+  },
+  {
+   "id": "sitter_1",
+   "label": "person.kai__sit_read__neutral__y045",
+   "role": "scored",
+   "z": 931,
+   "bbox": [
+    88.0,
+    738.0,
+    184.0,
+    920.0
+   ],
+   "area_px": 8560,
+   "visible_px": 8560,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.kai__sit_read__neutral__y045",
+    "family": "person.kai",
+    "scale": 0.4939,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "sprinkler_2",
+   "label": "Sprinkler spraying",
+   "role": "scored",
+   "z": 936.56,
+   "bbox": [
+    0.0,
+    804.0,
+    1052.0,
+    966.0
+   ],
+   "area_px": 17940,
+   "visible_px": 16880,
+   "occlusion": 0.059
+  },
+  {
+   "id": "package_3",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 946.56,
+   "bbox": [
+    990.0,
+    880.0,
+    1104.0,
+    960.0
+   ],
+   "area_px": 7596,
+   "visible_px": 7596,
+   "occlusion": 0.0
+  },
+  {
+   "id": "square_4",
+   "label": "Wheelbarrow with square wheels",
+   "role": "scored",
+   "z": 950.69,
+   "bbox": [
+    408.0,
+    856.0,
+    672.0,
+    958.0
+   ],
+   "area_px": 14832,
+   "visible_px": 14832,
+   "occlusion": 0.0
+  },
+  {
+   "id": "kicker_5",
+   "label": "person.leo__kick_low__smile__y090",
+   "role": "scored",
+   "z": 981.23,
+   "bbox": [
+    1182.0,
+    712.0,
+    1392.0,
+    980.0
+   ],
+   "area_px": 14440,
+   "visible_px": 14360,
+   "occlusion": 0.006,
+   "asset": {
+    "variant": "person.leo__kick_low__smile__y090",
+    "family": "person.leo",
+    "scale": 0.5125,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "ball_6",
+   "label": "Ball",
+   "role": "scored",
+   "z": 983.23,
+   "bbox": [
+    1290.0,
+    906.0,
+    1426.0,
+    996.0
+   ],
+   "area_px": 1676,
+   "visible_px": 1676,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   13,
+   "could not place about_to_trip; could not place paint_tracks"
+  ],
+  [
+   1013,
+   "could not place carry_box; could not place lost_balloon; could not place walk_dog"
+  ],
+  [
+   2013,
+   "could not place kick_ball; could not place paint_tracks; could not place play_catch; could not place rain_coming"
+  ],
+  [
+   3013,
+   "could not place dog_begs"
+  ],
+  [
+   4013,
+   "could not place plant_flowers"
+  ],
+  [
+   5013,
+   "layout 4: accepted after 3 rejected layouts"
+  ]
+ ],
+ "layout": 3,
+ "knob": 0,
+ "regen": {
+  "base_seed": 13,
+  "max_tries": 24,
+  "placements": 14,
+  "require_band": true,
+  "usage": {
+   "rake": 1,
+   "paint_fence": 1,
+   "birds_flying": 1,
+   "dog_wants_walk": 1,
+   "jump": 1,
+   "sweep": 1,
+   "play_catch": 1
+  },
+  "forced": null,
+  "placement_rev": 43
+ }
+}

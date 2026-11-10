@@ -160,6 +160,15 @@ def _rev():
     return _SCN.PLACEMENT_REV
 
 
+# v0.45 (revision 43; bench round 1): SLIDE45 "B": the slide's ladder is the frame's own end, in the frame's red, its near rail running on up into the
+# hand rail over the deck (draw.slide ladder3); "O" as revision 42, a slate ladder leaning across the red upright ("drawn in front of/beside the red
+# frame", "slightly separate from/behind the red frame", "slanted and separate from the frame": three of six readers)
+SLIDE45 = "B"  # v0.45 bench (vision/isolation_v045.md): B
+# FOOT45 "B" (design test 3): the bird table's post stands in a tuft of grass blades; "O" as revision 42, a flat dark oval at its foot ("The green
+# patch at the base of the birdhouse pole is unexplained (could be a small bush or a drawing artefact)")
+FOOT45 = "B"  # v0.45 design tests (vision/design_tests_v045.md): B
+
+
 
 def swing_frame(dx, w_=0):
     """The garden's swing frame, its box and the ground its feet keep clear. v0.35 (revision 33): w_ px wider on the side away from the
@@ -219,7 +228,15 @@ def build_garden(features, sky):
         f += D.poly([(fx - 35, 332), (fx, 305), (fx + 35, 332)], C["roof"]) + D.line(fx - 23, 360, fx + 23, 360, D.OUT, 4)
         # a round entrance hole and a little perch peg under it (a plain box on a post could be "a garden lamp or lantern")
         f += D.circ(fx, 342, 6.5, C["charcoal"]) + D.line(fx - 7, 352, fx + 7, 352, C["wood"], 3)
-        f += D.ell(fx, 652, 16, 5, C["grass_dark"], 0)
+        if _rev() >= 43 and FOOT45 == "B":
+            # revision 43 (settings.FOOT45): grass blades round the post's foot
+            # (no outlines: outlined, blades this thin were all outline, a ring of black spikes)
+            f += D.ell(fx, 656.5, 19, 6.5, C["grass_dark"], 0)
+            for dx, h, lean in ((-15, 12, -7), (-10, 20, -5), (-5, 15, -1), (5, 17, 2), (10, 22, 5), (15, 12, 8), (0, 12, 0)):
+                f += (f'<path d="M {D.P(fx + dx - 4, 655)} Q {D.P(fx + dx + lean * 0.4 - 1.5, 655 - h * 0.6)} {D.P(fx + dx + lean, 655 - h)} '
+                      f'Q {D.P(fx + dx + lean * 0.5 + 2.5, 655 - h * 0.5)} {D.P(fx + dx + 4, 655)} Z" fill="{C["grass_dark"]}"/>')
+        else:
+            f += D.ell(fx, 652, 16, 5, C["grass_dark"], 0)
         S.add("feeder", "Bird table on a post", f, 652, "setting", (fx - 40, 300, fx + 40, 656),
               entity=E("There is a bird feeder", ["bird feeder", "feeder", "birdhouse", "bird house", "bird table"], "feeder"),
               blocked=(fx - 22, 636, fx + 22, 668))
@@ -515,7 +532,7 @@ def build_playground(features, sky):
     S.anchors["tree"] = tinfo
     S.walk = [(30, 630, 1570, 992)]
     if "slide" in features:
-        sl, si = D.slide(230, 720, sz(720), f=1, ladder2=_rev() >= 10)
+        sl, si = D.slide(230, 720, sz(720), f=1, ladder2=_rev() >= 10, ladder3=_rev() >= 43 and SLIDE45 == "B")
         S.add("slide", "Slide", sl, 720, "setting", si["bbox"], entity=E("There is a slide", ["slide", "playground slide", "slide"], "slide"),
               blocked=(si["bbox"][0] - 10, 630, si["bbox"][2] + 10, 750))     # on and behind the slide
         S.anchors["slide"] = si

@@ -17,17 +17,21 @@ from collections import defaultdict
 
 from PIL import Image
 
-from .draw import OUT, ppm
+from .draw import C, OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out044")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib044")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out045")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib045")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 # v0.28 bench (isolation_v028.md): "O" keeps the shadow from the figure's box
 SHADOW28 = "B"
 # v0.29 bench: "W" a wider shadow, further under the body, for a dog asleep (the old pose's oval went from wide to narrow in v0.28, and the sleeping dog fell under the gate)
 SHADOW29 = "O"
+# v0.45 (look review of v0.44, "the duck stands on the water"): "B", from revision 43, sets a figure in a swimming pose in the water: no ground
+# shadow, its body cut a little above its lowest point along a shallow curve, a light ripple round it and a waterline across it. "O" as v0.44
+SWIM45 = "B"  # v0.45 bench (vision/isolation_v045.md): B
+SWIM_DEPTH = 0.11                   # how much of the swimmer's height is under water
 SHADOW_FOOT = 0.085                 # a person's shadow past the feet on each side, as a part of the figure's height
 ON_THE_GROUND = {"sit_ground", "kneel_plant", "sand_build"}     # poses whose body, not the feet, meets the ground
 
@@ -301,7 +305,47 @@ class Placed:
     def pose(self):
         return self.v.split("__")[1]
 
+    def waterline(self):
+        """Revision 43 (library.SWIM45): where the water meets a swimmer's body, SWIM_DEPTH of its height above its lowest point: (left x, right x, y)
+        in scene pixels, or None."""
+        wl = self.m.get("_water")
+        if wl is None:
+            import numpy as np
+            mask = np.asarray(Image.open(os.path.join(self.lib.lib_dir, self.m["files"]["mask"]["path"])).convert("L")) > 127
+            u0, u1, v1 = self.solid_span()
+            vw = int(round(v1 - SWIM_DEPTH * self.m["geometry"]["height_m"] * self.m["render"]["pixels_per_meter"]))
+            idx = np.nonzero(mask[vw, u0:u1])[0] if 0 <= vw < mask.shape[0] else ()
+            wl = (u0 + int(idx[0]), u0 + int(idx[-1]) + 1, vw) if len(idx) else ()
+            self.m["_water"] = wl
+        if not wl:
+            return None
+        a, b = self.X + self.s * self.k * (wl[0] - self.gx), self.X + self.s * self.k * (wl[1] - self.gx)
+        return min(a, b), max(a, b), self.Y + self.k * (wl[2] - self.gy)
+
+    def svg_swim(self, wl, shadow):
+        """Revision 43 (library.SWIM45): the swimmer drawn down to the waterline, the cut bowed a little, a patch of light water and a ripple round it."""
+        uri, x0, y0, w, h = self.image_data()
+        l, r, yw = wl
+        mx, rx = (l + r) / 2, (r - l) / 2
+        ry = max(2.0, 0.13 * rx)
+        cid = f"sw{int(self.X * 10)}_{int(self.Y * 10)}"
+        out = ""
+        if shadow:
+            out += f'<ellipse cx="{mx:.1f}" cy="{yw + ry * 0.5:.1f}" rx="{rx * 1.42:.1f}" ry="{ry * 2.8:.1f}" fill="{C["water_light"]}"/>'
+        out += (f'<defs><clipPath id="{cid}"><path d="M {x0 - 2:.1f} {y0 - 2:.1f} H {x0 + w + 2:.1f} V {yw:.1f} H {r:.1f} A {rx:.1f} {ry:.1f} 0 0 1 {l:.1f} {yw:.1f} '
+                f'H {x0 - 2:.1f} Z"/></clipPath></defs><g clip-path="url(#{cid})"><image x="{x0:.2f}" y="{y0:.2f}" width="{w}" height="{h}" href="{uri}"/></g>')
+        sw = min(3.0, max(1.6, 0.075 * rx))
+        out += f'<path d="M {l:.1f} {yw:.1f} A {rx:.1f} {ry:.1f} 0 0 0 {r:.1f} {yw:.1f}" fill="none" stroke="{OUT}" stroke-width="{sw:.1f}" stroke-linecap="round"/>'
+        if shadow:
+            out += (f'<path d="M {l - 0.2 * rx:.1f} {yw + 0.6 * ry:.1f} A {rx * 1.2:.1f} {ry * 2.0:.1f} 0 0 0 {r + 0.2 * rx:.1f} {yw + 0.6 * ry:.1f}" fill="none" stroke="#ffffff" '
+                    f'stroke-opacity="0.9" stroke-width="{sw * 0.9:.1f}" stroke-linecap="round"/>')
+        return out
+
     def svg(self, shadow=True):
+        if SWIM45 == "B" and _rev() >= 43 and self.pose().startswith("swim") and not getattr(self, "rot", None):
+            wl = self.waterline()
+            if wl:
+                return self.svg_swim(wl, shadow)
         uri, x0, y0, w, h = self.image_data()
         out = ""
         # a ground shadow only for things standing on the ground (not for a bird on a lamp or fence)

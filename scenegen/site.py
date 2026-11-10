@@ -49,37 +49,48 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v043", "v044"
+PREV, CUR = "v044", "v045"
 
-# the templates v0.44 redrew or ruled for the v0.43 screen and Sam's notes on the figures (vision/flaws_v043.md, tpdb_work/figure-fixes-v043.md,
-# tpdb_work/figure-review-v043.md): read on the bench, in whole pictures (vision/isolation_v044.md), and in whole test scenes (vision/design_tests_v044.md)
+# the templates v0.45 redrew or ruled for the v0.44 screen (vision/flaws_v044.md) and for the four reviewers' fresh look at v0.44's pictures and cut-outs
+# (tpdb_work/review45/): read on the bench, in whole pictures (vision/isolation_v045.md), and in whole test scenes (vision/design_tests_v045.md)
 REDRAWN_NOTES = {
-    "dog_reading": "Under the gate in v0.43, lying 'on an open newspaper'. Now sitting up in reading glasses, its paper hung from its paws: 'as if reading' in all five pictures, the glasses named twice. 1.00.",
-    "dog_wants_walk": "Under the gate in v0.43, its red lead 'attached' to its red collar. Now a yellow lead hanging from its mouth to a loop: 'as if it wants a walk' in all five pictures. 1.00.",
-    "goat_grazing": "Unusual in gardens and twice a sheep from behind. Now in the park only, never at 135: tethered in all four pictures, never a sheep, 'a little unusual' in all four. 1.00.",
-    "cat_stalks_bird": "A plain ball of a head in profile, its ears edge on. Now the ears and whiskers show, and the cat keeps clear of trees. 1.00.",
-    "water_upward": "'Like a bent tube' before the street's slate door. Now a tapering ribbon with drops, never in the street. 1.00.",
-    "lost_balloon": "Its string's end landed on a handlebar or the hedge. Now high on a long string, its curled end clear of everything. 0.944, one picture read two ways.",
+    "ice_cream": "Under the gate in v0.44, 'a small pink thing' in the hand of a small girl. Now cone and scoop are half as big again in the hand of a child, the cone longer above the fist: 'a pink ice-cream cone'. 1.00 in fourteen pictures.",
+    "photo": "Once 'a camera (or binoculars)' in v0.44. Now a fifth larger, with a prism hump, a longer lens in a silver ring, a flash and a bright strap: 'holding a camera up to his eye, taking a photo, with a red strap hanging from it'. 1.00 in five pictures.",
+    "lost_balloon": "In v0.44 one picture read two ways, 'holding the string by its very tip, or has just let go'. Now the string ends well above the reaching hand and hangs in a slow wave, clear of railings and fences: 'has escaped and is floating up into the sky, its string dangling'. 1.00 in five pictures.",
+    "dog_reading": "Its paper 'up in the air' in one picture, which failed the gate at the first count. After the screen the paper was drawn onto the paws and the three pictures read again: 'as if reading' in all three. 1.00.",
+    "paint_fence": "The roller was a blue slab against blue paint. Now a blue sleeve with cream caps on a wire frame, laid on bare wood at the edge of the wet paint: 'painting the fence blue with a paint roller on a long handle'. 1.00 in nine pictures.",
+    "plant_flowers": "The trowel was a thin grey line. Now a broad pointed blade on a bright handle, the planter kneeling at the end of the bed with a hole under the point: 'digging with a small trowel next to a pink flower in a terracotta pot, about to plant it'. 1.00 in five pictures.",
+    "picnic": "A basket with no food in sight. Now a loaf and a bottle stand out of the basket and a plate is on the blanket: 'a plate with a slice of watermelon, and beside him a wicker picnic basket with a bottle and a baguette'. 1.00.",
+    "blocked_hose": "The teenager who inspects the nozzle looked away from the viewer, a sign error in the pose. Now the face is toward the viewer and a little down. 1.00 in seven pictures.",
+    "ducks_swimming": "The duck stood on the water, a foot under it. Now its legs are out of sight and it is cut at a waterline with a ripple, with no ground shadow. 1.00 in four pictures.",
+    "goat_grazing": "Its stake could land on a bench. Now the stake is clear of every standing structure, 'a short wooden stake'. 1.00 in four pictures.",
 }
 
-# what the v0.44 screen readers made of the templates that read least well (vision/flaws_v044.md)
+# what the v0.45 screen readers made of the templates that read least well (vision/flaws_v045.md); none is under 0.9, so the page shows none
 WEAK_NOTES = {
-    "ice_cream": "Under the gate at 0.85 with the one misread: the girl in pink walking with her ice cream in profile, 'a small pink thing', a sweet or a flower, in three probes. Her scoop, made cream by the colour rule, was put back to pink after the screen and read again, no better: the cone is too small at her size.",
-    "photo": "0.90 again, once 'a camera (or binoculars)'.",
+    "bird_steals": "Not worked in v0.45. 0.933: full marks at the first count, two half marks in one re-read picture, 'about to steal the sandwich, or just be perched next to it'.",
+    "square_wheel": "0.933: the wheels of the bicycle 'a bit squared/boxy', and 'a wheelbarrow parked in front of a square box'.",
+    "cat_stalks_bird": "0.958: the stalked bird 'standing on the grass', where the key has it pecking.",
 }
-SCREEN_NOTE = ("The v0.44 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+SCREEN_NOTE = ("The v0.45 screen read the set pictures and enough probe pictures that every template appeared in at least three "
                "screened pictures, and every angle an animal is drawn at in at least two. The redrawn cast was read on the bench first, in whole pictures, and in whole test scenes. "
-               "920 of 927 items had full marks and one was misread, and 63 of 64 templates pass the gate; the ice cream falls, on the girl in pink walking with it in profile. "
-               "Every dog, cat, goat and person is drawn anew, so no picture repeats v0.43's. "
+               "992 of 1,009 items had full marks and none was misread, and all 64 templates pass the gate, the reading dog after its paper was drawn onto its paws and three pictures were read again. "
+               "Every person and the duck is drawn anew, so no picture is the same as in v0.44. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("pair:animal.dog_01__down_read__neutral__y090>animal.dog_01__sit_up_hold__read__y090", "The reading dog",
-          "v0.43: lying down over a paper on the ground, 'lying on an open newspaper' in four of its five pictures. v0.44: sitting up in round reading glasses, its paws raised to hold the paper's top edge: 'as if reading' in all five."),
-         ("pair:animal.cat_01__stalk_paw__alert__y090>animal.cat_01__stalk_paw__alert__y090", "The cat in profile",
-          "v0.43: the ears seen edge on and the whiskers pointing at the viewer, a plain ball of a head. v0.44: the ears turned so their triangles show, the muzzle forward, the whiskers past the head; stalking in all three pictures."),
-         ("pair:person.dev__run__determined__y090>person.dev__run__determined__y090", "The run",
-          "v0.43: the back shoe planted flat behind, the hips low, read in Sam's review as a lunge. v0.44: off the ground, the back shin kicked up behind, leaning into the run; running in all three pictures.")]
+FIXES = [("pair:person.nia__walk_ice_cream__smile__y090>person.nia__walk_ice_cream__smile__y090", "The ice cream",
+          "v0.44: too small in the hand of a child, 'a small pink thing' to three readers, and under the gate. v0.45: cone and scoop half as big again, the cone longer above the fist; read in full in all fourteen of its pictures."),
+         ("pair:person.tomas__photo__neutral__y090>person.tomas__photo__neutral__y090", "The camera",
+          "v0.44: a small box at the eye, once 'a camera (or binoculars)'. v0.45: a fifth larger, with a prism hump, a longer lens in a silver ring, a flash and a bright strap hanging in a loop; a camera in all five pictures."),
+         ("pair:person.ben__paint__neutral__y090>person.ben__paint__neutral__y090", "The paint roller",
+          "v0.44: a plain blue slab on a pole, lost against the blue paint. v0.45: a blue sleeve with a cream cap at each end on a cranked wire frame, which the scene lays on bare wood at the edge of the wet paint."),
+         ("pair:person.tomas__kneel_plant__neutral__y090>person.tomas__kneel_plant__neutral__y090", "The trowel",
+          "v0.44: a thin grey line, and no trowel in either reading on the bench. v0.45: a broad pointed blade seen from its side on a bright handle; 'digging with a small trowel'."),
+         ("pair:person.jo__hose_inspect__puzzled__y090>person.jo__hose_inspect__puzzled__y090", "The hose inspector",
+          "v0.44: the head turned away from the viewer, a sign error in the pose. v0.45: the face toward the viewer and a little down, looking at the nozzle."),
+         ("pair:animal.duck_01__swim__neutral__y090>animal.duck_01__swim__neutral__y090", "The swimming duck",
+          "v0.44: a foot under the body, so the duck stood on the pond. v0.45: no legs, and the scene cuts it at a waterline with a ripple.")]
 
 
 

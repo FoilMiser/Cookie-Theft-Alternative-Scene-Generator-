@@ -11,6 +11,22 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.45 (builder 0.45.0: the ice cream, the camera, the shoes' soles, the hose inspector's face, the trowel, the roller, the carried box, the
+    # swimming duck, the kite's reel; revision 43: the lost balloon's string end, the roller on bare wood, the planter digging in the bed, the picnic's
+    # food, the goat's stake clear of structures, the swimmer's waterline, the slide's ladder):
+    # a park: a kite flown from its reel, a picnic with its food, a duck on the pond
+    ("park", 3, 45401, {"events": ["fly_kite", "picnic", "ducks_swimming"]}, None),
+    # a garden: the fence painted, flowers planted, a child on the swing
+    ("garden", 3, 45402, {"events": ["paint_fence", "plant_flowers", "swing"]}, None),
+    # a garden: the hose stopped and inspected, a box carried, the washing hung out
+    ("garden", 3, 45403, {"modules": ["blocked_hose"], "events": ["carry_box", "hang_laundry"]}, None),
+    # a playground: a balloon lost, an ice cream in a child's hand, a reader on a bench, beside the slide and its ladder (with a child on the slide
+    # as well the cast's two children were both taken and the ice cream was a grown-up's)
+    ("playground", 3, 45404, {"modules": ["lost_balloon"], "events": ["ice_cream", "read_bench"]}, "kidice"),
+    # a street: an ice cream dropped, a photographer, a box carried
+    ("street", 3, 45405, {"modules": ["ice_cream_drop"], "events": ["photo", "carry_box"]}, None),
+    # a park: the goat behind a bench, the v0.44 probe (T3_park_s23030) whose stake stood on the bench's rail, on its own seed
+    ("park", 3, 23030, {"events": ["push_stroller", "goat_grazing", "feed_birds"]}, None),
     # v0.44 (builder 0.44.0: the reading dog sitting up in glasses, the cat's ears, the goat's beard, the dogs' noses, props in colours of their own, the
     # run, the sand spade, the nozzle inspected face up, the call from the seesaw, the content face; revision 42: the reading dog's paper hung from its
     # paws, the waiting dog's yellow lead, the goat in the park only, the stalking cat clear of trees, the lost balloon high, the upward water tapering):
@@ -146,6 +162,9 @@ def ok(rec, rule):
         return any(e["id"] == "swing_seat" for e in rec["elements"])
     if rule == "content":
         return any("__content__" in e.get("asset", {}).get("variant", "") for e in rec["elements"])
+    if rule == "kidice":
+        return any(e.get("asset", {}).get("variant", "").startswith(("person.kai__", "person.nia__")) and "ice_cream" in e["asset"]["variant"]
+                   for e in rec["elements"])
     if rule == "stalkfence":
         return any(it.get("template") == "cat_stalks_bird" and "fence" in it["text"] for it in rec["items"])
     return any(e["id"] == rule for e in rec["elements"])

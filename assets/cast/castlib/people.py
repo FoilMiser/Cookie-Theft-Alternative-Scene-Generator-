@@ -34,6 +34,10 @@ BELT39 = __import__("os").environ.get("TPDB_BELT39", "O")  # v0.39 bench (vision
 MID42 = __import__("os").environ.get("TPDB_MID42", "C")  # v0.42 bench (vision/isolation_v042.md): C
 BELT42 = __import__("os").environ.get("TPDB_BELT42", "B")  # v0.42 bench (vision/isolation_v042.md): B
 FOOT42 = __import__("os").environ.get("TPDB_FOOT42", "B")  # v0.42 bench (vision/isolation_v042.md): B
+# v0.45 bench (vision/flaws_v044.md O2, TPDB_SOLE45): the sole plate is longer than the shoe and pointed, and the shoe's flat underside is only
+# seven-tenths of its length, so under a tipped shoe the plate stands clear of the toe and the heel like a blade: "black ice skates" under a walker's
+# dark shoes. "A": the plate no longer than the flat underside and no wider than the shoe, dark under every shoe. (actions.py has "H".)
+SOLE45 = __import__("os").environ.get("TPDB_SOLE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
 
 
 def person_skeleton(kind):
@@ -565,10 +569,10 @@ def shoe39(name, ankle, s, k, S, matkey, rig, bone):
         for v in bm.verts:
             x, y, z = v.co
             back = max(0.0, y)
-            w = width * 1.04 * (1.0 - 0.22 * back)
-            v.co = Vector((ankle.x + x * w, ankle.y + cy + y * half_len * 1.03, 0.0052 * s * S + z * 0.0052 * s * S))
+            w = width * (1.0 if SOLE45 == "A" else 1.04) * (1.0 - 0.22 * back)
+            v.co = Vector((ankle.x + x * w, ankle.y + cy + y * half_len * (0.80 if SOLE45 == "A" else 1.03), 0.0052 * s * S + z * 0.0052 * s * S))
         dark = matkey in ("charcoal", "slate", "navy", "outline")
-        so = _mesh_object(name.replace("Shoe", "Sole"), bm, "gray" if dark else "charcoal")
+        so = _mesh_object(name.replace("Shoe", "Sole"), bm, "outline" if (SOLE45 == "A" and dark) else "gray" if dark else "charcoal")
         upd()
         rig.attach(so, bone)
         no_isect(so)

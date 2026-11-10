@@ -1191,6 +1191,9 @@ def make_bird_poses(rig, S, duck, bz):
         upd()
         for sd in ("L", "R"):
             rig.aim_dir(f"leg_{sd}", (0, 1, 0.2))
+            if __import__("os").environ.get("TPDB_DUCK45", "A") == "A":     # v0.45 bench (vision/isolation_v045.md): A
+                # v0.45 bench (look review, TPDB_DUCK45): an orange foot showed under the floating body ("the duck stands on the water"); out of sight
+                rig.arm.pose.bones[f"leg_{sd}"].scale = (0.02, 0.02, 0.02)
 
     def swim_eat():
         # v0.29: as swim, the neck stretched out and down and the bill at the water, for a crumb there (upright with the crumbs ahead of it, the duck was "swimming towards those crumbs")

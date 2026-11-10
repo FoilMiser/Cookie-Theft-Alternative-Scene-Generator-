@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.44 was made, written so that a fresh session can make the next one (v0.45) from this
+How each release from v0.12 to v0.45 was made, written so that a fresh session can make the next one (v0.46) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -380,3 +380,27 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
   items, where the set is 21 and 286). After regenerating a probe, put `"probe": true` back, in its place and in the generator's format (`indent=1`, no final newline),
   and verify. And `isos.py`'s alternative lists (`ISO_X`, `ISO_Y`) are one group each, which stops at its first success: to search one source alone, call
   `build_isomorph` for it (`tpdb_work/iso44b.py`).
+- Readers say what they see, and seldom what is missing. v0.45's list came half from `flaws_v044.md` and half from four reviewers who were shown v0.44's pictures and
+  cut-outs and asked what was wrong with the drawing, each with a share of its own (`tpdb_work/review45/`). They named what the readers had not: a duck standing on the
+  water, a picnic with no food, a hose inspector looking away from the viewer (a sign error in v0.44's pose), a box the fence's colour. Take what two or more name.
+- An oddity two readers name unprompted is a work item, not a watch item. v0.44's readers twice called the reading dog's paper "floating"; it "looked fine" to the builder
+  in four pictures and was left on the watch list, and in v0.45 one reader's paper "up in the air" was a misread and failed the gate at the first count.
+- A scored thing drawn behind a figure may lose at most 20% of its area. The fix drew the paper under the dog's paws: at 20 and 10 px the paws hid 25% and the garden
+  isomorph could not be built; at 12 and 6 they hide 17 to 18%. A record's box, occlusion and salience come from the rendering, so before calling a change "drawing only",
+  run `finalize`'s checks on every picture it touches and calibrate the one template with the switch off and on (`calibrate.py --only`); if the numbers are the shipped
+  ones, the calibration and the priors stand.
+- Regenerate over the files after a post-screen fix (`G.regenerate`), a form A before its isomorph, then verify all records.
+- A re-read rolls every item of its picture again. Of the 66 items in three pictures that the fix did not touch, 64 scored the same and two went down: picture 42's
+  thief bird, full marks at the first read and two half marks at the second on nearly the same words, which took its profile row under 0.9. The second scores stand;
+  report both counts, and keep the first descriptions and scores (`vision/v045/first/`).
+- A prior moved after the set is built can cost cells. A late rule (`WOOD45`, the lost balloon's string above the garden fence) moved one prior by 0.02, which shifts
+  `choose`'s weights: the tier-3 garden's base seed gave other templates and the tier-4 playground's seed failed, with the next 14. Settle every rule that moves a scored
+  thing before the calibration the set is built from, and run `verify_all.py` straight after any `set_prior.py`.
+- Test a furniture rule in every setting that has such furniture. The lost balloon's string was kept off the playground's railing after a design test (`RAIL45`), and
+  lay on the garden's wooden fence in two set pictures until `WOOD45`; `settings.py` already carried the lesson for the older placement (`balloon_max_y`).
+- Check the casting pools (`scenegen/combos.py`, `POOLS`) before forcing a rule on a combination: design test 4 asked for a child's ice cream beside a lost balloon and
+  a slide, and the cast has two children.
+- No outlines on fine shapes. The bird table's tuft drawn as thin outlined blades was a ring of black spikes; filled blades without outlines on a low mound read as
+  "a tuft of grass".
+- `scenes/` and `probes/` hold list-shaped JSON beside the records (the summaries): a script that globs `*.json` skips what is not a dict. A score can be the string
+  `"misread"`. And `probes.py`'s `SHORT` is a count of pictures per template: 0 means the template has none at all.

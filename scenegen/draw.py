@@ -686,12 +686,31 @@ def kite_outline(x, y, s=1.0, rot=0, grow=1.0):
             for px, py in [(0, -50), (34, 0), (0, 62), (-34, 0)]]
 
 
-def balloon(x, y, s=1.0, col=None, string_to=None, string_len=110):
+def loose_string(a, e, s=1.0, tail=12.0, amp=6.0, waves=1.75):
+    """A string hanging loose from a toward its free end, which trails `tail` px past e: a slow wave that grows toward the end (v0.45, templates.CURL45:
+    a straight string with a curled end was "a small curl/hook", "a hook rather than a loose end")."""
+    dx, dy = e[0] - a[0], e[1] - a[1]
+    ln = math.hypot(dx, dy) or 1.0
+    ux, uy = dx / ln, dy / ln
+    full = ln + tail * s
+    pts = []
+    for i in range(33):
+        d = full * i / 32
+        w = amp * s * (d / full) ** 0.7 * math.sin(2 * math.pi * waves * d / full)
+        pts.append((a[0] + ux * d - uy * w, a[1] + uy * d + ux * w))
+    return (f'<path d="M {P(*pts[0])} ' + " ".join(f"L {P(*q)}" for q in pts[1:])
+            + f'" fill="none" stroke="{OUT}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>')
+
+
+def balloon(x, y, s=1.0, col=None, string_to=None, string_len=110, loose=None):
     col = col or C["red"]
     svg = ell(x, y, 28 * s, 34 * s, col)
     svg += poly([(x - 6 * s, y + 38 * s), (x + 6 * s, y + 38 * s), (x, y + 32 * s)], col, OW * 0.6)
     end = string_to or (x + 8 * s, y + 34 * s + string_len * s)
-    svg = f'<path d="M {P(x, y + 38 * s)} Q {P(x - 18 * s, (y + end[1]) / 2)} {P(*end)}" fill="none" stroke="{OUT}" stroke-width="2.5"/>' + svg
+    if loose:
+        svg = loose_string((x, y + 38 * s), end, loose) + svg       # (loose: the scene's scale at the string's end)
+    else:
+        svg = f'<path d="M {P(x, y + 38 * s)} Q {P(x - 18 * s, (y + end[1]) / 2)} {P(*end)}" fill="none" stroke="{OUT}" stroke-width="2.5"/>' + svg
     svg += ell(x - 10 * s, y - 12 * s, 6 * s, 9 * s, C["white"], 0, rot=20)
     return svg, (x - 30 * s, y - 36 * s, x + 30 * s, max(end[1], y + 40 * s))
 
@@ -1332,8 +1351,12 @@ def railing(y_top, y_base, x0=-10, x1=1610, step=58, col=None, mids=None):
     return svg
 
 
-def slide(x, base_y, s=1.0, f=1, ladder2=False):
-    """Playground slide seen from the side: ladder at x, platform, chute running down toward +f."""
+def slide(x, base_y, s=1.0, f=1, ladder2=False, ladder3=False):
+    """Playground slide seen from the side: ladder at x, platform, chute running down toward +f.
+    ladder3 (revision 43, settings.SLIDE45): the ladder is the frame's own end, in the frame's red: two rails to the ground with slate rungs between,
+    the near rail running on up into the hand rail over the deck, and no upright behind it (the slate ladder leaning across the red upright was
+    "drawn in front of/beside the red frame", "slightly separate from/behind the red frame")."""
+    ladder2 = ladder2 and not ladder3
     h = 230 * s              # platform height
     pw = 70 * s              # platform width
     lx0, lx1 = x - f * 46 * s, x
@@ -1346,8 +1369,17 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False):
     svg += poly(chute, C["yellow"])
     svg += stroke(poly_d([(cx0, top - 16 * s), (cx1, base_y - 38 * s), (cx1 + f * 30 * s, base_y - 34 * s)]), C["orange"], 7 * s, OW * 0.7)
     # platform posts and deck
-    for px in (x, x + f * pw):
+    for px in ((x + f * pw,) if ladder3 else (x, x + f * pw)):
         svg += rect(px - 6 * s, top, 12 * s, h, C["red"], 2 * s, OW * 0.8)
+    if ladder3:
+        ty3 = top + 2 * s
+        nb, nt = x - f * 80 * s, x - f * 30 * s         # the near rail's foot and top
+        fb, ft = x - f * 52 * s, x - f * 2 * s          # the far rail's, its top under the deck's end
+        for k in range(1, 7):
+            t = k / 7
+            ay = base_y + (ty3 - base_y) * t
+            svg += stroke(poly_d([(nb + (nt - nb) * t, ay), (fb + (ft - fb) * t, ay)]), C["slate"], 5 * s, OW * 0.6)
+        svg += stroke(poly_d([(fb, base_y), (ft, ty3)]), C["red"], 7 * s, OW * 0.7)
     if ladder2:
         # v0.12: one ladder leaning on the platform end, both rails parallel and tucked under the deck,
         # hand-hooks curling over it (the rails crossing the post read as "doubled ... detached")
@@ -1364,8 +1396,12 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False):
     svg += rect(min(x, x + f * pw) - 8 * s, top - 10 * s, pw + 16 * s, 14 * s, C["blue"], 3 * s)
     # safety rail
     svg += stroke(poly_d([(x, top - 10 * s), (x, top - 58 * s), (x + f * pw, top - 58 * s), (x + f * pw, top - 10 * s)]), C["red"], 7 * s, OW * 0.7)
+    if ladder3:
+        # the near rail, on up along its own line and over into the hand rail's corner
+        svg += stroke(poly_d([(nb, base_y), (nt, ty3), (nt + f * 8.5 * s, top - 38 * s)])
+                      + f" Q {P(nt + f * 13 * s, top - 58 * s)} {P(x - f * 2 * s, top - 58 * s)}", C["red"], 7 * s, OW * 0.7)
     # ladder
-    if not ladder2:
+    if not ladder2 and not ladder3:
         svg += stroke(poly_d([(lx0, base_y), (lx1 - f * 4 * s, top)]), C["slate"], 7 * s, OW * 0.7)
         svg += stroke(poly_d([(lx0 + f * 16 * s, base_y), (lx1 + f * 12 * s, top)]), C["slate"], 7 * s, OW * 0.7)
         for k in range(1, 6):
@@ -1373,6 +1409,8 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False):
             ax, ay = lx0 + (lx1 - f * 4 * s - lx0) * t, base_y - h * t
             svg += line(ax, ay, ax + f * 16 * s, ay, OUT, 4 * s)
     xs = [lx0 - 10 * s, cx1 + f * 40 * s] if not ladder2 else [x - f * 74 * s, cx1 + f * 40 * s]
+    if ladder3:
+        xs = [x - f * 90 * s, cx1 + f * 40 * s]
     info = {"platform": (x + f * pw / 2, top - 10 * s), "bottom": (cx1 + f * 50 * s, base_y), "depth": base_y,
             "chute": ((cx0, top - 4 * s), (cx1, base_y - 26 * s)),
             "bbox": (min(xs), top - 62 * s, max(xs), base_y)}

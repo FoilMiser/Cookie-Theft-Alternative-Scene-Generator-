@@ -22,6 +22,33 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.45 (vision/flaws_v044.md and the look review of v0.44's pictures), whole pictures, a tier-3 picture with the changed templates forced among
+    # the planner's own. The fourth letter the drawing: O v0.44's cast (BENCH_CAST=assets/cast/out044) and revision 42's rules (every revision-43
+    # switch "O"); N the v0.45 cast with every switch on (tpdb_work/bench45/out_N: TPDB_ICE45 CAM45 SOLE45 HOSE45 TROWEL45 PAINT45 BOX45 DUCK45 "A")
+    # and every revision-43 switch "B" (templates.BAL45 PAINT45 PLANT45 PICNIC45 TETHER45, library.SWIM45)
+    "st8O_1": ("street", 45011, {"events": ["ice_cream", "photo", "carry_box"]}, "full", None),
+    "st8N_1": ("street", 45011, {"events": ["ice_cream", "photo", "carry_box"]}, "full", None),
+    "pk8O_1": ("park", 45012, {"events": ["ice_cream", "photo"], "modules": ["lost_balloon"]}, "full", None),
+    "pk8N_1": ("park", 45012, {"events": ["ice_cream", "photo"], "modules": ["lost_balloon"]}, "full", None),
+    "pg8O_1": ("playground", 45013, {"modules": ["ice_cream_drop", "lost_balloon"], "events": ["photo"]}, "full", None),
+    "pg8N_1": ("playground", 45013, {"modules": ["ice_cream_drop", "lost_balloon"], "events": ["photo"]}, "full", None),
+    "gd8O_1": ("garden", 45027, {"modules": ["blocked_hose"], "events": ["plant_flowers"]}, "full", None),
+    "gd8N_1": ("garden", 45027, {"modules": ["blocked_hose"], "events": ["plant_flowers"]}, "full", None),
+    "gd8O_2": ("garden", 45022, {"events": ["paint_fence", "carry_box", "plant_flowers"]}, "full", None),
+    "gd8N_2": ("garden", 45022, {"events": ["paint_fence", "carry_box", "plant_flowers"]}, "full", None),
+    "gd8O_3": ("garden", 45026, {"modules": ["blocked_hose", "bird_steals"], "events": ["carry_box"]}, "full", None),
+    "gd8N_3": ("garden", 45026, {"modules": ["blocked_hose", "bird_steals"], "events": ["carry_box"]}, "full", None),
+    "pk8O_2": ("park", 45023, {"modules": ["ducks_bread"], "events": ["picnic", "goat_grazing", "plant_flowers"], "yaws": {"goat_grazing": 45}}, "full", None),
+    "pk8N_2": ("park", 45023, {"modules": ["ducks_bread"], "events": ["picnic", "goat_grazing", "plant_flowers"], "yaws": {"goat_grazing": 45}}, "full", None),
+    "pk8O_3": ("park", 45024, {"events": ["ducks_swimming", "picnic", "ice_cream"], "modules": ["lost_balloon"]}, "full", None),
+    "pk8N_3": ("park", 45024, {"events": ["ducks_swimming", "picnic", "ice_cream"], "modules": ["lost_balloon"]}, "full", None),
+    "pk8O_4": ("park", 45025, {"events": ["ducks_swimming", "picnic", "photo", "goat_grazing"], "yaws": {"goat_grazing": 90}}, "full", None),
+    "pk8N_4": ("park", 45025, {"events": ["ducks_swimming", "picnic", "photo", "goat_grazing"], "yaws": {"goat_grazing": 90}}, "full", None),
+    # round 2: the kite flyer's reel (TPDB_KITE45 "A" in out_N too), flying and with the kite in a tree; a jumper and a game of catch beside it
+    "kt8O_1": ("park", 45031, {"events": ["fly_kite", "kick_ball"]}, "full", None),
+    "kt8N_1": ("park", 45031, {"events": ["fly_kite", "kick_ball"]}, "full", None),
+    "kt8O_2": ("playground", 45032, {"modules": ["kite_in_tree"], "events": ["jump", "play_catch"]}, "full", None),
+    "kt8N_2": ("playground", 45032, {"modules": ["kite_in_tree"], "events": ["jump", "play_catch"]}, "full", None),
     # v0.44 (vision/flaws_v043.md, Sam's figure-fixes-v043.md and figure-review-v043.md), whole pictures: v0.43's lesson was that a cut-out read the
     # lying reading dog as reading and the whole picture did not. A tier-3 picture with the changed templates forced among the planner's own; the
     # fourth letter the drawing: O v0.43's cast (BENCH_CAST=assets/cast/out043) and revision 41's rules; N the v0.44 cast with every switch on
@@ -921,6 +948,7 @@ NEW41 = {n for n in BENCH if n[2] == "1" and BENCH[n][1] // 1000 == 41}
 NEW42 = {n for n in BENCH if n[2] in "23" and BENCH[n][1] // 1000 == 42}
 NEW43 = {n for n in BENCH if n[2] in "45" and BENCH[n][1] // 1000 == 43}
 NEW44 = {n for n in BENCH if n[2] in "67" and BENCH[n][1] // 1000 == 44}
+NEW45 = {n for n in BENCH if n[2] in "89" and BENCH[n][1] // 1000 == 45}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -1053,6 +1081,12 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
             _T0.READ44T = "T"
         if name[:4] in ("wn7B", "wn7C"):
             _T0.LEAD44 = name[3]
+    if name in NEW45:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        # every revision-43 switch off (O, v0.44), on for N
+        v45 = "B" if name[3] == "N" else "O"
+        _T0.BAL45 = _T0.PAINT45 = _T0.PLANT45 = _T0.PICNIC45 = _T0.TETHER45 = _L0.SWIM45 = _Q0.SLIDE45 = v45
     rec = None
     for k in range(40):
         USAGE.clear()

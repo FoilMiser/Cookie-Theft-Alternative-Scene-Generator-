@@ -251,7 +251,20 @@ class PlacementError(Exception):
 # "possibly a sheep" from behind); keeps the stalking cat its own length clear of a tree (templates.CAT44; before a dark canopy its face was a blob);
 # floats the lost balloon high on a long string, its curled end clear of everything (templates.BAL44; the end landed on a handlebar, the hedge);
 # and draws the upward water as a tapering ribbon, never in the street (draw.WATER44; "like a bent tube" before the slate shop door).
-PLACEMENT_REV = 42
+# 43 (v0.45) ends the lost balloon's string well above the reaching hand (templates.BAL45; a finger's width above the fingertips the child was
+# "holding the string by its very tip"); paints the board under the roller from below the roller down, so the blue roller lies on bare wood
+# (templates.PAINT45; blue on the blue board it was lost, look review of v0.44); puts a patch of dug soil where the planter's trowel meets the
+# ground (templates.PLANT45), a loaf and a bottle in the picnic basket and a plate with a slice of watermelon on the blanket (templates.PICNIC45;
+# the picnic had no food); keeps the goat's peg clear of every standing structure (templates.TETHER45; one stood against a bench's top rail); and
+# sets a swimming duck in the water, its body cut along a waterline, a ripple round it, no ground shadow (library.SWIM45; "the duck stands on
+# the water"). After the bench's first readers it also stands the fence painter a step further forward until the roller lies well below the boards'
+# tops, keeps the lost balloon's curled string end clear of a fence's top line, and draws the slide's ladder as the frame's own end, in the frame's
+# red (settings.SLIDE45; the slate ladder across the red upright was "separate from the frame"). After the design tests it lays the balloon's
+# string end nowhere on a railing (templates.RAIL45; under the lower rail it was "a small curl/hook") and stands the bird table's post in a tuft of
+# grass blades (settings.FOOT45; the flat oval was "unexplained"); and the lost balloon's string hangs in a slow wave with no curl at its end
+# (templates.CURL45; the curl was "a hook rather than a loose end"). After a look at the set's first garden isomorphs it lifts that string's end
+# clear above the garden's wooden fence, on to the hedge (templates.WOOD45; on the boards the string ran down a board gap and ended at a rail).
+PLACEMENT_REV = 43
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

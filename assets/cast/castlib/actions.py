@@ -41,6 +41,32 @@ INSPECT44 = _os44.environ.get("TPDB_INSPECT44", "A")  # v0.44 bench (vision/isol
 # v0.44 bench (figure-review-v043.md item 13, TPDB_CALL44): stuck up on the seesaw and calling out, both hands at the chest and a small "o" of a mouth
 # read as nervous or praying. "A": one hand on the handle, the other cupped at a wider open mouth (face.CALL44). "O": v0.43
 CALL44 = _os44.environ.get("TPDB_CALL44", "A")  # v0.44 bench (vision/isolation_v044.md): A
+# v0.45 bench (vision/flaws_v044.md R1, TPDB_ICE45): the walking girl's ice cream was "a small pink thing", "a tiny pink dot", a sweet, a flower, a
+# blown kiss: the cone, the colour of skin, hid in the fist and the scoop sat on the cheek. "A": the cone darker (wood) and longer above the fist, cone
+# and scoop larger (half as big again on a child, whose props shrink with the body), the scoop below and in front of the mouth.
+ICE45 = _os44.environ.get("TPDB_ICE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.45 bench (vision/flaws_v044.md R2, TPDB_CAM45): the camera at the eyes was once more "a camera (or binoculars)". "A": the camera larger, a prism
+# hump in the middle of its top, a longer lens with a wide silver ring, and a strap hanging in a loop under it; a "flash" anchor for the scene.
+CAM45 = _os44.environ.get("TPDB_CAM45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.45 bench (vision/flaws_v044.md O2, TPDB_SOLE45): a walker's tipped shoes show their sole plates edge on, longer than the shoe and pointed, grey
+# under a dark shoe: "black ice skates". "H": no sole plate on a walker's feet (people.py has "A", the plate tucked under every shoe).
+SOLE45 = _os44.environ.get("TPDB_SOLE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.45 bench (look review of v0.44, TPDB_HOSE45): INSPECT44 "A" turned the head 20 degrees the wrong way, away from the viewer, and the cut-outs show
+# the back of the head ("the single worst pose-versus-inference mismatch in the set"). "A": the head turned toward the viewer, as a profile pose's
+# is, and a little down at the nozzle.
+HOSE45 = _os44.environ.get("TPDB_HOSE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.45 bench (look review, TPDB_TROWEL45): the planter's trowel was a thin plate seen edge on, a grey line under the fist ("no visible trowel", "the
+# planting is not shown"). "A": a broad pointed blade seen from the side, pointing down at the soil, on a neck and a handle in a bright colour.
+TROWEL45 = _os44.environ.get("TPDB_TROWEL45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.45 bench (look review, TPDB_PAINT45): the roller, a blue bar on the end of a pole, read as "a paddle". "A": a wire frame cranked up behind the
+# roller and into its top end, and a cream cap at each end of the sleeve.
+PAINT45 = _os44.environ.get("TPDB_PAINT45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.45 bench (look review, TPDB_BOX45): the carried box was the fence's colour to the digit (both wood_light) and sank into it. "A": khaki, with a
+# brown tape.
+BOX45 = _os44.environ.get("TPDB_BOX45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.45 bench (look review, TPDB_KITE45): the kite flyer's spool, a wood-coloured cylinder seen end on, was "a small tan ball with a brown dot", the
+# fist's size and on two of the three children its colour. "A": a reel on a handle above the fist, two bright flanges and the wound string between.
+KITE45 = _os44.environ.get("TPDB_KITE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
 
 
 def _pcol(P, default, alts):
@@ -270,6 +296,8 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
             # (v0.40, vision/flaws_v039.md O5, TPDB_WALK40 "B": the front foot is left as place_legs plants it, sole flat. Aimed level here, it sat
             # toe-up by the shoe's rest angle while the back foot tipped toe-down, and "The boy's feet point in different directions")
             P.rig.aim_dir("foot_R", (0, -1, 0.02))
+    if SOLE45 == "H":
+        P.hides.setdefault(P.cur, []).extend(["Sole_L", "Sole_R"])      # v0.45 (TPDB_SOLE45)
 
 
 def lo_run(P):
@@ -1130,11 +1158,18 @@ def up_carry_box(P):
         else:
             C = pel + Vector((0, -0.27, 0.27)) * u
             P.arms({"R": (C + Vector((-0.12, -0.06, -0.155)) * u, (-1, 0.5, -1)), "L": (C + Vector((0.12, -0.06, -0.155)) * u, (1, 0.5, -1))})
-        P.prop("box", box("box", C, (0.36 * u, 0.30 * u, 0.26 * u), "wood_light"))
-        P.prop("tape", box("tape", C + Vector((0, 0, 0.131)) * u, (0.36 * u, 0.06 * u, 0.004 * u), "cream"))
+        P.prop("box", box("box", C, (0.36 * u, 0.30 * u, 0.26 * u), "khaki" if BOX45 == "A" else "wood_light"))
+        P.prop("tape", box("tape", C + Vector((0, 0, 0.131)) * u, (0.36 * u, 0.06 * u, 0.004 * u), "brown" if BOX45 == "A" else "cream"))
         return
     C = pel + Vector((0, -0.27, 0.18)) * u
     P.arms({"R": (C + Vector((-0.19, 0.0, -0.03)) * u, (-1, 0.6, -0.4)), "L": (C + Vector((0.19, 0.0, -0.03)) * u, (1, 0.6, -0.4))})
+    if BOX45 == "A":
+        # v0.45 (TPDB_BOX45): see the switch; the tape runs over the top and down the side the viewer sees
+        P.prop("box", box("box", C, (0.36 * u, 0.30 * u, 0.26 * u), "khaki"))
+        P.prop("tape", box("tape", C + Vector((0, 0, 0.131)) * u, (0.364 * u, 0.07 * u, 0.004 * u), "brown"))
+        for sg in (-1, 1):
+            P.prop(f"tape{sg}", box(f"tape{sg}", C + Vector((sg * 0.181, 0, 0.085)) * u, (0.004 * u, 0.07 * u, 0.09 * u), "brown"))
+        return
     P.prop("box", box("box", C, (0.36 * u, 0.30 * u, 0.26 * u), "wood_light"))
     P.prop("tape", box("tape", C + Vector((0, 0, 0.131)) * u, (0.36 * u, 0.06 * u, 0.004 * u), "cream"))
 
@@ -1233,6 +1268,17 @@ def up_ice_cream(P):
         # (round 1's, a little higher: "smelling it like a flower", "the pink ball sits right at his nose and mouth")
         tgt = m + Vector((-0.02, -0.088, -0.128)) * u
     cone31 = __import__("os").environ.get("TPDB_CONE", "O") == "B"
+    if ICE45 == "A":
+        # v0.45 (TPDB_ICE45): see the switch
+        k = {"child": 1.5, "teen": 1.32}.get(P.c.spec.get("age"), 1.2)
+        rim, sr = 0.070 * k, 0.050 * k
+        tgt = m + Vector((-0.02, -(0.050 + sr * 1.15), -(rim + sr * 0.62 + sr * 0.80 + 0.012))) * u
+        P.arms({"R": (tgt, (-1, 0.4, -0.8)), "L": P.rest_arm("L")})
+        g = P.grip("R")
+        P.prop("cone", cyl("cone", g + Vector((0, 0, rim)) * u, g + Vector((0, 0, -0.085)) * u, 0.043 * k * u, "wood", seg=20, r1=0.004 * u))
+        P.prop("rim", cyl("rim", g + Vector((0, 0, rim)) * u, g + Vector((0, 0, rim - 0.012 * k)) * u, 0.046 * k * u, "wood_light", seg=20))
+        P.prop("scoop", ellipsoid("scoop", g + Vector((0, 0, rim + sr * 0.62)) * u, (sr * u, sr * u, sr * 0.88 * u), "pink"))
+        return
     if cone31:
         # v0.31 bench (isolation_v031.md), not chosen: the fist lower on a longer cone, the scoop where it was. Seated, both read as a cone; on the walker neither did: "I cannot see a clear cone or stick"
         tgt = tgt - Vector((0, 0, 0.042)) * u
@@ -1257,6 +1303,9 @@ def up_empty_cone(P):
     P.arms({"R": (tgt, (-1, 0.4, -0.8)), "L": P.rest_arm("L")})
     g = P.grip("R")
     ax = nrm((-0.40, -0.12, 1.0))
+    if ICE45 == "A":
+        # v0.45 (TPDB_ICE45): larger on a child, whose props shrink with the body
+        u = u * {"child": 1.3, "teen": 1.15}.get(P.c.spec.get("age"), 1.0)
     top, tip = g + ax * 0.075 * u, g - ax * 0.13 * u
     P.prop("cone", cyl("cone", top, tip, 0.060 * u, "wood_light", seg=24, r1=0.006 * u))
     P.prop("hollow", cyl("hollow", top - ax * 0.002 * u, top + ax * 0.003 * u, 0.050 * u, "brown", seg=24))
@@ -1274,6 +1323,9 @@ def up_empty_cone_low(P):
             "L": (m + Vector((0.055, -0.075, 0.075)) * u, (0.4, 0.2, -1))})
     g = P.grip("R")
     ax = nrm((-0.30, -0.60, 1.0))
+    if ICE45 == "A":
+        # v0.45 (TPDB_ICE45): larger on a child, whose props shrink with the body
+        u = u * {"child": 1.3, "teen": 1.15}.get(P.c.spec.get("age"), 1.0)
     top, tip = g + ax * 0.09 * u, g - ax * 0.18 * u
     P.prop("cone", cyl("cone", top, tip, 0.082 * u, "wood_light", seg=24, r1=0.007 * u))
     P.prop("hollow", cyl("hollow", top - ax * 0.002 * u, top + ax * 0.003 * u, 0.070 * u, "brown", seg=24))
@@ -1371,6 +1423,17 @@ def up_kite(P):
     u = P.u
     P.arms({"R": (P.lm("sh_R") + nrm((-0.18, -0.55, 0.80)) * P.A * 0.95, (-0.6, 0.5, -0.4)), "L": P.rest_arm("L")})
     g = P.grip("R")
+    if KITE45 == "A":
+        # v0.45 (TPDB_KITE45): see the switch; the reel's axis along the forearm's line, up and forward, so it shows from the side at every angle
+        ax = nrm((-0.05, -0.45, 1.0))
+        k = u * {"child": 1.25, "teen": 1.1}.get(P.c.spec.get("age"), 1.0)
+        col = _pcol(P, "red", ("blue", "orange", "purple"))
+        P.prop("handle", cyl("handle", g - ax * 0.055 * k, g + ax * 0.060 * k, 0.014 * k, "brown"))
+        P.prop("spool", cyl("spool", g + ax * 0.062 * k, g + ax * 0.150 * k, 0.034 * k, "cream", seg=20))
+        for nm_, a0 in (("flange0", 0.052), ("flange1", 0.146)):
+            P.prop(nm_, cyl(nm_, g + ax * a0 * k, g + ax * (a0 + 0.016) * k, 0.060 * k, col, seg=24))
+        P.panchor("string_end", g + ax * 0.106 * k + Vector((0, -0.034, 0)) * k)
+        return
     P.prop("spool", cyl("spool", g + Vector((-0.04, 0, 0)) * u, g + Vector((0.04, 0, 0)) * u, 0.030 * u, "wood_light"))
     P.panchor("string_end", g + Vector((0, -0.01, 0.02)) * u)
 
@@ -1402,6 +1465,19 @@ def up_paint(P):
         # line of sight left only its round end in view: "a small pale oval", "hardly seems to touch the fence"). B longer and fatter
         hl, rr = (0.15, 0.052) if ROLLER_STYLE == "A" else (0.19, 0.065)
         c = head + Vector((0, -0.05 * u, 0))
+        if PAINT45 == "A":
+            # v0.45 (TPDB_PAINT45): see the switch
+            hl, rr = 0.125, 0.058
+            e0 = head - d * 0.04 * u
+            by = max(e0.y, c.y + (rr + 0.035) * u)
+            zt = c.z + (hl + 0.05) * u
+            P.prop("frame", tube_mesh("frame", [e0, Vector((e0.x, by, e0.z + 0.02 * u)), Vector((e0.x, by, zt)), Vector((c.x, c.y, zt)),
+                                                Vector((c.x, c.y, c.z + hl * u))], 0.010 * u, "gray"))
+            P.prop("roller", cyl("roller", c + Vector((0, 0, -hl * u)), c + Vector((0, 0, hl * u)), rr * u, "blue", seg=24))
+            for nm_, sg in (("cap0", -1), ("cap1", 1)):
+                P.prop(nm_, cyl(nm_, c + Vector((0, 0, sg * hl * u)), c + Vector((0, 0, sg * (hl + 0.016) * u)), rr * 0.80 * u, "cream", seg=24))
+            P.panchor("roller", c + Vector((0, -rr * u, 0)))
+            return
         P.prop("frame", cyl("frame", head - d * 0.04 * u, c, 0.012 * u, "gray"))
         P.prop("roller", cyl("roller", c + Vector((0, 0, -hl * u)), c + Vector((0, 0, hl * u)), rr * u, "blue"))
         P.panchor("roller", c + Vector((0, -rr * u, 0)))
@@ -1414,6 +1490,29 @@ def up_paint(P):
 def up_photo(P):
     u = P.u
     eyes = (P.lm("eye_L") + P.lm("eye_R")) / 2
+    if CAM45 in ("A", "B"):
+        # v0.45 (TPDB_CAM45): see the switch
+        k = 1.22
+        C = eyes + Vector((0, -0.062 - 0.040 * k, -0.020)) * u
+        P.arms({"R": (C + Vector((-0.092 * k, 0.012, -0.030)) * u, (-1, 0.4, -0.7)), "L": (C + Vector((0.092 * k, 0.012, -0.030)) * u, (1, 0.4, -0.7))})
+        ku = k * u
+        P.prop("camera", box("camera", C - Vector((0, 0, 0.012 * ku)), (0.17 * ku, 0.066 * ku, 0.078 * ku), "charcoal"))
+        P.prop("camtop", box("camtop", C + Vector((0, 0, 0.040 * ku)), (0.172 * ku, 0.068 * ku, 0.030 * ku), "silver"))
+        P.prop("prism", box("prism", C + Vector((0, 0, 0.066 * ku)), (0.060 * ku, 0.060 * ku, 0.030 * ku), "silver"))
+        P.prop("shutter", cyl("shutter", C + Vector((-0.060, 0, 0.054)) * ku, C + Vector((-0.060, 0, 0.068)) * ku, 0.013 * ku, "red", seg=14))
+        P.prop("lens", cyl("lens", C - Vector((0, 0.030, 0.006)) * ku, C - Vector((0, 0.120, 0.006)) * ku, 0.047 * ku, "charcoal", seg=24))
+        P.prop("lensring", cyl("lensring", C - Vector((0, 0.112, 0.006)) * ku, C - Vector((0, 0.126, 0.006)) * ku, 0.052 * ku, "silver", seg=24))
+        P.prop("glass", cyl("glass", C - Vector((0, 0.122, 0.006)) * ku, C - Vector((0, 0.129, 0.006)) * ku, 0.034 * ku, "navy", seg=24))
+        P.prop("glint", ellipsoid("glint", C - Vector((-0.012, 0.130, -0.008)) * ku, (0.009 * ku, 0.003 * ku, 0.009 * ku), "white"))
+        P.prop("flash", box("flash", C + Vector((0.058, -0.004, 0.066)) * ku, (0.046 * ku, 0.040 * ku, 0.030 * ku), "silver"))
+        P.prop("flashwin", box("flashwin", C + Vector((0.058, -0.026, 0.066)) * ku, (0.036 * ku, 0.004 * ku, 0.020 * ku), "white"))
+        P.panchor("flash", C + Vector((0.058, -0.030, 0.066)) * ku)
+        sc_ = _pcol(P, "red", ("yellow", "teal", "blue"))
+        e0, e1 = C + Vector((-0.085, 0.0, 0.020)) * ku, C + Vector((0.085, 0.0, 0.020)) * ku
+        lo = C + Vector((0, 0.010, -0.26)) * ku
+        P.prop("strap", tube_mesh("strap", [e0, e0 + Vector((-0.012, 0.004, -0.10)) * ku, lo + Vector((-0.045, 0, 0.02)) * ku, lo,
+                                            lo + Vector((0.045, 0, 0.02)) * ku, e1 + Vector((0.012, 0.004, -0.10)) * ku, e1], 0.0075 * ku, sc_))
+        return
     C = eyes + Vector((0, -0.10, -0.015)) * u
     P.arms({"R": (C + Vector((-0.085, 0.015, -0.02)) * u, (-1, 0.4, -0.7)), "L": (C + Vector((0.085, 0.015, -0.02)) * u, (1, 0.4, -0.7))})
     # v0.17: a two-tone camera, a silver top over a black body, with one big lens ringed in silver and a flash on top (a
@@ -1634,6 +1733,16 @@ def up_bucket_hat(P):
 def up_trowel(P):
     u = P.u
     pel = P.lm("pelvis")
+    if TROWEL45 == "A":
+        # v0.45 (TPDB_TROWEL45): see the switch
+        P.arms({"R": (Vector((-0.10 * u, -0.40 * u, 0.31 * u)), (-0.8, 0.4, -0.5)), "L": (Vector((0.10 * u, -0.34 * u, 0.35 * u)), (0.8, 0.4, -0.5))})
+        g = P.grip("R")
+        ax = nrm((0, -0.38, -1.0))
+        P.prop("handle", cyl("handle", g - ax * 0.050 * u, g + ax * 0.045 * u, 0.019 * u, _pcol(P, "red", ("orange", "yellow", "blue"))))
+        P.prop("neck", cyl("neck", g + ax * 0.040 * u, g + ax * 0.090 * u, 0.009 * u, "gray"))
+        P.prop("blade", cyl("blade", g + ax * 0.082 * u, g + ax * 0.246 * u, 0.056 * u, "silver", seg=20, r1=0.007 * u))
+        P.panchor("trowel_tip", g + ax * 0.246 * u)
+        return
     P.arms({"R": (Vector((-0.10 * u, -0.36 * u, 0.36 * u)), (-0.8, 0.4, -0.5)), "L": (Vector((0.10 * u, -0.34 * u, 0.35 * u)), (0.8, 0.4, -0.5))})
     g = P.grip("R")
     P.prop("handle", cyl("handle", g + Vector((0, 0, 0.04)) * u, g - Vector((0, 0, 0.03)) * u, 0.016 * u, "wood"))
@@ -1701,7 +1810,9 @@ ACTIONS = [
     ("water_pan", "stand", {"lean": 6, "head_pitch": -22}, "water_pan", "watering the plants with a frying pan", ["garden", "water", "misuse"]),
     ("hose_spray", "stand", {"lean": 4, "head_pitch": -14}, "hose_spray", "spraying the hose", ["garden", "water", "hose"]),
     # (v0.44, TPDB_INSPECT44 "A": the head level and turned toward the viewer, so the puzzled brows and mouth show)
-    ("hose_inspect", "stand", {"head_pitch": 2, "head_turn": 20, "lean": 4} if INSPECT44 == "A" else {"head_pitch": -20, "lean": 4}, "hose_inspect",
+    # (v0.45, TPDB_HOSE45 "A": that turn was away from the viewer; toward the viewer now, as a profile pose's head)
+    ("hose_inspect", "stand", {"head_pitch": -6, "head_turn": -28, "lean": 4} if HOSE45 == "A" else
+     {"head_pitch": 2, "head_turn": 20, "lean": 4} if INSPECT44 == "A" else {"head_pitch": -20, "lean": 4}, "hose_inspect",
      "looking into the hose nozzle", ["garden", "hose", "look"]),
     ("sweep", "stand", {"lean": 10, "head_pitch": -18}, "sweep", "sweeping", ["chore"]),
     ("rake", "stand", {"lean": 14, "head_pitch": -20}, "rake", "raking leaves", ["chore", "garden"]),

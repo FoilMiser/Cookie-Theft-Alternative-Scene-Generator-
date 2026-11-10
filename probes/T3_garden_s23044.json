@@ -6,8 +6,8 @@
  "seed": 23044,
  "mirror": true,
  "versions": {
-  "generator": "0.44.0",
-  "cast_builder": "0.44.0",
+  "generator": "0.45.0",
+  "cast_builder": "0.45.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,15 +56,12 @@
   }
  },
  "features": [
-  "bench",
-  "feeder",
-  "flowers",
-  "swing"
+  "feeder"
  ],
  "templates": [
   {
-   "id": "pan_watering",
-   "kind": "contradiction",
+   "id": "dog_wants_walk",
+   "kind": "inference",
    "event": "e1",
    "units": 1
   }
@@ -74,155 +71,100 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is watering the flowers",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "watering the flowers",
-     "watering the plants",
-     "pouring water"
-    ]
-   },
-   "key": "flowers",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
    "elements": [
-    "waterer_1",
-    "water_2"
+    "waitingdog_1",
+    "leash_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "pan_watering",
+   "template": "dog_wants_walk",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.026,
+    "s": -0.509,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
     "domain": null,
-    "area_px": 15872
+    "area_px": 7464
    },
-   "b": -1.585,
-   "p0": 0.83,
-   "pm1": 0.642,
+   "b": -0.967,
+   "p0": 0.725,
+   "pm1": 0.492,
    "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
     "BR"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with what the person is watering with",
+   "type": "inference",
+   "text": "The dog wants to go for a walk",
    "accepted": [
-    "something odd about the pan",
-    "that's strange",
-    "the watering can is wrong"
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
    ],
-   "key": "pan",
+   "key": "walk",
    "elements": [
-    "waterer_1"
+    "waitingdog_1",
+    "leash_2",
+    "house"
    ],
    "cues": [
-    "waterer_1"
+    "waitingdog_1",
+    "leash_2",
+    "house"
    ],
    "effect": [
-    "waterer_1"
+    "waitingdog_1"
    ],
-   "chain": 0,
+   "chain": 1,
    "animate": false,
-   "domain": "functional",
-   "template": "pan_watering",
+   "domain": null,
+   "template": "dog_wants_walk",
    "event": "e1",
    "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
+    "type": "inference",
+    "chain": 1,
     "animate": false,
-    "s": -0.04,
-    "r": 0,
-    "d": 0.0,
+    "s": -0.587,
+    "r": 2,
+    "d": 0.162,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.72,
-    "domain": "functional",
-    "area_px": 14452
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
+    "domain": null,
+    "area_px": 6688
    },
-   "b": -0.08,
-   "p0": 0.52,
-   "pm1": 0.285,
+   "b": -0.002,
+   "p0": 0.5,
+   "pm1": 0.269,
    "aoi_cells": [
-    "MC",
+    "TR",
     "MR",
-    "BC",
     "BR"
    ]
   },
   {
    "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The person is watering the flowers with a frying pan instead of a watering can",
-   "accepted": [
-    "watering with a frying pan",
-    "using a pan to water",
-    "a pan isn't for watering"
-   ],
-   "key": "pan",
-   "elements": [
-    "waterer_1"
-   ],
-   "cues": [
-    "waterer_1"
-   ],
-   "effect": [
-    "waterer_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "functional",
-   "template": "pan_watering",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.04,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.72,
-    "domain": "functional",
-    "area_px": 14452
-   },
-   "b": 1.12,
-   "p0": 0.246,
-   "pm1": 0.107,
-   "aoi_cells": [
-    "MC",
-    "MR",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -265,7 +207,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i04",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -307,7 +249,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -348,7 +290,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i06",
    "type": "entity",
    "text": "There is a bird feeder",
    "accepted": [
@@ -373,7 +315,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.432,
+    "s": -0.401,
     "r": 0,
     "d": 0.0,
     "f": -0.54,
@@ -381,18 +323,18 @@
     "zipf_raw": 3.46,
     "aoa_raw": 7.29,
     "domain": null,
-    "area_px": 8324
+    "area_px": 8692
    },
-   "b": -0.502,
-   "p0": 0.623,
-   "pm1": 0.378,
+   "b": -0.517,
+   "p0": 0.626,
+   "pm1": 0.382,
    "aoi_cells": [
     "TL",
     "ML"
    ]
   },
   {
-   "id": "i08",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -415,7 +357,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.88,
+    "s": 1.934,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -423,11 +365,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 216852
+    "area_px": 233800
    },
-   "b": -1.883,
-   "p0": 0.868,
-   "pm1": 0.707,
+   "b": -1.91,
+   "p0": 0.871,
+   "pm1": 0.713,
    "aoi_cells": [
     "ML",
     "MC",
@@ -435,20 +377,18 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i08",
    "type": "entity",
-   "text": "It is the back yard of a house",
+   "text": "There is a flower bed",
    "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
+    "flowers",
+    "flower bed",
+    "flowerbed",
     "garden"
    ],
-   "key": "house",
+   "key": "flowers",
    "elements": [
-    "house"
+    "flowers"
    ],
    "cues": [],
    "effect": [],
@@ -461,123 +401,39 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.84,
+    "s": 0.373,
     "r": 0,
     "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 204952
+    "area_px": 25884
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -1.259,
+   "p0": 0.779,
+   "pm1": 0.564,
    "aoi_cells": [
-    "TR",
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i10",
-   "type": "entity",
-   "text": "There is a swing set",
-   "accepted": [
-    "swing",
-    "swings",
-    "swing set"
-   ],
-   "key": "swing",
-   "elements": [
-    "swing"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.602,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.34,
-    "a": 4.16,
-    "zipf_raw": 4.34,
-    "aoa_raw": 4.16,
-    "domain": null,
-    "area_px": 35772
-   },
-   "b": -1.283,
-   "p0": 0.783,
-   "pm1": 0.57,
-   "aoi_cells": [
-    "ML",
-    "BL",
-    "BC"
-   ]
-  },
-  {
-   "id": "i11",
-   "type": "entity",
-   "text": "There is a bench",
-   "accepted": [
-    "bench",
-    "seat"
-   ],
-   "key": "bench",
-   "elements": [
-    "bench"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.105,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.39,
-    "a": 4.21,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.21,
-    "domain": null,
-    "area_px": 13200
-   },
-   "b": -0.945,
-   "p0": 0.72,
-   "pm1": 0.486,
-   "aoi_cells": [
+    "BC",
     "BR"
    ]
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 7,
   "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 11
+  "contradictions": 0,
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.782,
-   "inference": 0.383
+   "content": 0.758,
+   "inference": 0.5
   },
   "theta_minus_1": {
-   "content": 0.581,
-   "inference": 0.196
+   "content": 0.544,
+   "inference": 0.269
   }
  },
  "bands": {
@@ -599,14 +455,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0394,
-  "png_bytes": 149288,
-  "jpeg_bytes": 181932
+  "objects": 15,
+  "edge_density": 0.0355,
+  "png_bytes": 134453,
+  "jpeg_bytes": 168290
  },
  "signature": [
   [
@@ -614,44 +470,32 @@
    0
   ],
   [
-   "contradiction_explain",
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
    1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
   ]
  ],
  "elements": [
@@ -745,8 +589,38 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 216852,
-   "occlusion": 0.1
+   "visible_px": 233800,
+   "occlusion": 0.029
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    526.0,
+    602.0,
+    654.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
   },
   {
    "id": "feeder",
@@ -754,13 +628,28 @@
    "role": "setting",
    "z": 652,
    "bbox": [
-    158.0,
+    318.0,
     302.0,
-    232.0,
-    662.0
+    392.0,
+    664.0
    ],
-   "area_px": 8324,
-   "visible_px": 8324,
+   "area_px": 8692,
+   "visible_px": 8692,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
+   "bbox": [
+    380.0,
+    596.0,
+    500.0,
+    702.0
+   ],
+   "area_px": 8080,
+   "visible_px": 8080,
    "occlusion": 0.0
   },
   {
@@ -775,45 +664,53 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
+   "visible_px": 199356,
+   "occlusion": 0.027
   },
   {
-   "id": "waterer_1",
-   "label": "person.ana__water_pan__smile__y090",
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
    "role": "scored",
-   "z": 835,
+   "z": 806,
    "bbox": [
-    970.0,
-    560.0,
-    1150.0,
-    842.0
+    1424.0,
+    670.0,
+    1520.0,
+    816.0
    ],
-   "area_px": 14464,
-   "visible_px": 14452,
-   "occlusion": 0.001,
+   "area_px": 6736,
+   "visible_px": 6688,
+   "occlusion": 0.007,
    "asset": {
-    "variant": "person.ana__water_pan__smile__y090",
-    "family": "person.ana",
-    "scale": 0.4583,
-    "mirrored": false,
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
+    "mirrored": true,
     "labels": {
-     "everyday_name": "woman",
+     "everyday_name": "dog",
      "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
+      "dog",
+      "puppy",
+      "pup"
      ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
-     }
+     "category": "medium_animal"
     }
    }
+  },
+  {
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    1412.0,
+    694.0,
+    1432.0,
+    772.0
+   ],
+   "area_px": 776,
+   "visible_px": 776,
+   "occlusion": 0.0
   },
   {
    "id": "flowers",
@@ -827,67 +724,22 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 25168,
-   "occlusion": 0.028
-  },
-  {
-   "id": "water_2",
-   "label": "Water from the can",
-   "role": "scored",
-   "z": 837,
-   "bbox": [
-    1142.0,
-    662.0,
-    1196.0,
-    802.0
-   ],
-   "area_px": 1420,
-   "visible_px": 1420,
+   "visible_px": 25884,
    "occlusion": 0.0
   },
   {
-   "id": "swing_seat",
-   "label": "Empty swing seat",
-   "role": "setting",
-   "z": 845,
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
    "bbox": [
-    376.0,
-    474.0,
-    466.0,
-    784.0
-   ],
-   "area_px": 4492,
-   "visible_px": 4420,
-   "occlusion": 0.016
-  },
-  {
-   "id": "swing",
-   "label": "Swing set",
-   "role": "setting",
-   "z": 846,
-   "bbox": [
-    276.0,
+    362.0,
+    884.0,
     458.0,
-    568.0,
-    856.0
+    962.0
    ],
-   "area_px": 35772,
-   "visible_px": 35772,
-   "occlusion": 0.0
-  },
-  {
-   "id": "bench",
-   "label": "Garden bench",
-   "role": "setting",
-   "z": 928,
-   "bbox": [
-    1358.0,
-    804.0,
-    1562.0,
-    930.0
-   ],
-   "area_px": 13200,
-   "visible_px": 13200,
+   "area_px": 4404,
+   "visible_px": 4404,
    "occlusion": 0.0
   },
   {
@@ -925,11 +777,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "pan_watering"
+   "modules": [
+    "dog_wants_walk"
    ]
   },
-  "placement_rev": 42
+  "placement_rev": 43
  },
  "probe": true
 }

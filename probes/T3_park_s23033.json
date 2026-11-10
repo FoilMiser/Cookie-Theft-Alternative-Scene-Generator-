@@ -6,8 +6,8 @@
  "seed": 23033,
  "mirror": false,
  "versions": {
-  "generator": "0.44.0",
-  "cast_builder": "0.44.0",
+  "generator": "0.45.0",
+  "cast_builder": "0.45.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,19 +61,19 @@
  ],
  "templates": [
   {
-   "id": "ducks_bread",
+   "id": "lost_balloon",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "ice_cream",
-   "kind": "event",
+   "id": "pan_watering",
+   "kind": "contradiction",
    "event": "e2",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "photo",
+   "id": "ice_cream",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -84,7 +84,151 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is throwing bread to the ducks",
+   "text": "A woman is watering the flowers",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "watering the flowers",
+     "watering the plants",
+     "pouring water"
+    ]
+   },
+   "key": "flowers",
+   "elements": [
+    "waterer_1",
+    "water_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "pan_watering",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.144,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 18740
+   },
+   "b": -1.404,
+   "p0": 0.803,
+   "pm1": 0.6,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is watering with",
+   "accepted": [
+    "something odd about the pan",
+    "that's strange",
+    "the watering can is wrong"
+   ],
+   "key": "pan",
+   "elements": [
+    "waterer_1"
+   ],
+   "cues": [
+    "waterer_1"
+   ],
+   "effect": [
+    "waterer_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "functional",
+   "template": "pan_watering",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": 0.079,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 17100
+   },
+   "b": 0.1,
+   "p0": 0.475,
+   "pm1": 0.25,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The person is watering the flowers with a frying pan instead of a watering can",
+   "accepted": [
+    "watering with a frying pan",
+    "using a pan to water",
+    "a pan isn't for watering"
+   ],
+   "key": "pan",
+   "elements": [
+    "waterer_1"
+   ],
+   "cues": [
+    "waterer_1"
+   ],
+   "effect": [
+    "waterer_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "functional",
+   "template": "pan_watering",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": 0.079,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.72,
+    "domain": "functional",
+    "area_px": 17100
+   },
+   "b": 1.3,
+   "p0": 0.214,
+   "pm1": 0.091,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A girl is holding balloons and reaching up for one, upset",
    "accepted": {
     "who": [
      "girl",
@@ -94,138 +238,145 @@
      "daughter"
     ],
     "what": [
-     "feeding the ducks",
-     "throwing bread",
-     "feeding the birds",
-     "bread"
+     "reaching up",
+     "holding balloons",
+     "upset",
+     "sad",
+     "trying to catch the balloon"
     ]
    },
-   "key": "bread",
+   "key": "reaching",
    "elements": [
-    "duckfeeder_1",
-    "crumbs_3"
+    "balloonlost_3",
+    "heldbal_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "ducks_bread",
+   "template": "lost_balloon",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.698,
+    "s": -0.381,
     "r": 0,
     "d": 0.0,
-    "f": 0.5,
-    "a": 3.58,
-    "zipf_raw": 4.5,
-    "aoa_raw": 3.58,
+    "f": 0.46,
+    "a": 4.89,
+    "zipf_raw": 4.46,
+    "aoa_raw": 4.89,
     "domain": null,
-    "area_px": 5716
+    "area_px": 8940
    },
-   "b": -0.941,
-   "p0": 0.719,
-   "pm1": 0.485,
+   "b": -1.087,
+   "p0": 0.748,
+   "pm1": 0.522,
    "aoi_cells": [
     "MC",
-    "BC"
+    "MR"
    ]
   },
   {
-   "id": "i02",
-   "type": "action",
-   "text": "A duck is swimming toward the shore",
+   "id": "i05",
+   "type": "entity",
+   "text": "A balloon is floating up into the sky",
    "accepted": [
-    "duck",
-    "duck swimming",
-    "ducks in the pond"
+    "balloon flying away",
+    "balloon in the sky",
+    "balloon floating away",
+    "floating balloon"
    ],
-   "key": "duck",
+   "key": "balloon",
    "elements": [
-    "hungryduck_2"
+    "loosebal_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "ducks_bread",
+   "template": "lost_balloon",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -1.407,
+    "animate": false,
+    "s": -1.31,
     "r": 0,
     "d": 0.0,
-    "f": 0.21,
-    "a": 3.5,
-    "zipf_raw": 4.21,
-    "aoa_raw": 3.5,
+    "f": -0.1,
+    "a": 4.37,
+    "zipf_raw": 3.9,
+    "aoa_raw": 4.37,
     "domain": null,
-    "area_px": 2104
+    "area_px": 2412
    },
-   "b": -0.499,
-   "p0": 0.622,
-   "pm1": 0.377,
+   "b": 0.045,
+   "p0": 0.489,
+   "pm1": 0.26,
    "aoi_cells": [
-    "MC"
+    "TR",
+    "MR"
    ]
   },
   {
-   "id": "i03",
+   "id": "i06",
    "type": "inference",
-   "text": "The duck has come to eat the bread",
+   "text": "The girl let go of one of the balloons",
    "accepted": [
-    "the duck wants the bread",
-    "the ducks are hungry",
-    "the duck is swimming over for food",
-    "the duck is eating the bread"
+    "one balloon got away",
+    "lost one of the balloons",
+    "the balloon slipped away",
+    "let go of the string",
+    "one floated away from the bunch"
    ],
-   "key": "hungry",
+   "key": "lost",
    "elements": [
-    "hungryduck_2",
-    "crumbs_3"
+    "loosebal_5",
+    "balloonlost_3",
+    "heldbal_4"
    ],
    "cues": [
-    "hungryduck_2",
-    "crumbs_3"
+    "loosebal_5",
+    "balloonlost_3",
+    "heldbal_4"
    ],
    "effect": [
-    "crumbs_3"
+    "loosebal_5"
    ],
    "chain": 1,
    "animate": false,
    "domain": null,
-   "template": "ducks_bread",
+   "template": "lost_balloon",
    "event": "e1",
    "features": {
     "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": -1.407,
-    "r": 1,
-    "d": 0.02,
+    "s": -1.31,
+    "r": 2,
+    "d": 0.138,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.45,
-    "aoa_raw": 3.63,
+    "zipf_raw": 5.39,
+    "aoa_raw": 5.78,
     "domain": null,
-    "area_px": 2104
+    "area_px": 2412
    },
-   "b": 0.778,
-   "p0": 0.315,
-   "pm1": 0.145,
+   "b": 0.571,
+   "p0": 0.361,
+   "pm1": 0.172,
    "aoi_cells": [
+    "TR",
     "MC",
-    "BC"
+    "MR"
    ]
   },
   {
-   "id": "i04",
+   "id": "i07",
    "type": "action",
    "text": "A man is eating an ice cream",
    "accepted": {
@@ -245,7 +396,7 @@
    },
    "key": "ice cream",
    "elements": [
-    "icecream_4"
+    "icecream_6"
    ],
    "cues": [],
    "effect": [],
@@ -253,12 +404,12 @@
    "animate": true,
    "domain": null,
    "template": "ice_cream",
-   "event": "e2",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.063,
+    "s": 0.091,
     "r": 0,
     "d": 0.0,
     "f": 0.47,
@@ -266,70 +417,18 @@
     "zipf_raw": 4.47,
     "aoa_raw": 3.33,
     "domain": null,
-    "area_px": 16724
+    "area_px": 17388
    },
-   "b": -1.312,
-   "p0": 0.788,
-   "pm1": 0.577,
+   "b": -1.327,
+   "p0": 0.79,
+   "pm1": 0.581,
    "aoi_cells": [
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i05",
-   "type": "action",
-   "text": "A teenager is taking a photo",
-   "accepted": {
-    "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
-    ],
-    "what": [
-     "taking a picture",
-     "taking a photo",
-     "photographing",
-     "camera"
-    ]
-   },
-   "key": "camera",
-   "elements": [
-    "photographer_5"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "photo",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.045,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.87,
-    "a": 6.0,
-    "zipf_raw": 4.87,
-    "aoa_raw": 6.0,
-    "domain": null,
-    "area_px": 16312
-   },
-   "b": -1.424,
-   "p0": 0.806,
-   "pm1": 0.604,
-   "aoi_cells": [
+    "MC",
     "BC"
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -372,7 +471,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -415,7 +514,51 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
+   "type": "entity",
+   "text": "There is a path",
+   "accepted": [
+    "path",
+    "walkway",
+    "trail",
+    "footpath",
+    "sidewalk"
+   ],
+   "key": "path",
+   "elements": [
+    "path"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.863,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.71,
+    "a": 6.11,
+    "zipf_raw": 4.71,
+    "aoa_raw": 6.11,
+    "domain": null,
+    "area_px": 51640
+   },
+   "b": -1.284,
+   "p0": 0.783,
+   "pm1": 0.571,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i11",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -438,7 +581,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.18,
+    "s": 1.105,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -446,11 +589,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 80752
+    "area_px": 72680
    },
-   "b": -1.224,
-   "p0": 0.773,
-   "pm1": 0.556,
+   "b": -1.187,
+   "p0": 0.766,
+   "pm1": 0.547,
    "aoi_cells": [
     "ML",
     "MC",
@@ -459,7 +602,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i12",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -501,7 +644,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i13",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -545,7 +688,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i14",
    "type": "entity",
    "text": "There is a park bench",
    "accepted": [
@@ -585,76 +728,35 @@
     "BC",
     "BR"
    ]
-  },
-  {
-   "id": "i12",
-   "type": "entity",
-   "text": "There are flowers",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.319,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 23996
-   },
-   "b": -0.991,
-   "p0": 0.729,
-   "pm1": 0.498,
-   "aoi_cells": [
-    "BL"
-   ]
   }
  ],
  "counts": {
   "content": 11,
-  "inference_units": 1,
-  "contradictions": 0,
-  "items_total": 12
+  "inference_units": 2,
+  "contradictions": 1,
+  "items_total": 14
  },
  "predicted": {
   "theta_0": {
-   "content": 0.717,
-   "inference": 0.315
+   "content": 0.712,
+   "inference": 0.35
   },
   "theta_minus_1": {
-   "content": 0.489,
-   "inference": 0.145
+   "content": 0.487,
+   "inference": 0.171
   }
  },
  "bands": {
   "content_count": false,
-  "inference_units": false,
+  "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
   "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
-  "photographer_5_photographs_icecream_4": {
-   "result": true,
+  "balloonlost_3_looks_at_balloon": {
+   "result": false,
    "detail": ""
   },
   "occlusion_and_size": {
@@ -666,15 +768,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "result": true,
+   "detail": "20 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.027,
-  "png_bytes": 198570,
-  "jpeg_bytes": 136874
+  "objects": 20,
+  "edge_density": 0.0279,
+  "png_bytes": 208548,
+  "jpeg_bytes": 142871
  },
  "signature": [
   [
@@ -690,7 +792,15 @@
    0
   ],
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -775,8 +885,8 @@
     522.0
    ],
    "area_px": 155664,
-   "visible_px": 115096,
-   "occlusion": 0.261
+   "visible_px": 109316,
+   "occlusion": 0.298
   },
   {
    "id": "tree_line",
@@ -802,8 +912,8 @@
     1000.0
    ],
    "area_px": 51696,
-   "visible_px": 38848,
-   "occlusion": 0.249
+   "visible_px": 51640,
+   "occlusion": 0.001
   },
   {
    "id": "pond",
@@ -817,23 +927,23 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 80752,
-   "occlusion": 0.043
+   "visible_px": 72680,
+   "occlusion": 0.139
   },
   {
-   "id": "crumbs_3",
-   "label": "Bread crumbs flying toward the water",
-   "role": "scored",
-   "z": -64,
+   "id": "filler_bush_b",
+   "label": "Bush",
+   "role": "filler",
+   "z": 560,
    "bbox": [
-    570.0,
-    636.0,
-    796.0,
-    698.0
+    814.0,
+    526.0,
+    906.0,
+    584.0
    ],
-   "area_px": 1244,
-   "visible_px": 1216,
-   "occlusion": 0.023
+   "area_px": 3880,
+   "visible_px": 3880,
+   "occlusion": 0.0
   },
   {
    "id": "tree_small",
@@ -849,6 +959,43 @@
    "area_px": 22556,
    "visible_px": 22556,
    "occlusion": 0.0
+  },
+  {
+   "id": "balloonlost_3",
+   "label": "person.nia__balloon_reach__sad__y045",
+   "role": "scored",
+   "z": 630.82,
+   "bbox": [
+    1070.0,
+    488.0,
+    1150.0,
+    632.0
+   ],
+   "area_px": 4656,
+   "visible_px": 4636,
+   "occlusion": 0.004,
+   "asset": {
+    "variant": "person.nia__balloon_reach__sad__y045",
+    "family": "person.nia",
+    "scale": 0.3827,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
   },
   {
    "id": "lamp",
@@ -896,73 +1043,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "hungryduck_2",
-   "label": "animal.duck_01__swim_look__neutral__y090",
-   "role": "scored",
-   "z": 662,
-   "bbox": [
-    628.0,
-    612.0,
-    702.0,
-    666.0
-   ],
-   "area_px": 2104,
-   "visible_px": 2104,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.duck_01__swim_look__neutral__y090",
-    "family": "animal.duck_01",
-    "scale": 0.3942,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "duck",
-     "accepted_names": [
-      "duck",
-      "duckling",
-      "bird"
-     ],
-     "category": "water_bird"
-    }
-   }
-  },
-  {
-   "id": "duckfeeder_1",
-   "label": "person.nia__feed_birds__smile__y090",
-   "role": "scored",
-   "z": 700,
-   "bbox": [
-    814.0,
-    548.0,
-    872.0,
-    702.0
-   ],
-   "area_px": 4500,
-   "visible_px": 4500,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.nia__feed_birds__smile__y090",
-    "family": "person.nia",
-    "scale": 0.4083,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "girl",
-     "accepted_names": [
-      "girl",
-      "little girl",
-      "child",
-      "kid",
-      "daughter"
-     ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin2",
-      "hair": "puffs"
-     }
-    }
-   }
-  },
-  {
    "id": "tree",
    "label": "Big tree",
    "role": "setting",
@@ -993,23 +1073,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "icecream_4",
+   "id": "icecream_6",
    "label": "person.ben__walk_ice_cream__smile__y090",
    "role": "scored",
-   "z": 892.49,
+   "z": 910.67,
    "bbox": [
-    1198.0,
-    590.0,
-    1322.0,
-    898.0
+    578.0,
+    604.0,
+    698.0,
+    914.0
    ],
-   "area_px": 16724,
-   "visible_px": 16724,
+   "area_px": 17388,
+   "visible_px": 17388,
    "occlusion": 0.0,
    "asset": {
     "variant": "person.ben__walk_ice_cream__smile__y090",
     "family": "person.ben",
-    "scale": 0.4796,
+    "scale": 0.4864,
     "mirrored": false,
     "labels": {
      "everyday_name": "man",
@@ -1041,7 +1121,59 @@
     940.0
    ],
    "area_px": 23996,
-   "visible_px": 23996,
+   "visible_px": 23084,
+   "occlusion": 0.038
+  },
+  {
+   "id": "waterer_1",
+   "label": "person.ana__water_pan__smile__y090",
+   "role": "scored",
+   "z": 945,
+   "bbox": [
+    328.0,
+    646.0,
+    522.0,
+    950.0
+   ],
+   "area_px": 17100,
+   "visible_px": 17100,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ana__water_pan__smile__y090",
+    "family": "person.ana",
+    "scale": 0.4991,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin2",
+      "hair": "long_dark"
+     }
+    }
+   }
+  },
+  {
+   "id": "water_2",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 946,
+   "bbox": [
+    276.0,
+    758.0,
+    334.0,
+    910.0
+   ],
+   "area_px": 1640,
+   "visible_px": 1640,
    "occlusion": 0.0
   },
   {
@@ -1060,42 +1192,34 @@
    "occlusion": 0.0
   },
   {
-   "id": "photographer_5",
-   "label": "person.leo__photo__smile__y045",
+   "id": "heldbal_4",
+   "label": "Balloons held by the child",
    "role": "scored",
-   "z": 987.36,
+   "z": 1499,
    "bbox": [
-    714.0,
-    700.0,
-    812.0,
-    992.0
+    1012.0,
+    412.0,
+    1092.0,
+    550.0
    ],
-   "area_px": 16312,
-   "visible_px": 16312,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.leo__photo__smile__y045",
-    "family": "person.leo",
-    "scale": 0.5148,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "teenager",
-     "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
-      "girl",
-      "kid",
-      "young person"
-     ],
-     "category": "teen_person",
-     "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
-     }
-    }
-   }
+   "area_px": 4304,
+   "visible_px": 4304,
+   "occlusion": 0.0
+  },
+  {
+   "id": "loosebal_5",
+   "label": "Balloon floating away",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    1160.0,
+    250.0,
+    1208.0,
+    448.0
+   ],
+   "area_px": 2412,
+   "visible_px": 2412,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -1118,14 +1242,16 @@
   "usage": {},
   "forced": {
    "events": [
-    "ice_cream",
-    "photo"
+    "ice_cream"
    ],
    "modules": [
-    "ducks_bread"
+    "lost_balloon"
+   ],
+   "contradictions": [
+    "pan_watering"
    ]
   },
-  "placement_rev": 42
+  "placement_rev": 43
  },
  "probe": true
 }

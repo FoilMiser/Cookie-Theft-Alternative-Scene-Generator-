@@ -6,8 +6,8 @@
  "seed": 23014,
  "mirror": true,
  "versions": {
-  "generator": "0.44.0",
-  "cast_builder": "0.44.0",
+  "generator": "0.45.0",
+  "cast_builder": "0.45.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,25 +57,25 @@
  },
  "features": [
   "bench",
-  "feeder",
+  "clothesline",
   "flowers",
-  "hose_reel"
+  "laundry"
  ],
  "templates": [
   {
-   "id": "sitting_on_air",
+   "id": "water_upward",
    "kind": "contradiction",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "hose_water",
+   "id": "dig",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "carry_box",
+   "id": "drink_bench",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -86,7 +86,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is watering the flowers with a hose",
+   "text": "A woman is sitting on the bench with a drink",
    "accepted": {
     "who": [
      "woman",
@@ -96,52 +96,50 @@
      "person"
     ],
     "what": [
-     "watering with a hose",
-     "spraying water",
-     "hosing the flowers",
-     "watering the garden"
+     "drinking",
+     "having coffee",
+     "drinking tea",
+     "sitting on the bench",
+     "cup",
+     "mug"
     ]
    },
-   "key": "hose",
+   "key": "drinking",
    "elements": [
-    "hoser_1",
-    "hose_2",
-    "spray_4"
+    "sitter_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "hose_water",
-   "event": "e2",
+   "template": "drink_bench",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.286,
+    "s": 0.076,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": 0.71,
+    "a": 3.47,
+    "zipf_raw": 4.71,
+    "aoa_raw": 3.47,
     "domain": null,
-    "area_px": 22888
+    "area_px": 17036
    },
-   "b": -1.202,
-   "p0": 0.769,
-   "pm1": 0.55,
+   "b": -1.391,
+   "p0": 0.801,
+   "pm1": 0.597,
    "aoi_cells": [
-    "MC",
-    "BC",
     "BR"
    ]
   },
   {
    "id": "i02",
    "type": "action",
-   "text": "A man is sitting and reading",
+   "text": "A man is watering the flowers",
    "accepted": {
     "who": [
      "man",
@@ -151,140 +149,142 @@
      "person"
     ],
     "what": [
-     "sitting and reading",
-     "sitting",
-     "reading",
-     "reading a book"
+     "watering the flowers",
+     "watering the plants",
+     "watering can"
     ]
    },
-   "key": "sitting",
+   "key": "flowers",
    "elements": [
-    "airsitter_5"
+    "waterer_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "sitting_on_air",
+   "template": "water_upward",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.182,
+    "s": 0.113,
     "r": 0,
     "d": 0.0,
-    "f": 0.86,
-    "a": 3.47,
-    "zipf_raw": 4.86,
-    "aoa_raw": 3.47,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 19772
+    "area_px": 17940
    },
-   "b": -1.489,
-   "p0": 0.816,
-   "pm1": 0.62,
+   "b": -1.389,
+   "p0": 0.8,
+   "pm1": 0.596,
    "aoi_cells": [
-    "BC"
+    "MC",
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i03",
    "type": "contradiction_notice",
-   "text": "Something is wrong with how the person is sitting",
+   "text": "Something is wrong with the water from the watering can",
    "accepted": [
-    "something odd about how they're sitting",
-    "that person looks strange",
-    "something's missing"
+    "the water is weird",
+    "something's wrong with the water",
+    "that's not right"
    ],
-   "key": "chair",
+   "key": "water",
    "elements": [
-    "airsitter_5"
+    "water_3"
    ],
    "cues": [
-    "airsitter_5"
+    "water_3"
    ],
    "effect": [
-    "airsitter_5"
+    "water_3"
    ],
    "chain": 0,
    "animate": false,
    "domain": "physical",
-   "template": "sitting_on_air",
+   "template": "water_upward",
    "event": "e1",
    "features": {
     "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": 0.182,
+    "s": -1.359,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.69,
-    "aoa_raw": 3.43,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
     "domain": "physical",
-    "area_px": 19772
+    "area_px": 2252
    },
-   "b": -0.151,
-   "p0": 0.538,
-   "pm1": 0.3,
+   "b": 0.619,
+   "p0": 0.35,
+   "pm1": 0.165,
    "aoi_cells": [
-    "BC"
+    "MR",
+    "BR"
    ]
   },
   {
    "id": "i04",
    "type": "contradiction_explain",
-   "text": "The person is sitting on nothing: there is no chair or bench under them",
+   "text": "The water is going up into the air instead of falling down onto the flowers",
    "accepted": [
-    "sitting on nothing",
-    "there's no chair",
-    "sitting in the air",
-    "invisible chair",
-    "nothing to sit on"
+    "water going up",
+    "water going the wrong way",
+    "water should fall down",
+    "water flowing upward"
    ],
-   "key": "chair",
+   "key": "water",
    "elements": [
-    "airsitter_5"
+    "water_3"
    ],
    "cues": [
-    "airsitter_5"
+    "water_3"
    ],
    "effect": [
-    "airsitter_5"
+    "water_3"
    ],
    "chain": 1,
    "animate": false,
    "domain": "physical",
-   "template": "sitting_on_air",
+   "template": "water_upward",
    "event": "e1",
    "features": {
     "type": "contradiction_explain",
     "chain": 1,
     "animate": false,
-    "s": 0.182,
+    "s": -1.359,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.69,
-    "aoa_raw": 3.43,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
     "domain": "physical",
-    "area_px": 19772
+    "area_px": 2252
    },
-   "b": 1.049,
-   "p0": 0.259,
-   "pm1": 0.114,
+   "b": 1.819,
+   "p0": 0.14,
+   "pm1": 0.056,
    "aoi_cells": [
-    "BC"
+    "MR",
+    "BR"
    ]
   },
   {
    "id": "i05",
    "type": "action",
-   "text": "A grandfather is carrying a box",
+   "text": "A grandfather is digging",
    "accepted": {
     "who": [
      "grandfather",
@@ -294,43 +294,45 @@
      "man"
     ],
     "what": [
-     "carrying a box",
-     "holding a box",
-     "moving a box",
-     "box"
+     "digging",
+     "digging a hole",
+     "shoveling",
+     "using a shovel",
+     "spade"
     ]
    },
-   "key": "box",
+   "key": "digging",
    "elements": [
-    "carrier_6"
+    "digger_4",
+    "soil_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "carry_box",
-   "event": "e3",
+   "template": "dig",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.044,
+    "s": 0.273,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
+    "f": -0.01,
+    "a": 4.19,
+    "zipf_raw": 3.99,
+    "aoa_raw": 4.19,
     "domain": null,
-    "area_px": 16284
+    "area_px": 22480
    },
-   "b": -1.474,
-   "p0": 0.814,
-   "pm1": 0.616,
+   "b": -1.274,
+   "p0": 0.781,
+   "pm1": 0.568,
    "aoi_cells": [
     "ML",
-    "MC",
+    "BL",
     "BC"
    ]
   },
@@ -463,50 +465,6 @@
   {
    "id": "i09",
    "type": "entity",
-   "text": "There is a bird feeder",
-   "accepted": [
-    "bird feeder",
-    "feeder",
-    "birdhouse",
-    "bird house",
-    "bird table"
-   ],
-   "key": "feeder",
-   "elements": [
-    "feeder"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.432,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.54,
-    "a": 7.29,
-    "zipf_raw": 3.46,
-    "aoa_raw": 7.29,
-    "domain": null,
-    "area_px": 8324
-   },
-   "b": -0.262,
-   "p0": 0.565,
-   "pm1": 0.323,
-   "aoi_cells": [
-    "TL",
-    "ML"
-   ]
-  },
-  {
-   "id": "i10",
-   "type": "entity",
    "text": "There is a fence",
    "accepted": [
     "fence",
@@ -528,7 +486,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.91,
+    "s": 1.9,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -536,11 +494,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 226036
+    "area_px": 222980
    },
-   "b": -1.658,
-   "p0": 0.84,
-   "pm1": 0.659,
+   "b": -1.653,
+   "p0": 0.839,
+   "pm1": 0.658,
    "aoi_cells": [
     "ML",
     "MC",
@@ -548,7 +506,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i10",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -574,7 +532,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.84,
+    "s": 1.822,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
@@ -582,11 +540,11 @@
     "zipf_raw": 5.71,
     "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 204952
+    "area_px": 199688
    },
-   "b": -2.073,
-   "p0": 0.888,
-   "pm1": 0.745,
+   "b": -2.064,
+   "p0": 0.887,
+   "pm1": 0.743,
    "aoi_cells": [
     "TR",
     "MR",
@@ -594,16 +552,21 @@
    ]
   },
   {
-   "id": "i12",
+   "id": "i11",
    "type": "entity",
-   "text": "There is a bench",
+   "text": "Clothes are hanging on the line",
    "accepted": [
-    "bench",
-    "seat"
+    "clothes",
+    "laundry",
+    "washing",
+    "clothesline",
+    "clothes line",
+    "towel",
+    "pants"
    ],
-   "key": "bench",
+   "key": "laundry",
    "elements": [
-    "bench"
+    "laundry"
    ],
    "cues": [],
    "effect": [],
@@ -616,38 +579,38 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.105,
+    "s": -0.103,
     "r": 0,
     "d": 0.0,
-    "f": 0.39,
-    "a": 4.21,
-    "zipf_raw": 4.39,
-    "aoa_raw": 4.21,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 13200
+    "area_px": 13232
    },
-   "b": -0.705,
-   "p0": 0.669,
-   "pm1": 0.427,
+   "b": -0.607,
+   "p0": 0.647,
+   "pm1": 0.403,
    "aoi_cells": [
-    "BR"
+    "MC"
    ]
   }
  ],
  "counts": {
-  "content": 10,
+  "content": 9,
   "inference_units": 1,
   "contradictions": 1,
-  "items_total": 12
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.753,
-   "inference": 0.399
+   "content": 0.77,
+   "inference": 0.245
   },
   "theta_minus_1": {
-   "content": 0.542,
-   "inference": 0.207
+   "content": 0.56,
+   "inference": 0.111
   }
  },
  "bands": {
@@ -669,14 +632,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0405,
-  "png_bytes": 197688,
-  "jpeg_bytes": 189655
+  "objects": 15,
+  "edge_density": 0.0395,
+  "png_bytes": 190710,
+  "jpeg_bytes": 184040
  },
  "signature": [
   [
@@ -697,10 +660,6 @@
   ],
   [
    "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
    0
   ],
   [
@@ -819,52 +778,37 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 226036,
-   "occlusion": 0.062
+   "visible_px": 222980,
+   "occlusion": 0.074
   },
   {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
-   ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
-  },
-  {
-   "id": "feeder",
-   "label": "Bird table on a post",
+   "id": "clothesline",
+   "label": "Clothesline",
    "role": "setting",
-   "z": 652,
+   "z": 705,
    "bbox": [
-    318.0,
-    302.0,
-    392.0,
-    662.0
+    624.0,
+    382.0,
+    994.0,
+    708.0
    ],
-   "area_px": 8324,
-   "visible_px": 8324,
-   "occlusion": 0.0
+   "area_px": 13848,
+   "visible_px": 13372,
+   "occlusion": 0.034
   },
   {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
    "bbox": [
-    380.0,
-    596.0,
-    500.0,
-    702.0
+    822.0,
+    392.0,
+    952.0,
+    524.0
    ],
-   "area_px": 8080,
-   "visible_px": 8080,
+   "area_px": 13232,
+   "visible_px": 13232,
    "occlusion": 0.0
   },
   {
@@ -879,27 +823,57 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
+   "visible_px": 199688,
+   "occlusion": 0.026
   },
   {
-   "id": "carrier_6",
-   "label": "person.tomas__walk_box__neutral__y090",
-   "role": "scored",
-   "z": 806.77,
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
    "bbox": [
-    518.0,
-    532.0,
-    634.0,
-    812.0
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
    ],
-   "area_px": 16284,
-   "visible_px": 16284,
+   "area_px": 25884,
+   "visible_px": 22292,
+   "occlusion": 0.139
+  },
+  {
+   "id": "soil_5",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 902.55,
+   "bbox": [
+    320.0,
+    870.0,
+    482.0,
+    922.0
+   ],
+   "area_px": 4352,
+   "visible_px": 3648,
+   "occlusion": 0.162
+  },
+  {
+   "id": "digger_4",
+   "label": "person.tomas__dig_lift__neutral__y045",
+   "role": "scored",
+   "z": 903.55,
+   "bbox": [
+    426.0,
+    634.0,
+    588.0,
+    916.0
+   ],
+   "area_px": 18832,
+   "visible_px": 18832,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.tomas__walk_box__neutral__y090",
+    "variant": "person.tomas__dig_lift__neutral__y045",
     "family": "person.tomas",
-    "scale": 0.4479,
+    "scale": 0.4837,
     "mirrored": true,
     "labels": {
      "everyday_name": "grandfather",
@@ -920,24 +894,39 @@
    }
   },
   {
-   "id": "hoser_1",
-   "label": "person.mei__hose_spray__neutral__y090",
-   "role": "scored",
-   "z": 830,
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
    "bbox": [
-    924.0,
-    542.0,
-    1040.0,
-    836.0
+    1358.0,
+    804.0,
+    1562.0,
+    930.0
    ],
-   "area_px": 14176,
-   "visible_px": 13680,
-   "occlusion": 0.035,
+   "area_px": 13200,
+   "visible_px": 9044,
+   "occlusion": 0.315
+  },
+  {
+   "id": "sitter_1",
+   "label": "person.mei__sit_drink__content__y045",
+   "role": "scored",
+   "z": 931,
+   "bbox": [
+    1390.0,
+    690.0,
+    1524.0,
+    958.0
+   ],
+   "area_px": 17036,
+   "visible_px": 17036,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.mei__hose_spray__neutral__y090",
+    "variant": "person.mei__sit_drink__content__y045",
     "family": "person.mei",
-    "scale": 0.4565,
-    "mirrored": false,
+    "scale": 0.4939,
+    "mirrored": true,
     "labels": {
      "everyday_name": "woman",
      "accepted_names": [
@@ -957,104 +946,23 @@
    }
   },
   {
-   "id": "hosejoin_3",
-   "label": "Garden hose at the hand",
-   "role": "background",
-   "z": 831
-  },
-  {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
-   "bbox": [
-    1028.0,
-    694.0,
-    1282.0,
-    838.0
-   ],
-   "area_px": 25884,
-   "visible_px": 23316,
-   "occlusion": 0.099
-  },
-  {
-   "id": "hose_2",
-   "label": "Garden hose",
+   "id": "waterer_2",
+   "label": "person.ben__water_plants__neutral__y090",
    "role": "scored",
-   "z": 836.5,
+   "z": 931.0,
    "bbox": [
-    1002.0,
-    658.0,
-    1322.0,
-    884.0
+    986.0,
+    614.0,
+    1118.0,
+    936.0
    ],
-   "area_px": 6816,
-   "visible_px": 6368,
-   "occlusion": 0.066
-  },
-  {
-   "id": "spray_4",
-   "label": "Water spraying",
-   "role": "scored",
-   "z": 837,
-   "bbox": [
-    1036.0,
-    654.0,
-    1158.0,
-    802.0
-   ],
-   "area_px": 2840,
-   "visible_px": 2840,
-   "occlusion": 0.0
-  },
-  {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 886,
-   "bbox": [
-    1282.0,
-    804.0,
-    1346.0,
-    888.0
-   ],
-   "area_px": 4264,
-   "visible_px": 4264,
-   "occlusion": 0.0
-  },
-  {
-   "id": "bench",
-   "label": "Garden bench",
-   "role": "setting",
-   "z": 928,
-   "bbox": [
-    1358.0,
-    804.0,
-    1562.0,
-    930.0
-   ],
-   "area_px": 13200,
-   "visible_px": 13200,
-   "occlusion": 0.0
-  },
-  {
-   "id": "airsitter_5",
-   "label": "person.ben__sit_read__neutral__y045",
-   "role": "scored",
-   "z": 961.32,
-   "bbox": [
-    648.0,
-    700.0,
-    794.0,
-    978.0
-   ],
-   "area_px": 19772,
-   "visible_px": 19772,
-   "occlusion": 0.0,
+   "area_px": 17980,
+   "visible_px": 17940,
+   "occlusion": 0.002,
    "asset": {
-    "variant": "person.ben__sit_read__neutral__y045",
+    "variant": "person.ben__water_plants__neutral__y090",
     "family": "person.ben",
-    "scale": 0.5051,
+    "scale": 0.4939,
     "mirrored": false,
     "labels": {
      "everyday_name": "man",
@@ -1073,6 +981,21 @@
      }
     }
    }
+  },
+  {
+   "id": "water_3",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 932.0,
+   "bbox": [
+    1112.0,
+    656.0,
+    1214.0,
+    814.0
+   ],
+   "area_px": 2252,
+   "visible_px": 2252,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -1095,14 +1018,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "hose_water",
-    "carry_box"
+    "dig",
+    "drink_bench"
    ],
    "contradictions": [
-    "sitting_on_air"
+    "water_upward"
    ]
   },
-  "placement_rev": 42
+  "placement_rev": 43
  },
  "probe": true
 }

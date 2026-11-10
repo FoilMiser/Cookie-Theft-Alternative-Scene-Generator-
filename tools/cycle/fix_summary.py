@@ -6,15 +6,18 @@ import json, glob, sys
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4), ("playground", 3)}
-NOTES = {("garden", 4): "v0.43's seed and the next 44 of its search did not place under revision 42 (most failures naming the stalking cat, the "
-                        "begging dog or the paint tracks); a new seed list (tpdb_work/more44.sh) placed it on its first seed",
-         ("park", 4): "the v0.43 seed, which placed again under revision 42 with the same templates, as in v0.39 to v0.43; redrawn with the v0.44 cast",
-         ("street", 4): "v0.29 to v0.43's template set with the upward water, which revision 42 keeps out of the street, swapped for the square wheel, "
-                        "forced on the v0.32 seed as there (free search failed 39 seeds in v0.32) (regen.forced)",
-         ("playground", 4): "the v0.43 seed (v0.42's 40th of its search), which placed again under revision 42 with the same templates; redrawn with "
-                            "the v0.44 cast",
-         ("playground", 3): "the showcase pass and its search placed nothing on 13 base seeds under revision 42, as under revision 41; v0.43's two seed "
-                            "lists side by side (tpdb_work/more44.sh) each placed on their first seed again, and the second's, v0.43's s32043, is kept"}
+NOTES = {("garden", 4): "v0.44's seed (the first of v0.44's new list), which placed again under revision 43 with the same templates; redrawn with the "
+                        "v0.45 cast",
+         ("park", 4): "the v0.43 seed, which placed again under revision 43 with the same templates, as in v0.39 to v0.44; redrawn with the v0.45 cast",
+         ("street", 4): "v0.44's template set (v0.29 to v0.43's with the upward water, which revisions 42 and 43 keep out of the street, swapped for the "
+                        "square wheel), forced on the v0.32 seed as there (free search failed 39 seeds in v0.32) (regen.forced)",
+         ("playground", 4): "the v0.43 seed (v0.42's 40th of its search) placed under revision 43 with the same templates until the lost balloon's "
+                            "prior moved by 0.02 (templates.WOOD45, calibrated again after the set's first look); under the final prior it and the "
+                            "next 14 of its search fail, and the 16th seed, 494878, placed, with other templates",
+         ("garden", 3): "under the final prior (the lost balloon's moved by 0.02 with templates.WOOD45) the showcase seed's sixth try, s5013, where the "
+                        "first calibration's took its fourth, s3013, with other templates; built from the first record's usage history",
+         ("playground", 3): "the showcase pass and its search placed nothing on 13 base seeds under revision 43, as under revisions 41 and 42; v0.43's "
+                            "kept seed list (tpdb_work/more45.sh) placed on its first seed again, v0.43's s32043, with the same templates"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))
