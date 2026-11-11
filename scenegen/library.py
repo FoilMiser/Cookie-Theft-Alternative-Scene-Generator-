@@ -21,8 +21,8 @@ from .draw import C, OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out046")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib046")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out047")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib047")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 # v0.28 bench (isolation_v028.md): "O" keeps the shadow from the figure's box
 SHADOW28 = "B"
@@ -32,6 +32,14 @@ SHADOW29 = "O"
 # shadow, its body cut a little above its lowest point along a shallow curve, a light ripple round it and a waterline across it. "O" as v0.44
 SWIM45 = "B"  # v0.45 bench (vision/isolation_v045.md): B
 SWIM_DEPTH = 0.11                   # how much of the swimmer's height is under water
+# v0.47 bench round 1 (vision/isolation_v047/round1, the reading dog, two readers of three): "The shadow is offset to the right and does not sit
+# directly under the feet, so the dog looks slightly detached from the ground." (an animal's shadow is cast from the columns its figure fills, and
+# the open newspaper held out in front fills as many as the body). "B", from revision 44: for a pose that holds a wide thing out in front of it
+# (HOLDS_WIDE47), the shadow from those of the filled columns that reach down into the lowest eighth of the figure, where it meets the ground.
+# "O" as revision 43
+SHADOW47 = "B"
+HOLDS_WIDE47 = {"sit_read"}
+SHADOW47_LOW = 0.125                # (the lowest quarter takes in the paws that hold the paper, and the shadow is out in front again)
 SHADOW_FOOT = 0.085                 # a person's shadow past the feet on each side, as a part of the figure's height
 ON_THE_GROUND = {"sit_ground", "kneel_plant", "sand_build"}     # poses whose body, not the feet, meets the ground
 
@@ -283,6 +291,21 @@ class Placed:
             self.m["_span"] = sp
         return sp
 
+    def ground_span47(self):
+        """Revision 44 (library.SHADOW47): of the columns the body fills, those that reach down into the lowest eighth of the figure, in sprite pixels."""
+        sp = self.m.get("_span47")
+        if sp is None:
+            import numpy as np
+            mask = np.asarray(Image.open(os.path.join(self.lib.lib_dir, self.m["files"]["mask"]["path"])).convert("L")) > 127
+            u0, u1, v1 = self.solid_span()
+            cols = mask.sum(axis=0)
+            top = int(np.nonzero(mask.any(axis=1))[0][0])
+            low = mask[v1 - max(1, int(round(SHADOW47_LOW * (v1 - top)))):v1, :].any(axis=0) & (cols >= max(1, cols.max() / 3))
+            idx = np.nonzero(low)[0]
+            sp = (int(idx[0]), int(idx[-1]) + 1, v1) if len(idx) else (u0, u1, v1)
+            self.m["_span47"] = sp
+        return sp
+
     def own_shadow(self):
         """Revision 26: the shadow from the figure's own footprint (its box took in arms, tools and the depth of the body: "a very wide oval, much wider
         than the puppy", "a large oval ... a bit wide and offset from her feet"). A person on their feet casts it from the feet; anything else from the
@@ -292,9 +315,10 @@ class Placed:
             a, b = self.anchor("foot_L")[0], self.anchor("foot_R")[0]
             rx = abs(a - b) / 2 + SHADOW_FOOT * H
             return (a + b) / 2, self.Y + 2, rx, rx * 0.26
-        u0, u1, v1 = self.solid_span()
+        wide47 = _rev() >= 44 and SHADOW47 == "B" and self.pose() in HOLDS_WIDE47
+        u0, u1, v1 = self.ground_span47() if wide47 else self.solid_span()
         a, b = self.X + self.s * self.k * (u0 - self.gx), self.X + self.s * self.k * (u1 - self.gx)
-        rx = abs(b - a) / 2 * 1.06
+        rx = abs(b - a) / 2 * (1.3 if wide47 else 1.06)
         ry = rx * 0.2
         if SHADOW29 == "W" and self.pose().startswith("sleep"):
             rx *= 1.22

@@ -22,6 +22,166 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.47 (vision/flaws_v046.md and the study of one figure; vision/isolation_v047.md). The third letter y or z marks the release. The fourth letter
+    # the drawing: O v0.46's (BENCH_CAST=assets/cast/out046, BENCH_LIB a scratch copy of assets/cast/lib046, since the bench renders what a library
+    # lacks and the tracked one must not change; every revision-44 switch "O"); N the v0.47 cast
+    # (assets/cast/out047, lib047) with every revision-44 switch at the release's value; another letter, in a case named for one rule, that rule's
+    # value with the v0.47 cast. hsy: the dog on the hose (templates.HOSE47), the event alone and cropped
+    # sfy: the giant fork's heap and dustpan (templates.FORK47), the event alone and cropped
+    # bsy: the thief bird at the sandwich (templates.STEAL47), the event alone and cropped
+    "bsyO_1": ("park", 47121, {"modules": ["bird_steals"]}, "event", None),
+    "bsyB_1": ("park", 47121, {"modules": ["bird_steals"]}, "event", None),
+    "bsyC_1": ("park", 47121, {"modules": ["bird_steals"]}, "event", None),
+    "bsyN_1": ("park", 47121, {"modules": ["bird_steals"]}, "event", None),
+    "bsyO_2": ("street", 47122, {"modules": ["bird_steals"]}, "event", None),
+    "bsyB_2": ("street", 47122, {"modules": ["bird_steals"]}, "event", None),
+    "bsyC_2": ("street", 47122, {"modules": ["bird_steals"]}, "event", None),
+    "bsyN_2": ("street", 47122, {"modules": ["bird_steals"]}, "event", None),
+    "bsyO_3": ("garden", 47123, {"modules": ["bird_steals"]}, "event", None),
+    "bsyB_3": ("garden", 47123, {"modules": ["bird_steals"]}, "event", None),
+    "bsyC_3": ("garden", 47123, {"modules": ["bird_steals"]}, "event", None),
+    "bsyN_3": ("garden", 47123, {"modules": ["bird_steals"]}, "event", None),
+    # cby: the stalked bird's seeds (templates.SEED47), the event alone and cropped
+    "cbyO_1": ("park", 47131, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyB_1": ("park", 47131, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyC_1": ("park", 47131, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyN_1": ("park", 47131, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyO_2": ("playground", 47132, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyB_2": ("playground", 47132, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyC_2": ("playground", 47132, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyN_2": ("playground", 47132, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyO_3": ("street", 47133, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyB_3": ("street", 47133, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyC_3": ("street", 47133, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbyN_3": ("street", 47133, {"modules": ["cat_stalks_bird"]}, "event", None),
+    # wuy: the water going up (draw.UPW47), the event alone and cropped
+    "wuyO_1": ("garden", 47141, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyB_1": ("garden", 47141, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyC_1": ("garden", 47141, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyN_1": ("garden", 47141, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyO_2": ("park", 47142, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyB_2": ("park", 47142, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyC_2": ("park", 47142, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyN_2": ("park", 47142, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyO_3": ("garden", 47143, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyB_3": ("garden", 47143, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyC_3": ("garden", 47143, {"contradictions": ["water_upward"]}, "event", None),
+    "wuyN_3": ("garden", 47143, {"contradictions": ["water_upward"]}, "event", None),
+    # lby: the lost balloon's string (templates.BAL47), the event alone and cropped
+    "lbyO_1": ("park", 47151, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyB_1": ("park", 47151, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyC_1": ("park", 47151, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyN_1": ("park", 47151, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyO_2": ("garden", 47152, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyB_2": ("garden", 47152, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyC_2": ("garden", 47152, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyN_2": ("garden", 47152, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyO_3": ("street", 47153, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyB_3": ("street", 47153, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyC_3": ("street", 47153, {"modules": ["lost_balloon"]}, "event", None),
+    "lbyN_3": ("street", 47153, {"modules": ["lost_balloon"]}, "event", None),
+    # tpy: the walker and the thing in the way (templates.TRIP47), the event alone and cropped
+    "tpyO_1": ("street", 47161, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyB_1": ("street", 47161, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyC_1": ("street", 47161, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyN_1": ("street", 47161, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyO_2": ("park", 47162, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyB_2": ("park", 47162, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyC_2": ("park", 47162, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyN_2": ("park", 47162, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyO_3": ("garden", 47163, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyB_3": ("garden", 47163, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyC_3": ("garden", 47163, {"modules": ["about_to_trip"]}, "event", None),
+    "tpyN_3": ("garden", 47163, {"modules": ["about_to_trip"]}, "event", None),
+    # ssy: the seesaw's riders (templates.RIDE47), the event alone and cropped
+    "ssyO_1": ("playground", 47171, {"events": ["seesaw"]}, "event", None),
+    "ssyB_1": ("playground", 47171, {"events": ["seesaw"]}, "event", None),
+    "ssyC_1": ("playground", 47171, {"events": ["seesaw"]}, "event", None),
+    "ssyN_1": ("playground", 47171, {"events": ["seesaw"]}, "event", None),
+    "ssyO_2": ("playground", 47172, {"events": ["seesaw"]}, "event", None),
+    "ssyB_2": ("playground", 47172, {"events": ["seesaw"]}, "event", None),
+    "ssyC_2": ("playground", 47172, {"events": ["seesaw"]}, "event", None),
+    "ssyN_2": ("playground", 47172, {"events": ["seesaw"]}, "event", None),
+    # sly: the slider (templates.RIDE47), the event alone and cropped
+    "slyO_1": ("playground", 47181, {"events": ["slide"]}, "event", None),
+    "slyB_1": ("playground", 47181, {"events": ["slide"]}, "event", None),
+    "slyC_1": ("playground", 47181, {"events": ["slide"]}, "event", None),
+    "slyN_1": ("playground", 47181, {"events": ["slide"]}, "event", None),
+    "slyO_2": ("playground", 47182, {"events": ["slide"]}, "event", None),
+    "slyB_2": ("playground", 47182, {"events": ["slide"]}, "event", None),
+    "slyC_2": ("playground", 47182, {"events": ["slide"]}, "event", None),
+    "slyN_2": ("playground", 47182, {"events": ["slide"]}, "event", None),
+    # pfy: the roller and the wet paint (templates.PAINT47), the event alone and cropped
+    "pfyO_1": ("garden", 47191, {"events": ["paint_fence"]}, "event", None),
+    "pfyB_1": ("garden", 47191, {"events": ["paint_fence"]}, "event", None),
+    "pfyC_1": ("garden", 47191, {"events": ["paint_fence"]}, "event", None),
+    "pfyN_1": ("garden", 47191, {"events": ["paint_fence"]}, "event", None),
+    "pfyO_2": ("garden", 47192, {"events": ["paint_fence"]}, "event", None),
+    "pfyB_2": ("garden", 47192, {"events": ["paint_fence"]}, "event", None),
+    "pfyC_2": ("garden", 47192, {"events": ["paint_fence"]}, "event", None),
+    "pfyN_2": ("garden", 47192, {"events": ["paint_fence"]}, "event", None),
+    # fby: the fed birds' seeds (templates.SEED47), the event alone and cropped
+    "fbyO_1": ("park", 47196, {"events": ["feed_birds"]}, "event", None),
+    "fbyB_1": ("park", 47196, {"events": ["feed_birds"]}, "event", None),
+    "fbyC_1": ("park", 47196, {"events": ["feed_birds"]}, "event", None),
+    "fbyN_1": ("park", 47196, {"events": ["feed_birds"]}, "event", None),
+    "fbyO_2": ("street", 47197, {"events": ["feed_birds"]}, "event", None),
+    "fbyB_2": ("street", 47197, {"events": ["feed_birds"]}, "event", None),
+    "fbyC_2": ("street", 47197, {"events": ["feed_birds"]}, "event", None),
+    "fbyN_2": ("street", 47197, {"events": ["feed_birds"]}, "event", None),
+    # gdy, pky, sty, pgy: whole pictures, a tier-3 picture with a few templates forced among the planner's own
+    "gdyO_1": ("garden", 47201, {"events": ["water_flowers", "rake"], "modules": ["cat_stalks_bird"]}, "full", None),
+    "gdyN_1": ("garden", 47201, {"events": ["water_flowers", "rake"], "modules": ["cat_stalks_bird"]}, "full", None),
+    "pkyO_1": ("park", 47202, {"events": ["read_bench", "walk_dog", "feed_birds"]}, "full", None),
+    "pkyN_1": ("park", 47202, {"events": ["read_bench", "walk_dog", "feed_birds"]}, "full", None),
+    "styO_1": ("street", 47203, {"events": ["ice_cream", "photo", "sweep"]}, "full", None),
+    "styN_1": ("street", 47203, {"events": ["ice_cream", "photo", "sweep"]}, "full", None),
+    "pgyO_1": ("playground", 47204, {"events": ["seesaw", "kick_ball", "photo"]}, "full", None),
+    "pgyN_1": ("playground", 47204, {"events": ["seesaw", "kick_ball", "photo"]}, "full", None),
+    "gdyO_2": ("garden", 47205, {"events": ["carry_box", "plant_flowers"], "modules": ["bird_steals"]}, "full", None),
+    "gdyN_2": ("garden", 47205, {"events": ["carry_box", "plant_flowers"], "modules": ["bird_steals"]}, "full", None),
+    "pkyO_2": ("park", 47206, {"events": ["picnic", "fly_kite"], "contradictions": ["dog_reading"]}, "full", None),
+    "pkyN_2": ("park", 47206, {"events": ["picnic", "fly_kite"], "contradictions": ["dog_reading"]}, "full", None),
+    "styO_2": ("street", 47207, {"events": ["carry_box", "wave", "walk_dog"]}, "full", None),
+    "styN_2": ("street", 47207, {"events": ["carry_box", "wave", "walk_dog"]}, "full", None),
+    "pgyO_2": ("playground", 47208, {"events": ["slide"], "modules": ["ice_cream_drop"]}, "full", None),
+    "pgyN_2": ("playground", 47208, {"events": ["slide"], "modules": ["ice_cream_drop"]}, "full", None),
+    "gdyN_4": ("garden", 47210, {"events": ["water_flowers", "carry_box"], "contradictions": ["sweep_fork"]}, "full", None),
+    # rdy: the reading dog (templates.READ47 and the cast's `sit_read`), the event alone and cropped
+    "rdyO_1": ("park", 47211, {"contradictions": ["dog_reading"]}, "event", None),
+    "rdyN_1": ("park", 47211, {"contradictions": ["dog_reading"]}, "event", None),
+    "rdyO_2": ("street", 47212, {"contradictions": ["dog_reading"]}, "event", None),
+    "rdyN_2": ("street", 47212, {"contradictions": ["dog_reading"]}, "event", None),
+    "rdyO_3": ("garden", 47213, {"contradictions": ["dog_reading"]}, "event", None),
+    "rdyN_3": ("garden", 47213, {"contradictions": ["dog_reading"]}, "event", None),
+    "sfyO_1": ("garden", 47111, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyB_1": ("garden", 47111, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyC_1": ("garden", 47111, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyD_1": ("garden", 47111, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyO_2": ("garden", 47112, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyB_2": ("garden", 47112, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyC_2": ("garden", 47112, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyD_2": ("garden", 47112, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyO_3": ("garden", 47113, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyB_3": ("garden", 47113, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyC_3": ("garden", 47113, {"contradictions": ["sweep_fork"]}, "event", None),
+    "sfyD_3": ("garden", 47113, {"contradictions": ["sweep_fork"]}, "event", None),
+    "hsyO_1": ("garden", 47101, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyB_1": ("garden", 47101, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyC_1": ("garden", 47101, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyD_1": ("garden", 47101, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyO_2": ("garden", 47102, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyB_2": ("garden", 47102, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyC_2": ("garden", 47102, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyD_2": ("garden", 47102, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyO_3": ("garden", 47103, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyB_3": ("garden", 47103, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyC_3": ("garden", 47103, {"modules": ["blocked_hose"]}, "event", None),
+    "hsyD_3": ("garden", 47103, {"modules": ["blocked_hose"]}, "event", None),
+    # round 5 (templates.CONE47): the younger child with the dropped cone, which no picture from v0.28 to v0.46 could draw
+    "icyB_1": ("park", 47301, {"modules": ["ice_cream_drop"]}, "event", ("fam", "ice_cream_drop", ["person.nia"])),
+    "icyB_2": ("street", 47302, {"modules": ["ice_cream_drop"]}, "event", ("fam", "ice_cream_drop", ["person.nia"])),
+    "icyB_3": ("playground", 47303, {"modules": ["ice_cream_drop"]}, "event", ("fam", "ice_cream_drop", ["person.nia"])),
     # v0.46 (the cast's drawing; vision/isolation_v046.md), whole pictures, a tier-3 picture with a few templates forced among the planner's own, on
     # revision 43's rules both times. The fourth letter the cast: O v0.45's (BENCH_CAST=assets/cast/out045, a copy of its library); N the v0.46 cast
     # with every switch on (tpdb_work/v046/out_b5: TPDB_STYLE46 NECK46 ARM46 MEI46 CLEAN46 "B": the figure's outer edge drawn at the settings' own
@@ -976,6 +1136,7 @@ NEW43 = {n for n in BENCH if n[2] in "45" and BENCH[n][1] // 1000 == 43}
 NEW44 = {n for n in BENCH if n[2] in "67" and BENCH[n][1] // 1000 == 44}
 NEW45 = {n for n in BENCH if n[2] in "89" and BENCH[n][1] // 1000 == 45}
 NEW46 = {n for n in BENCH if n[2] == "x" and BENCH[n][1] // 1000 == 46}
+NEW47 = {n for n in BENCH if n[2] in "yz" and BENCH[n][1] // 1000 == 47}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -1118,6 +1279,21 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
         # the release's own scene both times: only the cast differs (BENCH_CAST)
         for (m, k), v in _REL.items():
             setattr(m, k, v)
+    if name in NEW47:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        # every revision-44 switch (NAME47) "O" for the letter O; for a case named for one rule, the letter is that rule's value
+        if name[3] == "O":
+            for (m, k), v in _REL.items():
+                if k.endswith("47"):
+                    setattr(m, k, "O")
+        elif name[3] != "N":
+            for k in {"hs": ("HOSE47",), "sf": ("FORK47",), "bs": ("STEAL47",), "cb": ("SEED47",), "fb": ("SEED47",), "wu": ("UPW47",), "lb": ("BAL47",),
+                      "tp": ("TRIP47",), "ss": ("RIDE47",), "sl": ("RIDE47",), "pf": ("PAINT47",), "ic": ("CONE47",)}.get(name[:2], ()):
+                # (a switch lives in draw, library, settings or templates: _REL knows which)
+                for (m, k_) in _REL:
+                    if k_ == k:
+                        setattr(m, k, name[3])
     rec = None
     for k in range(40):
         USAGE.clear()

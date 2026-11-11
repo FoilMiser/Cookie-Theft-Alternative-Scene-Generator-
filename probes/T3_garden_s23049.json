@@ -6,8 +6,8 @@
  "seed": 23049,
  "mirror": true,
  "versions": {
-  "generator": "0.46.0",
-  "cast_builder": "0.46.0",
+  "generator": "0.47.0",
+  "cast_builder": "0.47.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -55,13 +55,11 @@
    }
   }
  },
- "features": [
-  "hose_reel"
- ],
+ "features": [],
  "templates": [
   {
-   "id": "blocked_hose",
-   "kind": "inference",
+   "id": "sweep_fork",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   }
@@ -71,7 +69,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is holding a hose, looking into the nozzle",
+   "text": "A man is sweeping",
    "accepted": {
     "who": [
      "man",
@@ -81,190 +79,139 @@
      "person"
     ],
     "what": [
-     "holding a hose",
-     "looking at the hose",
-     "looking into the nozzle",
-     "puzzled",
-     "confused"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "cleaning"
     ]
    },
-   "key": "hose",
+   "key": "sweeping",
    "elements": [
-    "hoseman_1",
-    "hose_3"
+    "sweeper_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "blocked_hose",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.474,
+    "s": 0.426,
     "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 29844
+    "area_px": 27892
    },
-   "b": -1.536,
-   "p0": 0.823,
-   "pm1": 0.631,
+   "b": -1.53,
+   "p0": 0.822,
+   "pm1": 0.629,
    "aoi_cells": [
-    "MC",
-    "BC",
-    "BR"
+    "BL"
    ]
   },
   {
    "id": "i02",
-   "type": "action",
-   "text": "The dog is standing on the hose",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with what the person is sweeping with",
    "accepted": [
-    "dog standing on the hose",
-    "dog on the hose",
-    "stepping on the hose"
+    "the broom is strange",
+    "something's wrong with the broom",
+    "that's odd",
+    "a fork is not for sweeping"
    ],
-   "key": "dog",
+   "key": "fork",
    "elements": [
-    "hoseanimal_2"
+    "sweeper_1"
    ],
-   "cues": [],
-   "effect": [],
+   "cues": [
+    "sweeper_1"
+   ],
+   "effect": [
+    "sweeper_1"
+   ],
    "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "blocked_hose",
+   "animate": false,
+   "domain": "functional",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "contradiction_notice",
     "chain": 0,
-    "animate": true,
-    "s": -0.231,
+    "animate": false,
+    "s": 0.426,
     "r": 0,
     "d": 0.0,
-    "f": 1.1,
-    "a": 2.8,
-    "zipf_raw": 5.1,
-    "aoa_raw": 2.8,
-    "domain": null,
-    "area_px": 11048
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 27892
    },
-   "b": -1.595,
-   "p0": 0.831,
-   "pm1": 0.645,
+   "b": -0.313,
+   "p0": 0.578,
+   "pm1": 0.335,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "BL"
    ]
   },
   {
    "id": "i03",
-   "type": "action",
-   "text": "No water is coming out",
+   "type": "contradiction_explain",
+   "text": "The person is sweeping with a giant fork instead of a broom",
    "accepted": [
-    "no water",
-    "water isn't coming out",
-    "hose isn't working",
-    "nothing coming out",
-    "hose is dry"
+    "sweeping with a fork",
+    "a fork instead of a broom",
+    "you can't sweep with a fork",
+    "a giant fork",
+    "a huge dinner fork"
    ],
-   "key": "hose",
+   "key": "fork",
    "elements": [
-    "drip_4"
+    "sweeper_1"
    ],
    "cues": [
-    "drip_4",
-    "hoseman_1"
+    "sweeper_1"
    ],
-   "effect": [],
-   "chain": 0,
+   "effect": [
+    "sweeper_1"
+   ],
+   "chain": 1,
    "animate": false,
-   "domain": null,
-   "template": "blocked_hose",
+   "domain": "functional",
+   "template": "sweep_fork",
    "event": "e1",
    "features": {
-    "type": "action",
-    "chain": 0,
+    "type": "contradiction_explain",
+    "chain": 1,
     "animate": false,
-    "s": -3.048,
-    "r": 1,
+    "s": 0.426,
+    "r": 0,
     "d": 0.0,
-    "f": -0.27,
-    "a": 5.33,
-    "zipf_raw": 3.73,
-    "aoa_raw": 5.33,
-    "domain": null,
-    "area_px": 208
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 3.63,
+    "domain": "functional",
+    "area_px": 27892
    },
-   "b": 0.725,
-   "p0": 0.326,
-   "pm1": 0.151,
+   "b": 0.887,
+   "p0": 0.292,
+   "pm1": 0.132,
    "aoi_cells": [
-    "BC"
+    "BL"
    ]
   },
   {
    "id": "i04",
-   "type": "inference",
-   "text": "The dog is blocking the water by standing on the hose",
-   "accepted": [
-    "the dog is stepping on the hose so the water can't come out",
-    "the hose is pinched",
-    "blocking the water",
-    "that's why there's no water"
-   ],
-   "key": "water",
-   "elements": [
-    "hoseanimal_2",
-    "drip_4",
-    "hoseman_1"
-   ],
-   "cues": [
-    "hoseanimal_2",
-    "drip_4",
-    "hoseman_1"
-   ],
-   "effect": [
-    "drip_4"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "blocked_hose",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -0.231,
-    "r": 2,
-    "d": 0.166,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 5.52,
-    "aoa_raw": 2.37,
-    "domain": null,
-    "area_px": 11048
-   },
-   "b": 0.425,
-   "p0": 0.395,
-   "pm1": 0.194,
-   "aoi_cells": [
-    "MC",
-    "BC",
-    "BR"
-   ]
-  },
-  {
-   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -307,7 +254,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -349,7 +296,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -390,7 +337,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -433,7 +380,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -479,7 +426,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i09",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -523,19 +470,19 @@
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 7,
   "inference_units": 1,
-  "contradictions": 0,
-  "items_total": 10
+  "contradictions": 1,
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.761,
-   "inference": 0.395
+   "content": 0.813,
+   "inference": 0.435
   },
   "theta_minus_1": {
-   "content": 0.572,
-   "inference": 0.194
+   "content": 0.622,
+   "inference": 0.233
   }
  },
  "bands": {
@@ -557,14 +504,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0374,
-  "png_bytes": 173437,
-  "jpeg_bytes": 180180
+  "objects": 14,
+  "edge_density": 0.0378,
+  "png_bytes": 166142,
+  "jpeg_bytes": 173845
  },
  "signature": [
   [
@@ -572,15 +519,11 @@
    0
   ],
   [
-   "action",
-   0
+   "contradiction_explain",
+   1
   ],
   [
-   "action",
-   0
-  ],
-  [
-   "entity",
+   "contradiction_notice",
    0
   ],
   [
@@ -604,8 +547,8 @@
    0
   ],
   [
-   "inference",
-   2
+   "entity",
+   0
   ]
  ],
  "elements": [
@@ -669,8 +612,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "visible_px": 49672,
+   "occlusion": 0.389
   },
   {
    "id": "tree",
@@ -703,21 +646,6 @@
    "occlusion": 0.015
   },
   {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    1172.0,
-    598.0,
-    1308.0,
-    684.0
-   ],
-   "area_px": 8292,
-   "visible_px": 7492,
-   "occlusion": 0.096
-  },
-  {
    "id": "filler_bush_mid",
    "label": "Bush",
    "role": "filler",
@@ -731,6 +659,21 @@
    "area_px": 7424,
    "visible_px": 7424,
    "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    1172.0,
+    598.0,
+    1308.0,
+    684.0
+   ],
+   "area_px": 8292,
+   "visible_px": 7492,
+   "occlusion": 0.096
   },
   {
    "id": "filler_pots",
@@ -778,38 +721,38 @@
    "occlusion": 0.0
   },
   {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 886,
+   "id": "filler_watering_can",
+   "label": "Watering can",
+   "role": "filler",
+   "z": 960,
    "bbox": [
-    1282.0,
-    804.0,
-    1346.0,
-    888.0
+    362.0,
+    884.0,
+    458.0,
+    962.0
    ],
-   "area_px": 4264,
-   "visible_px": 3752,
-   "occlusion": 0.12
+   "area_px": 4404,
+   "visible_px": 4404,
+   "occlusion": 0.0
   },
   {
-   "id": "hoseman_1",
-   "label": "person.ben__hose_inspect__puzzled__y090",
+   "id": "sweeper_1",
+   "label": "person.ben__sweep_giant_fork__neutral__y045",
    "role": "scored",
-   "z": 952.83,
+   "z": 971.76,
    "bbox": [
-    732.0,
-    628.0,
-    862.0,
-    960.0
+    30.0,
+    650.0,
+    230.0,
+    982.0
    ],
-   "area_px": 19876,
-   "visible_px": 18336,
-   "occlusion": 0.077,
+   "area_px": 28336,
+   "visible_px": 27892,
+   "occlusion": 0.016,
    "asset": {
-    "variant": "person.ben__hose_inspect__puzzled__y090",
+    "variant": "person.ben__sweep_giant_fork__neutral__y045",
     "family": "person.ben",
-    "scale": 0.502,
+    "scale": 0.509,
     "mirrored": false,
     "labels": {
      "everyday_name": "man",
@@ -830,18 +773,18 @@
    }
   },
   {
-   "id": "drip_4",
-   "label": "Single drip from the dry nozzle",
-   "role": "scored",
-   "z": 954.83,
+   "id": "sweptpile_2",
+   "label": "Swept-up dust and grit by a dustpan",
+   "role": "setting",
+   "z": 972.76,
    "bbox": [
-    826.0,
-    682.0,
-    838.0,
-    704.0
+    136.0,
+    914.0,
+    310.0,
+    986.0
    ],
-   "area_px": 208,
-   "visible_px": 208,
+   "area_px": 4716,
+   "visible_px": 4716,
    "occlusion": 0.0
   },
   {
@@ -858,51 +801,6 @@
    "area_px": 8772,
    "visible_px": 8772,
    "occlusion": 0.0
-  },
-  {
-   "id": "hose_3",
-   "label": "Garden hose, pinched under the paw",
-   "role": "scored",
-   "z": 988.32,
-   "bbox": [
-    774.0,
-    774.0,
-    1322.0,
-    1000.0
-   ],
-   "area_px": 12060,
-   "visible_px": 11508,
-   "occlusion": 0.046
-  },
-  {
-   "id": "hoseanimal_2",
-   "label": "animal.dog_01__stand__happy__y090",
-   "role": "scored",
-   "z": 989.32,
-   "bbox": [
-    968.0,
-    838.0,
-    1148.0,
-    996.0
-   ],
-   "area_px": 11048,
-   "visible_px": 11048,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.dog_01__stand__happy__y090",
-    "family": "animal.dog_01",
-    "scale": 0.5155,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "dog",
-     "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
-     ],
-     "category": "medium_animal"
-    }
-   }
   }
  ],
  "canvas": [
@@ -924,11 +822,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "blocked_hose"
+   "contradictions": [
+    "sweep_fork"
    ]
   },
-  "placement_rev": 43
+  "placement_rev": 44
  },
  "probe": true
 }

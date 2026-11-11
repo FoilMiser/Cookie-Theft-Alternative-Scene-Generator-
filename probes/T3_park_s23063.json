@@ -6,8 +6,8 @@
  "seed": 23063,
  "mirror": true,
  "versions": {
-  "generator": "0.46.0",
-  "cast_builder": "0.46.0",
+  "generator": "0.47.0",
+  "cast_builder": "0.47.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,58 +60,149 @@
  ],
  "templates": [
   {
-   "id": "goat_grazing",
-   "kind": "event",
+   "id": "ladder_nothing",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A goat is eating grass",
+   "type": "entity",
+   "text": "There is a ladder",
    "accepted": [
-    "goat eating",
-    "goat eating grass",
-    "goat grazing",
-    "goat"
+    "ladder",
+    "a ladder",
+    "step ladder"
    ],
-   "key": "goat",
+   "key": "ladder",
    "elements": [
-    "goat_grazing_1"
+    "ladder_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "goat_grazing",
+   "template": "ladder_nothing",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -0.272,
+    "animate": false,
+    "s": -0.449,
     "r": 0,
     "d": 0.0,
-    "f": 0.02,
-    "a": 5.21,
-    "zipf_raw": 4.02,
-    "aoa_raw": 5.21,
+    "f": 0.03,
+    "a": 4.4,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
     "domain": null,
-    "area_px": 10428
+    "area_px": 8120
    },
-   "b": -1.25,
-   "p0": 0.777,
-   "pm1": 0.562,
+   "b": -0.664,
+   "p0": 0.66,
+   "pm1": 0.417,
    "aoi_cells": [
-    "BC"
+    "ML"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the ladder",
+   "accepted": [
+    "the ladder is odd",
+    "something strange about the ladder",
+    "that ladder"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_1"
+   ],
+   "cues": [
+    "ladder_1"
+   ],
+   "effect": [
+    "ladder_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.449,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 8120
+   },
+   "b": -0.076,
+   "p0": 0.519,
+   "pm1": 0.284,
+   "aoi_cells": [
+    "ML"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The ladder is leaning on nothing, so it should fall over",
+   "accepted": [
+    "leaning on nothing",
+    "nothing holding it up",
+    "it should fall",
+    "not against anything",
+    "ladder standing by itself"
+   ],
+   "key": "ladder",
+   "elements": [
+    "ladder_1"
+   ],
+   "cues": [
+    "ladder_1"
+   ],
+   "effect": [
+    "ladder_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "ladder_nothing",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.449,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.03,
+    "aoa_raw": 4.4,
+    "domain": "physical",
+    "area_px": 8120
+   },
+   "b": 1.124,
+   "p0": 0.245,
+   "pm1": 0.107,
+   "aoi_cells": [
+    "ML"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -154,7 +245,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -197,7 +288,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -222,7 +313,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.863,
+    "s": 0.839,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -230,18 +321,18 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 51684
+    "area_px": 49968
    },
-   "b": -1.525,
-   "p0": 0.821,
-   "pm1": 0.628,
+   "b": -1.513,
+   "p0": 0.82,
+   "pm1": 0.626,
    "aoi_cells": [
     "ML",
     "BL"
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -285,7 +376,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -327,7 +418,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -371,7 +462,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There are flowers",
    "accepted": [
@@ -414,18 +505,18 @@
  ],
  "counts": {
   "content": 8,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 8
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.771,
-   "inference": null
+   "content": 0.756,
+   "inference": 0.382
   },
   "theta_minus_1": {
-   "content": 0.557,
-   "inference": null
+   "content": 0.539,
+   "inference": 0.195
   }
  },
  "bands": {
@@ -447,18 +538,26 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0235,
-  "png_bytes": 161128,
-  "jpeg_bytes": 122371
+  "objects": 15,
+  "edge_density": 0.0225,
+  "png_bytes": 147938,
+  "jpeg_bytes": 119832
  },
  "signature": [
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -539,8 +638,8 @@
     522.0
    ],
    "area_px": 155668,
-   "visible_px": 115100,
-   "occlusion": 0.261
+   "visible_px": 111900,
+   "occlusion": 0.281
   },
   {
    "id": "tree_line",
@@ -566,8 +665,8 @@
     1000.0
    ],
    "area_px": 51712,
-   "visible_px": 51684,
-   "occlusion": 0.001
+   "visible_px": 49968,
+   "occlusion": 0.034
   },
   {
    "id": "pond",
@@ -660,6 +759,36 @@
    "occlusion": 0.0
   },
   {
+   "id": "filler_bin",
+   "label": "Bin",
+   "role": "filler",
+   "z": 652,
+   "bbox": [
+    594.0,
+    584.0,
+    650.0,
+    654.0
+   ],
+   "area_px": 3228,
+   "visible_px": 3228,
+   "occlusion": 0.0
+  },
+  {
+   "id": "ladder_1",
+   "label": "Ladder leaning on nothing",
+   "role": "scored",
+   "z": 668.72,
+   "bbox": [
+    380.0,
+    416.0,
+    484.0,
+    676.0
+   ],
+   "area_px": 8120,
+   "visible_px": 8120,
+   "occlusion": 0.0
+  },
+  {
    "id": "tree",
    "label": "Big tree",
    "role": "setting",
@@ -672,65 +801,6 @@
    ],
    "area_px": 63708,
    "visible_px": 63708,
-   "occlusion": 0.0
-  },
-  {
-   "id": "grasstuft_3",
-   "label": "Grass at the goat's mouth",
-   "role": "setting",
-   "z": 895.37,
-   "bbox": [
-    900.0,
-    874.0,
-    938.0,
-    900.0
-   ],
-   "area_px": 484,
-   "visible_px": 388,
-   "occlusion": 0.198
-  },
-  {
-   "id": "goat_grazing_1",
-   "label": "animal.goat_01__graze__happy__y045",
-   "role": "scored",
-   "z": 895.87,
-   "bbox": [
-    920.0,
-    772.0,
-    1060.0,
-    904.0
-   ],
-   "area_px": 10632,
-   "visible_px": 10428,
-   "occlusion": 0.019,
-   "asset": {
-    "variant": "animal.goat_01__graze__happy__y045",
-    "family": "animal.goat_01",
-    "scale": 0.4809,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "goat",
-     "accepted_names": [
-      "goat",
-      "kid"
-     ],
-     "category": "medium_animal"
-    }
-   }
-  },
-  {
-   "id": "grassbite_4",
-   "label": "Grass in the goat's mouth",
-   "role": "setting",
-   "z": 897.87,
-   "bbox": [
-    916.0,
-    880.0,
-    938.0,
-    892.0
-   ],
-   "area_px": 152,
-   "visible_px": 152,
    "occlusion": 0.0
   },
   {
@@ -749,21 +819,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "tether_2",
-   "label": "The goat's tether, a rope from its collar to a peg in the ground",
-   "role": "setting",
-   "z": 936.36,
-   "bbox": [
-    956.0,
-    848.0,
-    1022.0,
-    938.0
-   ],
-   "area_px": 860,
-   "visible_px": 860,
-   "occlusion": 0.0
-  },
-  {
    "id": "filler_rock",
    "label": "Rock",
    "role": "filler",
@@ -777,21 +832,6 @@
    "area_px": 3740,
    "visible_px": 3740,
    "occlusion": 0.0
-  },
-  {
-   "id": "filler_bin_p2",
-   "label": "Bin",
-   "role": "filler",
-   "z": 980,
-   "bbox": [
-    1500.0,
-    892.0,
-    1570.0,
-    982.0
-   ],
-   "area_px": 5276,
-   "visible_px": 5276,
-   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -801,10 +841,10 @@
  "attempts": [
   [
    23063,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 9: accepted after 8 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 8,
  "knob": 0,
  "regen": {
   "base_seed": 23063,
@@ -813,11 +853,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "goat_grazing"
+   "contradictions": [
+    "ladder_nothing"
    ]
   },
-  "placement_rev": 43
+  "placement_rev": 44
  },
  "probe": true
 }

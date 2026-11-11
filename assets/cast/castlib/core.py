@@ -9,6 +9,15 @@ from mathutils import Matrix, Quaternion, Vector
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PALETTE = json.load(open(os.path.join(HERE, "..", "..", "palette.json")))["colors"]
+# TPDB_SHELL47 "B": a garment made by shell_over rides on the finished surface of the garment under it; "O": it is bent by its own weights
+SHELL47 = os.environ.get("TPDB_SHELL47", "B")
+# TPDB_SHADE47 "B" (vision/flaws_v046.md O2; rest_shade here, to_cel in render_assets.py): the shadow tone is laid by the surface's normal alone,
+# so on a figure who leans over her work the chest faces the ground and the tone's edge ran across the middle of it: "There is a slightly
+# lighter, semi-transparent patch on the front of her dress where her arms cross." (v046 pic_89). "B": the cloth of the trunk keeps the shading it has standing upright, whatever the trunk does: every skinned
+# mesh carries its rest normal and how much of each vertex belongs to the trunk's bones, and the shader lights the trunk's share of a surface
+# by the rest normal (turned with the figure's yaw). The edge then lies along the figure's far side in every pose. Limbs and heads are lit as
+# before. "O": v0.46's, the posed normal everywhere
+SHADE47 = os.environ.get("TPDB_SHADE47", "B")
 
 
 def lin(hexc):
@@ -250,6 +259,30 @@ def skin_object(name, verts, edges, radii, matkey, rig, weights, subsurf=2):
     return ob
 
 
+def rest_shade(bones=("hips", "spine", "chest", "neck")):
+    """v0.47 (TPDB_SHADE47): call with the rig at rest. Every mesh with weights on the trunk's bones gets two point attributes: tpdb_rest_n,
+    its normal now, and tpdb_rest_w, the trunk's share of the vertex's weights. They ride through Armature, Subdivision, Surface Deform and
+    Solidify to the drawn surface; render_assets.to_cel reads them."""
+    if SHADE47 != "B":
+        return
+    for ob in bpy.context.scene.objects:
+        if ob.type != "MESH" or not ob.vertex_groups:
+            continue
+        gi = {g.index for g in ob.vertex_groups if g.name in bones}
+        if not gi:
+            continue
+        me = ob.data
+        an = me.attributes.get("tpdb_rest_n") or me.attributes.new("tpdb_rest_n", "FLOAT_VECTOR", "POINT")
+        aw = me.attributes.get("tpdb_rest_w") or me.attributes.new("tpdb_rest_w", "FLOAT", "POINT")
+        nv, wv = [], []
+        for v in me.vertices:
+            tot = sum(g.weight for g in v.groups)
+            wv.append(sum(g.weight for g in v.groups if g.group in gi) / tot if tot > 1e-6 else 0.0)
+            nv.extend(v.normal)
+        an.data.foreach_set("vector", nv)
+        aw.data.foreach_set("value", wv)
+
+
 def skin_like(ob, host, rig, keep=None):
     """v0.15: re-bind a decoration (a placket, button, pocket, hood string, coat spot) that sits on a skinned
     surface so it bends with that surface. Parented rigidly to one bone, it stayed put while the surface
@@ -289,6 +322,193 @@ def skin_like(ob, host, rig, keep=None):
     return ob
 
 
+def cut_field(bm, f):
+    """Cut a bmesh along the zero line of f (a number for every vertex) and remove the side where f is positive. Each crossed edge is split
+    at the crossing (the new vertex takes the mix of its two ends' weights), the new vertices are joined across their faces, and the positive
+    vertices go; the cut edge is a smooth ring whatever the mesh's own edges do."""
+    eps = 1e-7
+    on = []
+    for e in list(bm.edges):
+        a, b = e.verts
+        fa, fb = f[a], f[b]
+        if (fa > eps and fb < -eps) or (fa < -eps and fb > eps):
+            t = fa / (fa - fb)
+            co = a.co.lerp(b.co, t)
+            _, nv = bmesh.utils.edge_split(e, a, t)
+            nv.co = co
+            f[nv] = 0.0
+            on.append(nv)
+    seen = set(on)
+    on += [v for v in bm.verts if v not in seen and abs(f[v]) <= eps]
+    if on:
+        bmesh.ops.connect_verts(bm, verts=on)
+    gone = [v for v in bm.verts if f[v] > eps]
+    if gone:
+        bmesh.ops.delete(bm, geom=gone, context="VERTS")
+
+
+def _ride_target(host, levels):
+    """The host's finished surface in triangles, never drawn: what a shell's Surface Deform is bound to (the binding refuses a target with a
+    concave polygon, and a smoothed hull has some). It is smoothed to the level the shell was taken at, so every vertex of the shell lies on
+    a vertex or an edge of it: against the host's own coarser level a few vertices in the crease of the armpit lay a millimetre inside,
+    were bound across the crease, and flew out a hand's length when the arm went up."""
+    c = bpy.data.objects.get(host.name + "Ride")
+    if c is None:
+        c = link(host.copy())
+        c.name = host.name + "Ride"
+        for m in c.modifiers:
+            if m.type == "SUBSURF":
+                m.levels = m.render_levels = levels
+        c.modifiers.new("Tri", "TRIANGULATE")
+        c.hide_render = True
+        try:
+            c.lineart.usage = "EXCLUDE"
+        except (AttributeError, TypeError):
+            pass
+        upd()
+    return c
+
+
+def shell_over(host, name, matkey, rig, offset, fields=(), rim=0.0, mark=None, levels=3):
+    """v0.47: a garment worn over another as a shell of that garment's own surface: the host's surface at a finer level, cut along the zero
+    line of each field in turn (a function of a vertex's rest position and its bone weights by name; the positive side goes), moved out along
+    its normals by offset and given an edge rim deep. It carries the host's weights, so it bends exactly as the host does and the host cannot
+    come through it. (A second Skin hull over the first is another surface: the shirt came through a vest at the shoulders in ragged patches,
+    and the hull itself broke at a node with four branches.) mark picks edges, by their two ends' positions, that are drawn as lines."""
+    upd()
+    sub = next(m for m in host.modifiers if m.type == "SUBSURF")
+    was = (sub.levels, sub.render_levels)
+    sub.levels = sub.render_levels = levels
+    upd()
+    dg = bpy.context.evaluated_depsgraph_get()
+    me = bpy.data.meshes.new_from_object(host.evaluated_get(dg), depsgraph=dg)
+    sub.levels, sub.render_levels = was
+    upd()
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bpy.data.meshes.remove(me)
+    dl = bm.verts.layers.deform.verify()
+    names = {g.index: g.name for g in host.vertex_groups}
+    for fn in fields:
+        cut_field(bm, {v: fn(v.co, {names[i]: w for i, w in v[dl].items() if i in names}) for v in bm.verts})
+    bm.normal_update()
+    ride = SHELL47 == "B"
+    if not ride:
+        for v in bm.verts:
+            v.co += v.normal * offset
+    marks = []
+    if mark is not None:
+        bm.edges.ensure_lookup_table()
+        marks = [(e.verts[0].co.copy(), e.verts[1].co.copy()) for e in bm.edges if mark(e.verts[0].co, e.verts[1].co)]
+    if rim > 0 and not ride:
+        bmesh.ops.solidify(bm, geom=bm.faces[:], thickness=rim)
+    if not ride:
+        # (riding, the faces keep the host's own outward normals, which the Displace moves them along)
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+    ob = _mesh_object(name, bm, matkey, smooth=True)
+    for g in sorted(host.vertex_groups, key=lambda g: g.index):
+        if ob.vertex_groups.get(g.name) is None:
+            ob.vertex_groups.new(name=g.name)
+    if marks:
+        key = lambda p: (round(p.x, 5), round(p.y, 5), round(p.z, 5))
+        want = {frozenset((key(a), key(b))) for a, b in marks}
+        vs = ob.data.vertices
+        hit = [e.index for e in ob.data.edges if frozenset((key(vs[e.vertices[0]].co), key(vs[e.vertices[1]].co))) in want]
+        if hasattr(bpy.types.MeshEdge, "use_freestyle_mark"):
+            for i in hit:
+                ob.data.edges[i].use_freestyle_mark = True
+        else:
+            # (Blender 5: the mark Line Art reads is a named edge attribute)
+            att = ob.data.attributes.get("freestyle_edge") or ob.data.attributes.new("freestyle_edge", "BOOLEAN", "EDGE")
+            for i in hit:
+                att.data[i].value = True
+    ob.parent = rig.arm
+    upd()
+    bound = False
+    if ride:
+        # v0.47 (TPDB_SHELL47): the shell rides on the host's finished surface (a Surface Deform bound at rest). The host is bent as a coarse
+        # cage and then smoothed; the shell, a fine mesh, was bent vertex by vertex, which is another surface wherever a joint bends far: a
+        # cardigan's sleeves showed the top under them in patches at the elbows, and its back at the waist of a kneeling figure.
+        # It is bound lying ON the host's surface and moved out along its normals afterwards (a Displace, then a Solidify for the rim): bound
+        # a centimetre off, a vertex at the side of the trunk took the inside of the arm hanging beside it as its nearest face, and was
+        # dragged out in a fan of spikes when the arm moved.
+        m = ob.modifiers.new("Ride", "SURFACE_DEFORM")
+        m.target = _ride_target(host, levels)
+        try:
+            with bpy.context.temp_override(object=ob, active_object=ob, selected_objects=[ob]):
+                bpy.ops.object.surfacedeform_bind(modifier=m.name)
+            upd()
+            bound = bool(m.is_bound)
+        except Exception as e:      # noqa: BLE001
+            print("shell_over: bind raised", name, e)
+        if not bound:
+            print("shell_over: NOT BOUND, bent by its own weights:", name)
+            ob.modifiers.remove(m)
+    if not bound:
+        m = ob.modifiers.new("Armature", "ARMATURE")
+        m.object = rig.arm
+    if ride:
+        m = ob.modifiers.new("Out", "DISPLACE")
+        m.direction = "NORMAL"
+        m.mid_level = 0.0
+        m.strength = offset
+        if rim > 0:
+            m = ob.modifiers.new("Rim", "SOLIDIFY")
+            m.thickness = rim
+            m.offset = -1.0
+            m.use_rim = True
+    upd()
+    return ob
+
+
+def open_end(ob, z, rig, matkey, lid=None, inset=0.003, axis=2):
+    """v0.47: open a baked hull's flattened end (flatten_below at z). The end's lid comes off the hull and, with lid a name, is an object of
+    its own just inside the opening, bent and smoothed as the hull is, so its edge is the opening's edge in every pose. A limb comes out
+    through the lid, and the lid draws a line where it does (FORCE_INTERSECTION: limbs are drawn with no such line elsewhere, and the hull,
+    whose other end passes into the garment above it, cannot be asked for one). As part of the hull the lid had no line where a knee came
+    out of it, round patches on the cloth; a hull left open with a thickness showed its inside as ragged marks."""
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    bm.normal_update()
+    dl = bm.verts.layers.deform.verify()
+    faces = [f for f in bm.faces if f.normal[axis] < -0.7 and f.calc_center_median()[axis] < z + 0.012]
+    quads = [[(v.co.copy(), dict(v[dl].items())) for v in f.verts] for f in faces]
+    if faces:
+        bmesh.ops.delete(bm, geom=faces, context="FACES")
+    bm.to_mesh(ob.data)
+    bm.free()
+    ob.data.update()
+    print("open_end", ob.name, "lid faces", len(quads))
+    if not (lid and quads):
+        return None
+    up = Vector([inset if i == axis else 0.0 for i in range(3)])
+    lb = bmesh.new()
+    ldl = lb.verts.layers.deform.verify()
+    for q in quads:
+        vs = []
+        for co, w in q:
+            v = lb.verts.new(co + up)
+            for gi, wt in w.items():
+                v[ldl][gi] = wt
+            vs.append(v)
+        lb.faces.new(vs)
+    lo = _mesh_object(lid, lb, matkey, smooth=True)
+    for g in sorted(ob.vertex_groups, key=lambda g: g.index):
+        lo.vertex_groups.new(name=g.name)
+    lo.parent = rig.arm
+    m = lo.modifiers.new("Armature", "ARMATURE")
+    m.object = rig.arm
+    sub = next((x for x in ob.modifiers if x.type == "SUBSURF"), None)
+    m = lo.modifiers.new("Subsurf", "SUBSURF")
+    m.levels = m.render_levels = sub.levels if sub else 2
+    try:
+        lo.lineart.usage = "FORCE_INTERSECTION"
+    except (AttributeError, TypeError):
+        pass
+    upd()
+    return lo
+
+
 def _mesh_object(name, bm, matkey, smooth=True):
     me = bpy.data.meshes.new(name)
     bm.to_mesh(me)
@@ -301,9 +521,22 @@ def _mesh_object(name, bm, matkey, smooth=True):
     return ob
 
 
-def ellipsoid(name, center, radii, matkey, rig=None, bone=None, rot=None, seg=24, rings=14):
+def squircle(co, n):
+    """A point of the unit sphere moved out to a ball whose level sections are |x|^n + |y|^n = r^n (n = 2: the sphere itself).
+    The front, back and side views keep the sphere's outline; between them the ball is fuller, like a head with cheeks."""
+    rho = math.hypot(co[0], co[1])
+    if not n or n == 2.0 or rho < 1e-9:
+        return Vector(co)
+    f = ((abs(co[0]) / rho) ** n + (abs(co[1]) / rho) ** n) ** (-1.0 / n)
+    return Vector((co[0] * f, co[1] * f, co[2]))
+
+
+def ellipsoid(name, center, radii, matkey, rig=None, bone=None, rot=None, seg=24, rings=14, sq=None):
     bm = bmesh.new()
     bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
+    if sq:
+        for vv in bm.verts:
+            vv.co = squircle(vv.co, sq)
     ob = _mesh_object(name, bm, matkey)
     ob.scale = radii
     ob.location = center

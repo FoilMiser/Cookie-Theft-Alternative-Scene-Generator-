@@ -11,6 +11,25 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.47 (builder 0.47.0: the cast drawn again from one figure studied closely, shoulders, limbs, hands, shoes, hems, noses, heads, the seat, and
+    # the animals with it; the profile, the walk, the run, the sitting poses; the dog that reads sitting, the dog standing on the hose, the
+    # pecking bird, the stalking cat; revision 44: the reading dog, the stopped hose, the trip, the fork sweeper, the thief bird, the seeds, the
+    # balloon, the fence painter, the upward water):
+    # a garden: the hose stopped by a dog standing on it, a box carried, a child on the swing (with a raker and a planter the hose placed on
+    # none of the bench's 40 seeds, with the box and the washing line on 3 of 21, with these two on 24 of 24)
+    ("garden", 3, 47401, {"modules": ["blocked_hose"], "events": ["carry_box", "swing"]}, None),
+    # a garden: the path swept with a fork, flowers watered, a box carried
+    ("garden", 3, 47402, {"contradictions": ["sweep_fork"], "events": ["water_flowers", "carry_box"]}, None),
+    # a park: the reading dog, a bird at a sandwich on the bench, a kite flown
+    ("park", 3, 47403, {"contradictions": ["dog_reading"], "modules": ["bird_steals"], "events": ["fly_kite"]}, None),
+    # a street: the trip, an ice cream, a dog walked
+    ("street", 3, 47404, {"modules": ["about_to_trip"], "events": ["ice_cream", "walk_dog"]}, "trip"),
+    # a garden: the water going up, the fence painted, a raker
+    ("garden", 3, 47405, {"contradictions": ["water_upward"], "events": ["paint_fence", "rake"]}, None),
+    # a playground: a balloon lost, a child on the slide, a ball kicked
+    ("playground", 3, 47406, {"modules": ["lost_balloon"], "events": ["slide", "kick_ball"]}, None),
+    # a park: a cat stalking a bird on the ground (the gap of templates.GAP47), a picnic, a reader on the bench
+    ("park", 3, 47407, {"modules": ["cat_stalks_bird"], "events": ["picnic", "read_bench"]}, None),
     # v0.46 (builder 0.46.0: the cast's line and its two flat tones, the necks under the smaller heads, the arms and sleeves, the safety vest's
     # bands, the glasses, the moustache, the line mouth; revision 43's rules as they were):
     # a street: the woman in the yellow dress with an ice cream, a photographer, a sweeper

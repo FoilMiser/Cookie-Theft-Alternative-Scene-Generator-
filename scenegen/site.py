@@ -49,50 +49,61 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v045", "v046"
+PREV, CUR = "v046", "v047"
 
-# v0.46 changed no scene and drew every figure again (vision/isolation_v046.md, vision/design_tests_v046.md): the plain events that redrawn figures carry,
-# and the four templates that fell under the gate in the v0.46 screen (vision/flaws_v046.md)
+# v0.47 drew the cast again from a study of one figure and worked eight templates on a blind bench (vision/isolation_v047.md, vision/design_tests_v047.md):
+# the eight, two that were looked at and left, and the plain events that redrawn figures carry (vision/flaws_v047.md)
 REDRAWN_NOTES = {
-    "ice_cream": "Every eater is drawn anew in the heavier line and two flat tones. In a test scene: 'a woman in a yellow dress walks towards the right, holding a pink ice-cream cone up near her face'. In full in 21 pictures.",
-    "sweep": "The sweepers drawn anew. In a test scene: 'sweeps a small pile of brown leaves with a yellow broom'. In full in sixteen pictures.",
-    "paint_fence": "The painters drawn anew, the roller as in v0.45: 'using a paint roller on a long handle to paint the wooden fence blue'. In full in seven pictures. One test reader had the roller 'well away from the blue part of the fence', an item of the v0.45 list that stays on it.",
-    "walk_dog": "The walkers drawn anew. In a test scene: 'walks a white dog with brown spots'. In full in five pictures.",
-    "photo": "The photographers drawn anew. In a test scene: 'holds a camera to her eye'. In full in four pictures.",
-    "carry_box": "The bands of the safety vest now lie on the vest all the way round: 'an orange high-visibility vest', with 'reflective stripes'. In full in four pictures.",
-    "read_bench": "The reader on the bench is the woman whose neck was shortened: 'a dark-haired woman in a yellow dress sits on a wooden bench reading a red book'. In full in three pictures.",
-    "dog_reading": "Fell under the gate. The pose and the paper are as in v0.45 and only the line is new; one picture of five was misread. See the next list.",
-    "about_to_trip": "Fell under the gate. No rule of the scene was changed; one picture of three was misread. See the next list.",
-    "sweep_fork": "Fell under the gate. No rule of the scene was changed; one picture of three was misread. See the next list.",
-    "blocked_hose": "Fell under the gate. The drawing of the hose and the dog is as in v0.45; one reader hedged in three pictures of seven. See the next list.",
+    "dog_reading": "A pose of its own, the open paper held in both forepaws below the muzzle, drawn four times on the bench. In full in five pictures: 'a brown dog wearing glasses is sitting up and reading a newspaper, which a dog could not really do'.",
+    "about_to_trip": "The walk was drawn again so that the feet show which way a walker goes, and a new rule keeps posts and trunks from behind and ahead of the walker. It fails again, the same way: in full in four pictures of five and misread in the fifth. See the next list.",
+    "sweep_fork": "A low grey heap of dust and an open dustpan that fit a path. In full in five pictures. Three of the fifteen full marks stand beside another reading, 'could be read as a rake'.",
+    "blocked_hose": "The dog stands still and square with a forepaw flat on the hose. In full in five pictures: 'A brown dog with a red collar is standing on the hose further along, which would explain why the water has stopped.' Five of the twenty full marks stand beside another reading.",
+    "bird_steals": "The bird is tipped over with its beak in the sandwich. In full in five pictures: 'a small blue bird is pecking at it without him noticing'.",
+    "cat_stalks_bird": "The bird pecks at seeds on the ground, and the four paws of the cat are apart. In full in five pictures, as in v0.46.",
+    "water_upward": "One stream with a round top. In full in five pictures: 'The water from the watering can flows upward from the spout, which is physically impossible'. A hose is offered beside the water in four descriptions.",
+    "lost_balloon": "The end of the string is nearer the reaching hand. One half mark in five pictures: 'may have just let the blue balloon go, or is reaching for it'.",
+    "square_wheel": "Not worked on the bench. In full in five pictures.",
+    "seesaw_heavy": "Benched and left as it was. In full in three pictures, and how a rider sits is still remarked on: 'The man is perched right at the low end of the seesaw, partly beside it rather than clearly on a seat, but it reads as sitting on it.'",
+    "paint_fence": "A new rule stands the roller on its board. In full in seven pictures: 'The painter stands a little in front of the fence; the roller just reaches the boards, so it reads as painting.'",
+    "ice_cream_drop": "A new rule lets either child drop the ice cream. In full in six pictures.",
+    "ice_cream": "The eaters drawn anew. In full in thirteen pictures.",
+    "sweep": "The sweepers drawn anew. In full in ten pictures.",
+    "walk_dog": "The walkers and their dogs drawn anew. In full in four pictures.",
+    "read_bench": "The reader on the bench drawn anew. In full in three pictures.",
 }
 
-# what the v0.46 screen readers made of the templates under 0.9 (vision/flaws_v046.md): all four fail the gate, and nothing was mended or read again after the screen
+# what the v0.47 screen readers made of the one template that fails the gate (vision/flaws_v047.md); nothing was mended or read again after the screen
 WEAK_NOTES = {
-    "dog_reading": "Read as reading in four pictures of five: 'sitting up on hind legs holding an open newspaper as if reading'. In the tier-4 street its forepaws and the top corner of the paper lie over its muzzle: 'A brown dog sits up holding a newspaper in its mouth.'",
-    "about_to_trip": "Read in two pictures of three: 'A blue bucket stands on the pavement just ahead of her, so she might trip over it.' In the third a post stands right behind the walker, and the reader had him heading the other way: 'The box is behind him, so he is not about to trip on it.'",
-    "sweep_fork": "Read in two pictures of three. In the third the heap lies at the edge of the path and the dustpan on the grass: 'leaning on a big silver fork and digging into the ground'.",
-    "blocked_hose": "Read in full in four pictures of seven: 'the bulge in the hose behind the dog suggests the dog is blocking it'. One reader had the other three and hedged in each: 'may be standing on the hose or just in front of it'.",
+    "about_to_trip": "Read in four pictures of five: 'a cardboard box sits on the grass just ahead of him, so he may trip over it'. In the fifth, where the walker is the smallest of the five, the reader had him going the other way: 'the man is walking away from it (it is behind him)'. The mean is at the bar and the template fails on the misread. Three of the four readings add that he may walk past the box. First on the list for v0.48.",
 }
-SCREEN_NOTE = ("The v0.46 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. The redrawn cast was read on the bench first, in whole pictures and in enlarged cut-outs beside the cast of v0.45, and then in whole test scenes. "
-               "1,035 of 1,063 items had full marks and three were misread. 60 of the 64 templates pass the gate and four fail it, where all 64 passed in v0.45; nothing was mended, swapped or read again after the screen. "
-               "Every person and every animal is drawn anew, so no picture is the same as in v0.45. "
+SCREEN_NOTE = ("The v0.47 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. The redrawn figures and actions were read on the bench first, in five rounds of cut-outs and of pairs beside the drawing of v0.46, and then in whole test scenes. "
+               "941 of 960 items had full marks and one was misread. 63 of the 64 templates pass the gate and one fails it, the walker about to trip, where 60 passed in v0.46; nothing was mended, swapped or read again after the screen. "
+               "The scorers were asked this time to list their judgement calls: with the 41 full marks that stand beside another reading halved, 56 of the 64 pass. "
+               "Every person and every animal is drawn anew, so no picture is the same as in v0.46. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("pair:person.mei__stand__neutral__y045>person.mei__stand__neutral__y045", "The neck",
-          "v0.45: the neck that shows on the woman in the yellow dress was 8.2 cm on the model, too long. v0.46: 3.9 cm, the neckline 1.4 cm higher and the waist a little wider. No reader of the 30 screened pictures she is in named her neck."),
-         ("pair:person.mei__sit_read__focused__y045>person.mei__sit_read__focused__y045", "The line",
-          "v0.45: one line of 5 px at render size, about half the weight of the line the settings are drawn in. v0.46: an outer edge of 9.5 px and inner lines of 5.5 px, in the outline colour of the settings. On the bench, in enlarged cut-outs, it was the nearer to the drawing of the background in seven pairs of eight."),
-         ("pair:person.ana__sweep__neutral__y045>person.ana__sweep__neutral__y045", "The shading",
-          "v0.45: three soft tones and a pool of light, against the flat fills of the settings. v0.46: two flat tones, the colour and a shadow at 0.86 of it. One screen reader took the hard edge of the shadow for a possible fault, 'her arm drawn faintly through her body'."),
-         ("pair:person.jo__stand__neutral__y045>person.jo__stand__neutral__y045", "The safety vest",
-          "v0.45: the two bands stood off the chest. v0.46: they lie on the vest all the way round, and 'are clean and stay inside the vest'. No seam line at the wrist either."),
+FIXES = [("pair:person.mei__stand__neutral__y045>person.mei__stand__neutral__y045", "The figure of the study",
+          "v0.46: a flat line of shoulder as wide as the chest, arms and legs of one width, a hand with no thumb and a flat oval shoe. Three reviewers read 24 drawings of this one figure: 'Square coat-hanger shoulders'. v0.47: the shoulders slope, the limbs taper to the elbow, wrist, knee and ankle, the hand is a mitten with its thumb clear and the shoe a wedge on a sole, on every person. The new drawing was the better in fourteen of sixteen pairs on the bench."),
+         ("pair:person.ben__walk__smile__y090>person.ben__walk__smile__y090", "The walk",
+          "v0.46: a stride that one reader took to go the other way. v0.47: the trailing foot up on its toe, heel high and knee bent, and the leading leg reaching forward to a flat foot. The head of a side view also turns further toward the viewer, 48 degrees for 35. Not enough at small size: the one misread of the screen is again a walker read as going the other way."),
+         ("pair:person.dev__run__determined__y090>person.dev__run__determined__y090", "The run",
+          "v0.46: 'running pose is a little stiff, with the back foot kicked up high'. v0.47: the front knee bent and forward, the back shin lower, the hips a little lower. On the bench: 'Its bent arms and fist make a convincing running action, and both feet are cleanly attached.' One screen reader of a runner: 'her face, outstretched arm and the speed lines say she is running right, but her torso faces the viewer'."),
+         ("pair:person.nia__sit_ground__smile__y045>person.nia__sit_ground__smile__y045", "Sitting on the ground",
+          "v0.46: of a boy sitting, 'legs look slightly short or tucked, so it is hard to tell whether they are stretched out straight or bent'. v0.47: both legs out straight, a little apart, heels down and feet tipped forward."),
+         ("pair:animal.dog_01__sit_up_hold__read__y090>animal.dog_01__sit_read__read__y090", "The reading dog",
+          "v0.46: sitting up with the paper at its muzzle, 'A brown dog sits up holding a newspaper in its mouth.' v0.47: a pose of its own, the open paper held by its lower corners in both forepaws, below the muzzle, the head tipped down to it. Drawn four times on the bench, and read as reading in all five screened pictures."),
+         ("pair:animal.dog_01__stand__neutral__y090>animal.dog_01__stand_hose__neutral__y090", "The dog on the hose",
+          "v0.46: the standing dog set over the hose, 'The dog may be standing on the hose or just in front of it.' v0.47: a pose of its own, still and square, the near forepaw flat on the hose. In full in five screened pictures, though the swelling at the paw is still a thing of its own to some: 'The hose has a connector/bulge where the dog stands; it might be read as a joint rather than paws pressing it.'"),
+         ("pair:animal.bird_02__peck__neutral__y090>animal.bird_02__peck__neutral__y090", "The pecking bird",
+          "v0.46: the body nearly level and only the head dipped, read as standing by. v0.47: the body tipped 58 degrees about the hips, the beak near the ground ahead of the feet, and one whole eye in the side of the head. As a drawing it lost three pairs of four to the level bird, 'a conveys pecking more strongly but the rear-placed leg makes it look as if it is falling over.', and was kept for the reading."),
+         ("pair:animal.cat_01__stalk_paw__alert__y090>animal.cat_01__stalk_paw__alert__y090", "The stalking cat",
+          "v0.46: the forelegs a knot. A bench reader of that pose: 'It looks as if the cat is holding something or hugging itself, not standing on four legs.' v0.47: the four paws apart along the ground, the far foreleg down under the chest and the near one reaching forward, each leg showing whole."),
          ("portrait:person.rosa__stand__smile__y000", "The glasses",
-          "v0.45: in profile the far lens stood past the face as a black disc. v0.46: a plain dark wire, a fifth thicker. No gain shown on the bench: in both drawings they 'look as if they are floating off the face'."),
+          "v0.46: a plain dark wire with the eye as large as the opening of the lens. v0.47: each rim is a flat ring centred on its eye, and the eyes are drawn smaller behind the lens, so skin shows round each eye. One reviewer of the bench still had a fault in it: 'the far lens also extends to the face edge, slightly outside it.'"),
          ("portrait:person.ben__stand__smile__y000", "The moustache",
-          "v0.45: a notched edge. v0.46: a smooth curve rounded at its ends. Worse in the screen: to one reader it 'could also be a smear of something (for example chocolate) on his face', and to another it 'looks a little like a smudge'.")]
+          "v0.46: 'could also be a smear of something (for example chocolate) on his face'. v0.47: wider than the mouth, in two halves parted under the nose and a shade darker than the hair. Named a moustache in 10 of 15 screened descriptions, for 4 of 11, and no screen reader wrote of a smear. On the watch list: one test reader had 'brown marks around his mouth that could be a moustache or ice cream/chocolate smeared on his face'.")]
 
 
 
@@ -306,8 +317,11 @@ def build(scenes_dir, gallery_dir, combos_path, out, old_gallery=None, screen=No
         scr["redrawn"] = [{"id": t, "before": b5[t]["mean"], "before_items": b5[t]["items"], "after": b6.get(t, {}).get("mean"),
                            "after_items": b6.get(t, {}).get("items", 0), "note": REDRAWN_NOTES[t]}
                           for t in sorted(REDRAWN_NOTES, key=lambda t: b5.get(t, {}).get("mean", 9)) if t in b5]
+        # v0.47: a template whose mean is at the bar and which fails the gate on a misread is on the next list too
+        gate_file = os.path.join(os.path.dirname(screen), CUR, "gate.json") if screen else ""
+        failed = {t for t, v in json.load(open(gate_file)).items() if v["status"] == "fail"} if gate_file and os.path.exists(gate_file) else set()
         scr["weak"] = [{"id": t, "mean": b6[t]["mean"], "items": b6[t]["items"], "note": WEAK_NOTES.get(t, "")}
-                       for t in sorted(b6, key=lambda t: b6[t]["mean"]) if b6[t]["mean"] < 0.9]
+                       for t in sorted(b6, key=lambda t: b6[t]["mean"]) if b6[t]["mean"] < 0.9 or t in failed]
         for k in ("v04", "v05", "v06", "v07", "v08", "v09", "v010", "v011", "v012", "v013", "v014", "v015", "v016", "v017", "v018", "v019", "v020", "v021"):
             scr.get(k, {}).pop("by_template", None)
         if screen and os.path.exists(os.path.join(os.path.dirname(screen), CUR, "gate.json")):

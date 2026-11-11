@@ -6,8 +6,8 @@
  "seed": 23012,
  "mirror": false,
  "versions": {
-  "generator": "0.46.0",
-  "cast_builder": "0.46.0",
+  "generator": "0.47.0",
+  "cast_builder": "0.47.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,22 +58,22 @@
  "features": [],
  "templates": [
   {
-   "id": "paint_tracks",
+   "id": "lost_balloon",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "fish_in_tree",
-   "kind": "contradiction",
+   "id": "sprinkler_package",
+   "kind": "inference",
    "event": "e2",
    "units": 1
   },
   {
-   "id": "fly_kite",
-   "kind": "event",
+   "id": "fish_in_tree",
+   "kind": "contradiction",
    "event": "e3",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 3,
@@ -97,7 +97,7 @@
    "animate": false,
    "domain": null,
    "template": "fish_in_tree",
-   "event": "e2",
+   "event": "e3",
    "features": {
     "type": "entity",
     "chain": 0,
@@ -143,7 +143,7 @@
    "animate": false,
    "domain": "biological",
    "template": "fish_in_tree",
-   "event": "e2",
+   "event": "e3",
    "features": {
     "type": "contradiction_notice",
     "chain": 0,
@@ -189,7 +189,7 @@
    "animate": false,
    "domain": "biological",
    "template": "fish_in_tree",
-   "event": "e2",
+   "event": "e3",
    "features": {
     "type": "contradiction_explain",
     "chain": 1,
@@ -215,195 +215,7 @@
   {
    "id": "i04",
    "type": "action",
-   "text": "A woman is painting the fence",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "painting the fence",
-     "painting",
-     "paint roller",
-     "painting the wall"
-    ]
-   },
-   "key": "paint",
-   "elements": [
-    "painter_3",
-    "paintstripe_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "paint_fence",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.559,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.52,
-    "a": 4.45,
-    "zipf_raw": 4.52,
-    "aoa_raw": 4.45,
-    "domain": null,
-    "area_px": 33640
-   },
-   "b": -1.575,
-   "p0": 0.828,
-   "pm1": 0.64,
-   "aoi_cells": [
-    "MC",
-    "MR"
-   ]
-  },
-  {
-   "id": "i05",
-   "type": "action",
-   "text": "A dog is walking away from the paint",
-   "accepted": [
-    "dog walking",
-    "dog",
-    "dog with paint on its feet"
-   ],
-   "key": "dog",
-   "elements": [
-    "paintdog_6"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "paint_tracks",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.741,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.1,
-    "a": 2.8,
-    "zipf_raw": 5.1,
-    "aoa_raw": 2.8,
-    "domain": null,
-    "area_px": 5380
-   },
-   "b": -1.099,
-   "p0": 0.75,
-   "pm1": 0.525,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i06",
-   "type": "entity",
-   "text": "There are paw prints in paint on the grass",
-   "accepted": [
-    "paw prints",
-    "footprints",
-    "paint prints",
-    "blue prints",
-    "tracks"
-   ],
-   "key": "footprints",
-   "elements": [
-    "prints_8",
-    "tray_7"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "paint_tracks",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.19,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.71,
-    "a": 5.78,
-    "zipf_raw": 3.29,
-    "aoa_raw": 5.78,
-    "domain": null,
-    "area_px": 2856
-   },
-   "b": 0.168,
-   "p0": 0.458,
-   "pm1": 0.237,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i07",
-   "type": "inference",
-   "text": "The dog stepped in the paint and left footprints",
-   "accepted": [
-    "the dog walked through the paint",
-    "the dog stepped in the tray",
-    "the dog made the footprints",
-    "paint on the dog's paws"
-   ],
-   "key": "paint",
-   "elements": [
-    "paintdog_6",
-    "prints_8",
-    "tray_7"
-   ],
-   "cues": [
-    "paintdog_6",
-    "prints_8",
-    "tray_7"
-   ],
-   "effect": [
-    "prints_8"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "paint_tracks",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -0.741,
-    "r": 2,
-    "d": 0.129,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.52,
-    "aoa_raw": 4.45,
-    "domain": null,
-    "area_px": 5380
-   },
-   "b": 0.875,
-   "p0": 0.294,
-   "pm1": 0.133,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i08",
-   "type": "action",
-   "text": "A child is flying a kite",
+   "text": "A child is holding balloons and reaching up for one, upset",
    "accepted": {
     "who": [
      "child",
@@ -414,47 +226,278 @@
      "daughter"
     ],
     "what": [
-     "flying a kite",
-     "kite"
+     "reaching up",
+     "holding balloons",
+     "upset",
+     "sad",
+     "trying to catch the balloon"
     ]
    },
-   "key": "kite",
+   "key": "reaching",
    "elements": [
-    "kiteflyer_10",
-    "kite_11"
+    "balloonlost_3",
+    "heldbal_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "fly_kite",
-   "event": "e3",
+   "template": "lost_balloon",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.046,
+    "s": -0.14,
     "r": 0,
     "d": 0.0,
-    "f": -0.45,
-    "a": 4.58,
-    "zipf_raw": 3.55,
-    "aoa_raw": 4.58,
+    "f": 0.46,
+    "a": 4.89,
+    "zipf_raw": 4.46,
+    "aoa_raw": 4.89,
     "domain": null,
-    "area_px": 14328
+    "area_px": 12552
    },
-   "b": -0.982,
-   "p0": 0.728,
-   "pm1": 0.496,
+   "b": -1.208,
+   "p0": 0.77,
+   "pm1": 0.552,
    "aoi_cells": [
-    "TR",
-    "MR",
-    "BR"
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "entity",
+   "text": "A balloon is floating up into the sky",
+   "accepted": [
+    "balloon flying away",
+    "balloon in the sky",
+    "balloon floating away",
+    "floating balloon"
+   ],
+   "key": "balloon",
+   "elements": [
+    "loosebal_5"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "lost_balloon",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -1.207,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.1,
+    "a": 4.37,
+    "zipf_raw": 3.9,
+    "aoa_raw": 4.37,
+    "domain": null,
+    "area_px": 2788
+   },
+   "b": -0.006,
+   "p0": 0.501,
+   "pm1": 0.27,
+   "aoi_cells": [
+    "TC",
+    "MC"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "inference",
+   "text": "The child let go of one of the balloons",
+   "accepted": [
+    "one balloon got away",
+    "lost one of the balloons",
+    "the balloon slipped away",
+    "let go of the string",
+    "one floated away from the bunch"
+   ],
+   "key": "lost",
+   "elements": [
+    "loosebal_5",
+    "balloonlost_3",
+    "heldbal_4"
+   ],
+   "cues": [
+    "loosebal_5",
+    "balloonlost_3",
+    "heldbal_4"
+   ],
+   "effect": [
+    "loosebal_5"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "lost_balloon",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -1.207,
+    "r": 2,
+    "d": 0.21,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.39,
+    "aoa_raw": 5.78,
+    "domain": null,
+    "area_px": 2788
+   },
+   "b": 0.606,
+   "p0": 0.353,
+   "pm1": 0.167,
+   "aoi_cells": [
+    "TC",
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "action",
+   "text": "A sprinkler is spraying water",
+   "accepted": [
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
+   ],
+   "key": "sprinkler",
+   "elements": [
+    "sprinkler_6"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": false,
+    "s": -0.002,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
+    "domain": null,
+    "area_px": 15256
+   },
+   "b": -0.054,
+   "p0": 0.513,
+   "pm1": 0.28,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
+   "accepted": [
+    "package",
+    "box",
+    "parcel",
+    "delivery"
+   ],
+   "key": "package",
+   "elements": [
+    "package_7"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e2",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.516,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
+    "domain": null,
+    "area_px": 7388
+   },
+   "b": -0.52,
+   "p0": 0.627,
+   "pm1": 0.382,
+   "aoi_cells": [
+    "BC"
    ]
   },
   {
    "id": "i09",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_6",
+    "package_7"
+   ],
+   "cues": [
+    "sprinkler_6",
+    "package_7"
+   ],
+   "effect": [
+    "package_7"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.002,
+    "r": 1,
+    "d": 0.222,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
+    "domain": null,
+    "area_px": 15256
+   },
+   "b": 0.317,
+   "p0": 0.421,
+   "pm1": 0.211,
+   "aoi_cells": [
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i10",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -497,7 +540,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i11",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -539,7 +582,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i12",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -580,7 +623,7 @@
    ]
   },
   {
-   "id": "i12",
+   "id": "i13",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -603,7 +646,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.845,
+    "s": 1.917,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -611,11 +654,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 206420
+    "area_px": 228296
    },
-   "b": -1.625,
-   "p0": 0.835,
-   "pm1": 0.651,
+   "b": -1.662,
+   "p0": 0.841,
+   "pm1": 0.66,
    "aoi_cells": [
     "ML",
     "MC",
@@ -623,7 +666,7 @@
    ]
   },
   {
-   "id": "i13",
+   "id": "i14",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -669,7 +712,7 @@
    ]
   },
   {
-   "id": "i14",
+   "id": "i15",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -714,18 +757,18 @@
  ],
  "counts": {
   "content": 11,
-  "inference_units": 2,
+  "inference_units": 3,
   "contradictions": 1,
-  "items_total": 14
+  "items_total": 15
  },
  "predicted": {
   "theta_0": {
-   "content": 0.723,
-   "inference": 0.288
+   "content": 0.691,
+   "inference": 0.336
   },
   "theta_minus_1": {
-   "content": 0.508,
-   "inference": 0.133
+   "content": 0.472,
+   "inference": 0.161
   }
  },
  "bands": {
@@ -737,6 +780,10 @@
  },
  "in_tier": false,
  "checks": {
+  "balloonlost_3_looks_at_balloon": {
+   "result": false,
+   "detail": ""
+  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -746,21 +793,17 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": true,
-   "detail": "21 drawn objects (tier band 20-30)"
+   "result": false,
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 21,
-  "edge_density": 0.0391,
-  "png_bytes": 184351,
-  "jpeg_bytes": 183230
+  "objects": 15,
+  "edge_density": 0.038,
+  "png_bytes": 154278,
+  "jpeg_bytes": 176787
  },
  "signature": [
-  [
-   "action",
-   0
-  ],
   [
    "action",
    0
@@ -810,8 +853,16 @@
    0
   ],
   [
+   "entity",
+   0
+  ],
+  [
    "inference",
-   2
+   1
+  ],
+  [
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -875,8 +926,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 72292,
-   "occlusion": 0.11
+   "visible_px": 80792,
+   "occlusion": 0.006
   },
   {
    "id": "tree",
@@ -926,23 +977,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 206420,
-   "occlusion": 0.143
-  },
-  {
-   "id": "paintstripe_4",
-   "label": "Freshly painted boards",
-   "role": "scored",
-   "z": 616,
-   "bbox": [
-    996.0,
-    426.0,
-    1140.0,
-    618.0
-   ],
-   "area_px": 23064,
-   "visible_px": 22716,
-   "occlusion": 0.015
+   "visible_px": 228296,
+   "occlusion": 0.052
   },
   {
    "id": "filler_bush_left",
@@ -960,43 +996,6 @@
    "occlusion": 0.096
   },
   {
-   "id": "painter_3",
-   "label": "person.ana__paint__neutral__y090",
-   "role": "scored",
-   "z": 692,
-   "bbox": [
-    916.0,
-    452.0,
-    1034.0,
-    696.0
-   ],
-   "area_px": 10924,
-   "visible_px": 10924,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ana__paint__neutral__y090",
-    "family": "person.ana",
-    "scale": 0.4053,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin2",
-      "hair": "long_dark"
-     }
-    }
-   }
-  },
-  {
    "id": "filler_pots",
    "label": "Flower pots",
    "role": "filler",
@@ -1012,94 +1011,42 @@
    "occlusion": 0.0
   },
   {
-   "id": "painttin_5",
-   "label": "Tin of paint",
-   "role": "prop",
-   "z": 704,
-   "bbox": [
-    872.0,
-    656.0,
-    910.0,
-    706.0
-   ],
-   "area_px": 1664,
-   "visible_px": 1560,
-   "occlusion": 0.062
-  },
-  {
-   "id": "tray_7",
-   "label": "Paint tray",
+   "id": "balloonlost_3",
+   "label": "person.kai__balloon_reach__scared__y045",
    "role": "scored",
-   "z": 717.6,
+   "z": 708.43,
    "bbox": [
-    820.0,
-    698.0,
-    898.0,
-    720.0
-   ],
-   "area_px": 1452,
-   "visible_px": 1436,
-   "occlusion": 0.011
-  },
-  {
-   "id": "prints_8",
-   "label": "Paint paw prints",
-   "role": "scored",
-   "z": 718.6,
-   "bbox": [
-    662.0,
     718.0,
-    836.0,
-    772.0
+    528.0,
+    820.0,
+    712.0
    ],
-   "area_px": 1456,
-   "visible_px": 1420,
-   "occlusion": 0.025
-  },
-  {
-   "id": "paintdog_6",
-   "label": "animal.dog_02__walk__happy__y090",
-   "role": "scored",
-   "z": 768.8,
-   "bbox": [
-    552.0,
-    670.0,
-    674.0,
-    772.0
-   ],
-   "area_px": 5772,
-   "visible_px": 5380,
-   "occlusion": 0.068,
+   "area_px": 7632,
+   "visible_px": 7616,
+   "occlusion": 0.002,
    "asset": {
-    "variant": "animal.dog_02__walk__happy__y090",
-    "family": "animal.dog_02",
-    "scale": 0.4338,
+    "variant": "person.kai__balloon_reach__scared__y045",
+    "family": "person.kai",
+    "scale": 0.4114,
     "mirrored": true,
     "labels": {
-     "everyday_name": "dog",
+     "everyday_name": "child",
      "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
      ],
-     "category": "small_animal"
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
     }
    }
-  },
-  {
-   "id": "paintpaws_9",
-   "label": "Paint on the dog's paws",
-   "role": "setting",
-   "z": 771.8,
-   "bbox": [
-    574.0,
-    756.0,
-    664.0,
-    774.0
-   ],
-   "area_px": 484,
-   "visible_px": 484,
-   "occlusion": 0.0
   },
   {
    "id": "house",
@@ -1132,86 +1079,63 @@
    "occlusion": 0.0
   },
   {
-   "id": "kiteflyer_10",
-   "label": "person.kai__fly_kite__smile__y090",
+   "id": "sprinkler_6",
+   "label": "Sprinkler spraying",
    "role": "scored",
-   "z": 928.83,
+   "z": 920.86,
    "bbox": [
-    1396.0,
-    710.0,
-    1498.0,
-    934.0
-   ],
-   "area_px": 8488,
-   "visible_px": 8464,
-   "occlusion": 0.003,
-   "asset": {
-    "variant": "person.kai__fly_kite__smile__y090",
-    "family": "person.kai",
-    "scale": 0.4931,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "child",
-     "accepted_names": [
-      "child",
-      "kid",
-      "boy",
-      "girl",
-      "son",
-      "daughter"
-     ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin3",
-      "hair": "curly_dark"
-     }
-    }
-   }
-  },
-  {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
-   "bbox": [
-    1142.0,
-    884.0,
-    1238.0,
-    962.0
-   ],
-   "area_px": 4400,
-   "visible_px": 4400,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
-   "bbox": [
-    896.0,
+    0.0,
+    790.0,
     892.0,
-    1078.0,
-    980.0
+    950.0
    ],
-   "area_px": 8776,
-   "visible_px": 8776,
+   "area_px": 15352,
+   "visible_px": 15256,
+   "occlusion": 0.006
+  },
+  {
+   "id": "package_7",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 930.86,
+   "bbox": [
+    832.0,
+    864.0,
+    944.0,
+    944.0
+   ],
+   "area_px": 7388,
+   "visible_px": 7388,
    "occlusion": 0.0
   },
   {
-   "id": "kite_11",
-   "label": "Kite",
+   "id": "heldbal_4",
+   "label": "Balloons held by the child",
+   "role": "scored",
+   "z": 1499,
+   "bbox": [
+    796.0,
+    450.0,
+    882.0,
+    608.0
+   ],
+   "area_px": 4936,
+   "visible_px": 4936,
+   "occlusion": 0.0
+  },
+  {
+   "id": "loosebal_5",
+   "label": "Balloon floating away",
    "role": "scored",
    "z": 1500,
    "bbox": [
-    1040.0,
-    122.0,
-    1406.0,
-    726.0
+    668.0,
+    162.0,
+    726.0,
+    398.0
    ],
-   "area_px": 5864,
-   "visible_px": 5864,
+   "area_px": 2788,
+   "visible_px": 2788,
    "occlusion": 0.0
   }
  ],
@@ -1222,10 +1146,10 @@
  "attempts": [
   [
    23012,
-   "layout 2: accepted after 1 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 1,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 23012,
@@ -1234,17 +1158,15 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "fly_kite"
-   ],
    "modules": [
-    "paint_tracks"
+    "lost_balloon",
+    "sprinkler_package"
    ],
    "contradictions": [
     "fish_in_tree"
    ]
   },
-  "placement_rev": 43
+  "placement_rev": 44
  },
  "probe": true
 }

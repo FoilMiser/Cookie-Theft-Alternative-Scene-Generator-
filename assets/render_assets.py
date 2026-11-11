@@ -199,11 +199,14 @@ def bench_overrides(outline, cel_tones):
     return outline, cel_tones
 
 
-def to_cel(materials, shadow=SHADOW_FACTOR, light=HIGHLIGHT_FACTOR):
+def to_cel(materials, shadow=SHADOW_FACTOR, light=HIGHLIGHT_FACTOR, rest=False):
     """Three-tone cel from a fixed virtual light, in the Clawd manner: a light pool on
     surfaces facing up toward the light, the exact palette color elsewhere, and a darker
     settle on surfaces facing down and away. Uses the surface normal only, so the result
-    is the same in any engine and never shows cast-shadow blotches."""
+    is the same in any engine and never shows cast-shadow blotches.
+    rest (v0.47, castlib TPDB_SHADE47): a mesh that carries the point attributes tpdb_rest_n (its normal in the rest pose) and tpdb_rest_w
+    (the trunk's share of a vertex) is lit, by that share, with the rest normal turned into the world by the object's own matrix, which is
+    the figure's yaw: the trunk's cloth keeps its upright shading in every pose. A mesh without them has a share of 0 and is lit as before."""
     for mat in materials:
         if mat is None or getattr(mat, "grease_pencil", None) is not None:
             continue
@@ -243,7 +246,35 @@ def to_cel(materials, shadow=SHADOW_FACTOR, light=HIGHLIGHT_FACTOR):
         emit = nt.nodes.new("ShaderNodeEmission")
         emit.inputs["Strength"].default_value = 1.0
         out = nt.nodes.new("ShaderNodeOutputMaterial")
-        nt.links.new(geo.outputs["Normal"], dot.inputs[0])
+        if rest:
+            an = nt.nodes.new("ShaderNodeAttribute")
+            an.attribute_type, an.attribute_name = "GEOMETRY", "tpdb_rest_n"
+            aw = nt.nodes.new("ShaderNodeAttribute")
+            aw.attribute_type, aw.attribute_name = "GEOMETRY", "tpdb_rest_w"
+            xf = nt.nodes.new("ShaderNodeVectorTransform")
+            xf.vector_type, xf.convert_from, xf.convert_to = "VECTOR", "OBJECT", "WORLD"
+            nrm = nt.nodes.new("ShaderNodeVectorMath")
+            nrm.operation = "NORMALIZE"
+            dif = nt.nodes.new("ShaderNodeVectorMath")
+            dif.operation = "SUBTRACT"
+            scl = nt.nodes.new("ShaderNodeVectorMath")
+            scl.operation = "SCALE"
+            add = nt.nodes.new("ShaderNodeVectorMath")
+            add.operation = "ADD"
+            fin = nt.nodes.new("ShaderNodeVectorMath")
+            fin.operation = "NORMALIZE"
+            nt.links.new(an.outputs["Vector"], xf.inputs["Vector"])
+            nt.links.new(xf.outputs["Vector"], nrm.inputs[0])
+            nt.links.new(nrm.outputs["Vector"], dif.inputs[0])
+            nt.links.new(geo.outputs["Normal"], dif.inputs[1])
+            nt.links.new(dif.outputs["Vector"], scl.inputs[0])
+            nt.links.new(aw.outputs["Fac"], scl.inputs["Scale"])
+            nt.links.new(geo.outputs["Normal"], add.inputs[0])
+            nt.links.new(scl.outputs["Vector"], add.inputs[1])
+            nt.links.new(add.outputs["Vector"], fin.inputs[0])
+            nt.links.new(fin.outputs["Vector"], dot.inputs[0])
+        else:
+            nt.links.new(geo.outputs["Normal"], dot.inputs[0])
         nt.links.new(dot.outputs["Value"], remap.inputs["Value"])
         nt.links.new(remap.outputs["Result"], ramp.inputs["Fac"])
         nt.links.new(ramp.outputs["Color"], mult.inputs[0])

@@ -266,6 +266,10 @@ WHEEL44 = "O"     # v0.44 bench (vision/isolation_v044.md): O ("square-ish", a b
 # v0.44 (revision 42, figure-review-v043.md item 8): the upward water, an even white-edged band before the street's dark shop door, read as a bent
 # tube. "B": a ribbon tapering as it rises, with drops breaking off its top third, and never in the street (templates.WaterUpward). "O": v0.43
 WATER44 = "B"     # v0.44 bench (vision/isolation_v044.md): B
+# v0.47 (revision 44, vision/flaws_v046.md R6): the upward water "looks more like a spray than a pour" (v0.46 picture 52): the ribbon thinned to 4 px
+# at its top and drops broke off both its sides. "B": one stream of a pour's width from the spout to its top (10 px to 7), its top round, no drops
+# beside it, the drops above it kept. "O": v0.46. The stream's line and its box are the same in both.
+UPW47 = "B"
 
 
 def wheel(cx, cy, r, square=False, col=None, v12=None):
@@ -740,11 +744,33 @@ def bread_bit(x, y, s=1.0, side=1):
     return shape(d, C["cream"], OW * 0.7) + f'<path d="M {P(x - 9 * s, y - 4 * s)} Q {P(x - 2 * s, y - 9 * s)} {P(x + 8 * s, y - 5 * s)}" fill="none" stroke="{C["wood"]}" stroke-width="{3 * s:.1f}"/>'
 
 
-def sandwich(x, y, s=1.0, bitten=0, style=5):
+def sandwich(x, y, s=1.0, bitten=0, style=5, deep=False):
     """A sandwich on its side: crusted bread, a wavy lettuce frill, tomato and a drooping cheese corner.
     (A plain stack read as a pile of books.) bitten = +1/-1 tears a bite out of the right/left end.
     style 6 (v0.8): bolder filling and thin outlines (at scene size the v0.7 outlines swallowed the
-    filling and it read as a stack of books or folded cloth)."""
+    filling and it read as a stack of books or folded cloth).
+    deep (v0.47, templates.STEAL47): the bite a quarter of the sandwich deep, out of the top slice and the filling,
+    the lower slice left whole under it, and the torn edge outlined."""
+    if bitten and deep:
+        sw, bb = sandwich(x, y, s, style=style)
+        s2 = s * 1.1
+        cx_, r_ = x + bitten * 31 * s2, 8 * s2
+        hs = (36.5, 27.0, 18.0)
+        cid = f"bite{int(x)}_{int(y)}"
+        notch = " ".join(f"M {P(cx_ - r_, y - h * s2)} a {r_:.1f} {r_:.1f} 0 1 0 {2 * r_:.1f} 0 a {r_:.1f} {r_:.1f} 0 1 0 {-2 * r_:.1f} 0" for h in hs)
+        clip = (f'<defs><clipPath id="{cid}"><path clip-rule="evenodd" d="M {P(x - 60 * s2, y - 60 * s2)} h {120 * s2:.1f} v {80 * s2:.1f} h {-120 * s2:.1f} Z {notch}"/></clipPath>'
+                f'<clipPath id="{cid}e"><path d="M {P(x - 32 * s2, y - 24 * s2)} Q {P(x - 32 * s2, y - 40 * s2)} {P(x, y - 40 * s2)} Q {P(x + 32 * s2, y - 40 * s2)} {P(x + 32 * s2, y - 24 * s2)} Z"/>'
+                f'<rect x="{x - 31 * s2:.1f}" y="{y - 25 * s2:.1f}" width="{62 * s2:.1f}" height="{15 * s2:.1f}"/></clipPath></defs>')
+        # the torn edge: the three scallops' inner sides, where no other scallop covers them, from the top one down
+        edge = []
+        for i, h in enumerate(hs):
+            for a in range(90, 271, 10):
+                ex, ey = cx_ - bitten * r_ * math.cos(math.radians(a - 180)), y - h * s2 - r_ * math.sin(math.radians(a))
+                if all(math.hypot(ex - cx_, ey - (y - h2 * s2)) >= r_ - 0.01 for j, h2 in enumerate(hs) if j != i):
+                    edge.append((ex, ey))
+        torn = (f'<path clip-path="url(#{cid}e)" d="M {" L ".join(P(*q) for q in edge)}" fill="none" stroke="{OUT}" stroke-width="{OW * 0.45:.1f}" '
+                f'stroke-linejoin="round" stroke-linecap="round"/>')
+        return clip + f'<g clip-path="url(#{cid})">{sw}</g>' + torn, bb
     if bitten:
         sw, bb = sandwich(x, y, s, style=style)
         s2 = s * 1.1
@@ -1077,14 +1103,26 @@ def water_stream(p0, direction, s=1.0, length=170, upward=False, spread=0.0, spl
                 x1, y1 = bez(min(1.0, t + 0.01))
                 nn = math.hypot(x1 - x0, y1 - y0) or 1
                 nx, ny = -(y1 - y0) / nn, (x1 - x0) / nn
-                w = (12.0 - 8.0 * t) * s / 2
+                if UPW47 == "B" and k == 24:
+                    # (the last point has no next one: the direction of the step before it; in O the ribbon closes to a point there)
+                    xb, yb = bez(0.99)
+                    nn = math.hypot(x0 - xb, y0 - yb) or 1
+                    nx, ny = -(y0 - yb) / nn, (x0 - xb) / nn
+                w = ((10.0 - 3.0 * t) if UPW47 == "B" else (12.0 - 8.0 * t)) * s / 2
                 left.append((x0 + nx * w, y0 + ny * w))
                 right.append((x0 - nx * w, y0 - ny * w))
+            if UPW47 == "B":
+                # (the round top: half a circle from the left edge's end over the stream's line to the right edge's)
+                tx_, ty_ = -ny, nx
+                if ty_ > 0:
+                    tx_, ty_ = -tx_, -ty_
+                left += [(end[0] + (nx * math.cos(a_) + tx_ * math.sin(a_)) * w, end[1] + (ny * math.cos(a_) + ty_ * math.sin(a_)) * w)
+                         for a_ in (math.radians(k * 22.5) for k in range(1, 8))]
             ribbon = "M " + " L ".join(P(*q) for q in left + right[::-1]) + " Z"
             svg = f'<path d="{ribbon}" fill="{C["water_light"]}" stroke="{OUT}" stroke-width="{OW * 0.55:.1f}" stroke-linejoin="round"/>'
-            glint = " ".join(P(*bez(k / 20)) for k in range(1, 14))
+            glint = " ".join(P(*bez(k / 20)) for k in range(1, 14 if UPW47 != "B" else 18))
             svg += f'<path d="M {glint}" fill="none" stroke="{C["white"]}" stroke-width="{1.8 * s:.1f}" stroke-linecap="round" stroke-opacity="0.85"/>'
-            for t, off, side in ((0.62, 10, 1), (0.72, 12, -1), (0.82, 12, 1), (0.92, 11, -1)):
+            for t, off, side in () if UPW47 == "B" else ((0.62, 10, 1), (0.72, 12, -1), (0.82, 12, 1), (0.92, 11, -1)):
                 x0, y0 = bez(t)
                 x1, y1 = bez(t + 0.01)
                 nn = math.hypot(x1 - x0, y1 - y0) or 1
@@ -1144,6 +1182,36 @@ def dustpan(x, y, s=1.0, f=1, col=None):
     svg += line(lip + f * 3 * s, y - 1 * s, back - f * 2 * s, y - 1 * s, OUT, 1.6 * s)
     xs = (lip, back + f * 31 * s)
     return svg, (min(xs) - 2, y - 22 * s, max(xs) + 2, y + 4 * s)
+
+
+def dustpan_open(x, y, s=1.0, f=1, col=None, dust=None, turn=60.0):
+    """v0.47 (templates.FORK47): a dustpan lying on the ground with its mouth turned to the viewer and, by 90 - `turn` degrees, toward -f, so
+    that its open tray shows: a wide lip, side walls rising to a back wall, a short thick handle standing up from the back wall toward +f
+    and, with `dust`, sweepings of that colour already in the tray. (x, y) is the middle of the lip. (v0.10's pan, a flat wedge on a long
+    thin handle seen from the side, was taken for a trowel.) Returns the drawing, its box and its far side's x."""
+    col = col or C["red"]
+    a = math.radians(turn)
+    ax, ay = math.cos(a), math.sin(a)          # the pan's axis on the ground, from the lip to the handle
+    nx, ny = -ay, ax
+    wm, wb, L, hh = 15.0, 11.5, 24.0, 9.0      # half-widths at the lip and at the back wall, the tray's depth, the walls' height
+
+    def pt(u, w, h=0.0):
+        """u along the axis, w across it, h up; the ground's depth drawn at half its length"""
+        return (x + f * (u * ax + w * nx) * s, y - (0.5 * (u * ay + w * ny) + h) * s)
+
+    M1, M2, B1, B2, T1, T2 = pt(0, wm), pt(0, -wm), pt(L, wb), pt(L, -wb), pt(L, wb, hh), pt(L, -wb, hh)
+    h0, h1 = pt(L, 0, hh * 0.5), pt(L + 15, 0, hh * 0.5 + 8)
+    svg = poly([M1, M2, B2, B1], "#a53030", OW * 0.7)                                              # the tray's floor
+    svg += line(h0[0], h0[1], h1[0], h1[1], OUT, 9.0 * s) + line(h0[0], h0[1], h1[0], h1[1], col, 9.0 * s - 2 * OW * 0.7)   # the handle
+    svg += poly([M1, B1, T1], col, OW * 0.7)                                                       # the far side wall
+    svg += poly([B1, B2, T2, T1], col, OW * 0.7)                                                   # the back wall
+    if dust:
+        c = pt(L * 0.45, -1.0)
+        svg += ell(c[0], c[1], 9.5 * s, 3.8 * s, dust, OW * 0.45)
+    svg += poly([M2, B2, T2], col, OW * 0.7)                                                       # the near side wall
+    pts = [M1, M2, B1, B2, T1, T2, (h1[0] - 5 * s, h1[1] - 5 * s), (h1[0] + 5 * s, h1[1] + 5 * s)]
+    end = max(p[0] * f for p in pts) * f
+    return svg, (min(p[0] for p in pts) - 2, min(p[1] for p in pts) - 2, max(p[0] for p in pts) + 2, max(p[1] for p in pts) + 2), end
 
 
 def hose_tail(pts, start, s=1.0, col=None):

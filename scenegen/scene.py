@@ -264,7 +264,25 @@ class PlacementError(Exception):
 # grass blades (settings.FOOT45; the flat oval was "unexplained"); and the lost balloon's string hangs in a slow wave with no curl at its end
 # (templates.CURL45; the curl was "a hook rather than a loose end"). After a look at the set's first garden isomorphs it lifts that string's end
 # clear above the garden's wooden fence, on to the hedge (templates.WOOD45; on the boards the string ran down a board gap and ended at a rail).
-PLACEMENT_REV = 43
+# Revision 44 (v0.47): the reading dog is a pose of its own in the cast, sitting up with an open paper held in both paws below the muzzle
+# (templates.READ47; hung flat from the raised paws the paper was read as carried in the mouth, v046 pic_53). The paper is part of the dog's own
+# drawing, so the scored newspaper draws nothing and is measured as a part of the dog (compose.measure, element key "part_of"); its shadow is
+# cast from where it sits, not from the paper held out in front (library.SHADOW47). The dog on the
+# hose is a pose of its own too, in profile and facing the reel, standing still with its near forepaw flat on the hose where the water first
+# meets it, the hose swollen short and round against the paw and thin past it, no drop at the nozzle (templates.HOSE47; the dog square on the
+# hose's line "may be standing on the hose or just in front of it", and on the bench a dog in mid-stride was walking over it). Nothing upright of the setting stands behind the walker who is about to trip (templates.TRIP47; a bird table's
+# post at his back was read as what he was heading for). The fork's sweeper has a low ragged heap of pale dust and grit at the tines and an
+# open dustpan beside it, all on the paving (templates.FORK47; with the pan on the lawn he was "digging into the ground", and on the bench a
+# round heap with a leaf at each end was a small animal). The thief bird stands by its beak, the tip
+# in a deep bite, both feet on the seat, and the reader sits turned away so that the sandwich lies behind the reader's back (templates.STEAL47;
+# the bird was "perched right beside it", the sandwich could read as on the lap). A stalked bird that pecks has seeds at its beak
+# (templates.SEED47), and it is stood by the gap between the cat's front and itself, not by the distance between the two ground points
+# (templates.GAP47; with the v0.47 pecking bird, which reaches further forward, the old draw gave the asked gap on no seed outside the garden).
+# The lost balloon's string ends nearer the reaching hand (templates.BAL47). The upward water is one stream of a pour's width from the spout to its
+# round top, with no drops beside it (draw.UPW47; thinned to its top with drops off both sides it was "more like a spray than a pour"). The
+# fence painter stands so that the roller's middle lies on the middle of its board, above that board's wet paint (templates.PAINT47; at a
+# board's edge it was "well away from the blue part").
+PLACEMENT_REV = 44
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 

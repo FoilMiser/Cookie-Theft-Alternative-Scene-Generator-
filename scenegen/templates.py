@@ -793,13 +793,13 @@ class BenchSit(T):
         self.p = sc.person(self.kinds)
         self.vp = sc.need(self.p, self.pose, sc.rng.choice(self.exprs), 45)
 
-    def seat(self, ep, frac=None):
+    def seat(self, ep, frac=None, wants=(1, -1)):
         sc = self.sc
         B = sc.S.anchors["bench"]
         fr = [frac] if frac is not None else [0.3, 0.7, 0.5]
         for t in fr:
             x = B["x0"] + (B["x1"] - B["x0"]) * t
-            for want in (1, -1):
+            for want in wants:
                 p = sc.placed(self.vp, 0, 0, sc.mirror_for(self.vp, want), depth_y=B["depth"] + 3, eid=ep)
                 p.move_anchor_to("seat", (x, B["seat_y"]))
                 if sc.fits(p.bbox(), limit=0.15):
@@ -1900,6 +1900,13 @@ class PaintFence(T):
                 # the top line: "hovers slightly above the fence top line", "held up against the fence top rather than on the part she is painting")
                 while p.anchor("roller")[1] < 480 and p.Y < 716:
                     p = sc.placed(self.vp, x, p.Y + 12, p.mirror, eid=ep)
+            if SCN.PLACEMENT_REV >= 44 and PAINT47 == "B":
+                # revision 44 (templates.PAINT47): the painter a little to one side, at most half a board, so that the roller's middle lies on the
+                # middle of its board, straight above that board's wet paint (at a board's edge it lay over the gap beside the blue). The
+                # cast's "roller" anchor is the sleeve's leading face: its middle lies PAINT47_SLEEVE source pixels behind it.
+                sx_ = p.anchor("roller")[0] - (p.facing() or 1) * PAINT47_SLEEVE * p.k
+                x = x + (332 + 46 * int((sx_ - 310) // 46) - sx_)
+                p = sc.placed(self.vp, x, p.Y, p.mirror, eid=ep)
             rx, ry = p.anchor("roller")
             # slide so the roller touches the fence (fence front is at depth 615)
             if not (440 < ry < 600) or not sc.fits(p.bbox(), limit=0.15):
@@ -2268,6 +2275,82 @@ WOOD45_GAP = 200
 #   (7 to 8% before): at 20 and 10 they took 25%, and the garden isomorph could not be built.
 READ45 = "B"  # after the v0.45 screen (vision/flaws_v045.md, After the screen): B
 READ45_IN, READ45_UP = 12.0, 6.0
+# READ47 "B" (v0.46 screen, flaws_v046.md R1: the flat paper hung in front of the raised paws was read as carried, "A brown dog sits up holding a
+#   newspaper in its mouth", v046 pic_53): the reading dog is a pose of its own in the cast (animals.TPDB_READ47, `sit_read`): sitting up, forelegs
+#   bent, an open paper held in both paws below the muzzle and clear of the head, the head tipped down to it, glasses on. The paper is part of the
+#   dog's own drawing: the scored newspaper draws nothing, its outline is the paper's four corner anchors and it is measured as a part of the dog
+#   (compose.measure, "part_of"). "O": revision 42's paper, drawn flat and hung from the paws.
+READ47 = "B"  # v0.47 bench (vision/isolation_v047.md): B
+# HOSE47 "B" (flaws_v046.md R4: "The dog may be standing on the hose or just in front of it."; the nozzle's one drop was "a drop of water coming
+#   out", v046 pic_96): the dog on the hose is a pose of its own (animals.TPDB_HOSE47, `stand_hose`), in profile only and facing the reel, its near
+#   forepaw a step out ahead of its chest and planted on the hose, the first thing the water meets. The hose swells against that paw in the open
+#   ground ahead of the dog, lies flat under it in a band wider than the paw, and runs on thin, turned toward the viewer so that it passes clear
+#   in front of the other three paws. No drop at the nozzle: the scored "no water" is the nozzle the holder looks into, a part of the holder's own
+#   drawing (compose.measure, "part_of"). "C": B with the one drop kept. "O": revision 43, the dog square on the hose's line, a back paw on it.
+#   "D" (bench round 1, B: the stride read as walking, "it is unclear whether it is stepping on it or walking past it", and the long low swelling
+#   "like a puddle or a squashed bulge", vision/isolation_v047/round1 iso_47, iso_28): the dog stands still, square, its near forepaw flat on the
+#   hose (animals.TPDB_HOSE47 "D"), and the swelling is short, round and standing up off the ground against that paw (HOSE47_GEOM_D).
+HOSE47 = "D"  # v0.47 bench (vision/isolation_v047.md): D
+# TRIP47 "B" (flaws_v046.md R2: "The box is behind him, so he is not about to trip on it.", v046 pic_82, where the bird table's post stood directly
+#   behind the walker's back and the reader had him heading for it): nothing upright of the setting (a post, a pole, a trunk, a frame) from the
+#   walker's middle back to a body's width behind him, over his whole height. The walk itself is the cast's (actions.TPDB_WALK47: the trailing
+#   foot on its toe, heel up). "O": revision 43.
+#   "C" (the design tests, vision/design_tests_v047/desc_test_5_first.md: a tree in its planter stood just beyond the walker's open book, past
+#   the box, and "he could alternatively be about to bump into the tree"): B, and nothing upright of the setting ahead of him either, from his
+#   middle to a body's width past the obstacle, over his whole height.
+TRIP47 = "C"  # (a placement rule, read in the design tests and in whole pictures)
+TRIP47_POSTS = ("feeder", "lamp", "clothesline", "tree", "tree_small", "swing", "swing_seat", "slide", "stall", "hose_reel")
+# FORK47 "B" (flaws_v046.md R3, v046 pic_85: the heap at the path's edge and the pan on the lawn, a man "digging into the ground", the pan a
+#   "Red trowel (right front, on the ground): lying beside the digging spot, not being used."): a heap of pale dust and grit just ahead of
+#   the tines with two fallen leaves at its foot and, behind its far side, a dustpan turned to the viewer so that its open tray, its back
+#   wall and its short handle show (draw.dustpan_open), dust already in it; from the tines to the pan's far side about 100 px at the front
+#   (158 before), so that fork, heap and pan fit the garden's path, and the whole pan on the paving by rule. "C": B without the leaves
+#   (v0.7's heap of leaves made it raking). "O": revision 43.
+#   "D" (bench round 1, B: the round heap with a leaf at each end was an animal to all three readers, "as a small grey bird (such as a pigeon)
+#   lying on the ground with orange beak and feet", "It could be misread as a dead bird or small animal.", vision/isolation_v047/round1 iso_57,
+#   iso_05): no leaves, the heap low, wide and ragged, of one grey with fine grit in it, and loose grit along the swept ground behind it.
+FORK47 = "D"  # v0.47 bench (vision/isolation_v047.md): D
+FORK47_DUST = "#a9a59d"
+# STEAL47 "B" (flaws_v046.md R5, the thief bird "perched right beside it, looking ready to steal it", v046 pic_53; and O7, the sandwich
+#   "overlapping his legs a little, so it could read as on his lap or on the bench", pic_28, the bird "partly beyond its edge, so it can look
+#   slightly as if it is hovering", pic_30): the cast's pecking bird has its head down (animals.TPDB_PECK47), and it is stood by its beak, the tip in
+#   a bite a quarter of the sandwich deep (draw.sandwich, deep), light crumbs on the seat under its head, no torn piece in the beak (at this
+#   size a dark blob); the reader sits a little further along and turned away from the sandwich, so that it lies behind the reader's back,
+#   clear of the legs; both of the bird's feet on the seat, STEAL47_GEOM["feet"] and more inside its end. "O": revision 43.
+STEAL47 = "B"  # v0.47 bench (vision/isolation_v047.md): B
+STEAL47_GEOM = {"frac": 0.04, "off": 0.40, "beak": 25.0, "feet": 6.0, "slide": 16.0}
+# SEED47 "B" (flaws_v046.md R6, the stalked bird read as standing, v046 pic_48): a few seeds on the ground at the pecking bird's beak, as the
+#   fed birds have. "O": none.
+SEED47 = "B"  # v0.47 bench (vision/isolation_v047.md): B
+# GAP47 "B": the stalked bird on the ground is stood by the gap itself, 50 to 80 px at full size between the cat's front and the bird (46 to 60
+#   on the easy knob, 80 to 140 on the hard one). Revision 41 drew the distance between the two ground points and then asked for a 45 px gap,
+#   which only the far end of the draw could give; the v0.47 pecking bird reaches 8 px further forward and the cat 1, and with them no draw gave
+#   it: the pair placed on the ground on none of 24 seeds in the park, the street and the playground (7, 7 and 8 of 24 with round 1's cast).
+#   A little wider than that 45, too: round 1, "The bird is very close to the cat's face." (vision/isolation_v047/round1 iso_30). "O": revision 43.
+GAP47 = "B"  # (a placement rule)
+# POST47 "B" (design tests, the park picture on seed 47407 as first built: the lamp's post stood between the stalking cat and its bird, in front of
+# both, so the cat looked at a post): on the ground nothing upright of the setting (TRIP47_POSTS) stands in the pair's span, from the cat's back to
+# the bird's far edge and a little beyond, over their height. "O": revision 43
+POST47 = "B"  # (a placement rule)
+# BAL47 "B" (flaws_v046.md R6: "The blue balloon may have slipped from the girl (she reaches for it), or it may belong to no one.", v046
+#   pic_17): the lost balloon's string ends nearer the reaching hand, 42 to 60 px above it at full size and 8 to 22 ahead (BAL45: 62 to 80 and
+#   16 to 30; v0.44's 28 to 42 was "holding the string by its very tip"). The fence rules are BAL45's. "O": revision 43.
+BAL47 = "B"  # v0.47 bench (vision/isolation_v047.md): B
+# PAINT47 "B" (flaws_v046.md O5; design test 3's reader, vision/design_tests_v046.md: "The odd thing is that the woman is holding her roller up
+#   in the air to her left, well away from the blue part of the fence"): the painter stands a little to one side, at most half a board, so
+#   that the roller's middle lies on the middle of its board, straight above that board's wet paint; at a board's edge it lay over the gap,
+#   beside the blue. "O": revision 43.
+PAINT47 = "B"  # v0.47 bench (vision/isolation_v047.md): B
+# CONE47 "B" (found when no tier-4 isomorph of v0.47 would build: the dropped ice cream "could not place" in try after try): revision 8 lays the
+#   scoop a fixed 10 px clear of the near foot and then asks that the cone be within 0.9 of the splat's half width of its middle. With the burst
+#   splat of revision 26 the older child passes that test by a tenth of a pixel on the middle knob and fails it on the easy one, and the younger
+#   child, whose cone is 4 px nearer her feet, fails it on every knob: since v0.28 the event has been drawn with one child of the two (every
+#   dropped cone of the sets and probes from v0.28 to v0.46 is his). Where the fixed clearance would put the cone outside the splat, the scoop is laid by
+#   the cone itself, the cone 0.9 of the half width from the middle, as in every picture so far, while its rim stays CONE47_CLEAR px clear of
+#   the near foot (5; 5.7 to 8.9 is what the two children give over the three knobs). "O": revision 43.
+CONE47 = "B"  # (a placement rule)
+CONE47_CLEAR = 5.0
+PAINT47_SLEEVE = 24.0   # (measured on the library's `paint` renders at yaw 90: 22.9 to 24.8)
 # (look review of v0.44, tpdb_work/review45/)
 # PAINT45 "B": the board under the roller painted from below the roller down, the blue roller on bare wood (on the blue board it was lost); the
 #   painter a step further forward until the roller lies well below the boards' tops (bench round 1: "hovers slightly above the fence top line")
@@ -2293,6 +2376,8 @@ def yaw_table():
         tab = {k: v for k, v in tab.items() if k != "cat_stalks_bird"}
     if SCN.PLACEMENT_REV >= 42 and GOAT44 == "B":
         tab = dict(tab, goat_grazing=(90, 45))        # revision 42 (templates.GOAT44): not at 135
+    if SCN.PLACEMENT_REV >= 44 and HOSE47 != "O":
+        tab = {k: v for k, v in tab.items() if k != "blocked_hose"}     # revision 44 (templates.HOSE47): the dog on the hose in profile only
     return tab
 
 
@@ -3165,7 +3250,12 @@ class BlockedHose(T):
         # (revision 41: a dog, never a goat, templates.HOSE43)
         self.a = sc.animal(["dog"] if (SCN.PLACEMENT_REV >= 41 and HOSE43 == "B") else ["dog", "goat"])
         self.vp = sc.need(self.p, "hose_inspect", "puzzled", 90)
-        self.va = sc.need(self.a, "stand", sc.rng.choice(["neutral", "happy"]), animal_yaw(sc, self.id))
+        # (revision 44: a pose of its own, in profile, templates.HOSE47)
+        self.h47 = SCN.PLACEMENT_REV >= 44 and HOSE47 in ("B", "C", "D")
+        if self.h47:
+            self.va = sc.need(self.a, "stand_hose", sc.rng.choice(["neutral", "happy"]), 90)
+        else:
+            self.va = sc.need(self.a, "stand", sc.rng.choice(["neutral", "happy"]), animal_yaw(sc, self.id))
 
     def place(self):
         sc = self.sc
@@ -3176,21 +3266,56 @@ class BlockedHose(T):
             p = sc.placed(self.vp, X, Y, sc.mirror_for(self.vp, -1), eid=ep)
             if not sc.fits(p.bbox()):
                 continue
-            # the animal stands on the hose between the reel and the man, facing him
+            # the animal stands on the hose between the reel and the man, facing him (revision 44, templates.HOSE47: facing the reel)
             ax = rx + (X - rx) * sc.rng.uniform(*self.k3((0.62, 0.72), (0.45, 0.62), (0.30, 0.45)))
             ay = Y + sc.rng.uniform(20, 50)
             if not sc.S.walkable(ax, ay):
                 continue
-            a = sc.placed(self.va, ax, ay, sc.mirror_for(self.va, 1), eid=ea)
+            a = sc.placed(self.va, ax, ay, sc.mirror_for(self.va, (1 if rx > ax else -1) if self.h47 else 1), eid=ea)
             if not sc.fits(a.bbox()) or sc.overlap(a.bbox(), p.bbox()) > 0.08:
                 continue
+            hx, hy = p.anchor("hose_in")
+            s = sz(Y)
+            if self.h47:
+                # revision 44 (templates.HOSE47): the stepped forepaw pinches the hose, with room ahead of it for the swelling and the run from the reel
+                pinch = a.anchor("hose_paw")
+                if abs(pinch[0] - rx) < 100 * s + 70:
+                    continue
+                rear = max((a.anchor(k) for k in ("paw_BR", "paw_BL", "paw_FL")), key=lambda q: abs(q[0] - pinch[0]))
+                low = max(a.anchor(k)[1] for k in ("paw_BR", "paw_BL", "paw_FL"))
+                if max(pinch[1] + HOSE47_GEOM["line"] * s, low + 2 * s) + (HOSE47_GEOM["clear"] + 8) * s > D.H - 4:
+                    continue            # (the whole hose inside the picture)
+                sc.assets[ep], sc.assets[ea] = p, a
+                hose, hb = _pinched_hose47(sc, (rx, ry), pinch, rear[0], low, (hx, hy), Y, s)
+                eh = sc.svg(sc.eid("hose"), "Garden hose, pinched under the paw", hose, ay - 1, hb, "scored")
+                sc.keepout.append((hb[0], pinch[1] - 30 * s, hb[2], max(pinch[1], Y) + 34 * s))
+                nx, ny = p.anchor("nozzle")
+                if HOSE47 == "C":
+                    drip = D.drops(nx, ny + 16 * s, s * 1.5, 1)
+                    en = sc.svg(sc.eid("drip"), "Single drip from the dry nozzle", drip, Y + 2, (nx - 14 * s, ny, nx + 14 * s, ny + 34 * s), "scored")
+                else:
+                    # the dry nozzle the holder looks into: a part of the holder's own drawing
+                    r_ = 15 * s
+                    en = sc.svg(sc.eid("nozzle"), "Dry nozzle of the hose", "", Y + 2, (nx - r_, ny - r_, nx + r_, ny + r_), "scored")
+                    sc.svgs[en]["part_of"] = ep
+                    sc.svgs[en]["mask_svg"] = f'<circle cx="{nx:.2f}" cy="{ny:.2f}" r="{r_:.2f}" fill="#000"/>'
+                pn, pnames = self.who(self.p)
+                an = sc.name(self.a)
+                self.act(self.p, "holding a hose, looking into the nozzle", ["holding a hose", "looking at the hose", "looking into the nozzle", "puzzled", "confused"], "hose", [ep, eh])
+                it = self.ent(f"The {an} is standing on the hose", [f"{an} standing on the hose", f"{an} on the hose", "stepping on the hose"], an, [ea], animate=True)
+                it["type"] = "action"
+                it2 = self.ent("No water is coming out", ["no water", "water isn't coming out", "hose isn't working", "nothing coming out", "hose is dry"], "hose", [en])
+                it2["type"] = "action"
+                it2["cues"] = [en, ep]
+                self.inf(f"The {an} is blocking the water by standing on the hose",
+                         [f"the {an} is stepping on the hose so the water can't come out", "the hose is pinched", "blocking the water", "that's why there's no water"],
+                         "water", 2, cues=[ea, en, ep], effect=[en])
+                return True
             sc.assets[ep], sc.assets[ea] = p, a
             paw = a.anchor("paw_FR") if a.anchor("paw_FR")[1] >= a.anchor("paw_FL")[1] else a.anchor("paw_FL")
             if SCN.PLACEMENT_REV >= 11:
                 # revision 11: the near back foot, the first the water from the reel meets, pinches the hose
                 paw = a.anchor("paw_BR") if a.anchor("paw_BR")[1] >= a.anchor("paw_BL")[1] else a.anchor("paw_BL")
-            hx, hy = p.anchor("hose_in")
-            s = sz(Y)
             pinch = (paw[0], paw[1] - 2)
             if SCN.PLACEMENT_REV >= 11:
                 fp = a.anchor("paw_FR") if a.anchor("paw_FR")[1] >= a.anchor("paw_FL")[1] else a.anchor("paw_FL")
@@ -3303,6 +3428,76 @@ def _pinched_hose(sc, reel, pinch, front_x, hand, Y, s):
     svg = up + down + bulge + flat
     xs = [rx, x0, gx, gr, hx]
     bb = (min(xs) - 12, min(ry, hy) - 10, max(xs) + 12, max(py, Y) + 30 * s)
+    return svg, bb
+
+
+# (the new hose's measures, in units of the scene's depth scale: how far below the paw's ground point the hose's line lies, the flat band's
+#  half-length and half-height, the swelling's length and half-height, and how far in front of the other paws the thin run passes)
+HOSE47_GEOM = {"line": -3.0, "band": (19.0, 3.8), "swell": (96.0, 10.5), "clear": 17.0}
+# ("D": the swelling short and round, its top standing higher off the ground, `lift`, and the band under the paw shorter)
+HOSE47_GEOM_D = {"line": -3.0, "band": (15.0, 3.4), "swell": (44.0, 12.5), "clear": 17.0, "lift": 0.45}
+
+
+def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
+    """Revision 44 (templates.HOSE47): the hose comes from the reel along the ground ahead of the dog, swells against the forepaw that is stepped out
+    and planted on it, lies flat under that paw in a band wider than the paw, and runs on thin: turned toward the viewer just past the paw, so that
+    it passes clear in front of the other three paws with grass between, and then up to the hand in the old long hanging curve. `pinch` is the
+    ground point under the planted paw, `rear_x` the paw farthest from it, `low` the lowest of the other paws' anchors."""
+    rx, ry = reel
+    px, py = pinch
+    hx, hy = hand
+    G = HOSE47_GEOM_D if HOSE47 == "D" else HOSE47_GEOM
+    lift = G.get("lift", 0.25)
+    f = 1 if rx > px else -1                       # the side of the paw the water comes from
+    cy = py + G["line"] * s                        # the hose's line: the paw's toes stand on it, and its near half shows in front of them
+    sw, hmax = G["swell"][0] * s, G["swell"][1] * s
+    x0 = px + f * sw
+    up = D.hose_path([(rx, ry), (rx - f * 20, cy + 5 * s), (x0, cy)], 1.0)
+    # the swelling (revision 27's slim egg), ending in under the paw
+    prof = [(x0 + f * 8 * s, 4.5, 0.0)]
+    n = 48
+    for i in range(n + 1):
+        t = i / n
+        x = x0 + (px - f * 2 * s - x0) * t
+        if t <= 0.80:
+            g = math.sin(math.pi / 2 * min(1.0, t / 0.55)) ** 0.8
+            hw = 4.5 + (hmax - 4.5) * g
+        else:
+            g = 1.0
+            hw = max(2.6 * s, hmax * math.sqrt(max(0.0, 1.0 - ((t - 0.80) / 0.20) ** 2)))
+        prof.append((x, hw, g))
+    ow = D.OW * 0.8
+
+    def outline(extra):
+        pr = prof if extra else [(prof[0][0] + f * 3 * s,) + tuple(prof[0][1:])] + prof[1:]
+        tp = [(x, cy - (hw * (1 + lift * g) + extra)) for x, hw, g in pr]
+        bt = [(x, cy + (hw * (1 - lift * g) + extra)) for x, hw, g in pr]
+        return "M " + " L ".join(D.P(*q) for q in tp + bt[::-1]) + " Z"
+    bulge = f'<path d="{outline(ow)}" fill="{D.OUT}" stroke="{D.OUT}" stroke-width="1" stroke-linejoin="round"/>'
+    bulge += f'<path d="{outline(0)}" fill="{C["hose"]}"/>'
+    # squashed flat under the paw: a thin band longer than the paw, showing on both sides of it and in front of its toes
+    bw, bh = G["band"]
+    flat = D.ell(px - f * 2 * s, cy + 0.6 * s, bw * s, bh * s, C["hose"], D.OW * 0.7)
+    # downstream: thin, bending toward the viewer under the paw and running in front of the other paws, past the last of them, then up to the hand
+    yr = max(cy, low + 2 * s) + G["clear"] * s
+    xa = px - f * 46 * s
+    gx = rear_x - f * 30 * s
+    if f * (xa - gx) < 10 * s:
+        gx = xa - f * 10 * s
+    gr = hx + f * 60 * s                           # where the hose leaves the ground
+    if f * (gx - gr) < 16 * s:
+        gr = gx - f * 16 * s
+    hm = (hx - f * 30 * s, hy + (py - hy) * 0.52)
+    down = D.hose_path([(px - f * 8 * s, cy + 1 * s),
+                        (px - f * 17 * s, cy + 2 * s), (px - f * 24 * s, (cy + yr) / 2 + 1 * s),
+                        (px - f * 31 * s, yr), (xa, yr),
+                        ((xa + gx) / 2, yr + 2 * s), (gx, yr),
+                        ((gx + gr) / 2, yr + 1 * s), (gr, yr - 3 * s),
+                        (hm[0] - f * 2 * s, yr - 10 * s), hm,
+                        (hx - f * 16 * s, hy + (py - hy) * 0.15), (hx, hy)], 0.5)
+    svg = up + down + bulge + flat
+    xs = [rx, x0, gx, gr, hx]
+    bb = (min(xs) - 12, min(ry, hy) - 10, max(xs) + 12, max(yr, Y) + 12 * s)
     return svg, bb
 
 
@@ -3541,7 +3736,14 @@ class CatStalksBird(T):
                 continue
             if SCN.PLACEMENT_REV >= 42 and CAT44 == "B" and not sc.clear_of_setting(c.bbox(), ("tree", "tree_small"), c.bbox()[2] - c.bbox()[0]):
                 continue        # revision 42 (templates.CAT44): its own length clear of a tree
-            bx, by = X + want * sc.rng.uniform(*self.k3((110, 160), (150, 240), (240, 330))) * sz(Y) * near, Y + sc.rng.uniform(-12, 12)
+            if SCN.PLACEMENT_REV >= 44 and GAP47 == "B":
+                # revision 44 (templates.GAP47): the bird stood by the gap between the cat's front and its own near edge
+                by = Y + sc.rng.uniform(-12, 12)
+                gap47 = sc.rng.uniform(*self.k3((46, 60), (50, 80), (80, 140))) * sz(Y)
+                b0 = sc.placed(self.vb, X, by, sc.mirror_for(self.vb, -want), eid=eb)
+                bx = (c.bbox()[2] + gap47 + (X - b0.bbox()[0])) if want > 0 else (c.bbox()[0] - gap47 - (b0.bbox()[2] - X))
+            else:
+                bx, by = X + want * sc.rng.uniform(*self.k3((110, 160), (150, 240), (240, 330))) * sz(Y) * near, Y + sc.rng.uniform(-12, 12)
             if not sc.S.walkable(bx, by):
                 continue
             b = sc.placed(self.vb, bx, by, sc.mirror_for(self.vb, -want), eid=eb)
@@ -3552,6 +3754,12 @@ class CatStalksBird(T):
                 # against" the bird read "it already has the bird at its mouth", v0.43 design test 6)
                 gap = (b.bbox()[0] - c.bbox()[2]) if want > 0 else (c.bbox()[0] - b.bbox()[2])
                 if gap < 45 * sz(Y):
+                    continue
+            if SCN.PLACEMENT_REV >= 44 and POST47 == "B":
+                # revision 44 (templates.POST47): nothing upright of the setting between or beside the cat and its bird
+                cb, bb_, s_ = c.bbox(), b.bbox(), sz(Y)
+                if not sc.setting_clear((min(cb[0], bb_[0]) - 12 * s_, min(cb[1], bb_[1]), max(cb[2], bb_[2]) + 12 * s_, max(cb[3], bb_[3])),
+                                        only=TRIP47_POSTS):
                     continue
             ok = sc.gaze_ok(c, (b.bbox()[0] - 10, b.bbox()[1] - 30, b.bbox()[2] + 10, b.bbox()[3] + 10))
             if ok and SCN.PLACEMENT_REV >= 12:
@@ -3576,6 +3784,14 @@ class CatStalksBird(T):
                     sc.airzones.append(room)
                     sc.groundzones.append(tight)
                     sc.stalk_spans = getattr(sc, "stalk_spans", []) + [span]
+                if SCN.PLACEMENT_REV >= 44 and SEED47 == "B" and self.vb[1] == "peck" and b.has_anchor("mouth"):
+                    # revision 44 (templates.SEED47): a few seeds on the ground at the pecking bird's beak
+                    mx, my = b.anchor("mouth")
+                    fb, k_ = (1 if mx >= b.X else -1), sz(b.Y)
+                    pts = [(mx + fb * dx * k_, my + dy * k_) for dx, dy in ((-7, 3), (2, 4.5), (9, 2), (15, 5), (5, -0.5))]
+                    seeds = "".join(D.circ(x_, y_, 2.3 * k_, C["khaki"], D.OW * 0.3) for x_, y_ in pts)
+                    box = (min(q[0] for q in pts) - 4, min(q[1] for q in pts) - 4, max(q[0] for q in pts) + 4, max(q[1] for q in pts) + 4)
+                    sc.svg(sc.eid("seeds"), "Seeds", seeds, b.Y - 0.5, box, "setting")
                 return self.items(ec, eb, "")
         return False
 
@@ -4098,7 +4314,13 @@ def _ice_cream_place8(self):
         edge = max(feet) + 10 * s if side > 0 else min(feet) - 10 * s
         sx = max(cx, edge + half) if side > 0 else min(cx, edge - half)
         if abs(sx - cx) > 0.9 * half:   # the cone must still be above the scoop
-            continue
+            if not (SCN.PLACEMENT_REV >= 44 and CONE47 == "B"):
+                continue
+            # revision 44 (CONE47): the scoop laid by the cone, while its rim stays clear of the near foot
+            sx = cx + side * 0.9 * half
+            near = max(feet) if side > 0 else min(feet)
+            if (sx - side * half - near) * side < CONE47_CLEAR * s:
+                continue
         sy = Y + 12 * s
         if not sc.S.walkable(sx, sy):
             continue
@@ -4177,6 +4399,13 @@ class AboutToTrip(T):
             p = sc.placed(self.vp, X, Y, sc.mirror_for(self.vp, want), eid=ep)
             if not sc.fits(p.bbox()):
                 continue
+            if SCN.PLACEMENT_REV >= 44 and TRIP47 in ("B", "C"):
+                # revision 44 (templates.TRIP47): nothing upright behind the walker's back for him to seem headed to
+                pb_ = p.bbox()
+                w_ = pb_[2] - pb_[0]
+                back = (pb_[0] - w_, pb_[1], X, pb_[3]) if want > 0 else (X, pb_[1], pb_[2] + w_, pb_[3])
+                if not sc.setting_clear(back, only=TRIP47_POSTS):
+                    continue
             # revision 8: away from the clothesline (between its posts the open book read as laundry)
             if SCN.PLACEMENT_REV >= 8 and not sc.clear_of_setting(p.bbox(), ("clothesline", "laundry"), 40):
                 continue
@@ -4238,6 +4467,13 @@ class AboutToTrip(T):
                     continue
                 # and in front of no bench, stall or other structure (a box drawn over a bench's back read as on the bench)
                 if not sc.air_clear((bb[0] - 10, bb[1], bb[2] + 10, bb[3] + 26)):
+                    continue
+            if SCN.PLACEMENT_REV >= 44 and TRIP47 == "C":
+                # revision 44 (templates.TRIP47 "C"): and nothing upright ahead of him, to a body's width past the obstacle
+                pb_ = p.bbox()
+                w_ = pb_[2] - pb_[0]
+                ahead = (X, pb_[1], bb[2] + w_, pb_[3]) if want > 0 else (bb[0] - w_, pb_[1], X, pb_[3])
+                if not sc.setting_clear(ahead, only=TRIP47_POSTS):
                     continue
             beyond = None
             if SCN.PLACEMENT_REV >= 20:
@@ -4790,12 +5026,17 @@ class BirdSteals(T):
         sc = self.sc
         B = sc.S.anchors["bench"]
         ep, eb = sc.eid("benchreader"), sc.eid("thief")
+        steal47 = SCN.PLACEMENT_REV >= 44 and STEAL47 == "B"
         for frac, side in ((0.3, 1), (0.7, -1)):
-            p = BenchSit.seat(self, ep, frac)
+            if steal47:
+                # revision 44 (templates.STEAL47): the reader a little further along and turned away from the sandwich
+                p = BenchSit.seat(self, ep, frac - side * STEAL47_GEOM["frac"], wants=(-side,))
+            else:
+                p = BenchSit.seat(self, ep, frac)
             if not p:
                 continue
             s = sz(B["depth"])
-            fx = (B["x0"] + (B["x1"] - B["x0"]) * (frac + side * 0.38))
+            fx = (B["x0"] + (B["x1"] - B["x0"]) * (frac + side * (STEAL47_GEOM["off"] if steal47 else 0.38)))
             fy = B["seat_y"] - 2
             sty = 6 if SCN.PLACEMENT_REV >= 6 else 5
             # revision 8: the bold sandwich looked outsized; revision 23: smaller still with the smaller bird ("very large compared
@@ -4816,11 +5057,31 @@ class BirdSteals(T):
                 bb_ = b.bbox()
                 front = bb_[0] if side > 0 else bb_[2]
                 b.X += (sbb[2] if side > 0 else sbb[0]) - side * 5 * s - front
+            if steal47:
+                # revision 44 (templates.STEAL47): the bird stood by its beak, the tip in the bite; both feet on the seat, the sandwich and the
+                # bird slid toward the reader by as much as the feet need, and no further than STEAL47_GEOM["slide"]
+                b.X += fx + side * STEAL47_GEOM["beak"] * ss * 1.1 - b.anchor("mouth")[0]
+                bx_ = next((e["bbox"] for e in sc.S.elements if e["id"] == "bench" and e.get("bbox")), None)
+                end = (bx_[2] if side > 0 else bx_[0]) if bx_ else (B["x1"] + 20 * s if side > 0 else B["x0"] - 20 * s)
+                over = max([side * (b.anchor(a)[0] - end) for a in ("foot_L", "foot_R") if b.has_anchor(a)] or [-99.0]) + STEAL47_GEOM["feet"] * s
+                if over > STEAL47_GEOM["slide"] * s:
+                    sc.remove(ep)
+                    continue
+                if over > 0:
+                    fx -= side * over
+                    b.X -= side * over
             if not sc.fits(b.bbox(), limit=0.15, ignore=(ep,)):
                 sc.remove(ep)
                 continue
             sc.assets[eb] = b
-            if SCN.PLACEMENT_REV >= 5:
+            if steal47:
+                # a bite a quarter of the sandwich deep with the beak's tip in it, and light crumbs on the seat under the bird's head
+                sw, sbb = D.sandwich(fx, fy, ss, bitten=side, style=sty, deep=True)
+                mx, my = b.anchor("mouth")
+                cr = [(mx + side * (4 + 6.5 * i) * s, fy + (1.5, -1.0, 1.0)[i] * s, (1.9, 1.5, 1.7)[i] * s) for i in range(3)]
+                sw += "".join(D.circ(cx_, cy_, r_, C["cream"], D.OW * 0.25) for cx_, cy_, r_ in cr)
+                sbb = (min(sbb[0], min(q[0] for q in cr) - 3 * s), sbb[1], max(sbb[2], max(q[0] for q in cr) + 3 * s), sbb[3])
+            elif SCN.PLACEMENT_REV >= 5:
                 # a bite torn out of the near end, the torn-off piece in the beak and crumbs on the seat
                 sw, sbb = D.sandwich(fx, fy, ss, bitten=side, style=sty)
                 mx, my = b.anchor("mouth")
@@ -4982,7 +5243,11 @@ def _lost_balloon_place7(self):
         send = (reach[0] + f * sc.rng.uniform(10, 24) * s, reach[1] - sc.rng.uniform(28, 42) * s)
         if SCN.PLACEMENT_REV >= 43 and BAL45 == "B":
             # revision 43 (templates.BAL45)
-            send = (reach[0] + f * sc.rng.uniform(16, 30) * s, reach[1] - sc.rng.uniform(62, 80) * s)
+            u1_, u2_ = sc.rng.uniform(16, 30), sc.rng.uniform(62, 80)
+            send = (reach[0] + f * u1_ * s, reach[1] - u2_ * s)
+            if SCN.PLACEMENT_REV >= 44 and BAL47 == "B":
+                # revision 44 (templates.BAL47): nearer the reaching hand, from the same two draws
+                send = (reach[0] + f * (u1_ - 8) * s, reach[1] - (u2_ - 20) * s)
             # and the curled end keeps clear of the top line of the setting's fence (on the playground railing's top line it "could look like it is
             # tied to or caught on the fence")
             fb_ = next((e["bbox"] for e in sc.S.elements if e["id"] == "fence" and e.get("bbox")), None)
@@ -5390,6 +5655,8 @@ class SweepFork(Sweep):
     def pile_geom(self, p):
         """Revision 6: a heap of grey dust and grit swept ahead of the tines, a cloud of dust over it
         and sweep marks behind (leaves in v0.7 made it raking; the first heap was too small to see)."""
+        if SCN.PLACEMENT_REV >= 44 and FORK47 != "O":
+            return self._pile_geom47(p)
         fx, fy = p.anchor("fork_tip")
         s = sz(p.Y) * 1.7
         ms = sz(p.Y)
@@ -5416,6 +5683,47 @@ class SweepFork(Sweep):
         if SCN.PLACEMENT_REV >= 35:
             # revision 35: the heap and the dustpan, without the sweep marks behind the tines, as a thing on the ground
             self.ground_bb = (min(px - 22 * s, pbb[0]), p.Y - 22 * s, max(px + 22 * s, pbb[2]), max(p.Y + 3 * s, pbb[3]))
+        return pile, marks, bb
+
+    def _pile_geom47(self, p):
+        """Revision 44 (templates.FORK47): the heap just ahead of the tines and the pan behind its far side, so that fork, heap and pan fit a
+        garden path."""
+        fx, fy = p.anchor("fork_tip")
+        ms = sz(p.Y)
+        s, sp = ms * 1.6, ms * 1.5
+        y = p.Y
+        f = 1 if fx > p.X else -1
+        px = fx + f * 20 * s
+        pile = "".join(f'<circle cx="{px + f * dx * s:.1f}" cy="{y + dy * s:.1f}" r="{r * s:.1f}" fill="#b9b2a4" fill-opacity="0.55"/>'
+                       for dx, dy, r in ((-14, -19, 7), (-3, -25, 9), (-22, -9, 5)))
+        pan, pbb, end = D.dustpan_open(px + f * 14 * s, y - 2 * s, sp, f, dust=FORK47_DUST)
+        pile += pan
+        if FORK47 == "D":
+            # a low ragged heap, wider than it is high, with fine grit in it and loose grit on the swept ground behind it; nothing at its ends
+            def q(dx, dy):
+                return f"{px + f * dx * s:.1f} {y + dy * s:.1f}"
+            pile += (f'<path d="M {q(-21, 3)} Q {q(-21.5, -4)} {q(-14.5, -4.5)} Q {q(-11, -10)} {q(-4, -8.5)} Q {q(2, -12.5)} {q(7.5, -7)} '
+                     f'Q {q(13, -8.5)} {q(16, -3)} Q {q(21.5, -2.5)} {q(21, 3)} Z" fill="{FORK47_DUST}" stroke="{D.OUT}" '
+                     f'stroke-width="{D.OW * 0.6:.1f}" stroke-linejoin="round"/>')
+            for k, (dx, dy) in enumerate(((-15, -1), (-10, -4.5), (-6, 0), (-2, -5), (2, -8.5), (4, -1.5), (9, -4), (13, 0), (16.5, -0.5), (-12, 1.2),
+                                          (0, 1), (10, 1.2))):
+                pile += (f'<circle cx="{px + f * dx * s:.1f}" cy="{y + dy * s:.1f}" r="{(0.75 + (k % 3) * 0.3) * s:.1f}" '
+                         f'fill="{C["rock_dark"] if k % 2 else "#d8d4cb"}"/>')
+            for k, (dx, dy) in enumerate(((-25, 3.5), (-29, 1.5), (-33, 4), (-27, 6), (-23, 6.5), (-37, 2.5))):
+                pile += (f'<circle cx="{px + f * dx * s:.1f}" cy="{y + dy * s:.1f}" r="{(0.9 + (k % 2) * 0.35) * s:.1f}" fill="{FORK47_DUST}" '
+                         f'stroke="{D.OUT}" stroke-width="0.9"/>')
+        else:
+            pile += (f'<path d="M {D.P(px - 18 * s, y + 3 * s)} q {18 * s:.1f} {-26 * s:.1f} {36 * s:.1f} 0 z" fill="{FORK47_DUST}" '
+                     f'stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}" stroke-linejoin="round"/>')
+            for k, (dx, dy) in enumerate(((-11, -1), (-5, -6), (2, -2), (8, -5), (13, 0), (-1, 0.5), (3, -9), (-8, -3.5))):
+                pile += f'<circle cx="{px + f * dx * s:.1f}" cy="{y + dy * s:.1f}" r="{(1.2 + (k % 3) * 0.45) * s:.1f}" fill="{C["rock_dark"] if k % 2 else C["charcoal"]}"/>'
+        if FORK47 == "B":
+            for dx, dy, rot, col in ((-17, 2.5, 6, "orange"), (9, 2.0, -14, "leaf_brown")):
+                pile += D.leaf(px + f * dx * s, y + dy * s, 8.5 * s, 2.4 * s, rot if f > 0 else 180 - rot, C[col])
+        marks = "".join(f'<path d="M {D.P(fx - f * (12 + 10 * k) * ms, y + (2 + 3 * k) * ms)} q {-f * 22 * ms:.1f} {-4 * ms:.1f} {-f * 46 * ms:.1f} 0" fill="none" stroke="{D.OUT}" stroke-width="2" stroke-opacity="0.45" stroke-linecap="round"/>' for k in range(3))
+        bb = (min(px - 28 * s, fx - f * 80 * ms, pbb[0]), min(y - 35 * s, pbb[1]), max(px + 28 * s, fx - f * 80 * ms, pbb[2]), max(y + 5 * s, pbb[3]))
+        self.ground_bb = (min(px - 22 * s, pbb[0]), min(y - 15 * s, pbb[1]), max(px + 22 * s, pbb[2]), max(y + 5 * s, pbb[3]))
+        self.heap_x, self.pan_end, self.pan_back = px, end, y - 2 * s - 14 * sp
         return pile, marks, bb
 
     def place(self):
@@ -5448,7 +5756,11 @@ class SweepFork(Sweep):
             if SCN.PLACEMENT_REV >= 8 and A:
                 # revision 8: the heap itself on the paving too (on the grass it read as a dug-up clod)
                 f_ = 1 if fx > p.X else -1
-                if not on_path(A, fx + f_ * 24 * sz(p.Y) * 1.7, p.Y, 10):
+                if SCN.PLACEMENT_REV >= 44 and FORK47 != "O":
+                    # revision 44 (templates.FORK47): the heap where it now lies, and the whole pan, on the paving
+                    if not (on_path(A, self.heap_x, p.Y, 10) and on_path(A, self.pan_end, p.Y, 4) and on_path(A, self.pan_end, self.pan_back, 4)):
+                        return None
+                elif not on_path(A, fx + f_ * 24 * sz(p.Y) * 1.7, p.Y, 10):
                     return None
             if SCN.PLACEMENT_REV >= 8:
                 # revision 8: the tines and the dust on plain paving, clear of the stepping stones (sweeping
@@ -5470,7 +5782,9 @@ class SweepFork(Sweep):
         sc = self.sc
         if SCN.PLACEMENT_REV >= 6:
             pile, marks, bb = self.pile_geom(sc.assets[ep])
-            sc.svg(sc.eid("sweptpile"), "Swept-up dust and grit", pile + marks, sc.assets[ep].Y + 1, bb, "setting")
+            sc.svg(sc.eid("sweptpile"), "Swept-up dust and leaves by a dustpan" if SCN.PLACEMENT_REV >= 44 and FORK47 == "B" else
+                   "Swept-up dust and grit by a dustpan" if SCN.PLACEMENT_REV >= 44 and FORK47 == "D" else "Swept-up dust and grit",
+                   pile + marks, sc.assets[ep].Y + 1, bb, "setting")
             if SCN.PLACEMENT_REV >= 35:
                 # revision 35: a thing on the ground that no one placed later stands on
                 sc.groundthings.append((self.ground_bb, sc.placing))
@@ -5860,6 +6174,11 @@ class DogReading(T):
             # asks for one dog reading everywhere)
             raise PlacementError("the reading dog is the tan dog (templates.READ44)")
         self.down = SCN.PLACEMENT_REV >= 41 and READ43 == "A" and not self.r44
+        # revision 44 (templates.READ47 "B"): a pose of its own, the paper in the dog's own drawing
+        self.r47 = self.r44 and SCN.PLACEMENT_REV >= 44 and READ47 == "B"
+        if self.r47:
+            self.vd = sc.need(self.d, "sit_read", "read", 90)
+            return
         self.vd = sc.need(self.d, "down_read" if self.down else ("sit_up_hold" if self.hold else "sit_look_down"),
                           "read" if self.r44 and READ44 == "G" else "neutral", 90)
 
@@ -5934,9 +6253,21 @@ class DogReading(T):
                 return None
             return [bb]
 
+        def paper47(d, f, s):
+            # revision 44 (templates.READ47): the paper the dog holds, by its four corners
+            pts = [d.anchor(k) for k in ("paper_a", "paper_b", "paper_c", "paper_d")]
+            bb = (min(q[0] for q in pts), min(q[1] for q in pts), max(q[0] for q in pts), max(q[1] for q in pts))
+            self.np = ("", bb)
+            self.quad = pts
+            if not sc.air_clear((bb[0] - 10, bb[1] - 10, bb[2] + 10, bb[3] + 4), 4):
+                return None
+            return [bb]
+
         def paper(d):
             f = d.facing() or 1
             s = sz(d.Y)
+            if self.r47:
+                return paper47(d, f, s)
             if self.r44:
                 return paper44(d, f, s)
             if SCN.PLACEMENT_REV >= 41 and READ43 in ("A", "B"):
@@ -5994,6 +6325,9 @@ class DogReading(T):
         down = self.down
         en = sc.svg(sc.eid("newspaper"), "Newspaper open on the ground under the dog's paws" if down else "Newspaper held by the dog", svg,
                     d.Y - 1 if (SCN.PLACEMENT_REV >= 23 and D.PAW25 == "C") or self.r44 else d.Y + 1, bb, "scored")
+        if self.r47:
+            sc.svgs[en]["part_of"] = ed
+            sc.svgs[en]["mask_svg"] = '<polygon points="%s" fill="#000"/>' % " ".join(f"{x:.2f},{y:.2f}" for x, y in self.quad)
         dn = sc.name(self.d)
         if down:
             it = self.ent(f"A {dn} is lying down with its paws on an open newspaper", [f"{dn} lying down", f"{dn} with a newspaper", f"{dn} lying on a newspaper",

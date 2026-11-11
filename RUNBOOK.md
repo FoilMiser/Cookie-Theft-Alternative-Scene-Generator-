@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.45 was made, written so that a fresh session can make the next one (v0.46) from this
+How each release from v0.12 to v0.47 was made, written so that a fresh session can make the next one (v0.48) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -87,14 +87,17 @@ python tools/cycle/set_prior.py       # rewrites the PRIOR block in scenegen/pla
 cp $TPDB_WORK/calibration$TAG.json calibration.json
 bash tools/cycle/build_set.sh         # showcase pass into scenes<TAG>, then searches for missing tier 1-3 cells
 bash tools/cycle/t4_search.sh street <previous street base seed> 400000   # one per tier-4 cell still missing
+python tools/cycle/yield_set.py 6 playground 6043 3 '<forced set as JSON>'   # does a forced set place and land in the band? (seconds)
+python tools/cycle/forced_cell.py street 4 v047street 430752,447752        # a cell from a forced set, when the free search has failed
 python tools/cycle/isos.py 0,1,2,3 isomorph_summary_a.json   # tier 2-3 isomorphs; ISO_X=1 or ISO_Y=1 try more seeds (edit GROUPS_X/Y)
 python tools/cycle/iso_t4.py 6111,7111,8111,9111,10111      # the tier-4 isomorph
 ```
 
 - The previous release's base seeds are in its `scenes/showcase_summary.json` (`base_seed`). Try those first for tier 4.
 - Exactly one picture per (setting, tier) and five isomorphs. If two searches both add a cell, move the extra out.
-- Merge the isomorph summaries into `scenes<TAG>/isomorph_summary.json`, then edit `OPEN` and `NOTES` in
-  `tools/cycle/fix_summary.py` and run it.
+- Merge the isomorph summaries into `scenes<TAG>/isomorph_summary.json`, then edit `OPEN`, `FORCED` and `NOTES` in
+  `tools/cycle/fix_summary.py` and run it. `FORCED` is the cells built from a forced set; each needs its reason in `NOTES`
+  and its set, with the history, in `forced_cell.py`'s `SETS`.
 - Look at every picture. Anything wrong: a new rule (record it in the revision's header comment and the README), then
   rebuild what it touches and check the other pictures still rebuild identically.
 
@@ -117,8 +120,8 @@ Look at every probe too. Then swap: `scenes -> scenes_v<PREV>`, `probes -> probe
 
 ```bash
 python vision/prepare_screen.py scenes,probes vision/v<TAG>   # blind/pic_NN.png, keys.json, key_map.json
-python tools/cycle/make_readers.py 9     # <WORK>/v<TAG>prompts/reader_1..9.txt (7-8 pictures each)
-python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json (three equal parts of the pictures)
+python tools/cycle/make_readers.py 11    # <WORK>/v<TAG>prompts/reader_1..11.txt (7-8 pictures each: pictures / 8, rounded up)
+python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt and keys_a..d.json (four near-equal parts; no ranges gives three)
 ```
 
 - Give each reader prompt, verbatim, to a fresh reader (a subagent with no other context); it writes
@@ -136,7 +139,8 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - README: rewrite the fixed text of `tools/cycle/README.template.md`; copy
   `vision/readme_v0<PREV>_text.json` to `readme_v<TAG>_text.json` and rewrite its keys (intro, design, screen, redrawn,
   gate, inspection, calib, zip_mb); update the version strings in `vision/fill_readme.py`; run it.
-- Showcase page: update `scenegen/site.py` (`PREV, CUR`, `REDRAWN_NOTES`, `WEAK_NOTES`, `SCREEN_NOTE`, `FIXES`) and
+- Showcase page: update `scenegen/site.py` (`PREV, CUR`, `REDRAWN_NOTES`, `WEAK_NOTES`, `SCREEN_NOTE`, `FIXES`; the next list is every
+  template under 0.9 and, from v0.47, every one that fails the gate) and
   `scenegen/site_template.html` (version strings, the screens list `VS`, the intro paragraph), then
   `python -m scenegen.site --scenes scenes --gallery assets/cast/gallery<TAG> --old-gallery assets/cast/gallery<PREV> --combos combos.json --screen vision/screen_summary.json --out site<TAG>`.
   `site<TAG>/index.html` is a whole document with a doctype, which the publishing route requires (since v0.31; before that the old route put the skeleton round it).
@@ -199,7 +203,7 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - When a tier-4 cell has not come after a dozen seeds, force a template set that placed in an earlier release before running more (`forced` in `build_one`; the record keeps it, so it rebuilds exactly).
   Forced, the v0.24, v0.25 and v0.26 playground sets each placed within seconds where 219 free seeds had placed nothing: the difficulty is in the sets the planner draws, not the room. Say so in `fix_summary.py`.
   v0.32's street went the same way: 39 free seeds failed under revision 30, and v0.31's set, forced on v0.31's seed, placed in 12 s. Run two or three forced lists beside the free
-  search (`tpdb_work/t4_forced32.py`); they can finish together, so move the extras out and keep the one whose picture reads best.
+  search (`tools/cycle/forced_cell.py`, from v0.47; v0.32's was a scratch file); they can finish together, so move the extras out and keep the one whose picture reads best.
 - A pose set at render time is overwritten when the renderer re-evaluates the action. To change a pose for one view, bake a twin action (`__p`, `Poser.build`), and let `render_assets.py` choose it.
 - Parallel runs may render into one library. `Library.ensure` now renders aside into `.render_<pid>` and moves the files in with the manifest last; before that, two runs left "image file is truncated".
 - Look closely at crops before drawing anything: the walkers' feet did point the right way, the hose did reach the fist, and what was wrong (the eye on the head's outline) was on nobody's list.
@@ -421,3 +425,89 @@ python tools/cycle/make_scorers.py       # scorer_a/b/c.txt and keys_a/b/c.json 
 - `render_set.py` skips a record that is there. After part of a cast is built again, move those families' records aside by exact names before
   rendering (`tpdb_work/v046/aside_people.py`), in the library, the gallery and the bench's library alike, or the folder is two casts. Blender also
   leaves a `.blend1` beside a cast file it saves over: look for them and remove them by name before packaging.
+- Study one figure before changing a cast. v0.47 drew `person.mei` at eight yaws and in a dozen poses, gave the sheets to three fresh reviewers, then
+  the whole cast and the animals to four more, and listed a point only when two or more of them named it. Each fix went behind a switch of its own
+  (`TPDB_<NAME>47`, whose "O" is the release before's drawing), so that the old drawing and the new could go to a reviewer as a pair.
+- Measure a posed surface before redrawing it (`tpdb_work/v047/dbg_pose.py` slices one). The belly was a dent: as a leaf node inside its parent's radius it
+  gave the hull only a flat end, and the shirt's front lay 3 cm inside its back. The seated skirt reached forward to 0.176 where the knee was at 0.28, so
+  a reviewer saw "knees pasted on top of the skirt". Neither showed in the code; both showed in a slice.
+- A shell over a body (a vest, a cardigan, a coat's markings) rides on its host's finished surface (`core.shell_over`, `TPDB_SHELL47`). Bent by weights of
+  its own it is another surface wherever a joint bends far, and the top came through the cardigan at the elbows. Bind it lying on the surface and move
+  it out afterwards (bound a centimetre off, vertices at the trunk's side took the inside of the arm as their nearest face); bind to a hidden
+  triangulated copy smoothed to the shell's own level; and keep the rim smaller than the clearance, or Line Art draws the inner edge dashed.
+- A thing that is part of a figure's own drawing is measured as a part of its host. The reading dog's newspaper is an object of the pose
+  (`PROP_sit_read_*`, in `rig.pose_props`); in a scene it is an element with `part_of` and `mask_svg` that draws nothing, and `compose.measure` takes its
+  mask inside the host's. A new manifest field needs its line in `assets/asset_manifest.schema.json` before the validator runs.
+- A new pose changes what an old placement rule draws. After a pose a template uses is redrawn, measure that template's yield again in every setting
+  before anything else (`tools/cycle/yield_set.py` with a set of one template and `BAND=0`: nothing is saved, so it answers in seconds).
+- A rule that draws a distance and then tests a gap sits at the edge of failing. Draw the tested quantity itself.
+- Nothing upright of the setting between a hunter and its prey (`POST47`), and nothing upright behind or ahead of a walker headed for an obstacle
+  (`TRIP47`): a lamp post between the cat and its bird, and a tree just past the walker's book, were each read as part of the event.
+- A rule measured on its template alone can still take the template out of a crowded set. `TRIP47` placed 24 of 24 alone in each setting, and the tier-4
+  street's forced set then failed on 31 bases of eight sets each, every set on the walker. Measure the earlier releases' forced sets under a new rule
+  (`yield_set.py ... BAND=0`) before the set is built, and swap the template out of the set if the rule is worth more than the cell.
+- When a tier 1 to 3 cell has failed a dozen bases, force a set as for tier 4 (`tools/cycle/forced_cell.py`). A forced set must also land in its tier's
+  band, by its count of content items and its inference estimate: v0.47's first set for the tier-3 playground placed and never landed on six bases.
+  Measure candidates with `tools/cycle/yield_set.py` (build_one's own loop, band and all) and build the one that placed. A set's templates must be
+  feasible in the setting, must not want the same animal, and can hold at most two child templates (the cast has two children).
+- A bench case that cannot build stalls every case after it. Check that a bench tag is new before using it, and put a case that may not place last.
+- A family whose builder changed is rendered whole, every pose and yaw; a library with some poses from the old builder is two casts (`render_set.py`
+  skips what is there, above).
+- A long patch script, or one whose text holds apostrophes, goes in a file (`tpdb_work/v0XX/patch_*.py`, with `assert s.count(old) == 1` before each
+  replacement); a bash heredoc breaks on the apostrophes. A file a script has changed is read again before it is edited by hand.
+- Poses, from v0.47's blind rounds (`vision/isolation_v047.md`):
+  - a stride on a thing reads as walking over it: the dog on the hose stands, one forepaw a step out and planted, and is drawn side on only;
+  - tip a standing body about its hips, which stay at their standing height; tipped about its feet the hips drop and the legs splay or sink into the belly;
+  - a pose tipped far over carries its eye to the outline of the head: past 48 degrees below level the pecking bird's eye was on the edge again;
+  - a sitting animal needs a hind foot showing ahead of the rump, or its hindquarters are a blob;
+  - four legs read as four only when each paw has its own place on the ground, and legs set that far apart read as a stride as well;
+  - taking a pet's collar off takes away what made it a dog: upright, thin and with no collar, the reading dog was a weasel, an otter or a meerkat to
+    three readers of three. Fit a band to the body's measured section; a ring on the neck bone showed as a flap behind the neck;
+  - a heap with coloured bits at both ends reads as an animal; a long low swelling on the ground reads as a puddle and a short round one as a connector;
+  - a drawing that reads better can still lose its pair as a drawing (the pecking bird lost three pairs of four to v0.46's level bird, and was read as
+    pecking in every cut-out). Say which was taken and why, and put what was lost on the watch list.
+- A shadow taken from a figure's filled columns moves under a wide thing the figure holds (`SHADOW47`).
+- When a template "could not place", ask seed by seed and not layout by layout, and look at what the plan cast. v0.47's tier-4 isomorphs failed for
+  three seed lists on `ice_cream_drop`; counted by seed (`tpdb_work/v047/dbg_ice.py`), every plan with the younger child failed every spot on one test
+  and every plan with the older child placed. The older child passed that test by a tenth of a pixel: a test passed that narrowly is a rule at the
+  edge of failing, and it had drawn the event with one child of two since v0.28 with no one seeing it (`CONE47`).
+- Check the isomorph classes of the tier-4 cells before the set is settled (`batch.iso_key`). A template alone in its class maps only to itself:
+  `ice_cream_drop` (no garden), `paint_tracks` and `blocked_hose` (garden only), `bird_steals`, `dog_reading`. A form that holds `paint_tracks` or
+  `blocked_hose` has no isomorph anywhere, and one that holds `ice_cream_drop` has none in the garden; v0.47's four tier-4 cells left six pairs of
+  twelve. A cell with none of those five keeps every pair open.
+- When the tier-4 isomorph still will not build, count what stops it before touching a rule: replay `build_isomorph` without saving and tally every
+  try and layout by the mapping it drew (v0.47's `tpdb_work/v047/dbg_iso4.py`). With the rules final, v0.47's stop was crowding (the dropped ice
+  cream's group is placed late and needs a clear band), no one test. Crowding is a matter of seeds: search only the pairs that can build, the roomier
+  target first, on four seed lists side by side, each stopping when any of them has saved a record (`tpdb_work/iso47t4.py`, a copy of
+  `tools/cycle/iso_t4.py` with those three changes). After 48 calls on eight seeds had found none, it found one on its 63rd call, in five minutes.
+  Settle the isomorphs before the probes are built: the probes count the templates the set already shows.
+- A rule found after the set is built: calibrate its template alone with the switch off and on (`calibrate.py --only`). Off must give the shipped
+  numbers. If on moves a prior only in a decimal the planner's band does not feel, leave the priors and say so; then run `verify_all.py` on the
+  set, since a record rebuilds through its failed tries and a rule that lets an earlier try succeed changes the record. Rebuild what changed with
+  the final rules, look at it again, and give a drawing no picture has held a blind reading of its own before it goes into the set.
+- Readers and reviewers: tell them to write with the Write tool and not to list the folder; remove an old reading before a new reader writes to the
+  same path; keep a first reading and its picture under a `_first` name when a test picture is rebuilt; give a digest agent the right key.
+- Quotes: a quote in a doc or a code comment is checked against the description file it came from, since a flaws file's own quote may be shortened; a
+  quote stays on one line of the doc, so that a checker can find it.
+- A mend is benched for the reading it is meant to change. `about_to_trip` failed v0.46's gate on a walker read as going the other way; v0.47 drew
+  the walk again for that, one bench reader of three still wrote "it is not obvious which foot is in front", and the walk went on to the screen as
+  it was. It failed the same way there, on the smallest walker of five (0.41 of full size, the others 0.46 to 0.51). A doubt the bench names about
+  the very thing a mend is for is not left to the screen: bench the figure alone at the smallest size a scene draws it, with the one question the
+  mend is for (which way is he walking), and v0.46's drawing beside it.
+- A change to how every side view is drawn needs a reading of its own. v0.47 turned the side view's head 48 degrees toward the viewer for 35 and drew
+  the walk and the run again, and five readers of the screen, one picture each, wrote of which way a figure faces. The two changes went in together
+  and the cause was not tested: put one such change in at a time, or bench each alone.
+- What is added to a prompt when it is sent is part of the prompt. v0.47's scorers were asked, in the message that sent `scorer_<x>.txt` and not in the
+  template, to read only the named files, to write with the Write tool and to list every judgement call they scored 1. They listed 71 where v0.46's,
+  unasked, had listed 11, so the strict count of v0.47 compares with no earlier one. Put an addition into `tools/cycle/prompts/` before the screen,
+  record it word for word in `vision/screen_prompts.md`, and keep it in the next screen if its count is to be compared.
+- The screen's reader prompt must say how to write a file. v0.47's did not, as v0.39's does not: two readers tried the shell first, the write failed,
+  and they listed the screen's folder to find out why, which the prompt forbids. Add "write each description with the Write tool" to
+  `tools/cycle/prompts/reader_template.txt` before v0.48's screen, and say in `screen_prompts.md` that it was added.
+- A list defined by a threshold misses what sits on it. `about_to_trip` had a mean of exactly 0.90 and failed the gate on its misread; the page's
+  next list was "under 0.9" and would have been empty. It now takes the gate's failures too (`scenegen/site.py`).
+- Describe an old drawing from a picture of it, not from memory of what the new one replaced. Three files of the release called v0.46's pecking bird "upright" where
+  a reviewer had it "nearly level with only the head dipped"; the slip was found only when the page's pairs were laid out on a sheet. Lay the page's
+  pairs out and look at them before their notes are written.
+- Say what was looked at, and no more. The notes of v0.47 record a look at every probe on sheets of four and none at the set's pictures one by one,
+  so the README says the first only.

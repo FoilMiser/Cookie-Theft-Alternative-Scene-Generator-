@@ -16,18 +16,28 @@ from .core import capsule_arc, ellipsoid, half_ellipsoid, list_m, nrm, smooth_cu
 class Face:
     """Features on the front (-Y) of an ellipsoid head with center c and radii (ax, ay, az)."""
 
-    def __init__(self, rig, bone, c, radii, k=1.0, prefix="F"):
+    def __init__(self, rig, bone, c, radii, k=1.0, prefix="F", n=2.0):
         self.rig, self.bone, self.c, self.k, self.p = rig, bone, Vector(c), k, prefix
         self.ax, self.ay, self.az = radii
+        self.n = n          # v0.47: the head's level sections |x|^n + |y|^n = r^n (core.squircle); 2 is the ellipsoid
         self.objs = {}
 
     def surf(self, x, z):
+        if self.n != 2.0:
+            n = self.n
+            u = max(1e-4, 1 - (z / self.az) ** 2) ** (n / 2) - abs(x / self.ax) ** n
+            return Vector((x, -self.ay * max(1e-4, u) ** (1.0 / n), z))
         u = 1 - (x / self.ax) ** 2 - (z / self.az) ** 2
         y = -self.ay * math.sqrt(max(1e-4, u))
         return Vector((x, y, z))
 
     def normal(self, x, z):
         p = self.surf(x, z)
+        if self.n != 2.0:
+            n = self.n
+            xs, ys, zs = p.x / self.ax, p.y / self.ay, p.z / self.az
+            return nrm(Vector((math.copysign(abs(xs) ** (n - 1), xs) / self.ax, math.copysign(abs(ys) ** (n - 1), ys) / self.ay,
+                               zs * max(1e-4, 1 - zs * zs) ** (n / 2 - 1) / self.az)))
         return nrm(Vector((p.x / self.ax ** 2, p.y / self.ay ** 2, p.z / self.az ** 2)))
 
     def at(self, x, z, out=0.0):
@@ -83,23 +93,36 @@ GLASSW46 = {"O": (0.0072, 0.0065), "B": (0.0086, 0.0076), "C": (0.0105, 0.0090)}
 # dark edge. "D" is v0.45's mouth again, a thin line in the lip colour with a thin dark edge, but the edge is a second, wider line
 # under it and not Line Art, so neither of the two line weights can close over it or thicken it at the edge of a face. Every skin.)
 MOUTH46 = {"O": None, "B": 1.45, "C": 1.8, "D": "rim"}[__import__("os").environ.get("TPDB_MOUTH46", "D")]
+# v0.47 (TPDB_GLASS47): on the squarer head (people.HEAD47) a rim laid point by point on the skin wrapped round the head's corner, its
+# outer half spread wide and the eye against its inner side: in a three-quarter view the near lens was mostly dark, a pair of dark
+# glasses at scene size. Each rim is now a flat ring centred on its eye: (half-width, half-height, degrees the lens's plane is turned
+# outward from the skin's own at the eye, distance off the skin), in head units. "O" keeps the rim laid on the skin. Benches glB to glF
+# (person.rosa at 0, 45 and 90 degrees and her head-down poses): B, C and D, the ring alone, changed little, because the eye was as large
+# as the lens's opening; E and F also draw the eyes smaller, and F is the one in which skin shows round each eye in every view.
+GLASS47 = __import__("os").environ.get("TPDB_GLASS47", "F")
+GLASS47_GEOM = {"B": (0.045, 0.041, 0.0, 0.013), "C": (0.045, 0.041, 10.0, 0.013), "D": (0.049, 0.044, 6.0, 0.013),
+                "E": (0.049, 0.044, 6.0, 0.013), "F": (0.046, 0.043, 6.0, 0.013)}
+# (and the eyes behind them drawn smaller by this factor, so that skin shows between eye and rim: an eye as large as its lens is a dark lens)
+GLASS47_EYE = {"E": 0.84, "F": 0.76}
 
 
 def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", skin_key="skin1", mouth_col=None):
+    ek = face.ek = GLASS47_EYE.get(GLASS47, 1.0) if glasses else 1.0      # v0.47 (TPDB_GLASS47): smaller eyes behind glasses
+    EW, EH = EYE_W * ek, EYE_H * ek
     for side, s in (("L", 1), ("R", -1)):
         x = s * eye_dx
         face.place(f"eye_{side}", ellipsoid("eye", (0, 0, 0), (1, 1, 1), "outline"),
-                   face.frame(x, eye_z, 0.0, scale=(EYE_W * k, 0.010 * k, EYE_H * k)))
+                   face.frame(x, eye_z, 0.0, scale=(EW * k, 0.010 * k, EH * k)))
         cobj = face.place(f"catch_{side}", ellipsoid("catch", (0, 0, 0), (1, 1, 1), "cream"),
-                          face.frame(x + 0.008 * k, eye_z + 0.013 * k, 0.016 * k, scale=(0.0085 * k, 0.004 * k, 0.0110 * k)))
+                          face.frame(x + 0.008 * k * ek, eye_z + 0.013 * k * ek, 0.016 * k, scale=(0.0085 * k * ek, 0.004 * k, 0.0110 * k * ek)))
         cobj.lineart.usage = "EXCLUDE"
         face.place(f"half_{side}", half_ellipsoid("half", "outline"),
-                   face.frame(x, eye_z + 0.004 * k, 0.0, scale=(EYE_W * 1.08 * k, 0.010 * k, EYE_H * 0.85 * k)))
+                   face.frame(x, eye_z + 0.004 * k, 0.0, scale=(EW * 1.08 * k, 0.010 * k, EH * 0.85 * k)))
         face.place(f"white_{side}", ellipsoid("white", (0, 0, 0), (1, 1, 1), "cream"),
-                   face.frame(x, eye_z, 0.002 * k, scale=(EYE_W * 1.30 * k, 0.010 * k, EYE_H * 1.12 * k)))
+                   face.frame(x, eye_z, 0.002 * k, scale=(EW * 1.30 * k, 0.010 * k, EH * 1.12 * k)))
         face.place(f"pupil_{side}", ellipsoid("pupil", (0, 0, 0), (1, 1, 1), "outline"),
-                   face.frame(x, eye_z, 0.012 * k, scale=(EYE_W * 0.55 * k, 0.004 * k, EYE_H * 0.52 * k)))
-        w = EYE_W * 1.35 * k
+                   face.frame(x, eye_z, 0.012 * k, scale=(EW * 0.55 * k, 0.004 * k, EH * 0.52 * k)))
+        w = EW * 1.35 * k
         face.curve_on(f"arcup_{side}", smooth_curve([(x - w, eye_z - 0.016 * k), (x, eye_z + 0.017 * k), (x + w, eye_z - 0.016 * k)], 6),
                       LINE * 1.05 * k, "outline", 0.004 * k)
         face.curve_on(f"arcup2_{side}", smooth_curve([(x - w * 1.05, eye_z - 0.020 * k), (x - w * 0.15, eye_z + 0.020 * k), (x + w * 1.05, eye_z - 0.006 * k)], 6),
@@ -174,7 +197,24 @@ def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", s
     face.place("m_teeth", ellipsoid("teeth", (0, 0, 0), (1, 1, 1), "cream"), face.frame(0, mz - 0.002 * k, 0.001 * k, scale=(mw * 1.05, 0.010 * k, 0.012 * k)))
     face.curve_on("m_teeth_line", [(-mw * 0.92, mz - 0.002 * k), (mw * 0.92, mz - 0.002 * k)], lw * 0.55, "outline", 0.010 * k)
 
-    if glasses:
+    if glasses and GLASS47 != "O":
+        # v0.47 (TPDB_GLASS47): each rim a flat ring, centred on its eye, in a plane that stands off the face as a lens does
+        rx, rz, wrap, off = GLASS47_GEOM[GLASS47]
+        inner = {}
+        for side, s in (("L", 1), ("R", -1)):
+            x = s * eye_dx
+            q = Vector((0, -1, 0)).rotation_difference(face.normal(x, eye_z))
+            q = Quaternion((0, 0, 1), s * math.radians(wrap)) @ q
+            ex, ez, nn = q @ Vector((1, 0, 0)), q @ Vector((0, 0, 1)), q @ Vector((0, -1, 0))
+            P0 = face.c + face.surf(x, eye_z) + nn * off * k
+            ring = [P0 + ex * (rx * k * math.cos(a)) + ez * (rz * k * math.sin(a)) for a in [i / 32 * 2 * math.pi for i in range(32)]]
+            ob = face.obj(f"glass_{side}", tube(f"glass_{side}", ring, GLASSW46[0] * k, "outline", face.rig, face.bone, closed=True))
+            ob.lineart.usage = "EXCLUDE"
+            inner[side] = P0 - ex * (s * rx * k) + ez * (0.008 * k)
+        ob = face.obj("glass_bridge", tube("glass_bridge", [inner["R"], (inner["R"] + inner["L"]) / 2 + Vector((0, -0.003 * k, 0.003 * k)), inner["L"]],
+                                           GLASSW46[1] * k, "outline", face.rig, face.bone))
+        ob.lineart.usage = "EXCLUDE"
+    elif glasses:
         for side, s in (("L", 1), ("R", -1)):
             x = s * eye_dx
             ring = [(x + 0.042 * k * math.cos(a), eye_z + 0.038 * k * math.sin(a))
@@ -235,6 +275,8 @@ def gaze_dir(look):
 
 def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_gaze_target", extra_show=()):
     states = {}
+    ek = getattr(face, "ek", 1.0)
+    EW, EH = EYE_W * ek, EYE_H * ek
     mid = (face.at(eye_dx, eye_z) + face.at(-eye_dx, eye_z)) / 2
     for name, e in PEOPLE_EXPRESSIONS.items():
         st = {}
@@ -271,15 +313,15 @@ def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_ga
         for side, s in (("L", 1), ("R", -1)):
             x = s * eye_dx
             if eyes == "narrow":
-                st[face.objs[f"eye_{side}"].name]["basis"] = list_m(face.frame(x + ex, eye_z - 0.005 * k + ez, 0.0, scale=(EYE_W * 1.10 * k, 0.010 * k, EYE_H * 0.42 * k)))
+                st[face.objs[f"eye_{side}"].name]["basis"] = list_m(face.frame(x + ex, eye_z - 0.005 * k + ez, 0.0, scale=(EW * 1.10 * k, 0.010 * k, EH * 0.42 * k)))
                 st[face.objs[f"catch_{side}"].name]["hide"] = True
             else:
-                st[face.objs[f"eye_{side}"].name]["basis"] = list_m(face.frame(x + ex, eye_z + ez, 0.0, scale=(EYE_W * f * k, 0.010 * k, EYE_H * f * k)))
-                st[face.objs[f"catch_{side}"].name]["basis"] = list_m(face.frame(x + ex + 0.008 * k * f, eye_z + ez + 0.013 * k * f, 0.016 * k, scale=(0.0085 * k * f, 0.004 * k, 0.0110 * k * f)))
-            st[face.objs[f"half_{side}"].name]["basis"] = list_m(face.frame(x + ex, eye_z + 0.004 * k + ez * 0.5, 0.0, scale=(EYE_W * 1.08 * k, 0.010 * k, EYE_H * 0.85 * k)))
+                st[face.objs[f"eye_{side}"].name]["basis"] = list_m(face.frame(x + ex, eye_z + ez, 0.0, scale=(EW * f * k, 0.010 * k, EH * f * k)))
+                st[face.objs[f"catch_{side}"].name]["basis"] = list_m(face.frame(x + ex + 0.008 * k * f * ek, eye_z + ez + 0.013 * k * f * ek, 0.016 * k, scale=(0.0085 * k * f * ek, 0.004 * k, 0.0110 * k * f * ek)))
+            st[face.objs[f"half_{side}"].name]["basis"] = list_m(face.frame(x + ex, eye_z + 0.004 * k + ez * 0.5, 0.0, scale=(EW * 1.08 * k, 0.010 * k, EH * 0.85 * k)))
             pf = e.get("pupil", 1.0)
             st[face.objs[f"pupil_{side}"].name]["basis"] = list_m(face.frame(x + gx * 0.013 * k, eye_z + gz * 0.011 * k, 0.012 * k,
-                                                                             scale=(EYE_W * 0.55 * pf * k, 0.004 * k, EYE_H * 0.52 * pf * k)))
+                                                                             scale=(EW * 0.55 * pf * k, 0.004 * k, EH * 0.52 * pf * k)))
             raise_, tilt = (e["brow"][0], e["brow"][1]) if side == "L" else (e["brow"][2], e["brow"][3])
             spin = math.radians(tilt) * (1 if side == "L" else -1)
             st[face.objs[f"brow_{side}"].name]["basis"] = list_m(

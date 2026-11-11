@@ -80,7 +80,7 @@ def alpha_mask(e, mirror):
     """Coverage mask of one element (without its ground shadow)."""
     if e["kind"] == "asset":
         return asset_mask(e["asset"], mirror)
-    im = render_png(svg_doc(e["svg"], mirror=mirror), int(D.W * MASK_SCALE)).convert("RGBA")
+    im = render_png(svg_doc(e.get("mask_svg") or e["svg"], mirror=mirror), int(D.W * MASK_SCALE)).convert("RGBA")
     return np.array(im)[:, :, 3] > 96
 
 
@@ -91,13 +91,26 @@ def measure(sc, els, mirror):
     for e in order:
         masks[e["id"]] = alpha_mask(e, mirror)
     cover = np.zeros_like(next(iter(masks.values()))) if masks else None
+    # revision 44: a thing that is a part of an asset's own drawing (the reading dog's paper, element key "part_of") draws nothing itself: its mask
+    # is its given outline ("mask_svg") inside its host's mask, and what covers it is what covers that part of its host
+    parts = {}
+    for e in order:
+        if e.get("part_of") in masks:
+            masks[e["id"]] = masks[e["id"]] & masks[e["part_of"]]
+            parts.setdefault(e["part_of"], []).append(e)
     stats = {}
+    todo = []
     for e in reversed(order):
+        if e.get("part_of") in masks:
+            continue
+        todo.extend([(x, False) for x in parts.get(e["id"], [])] + [(e, True)])
+    for e, covers in todo:
         m = masks[e["id"]]
         full = int(m.sum())
         vis_m = m & ~cover
         vis = int(vis_m.sum())
-        cover |= m
+        if covers:
+            cover |= m
         k = 1.0 / (MASK_SCALE * MASK_SCALE)
         ys, xs = np.nonzero(vis_m) if vis else (np.array([0]), np.array([0]))
         stats[e["id"]] = {"area": full * k, "visible": vis * k, "occlusion": (1 - vis / full) if full else 0.0,

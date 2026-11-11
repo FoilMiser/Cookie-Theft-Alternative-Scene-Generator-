@@ -35,7 +35,9 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.46.0"
+BUILDER_VERSION = "0.47.0"
+# the postures with both thighs swung forward of the trunk, in which a skirt is drawn as a wrap of the thighs (people.py, TPDB_SEAT47)
+SEATED47 = {"sit", "sit_swing", "sit_ground", "sit_dangle", "sit_hang", "sit_low", "sit_slide", "crouch", "jump_tuck"}
 
 # v0.46 bench switch (vision/isolation_v046.md), "O" for v0.45's drawing. TPDB_STYLE46 "B": the whole figure's outer edge
 # is drawn at 9.5 px (4.5 px in a picture at the set's median scale, the settings' own line) and the lines inside it at
@@ -64,7 +66,7 @@ def write_config(out_dir, fam, cls, labels, poses, expressions, states, affordan
         "mirror_ok": True,
         "outline": ({"method": "lineart", "width_px": 5.5, "silhouette_px": 9.5, **({"unlit": True} if INK46 == "B" else {})} if STYLE46 == "B"
                     else {"method": "lineart", "width_px": 5.0}),
-        **({"cel": {"shadow": SHADE46, "light": 1.0}} if STYLE46 == "B" else {}),
+        **({"cel": {"shadow": SHADE46, "light": 1.0, **({"rest": True} if os.environ.get("TPDB_SHADE47", "B") == "B" else {})}} if STYLE46 == "B" else {}),
         "affordances": affordances,
         "contradiction_roles": [],
         "license": {"source": "original", "author": "TPDB stand-in cast (procedural)"},
@@ -96,6 +98,11 @@ def main(out_dir, only=None):
             for _n, _m in P.meta.items():
                 if _m["lower"] not in ("sit", "sit_low"):
                     P.hides.setdefault(_n, []).append("SkirtPanel")
+        if bpy.data.objects.get("SkirtSeat"):
+            # v0.47 (TPDB_SEAT47): a skirt is the wrap of the thighs in the seated postures and the bell in the rest
+            for _n, _m in P.meta.items():
+                # (the lobes over the thighs lie inside the wrap and are not needed with it)
+                P.hides.setdefault(_n, []).extend(["Skirt", "SkirtLap"] if _m["lower"] in SEATED47 else ["SkirtSeat", "SkirtSeatLid"])
         poses = {}
         props = []
         hideable = set()
@@ -125,9 +132,16 @@ def main(out_dir, only=None):
         reset_scene()
         rig, states, names = build_quadruped(spec)
         bpy.ops.wm.save_as_mainfile(filepath=os.path.join(out_dir, fam + ".blend"))
-        poses = {p: {"action": p, "frame": 1, "show": [], "airborne": False} for p in names}
+        pp = getattr(rig, "pose_props", {})        # v0.47: a quadruped's pose may hold a thing of its own (the reading dog's paper)
+        poses = {p: {"action": p, "frame": 1, "show": sorted(pp.get(p, [])), "airborne": False} for p in names}
+        ph = getattr(rig, "pose_hides", {})        # v0.47: and may hide a part of the standing animal (the collar, redrawn for the upright neck)
+        for p in names:
+            if ph.get(p):
+                poses[p]["hide"] = sorted(ph[p])
         exprs = list(states)
-        write_config(out_dir, fam, "animal", spec["labels"], poses, exprs, states, QUAD_AFFORDANCES[spec["kind"]])
+        write_config(out_dir, fam, "animal", spec["labels"], poses, exprs, states, QUAD_AFFORDANCES[spec["kind"]],
+                     sorted(n for v in pp.values() for n in v),
+                     extra={"hideable_objects": sorted({n for v in ph.values() for n in v})} if ph else None)
         catalog["families"][fam] = {"class": "animal", "kind": spec["kind"], "labels": spec["labels"], "poses": names, "expressions": exprs}
         print("built", fam, len(names), "poses")
     for fam, spec in BIRDS.items():

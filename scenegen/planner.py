@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.46.0"
+GENERATOR_VERSION = "0.47.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -50,33 +50,33 @@ def feasible(cls, setting, sky):
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
 PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.22 calibration.json)
-    "blocked_hose": [("inference", 2, -0.35, 0.164, 2, "water")],
-    "rain_coming": [("inference", 1, 0.95, 0.410, 1, "rain")],
-    "cat_stalks_bird": [("inference", 1, -0.52, 0.089, 1, "cat")],
-    "ball_in_tree": [("inference", 1, -0.69, 0.142, 1, "stuck")],
-    "kite_in_tree": [("inference", 1, -0.54, 0.244, 2, "stuck")],
-    "ice_cream_drop": [("inference", 1, -1.38, 0.083, 2, "dropped")],
-    "about_to_trip": [("inference", 1, 0.18, 0.095, 1, "trip")],
-    "dog_begs": [("inference", 1, -0.85, 0.082, 1, "begging")],
+    "blocked_hose": [("inference", 2, -0.45, 0.171, 2, "water")],
+    "rain_coming": [("inference", 1, 0.95, 0.409, 1, "rain")],
+    "cat_stalks_bird": [("inference", 1, -0.43, 0.101, 1, "cat")],
+    "ball_in_tree": [("inference", 1, -0.69, 0.141, 1, "stuck")],
+    "kite_in_tree": [("inference", 1, -0.54, 0.245, 2, "stuck")],
+    "ice_cream_drop": [("inference", 1, -1.38, 0.084, 2, "dropped")],
+    "about_to_trip": [("inference", 1, 0.16, 0.093, 1, "trip")],
+    "dog_begs": [("inference", 1, -0.87, 0.082, 1, "begging")],
     "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
-    "paint_tracks": [("inference", 2, -0.77, 0.143, 2, "paint")],
-    "windy_hat": [("inference", 2, -1.24, 0.145, 1, "wind")],
-    "bird_steals": [("inference", 2, -1.75, 0.046, 1, "stealing")],
-    "lost_balloon": [("inference", 1, -1.13, 0.188, 2, "lost")],
+    "paint_tracks": [("inference", 2, -0.77, 0.140, 2, "paint")],
+    "windy_hat": [("inference", 2, -1.24, 0.144, 1, "wind")],
+    "bird_steals": [("inference", 2, -1.76, 0.067, 1, "stealing")],
+    "lost_balloon": [("inference", 1, -1.16, 0.180, 2, "lost")],
     "ducks_bread": [("inference", 1, -1.34, 0.016, 1, "hungry")],
-    "seesaw_heavy": [("inference", 1, -0.65, 0.166, 1, "heavy")],
-    "dog_wants_walk": [("inference", 1, -0.56, 0.162, 2, "walk")],
+    "seesaw_heavy": [("inference", 1, -0.68, 0.167, 1, "heavy")],
+    "dog_wants_walk": [("inference", 1, -0.57, 0.162, 2, "walk")],
 }
-for _cid, _s, _k in [("water_upward", -1.41, "water"),
+for _cid, _s, _k in [("water_upward", -1.44, "water"),
                      ("floating_box", -0.38, "floating"),
                      ("square_wheel", -0.02, "wheel"),
                      ("fish_in_tree", -1.31, "fish"),
-                     ("pan_watering", 0.07, "pan"),
+                     ("pan_watering", 0.08, "pan"),
                      ("sweep_fork", 0.25, "fork"),
                      ("bucket_hat", 0.30, "bucket"),
                      ("sitting_on_air", 0.10, "chair"),
                      ("ladder_nothing", -0.44, "ladder"),
-                     ("dog_reading", -0.48, "newspaper")]:
+                     ("dog_reading", -0.40, "newspaper")]:
     PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]
 TYPICAL_LOAD = {1: 2.5, 2: 4, 3: 5.5, 4: 8}
 

@@ -6,8 +6,8 @@
  "seed": 23020,
  "mirror": false,
  "versions": {
-  "generator": "0.46.0",
-  "cast_builder": "0.46.0",
+  "generator": "0.47.0",
+  "cast_builder": "0.47.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,23 +56,24 @@
   }
  },
  "features": [
-  "flowers"
+  "flowers",
+  "swing"
  ],
  "templates": [
   {
-   "id": "cat_stalks_bird",
+   "id": "sprinkler_package",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "kick_ball",
-   "kind": "event",
+   "id": "sitting_on_air",
+   "kind": "contradiction",
    "event": "e2",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "carry_box",
+   "id": "swing",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -83,194 +84,192 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A cat is crouching low on the fence",
-   "accepted": [
-    "cat crouching",
-    "cat hiding",
-    "cat sneaking",
-    "cat ready to pounce",
-    "cat watching"
-   ],
-   "key": "cat",
+   "text": "A girl is on the swing",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "on the swing",
+     "swinging",
+     "playing on the swing",
+     "sitting on a swing"
+    ]
+   },
+   "key": "swing",
    "elements": [
-    "stalkcat_1"
+    "swinger_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "cat_stalks_bird",
-   "event": "e1",
+   "template": "swing",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.924,
+    "s": -0.709,
     "r": 0,
     "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "f": 0.34,
+    "a": 4.16,
+    "zipf_raw": 4.34,
+    "aoa_raw": 4.16,
     "domain": null,
-    "area_px": 4156
+    "area_px": 5632
    },
-   "b": -0.912,
-   "p0": 0.713,
-   "pm1": 0.478,
+   "b": -0.888,
+   "p0": 0.708,
+   "pm1": 0.472,
    "aoi_cells": [
-    "MC"
+    "BR"
    ]
   },
   {
    "id": "i02",
    "type": "action",
-   "text": "A bird is sitting on the fence",
+   "text": "A sprinkler is spraying water",
    "accepted": [
-    "bird",
-    "bird eating",
-    "bird pecking",
-    "little bird"
+    "sprinkler",
+    "water spraying",
+    "sprinkler is on"
    ],
-   "key": "bird",
+   "key": "sprinkler",
    "elements": [
-    "stalkbird_2"
+    "sprinkler_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "cat_stalks_bird",
+   "template": "sprinkler_package",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
-    "animate": true,
-    "s": -1.594,
+    "animate": false,
+    "s": 0.093,
     "r": 0,
     "d": 0.0,
-    "f": 0.63,
-    "a": 3.52,
-    "zipf_raw": 4.63,
-    "aoa_raw": 3.52,
+    "f": -0.95,
+    "a": 5.53,
+    "zipf_raw": 3.05,
+    "aoa_raw": 5.53,
     "domain": null,
-    "area_px": 1616
+    "area_px": 17452
    },
-   "b": -0.532,
-   "p0": 0.63,
-   "pm1": 0.385,
+   "b": -0.101,
+   "p0": 0.525,
+   "pm1": 0.289,
    "aoi_cells": [
-    "MC"
+    "BL",
+    "BC"
    ]
   },
   {
    "id": "i03",
-   "type": "inference",
-   "text": "The cat is about to catch the bird",
+   "type": "entity",
+   "text": "A package is sitting on the grass",
    "accepted": [
-    "the cat wants to catch the bird",
-    "the cat is going to pounce",
-    "the cat is hunting the bird",
-    "the cat is stalking the bird"
+    "package",
+    "box",
+    "parcel",
+    "delivery"
    ],
-   "key": "cat",
+   "key": "package",
    "elements": [
-    "stalkcat_1",
-    "stalkbird_2"
+    "package_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "sprinkler_package",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.502,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.46,
+    "a": 6.61,
+    "zipf_raw": 4.46,
+    "aoa_raw": 6.61,
+    "domain": null,
+    "area_px": 7540
+   },
+   "b": -0.527,
+   "p0": 0.629,
+   "pm1": 0.384,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "The package is going to get soaked",
+   "accepted": [
+    "the package is getting wet",
+    "the box will get wet",
+    "the water will ruin the package",
+    "someone should move the package"
+   ],
+   "key": "wet",
+   "elements": [
+    "sprinkler_3",
+    "package_4"
    ],
    "cues": [
-    "stalkcat_1",
-    "stalkbird_2"
+    "sprinkler_3",
+    "package_4"
    ],
    "effect": [
-    "stalkbird_2"
+    "package_4"
    ],
    "chain": 1,
    "animate": false,
    "domain": null,
-   "template": "cat_stalks_bird",
+   "template": "sprinkler_package",
    "event": "e1",
    "features": {
     "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": -0.924,
+    "s": 0.093,
     "r": 1,
-    "d": 0.072,
+    "d": 0.257,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "zipf_raw": 4.54,
+    "aoa_raw": 2.47,
     "domain": null,
-    "area_px": 4156
+    "area_px": 17452
    },
-   "b": 0.598,
-   "p0": 0.355,
-   "pm1": 0.168,
+   "b": 0.312,
+   "p0": 0.423,
+   "pm1": 0.212,
    "aoi_cells": [
-    "MC"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "action",
-   "text": "A teenager is kicking a ball",
-   "accepted": {
-    "who": [
-     "teenager",
-     "teen",
-     "boy",
-     "girl",
-     "kid",
-     "young person"
-    ],
-    "what": [
-     "kicking a ball",
-     "playing soccer",
-     "playing football",
-     "kicking"
-    ]
-   },
-   "key": "ball",
-   "elements": [
-    "kicker_3",
-    "ball_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "kick_ball",
-   "event": "e2",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -0.021,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 2.9,
-    "zipf_raw": 5.04,
-    "aoa_raw": 2.9,
-    "domain": null,
-    "area_px": 14844
-   },
-   "b": -1.442,
-   "p0": 0.809,
-   "pm1": 0.609,
-   "aoi_cells": [
-    "MC",
+    "BL",
     "BC"
    ]
   },
   {
    "id": "i05",
    "type": "action",
-   "text": "A woman is carrying a box",
+   "text": "A woman is sitting and having a drink",
    "accepted": {
     "who": [
      "woman",
@@ -280,47 +279,141 @@
      "person"
     ],
     "what": [
-     "carrying a box",
-     "holding a box",
-     "moving a box",
-     "box"
+     "sitting and having a drink",
+     "sitting",
+     "having a drink",
+     "drinking"
     ]
    },
-   "key": "box",
+   "key": "sitting",
    "elements": [
-    "carrier_5"
+    "airsitter_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "carry_box",
-   "event": "e3",
+   "template": "sitting_on_air",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.035,
+    "s": -0.113,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
+    "f": 0.86,
+    "a": 3.47,
+    "zipf_raw": 4.86,
+    "aoa_raw": 3.47,
     "domain": null,
-    "area_px": 14552
+    "area_px": 13052
    },
-   "b": -1.434,
-   "p0": 0.808,
-   "pm1": 0.607,
+   "b": -1.341,
+   "p0": 0.793,
+   "pm1": 0.584,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i06",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with how the person is sitting",
+   "accepted": [
+    "something odd about how they're sitting",
+    "that person looks strange",
+    "something's missing"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_5"
+   ],
+   "cues": [
+    "airsitter_5"
+   ],
+   "effect": [
+    "airsitter_5"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.113,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 13052
+   },
+   "b": -0.004,
+   "p0": 0.501,
+   "pm1": 0.27,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "contradiction_explain",
+   "text": "The person is sitting on nothing: there is no chair or bench under them",
+   "accepted": [
+    "sitting on nothing",
+    "there's no chair",
+    "sitting in the air",
+    "invisible chair",
+    "nothing to sit on"
+   ],
+   "key": "chair",
+   "elements": [
+    "airsitter_5"
+   ],
+   "cues": [
+    "airsitter_5"
+   ],
+   "effect": [
+    "airsitter_5"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "sitting_on_air",
+   "event": "e2",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.113,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.69,
+    "aoa_raw": 3.43,
+    "domain": "physical",
+    "area_px": 13052
+   },
+   "b": 1.196,
+   "p0": 0.232,
+   "pm1": 0.1,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i08",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -363,7 +456,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -405,7 +498,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -446,7 +539,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -469,7 +562,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.929,
+    "s": 1.888,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -477,11 +570,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 232252
+    "area_px": 219276
    },
-   "b": -1.668,
-   "p0": 0.841,
-   "pm1": 0.661,
+   "b": -1.647,
+   "p0": 0.838,
+   "pm1": 0.656,
    "aoi_cells": [
     "ML",
     "MC",
@@ -489,7 +582,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i12",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -535,7 +628,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i13",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -580,33 +673,29 @@
  ],
  "counts": {
   "content": 10,
-  "inference_units": 1,
-  "contradictions": 0,
-  "items_total": 11
+  "inference_units": 2,
+  "contradictions": 1,
+  "items_total": 13
  },
  "predicted": {
   "theta_0": {
-   "content": 0.759,
-   "inference": 0.355
+   "content": 0.729,
+   "inference": 0.385
   },
   "theta_minus_1": {
-   "content": 0.547,
-   "inference": 0.168
+   "content": 0.511,
+   "inference": 0.194
   }
  },
  "bands": {
   "content_count": false,
-  "inference_units": false,
+  "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
-  "stalkcat_1_looks_at_bird": {
-   "result": true,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -617,14 +706,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "13 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 13,
-  "edge_density": 0.0337,
-  "png_bytes": 150609,
-  "jpeg_bytes": 163587
+  "objects": 14,
+  "edge_density": 0.0412,
+  "png_bytes": 179226,
+  "jpeg_bytes": 189708
  },
  "signature": [
   [
@@ -640,7 +729,15 @@
    0
   ],
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -733,8 +830,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 74836,
-   "occlusion": 0.079
+   "visible_px": 80792,
+   "occlusion": 0.006
   },
   {
    "id": "tree",
@@ -752,66 +849,6 @@
    "occlusion": 0.043
   },
   {
-   "id": "stalkcat_1",
-   "label": "animal.cat_01__stalk_paw__alert__y090",
-   "role": "scored",
-   "z": 612,
-   "bbox": [
-    934.0,
-    376.0,
-    1072.0,
-    440.0
-   ],
-   "area_px": 4540,
-   "visible_px": 4156,
-   "occlusion": 0.085,
-   "asset": {
-    "variant": "animal.cat_01__stalk_paw__alert__y090",
-    "family": "animal.cat_01",
-    "scale": 0.3757,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
-  },
-  {
-   "id": "stalkbird_2",
-   "label": "animal.bird_02__perch__neutral__y090",
-   "role": "scored",
-   "z": 612,
-   "bbox": [
-    822.0,
-    386.0,
-    890.0,
-    440.0
-   ],
-   "area_px": 1624,
-   "visible_px": 1616,
-   "occlusion": 0.005,
-   "asset": {
-    "variant": "animal.bird_02__perch__neutral__y090",
-    "family": "animal.bird_02",
-    "scale": 0.3757,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "bird",
-     "accepted_names": [
-      "bird",
-      "bluebird",
-      "little bird"
-     ],
-     "category": "bird"
-    }
-   }
-  },
-  {
    "id": "fence",
    "label": "Wooden fence with a gate",
    "role": "setting",
@@ -823,8 +860,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 232252,
-   "occlusion": 0.036
+   "visible_px": 219276,
+   "occlusion": 0.09
   },
   {
    "id": "filler_bush_left",
@@ -842,23 +879,38 @@
    "occlusion": 0.096
   },
   {
-   "id": "carrier_5",
-   "label": "person.ana__walk_box__neutral__y090",
-   "role": "scored",
-   "z": 774.32,
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
    "bbox": [
-    1362.0,
-    520.0,
-    1472.0,
-    778.0
+    0.0,
+    118.0,
+    342.0,
+    784.0
    ],
-   "area_px": 14552,
-   "visible_px": 14552,
+   "area_px": 204952,
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "airsitter_5",
+   "label": "person.ana__sit_drink__neutral__y045",
+   "role": "scored",
+   "z": 804.45,
+   "bbox": [
+    578.0,
+    586.0,
+    698.0,
+    818.0
+   ],
+   "area_px": 13052,
+   "visible_px": 13052,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.ana__walk_box__neutral__y090",
+    "variant": "person.ana__sit_drink__neutral__y045",
     "family": "person.ana",
-    "scale": 0.4358,
+    "scale": 0.447,
     "mirrored": true,
     "labels": {
      "everyday_name": "woman",
@@ -879,21 +931,6 @@
    }
   },
   {
-   "id": "house",
-   "label": "Back of the house",
-   "role": "setting",
-   "z": 781,
-   "bbox": [
-    0.0,
-    118.0,
-    342.0,
-    784.0
-   ],
-   "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
-  },
-  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -909,56 +946,100 @@
    "occlusion": 0.0
   },
   {
-   "id": "kicker_3",
-   "label": "person.leo__kick_low__determined__y090",
-   "role": "scored",
-   "z": 900.26,
+   "id": "swingseat_2",
+   "label": "Swing seat and ropes",
+   "role": "setting",
+   "z": 844,
    "bbox": [
-    590.0,
-    644.0,
-    790.0,
-    900.0
+    1072.0,
+    474.0,
+    1226.0,
+    784.0
    ],
-   "area_px": 13428,
-   "visible_px": 13364,
-   "occlusion": 0.005,
+   "area_px": 4452,
+   "visible_px": 3144,
+   "occlusion": 0.294
+  },
+  {
+   "id": "swinger_1",
+   "label": "person.nia__sit_swing__smile__y000",
+   "role": "scored",
+   "z": 845,
+   "bbox": [
+    1090.0,
+    660.0,
+    1164.0,
+    800.0
+   ],
+   "area_px": 5632,
+   "visible_px": 5632,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.leo__kick_low__determined__y090",
-    "family": "person.leo",
-    "scale": 0.4825,
+    "variant": "person.nia__sit_swing__smile__y000",
+    "family": "person.nia",
+    "scale": 0.462,
     "mirrored": false,
     "labels": {
-     "everyday_name": "teenager",
+     "everyday_name": "girl",
      "accepted_names": [
-      "teenager",
-      "teen",
-      "boy",
       "girl",
+      "little girl",
+      "child",
       "kid",
-      "young person"
+      "daughter"
      ],
-     "category": "teen_person",
+     "category": "child_person",
      "person": {
-      "age_group": "teen",
-      "skin_tone": "skin1",
-      "hair": "brown_ponytail"
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
      }
     }
    }
   },
   {
-   "id": "ball_4",
-   "label": "Ball",
-   "role": "scored",
-   "z": 902.26,
+   "id": "swing",
+   "label": "Swing set",
+   "role": "setting",
+   "z": 846,
    "bbox": [
-    694.0,
-    828.0,
-    822.0,
-    914.0
+    976.0,
+    458.0,
+    1324.0,
+    856.0
    ],
-   "area_px": 1480,
-   "visible_px": 1480,
+   "area_px": 37116,
+   "visible_px": 36956,
+   "occlusion": 0.004
+  },
+  {
+   "id": "sprinkler_3",
+   "label": "Sprinkler spraying",
+   "role": "scored",
+   "z": 932.92,
+   "bbox": [
+    0.0,
+    800.0,
+    1032.0,
+    962.0
+   ],
+   "area_px": 17556,
+   "visible_px": 17452,
+   "occlusion": 0.006
+  },
+  {
+   "id": "package_4",
+   "label": "Package on the grass",
+   "role": "scored",
+   "z": 942.92,
+   "bbox": [
+    970.0,
+    876.0,
+    1084.0,
+    956.0
+   ],
+   "area_px": 7540,
+   "visible_px": 7540,
    "occlusion": 0.0
   }
  ],
@@ -969,10 +1050,10 @@
  "attempts": [
   [
    23020,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 2: accepted after 1 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 1,
  "knob": 0,
  "regen": {
   "base_seed": 23020,
@@ -982,14 +1063,16 @@
   "usage": {},
   "forced": {
    "events": [
-    "kick_ball",
-    "carry_box"
+    "swing"
    ],
    "modules": [
-    "cat_stalks_bird"
+    "sprinkler_package"
+   ],
+   "contradictions": [
+    "sitting_on_air"
    ]
   },
-  "placement_rev": 43
+  "placement_rev": 44
  },
  "probe": true
 }

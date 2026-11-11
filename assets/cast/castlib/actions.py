@@ -67,6 +67,26 @@ BOX45 = _os44.environ.get("TPDB_BOX45", "A")  # v0.45 bench (vision/isolation_v0
 # v0.45 bench (look review, TPDB_KITE45): the kite flyer's spool, a wood-coloured cylinder seen end on, was "a small tan ball with a brown dot", the
 # fist's size and on two of the three children its colour. "A": a reel on a handle above the fist, two bright flanges and the wound string between.
 KITE45 = _os44.environ.get("TPDB_KITE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.47 bench (TPDB_HEAD47, people.py; TPDB_PROFILE): the head is fuller at the cheeks, so that a face turned 45 degrees keeps both eyes inside its
+# outline, and its front is flatter: seen from the side the face shows no eye at all, and turned 35 degrees toward the viewer, as v0.27 to v0.46
+# turned a profile's head, the far eye lies half under the outline. "B": a side view's head turns 48 degrees toward the viewer, the face a clean
+# three-quarter one with both eyes whole; a pose with a thing held at the face turns from the waist, spine and chest half each, so the hands and
+# the thing come round with the head. "O": v0.46 (35 degrees, a held thing's poses in pure profile)
+HEAD47 = _os44.environ.get("TPDB_HEAD47", "B")
+PROFILE47 = float(_os44.environ.get("TPDB_PROFILE", "-48" if HEAD47 == "B" else "-35"))
+# v0.47 bench (vision/flaws_v046.md R2 and O6, TPDB_WALK47): a walker was read as heading the other way, "The box is behind him, so he is not about
+# to trip on it." (v046 pic_82): the trailing leg was straight and its shoe, tipped 44 degrees, lay much like the leading one turned round. "B": the
+# trailing foot up on its toe, the heel high and the knee bent, the shin sloping back; the leading leg reaches forward to a flat foot. "O": v0.46
+WALK47 = _os44.environ.get("TPDB_WALK47", "B")
+# v0.47 bench (vision/flaws_v046.md O6, TPDB_RUN47): "The woman's running pose is a little stiff, with the back foot kicked up high" (v046 pic_31): the
+# front leg was a straight post under the body. "B": the front knee bent and forward, the back shin lower behind, the hips a little lower. "O": v0.46
+RUN47 = _os44.environ.get("TPDB_RUN47", "B")
+# v0.47 bench (vision/flaws_v046.md O6, TPDB_SITG47; lo_sit_ground): sitting on the ground, both legs lay side by side, a little bent: "The boy's
+# legs look slightly short or tucked, so it is hard to tell whether they are stretched out straight or bent." (v046 pic_90). "B": the far leg's
+# knee drawn up with its foot flat on the ground, the near leg out along the ground and resting on its heel, toes up: at 45 the two legs cross
+# and the near sole is a dark disc over the far foot (bench g1). "C": both legs out straight along the ground, a little apart, heels down, the
+# feet tipped forward of upright so that their soles do not face the viewer (bench g3). "O": v0.46
+SITG47 = _os44.environ.get("TPDB_SITG47", "C")
 
 
 def _pcol(P, default, alts):
@@ -238,6 +258,13 @@ class Poser:
         anchor(self.rig, f"{name}@{self.cur}", loc, bone)
         self.anchors.setdefault(self.cur, []).append(name)
 
+    def head_yaw(self):
+        """Degrees the face is turned from straight ahead, toward the side view's camera (the figure's right)."""
+        upd()
+        pb = self.rig.arm.pose.bones["head"]
+        f = (pb.matrix.to_3x3() @ pb.bone.matrix_local.to_3x3().inverted()) @ Vector((0, -1, 0))
+        return math.degrees(math.atan2(-f.x, -f.y))
+
     # ---------------------------------------------------------- build
     def build(self, name, lower, upper, **meta):
         self.cur = name
@@ -248,8 +275,19 @@ class Poser:
         else:
             arms_rest(self)
         self.rig.key_pose(name)
-        turn = float(__import__("os").environ.get("TPDB_PROFILE", "-35"))
-        if turn and name not in PROFILE_SKIP:
+        turn = PROFILE47
+        if turn and HEAD47 == "B":
+            # v0.47 (TPDB_HEAD47 "B"): see the switch. The twin brings the head to the turn, whatever the pose has turned it already (stuck up on
+            # the seesaw and calling, the head is 40 degrees round); a head turned further, or turned away to look back, is left as posed
+            own = self.head_yaw()
+            turn = 0.0 if own >= -turn - 4 or own < -60 else turn + own
+        if turn and HEAD47 == "B" and name in PROFILE_SKIP:
+            for bn in ("spine", "chest"):
+                pb = self.rig.arm.pose.bones[bn]
+                pb.rotation_quaternion = pb.rotation_quaternion @ Quaternion((0, 1, 0), math.radians(turn / 2))
+            upd()
+            self.rig.key_pose(name + "__p")
+        elif turn and name not in PROFILE_SKIP:
             # v0.27, chosen on the bench: a twin of the pose for full profile, the head turned a little toward the viewer (the eye sat on the head's outline: "face hidden",
             # "hard to read"; turning the head worked for the newspaper dog, isolation_v026.md). Not with a hand-held thing at the face, which it would leave behind
             pb = self.rig.arm.pose.bones["head"]
@@ -292,10 +330,17 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
         # "his head and arms face left", while "his legs and feet look like they stride towards the right")
         # v0.29 bench C: lifted less ("looks turned up")
         feet["L"] = (0.0, 0.15, (0.055 if foot == "B" else 0.036) * P.s)
-    P.torso(lean=lean, drop=P.drop_hips_for(feet), head_pitch=head_pitch, head_turn=head_turn)
-    P.place_legs(feet)
+    w47 = foot27 and WALK47 == "B"
+    if w47:
+        feet = {"L": (0.0, 0.17, 0.085 * P.s), "R": (0.0, -0.19, 0.0)}
+    P.torso(lean=lean, drop=P.drop_hips_for(feet) + (0.012 * P.u if w47 else 0.0), head_pitch=head_pitch, head_turn=head_turn)
+    P.place_legs(feet, hint={"L": (0, -1, -0.1), "R": (0, -1, 0.25)} if w47 else (0, -1, 0.25))
     if foot27:
-        P.rig.aim_dir("foot_L", (0, -0.72, -0.70) if foot == "B" else (0, -0.86, -0.50))
+        if w47:
+            a = math.radians(64)
+            P.rig.aim_dir("foot_L", (0, -math.cos(a), -math.sin(a)))
+        else:
+            P.rig.aim_dir("foot_L", (0, -0.72, -0.70) if foot == "B" else (0, -0.86, -0.50))
         if not (__import__("os").environ.get("TPDB_SHOE39", "D") == "D" and __import__("os").environ.get("TPDB_WALK40", "O") == "B"):
             # (v0.40, vision/flaws_v039.md O5, TPDB_WALK40 "B": the front foot is left as place_legs plants it, sole flat. Aimed level here, it sat
             # toe-up by the shoe's rest angle while the back foot tipped toe-down, and "The boy's feet point in different directions")
@@ -309,9 +354,17 @@ def lo_run(P):
         # v0.44 (TPDB_RUN44): off the ground, the back shin kicked up behind, the front foot just lifted, the hips up, leaning into the run; the
         # raised back foot without its sole (a grey plate under a raised shoe)
         feet = {"L": (0.0, 0.20, 0.32), "R": (0.0, -0.24, 0.05)}
-        P.torso(lean=16, drop=P.drop_hips_for(feet), head_pitch=4)
+        r47 = RUN47 == "B"
+        if r47:
+            feet = {"L": (0.0, 0.34, 0.20), "R": (0.0, -0.22, 0.04)}
+        P.torso(lean=16 if r47 else 16, drop=P.drop_hips_for(feet) + (0.06 * P.u if r47 else 0.0), head_pitch=4)
         P.place_legs(feet, hint={"L": (0, -1, -0.6), "R": (0, -1, 0.5)})
-        P.rig.aim_dir("foot_L", (0, 0.55, -0.83))
+        if r47:
+            a = math.radians(40)
+            P.rig.aim_dir("foot_L", (0, math.cos(a) * 0.3, -math.sin(a)))
+            P.rig.aim_dir("foot_R", (0, -1, -0.10))
+        else:
+            P.rig.aim_dir("foot_L", (0, 0.55, -0.83))
         P.hides.setdefault(P.cur, []).append("Sole_L")
         return
     feet = {"L": (0.0, 0.30, 0.16), "R": (0.0, -0.26, 0.0)}
@@ -374,6 +427,22 @@ def lo_sit_ground(P):
     J, S, u = P.J, P.S, P.u
     drop = J["hip"] * S - 0.13 * u
     P.torso(drop=drop, back=0.0, lean=-14, head_pitch=4)
+    if SITG47 == "C":
+        # both legs out straight along the ground, a little apart, heels down and toes up
+        dz = 0.13 * u - J["ankle"] * S
+        reach = math.sqrt(max(0.0, P.L ** 2 - dz ** 2)) / S
+        k, dx = 0.97, 0.05
+        P.place_legs({"L": (dx, -(k - 0.03) * reach, 0.0), "R": (-dx, -k * reach, 0.0)}, hint=(0, -1, 1))
+        for sd, sg in (("L", 1), ("R", -1)):
+            P.rig.aim_dir("foot_" + sd, (sg * 0.12, -1.0, 0.6))
+        return
+    if SITG47 == "B":
+        # v0.47 (TPDB_SITG47): see the switch. The near leg (R: the library draws this pose at 45 and 90) reaches 0.95 of the way the leg can
+        dz = 0.13 * u - J["ankle"] * S
+        out = 0.95 * math.sqrt(max(0.0, P.L ** 2 - dz ** 2)) / S
+        P.place_legs({"L": (0.05, -0.40 * P.s, 0.0), "R": (-0.04, -out, 0.0)}, hint={"L": (0, -1, 1), "R": (-0.1, -1, 0.5)})
+        P.rig.aim_dir("foot_R", (-0.18, -0.50, 1))
+        return
     P.place_legs({"L": (0.03, -0.62 * P.s, 0.0), "R": (-0.03, -0.58 * P.s, 0.0)}, hint=(0, -1, 1))
 
 
@@ -633,7 +702,9 @@ def up_think(P):
     u = P.u
     m = P.lm("mouth")
     pel = P.lm("pelvis")
-    P.arms({"R": (m + Vector((-0.01, -0.05, -0.06)) * u, (-0.6, 0.4, -1)),
+    # v0.47: the near elbow's hint was (-0.6, 0.4, -1), behind the trunk's side, and the upper arm lay in the chest's cloth: stray lines at the sleeve;
+    # and the fist under the chin (it was at the mouth, 0.06 under the mouth's landmark, and covered it)
+    P.arms({"R": (m + Vector((-0.01, -0.05, -0.13)) * u, (-0.7, -0.25, -1)),
             "L": (pel + Vector((-0.06, -0.17, 0.22)) * u, (1, 0.3, -0.6))})
 
 
@@ -1803,7 +1874,9 @@ ACTIONS = [
     ("cross_arms", "wide", {}, "cross_arms", "standing with arms crossed", ["emotion"]),
     ("catch", "stand", {"head_pitch": 12}, "catch", "getting ready to catch", ["ball", "look_up"]),
     ("push", "walk", {"lean": 14}, "push", "pushing something", ["push"]),
-    ("look_back", "walk", {"head_turn": 95}, "walk_swing", "looking back over a shoulder", ["look"]),
+    # (v0.47, TPDB_HEAD47 "B": 128 degrees, the back of the head from every side; at 95 the walker coming toward the viewer showed a face in
+    # pure profile, which the new head draws with no eye)
+    ("look_back", "walk", {"head_turn": 128 if HEAD47 == "B" else 95}, "walk_swing", "looking back over a shoulder", ["look"]),
     ("sit", "sit", {}, "sit_rest", "sitting", ["sit"]),
     ("sit_swing", "sit_swing", {}, "swing_hold", "sitting on a swing", ["sit", "swing"]),
     ("sit_ground", "sit_ground", {}, "ground_support", "sitting on the ground", ["sit", "ground"]),
@@ -1815,7 +1888,7 @@ ACTIONS = [
     ("hose_spray", "stand", {"lean": 4, "head_pitch": -14}, "hose_spray", "spraying the hose", ["garden", "water", "hose"]),
     # (v0.44, TPDB_INSPECT44 "A": the head level and turned toward the viewer, so the puzzled brows and mouth show)
     # (v0.45, TPDB_HOSE45 "A": that turn was away from the viewer; toward the viewer now, as a profile pose's head)
-    ("hose_inspect", "stand", {"head_pitch": -6, "head_turn": -28, "lean": 4} if HOSE45 == "A" else
+    ("hose_inspect", "stand", {"head_pitch": -6, "head_turn": PROFILE47 if HEAD47 == "B" else -28, "lean": 4} if HOSE45 == "A" else
      {"head_pitch": 2, "head_turn": 20, "lean": 4} if INSPECT44 == "A" else {"head_pitch": -20, "lean": 4}, "hose_inspect",
      "looking into the hose nozzle", ["garden", "hose", "look"]),
     ("sweep", "stand", {"lean": 10, "head_pitch": -18}, "sweep", "sweeping", ["chore"]),
@@ -1948,7 +2021,7 @@ def make_people_actions(rig, ctx):
             largs = dict(largs, head_pitch=WALK_READ_PITCH_OTHERS)
         if name == "walk_ice_cream" and os.environ.get("TPDB_ICE", "B") == "B":
             # v0.27: this one is only drawn in full profile, so its head can turn in the pose itself, and the cone goes to the turned mouth
-            largs = dict(largs, head_turn=float(os.environ.get("TPDB_PROFILE", "-35")))
+            largs = dict(largs, head_turn=PROFILE47)
         P.build(name, lower, upper, lower_args=largs, description=desc, tags=tags, airborne="airborne" in tags)
     rig.reset()
     return P

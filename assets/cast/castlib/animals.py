@@ -7,7 +7,7 @@ import bpy  # noqa: F401
 import bmesh
 from mathutils import Matrix, Quaternion, Vector
 
-from .core import ISECT39, Rig, _mesh_object, anchor, cyl, ellipsoid, link, list_m, mat, no_isect, nrm, skin_like, skin_object, upd
+from .core import ISECT39, Frame, Rig, _mesh_object, anchor, box, cyl, ellipsoid, link, list_m, mat, no_isect, nrm, shell_over, skin_like, skin_object, upd
 
 QUAD39 = os.environ.get("TPDB_QUAD39", "B")  # v0.39 bench (vision/isolation_v039.md): B
 ART39 = os.environ.get("TPDB_ART39", "B")  # v0.39 bench (vision/isolation_v039.md): B
@@ -66,6 +66,79 @@ GOAT44 = os.environ.get("TPDB_GOAT44", "A")  # v0.44 bench (vision/isolation_v04
 # red dot in front of the muzzle" that could be a ball, a fly or the lead's end. "A": the nose set back into the muzzle's end, the tongue rooted in
 # the mouth. "O": v0.43
 NOSE44 = os.environ.get("TPDB_NOSE44", "A")  # v0.44 (vision/isolation_v044.md; read in the design tests): A
+# v0.47 bench (TPDB_ANIM47; the cast study, two reviews of the animals as v0.46 drew them): "A black crescent sits on the front edge of the head", "a
+# dark smudge cut off at the front edge of the head" (the eye, 27 degrees round the head, seen edge on in a side view), a songbird ("Two eyes are drawn
+# side by side on a head in side view"), brown patches ("each patch is a separately outlined blob that bulges beyond the body outline"), the cat's whiskers "a black bristle
+# block", the white dog's far legs grey, the tail a straight stick. "B": the eyes of the dogs and cats 44 degrees round the head, a full eye inside
+# the outline in a side view and one eye at three-quarters; a songbird one pair, 50 degrees round, and no second pair on the side; the duck's 48;
+# a coat's markings patches of the body's own surface (core.shell_over), flat on it and drawn with no line of their own, and none on a leg; a
+# white coat's far legs a light shade; the dog's tail shorter, tapered to its tip and curved; the cat's whiskers two thin lines a side with no
+# outline; the paws shorter and higher. "O": v0.46
+ANIM47 = os.environ.get("TPDB_ANIM47", "B")
+# v0.47 bench (TPDB_READ47; vision/flaws_v046.md R1): the reading dog held its paws up beside its muzzle and the scene hung a flat paper from them, so
+# the paper lay against the mouth: "A brown dog sits up holding a newspaper in its mouth." (picture 53). "B": a pose of its own, sit_read: sitting
+# up on the haunches as the begging dog does, the forelegs bent and held out at chest height, an open newspaper (an object of the pose, two pages
+# in a shallow V with ruled bands, turned to the viewer) held by its lower corners below the muzzle and clear of the head, the head tipped down
+# to it and turned a little to the viewer. "O": v0.46 (the pose is not built)
+# Bench round 1 (vision/isolation_v047/round1): it reads, a dog reading a newspaper, in three crops of three, and three readers name the collar:
+# "could be a collar, a bandana/scarf, or a cape; it sticks out behind the neck like a flap" (the collar is a ring fitted to the standing neck, and
+# sitting upright the neck is thinner and straight, so the ring stands out behind it); one, the lower body "a rounded lump with bent hind legs and
+# no clear tail" (the tail curled round the near haunch). "C": as B, the tail out behind on the ground with its tip up, as the v0.44 sitting-up
+# pose has it, and no collar in this pose (the standing collar is hidden; a narrow band of its own round the upright neck was tried on the cast
+# bench, and the bowed head hides all of it but the back, a small flap again). "B": round 1
+# Bench round 2 (vision/isolation_v047/round2): it reads in three crops of three again, and all three readers name the hindquarters: "the lower
+# body looks like a blob without clearly separate hind legs/feet" (iso_01), "the hind legs are not clearly drawn, so it is unclear whether it is
+# standing or sitting" (iso_05) (the hind paws lay under the rump, behind the outline of the haunch). "D": as C, the hind paws wider apart and
+# forward of the rump, so the near thigh, the shank lying along the ground and a hind foot flat on the ground ahead of the rump all show, the far
+# foot behind it (further forward still, the legs stuck out in front as a sitting person's do; v0.42). "C": round 2
+# Bench round 3 (vision/isolation_v047/round3, figs3): a dog reading a newspaper in three crops of three, the hindquarters named by no one, and
+# the pair goes to it; but all three readers now offer another animal beside the dog: "almost like a weasel or otter when it sits up" (iso_02),
+# "more like a meerkat" (iso_06), "the tail is long and curled like a weasel's" (iso_09) (none did in round 1, with the collar and the tail
+# curled in; one in round 2). "E": as D, with a collar of its own in this pose, a flat band in the collar's colour low on the neck, fitted to
+# the measured section of the upright body there (wide from side to side and thin from front to back, so a round ring on the neck's bone, which
+# runs up the back of it, showed only behind: the flaps of rounds 1 and "C"), and the tail raised behind the rump with its tip curled up, as a
+# sitting dog carries it, not laid out long on the ground (a trunk deeper from front to back changed little: the near foreleg and the paper
+# cover its front; cast bench, vision/isolation_v047.md). "D": round 3
+# Bench round 4 (vision/isolation_v047/round4, figs4): a dog reading a newspaper in three crops of three, "a red collar" named in each and no
+# other animal offered by any reader. The pair against round 3's drawing: "No difference.", the band seen from the side "like a strap, not a
+# ring" (it stops at the far paw). E is kept.
+READ47 = os.environ.get("TPDB_READ47", "E")
+# v0.47 bench (TPDB_HOSE47; vision/flaws_v046.md R4): the dog on the hose stood square, the hose along the line of its feet and pinched under a back
+# paw amid its legs: "The dog may be standing on the hose or just in front of it." (picture 96). "B": a pose of its own, stand_hose: standing, the
+# near forepaw set a step out ahead of the chest and planted (the scene lays the hose under it), with a point of its own on the ground under that
+# paw, hose_paw. "O": v0.46 (the pose is not built)
+# Bench round 1 (vision/isolation_v047/round1): the paw on the hose is seen, but the stride makes it a dog passing by: "walks over the hose" (two
+# crops), "stepping over or onto the hose". "D": standing still and square, the legs upright under the body in pairs, the near forepaw only a
+# little ahead of the far one and flat on the hose, the head turned a little to the viewer. "B": round 1
+HOSE47 = os.environ.get("TPDB_HOSE47", "D")
+# v0.47 bench (TPDB_PECK47; vision/flaws_v046.md R5, R6): the pecking songbird's beak came half-way down its legs, the face 40 degrees below level:
+# "perched right beside it, looking ready to steal it" (picture 53), and the stalked bird read as standing, not feeding (48). "B": the body tipped
+# further about the feet, the neck down, the face about 66 degrees below level so the beak's tip is at the ground ahead of the feet, the tail level,
+# the legs apart fore and aft. "O": v0.46
+# Bench round 1 (vision/isolation_v047/figs1, the red bird pecking): the action is clearer but "a's eye sits on the outline at the bottom of the
+# head" (the eye is on the side of the face, so a face tipped 66 degrees carries it down to the head's lower edge). "C": the body tipped 40
+# degrees and the neck 74 below level, the face 46, so the eye stays inside the head, and the whole bird lowered on legs spread wider fore and
+# aft, so the beak's tip comes as near the ground as it did (with the angles alone it stood half as far again above it; tipped enough to reach,
+# 48 to 54 degrees, the eye was back on the outline). "B": round 1
+# Bench round 2 (vision/isolation_v047/round2, figs2): in the scene it reads, three crops of three, with "it could be read as pecking at the
+# sandwich or as lying flat or crouched on the bench" (iso_04); as a drawing both birds lose to v0.46's: "a looks like it is falling forward on
+# stubs" (fig_01), "b's odd splayed back leg and crushed front leg make the pose confusing" (fig_03). A body tipped about the feet drops its
+# hips, so its legs must splay or sink into it. "D": the body tipped 58 degrees about the hips, which stay at their standing height, so the legs
+# stand upright under it and clear of the belly; the neck 84 degrees below level and the face 46, the eye inside the head, the beak's tip near
+# the ground ahead of the feet (tipped 62 and more the belly comes down round the legs; the legs staggered fore and aft made a narrow V with
+# crossing feet; a face past 48 degrees put the eye back on the outline: cast bench, vision/isolation_v047.md). "C": round 2
+PECK47 = os.environ.get("TPDB_PECK47", "D")
+# v0.47 bench round 1 (TPDB_STALK47; vision/isolation_v047/round1 and whole1): every reader of the stalking cat, in the v0.46 drawing as in the new
+# one, names its forelegs: "they seem folded up against its chest, with a paw bent near its chin, instead of reaching down to the floor", "its
+# front legs are tucked oddly under the body" (the near forepaw was lifted to the height of the chest with its elbow pointed down and back). "B":
+# the far foreleg down to the ground under the chest, the near one reaching forward with its paw a little off the ground mid-step, the elbows up
+# beside the chest (pointed back and low, the forelegs lay along the ground with a knot at the elbow), the chest a little higher. "O": v0.46
+# Bench round 2 (vision/isolation_v047/round2): stalking in three crops of three, and all three name the legs: "The cat's legs are tangled and
+# hard to read" (iso_09), "its legs overlap in a tangled way" (iso_15) (the far forepaw lay back across the near foreleg, and the two hind paws
+# one on the other). "C": the four paws apart along the ground, the far foreleg down under the chest and the near one reaching forward, mid-step;
+# the far hind paw under the belly and the near one a step behind it, so each leg shows whole and the far ones show between the near ones, the
+# crouch (the chest low, the head low and level, the tail low) as it was. "B": round 2
+STALK47 = os.environ.get("TPDB_STALK47", "C")
 
 
 def _frame_quat(d, side):
@@ -100,6 +173,9 @@ def build_quadruped(spec):
     if D43:
         LH *= 0.90       # v0.43 (TPDB_DOG43): the legs a tenth shorter
     FARF = (0.58 if D43 else 0.68) if (DOG42 == "B" and kind == "dog") else 0.80
+    A47 = ANIM47 == "B" and Q and ART
+    if A47 and spec.get("leg_col", spec["body"]) in ("white", "cream"):
+        FARF = max(FARF, 0.80)      # v0.47 (TPDB_ANIM47): a white coat's far legs a light shade (at 0.58 they were grey, "metal legs")
     yb = 0.07 if G42 else 0.0       # v0.42: the goat's back a fifth longer, everything behind the chest moved back by up to yb
 
     def P(x, y, z):
@@ -251,11 +327,32 @@ def build_quadruped(spec):
         edges += [(0, i0), (i0, i0 + 1)]
     else:
         tr = {"dog": (0.030, 0.026, 0.018), "cat": (0.026, 0.022, 0.020), "curl": (0.034, 0.030, 0.026)}[tail]
-        verts += [P(0, 0.30, hip_z + 0.06), P(0, 0.38, hip_z + 0.14), P(0, 0.44, hip_z + 0.27)]
-        radii += [tr[0] * k, tr[1] * k, tr[2] * k]
-        wts += [{"tail1": 1.0}, {"tail1": 0.5, "tail2": 0.5}, {"tail2": 1.0}]
-        edges += [(0, i0), (i0, i0 + 1), (i0 + 1, i0 + 2)]
+        if A47 and tail == "dog":
+            # v0.47 (TPDB_ANIM47): a fifth shorter, tapered to its tip and curved up (a straight stick as long as a leg, "an antenna")
+            verts += [P(0, 0.30, hip_z + 0.06), P(0, 0.375, hip_z + 0.125), P(0, 0.420, hip_z + 0.195), P(0, 0.432, hip_z + 0.250)]
+            radii += [0.031 * k, 0.025 * k, 0.018 * k, 0.011 * k]
+            wts += [{"tail1": 1.0}, {"tail1": 0.5, "tail2": 0.5}, {"tail2": 1.0}, {"tail2": 1.0}]
+            edges += [(0, i0), (i0, i0 + 1), (i0 + 1, i0 + 2), (i0 + 2, i0 + 3)]
+        else:
+            verts += [P(0, 0.30, hip_z + 0.06), P(0, 0.38, hip_z + 0.14), P(0, 0.44, hip_z + 0.27)]
+            radii += [tr[0] * k, tr[1] * k, tr[2] * k]
+            wts += [{"tail1": 1.0}, {"tail1": 0.5, "tail2": 0.5}, {"tail2": 1.0}]
+            edges += [(0, i0), (i0, i0 + 1), (i0 + 1, i0 + 2)]
     body_ob = skin_object("Body", verts, edges, radii, body, rig, wts)
+
+    def patch(name, c, r, colkey):
+        """v0.47 (TPDB_ANIM47): a marking as the part of the body's own surface inside an ellipsoid (centre c, radii r), lying flat on the
+        body, bent with it and drawn with no line of its own (an ellipsoid set into the flank stood out of the outline as a lump with its own
+        outline)."""
+        c, r = Vector(c), Vector(r)
+        ob = shell_over(body_ob, name, colkey, rig, 0.0025 * k,
+                        [lambda co, w: ((co.x - c.x) / r.x) ** 2 + ((co.y - c.y) / r.y) ** 2 + ((co.z - c.z) / r.z) ** 2 - 1.0])
+        try:
+            ob.lineart.usage = "EXCLUDE"
+        except (AttributeError, TypeError):
+            pass
+        return ob
+
     if G42:
         no_isect(body_ob)       # (seam ticks at the withers where the legs' tops pass into the body)
     leg_col = spec.get("leg_col", body)
@@ -267,7 +364,7 @@ def build_quadruped(spec):
                 # the far side at three-quarters and in profile (yaw 45, 90, 135 turn the character's left away from the camera)
                 ob.data.materials[0] = far_mat(leg_col, FARF)
             no_isect(ob)
-            if DOG42 == "B" and kind == "dog" and sd == "R" and spec.get("spots"):
+            if DOG42 == "B" and kind == "dog" and sd == "R" and spec.get("spots") and not A47:
                 # v0.42: a brown patch on the near foreleg, so the white legs part from a pale ground
                 pv = P(-hx - 0.034, -0.150, 0.5 * (chest_z - 0.07 + knee_z) + 0.012)
                 skin_like(no_isect(ellipsoid("LegSpot", pv, (0.016 * k, 0.034 * k, 0.050 * k), spec["spot_col"], rig, "fleg_R")), ob, rig)
@@ -289,7 +386,11 @@ def build_quadruped(spec):
             # the paw the end of the leg, in its colour, a little wider than the wrist and toes forward
             pc = leg_col if kind != "goat" else spec.get("paws", belly)
             for nm, y_, bone in ((f"FPaw_{sd}", -0.182, f"fshin_{sd}"), (f"BPaw_{sd}", 0.222, f"bmeta_{sd}")):
-                ob = ellipsoid(nm, P(sg * hx, y_, 0.026), (0.043 * k * LR, 0.056 * k * LR, 0.026 * k), pc, rig, bone)
+                if A47 and kind != "goat":
+                    # v0.47 (TPDB_ANIM47): shorter and higher, a rounded block at the leg's end (a flat oval twice the leg's width, "round blobs")
+                    ob = ellipsoid(nm, P(sg * hx, y_ + 0.008, 0.029), (0.040 * k * LR, 0.048 * k * LR, 0.029 * k), pc, rig, bone, sq=2.6)
+                else:
+                    ob = ellipsoid(nm, P(sg * hx, y_, 0.026), (0.043 * k * LR, 0.056 * k * LR, 0.026 * k), pc, rig, bone)
                 if sd == "L" and pc == leg_col:
                     ob.data.materials[0] = far_mat(leg_col, FARF)
                 no_isect(ob)
@@ -300,10 +401,14 @@ def build_quadruped(spec):
             no_isect(fp)
             no_isect(bp)
     if DOG42 == "B" and kind == "dog":
-        if not spec.get("spots"):
+        if not spec.get("spots") and A47:
+            patch("Chest", P(0, -0.290, chest_z + 0.005), (0.050 * k, 0.075 * k, 0.092 * k), belly)
+        elif not spec.get("spots"):
             # v0.42: a narrow blaze down the front of the chest, ending above the belly (the wide oval read "like a bib or a nappy")
             no_isect(ellipsoid("Chest", P(0, -0.236, chest_z + 0.025), (0.042 * k, 0.040 * k, 0.080 * k), belly, rig, "spine",
                                rot=Quaternion((1, 0, 0), -0.30)))
+    elif A47 and kind == "cat":
+        patch("Chest", P(0, -0.250, chest_z - 0.035), (0.075 * k, 0.085 * k, 0.100 * k), belly)
     elif not (ART and kind == "goat"):
         # (no chest patch on the brown goat: at three-quarters its white oval stood on the shoulder like an egg)
         chest_ob = ellipsoid("Chest", P(0, -0.22, chest_z - 0.02), (0.085 * k, 0.05 * k, 0.095 * k), belly, rig, "spine")
@@ -323,13 +428,19 @@ def build_quadruped(spec):
             near = [q for q in pts if abs(q.y - yy) < 0.03 * S and abs(q.z - zz) < 0.03 * S and q.x * side > 0]
             xs = max((abs(q.x) for q in near), default=0.11 * S)
             bone = "hips" if y > 0.05 else "spine"
+            if A47:
+                patch(f"Spot{i}", (side * xs, yy, zz), (0.070 * k, rx * k, rz * k), spec["spot_col"])
+                continue
             skin_like(ellipsoid(f"Spot{i}", Vector((side * (xs - 0.004 * S), yy, zz)), (0.012 * k, rx * k, rz * k), spec["spot_col"], rig, bone), body_ob, rig)   # v0.15: bends with the flank
         if D43:
             # v0.43 (TPDB_DOG43): a brown patch over the near hip, which the thigh runs into (white on white, the hind leg was "pasted onto the body")
             yy, zz = 0.19 * S, (hip_z - 0.03) * S
             near = [q for q in pts if abs(q.y - yy) < 0.03 * S and abs(q.z - zz) < 0.03 * S and q.x < 0]
             xs = max((abs(q.x) for q in near), default=0.11 * S)
-            skin_like(ellipsoid("HipSpot", Vector((-(xs - 0.004 * S), yy, zz)), (0.014 * k, 0.068 * k, 0.060 * k), spec["spot_col"], rig, "hips"), body_ob, rig)
+            if A47:
+                patch("HipSpot", (-xs, yy, zz), (0.075 * k, 0.068 * k, 0.062 * k), spec["spot_col"])
+            else:
+                skin_like(ellipsoid("HipSpot", Vector((-(xs - 0.004 * S), yy, zz)), (0.014 * k, 0.068 * k, 0.060 * k), spec["spot_col"], rig, "hips"), body_ob, rig)
 
     hc = P(0, -0.30, chest_z + 0.22) if not (ART and kind == "goat") else neck_tail + P(0, -0.04, 0.06)
     hr = spec.get("head_r", 0.115 if kind == "dog" else 0.135) * k
@@ -399,7 +510,7 @@ def build_quadruped(spec):
                     ellipsoid(f"Snout_{sd}", snout_c + Vector((sg * 0.017 * k, -0.014 * k, -0.006 * k)), (0.030 * k, 0.030 * k, 0.025 * k), belly, rig, "head")
                 else:
                     ellipsoid(f"Snout_{sd}", snout_c + Vector((sg * 0.016 * k, -0.004 * k, -0.004 * k)), (0.026 * k, 0.024 * k, 0.022 * k), belly, rig, "head")
-                for i, dz in enumerate((0.006, -0.004, -0.014)):
+                for i, dz in enumerate((0.006, -0.004, -0.014) if not A47 else ()):
                     a0 = snout_c + Vector((sg * 0.026 * k, -0.012 * k, dz * k))
                     # (0.095 long with a droop of 1.6 hung below the sleeping cat's ground point: shorter, and nearly level)
                     a1 = a0 + Vector((sg * 0.068 * k, 0.004 * k, (dz * 0.4 + 0.003 * (1 - i)) * k))
@@ -410,6 +521,17 @@ def build_quadruped(spec):
                         a1 = a0 + Vector((sg * 0.060 * k, -0.024 * k, (dz * 0.4 + 0.003 * (1 - i) + 0.016) * k))
                     ob = cyl(f"Whisker_{sd}{i}", a0, a1, 0.0026 * k, "outline", seg=6)
                     rig.attach(ob, "head")
+                for i, (dz, rise) in enumerate(((0.004, 0.022), (-0.008, 0.004)) if A47 else ()):
+                    # v0.47 (TPDB_ANIM47): two a side, spread apart, each a thin dark line with no outline of its own (three thin tubes, each
+                    # outlined on both sides, made one black block at the muzzle)
+                    a0 = snout_c + Vector((sg * 0.030 * k, -0.022 * k, dz * k))
+                    a1 = a0 + Vector((sg * 0.064 * k, -0.026 * k, rise * k))
+                    ob = cyl(f"Whisker_{sd}{i}", a0, a1, 0.0036 * k, "outline", seg=6, r1=0.0018 * k)
+                    rig.attach(ob, "head")
+                    try:
+                        ob.lineart.usage = "EXCLUDE"
+                    except (AttributeError, TypeError):
+                        pass
         else:
             ellipsoid("Snout", snout_c, (0.040 * k, 0.030 * k, 0.028 * k), belly, rig, "head")
         nose_p = snout_c + Vector((0, -0.030 * k, 0.012 * k))
@@ -520,9 +642,15 @@ def build_quadruped(spec):
     face = Face(rig, "head", hc, (hr * 1.02, hr, hr * 0.96), k, prefix="F")
     eye_dx, eye_z = 0.052 * k, 0.022 * k
     r_e = 0.024 * k
+    eye_t = 0.010 * k
+    if A47 and kind in ("dog", "cat"):
+        # v0.47 (TPDB_ANIM47): 44 degrees round the head (27: in a side view the eye lay on the head's front edge, seen edge on, "a black
+        # crescent"), and flatter, so the far one, on the outline at three-quarters, does not stand out of it
+        eye_dx = 0.70 * hr * 1.02
+        eye_t = 0.007 * k
     for sd, sg in (("L", 1), ("R", -1)):
         x = sg * eye_dx
-        face.place(f"eye_{sd}", ellipsoid("eye", (0, 0, 0), (1, 1, 1), "outline"), face.frame(x, eye_z, 0.0, scale=(r_e * 0.85, 0.010 * k, r_e * 1.15)))
+        face.place(f"eye_{sd}", ellipsoid("eye", (0, 0, 0), (1, 1, 1), "outline"), face.frame(x, eye_z, 0.0, scale=(r_e * 0.85, eye_t, r_e * 1.15)))
         face.place(f"catch_{sd}", ellipsoid("catch", (0, 0, 0), (1, 1, 1), "cream"), face.frame(x + 0.006 * k * sg, eye_z + 0.012 * k, 0.009 * k, scale=(r_e * 0.30, 0.004 * k, r_e * 0.36)))
         w = r_e * 1.1
         face.curve_on(f"arcup_{sd}", [(x - w, eye_z - 0.010 * k), (x, eye_z + 0.013 * k), (x + w, eye_z - 0.010 * k)], 0.006 * k, "outline", 0.004 * k)
@@ -541,7 +669,8 @@ def build_quadruped(spec):
             ring = [(x + r_e * 1.55 * math.cos(a), eye_z + r_e * 1.60 * math.sin(a)) for a in [i / 28 * 2 * math.pi for i in range(28)]]
             ob = face.curve_on(f"glass_{sd}", ring, 0.0055 * k, "outline", 0.010 * k)
             ob.data.splines[0].use_cyclic_u = True
-        face.curve_on("glass_bridge", [(-eye_dx + r_e * 1.55, eye_z + 0.004 * k), (eye_dx - r_e * 1.55, eye_z + 0.004 * k)], 0.005 * k, "outline", 0.012 * k)
+        gb = eye_dx - r_e * 1.55
+        face.curve_on("glass_bridge", [(gb * t, eye_z + 0.004 * k) for t in ((-1.0, -0.5, 0.0, 0.5, 1.0) if A47 else (-1.0, 1.0))], 0.005 * k, "outline", 0.012 * k)
 
     expr = {
         "neutral": {"eye_L", "eye_R", "catch_L", "catch_R"},
@@ -557,7 +686,7 @@ def build_quadruped(spec):
         st = {key_ob.name: {"hide": key not in show} for key, key_ob in face.objs.items()}
         sc = {"alert": 1.25, "sad": 1.08}.get(name, 1.0)
         for sd, sg in (("L", 1), ("R", -1)):
-            st[face.objs[f"eye_{sd}"].name]["basis"] = list_m(face.frame(sg * eye_dx, eye_z, 0.0, scale=(r_e * 0.85 * sc, 0.010 * k, r_e * 1.15 * sc)))
+            st[face.objs[f"eye_{sd}"].name]["basis"] = list_m(face.frame(sg * eye_dx, eye_z, 0.0, scale=(r_e * 0.85 * sc, eye_t, r_e * 1.15 * sc)))
         states[name] = st
 
     for sd, sg in (("L", 1), ("R", -1)):
@@ -570,7 +699,7 @@ def build_quadruped(spec):
     anchor(rig, "mouth", mouth_p, "head")
     anchor(rig, "back", P(0, 0.02, chest_z + 0.12), "spine")
     anchor(rig, "collar", P(0, -0.335, chest_z + 0.108) if G42 else P(0, -0.235, chest_z + 0.08), "neck")
-    names = make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=hx, three=Q, yb=yb)
+    names = make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=hx, three=Q, yb=yb, collar=spec.get("collar"))
     return rig, states, names
 
 
@@ -578,8 +707,10 @@ SB = {"cx": 0.0, "tail": (-0.9, -0.45, -0.05), "tail2": (-0.2, -1.0, -0.05), "ne
       "bl": (0.09, 0.10, 0), "br": (-0.09, 0.14, 0), "bh": (0, -1, -0.3)}
 
 
-def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb=0.0):
+def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb=0.0, collar=None):
     names = []
+    rig.pose_props = {}
+    rig.pose_hides = {}
     g43 = bool(yb) and GOAT43 in ("B", "C")
     LH = hip_z / 0.44
     if yb:
@@ -672,6 +803,28 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         body(tail=(0, 0.5, 1.0))
         legs({"L": (0.075, -0.25, 0.06), "R": (-0.075, -0.08, 0.04)}, {"L": (0.075, 0.13, 0.04), "R": (-0.075, 0.29, 0.06)})
 
+    def stand_hose():
+        # v0.47 (TPDB_HOSE47): see the switch
+        if HOSE47 == "D":
+            body(head_pitch=0, head_turn=-18)
+            f, b = paws()
+            fx, fy = -0.075, -0.20
+            f["R"] = (fx, fy, 0.04)
+            f["L"] = (0.075, -0.15, 0.04)
+            legs(f, b)
+        else:
+            body(head_pitch=0, chest_drop=0.055, neck=(0, -0.5, 1.0))
+            f, b = paws()
+            fx, fy = -0.10, -0.30
+            f["R"] = (fx, fy, 0.04)
+            f["L"] = (0.075, -0.13, 0.04)
+            legs(f, b, fhint=(0, 0.6, 0.2))
+        x = fx * (wide if three else 1.0)
+        miss = (rig.tail("fshin_R") - Vector((x, fy, 0.04)) * S).length
+        if miss > 1e-4 * S:
+            print("stand_hose: the near forepaw misses its place by", round(miss / S, 4))
+        anchor(rig, "hose_paw@stand_hose", Vector((x, fy - 0.02, 0.0)) * S, "fshin_R")
+
     def sit():
         # haunches down and forward under the body, chest up over straight front legs
         body(hip_drop=0.25, hip_back=-0.12, chest_drop=-0.03, tail=(0.15, 0.9, -0.35), neck=(0, -0.20, 1), head_pitch=6)
@@ -742,6 +895,102 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         # clearly touches it", on the bench)
         legs({"L": (0.065, -0.25, fz + 0.055), "R": (-0.065, -0.25, fz - 0.055)}, {"L": (0.11, -0.17, 0.035), "R": (-0.11, -0.15, 0.035)},
              fhint=(0, 0.4, -1), bhint=(0, -0.3, 1))
+
+    def sit_read():
+        # v0.47 (TPDB_READ47): see the switch
+        c47 = READ47 in ("C", "D", "E")
+        e47 = READ47 == "E"
+        # (the tail's root and its tip: where each points)
+        tl = (0.0, 0.62, 0.78, 0.0, -0.25, 1.0) if e47 else (0.10, 0.90, 0.25, 0.0, 0.25, 1.0)
+        body(hip_drop=0.37 if (kind == "dog" and DOG43 == "B") else 0.38, hip_back=-0.04, chest_drop=-0.30, chest_y=0.12,
+             tail=tuple(tl[:3]) if c47 else (-0.55, 0.45, -0.70), neck=(0, -0.34, 1), head_pitch=-30, head_turn=-22,
+             spine_scale=(1.12, 0.80, 1.12))
+        state["hock"] = (0, 0.085, 0.012)
+        rig.aim_dir("tail2", tuple(tl[3:6]) if c47 else (-0.35, -0.90, -0.05))
+        hx_, hy_ = (0.125, -0.02) if READ47 in ("D", "E") else (0.10, 0.08)
+        legs({"L": (0.065, -0.04, 0.30), "R": (-0.065, -0.04, 0.30)}, {"L": (hx_, hy_, 0.030), "R": (-hx_, hy_ + 0.02, 0.030)}, fhint=(0, -1, -0.2),
+             bhint=(0, -1, 1.2))
+        ch = rig.tail("spine")
+        pw, ph, th = 0.19 * S, 0.27 * S, 0.006 * S
+        F = Frame.euler(ch + Vector((-0.02, -0.24, -0.08)) * S, rx=38, rz=42)
+        fold = 10
+        for sd, sg in (("L", 1), ("R", -1)):
+            # (the near paw under the near page's lower corner; the far paw high on the far page's outer edge, where it shows above the near foreleg)
+            g = F.p(sg * pw * (0.78 if sg < 0 else 0.95), 0.012 * S, -ph * (0.44 if sg < 0 else -0.18))
+            miss = rig.ik2(f"fleg_{sd}", f"fshin_{sd}", g, (0, 0.3, -1))
+            if miss > 1e-4:
+                print("sit_read: paw", sd, "misses the paper by", round(miss / S, 4))
+
+        def part(nm, ob, lines=True):
+            ob.name = f"PROP_sit_read_{nm}"
+            rig.attach(ob, "spine")
+            ob.hide_render = True
+            ob.hide_viewport = True
+            if not lines:
+                try:
+                    ob.lineart.usage = "EXCLUDE"
+                except (AttributeError, TypeError):
+                    pass
+            rig.pose_props.setdefault("sit_read", []).append(ob.name)
+            return ob
+
+        for sd, sg in (("L", 1), ("R", -1)):
+            q = F.q @ Quaternion((0, 0, 1), math.radians(sg * fold))
+            Fp = Frame(F.o + q @ Vector((sg * pw / 2, 0, 0)), q)
+            part(f"page{sd}", box(f"page{sd}", Fp.o, (pw, th, ph), "white", rot=q))
+            y = th / 2 + 0.0015 * S
+            part(f"head{sd}", box(f"head{sd}", Fp.p(0, y, ph * 0.36), (pw * 0.80, 0.002 * S, ph * 0.085), "charcoal", rot=q), lines=False)
+            rows = 5
+            if sg > 0:
+                # (a pale photo on the far page, three ruled bands under it)
+                part("photo", box("photo", Fp.p(-pw * 0.13, y, ph * 0.13), (pw * 0.52, 0.002 * S, ph * 0.24), "cloud_dark", rot=q), lines=False)
+                rows = 3
+            for i in range(rows):
+                z = (ph * (0.22 - i * 0.135)) if sg < 0 else (ph * (-0.10 - i * 0.135))
+                part(f"text{sd}{i}", box(f"text{sd}{i}", Fp.p(0, y, z), (pw * 0.80, 0.002 * S, ph * 0.040), "gray", rot=q), lines=False)
+        for nm, (x, z) in (("paper_a", (-1, 1)), ("paper_b", (1, 1)), ("paper_c", (1, -1)), ("paper_d", (-1, -1)), ("paper_mid", (0, 0))):
+            anchor(rig, f"{nm}@sit_read", F.p(x * pw * 0.98, 0.0, z * ph / 2), "spine")
+        if c47 and collar and bpy.data.objects.get("Collar") is not None:
+            # (no collar in this pose: the ring is fitted to the standing neck and stands out behind the upright one)
+            rig.pose_hides.setdefault("sit_read", []).append("Collar")
+        if e47 and collar:
+            # a band round the body's own section a little above the neck's base (up the neck from its base, the band's height, and how far it
+            # stands off the skin)
+            tv = (0.05, 0.034, 0.005)
+            nh, nt = rig.head("neck"), rig.tail("neck")
+            ax = (nt - nh).normalized()
+            fw = ax.cross(Vector((1, 0, 0))).normalized()
+            if fw.y > 0:
+                fw = -fw
+            upd()
+            ev = bpy.data.objects["Body"].evaluated_get(bpy.context.evaluated_depsgraph_get())
+            me = ev.to_mesh()
+            mi = rig.arm.matrix_world.inverted() @ ev.matrix_world
+            pts = [mi @ v.co for v in me.vertices]
+            ev.to_mesh_clear()
+
+            def section(t, h):
+                q = [(v.x, (v - nh).dot(fw)) for v in pts if abs((v - nh).dot(ax) - t * S) <= h * S / 2]
+                xs, fs = [a for a, _ in q], [b for _, b in q]
+                return len(q), min(xs), max(xs), min(fs), max(fs)
+            n_, x0, x1, f0, f1 = section(tv[0], tv[1])
+            print("sit_read: the collar's section", n_, "points, across", round((x1 - x0) / S, 3), "fore and aft", round((f1 - f0) / S, 3))
+            c = nh + ax * tv[0] * S + fw * (f0 + f1) / 2
+            rx, rf, hh = (x1 - x0) / 2 + tv[2] * S, (f1 - f0) / 2 + tv[2] * S, tv[1] * S
+            bm = bmesh.new()
+            lo, hi = [], []
+            for i in range(32):
+                a = 2 * math.pi * i / 32
+                d = Vector((1, 0, 0)) * (rx * math.cos(a)) + fw * (rf * math.sin(a))
+                lo.append(bm.verts.new(c + d - ax * hh / 2))
+                hi.append(bm.verts.new(c + d + ax * hh / 2))
+            for i in range(32):
+                j = (i + 1) % 32
+                bm.faces.new((lo[i], lo[j], hi[j], hi[i]))
+            bm.faces.new(lo[::-1])
+            bm.faces.new(hi)
+            bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+            part("collar", _mesh_object("collar", bm, collar))
 
     def down_read():
         # v0.43 (TPDB_READ43 "A"): lying down like a sphinx, the trunk short, the forepaws out in front on a paper laid open on the ground (the
@@ -828,9 +1077,16 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         # (v0.14: a lower crouch with the rump level with the shoulders, the hind legs folded under and the tail low was
         # read on the bench side by side with this one, three scenes each: it read as "running or creeping toward the
         # bird" twice, this one as "crouched low ... stalking" three times, so this one stays)
-        body(hip_drop=0.10, chest_drop=0.22, tail=(0, 1.0, -0.12), neck=(0, -1.0, 0.10), head_pitch=0)
+        body(hip_drop=0.10, chest_drop=0.19 if STALK47 in ("B", "C") else 0.22, tail=(0, 1.0, -0.12), neck=(0, -1.0, 0.10), head_pitch=0)
         rig.aim_dir("tail2", (0, 1.0, 0.2))
         s41 = os.environ.get("TPDB_STALK41", "O")    # v0.41 bench (vision/isolation_v041.md): O
+        if STALK47 in ("B", "C"):
+            # v0.47 (TPDB_STALK47): see the switch (the far and the near forepaw's place fore and aft, the near forepaw's height, the far and
+            # the near hind paw's place)
+            fl, fr, fz, bl, br = (-0.12, -0.36, 0.07, 0.10, 0.26) if STALK47 == "C" else (-0.24, -0.34, 0.08, 0.15, 0.18)
+            legs({"L": (0.085, fl, 0.035), "R": (-0.085, fr, fz)}, {"L": (0.08, bl, 0.035), "R": (-0.08, br, 0.035)},
+                 fhint=(0, 1, 0.8), bhint=(0, -1, 0.7))
+            return
         if CAT42 == "B":
             # v0.42: a long stride, the near (right) legs outside the far ones, the near forepaw lifted well ahead and the near hind paw well back
             legs({"L": (0.10, -0.22, 0.035), "R": (-0.10, -0.40, 0.11)}, {"L": (0.10, 0.10, 0.035), "R": (-0.10, 0.27, 0.035)},
@@ -999,6 +1255,10 @@ def make_quadruped_poses(rig, S, kind, hip_z, chest_z, hx=0.075, three=False, yb
         plan.append(("sit_up_hold", sit_up_hold))
         if READ43 == "A":
             plan.append(("down_read", down_read))
+        if READ47 in ("B", "C", "D", "E"):
+            plan.append(("sit_read", sit_read))
+        if HOSE47 in ("B", "D"):
+            plan.append(("stand_hose", stand_hose))
     if kind == "cat":
         plan.append(("stalk_paw", stalk_paw))
     if kind == "dog":
@@ -1094,6 +1354,12 @@ def build_bird(spec):
     face = Face(rig, "head", hc, (hr, hr, hr), k * (0.30 if not duck else 0.36), prefix="F")
     fk = face.k
     eye_dx, eye_z = hr * 0.52, hr * 0.18
+    A47 = ANIM47 == "B"
+    if A47:
+        # v0.47 (TPDB_ANIM47): one pair of eyes, on the sides of the head (a songbird 50 degrees round it, a duck 48): one full eye in a side
+        # view and at three-quarters (the songbird had a pair in front and a pair on the sides, "two eyes side by side"; the duck's, 31
+        # degrees round, lay on the head's edge in a side view, "no eye")
+        eye_dx = hr * (0.74 if duck else 0.77)
     # beak: upper and lower halves so "sing" can open it
     bl = 0.040 * k if not duck else 0.060 * k
     bw = 0.013 * k if not duck else 0.026 * k
@@ -1108,12 +1374,12 @@ def build_bird(spec):
         Ml = Matrix.LocRotScale(base + Vector((0, -bl * 0.35, -0.006 * k)), Quaternion(), Vector((bw * 0.85, bl * 0.42, 0.006 * k)))
     face.place("beak_up", up, Mu)
     face.place("beak_lo", lo, Ml)
-    if not duck and __import__("os").environ.get("TPDB_PECK", "B") == "B":
+    if not duck and __import__("os").environ.get("TPDB_PECK", "B") == "B" and not A47:
         # v0.27: an eye on the side of the head, where a bird has one (from the side the head was "a red ball")
         for sd, sg in (("L", 1), ("R", -1)):
             ellipsoid(f"EyeSide_{sd}", hc + Vector((sg * hr * 0.86, -hr * 0.34, hr * 0.26)), (0.006 * k, 0.0105 * k, 0.0105 * k), "charcoal", rig, "head")
     Ml_open = Matrix.Translation(base) @ Matrix.Rotation(math.radians(28), 4, "X") @ Matrix.Translation(-base) @ Ml
-    r_e = hr * 0.20
+    r_e = hr * (0.24 if A47 else 0.20)
     for sd, sg in (("L", 1), ("R", -1)):
         x = sg * eye_dx
         face.place(f"eye_{sd}", ellipsoid("eye", (0, 0, 0), (1, 1, 1), "outline"), face.frame(x, eye_z, 0.0, scale=(r_e * 0.85, r_e * 0.5, r_e * 1.1)))
@@ -1158,6 +1424,24 @@ def make_bird_poses(rig, S, duck, bz):
         upd()
         M = pb.matrix.copy()
         h = Vector((0, 0, 0.004 * S))
+        if PECK47 in ("B", "C", "D") and not duck:
+            # v0.47 (TPDB_PECK47): see the switch (the body's tip, the neck and the face below level, in degrees; the body lowered; the widest
+            # the legs may splay; the pivot of the tip, 0 the feet, 1 the hips)
+            tip, nk, fc, dz, cap, pv = {"B": (34, 60, 66, 0.0, 40, 0.0), "C": (40, 74, 46, 0.011, 60, 0.0), "D": (58, 84, 46, 0.0, 60, 1.0)}[PECK47]
+            hp = Vector((0, rig.head("leg_L").y * pv, h.z + (rig.head("leg_L").z - h.z) * pv))
+            pb.matrix = Matrix.Translation(hp - Vector((0, 0, dz * S))) @ Matrix.Rotation(math.radians(tip), 4, "X") @ Matrix.Translation(-hp) @ M
+            upd()
+            a = math.radians(nk)
+            rig.aim_dir("neck", (0, -math.cos(a), -math.sin(a)))
+            a = math.radians(fc)
+            rig.aim_dir("head", (0, -math.sin(a), math.cos(a)))
+            rig.aim_dir("tail", (0, 1, 0.12))
+            # (the legs apart fore and aft, the near one forward, as far as keeps both feet on the ground under the lowered body)
+            for sd, sg in (("L", 1), ("R", -1)):
+                c = (rig.head(f"leg_{sd}").z - 0.004 * S) / rig.arm.pose.bones[f"leg_{sd}"].bone.length
+                ph = min(math.acos(max(-1.0, min(1.0, c))), math.radians(cap))
+                rig.aim_dir(f"leg_{sd}", (0, sg * math.sin(ph), -math.cos(ph)))
+            return
         b27 = __import__("os").environ.get("TPDB_PECK", "B") == "B"
         # v0.27, chosen on the bench: the body less tipped, the head out in front of it (its head a ball at the ground under a tail standing up: "could be tumbling or injured")
         pb.matrix = Matrix.Translation(h) @ Matrix.Rotation(math.radians(20 if b27 else 28), 4, "X") @ Matrix.Translation(-h) @ M
