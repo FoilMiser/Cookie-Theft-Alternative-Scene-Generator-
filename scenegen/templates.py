@@ -2003,16 +2003,17 @@ class Run(T):
         return True
 
     @staticmethod
-    def speed_lines(p, want):
+    def speed_lines(p, want, rows=((0.27, 40, 7), (0.40, 54, 9), (0.53, 36, 7))):
         """Three short lines trailing from the runner's back at shoulder, waist and hip height, each starting a few
-        pixels behind the outline at its height."""
+        pixels behind the outline at its height. (rows: (height as a share of the figure, length, gap) for each line; revision 45's
+        walker about to trip has two shorter ones.)"""
         from . import compose as K
         import numpy as np
         b, s = p.bbox(), sz(p.Y)
         h = b[3] - b[1]
         m = K.asset_mask(p, False)
         svg, xs, ys = "", [], []
-        for fy, L, off in ((0.27, 40, 7), (0.40, 54, 9), (0.53, 36, 7)):
+        for fy, L, off in rows:
             y = b[1] + fy * h
             row = m[min(m.shape[0] - 1, int(y * K.MASK_SCALE))]
             cols = np.nonzero(row)[0]
@@ -4366,6 +4367,16 @@ def _ice_cream_place8(self):
 IceCreamDrop.place8 = _ice_cream_place8
 
 
+# TRIP48 "B" (revision 45; vision/flaws_v047.md R1 and bench rounds 1 to 3 of v0.48): the walker about to trip has two short motion lines
+#   behind the back, as the runner has three (revision 17), and the obstacle stands half a step from the leading toe, 22 to 44 px at full
+#   size, where revision 21 had set it a full step off, 45 to 85 px. The template failed two gates on a walker read as going the other way,
+#   and in round 1 one reader of four still had "she is actually walking to the right, away from it" of a walker who faces left; a step off,
+#   two of the four had "the box is some distance ahead and to the side of her path, so it is unclear whether she is actually heading
+#   toward it or will walk past it". (Round 2 tried the obstacle at the toe of a lifted leading foot, the cast's walk "C": the walker was
+#   standing, and the foot was resting on the ball.) "O": revision 44's trip
+TRIP48 = __import__("os").environ.get("TPDB_TRIP48", "B")
+
+
 class AboutToTrip(T):
     id = "about_to_trip"
     kind = "inference"
@@ -4388,6 +4399,10 @@ class AboutToTrip(T):
             self.obj = "bucket"     # (revision 27: and with a carried or a soaked one)
         if SCN.PLACEMENT_REV >= 7 and self.obj == "ball" and set(getattr(sc, "picked_ids", ())) & BALL_EVENTS:
             self.obj = "bucket"     # revision 7: no second ball like the one in another event
+        if SCN.PLACEMENT_REV >= 45 and TRIP48 == "B" and self.obj == "ball":
+            # revision 45 (TRIP48): no ball in a walker's way (bench round 3, both readers of a ball: "he is about to stumble over it ...
+            # or he is deliberately kicking/dribbling it while reading", "she seems about to trip over it or kick it")
+            self.obj = "bucket"
 
     def place(self):
         sc = self.sc
@@ -4422,6 +4437,8 @@ class AboutToTrip(T):
                         oy += 26 * s
             col = sc.rng.choice([C["blue"], C["red"]]) if self.obj == "bucket" else None
             gap = sc.rng.uniform(45, 85) * s if SCN.PLACEMENT_REV >= 21 else 0.0
+            if SCN.PLACEMENT_REV >= 45 and TRIP48 == "B":
+                gap = sc.rng.uniform(22, 44) * s        # revision 45 (TRIP48): half a step from the leading toe
             if SCN.PLACEMENT_REV >= 27 and self.obj == "long_box":
                 gap = sc.rng.uniform(30, 52) * s
 
@@ -4493,7 +4510,17 @@ class AboutToTrip(T):
                 if any(sc.overlap(z43, q.bbox()) > 0 for k_, q in sc.assets.items() if k_.startswith("readingdog")):
                     continue
                 sc.trip_zone43 = z43
+            lines48 = None
+            if SCN.PLACEMENT_REV >= 45 and TRIP48 == "B":
+                # revision 45 (TRIP48): two short motion lines behind the walker's back, clear of everything
+                lsvg, lbb = Run.speed_lines(p, want, rows=((0.36, 26, 8), (0.52, 34, 9)))
+                if not sc.fits(lbb, limit=0.03, ignore=(ep,)) or not sc.air_clear(lbb, 6) or not sc.setting_clear(lbb, only=("pond", "stall")):
+                    continue
+                lines48 = (lsvg, lbb)
             sc.assets[ep] = p
+            if lines48 is not None:
+                sc.airzones.append(lines48[1])
+                sc.svg(sc.eid("steplines"), "Motion lines behind the walker", lines48[0], p.Y + 1, lines48[1], "setting")
             if beyond is not None:
                 sc.lanes.append((beyond, self))
                 sc.groundthings.append((bb, self))

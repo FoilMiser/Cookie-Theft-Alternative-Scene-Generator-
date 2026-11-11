@@ -22,6 +22,43 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.48 (the cast drawn anew: the egg head, the faces, the side view's own face, the flat tone; the animals' bodies and limbs;
+    # vision/isolation_v048.md). The third letter w marks the release; N the v0.48 cast (assets/cast/out048, lib048) on revision 45. Each event
+    # alone and cropped: every event an animal is in, so that each redrawn animal is read doing its thing before it goes into a scene; and the
+    # walker about to trip, the kicker, the runner, a reader on a bench and an ice cream, for the side view's face and the walk
+    "wdwN_1": ("park", 48101, {"events": ["walk_dog"]}, "event", None),
+    "wdwN_2": ("street", 48102, {"events": ["walk_dog"]}, "event", None),
+    "dbwN_1": ("park", 48103, {"modules": ["dog_begs"]}, "event", None),
+    "dbwN_2": ("street", 48104, {"modules": ["dog_begs"]}, "event", None),
+    "drwN_1": ("park", 48105, {"contradictions": ["dog_reading"]}, "event", None),
+    "drwN_2": ("street", 48106, {"contradictions": ["dog_reading"]}, "event", None),
+    "hswN_1": ("garden", 48107, {"modules": ["blocked_hose"]}, "event", None),
+    "hswN_2": ("garden", 48108, {"modules": ["blocked_hose"]}, "event", None),
+    "cbwN_1": ("park", 48109, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "cbwN_2": ("garden", 48110, {"modules": ["cat_stalks_bird"]}, "event", None),
+    "bswN_1": ("park", 48111, {"modules": ["bird_steals"]}, "event", None),
+    "bswN_2": ("street", 48112, {"modules": ["bird_steals"]}, "event", None),
+    "cfwN_1": ("garden", 48113, {"events": ["cat_on_fence"]}, "event", None),
+    "cswN_1": ("garden", 48114, {"events": ["cat_sleeping"]}, "event", None),
+    "dswN_1": ("park", 48115, {"events": ["dog_sleeping"]}, "event", None),
+    "dpwN_1": ("park", 48116, {"events": ["dog_playing"]}, "event", None),
+    "dwwN_1": ("garden", 48117, {"modules": ["dog_wants_walk"]}, "event", None),
+    "ggwN_1": ("park", 48118, {"events": ["goat_grazing"]}, "event", None),
+    "ggwN_2": ("garden", 48119, {"events": ["goat_grazing"]}, "event", None),
+    "duwN_1": ("park", 48120, {"modules": ["ducks_bread"]}, "event", None),
+    "icwN_1": ("park", 48121, {"modules": ["ice_cream_drop"]}, "event", None),
+    "icwN_2": ("street", 48122, {"modules": ["ice_cream_drop"]}, "event", None),
+    "fbwN_1": ("park", 48123, {"events": ["feed_birds"]}, "event", None),
+    "tpwN_1": ("park", 48124, {"modules": ["about_to_trip"]}, "event", None),
+    "tpwN_2": ("street", 48125, {"modules": ["about_to_trip"]}, "event", None),
+    "tpwN_3": ("playground", 48126, {"modules": ["about_to_trip"]}, "event", None),
+    "tpwN_4": ("garden", 48127, {"modules": ["about_to_trip"]}, "event", None),
+    "tpwN_5": ("park", 48132, {"modules": ["about_to_trip"]}, "event", None),
+    "tpwN_6": ("street", 48133, {"modules": ["about_to_trip"]}, "event", None),
+    "kbwN_1": ("playground", 48128, {"events": ["kick_ball"]}, "event", None),
+    "rnwN_1": ("park", 48129, {"events": ["run"]}, "event", None),
+    "rbwN_1": ("park", 48130, {"events": ["read_bench"]}, "event", None),
+    "iewN_1": ("street", 48131, {"events": ["ice_cream"]}, "event", None),
     # v0.47 (vision/flaws_v046.md and the study of one figure; vision/isolation_v047.md). The third letter y or z marks the release. The fourth letter
     # the drawing: O v0.46's (BENCH_CAST=assets/cast/out046, BENCH_LIB a scratch copy of assets/cast/lib046, since the bench renders what a library
     # lacks and the tracked one must not change; every revision-44 switch "O"); N the v0.47 cast

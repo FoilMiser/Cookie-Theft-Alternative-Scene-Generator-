@@ -125,6 +125,16 @@ if ADULT43 == "C":
     PEOPLE["person.mei"].update(hem_drop=0.12)
     PEOPLE["person.ana"].update(hair="ponytail", tie="charcoal")
 
+# v0.48 (people.HAIR48, face.FACE48): the two women's brows finer, and their hair parted differently so that they differ by more than colour
+if os.environ.get("TPDB_HAIR48", "B") == "B":
+    PEOPLE["person.mei"].update(part="center", brow=(0.92, 1.0, 0.80))
+    PEOPLE["person.ana"].update(part="side", part_side="R", brow=(0.92, 1.0, 0.80))
+    PEOPLE["person.rosa"].update(brow=(0.92, 1.0, 0.80))
+    PEOPLE["person.nia"].update(brow=(0.90, 1.0, 0.84))
+    PEOPLE["person.kai"].update(brow=(0.90, 1.0, 0.84))
+    for _f, _a in (("person.mei", 0.88), ("person.ana", 0.90), ("person.rosa", 0.92), ("person.nia", 0.92)):
+        PEOPLE[_f]["build"] = dict(PEOPLE[_f].get("build", {}), arms=_a)      # slimmer arms (people.py, "arms")
+
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",
                           labels=dict(everyday_name="dog", accepted_names=["dog", "puppy", "pup"], category="medium_animal")),

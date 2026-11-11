@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.47 was made, written so that a fresh session can make the next one (v0.48) from this
+How each release from v0.12 to v0.48 was made, written so that a fresh session can make the next one (v0.49) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -91,6 +91,8 @@ python tools/cycle/yield_set.py 6 playground 6043 3 '<forced set as JSON>'   # d
 python tools/cycle/forced_cell.py street 4 v047street 430752,447752        # a cell from a forced set, when the free search has failed
 python tools/cycle/isos.py 0,1,2,3 isomorph_summary_a.json   # tier 2-3 isomorphs; ISO_X=1 or ISO_Y=1 try more seeds (edit GROUPS_X/Y)
 python tools/cycle/iso_t4.py 6111,7111,8111,9111,10111      # the tier-4 isomorph
+python tools/cycle/iso_t4_wide.py 164111,38111,94111,...    # when that finds none: only the pairs that can build (edit `pairs`), last release's seed first
+python tools/cycle/merge_iso.py                             # the part summaries into scenes<TAG>/isomorph_summary.json, each entry checked
 ```
 
 - The previous release's base seeds are in its `scenes/showcase_summary.json` (`base_seed`). Try those first for tier 4.
@@ -106,6 +108,8 @@ python tools/cycle/iso_t4.py 6111,7111,8111,9111,10111      # the tier-4 isomorp
 ```bash
 python tools/cycle/probes.py 3          # probes<TAG>: every template in at least three screened pictures; must end "SHORT {}"
 python tools/cycle/probes_fix.py NAME [seed]   # rebuild one probe with the same templates (SETTING=park to move it)
+python tools/cycle/probe_angle.py 2     # every angle an animal template is drawn at in at least two screened pictures; must end "SHORT {}"
+python tools/cycle/more_probes.py       # the templates probes.py gave up, forced in small groups (edit GROUPS and NEED_T); must end "SHORT {}"
 python tools/cycle/verify_all.py scenes<TAG>   # every record rebuilt and compared; writes <WORK>/variants_used.json
 python tools/cycle/verify_probes.py probes<TAG>
 python tools/cycle/prune_lib.py               # lib<TAG> keeps only the variants the set and probes use
@@ -130,6 +134,9 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   or the pictures (scorers).
 - Merge `scores_a/b/c.json` into `vision/v<TAG>/scores.json`, then `bash tools/cycle/summarize.sh` and
   `python vision/gate.py vision/v<TAG> scenes,probes`.
+- Then the three counts beside the gate: `python tools/cycle/gate_yaw.py vision/v<TAG> scenes,probes` (the gate per template and angle, and the
+  animal oddities by angle); `python tools/cycle/strict_count.py` (fill its two lists from the scorers' judgement calls first); and
+  `python tools/cycle/who_called.py person.ana purple` for each grown figure (what the readers called it: a woman or a girl, a man or a boy).
 - Write `vision/flaws_v<TAG>.md` (headline table, what the earlier list became, the gate table, the R rows and O rows for
   the next release), update `vision/limits.txt` (it fills the README's Known limits) and add the release's line to
   `vision/screen_prompts.md`.
@@ -511,3 +518,42 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   pairs out and look at them before their notes are written.
 - Say what was looked at, and no more. The notes of v0.47 record a look at every probe on sheets of four and none at the set's pictures one by one,
   so the README says the first only.
+- A study of the drawing itself is done large and fast. v0.48 built one family alone with one change (`python build_cast.py <dir> person.mei`, about
+  5 s), rendered a row of heads at twice the release's size (`TPDB_PPM=800`) with a row at scene size under it, and looked at the sheet before the
+  next change (`tpdb_work/v048/tryh.sh`). Look at the first sheet before writing the list: v0.47's head was wider than tall, which no reader's
+  quote had said in those words.
+- Give the whole head one map. v0.48's egg head is a function of the ball's point (`core.head_pt`), and the hair, the hats, the ears and every
+  feature of the face are placed through it, so a change of the head's shape moves all of them together. Before it, each part had its own radii.
+- A pair bench can go backward, and that is what it is for. Bench 2 gave v0.47 six pairs of sixteen where bench 1 had given it three, because a
+  change made for one reading (a side view's head turned to 15 degrees, which the direction bench preferred at scene size) was a worse drawing at
+  a reviewer's size: the front view's face on a head in profile left "the single eye sits on the very front edge of the face outline, partly cut off". A reading measured at scene
+  size and a drawing judged at figure size are two tests, and a change must pass both. Run the pair bench again after every round of mends.
+- When every answer is right, ask how sure the reader was. All 48 answers of the direction bench had the way the figure goes; "sure" was 4, 6 and
+  11 of 16 for the three drawings, and that is what chose between them.
+- Drawing a thing more correctly is not drawing it more readably. The walk drawn as the true instant of a step, the leading foot lifted, read as
+  standing to five readers of six; the long stride with both feet down is what says walking, and two short motion lines say which way.
+- A change to how every figure is drawn can go to a worker with a brief, but the bench stays here. The animals were redrawn by a delegated worker
+  from a written brief; its own report said the work was done, and the pair bench then gave v0.47 three pairs of twenty, all one dog's legs. The
+  reviewers' own words went back to the worker, and the second bench took fourteen of fifteen. Bench a hand-back as if it were your own trial.
+- Look at the isomorphs and the probes as closely as at the sixteen cells. The one flaw found on the look at v0.48's set was in an isomorph: a
+  begging dog's head on the hose reel's drum. A redrawn figure has a new height, and a fixture that an old figure cleared may now sit behind a
+  head. The rule that came of it (`REEL48`) was checked by rebuilding every other record to the pixel.
+- When a cell's templates are last release's, try last release's seeds first, for the isomorph too: v0.48's tier-4 isomorph built on v0.47's
+  seed, 164111, on the third call of the wide search, after 65 calls of the plain one had found none.
+- Check who is who in `castlib/specs.py` before a document names a character. A first draft of v0.48's design-test record had the bearded man
+  in green as the study's second figure; the study's second figure is the man in the red shirt.
+- A patch whose text holds an apostrophe goes into a file written with the Write tool and is then run; a shell heredoc ends at the apostrophe.
+- A finer drawing can drop a cue that only worked because it was coarse. v0.47's moustache was named by the screen's readers in ten of its wearer's
+  fifteen pictures; a reviewer of enlarged figures called it "very large and curled, sitting over an open red mouth; slightly comic", the study drew
+  it short and thin, and v0.48's readers named it in none of seventeen, nor the beard in any of twenty-four. The design tests had shown it first
+  (three readers of the older man, no moustache named) and it went to the screen as it stood. What a mend takes off a face is read at a picture's
+  size before the screen: one question, what is on this person's face, on the smallest figure a scene draws.
+- Ask who a figure is, not only what it does. Four grown figures were called a girl or a boy in 11 of their 81 screened pictures, for 6 of 80; the
+  scorers credit the action, so no score shows it. `tools/cycle/who_called.py` counts it from the inventory lines; run it on the design tests'
+  descriptions too, and put an age question on the bench when a release changes heads or proportions.
+- A template nobody touched can fail on one unsaid thought. `rain_coming` has one inference a picture and three pictures; one reader named the storm
+  clouds and the pointing child and did not go on to the rain, and 0.889 fails. Give five pictures (`NEED_T` in `probes.py`) to every template whose
+  verdict rests on one inference a picture, and treat an inference that only the sky carries as drawn too quietly.
+- The helper scripts a release needs belong in `tools/cycle/`, not in `tpdb_work/`, which git ignores. Until v0.47 the angle pass, the forced probes,
+  the wide isomorph search, the merge, the per-angle gate and the strict count were copied from one release's scratch folder to the next; v0.48
+  moved them (`probe_angle.py`, `more_probes.py`, `iso_t4_wide.py`, `merge_iso.py`, `gate_yaw.py`, `strict_count.py`, `who_called.py`).

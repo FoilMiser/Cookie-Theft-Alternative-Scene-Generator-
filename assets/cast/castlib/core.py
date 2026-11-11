@@ -531,12 +531,53 @@ def squircle(co, n):
     return Vector((co[0] * f, co[1] * f, co[2]))
 
 
-def ellipsoid(name, center, radii, matkey, rig=None, bone=None, rot=None, seg=24, rings=14, sq=None):
+# v0.48 (TPDB_HEAD48; vision/isolation_v048.md): the head is no longer a ball. Sam, of v0.47's cast: "I am not a fan of the squashed oval
+# heads, and the faces need fixing". Every head until v0.47 was an ellipsoid wider than it was tall (1.04 : 0.96 of its radius), so a face sat
+# in the lower middle of a wide oval and a chin was the underside of a ball. "B": the head is taller than it is wide and is an egg: below
+# the height z0 (in units of its half height, 0 the middle) its width and depth narrow toward the chin by `jaw` at the bottom, and the lower
+# face is carried forward by `fwd`, so there is a jaw under the cheeks from the front and a chin ahead of the neck from the side. One map
+# (head_pt) places every point of the head, its hair, its hats and the features of its face, so they all stay on one surface. "O": v0.47's ball
+HEAD48 = os.environ.get("TPDB_HEAD48", "B")
+HEAD48_SHAPE = {"z0": 0.22, "jaw": 0.34, "p": 1.45, "fwd": 0.05}
+
+
+def head_f(zs, shape=None):
+    """The share of the ball's width and depth that the head keeps at unit height zs."""
+    if HEAD48 != "B":
+        return 1.0
+    sh = shape or HEAD48_SHAPE
+    if zs >= sh["z0"]:
+        return 1.0
+    t = min(1.0, (sh["z0"] - zs) / (sh["z0"] + 1.0))
+    return 1.0 - sh["jaw"] * t ** sh["p"]
+
+
+def head_g(zs, shape=None):
+    """How far forward (in units of the head's half depth) the head is carried at unit height zs."""
+    if HEAD48 != "B":
+        return 0.0
+    sh = shape or HEAD48_SHAPE
+    if zs >= sh["z0"]:
+        return 0.0
+    t = min(1.0, (sh["z0"] - zs) / (sh["z0"] + 1.0))
+    return sh["fwd"] * t * t * (3 - 2 * t)
+
+
+def head_pt(q, shape=None):
+    """A point of the unit ball (after squircle) moved to the unit head: scale it by the head's radii afterwards."""
+    f = head_f(q[2], shape)
+    return Vector((q[0] * f, q[1] * f - head_g(q[2], shape), q[2]))
+
+
+def ellipsoid(name, center, radii, matkey, rig=None, bone=None, rot=None, seg=24, rings=14, sq=None, head=None):
     bm = bmesh.new()
     bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
     if sq:
         for vv in bm.verts:
             vv.co = squircle(vv.co, sq)
+    if head is not None:
+        for vv in bm.verts:
+            vv.co = head_pt(vv.co, head or None)
     ob = _mesh_object(name, bm, matkey)
     ob.scale = radii
     ob.location = center

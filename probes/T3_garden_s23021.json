@@ -6,8 +6,8 @@
  "seed": 23021,
  "mirror": false,
  "versions": {
-  "generator": "0.47.0",
-  "cast_builder": "0.47.0",
+  "generator": "0.48.0",
+  "cast_builder": "0.48.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,10 +62,10 @@
  ],
  "templates": [
   {
-   "id": "cat_on_fence",
-   "kind": "event",
+   "id": "fish_in_tree",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   },
   {
    "id": "dog_sleeping",
@@ -74,7 +74,7 @@
    "units": 0
   },
   {
-   "id": "bird_perched",
+   "id": "dig",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -84,48 +84,140 @@
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A cat is walking along the fence",
+   "type": "entity",
+   "text": "There is a fish",
    "accepted": [
-    "cat on the fence",
-    "cat walking",
-    "cat",
-    "cat on top of the fence"
+    "fish",
+    "a fish",
+    "goldfish"
    ],
-   "key": "cat",
+   "key": "fish",
    "elements": [
-    "fencecat_1"
+    "treefish_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "cat_on_fence",
+   "template": "fish_in_tree",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -0.791,
+    "animate": false,
+    "s": -1.312,
     "r": 0,
     "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "f": 0.9,
+    "a": 4.05,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
     "domain": null,
-    "area_px": 5016
+    "area_px": 2404
    },
-   "b": -0.979,
-   "p0": 0.727,
-   "pm1": 0.495,
+   "b": -0.254,
+   "p0": 0.563,
+   "pm1": 0.322,
    "aoi_cells": [
+    "TL",
     "ML"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong in the tree",
+   "accepted": [
+    "something in the tree",
+    "the tree looks odd",
+    "what's that in the tree"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_1"
+   ],
+   "cues": [
+    "treefish_1"
+   ],
+   "effect": [
+    "treefish_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 0.396,
+   "p0": 0.402,
+   "pm1": 0.198,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "A fish is sitting up in the tree, but fish live in water",
+   "accepted": [
+    "fish in a tree",
+    "fish can't live in trees",
+    "fish belong in water"
+   ],
+   "key": "fish",
+   "elements": [
+    "treefish_1"
+   ],
+   "cues": [
+    "treefish_1"
+   ],
+   "effect": [
+    "treefish_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "biological",
+   "template": "fish_in_tree",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.312,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.05,
+    "domain": "biological",
+    "area_px": 2404
+   },
+   "b": 1.596,
+   "p0": 0.169,
+   "pm1": 0.069,
+   "aoi_cells": [
+    "TL",
+    "ML"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "action",
    "text": "A dog is sleeping",
    "accepted": [
@@ -137,7 +229,7 @@
    ],
    "key": "dog",
    "elements": [
-    "dog_sleeping_2"
+    "dog_sleeping_3"
    ],
    "cues": [],
    "effect": [],
@@ -150,7 +242,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.895,
+    "s": -0.758,
     "r": 0,
     "d": 0.0,
     "f": 1.1,
@@ -158,60 +250,73 @@
     "zipf_raw": 5.1,
     "aoa_raw": 2.8,
     "domain": null,
-    "area_px": 4328
+    "area_px": 5256
    },
-   "b": -1.022,
-   "p0": 0.735,
-   "pm1": 0.505,
+   "b": -1.091,
+   "p0": 0.749,
+   "pm1": 0.523,
    "aoi_cells": [
     "BC"
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "action",
-   "text": "A bird is sitting on the fence",
-   "accepted": [
-    "bird",
-    "bird on the fence",
-    "little bird",
-    "bird sitting",
-    "bird singing"
-   ],
-   "key": "bird",
+   "text": "A grandfather is digging",
+   "accepted": {
+    "who": [
+     "grandfather",
+     "grandpa",
+     "old man",
+     "older man",
+     "man"
+    ],
+    "what": [
+     "digging",
+     "digging a hole",
+     "shoveling",
+     "using a shovel",
+     "spade"
+    ]
+   },
+   "key": "digging",
    "elements": [
-    "bird_3"
+    "digger_4",
+    "soil_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "bird_perched",
+   "template": "dig",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -1.746,
+    "s": 0.106,
     "r": 0,
     "d": 0.0,
-    "f": 0.63,
-    "a": 3.52,
-    "zipf_raw": 4.63,
-    "aoa_raw": 3.52,
+    "f": -0.01,
+    "a": 4.19,
+    "zipf_raw": 3.99,
+    "aoa_raw": 4.19,
     "domain": null,
-    "area_px": 1304
+    "area_px": 17768
    },
-   "b": -0.456,
-   "p0": 0.612,
-   "pm1": 0.367,
+   "b": -1.19,
+   "p0": 0.767,
+   "pm1": 0.547,
    "aoi_cells": [
-    "MR"
+    "MC",
+    "MR",
+    "BC",
+    "BR"
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -254,7 +359,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -296,7 +401,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -318,7 +423,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.687,
+    "s": 0.693,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -326,18 +431,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 40292
+    "area_px": 40624
    },
-   "b": -1.239,
-   "p0": 0.775,
-   "pm1": 0.559,
+   "b": -1.242,
+   "p0": 0.776,
+   "pm1": 0.56,
    "aoi_cells": [
     "TL",
     "ML"
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -360,7 +465,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.894,
+    "s": 1.876,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -368,11 +473,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 221172
+    "area_px": 215532
    },
-   "b": -1.65,
-   "p0": 0.839,
-   "pm1": 0.657,
+   "b": -1.641,
+   "p0": 0.838,
+   "pm1": 0.655,
    "aoi_cells": [
     "ML",
     "MC",
@@ -380,7 +485,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i10",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -426,7 +531,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i11",
    "type": "entity",
    "text": "Clothes are hanging on the line",
    "accepted": [
@@ -471,7 +576,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i12",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -516,18 +621,18 @@
  ],
  "counts": {
   "content": 10,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 10
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 12
  },
  "predicted": {
   "theta_0": {
    "content": 0.735,
-   "inference": null
+   "inference": 0.285
   },
   "theta_minus_1": {
-   "content": 0.515,
-   "inference": null
+   "content": 0.517,
+   "inference": 0.134
   }
  },
  "bands": {
@@ -535,7 +640,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
@@ -549,14 +654,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0365,
-  "png_bytes": 146431,
-  "jpeg_bytes": 174221
+  "objects": 17,
+  "edge_density": 0.0363,
+  "png_bytes": 154378,
+  "jpeg_bytes": 173359
  },
  "signature": [
   [
@@ -568,7 +673,15 @@
    0
   ],
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -676,68 +789,29 @@
     452.0
    ],
    "area_px": 44984,
-   "visible_px": 40292,
-   "occlusion": 0.104
+   "visible_px": 40624,
+   "occlusion": 0.097
   },
   {
-   "id": "fencecat_1",
-   "label": "animal.cat_01__walk__happy__y090",
-   "role": "scored",
-   "z": 612,
-   "bbox": [
-    420.0,
-    332.0,
-    528.0,
-    438.0
-   ],
-   "area_px": 5176,
-   "visible_px": 5016,
-   "occlusion": 0.031,
-   "asset": {
-    "variant": "animal.cat_01__walk__happy__y090",
-    "family": "animal.cat_01",
-    "scale": 0.3757,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
+   "id": "limb_2",
+   "label": "Limb of the tree",
+   "role": "background",
+   "z": 450.2
   },
   {
-   "id": "bird_3",
-   "label": "animal.bird_01__perch__neutral__y045",
+   "id": "treefish_1",
+   "label": "Fish sitting in the tree",
    "role": "scored",
-   "z": 612,
+   "z": 450.6,
    "bbox": [
-    1278.0,
-    388.0,
-    1328.0,
-    440.0
+    450.0,
+    308.0,
+    534.0,
+    344.0
    ],
-   "area_px": 1420,
-   "visible_px": 1304,
-   "occlusion": 0.082,
-   "asset": {
-    "variant": "animal.bird_01__perch__neutral__y045",
-    "family": "animal.bird_01",
-    "scale": 0.3757,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "bird",
-     "accepted_names": [
-      "bird",
-      "robin",
-      "little bird"
-     ],
-     "category": "bird"
-    }
-   }
+   "area_px": 2404,
+   "visible_px": 2404,
+   "occlusion": 0.0
   },
   {
    "id": "fence",
@@ -751,8 +825,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 221172,
-   "occlusion": 0.082
+   "visible_px": 215532,
+   "occlusion": 0.105
   },
   {
    "id": "filler_bush_left",
@@ -768,21 +842,6 @@
    "area_px": 8296,
    "visible_px": 7496,
    "occlusion": 0.096
-  },
-  {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
-   "bbox": [
-    1100.0,
-    596.0,
-    1220.0,
-    702.0
-   ],
-   "area_px": 8080,
-   "visible_px": 8080,
-   "occlusion": 0.0
   },
   {
    "id": "clothesline",
@@ -815,6 +874,58 @@
    "occlusion": 0.0
   },
   {
+   "id": "soil_5",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 740.78,
+   "bbox": [
+    1094.0,
+    712.0,
+    1236.0,
+    758.0
+   ],
+   "area_px": 3472,
+   "visible_px": 2828,
+   "occlusion": 0.185
+  },
+  {
+   "id": "digger_4",
+   "label": "person.tomas__dig_lift__determined__y045",
+   "role": "scored",
+   "z": 741.78,
+   "bbox": [
+    1000.0,
+    500.0,
+    1144.0,
+    754.0
+   ],
+   "area_px": 14940,
+   "visible_px": 14940,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.tomas__dig_lift__determined__y045",
+    "family": "person.tomas",
+    "scale": 0.4238,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "grandfather",
+     "accepted_names": [
+      "grandfather",
+      "grandpa",
+      "old man",
+      "older man",
+      "man"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "older_adult",
+      "skin_tone": "skin2",
+      "hair": "gray_ring"
+     }
+    }
+   }
+  },
+  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -845,23 +956,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "dog_sleeping_2",
+   "id": "dog_sleeping_3",
    "label": "animal.dog_01__sleep_paws_turn__sleepy__y045",
    "role": "scored",
-   "z": 841.03,
+   "z": 861.74,
    "bbox": [
-    770.0,
-    802.0,
-    880.0,
-    856.0
+    738.0,
+    810.0,
+    852.0,
+    874.0
    ],
-   "area_px": 4328,
-   "visible_px": 4328,
+   "area_px": 5256,
+   "visible_px": 5256,
    "occlusion": 0.0,
    "asset": {
     "variant": "animal.dog_01__sleep_paws_turn__sleepy__y045",
     "family": "animal.dog_01",
-    "scale": 0.4606,
+    "scale": 0.4682,
     "mirrored": false,
     "labels": {
      "everyday_name": "dog",
@@ -918,21 +1029,6 @@
    "area_px": 4400,
    "visible_px": 4400,
    "occlusion": 0.0
-  },
-  {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
-   "bbox": [
-    896.0,
-    892.0,
-    1078.0,
-    980.0
-   ],
-   "area_px": 8776,
-   "visible_px": 8776,
-   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -942,10 +1038,10 @@
  "attempts": [
   [
    23021,
-   "layout 2: accepted after 1 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 1,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 23021,
@@ -955,12 +1051,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "cat_on_fence",
     "dog_sleeping",
-    "bird_perched"
+    "dig"
+   ],
+   "contradictions": [
+    "fish_in_tree"
    ]
   },
-  "placement_rev": 44
+  "placement_rev": 45
  },
  "probe": true
 }

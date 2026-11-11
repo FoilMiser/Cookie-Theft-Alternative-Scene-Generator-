@@ -35,7 +35,7 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.47.0"
+BUILDER_VERSION = "0.48.0"
 # the postures with both thighs swung forward of the trunk, in which a skirt is drawn as a wrap of the thighs (people.py, TPDB_SEAT47)
 SEATED47 = {"sit", "sit_swing", "sit_ground", "sit_dangle", "sit_hang", "sit_low", "sit_slide", "crouch", "jump_tuck"}
 
@@ -52,6 +52,13 @@ SHADE46 = {"O": 0.72, "B": 0.86}[os.environ.get("TPDB_SHADE46", "B")]
 # is the settings' own line colour. Lit like a surface it came out darker, (28, 28, 34) for (38, 38, 46): render_assets.setup_outline.
 # "O" keeps the lit line of every release before, and of the bench's rounds 1 to 3.)
 INK46 = os.environ.get("TPDB_INK46", "B")
+# v0.48 (TPDB_FLAT48 "B"; vision/isolation_v048.md): one flat tone, no shadow tone. The second tone is laid by a surface's normal, so wherever a
+# surface folds away it left a small island of the darker tone: at a trouser's crotch, on a child's shorts, under a jaw. Reviewers of v0.46 had
+# such a patch as "a stain", of v0.47 as "her arm drawn faintly through her body", and of this release's first pairs as "a faint lighter
+# triangular mark on the far thigh, like a stray patch". The settings are flat fills. "O": v0.46's two tones
+FLAT48 = os.environ.get("TPDB_FLAT48", "B")
+if FLAT48 == "B":
+    SHADE46 = 1.0
 
 
 def write_config(out_dir, fam, cls, labels, poses, expressions, states, affordances, prop_objects=(), extra=None):
@@ -115,12 +122,16 @@ def main(out_dir, only=None):
             poses[name] = {"action": name, "frame": 1, "show": shown, "hide": hide, "props": parts, "airborne": bool(meta.get("airborne"))}
             if name + "__p" in bpy.data.actions:
                 poses[name]["action_profile"] = name + "__p"
+            if getattr(P, "profile_face", {}).get(name):
+                poses[name]["profile_face"] = True      # v0.48 (face.PROF48)
             catalog["actions"][name] = {"lower": meta["lower"], "upper": meta["upper"], "description": meta["description"],
                                         "tags": meta["tags"], "props": parts,
                                         "prop_anchors": sorted(set(P.anchors.get(name, [])))}
         bpy.ops.wm.save_as_mainfile(filepath=os.path.join(out_dir, fam + ".blend"))
         write_config(out_dir, fam, "person", spec["labels"], poses, list(PEOPLE_EXPRESSIONS), states, PERSON_AFFORDANCES, props,
-                     extra={"hideable_objects": sorted(hideable)})
+                     extra={"hideable_objects": sorted(hideable),
+                            # v0.48 (face.PROF48): the face of a side view whose pose has the side view's twin
+                            **({"expression_states_profile": ctx.states_profile} if getattr(ctx, "states_profile", None) else {})})
         catalog["families"][fam] = {"class": "person", "kind": spec["age"], "labels": spec["labels"],
                                     "wardrobe": {k: spec.get(k) for k in ("top", "bottom", "hair", "hat", "facial_hair", "glasses")},
                                     "poses": list(poses), "expressions": list(PEOPLE_EXPRESSIONS)}

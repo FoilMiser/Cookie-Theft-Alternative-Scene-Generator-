@@ -32,7 +32,7 @@ from bpy_extras.object_utils import world_to_camera_view  # noqa: E402
 from mathutils import Vector  # noqa: E402
 
 SCRIPT_VERSION = "0.4.0"
-PPM = 400.0            # pixels per meter
+PPM = float(os.environ.get("TPDB_PPM", "400"))    # pixels per meter (TPDB_PPM: a study render at another size; a release renders at 400)
 TILT_DEG = 10.0        # camera tilt below horizontal
 MARGIN_PX = 16
 HIDDEN_TOL_M = 0.06    # ignore the anchor's own part when testing occlusion
@@ -40,7 +40,7 @@ LIGHT_RIG = "virtual-normal-light-v2"
 SHADOW_FACTOR = 0.72   # shadow tone = base color x this (linear light)
 HIGHLIGHT_FACTOR = 1.22  # light-pool tone = base color x this (linear light, clipped at white)
 VIRTUAL_LIGHT = (-0.38, -0.42, 0.82)   # world direction toward the light: upper left, in front
-SETTLE_BELOW = 0.36      # remapped normal.light below this = darker settle (surfaces facing down/away)
+SETTLE_BELOW = float(os.environ.get("TPDB_SETTLE", "0.36"))      # remapped normal.light below this = darker settle (surfaces facing down/away); TPDB_SETTLE: a bench value
 LIGHT_POOL_AT = 0.86     # remapped normal.light above this = light pool (surfaces facing up/toward)
 INK = (0.149, 0.149, 0.180)   # palette "outline" #26262e, sRGB
 
@@ -519,6 +519,9 @@ def render_family(cfg, out_dir, blend_path, samples, cel=True):
                 apply_pose_objects(cfg, base_pose)
                 if cfg.get("expression_states"):
                     apply_expression_states(cfg["expression_states"], expr)
+                    if yaw == 90 and pose_spec.get("profile_face") and cfg.get("expression_states_profile"):
+                        # v0.48 (castlib face.PROF48): a side view's own face, the near eye and the mouth set round the cheek
+                        apply_expression_states(cfg["expression_states_profile"], expr)
                 else:
                     apply_expression(face, expr, expressions)
                 root.rotation_mode = "XYZ"

@@ -73,11 +73,32 @@ KITE45 = _os44.environ.get("TPDB_KITE45", "A")  # v0.45 bench (vision/isolation_
 # three-quarter one with both eyes whole; a pose with a thing held at the face turns from the waist, spine and chest half each, so the hands and
 # the thing come round with the head. "O": v0.46 (35 degrees, a held thing's poses in pure profile)
 HEAD47 = _os44.environ.get("TPDB_HEAD47", "B")
-PROFILE47 = float(_os44.environ.get("TPDB_PROFILE", "-48" if HEAD47 == "B" else "-35"))
+# v0.48 (direction bench, vision/isolation_v048.md): on the egg head (core.HEAD48) a side view's head turns 15 degrees toward the viewer, a
+# profile with one eye, the nose and the mouth. Eight moving figures alone at 0.41 of full size, each read twice in v0.47's drawing, in the
+# new head turned 48 degrees and in the new head turned 15: every one of the 48 answers had the way it goes, and the reader was "sure" of
+# 4, 6 and 11 of 16; of the turned heads, "the face is close to three-quarter so it is slightly less clear", "torso is drawn fairly square
+# to the viewer, which weakens it a little"
+from .core import HEAD48 as _HEAD48
+# (pair bench 2: at 15 degrees the reviewers of enlarged figures had the eye "on the very front edge of the face outline, partly cut off" and
+# the face "blank". The side view's face is now its own, face.PROF48, and the head turns 22 degrees)
+PROFILE47 = float(_os44.environ.get("TPDB_PROFILE", ("-22" if _HEAD48 == "B" else "-48") if HEAD47 == "B" else "-35"))
 # v0.47 bench (vision/flaws_v046.md R2 and O6, TPDB_WALK47): a walker was read as heading the other way, "The box is behind him, so he is not about
 # to trip on it." (v046 pic_82): the trailing leg was straight and its shoe, tipped 44 degrees, lay much like the leading one turned round. "B": the
 # trailing foot up on its toe, the heel high and the knee bent, the shin sloping back; the leading leg reaches forward to a flat foot. "O": v0.46
 WALK47 = _os44.environ.get("TPDB_WALK47", "B")
+# v0.48 (vision/flaws_v047.md R1, TPDB_WALK48): `about_to_trip` failed two gates running on a walker read as going the other way, and the
+# direction bench's readers still had of v0.47's walk "the back foot seems angled right, slightly ambiguous", "the back shoe points right".
+# "B": the trailing foot tipped 46 degrees for 64 (tipped further, a shoe on its toe is a shoe pointing up and back), the leading foot
+# coming down on its heel with the toe a little up, and the trunk leaning 7 degrees into the walk for 4. "O": v0.47's walk
+# (bench round 1, vision/isolation_v048.md: with "B" one walker of four was again read as going the other way, "she is actually walking to the
+# right, away from it". Both feet were on the ground in an A, the straight leg in front and the bent one behind, and a bent leg is the leg a
+# reader takes to be swinging forward.) "C": the step itself: the rear leg straight and planted under the body, its heel just leaving the
+# ground, and the leading leg lifted and bent, the knee forward and the foot off the ground with its toe up, about to come down; the trunk
+# leans 8 degrees into it
+# (bench round 2: "C" was put to six readers in the trip's cut-outs and left. Five had the walker standing, "stands on green grass ...
+# holding an open book", "the pose reads two ways: walking forward while reading, or standing still with legs apart", and the lifted foot at
+# the obstacle "resting his foot on it or about to kick it". The long stride is what says walking; "B" is the release's walk)
+WALK48 = _os44.environ.get("TPDB_WALK48", "B")
 # v0.47 bench (vision/flaws_v046.md O6, TPDB_RUN47): "The woman's running pose is a little stiff, with the back foot kicked up high" (v046 pic_31): the
 # front leg was a straight post under the body. "B": the front knee bent and forward, the back shin lower behind, the hips a little lower. "O": v0.46
 RUN47 = _os44.environ.get("TPDB_RUN47", "B")
@@ -119,6 +140,7 @@ class Poser:
         self.props = {}        # action -> [object names]
         self.anchors = {}      # action -> [anchor names]
         self.meta = {}         # action -> dict
+        self.profile_face = {}  # v0.48 (face.PROF48): action -> True when a side view draws it with the side view's own face
         self.cur = None
         self.misses = {}
         self.hides = {}        # action -> base objects hidden while it shows (mittens swapped for open hands)
@@ -276,6 +298,11 @@ class Poser:
             arms_rest(self)
         self.rig.key_pose(name)
         turn = PROFILE47
+        # v0.48 (face.PROF48): which poses a side view draws with the side view's own face: those whose head, in the side view, is turned
+        # no more than about 30 degrees toward the viewer (the twin's turn, or a turn the pose makes itself, as the ice-cream walker's does)
+        own48 = self.head_yaw()
+        if -4 <= own48 < 32:
+            self.profile_face[name] = True
         if turn and HEAD47 == "B":
             # v0.47 (TPDB_HEAD47 "B"): see the switch. The twin brings the head to the turn, whatever the pose has turned it already (stuck up on
             # the seesaw and calling, the head is 40 degrees round); a head turned further, or turned away to look back, is left as posed
@@ -309,11 +336,29 @@ PROFILE_SKIP = ("photo", "drink", "sit_drink", "hose_inspect", "bucket_hat", "ea
 STAND_FEET = {"L": (0.015, -0.055, 0.0), "R": (-0.015, 0.045, 0.0)}
 
 
+# v0.48 (TPDB_STANCE48; pair bench 1, of v0.47's standing figure and v0.48's alike: "Feet: dark rounded blobs, no shape of a shoe"): standing, the
+# feet are turned out by this many degrees each, as a person stands, so a front view shows each shoe's length and not its toe end on. 0: v0.47's
+STANCE48 = float(_os44.environ.get("TPDB_STANCE48", "16"))
+
+
+def turn_foot(P, sd, deg):
+    """Turn a planted foot about the upright through its ankle (positive: the toe toward the figure's left)."""
+    upd()
+    pb = P.rig.arm.pose.bones[f"foot_{sd}"]
+    M = pb.matrix.copy()
+    h = M.translation.copy()
+    pb.matrix = Matrix.Translation(h) @ Matrix.Rotation(math.radians(deg), 4, "Z") @ Matrix.Translation(-h) @ M
+    upd()
+
+
 def lo_stand(P, lean=0.0, head_pitch=0.0, head_turn=0.0, head_roll=0.0, side=0.0):
     # one foot a little ahead of the other: natural, and both legs show from the side
     feet = {sd: (dx, dy * P.s, lift) for sd, (dx, dy, lift) in STAND_FEET.items()}
     P.torso(lean=lean, head_pitch=head_pitch, head_turn=head_turn, head_roll=head_roll, side=side, drop=P.drop_hips_for(feet))
     P.place_legs(feet)
+    if STANCE48:
+        turn_foot(P, "L", STANCE48)
+        turn_foot(P, "R", -STANCE48)
 
 
 def lo_wide(P, lean=0.0, head_pitch=0.0):
@@ -322,6 +367,19 @@ def lo_wide(P, lean=0.0, head_pitch=0.0):
 
 
 def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
+    if WALK48 in ("B", "C") and WALK47 == "B" and lean == 4.0:
+        lean = 7.0 if WALK48 == "B" else 8.0
+    if WALK48 == "C" and WALK47 == "B":
+        # (first trial: the rear foot 10 cm back with its heel lifting and the hips dropped for a long stride: both knees bent, a creeping walk)
+        feet = {"L": (0.0, 0.070, 0.0), "R": (0.0, -0.165, 0.075 * P.s)}
+        P.torso(lean=lean, drop=P.drop_hips_for({"L": feet["L"], "R": feet["L"]}), head_pitch=head_pitch, head_turn=head_turn)
+        P.place_legs(feet, hint={"L": (0, -1, 0.05), "R": (0, -1, 0.75)})
+        P.rig.aim_dir("foot_L", (0, -1, 0.02))                          # the rear foot flat under the body
+        b = math.radians(14)
+        P.rig.aim_dir("foot_R", (0, -math.cos(b), math.sin(b)))         # the leading toe up
+        if SOLE45 == "H":
+            P.hides.setdefault(P.cur, []).extend(["Sole_L", "Sole_R"])
+        return
     foot = __import__("os").environ.get("TPDB_FOOT", "B")
     foot27 = foot in ("B", "C")
     feet = {"L": (0.0, 0.17, 0.02), "R": (0.0, -0.20, 0.0)}
@@ -337,7 +395,7 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
     P.place_legs(feet, hint={"L": (0, -1, -0.1), "R": (0, -1, 0.25)} if w47 else (0, -1, 0.25))
     if foot27:
         if w47:
-            a = math.radians(64)
+            a = math.radians(46 if WALK48 == "B" else 64)
             P.rig.aim_dir("foot_L", (0, -math.cos(a), -math.sin(a)))
         else:
             P.rig.aim_dir("foot_L", (0, -0.72, -0.70) if foot == "B" else (0, -0.86, -0.50))
@@ -345,6 +403,8 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
             # (v0.40, vision/flaws_v039.md O5, TPDB_WALK40 "B": the front foot is left as place_legs plants it, sole flat. Aimed level here, it sat
             # toe-up by the shoe's rest angle while the back foot tipped toe-down, and "The boy's feet point in different directions")
             P.rig.aim_dir("foot_R", (0, -1, 0.02))
+    if w47 and WALK48 == "B":
+        P.rig.aim_dir("foot_R", (0, -1, 0.02 + math.tan(math.radians(10))))
     if SOLE45 == "H":
         P.hides.setdefault(P.cur, []).extend(["Sole_L", "Sole_R"])      # v0.45 (TPDB_SOLE45)
 

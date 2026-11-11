@@ -1,15 +1,15 @@
-"""Fill tools/cycle/README.template.md with the generated set, counts, the forty-four screens and the gate.
+"""Fill tools/cycle/README.template.md with the generated set, counts, the forty-five screens and the gate.
 
     python vision/fill_readme.py
 Text that depends on reading the screen (the introduction's result and the screen narrative) lives in
-vision/readme_v047_text.json, written after the screen.
+vision/readme_v048_text.json, written after the screen.
 """
 import glob
 import json
 import os
 
 T = open("tools/cycle/README.template.md", encoding="utf-8").read()
-TXT = json.load(open("vision/readme_v047_text.json", encoding="utf-8")) if os.path.exists("vision/readme_v047_text.json") else {}
+TXT = json.load(open("vision/readme_v048_text.json", encoding="utf-8")) if os.path.exists("vision/readme_v048_text.json") else {}
 order = {"garden": 0, "park": 1, "street": 2, "playground": 3}
 
 
@@ -50,11 +50,11 @@ for c in sorted(C, key=lambda c: (order[c["setting"]], c["tier"])):
     crow.append(f"| {c['setting']} | {c['tier']} | {c['structures']:,} | {c['signatures']} | {c['largest_isomorph_pool']:,} | 10^{c['log10_scenes']} |")
 tot = sum(c["structures"] for c in C)
 T = T.replace("__COMBOS_TABLE__", "\n".join(crow) + f"\n\nIn all {tot:,} structures over four settings. Structures are template sets that fit a tier's plan and can reach its content band, counted before placement.")
-T = T.replace("__GALLERY_N__", str(len(glob.glob("assets/cast/gallery047/*.json"))))
+T = T.replace("__GALLERY_N__", str(len(glob.glob("assets/cast/gallery048/*.json"))))
 
-# ------------------------------------------------------------------ the forty-four screens and the gate
+# ------------------------------------------------------------------ the forty-five screens and the gate
 S = json.load(open("vision/screen_summary.json"))
-vs = [("v04", "v0.4"), ("v05", "v0.5"), ("v06", "v0.6"), ("v07", "v0.7"), ("v08", "v0.8"), ("v09", "v0.9"), ("v010", "v0.10"), ("v011", "v0.11"), ("v012", "v0.12"), ("v013", "v0.13"), ("v014", "v0.14"), ("v015", "v0.15"), ("v016", "v0.16"), ("v017", "v0.17"), ("v018", "v0.18"), ("v019", "v0.19"), ("v020", "v0.20"), ("v021", "v0.21"), ("v022", "v0.22"), ("v023", "v0.23"), ("v024", "v0.24"), ("v025", "v0.25"), ("v026", "v0.26"), ("v027", "v0.27"), ("v028", "v0.28"), ("v029", "v0.29"), ("v030", "v0.30"), ("v031", "v0.31"), ("v032", "v0.32"), ("v033", "v0.33"), ("v034", "v0.34"), ("v035", "v0.35"), ("v036", "v0.36"), ("v037", "v0.37"), ("v038", "v0.38"), ("v039", "v0.39"), ("v040", "v0.40"), ("v041", "v0.41"), ("v042", "v0.42"), ("v043", "v0.43"), ("v044", "v0.44"), ("v045", "v0.45"), ("v046", "v0.46"), ("v047", "v0.47")]
+vs = [("v04", "v0.4"), ("v05", "v0.5"), ("v06", "v0.6"), ("v07", "v0.7"), ("v08", "v0.8"), ("v09", "v0.9"), ("v010", "v0.10"), ("v011", "v0.11"), ("v012", "v0.12"), ("v013", "v0.13"), ("v014", "v0.14"), ("v015", "v0.15"), ("v016", "v0.16"), ("v017", "v0.17"), ("v018", "v0.18"), ("v019", "v0.19"), ("v020", "v0.20"), ("v021", "v0.21"), ("v022", "v0.22"), ("v023", "v0.23"), ("v024", "v0.24"), ("v025", "v0.25"), ("v026", "v0.26"), ("v027", "v0.27"), ("v028", "v0.28"), ("v029", "v0.29"), ("v030", "v0.30"), ("v031", "v0.31"), ("v032", "v0.32"), ("v033", "v0.33"), ("v034", "v0.34"), ("v035", "v0.35"), ("v036", "v0.36"), ("v037", "v0.37"), ("v038", "v0.38"), ("v039", "v0.39"), ("v040", "v0.40"), ("v041", "v0.41"), ("v042", "v0.42"), ("v043", "v0.43"), ("v044", "v0.44"), ("v045", "v0.45"), ("v046", "v0.46"), ("v047", "v0.47"), ("v048", "v0.48")]
 lab = [("entity", "Things"), ("action", "Actions"), ("inference", "Inferences"), ("contradiction", "Contradictions"), ("overall", "All items")]
 tr = ["| | " + " | ".join(f"{n} ({S[k]['pictures']} pictures)" for k, n in vs) + " |", "|---" * (len(vs) + 1) + "|"]
 for k, l in lab:
@@ -62,17 +62,17 @@ for k, l in lab:
 tr.append("| Items misread | " + " | ".join(f"{S[v]['misreads']} of {S[v]['items']}" for v, _ in vs) + " |")
 tr.append("| Oddities per picture, as logged by the scorers | " + " | ".join(f"{S[v]['oddities'] / S[v]['pictures']:.1f}" for v, _ in vs) + " |")
 tr.append("| Readers' remarks per picture (recounted in v0.26) | " + " | ".join(f"{S[v]['remarks']:.1f}" if S[v].get("remarks") else "—" for v, _ in vs) + " |")
-pr = S["v047"].get("probes", {})
-b6, b7 = S["v046"]["by_template"], S["v047"]["by_template"]
-REDRAWN = ["dog_reading", "about_to_trip", "sweep_fork", "blocked_hose", "bird_steals", "cat_stalks_bird", "water_upward", "lost_balloon",
-           "square_wheel", "seesaw_heavy", "paint_fence", "ice_cream_drop", "ice_cream", "sweep", "walk_dog", "read_bench"]
-red = ["| Template | v0.46 | v0.47 | v0.47 meaning items |", "|---|---|---|---|"]
+pr = S["v048"].get("probes", {})
+b6, b7 = S["v047"]["by_template"], S["v048"]["by_template"]
+REDRAWN = ["about_to_trip", "blocked_hose", "lost_balloon", "water_upward", "bird_steals", "cat_stalks_bird", "dog_reading", "rain_coming",
+           "ice_cream", "walk_dog", "dog_sleeping", "dog_begs", "dog_playing", "goat_grazing", "cat_on_fence", "cat_sleeping"]
+red = ["| Template | v0.47 | v0.48 | v0.48 meaning items |", "|---|---|---|---|"]
 for t in REDRAWN:
     a, b = b6.get(t), b7.get(t)
     red.append(f"| `{t}` | " + (f"{a['mean']:.2f} ({n_items(a['items'])})" if a else "—") + " | "
                + (f"{b['mean']:.2f} ({n_items(b['items'])})" if b else "not drawn") + " | "
                + ("—" if not b or b["meaning_mean"] is None else f"{b['meaning_mean']:.2f} ({b['meaning_items']})") + " |")
-G = json.load(open("vision/v047/gate.json"))
+G = json.load(open("vision/v048/gate.json"))
 by = {st: sorted(t for t, v in G.items() if v["status"] == st) for st in ("pass", "too_few", "fail")}
 g6 = json.load(open("vision/v010/gate.json")) if os.path.exists("vision/v010/gate.json") else {}
 g7 = json.load(open("vision/v011/gate.json")) if os.path.exists("vision/v011/gate.json") else {}
@@ -113,24 +113,25 @@ g39 = json.load(open("vision/v043/gate.json")) if os.path.exists("vision/v043/ga
 g40 = json.load(open("vision/v044/gate.json")) if os.path.exists("vision/v044/gate.json") else {}
 g41 = json.load(open("vision/v045/gate.json")) if os.path.exists("vision/v045/gate.json") else {}
 g42 = json.load(open("vision/v046/gate.json")) if os.path.exists("vision/v046/gate.json") else {}
-gl = [f"| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 | v0.20 | v0.21 | v0.22 | v0.23 | v0.24 | v0.25 | v0.26 | v0.27 | v0.28 | v0.29 | v0.30 | v0.31 | v0.32 | v0.33 | v0.34 | v0.35 | v0.36 | v0.37 | v0.38 | v0.39 | v0.40 | v0.41 | v0.42 | v0.43 | v0.44 | v0.45 | v0.46 | v0.47 |", "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+g43 = json.load(open("vision/v047/gate.json")) if os.path.exists("vision/v047/gate.json") else {}
+gl = [f"| Gate outcome | v0.9 | v0.9 retest | v0.10 | v0.11 | v0.12 | v0.13 | v0.14 | v0.15 | v0.16 | v0.17 | v0.18 | v0.19 | v0.20 | v0.21 | v0.22 | v0.23 | v0.24 | v0.25 | v0.26 | v0.27 | v0.28 | v0.29 | v0.30 | v0.31 | v0.32 | v0.33 | v0.34 | v0.35 | v0.36 | v0.37 | v0.38 | v0.39 | v0.40 | v0.41 | v0.42 | v0.43 | v0.44 | v0.45 | v0.46 | v0.47 | v0.48 |", "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
 for st, l in (("pass", "Pass (mean at least 0.9, at least two pictures, no misread)"), ("too_few", "Read well, but in fewer than two pictures"), ("fail", "Fail")):
     cnt = lambda g: sum(1 for v in g.values() if v['status'] == st) if g else '—'
-    gl.append(f"| {l} | {cnt(g5)} | {cnt(gr)} | {cnt(g6)} | {cnt(g7)} | {cnt(g8)} | {cnt(g9)} | {cnt(g10)} | {cnt(g11)} | {cnt(g12)} | {cnt(g13)} | {cnt(g14)} | {cnt(g15)} | {cnt(g16)} | {cnt(g17)} | {cnt(g18)} | {cnt(g19)} | {cnt(g20)} | {cnt(g21)} | {cnt(g22)} | {cnt(g23)} | {cnt(g24)} | {cnt(g25)} | {cnt(g26)} | {cnt(g27)} | {cnt(g28)} | {cnt(g29)} | {cnt(g30)} | {cnt(g31)} | {cnt(g32)} | {cnt(g33)} | {cnt(g34)} | {cnt(g35)} | {cnt(g36)} | {cnt(g37)} | {cnt(g38)} | {cnt(g39)} | {cnt(g40)} | {cnt(g41)} | {cnt(g42)} | {len(by[st])} |")
-fails = ["| Template | v0.47 mean | Pictures | Misreads |", "|---|---|---|---|"] + [
+    gl.append(f"| {l} | {cnt(g5)} | {cnt(gr)} | {cnt(g6)} | {cnt(g7)} | {cnt(g8)} | {cnt(g9)} | {cnt(g10)} | {cnt(g11)} | {cnt(g12)} | {cnt(g13)} | {cnt(g14)} | {cnt(g15)} | {cnt(g16)} | {cnt(g17)} | {cnt(g18)} | {cnt(g19)} | {cnt(g20)} | {cnt(g21)} | {cnt(g22)} | {cnt(g23)} | {cnt(g24)} | {cnt(g25)} | {cnt(g26)} | {cnt(g27)} | {cnt(g28)} | {cnt(g29)} | {cnt(g30)} | {cnt(g31)} | {cnt(g32)} | {cnt(g33)} | {cnt(g34)} | {cnt(g35)} | {cnt(g36)} | {cnt(g37)} | {cnt(g38)} | {cnt(g39)} | {cnt(g40)} | {cnt(g41)} | {cnt(g42)} | {cnt(g43)} | {len(by[st])} |")
+fails = ["| Template | v0.48 mean | Pictures | Misreads |", "|---|---|---|---|"] + [
     f"| `{t}` | {G[t]['mean']:.2f} ({n_items(G[t]['items'])}) | {G[t]['pictures']} | {G[t]['misreads']} |" for t in sorted(by["fail"] + by["too_few"], key=lambda t: G[t]["mean"])]
 probes = load("probes")
-sec = ["## The forty-fourth blind screen", "",
+sec = ["## The forty-fifth blind screen", "",
        f"{TXT.get('readers', 'Fresh')} readers, who had never seen the key, described every picture of the new set and "
        f"{len(probes)} probe pictures; {TXT.get('scorers', 'two')} separate scorers, each given part of the pictures and the same prompt, marked each "
        "scored item against the key, exactly as in the earlier screens. "
        f"The headline figures cover the set; the probe pictures count only toward the templates they carry. Every template "
-       "appeared in at least three screened pictures, as in v0.10 to v0.46.", "",
-       "\n".join(tr), "", TXT.get("screen", ""), "", "The eight templates of v0.46's list, each worked on the bench and by a rule of revision 44; the square wheels, which were not worked; the heavy seesaw, benched and left; the fence painter and the dropped ice cream, each with a new rule; and four plain events that redrawn figures carry (mean of each template's scored items; "
+       "appeared in at least three screened pictures, as in v0.10 to v0.47.", "",
+       "\n".join(tr), "", TXT.get("screen", ""), "", "The walker about to trip, which this release worked; the six templates under it on v0.47's list, which were not worked and carry the redrawn animals and figures; the coming rain, which fails; the ice cream, which fell; and seven plain events that a redrawn animal carries (mean of each template's scored items; "
        "inference and contradiction items alone in the last column):", "", "\n".join(red), "", TXT.get("redrawn", ""), "",
        "### The legibility gate", "", "\n".join(gl), "", TXT.get("gate", ""), ""]
 if len(fails) > 2:
-    sec += ["Templates that did not pass (`vision/flaws_v047.md` gives what the readers saw and the next fix):", "", "\n".join(fails), ""]
+    sec += ["Templates that did not pass (`vision/flaws_v048.md` gives what the readers saw and the next fix):", "", "\n".join(fails), ""]
 T = T.replace("__SCREEN_SECTION__", "\n".join(s for s in sec).rstrip())
 DESIGN = TXT.get("design", "")
 REBUILD = "scenes/" + sorted(r["name"] for r in recs if r["tier"] == 3 and r["setting"] == "park" and not r.get("isomorph_of"))[0] + ".json"
@@ -141,5 +142,5 @@ T = T.replace("__REBUILD_EXAMPLE__", REBUILD)
 T = T.replace("__INSPECTION__", TXT.get("inspection", ""))
 T = T.replace("__ZIP_MB__", TXT.get("zip_mb", "150"))
 T = T.replace("__CALIB_NOTE__", TXT.get("calib", ""))
-open("README_v0.47.md", "w", encoding="utf-8", newline="\n").write(T)
-print("README_v0.47.md written")
+open("README_v0.48.md", "w", encoding="utf-8", newline="\n").write(T)
+print("README_v0.48.md written")

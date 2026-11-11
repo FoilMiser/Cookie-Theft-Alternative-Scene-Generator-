@@ -39,11 +39,11 @@ TEXT = """You are taking part in a picture-legibility check. You will see {n} sm
 Images (open each with the Read tool):
 {imgs}
 
-For each cut-out, write a file {rnd}/desc_iso_NN.md (NN = the number in its file name) with:
+For each cut-out, write a file {rnd}/desc_iso_NN.md (NN = the number in its file name), with the Write tool and not from the shell, with:
 1. "What I see": 2–5 sentences: who or what is in it, what any person or animal is doing, and what any object is or seems to be for.
 2. "Unsure or ambiguous": anything you could not make out or that could be read two ways (say both readings), and anything that looks unintentionally strange (things floating, objects passing through each other, odd shapes or proportions, body parts that look detached or oddly joined).
 
-Be literal about what you actually see; don't guess what a test designer intended. When done, reply with just the file paths.
+Be literal about what you actually see; don't guess what a test designer intended. When done, reply with just the file paths: you know their names, so do not list the folder to check them.
 """
 for i, p in enumerate(pairs, 1):
     imgs = "\n".join(os.path.join(rnd, k + ".png") for k in p)

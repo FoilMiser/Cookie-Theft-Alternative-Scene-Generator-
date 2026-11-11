@@ -11,6 +11,24 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.48 (builder 0.48.0: every person's head, face and hair, the side view's own face, one flat tone, the walk; every dog, cat and the goat
+    # drawn again with bodies and limbs of their own; revision 45: the pond rule):
+    # a park: a reader on the bench, a dog walked, birds fed, by the pond
+    ("park", 3, 48401, {"events": ["read_bench", "walk_dog", "feed_birds"]}, None),
+    # a street: the trip, an ice cream, a dog walked
+    ("street", 3, 48402, {"modules": ["about_to_trip"], "events": ["ice_cream", "walk_dog"]}, "trip"),
+    # a garden: the hose stopped by a dog standing on it, a box carried, a child on the swing
+    ("garden", 3, 48403, {"modules": ["blocked_hose"], "events": ["carry_box", "swing"]}, None),
+    # a park: the reading dog, a bird at a sandwich on the bench, a kite flown
+    ("park", 3, 48404, {"contradictions": ["dog_reading"], "modules": ["bird_steals"], "events": ["fly_kite"]}, None),
+    # a park: a cat stalking a bird, a picnic, the goat grazing
+    ("park", 3, 48405, {"modules": ["cat_stalks_bird"], "events": ["picnic", "goat_grazing"]}, None),
+    # a playground: a balloon lost, a ball kicked, a dog playing
+    ("playground", 3, 48406, {"modules": ["lost_balloon"], "events": ["kick_ball", "dog_playing"]}, None),
+    # a garden: the cat on the fence, a dog asleep, flowers watered
+    ("garden", 3, 48407, {"events": ["cat_on_fence", "dog_sleeping", "water_flowers"]}, None),
+    # a street: a dog begging, an ice cream dropped, a runner
+    ("street", 3, 48408, {"modules": ["dog_begs", "ice_cream_drop"], "events": ["run"]}, None),
     # v0.47 (builder 0.47.0: the cast drawn again from one figure studied closely, shoulders, limbs, hands, shoes, hems, noses, heads, the seat, and
     # the animals with it; the profile, the walk, the run, the sitting poses; the dog that reads sitting, the dog standing on the hose, the
     # pecking bird, the stalking cat; revision 44: the reading dog, the stopped hose, the trip, the fork sweeper, the thief bird, the seeds, the

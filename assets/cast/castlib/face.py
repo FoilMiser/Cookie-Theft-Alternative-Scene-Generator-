@@ -10,7 +10,7 @@ import math
 import bpy  # noqa: F401
 from mathutils import Matrix, Quaternion, Vector
 
-from .core import capsule_arc, ellipsoid, half_ellipsoid, list_m, nrm, smooth_curve, tube, upd
+from .core import HEAD48, capsule_arc, ellipsoid, half_ellipsoid, head_f, head_g, list_m, nrm, smooth_curve, tube, upd
 
 
 class Face:
@@ -21,8 +21,16 @@ class Face:
         self.ax, self.ay, self.az = radii
         self.n = n          # v0.47: the head's level sections |x|^n + |y|^n = r^n (core.squircle); 2 is the ellipsoid
         self.objs = {}
+        self.xoff = 0.0     # v0.48 (PROF48): features built while this is set lie that far round the face
 
     def surf(self, x, z):
+        if HEAD48 == "B":
+            # v0.48: the head's own surface (core.head_pt): narrower and carried forward below the cheeks
+            n = self.n
+            zs = max(-0.999, min(0.999, z / self.az))
+            f = head_f(zs)
+            u = max(1e-4, 1 - zs * zs) ** (n / 2) - abs(x / (self.ax * f)) ** n
+            return Vector((x, -self.ay * (f * max(1e-4, u) ** (1.0 / n) + head_g(zs)), z))
         if self.n != 2.0:
             n = self.n
             u = max(1e-4, 1 - (z / self.az) ** 2) ** (n / 2) - abs(x / self.ax) ** n
@@ -32,6 +40,9 @@ class Face:
         return Vector((x, y, z))
 
     def normal(self, x, z):
+        if HEAD48 == "B":
+            e = 2e-4
+            return nrm((self.surf(x + e, z) - self.surf(x - e, z)).cross(self.surf(x, z + e) - self.surf(x, z - e)))
         p = self.surf(x, z)
         if self.n != 2.0:
             n = self.n
@@ -41,11 +52,12 @@ class Face:
         return nrm(Vector((p.x / self.ax ** 2, p.y / self.ay ** 2, p.z / self.az ** 2)))
 
     def at(self, x, z, out=0.0):
+        x = x + self.xoff
         return self.c + self.surf(x, z) + self.normal(x, z) * out
 
     def frame(self, x, z, out, spin=0.0, scale=(1, 1, 1)):
         """World matrix for a feature lying flat on the skin: local -Y = outward normal."""
-        n = self.normal(x, z)
+        n = self.normal(x + self.xoff, z)
         q = Vector((0, -1, 0)).rotation_difference(n)
         q = q @ Quaternion((0, 1, 0), spin)
         sc = Vector((scale[0], scale[1] * 0.55, scale[2]))
@@ -62,6 +74,15 @@ class Face:
         self.rig.attach(ob, self.bone)
         return self.obj(key, ob)
 
+    def side(self, s, y, z, out=0.0):
+        """v0.48: a point on the side of the head (s: 1 the figure's left, -1 its right) at depth y and height z, `out` off the skin."""
+        n = self.n
+        zs = max(-0.999, min(0.999, z / self.az))
+        f = head_f(zs)
+        yy = y + self.ay * head_g(zs)
+        u = max(1e-4, 1 - zs * zs) ** (n / 2) - abs(yy / (self.ay * f)) ** n
+        return self.c + Vector((s * (self.ax * f * max(1e-4, u) ** (1.0 / n) + out), y, z))
+
     def curve_on(self, key, pts2d, radius, matkey, out):
         pts = [self.at(x, z, out) for x, z in pts2d]
         return self.obj(key, tube(key, pts, radius, matkey, self.rig, self.bone))
@@ -73,6 +94,27 @@ BROW_UP = 0.058
 MOUTH_DZ = -0.086
 MOUTH_W = 0.034
 LINE = 0.0072
+BROW_SC = (0.027, 0.007, 0.0095)
+# v0.48 (TPDB_FACE48; vision/isolation_v048.md): the face on the egg head (core.HEAD48). "B": the features spread down the taller face, the
+# eyes just under the middle of the head and a little smaller, the brows longer and heavier with a clear gap over the eyes, the nose lower,
+# and the mouth lower and wider, one plain line in the lip colour with no dark edge under it (v0.46's edged line drew a smile as an angular
+# red shape: lipstick on every face). "O": v0.47's face
+FACE48 = __import__("os").environ.get("TPDB_FACE48", "B")
+# v0.48 (TPDB_PROF48 "B"; pair bench 2, vision/isolation_v048.md): a side view has a face of its own. The eyes and the mouth lie on the front
+# of the head, so in a side view they are seen edge on: turned 15 degrees toward the viewer the reviewers had "the single eye sits on the
+# very front edge of the face outline, partly cut off", "no eye is visible, so the face looks empty and could be read as the back of the
+# head", "no mouth drawn; the face is mostly ear and glasses". As a draughtsman does in a profile, the near eye and its brow are set further
+# round the cheek (PROF48_EYE, in head units), the mouth likewise (PROF48_MOUTH), and the far eye and brow are left out. render_assets uses
+# these states (`expression_states_profile`) for a side view whose pose has the side view's twin. "O": one face for every view
+PROF48 = __import__("os").environ.get("TPDB_PROF48", "B") if FACE48 == "B" and HEAD48 == "B" else "O"
+PROF48_EYE = float(__import__("os").environ.get("TPDB_PROF48_EYE", "0.034"))
+PROF48_MOUTH = float(__import__("os").environ.get("TPDB_PROF48_MOUTH", "0.024"))
+if FACE48 == "B":
+    EYE_W, EYE_H = 0.0205, 0.0290
+    BROW_UP = 0.054
+    MOUTH_DZ = -0.099
+    MOUTH_W = 0.038
+    BROW_SC = (0.029, 0.007, 0.0098)
 
 
 # v0.46 bench (TPDB_CLEAN46 "B"; vision/isolation_v046.md): the glasses a plain dark wire of the line's own weight with no outline of
@@ -104,10 +146,16 @@ GLASS47_GEOM = {"B": (0.045, 0.041, 0.0, 0.013), "C": (0.045, 0.041, 10.0, 0.013
                 "E": (0.049, 0.044, 6.0, 0.013), "F": (0.046, 0.043, 6.0, 0.013)}
 # (and the eyes behind them drawn smaller by this factor, so that skin shows between eye and rim: an eye as large as its lens is a dark lens)
 GLASS47_EYE = {"E": 0.84, "F": 0.76}
+if FACE48 == "B":
+    # v0.48: the glasses' wire lighter and the rims a little smaller (at v0.46's weight on the smaller face the two rims were the face)
+    GLASSW46 = (0.0062, 0.0056)
+    GLASS47_GEOM = dict(GLASS47_GEOM, F=(0.043, 0.040, 6.0, 0.013))
+    GLASS47_EYE = dict(GLASS47_EYE, F=0.84)
 
 
 def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", skin_key="skin1", mouth_col=None):
     ek = face.ek = GLASS47_EYE.get(GLASS47, 1.0) if glasses else 1.0      # v0.47 (TPDB_GLASS47): smaller eyes behind glasses
+    bsc = face.bsc = tuple(a * b for a, b in zip(BROW_SC, getattr(face, "brow_k", (1.0, 1.0, 1.0))))      # v0.48: a face's own brows
     EW, EH = EYE_W * ek, EYE_H * ek
     for side, s in (("L", 1), ("R", -1)):
         x = s * eye_dx
@@ -129,73 +177,101 @@ def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", s
                       LINE * 1.25 * k, "outline", 0.004 * k)
         face.curve_on(f"arcdn_{side}", smooth_curve([(x - w, eye_z + 0.006 * k), (x, eye_z - 0.014 * k), (x + w, eye_z + 0.006 * k)], 6),
                       LINE * 1.05 * k, "outline", 0.004 * k)
+        if PROF48 == "B" and side == "R":
+            # the side view's own arcs for the near eye (the eye's other shapes are moved by the states)
+            face.xoff = s * PROF48_EYE * k
+            face.curve_on(f"p_arcup_{side}", smooth_curve([(x - w, eye_z - 0.016 * k), (x, eye_z + 0.017 * k), (x + w, eye_z - 0.016 * k)], 6),
+                          LINE * 1.05 * k, "outline", 0.004 * k)
+            face.curve_on(f"p_arcup2_{side}", smooth_curve([(x - w * 1.05, eye_z - 0.020 * k), (x - w * 0.15, eye_z + 0.020 * k), (x + w * 1.05, eye_z - 0.006 * k)], 6),
+                          LINE * 1.25 * k, "outline", 0.004 * k)
+            face.curve_on(f"p_arcdn_{side}", smooth_curve([(x - w, eye_z + 0.006 * k), (x, eye_z - 0.014 * k), (x + w, eye_z + 0.006 * k)], 6),
+                          LINE * 1.05 * k, "outline", 0.004 * k)
+            face.xoff = 0.0
         face.place(f"brow_{side}", capsule_arc("brow", "outline", bend=0.30),
-                   face.frame(x, eye_z + BROW_UP * k, 0.004 * k, scale=(0.027 * k, 0.007 * k, 0.0095 * k)))
+                   face.frame(x, eye_z + BROW_UP * k, 0.004 * k, scale=tuple(a * k for a in bsc)))
         # v0.28, TPDB_BLUSH: smaller, nearer the eye ("a pink smudge on the cheek, which could be blush or ice cream")
         bl28 = __import__("os").environ.get("TPDB_BLUSH", "B") == "B"
         face.place(f"blush_{side}", ellipsoid("blush", (0, 0, 0), (1, 1, 1), blush_key),
                    face.frame(s * (eye_dx + (0.022 if bl28 else 0.030) * k), eye_z - (0.036 if bl28 else 0.044) * k, 0.001 * k,
                               scale=((0.015 if bl28 else 0.024) * k, 0.004 * k, (0.008 if bl28 else 0.013) * k)))
 
-    mz = eye_z + MOUTH_DZ * k
-    mw = MOUTH_W * k
-    # v0.27, chosen on the bench: thinner, in a lip colour (a black line near the edge of the face: "a dark mark around the mouth could be a mouth or a small beard or moustache", four cut-outs)
-    m27 = __import__("os").environ.get("TPDB_MOUTH", "B") == "B"
-    lw = LINE * k * (0.86 if m27 else 1.0)
-    mc = "throat" if m27 else "outline"
-    if mouth_col:
-        mc, lw = mouth_col, lw * 1.15      # v0.43 (TPDB_ADULT43): lips, a line in a lip colour
-    out = 0.003 * k
+    def mouths(pre):
+        mz = eye_z + MOUTH_DZ * k
+        mw = MOUTH_W * k
+        # v0.27, chosen on the bench: thinner, in a lip colour (a black line near the edge of the face: "a dark mark around the mouth could be a mouth or a small beard or moustache", four cut-outs)
+        m27 = __import__("os").environ.get("TPDB_MOUTH", "B") == "B"
+        lw = LINE * k * (0.86 if m27 else 1.0)
+        mc = "throat" if m27 else "outline"
+        if mouth_col:
+            mc, lw = mouth_col, lw * 1.15      # v0.43 (TPDB_ADULT43): lips, a line in a lip colour
+        out = 0.003 * k
 
-    rim = MOUTH46 == "rim"
-    plain = MOUTH46 if skin_key != "skin3" and not rim else None
+        rim = MOUTH46 == "rim"
+        plain = MOUTH46 if skin_key != "skin3" and not rim else None
 
-    def mline(key, pts, r):
-        if rim:
-            # the dark edge: a wider line sunk into the face by half its radius, a little longer than the lip-coloured line at both
-            # ends, so that about 2.5 px of it show round the lip colour at render size, half the weight of the lines inside the
-            # figure, as v0.45's edge was (the head's surface lies about 0.003 above the ellipsoid the features are set on; 0.6 sunk
-            # and no longer than the lip line, the first two trials, drew a finer and shorter mark than v0.45's). The lip-coloured
-            # line rides on its top.
-            rr = r + 0.0108 * k
-            ext = 0.006 * k
+        def mline(key, pts, r):
+            if FACE48 == "B":
+                # v0.48: one plain line, in the lip colour (the outline's on the darkest skin, where the lip colour is too near the skin's grey)
+                # (pair bench 1: in the lip colour a turned face's mouth was "a small red mark", "a smear"; a dark brown line is a mouth)
+                ob = face.curve_on(key, pts, r * 1.12, "outline" if skin_key == "skin3" else "hair_brown_dark", 0.004 * k)
+                ob.lineart.usage = "EXCLUDE"
+                return ob
+            if rim:
+                # the dark edge: a wider line sunk into the face by half its radius, a little longer than the lip-coloured line at both
+                # ends, so that about 2.5 px of it show round the lip colour at render size, half the weight of the lines inside the
+                # figure, as v0.45's edge was (the head's surface lies about 0.003 above the ellipsoid the features are set on; 0.6 sunk
+                # and no longer than the lip line, the first two trials, drew a finer and shorter mark than v0.45's). The lip-coloured
+                # line rides on its top.
+                rr = r + 0.0108 * k
+                ext = 0.006 * k
 
-            def beyond(p, q):
-                dx, dz = p[0] - q[0], p[1] - q[1]
-                n = (dx * dx + dz * dz) ** 0.5 or 1.0
-                return (p[0] + dx / n * ext, p[1] + dz / n * ext)
+                def beyond(p, q):
+                    dx, dz = p[0] - q[0], p[1] - q[1]
+                    n = (dx * dx + dz * dz) ** 0.5 or 1.0
+                    return (p[0] + dx / n * ext, p[1] + dz / n * ext)
 
-            p2 = [(q[0], q[1]) for q in pts]
-            ob = face.curve_on(key + "_rim", [beyond(p2[0], p2[1])] + p2 + [beyond(p2[-1], p2[-2])], rr, "outline", -0.5 * rr)
-            ob.lineart.usage = "EXCLUDE"
-            ob = face.curve_on(key, pts, r, mc, 0.5 * rr - 0.3 * r)
-            ob.lineart.usage = "EXCLUDE"
+                p2 = [(q[0], q[1]) for q in pts]
+                ob = face.curve_on(key + "_rim", [beyond(p2[0], p2[1])] + p2 + [beyond(p2[-1], p2[-2])], rr, "outline", -0.5 * rr)
+                ob.lineart.usage = "EXCLUDE"
+                ob = face.curve_on(key, pts, r, mc, 0.5 * rr - 0.3 * r)
+                ob.lineart.usage = "EXCLUDE"
+                return ob
+            ob = face.curve_on(key, pts, r * (plain or 1.0), mc, out)
+            if plain:
+                ob.lineart.usage = "EXCLUDE"
             return ob
-        ob = face.curve_on(key, pts, r * (plain or 1.0), mc, out)
-        if plain:
-            ob.lineart.usage = "EXCLUDE"
-        return ob
 
-    mline("m_smile", smooth_curve([(-mw, mz + 0.009 * k), (0, mz - 0.011 * k), (mw, mz + 0.009 * k)], 8), lw)
-    mline("m_frown", smooth_curve([(-mw, mz - 0.011 * k), (0, mz + 0.007 * k), (mw, mz - 0.011 * k)], 8), lw)
-    # neutral: a short, thin, barely curved line set low (a straight bar under the nose reads as a moustache)
-    mline("m_flat", smooth_curve([(-mw * 0.62, mz - 0.004 * k), (0, mz - 0.008 * k), (mw * 0.62, mz - 0.004 * k)], 6), lw * 0.78)
-    mline("m_wobble", smooth_curve([(-mw * 0.72, mz + 0.002 * k), (-mw * 0.36, mz + 0.011 * k), (0, mz), (mw * 0.36, mz - 0.011 * k), (mw * 0.72, mz - 0.002 * k)], 6), lw * 0.72)
-    mline("m_slant", [(-mw * 0.20, mz - 0.006 * k), (mw * 0.78, mz + 0.008 * k)], lw * 0.80)
-    mline("m_smirk", smooth_curve([(-mw * 0.85, mz - 0.003 * k), (0.1 * mw, mz - 0.006 * k), (mw * 0.95, mz + 0.012 * k)], 8), lw)
-    mline("m_disgust", smooth_curve([(-mw * 0.85, mz - 0.012 * k), (-0.25 * mw, mz + 0.006 * k), (0.40 * mw, mz - 0.003 * k), (mw * 0.90, mz + 0.004 * k)], 6), lw * 0.78)
-    face.place("m_grin", half_ellipsoid("grin", "throat"), face.frame(0, mz + 0.010 * k, 0.0, scale=(mw * 1.30, 0.010 * k, 0.030 * k)))
-    face.place("m_laugh", half_ellipsoid("laugh", "throat"), face.frame(0, mz + 0.012 * k, 0.0, scale=(mw * 1.45, 0.010 * k, 0.042 * k)))
-    face.place("m_tongue", ellipsoid("tongue", (0, 0, 0), (1, 1, 1), "red"), face.frame(0, mz - 0.020 * k, 0.003 * k, scale=(mw * 0.62, 0.004 * k, 0.012 * k)))
-    face.place("m_O", ellipsoid("O", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.006 * k, 0.0, scale=(0.017 * k, 0.010 * k, 0.022 * k)))
-    if __import__("os").environ.get("TPDB_CALL44", "A") == "A":     # v0.44 bench (vision/isolation_v044.md): A
-        # v0.44 (TPDB_CALL44): wider open, so the call shows at scene size ("a 4 px o")
-        face.place("m_ooh", ellipsoid("ooh", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.012 * k, 0.0, scale=(0.021 * k, 0.010 * k, 0.037 * k)))
-    else:
-        face.place("m_ooh", ellipsoid("ooh", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.010 * k, 0.0, scale=(0.015 * k, 0.010 * k, 0.030 * k)))
-    face.place("m_o", ellipsoid("o", (0, 0, 0), (1, 1, 1), "outline"), face.frame(0, mz, 0.0, scale=(0.009 * k, 0.008 * k, 0.011 * k)))
-    face.place("m_teeth", ellipsoid("teeth", (0, 0, 0), (1, 1, 1), "cream"), face.frame(0, mz - 0.002 * k, 0.001 * k, scale=(mw * 1.05, 0.010 * k, 0.012 * k)))
-    face.curve_on("m_teeth_line", [(-mw * 0.92, mz - 0.002 * k), (mw * 0.92, mz - 0.002 * k)], lw * 0.55, "outline", 0.010 * k)
+        if FACE48 == "B":
+            mline(pre + "m_smile", smooth_curve([(-mw, mz + 0.011 * k), (-mw * 0.55, mz - 0.004 * k), (0, mz - 0.010 * k), (mw * 0.55, mz - 0.004 * k),
+                                           (mw, mz + 0.011 * k)], 6), lw)
+        else:
+            mline(pre + "m_smile", smooth_curve([(-mw, mz + 0.009 * k), (0, mz - 0.011 * k), (mw, mz + 0.009 * k)], 8), lw)
+        mline(pre + "m_frown", smooth_curve([(-mw, mz - 0.011 * k), (0, mz + 0.007 * k), (mw, mz - 0.011 * k)], 8), lw)
+        # neutral: a short, thin, barely curved line set low (a straight bar under the nose reads as a moustache)
+        mline(pre + "m_flat", smooth_curve([(-mw * 0.62, mz - 0.004 * k), (0, mz - 0.008 * k), (mw * 0.62, mz - 0.004 * k)], 6), lw * 0.78)
+        mline(pre + "m_wobble", smooth_curve([(-mw * 0.72, mz + 0.002 * k), (-mw * 0.36, mz + 0.011 * k), (0, mz), (mw * 0.36, mz - 0.011 * k), (mw * 0.72, mz - 0.002 * k)], 6), lw * 0.72)
+        mline(pre + "m_slant", [(-mw * 0.20, mz - 0.006 * k), (mw * 0.78, mz + 0.008 * k)], lw * 0.80)
+        mline(pre + "m_smirk", smooth_curve([(-mw * 0.85, mz - 0.003 * k), (0.1 * mw, mz - 0.006 * k), (mw * 0.95, mz + 0.012 * k)], 8), lw)
+        mline(pre + "m_disgust", smooth_curve([(-mw * 0.85, mz - 0.012 * k), (-0.25 * mw, mz + 0.006 * k), (0.40 * mw, mz - 0.003 * k), (mw * 0.90, mz + 0.004 * k)], 6), lw * 0.78)
+        face.place(pre + "m_grin", half_ellipsoid("grin", "throat"), face.frame(0, mz + 0.010 * k, 0.0, scale=(mw * 1.30, 0.010 * k, 0.030 * k)))
+        face.place(pre + "m_laugh", half_ellipsoid("laugh", "throat"), face.frame(0, mz + 0.012 * k, 0.0, scale=(mw * 1.45, 0.010 * k, 0.042 * k)))
+        face.place(pre + "m_tongue", ellipsoid("tongue", (0, 0, 0), (1, 1, 1), "red"), face.frame(0, mz - 0.020 * k, 0.003 * k, scale=(mw * 0.62, 0.004 * k, 0.012 * k)))
+        face.place(pre + "m_O", ellipsoid("O", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.006 * k, 0.0, scale=(0.017 * k, 0.010 * k, 0.022 * k)))
+        if __import__("os").environ.get("TPDB_CALL44", "A") == "A":     # v0.44 bench (vision/isolation_v044.md): A
+            # v0.44 (TPDB_CALL44): wider open, so the call shows at scene size ("a 4 px o")
+            face.place(pre + "m_ooh", ellipsoid("ooh", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.012 * k, 0.0, scale=(0.021 * k, 0.010 * k, 0.037 * k)))
+        else:
+            face.place(pre + "m_ooh", ellipsoid("ooh", (0, 0, 0), (1, 1, 1), "throat"), face.frame(0, mz - 0.010 * k, 0.0, scale=(0.015 * k, 0.010 * k, 0.030 * k)))
+        face.place(pre + "m_o", ellipsoid("o", (0, 0, 0), (1, 1, 1), "outline"), face.frame(0, mz, 0.0, scale=(0.009 * k, 0.008 * k, 0.011 * k)))
+        face.place(pre + "m_teeth", ellipsoid("teeth", (0, 0, 0), (1, 1, 1), "cream"), face.frame(0, mz - 0.002 * k, 0.001 * k, scale=(mw * 1.05, 0.010 * k, 0.012 * k)))
+        face.curve_on(pre + "m_teeth_line", [(-mw * 0.92, mz - 0.002 * k), (mw * 0.92, mz - 0.002 * k)], lw * 0.55, "outline", 0.010 * k)
+
+    mouths("")
+    if PROF48 == "B":
+        # the side view's own mouths, the same shapes set round toward the near cheek (the figure's right)
+        face.xoff = -PROF48_MOUTH * k
+        mouths("p_")
+        face.xoff = 0.0
 
     if glasses and GLASS47 != "O":
         # v0.47 (TPDB_GLASS47): each rim a flat ring, centred on its eye, in a plane that stands off the face as a lens does
@@ -211,9 +287,31 @@ def build_people_face(face, eye_dx, eye_z, k, glasses=False, blush_key="pink", s
             ob = face.obj(f"glass_{side}", tube(f"glass_{side}", ring, GLASSW46[0] * k, "outline", face.rig, face.bone, closed=True))
             ob.lineart.usage = "EXCLUDE"
             inner[side] = P0 - ex * (s * rx * k) + ez * (0.008 * k)
+            if FACE48 == "B" and HEAD48 == "B":
+                # v0.48: an arm from each rim back along the temple to the ear: seen from the side, what says glasses is the arm
+                outer = P0 + ex * (s * rx * k) + ez * (0.006 * k)
+                arm = [outer, face.side(s, -0.045 * k, eye_z + 0.010 * k, 0.010 * k), face.side(s, 0.0, eye_z + 0.012 * k, 0.008 * k),
+                       face.side(s, 0.030 * k, eye_z + 0.006 * k, 0.006 * k)]
+                ob = face.obj(f"glass_arm_{side}", tube(f"glass_arm_{side}", smooth_curve(arm, 5), GLASSW46[1] * 0.9 * k, "outline", face.rig, face.bone))
+                ob.lineart.usage = "EXCLUDE"
         ob = face.obj("glass_bridge", tube("glass_bridge", [inner["R"], (inner["R"] + inner["L"]) / 2 + Vector((0, -0.003 * k, 0.003 * k)), inner["L"]],
                                            GLASSW46[1] * k, "outline", face.rig, face.bone))
         ob.lineart.usage = "EXCLUDE"
+        if PROF48 == "B":
+            # v0.48: the side view's own near rim, centred on the near eye where the side view's face has it, and its arm
+            s = -1
+            x = s * (eye_dx + PROF48_EYE * k)
+            q = Vector((0, -1, 0)).rotation_difference(face.normal(x, eye_z))
+            ex, ez, nn = q @ Vector((1, 0, 0)), q @ Vector((0, 0, 1)), q @ Vector((0, -1, 0))
+            P0 = face.c + face.surf(x, eye_z) + nn * off * k
+            ring = [P0 + ex * (rx * k * math.cos(a)) + ez * (rz * k * math.sin(a)) for a in [i / 32 * 2 * math.pi for i in range(32)]]
+            ob = face.obj("p_glass_R", tube("p_glass_R", ring, GLASSW46[0] * k, "outline", face.rig, face.bone, closed=True))
+            ob.lineart.usage = "EXCLUDE"
+            outer = P0 + ex * (s * rx * k) + ez * (0.006 * k)
+            arm = [outer, face.side(s, -0.020 * k, eye_z + 0.011 * k, 0.009 * k), face.side(s, 0.012 * k, eye_z + 0.010 * k, 0.007 * k),
+                   face.side(s, 0.034 * k, eye_z + 0.005 * k, 0.006 * k)]
+            ob = face.obj("p_glass_arm_R", tube("p_glass_arm_R", smooth_curve(arm, 5), GLASSW46[1] * 0.9 * k, "outline", face.rig, face.bone))
+            ob.lineart.usage = "EXCLUDE"
     elif glasses:
         for side, s in (("L", 1), ("R", -1)):
             x = s * eye_dx
@@ -273,8 +371,12 @@ def gaze_dir(look):
     return Vector((math.sin(yaw) * math.cos(pitch), -math.cos(yaw) * math.cos(pitch), math.sin(pitch)))
 
 
-def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_gaze_target", extra_show=()):
+def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_gaze_target", extra_show=(), profile=False):
+    """profile (v0.48, PROF48): the states of a side view's face: the near eye and brow set round the cheek, the side view's own mouths,
+    and nothing of the far eye."""
     states = {}
+    pshift = PROF48_EYE * k if profile and "p_arcup_R" in face.objs else 0.0
+    arc = "p_arc" if pshift else "arc"
     ek = getattr(face, "ek", 1.0)
     EW, EH = EYE_W * ek, EYE_H * ek
     mid = (face.at(eye_dx, eye_z) + face.at(-eye_dx, eye_z)) / 2
@@ -291,27 +393,35 @@ def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_ga
         elif eyes == "wide":
             show |= {"white_L", "white_R", "pupil_L", "pupil_R"}
         elif eyes == "happy":
-            show |= {"arcup_L", "arcup_R"}
+            show |= {"arcup_L", arc + "up_R"}
         elif eyes == "laugh":
-            show |= {"arcup2_L", "arcup2_R"}
+            show |= {"arcup2_L", arc + "up2_R"}
         elif eyes == "closed":
-            show |= {"arcdn_L", "arcdn_R"}
-        show |= set(MOUTHS[e["mouth"]])
+            show |= {"arcdn_L", arc + "dn_R"}
+        show |= {("p_" if profile else "") + key for key in MOUTHS[e["mouth"]]}
         show |= {key + "_rim" for key in MOUTHS[e["mouth"]] if key + "_rim" in face.objs}      # v0.46, TPDB_MOUTH46 "D": the line's dark edge
         # v0.28, TPDB_BROW: no brows over closed eyes, which drew two dark lines to each eye ("dark marks around the eye and mouth area", "a slightly muddled drawing of her features")
         if not (eyes == "closed" and __import__("os").environ.get("TPDB_BROW", "B") == "B"):
             show |= {"brow_L", "brow_R"}
         if e.get("blush"):
             show |= {"blush_L", "blush_R"}
-        show |= {key for key in face.objs if key.startswith("glass")}
+        if profile and "p_glass_R" in face.objs:
+            # (pair bench 3, of the glasses in a side view: "the glasses hang at the very edge of the head and look partly off the face")
+            # the side view's own near rim, round the cheek with its eye, and its arm; nothing of the far rim or the bridge
+            show |= {"p_glass_R", "p_glass_arm_R"}
+        else:
+            show |= {key for key in face.objs if key.startswith("glass")}
         # v0.36: the bold moustache in every expression (every face part not named here is hidden, and the thin moustache, named
         # nowhere, has been hidden in every render since it was first built)
-        show |= {key for key in face.objs if key.startswith("mustache36")}
+        show |= {key for key in face.objs if key.startswith("p_mustache36" if profile and "p_mustache36" in face.objs else "mustache36")}
+        if profile:
+            # nothing of the far eye: its edge showed past the bridge of the nose as a sliver
+            show -= {key for key in show if key.endswith("_L") and not key.startswith("glass")}
         for key, ob in face.objs.items():
             st[ob.name] = {"hide": key not in show}
         f = e.get("eye", 1.0)
         for side, s in (("L", 1), ("R", -1)):
-            x = s * eye_dx
+            x = s * eye_dx + (s * pshift if side == "R" else 0.0)
             if eyes == "narrow":
                 st[face.objs[f"eye_{side}"].name]["basis"] = list_m(face.frame(x + ex, eye_z - 0.005 * k + ez, 0.0, scale=(EW * 1.10 * k, 0.010 * k, EH * 0.42 * k)))
                 st[face.objs[f"catch_{side}"].name]["hide"] = True
@@ -325,7 +435,7 @@ def people_expression_states(face, eye_dx, eye_z, k, gaze_anchor_name="ANCHOR_ga
             raise_, tilt = (e["brow"][0], e["brow"][1]) if side == "L" else (e["brow"][2], e["brow"][3])
             spin = math.radians(tilt) * (1 if side == "L" else -1)
             st[face.objs[f"brow_{side}"].name]["basis"] = list_m(
-                face.frame(x, eye_z + BROW_UP * k + raise_ * k, 0.004 * k, spin=spin, scale=(0.027 * k, 0.007 * k, 0.0095 * k)))
+                face.frame(x, eye_z + BROW_UP * k + raise_ * k, 0.004 * k, spin=spin, scale=tuple(a * k for a in getattr(face, "bsc", BROW_SC))))
         st[gaze_anchor_name] = {"basis": list_m(Matrix.Translation(mid + gaze_dir((gx, gz))))}
         states[name] = st
     return states

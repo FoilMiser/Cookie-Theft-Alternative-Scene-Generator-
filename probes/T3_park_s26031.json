@@ -6,8 +6,8 @@
  "seed": 26031,
  "mirror": false,
  "versions": {
-  "generator": "0.47.0",
-  "cast_builder": "0.47.0",
+  "generator": "0.48.0",
+  "cast_builder": "0.48.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -55,22 +55,24 @@
    }
   }
  },
- "features": [],
+ "features": [
+  "blanket"
+ ],
  "templates": [
   {
-   "id": "ducks_bread",
-   "kind": "inference",
+   "id": "ladder_nothing",
+   "kind": "contradiction",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "ladder_nothing",
-   "kind": "contradiction",
+   "id": "picnic",
+   "kind": "event",
    "event": "e2",
-   "units": 1
+   "units": 0
   },
   {
-   "id": "push_stroller",
+   "id": "ducks_swimming",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -81,7 +83,50 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is throwing bread to the ducks",
+   "text": "A duck is swimming in the pond",
+   "accepted": [
+    "duck",
+    "duck swimming",
+    "ducks",
+    "duck in the pond",
+    "duck in the water"
+   ],
+   "key": "duck",
+   "elements": [
+    "duck_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ducks_swimming",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.463,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 3.5,
+    "zipf_raw": 4.21,
+    "aoa_raw": 3.5,
+    "domain": null,
+    "area_px": 1944
+   },
+   "b": -0.471,
+   "p0": 0.616,
+   "pm1": 0.371,
+   "aoi_cells": [
+    "ML"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "action",
+   "text": "A woman is having a picnic",
    "accepted": {
     "who": [
      "woman",
@@ -91,141 +136,48 @@
      "person"
     ],
     "what": [
-     "feeding the ducks",
-     "throwing bread",
-     "feeding the birds",
-     "bread"
+     "having a picnic",
+     "picnic",
+     "sitting on a blanket",
+     "sitting on the grass"
     ]
    },
-   "key": "bread",
+   "key": "picnic",
    "elements": [
-    "duckfeeder_1",
-    "crumbs_3"
+    "picnicker_2",
+    "basket_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "ducks_bread",
-   "event": "e1",
+   "template": "picnic",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.057,
+    "s": 0.16,
     "r": 0,
     "d": 0.0,
-    "f": 0.5,
-    "a": 3.58,
-    "zipf_raw": 4.5,
-    "aoa_raw": 3.58,
+    "f": -0.2,
+    "a": 5.53,
+    "zipf_raw": 3.8,
+    "aoa_raw": 5.53,
     "domain": null,
-    "area_px": 16584
+    "area_px": 19168
    },
-   "b": -1.318,
-   "p0": 0.789,
-   "pm1": 0.579,
+   "b": -1.16,
+   "p0": 0.761,
+   "pm1": 0.54,
    "aoi_cells": [
-    "MC",
-    "BC"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "action",
-   "text": "A duck is swimming toward the shore",
-   "accepted": [
-    "duck",
-    "duck swimming",
-    "ducks in the pond"
-   ],
-   "key": "duck",
-   "elements": [
-    "hungryduck_2"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "ducks_bread",
-   "event": "e1",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": -1.34,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.21,
-    "a": 3.5,
-    "zipf_raw": 4.21,
-    "aoa_raw": 3.5,
-    "domain": null,
-    "area_px": 2312
-   },
-   "b": -0.533,
-   "p0": 0.63,
-   "pm1": 0.385,
-   "aoi_cells": [
-    "MC",
     "BL",
     "BC"
    ]
   },
   {
    "id": "i03",
-   "type": "inference",
-   "text": "The duck has come to eat the bread",
-   "accepted": [
-    "the duck wants the bread",
-    "the ducks are hungry",
-    "the duck is swimming over for food",
-    "the duck is eating the bread"
-   ],
-   "key": "hungry",
-   "elements": [
-    "hungryduck_2",
-    "crumbs_3"
-   ],
-   "cues": [
-    "hungryduck_2",
-    "crumbs_3"
-   ],
-   "effect": [
-    "crumbs_3"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "ducks_bread",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": -1.34,
-    "r": 1,
-    "d": 0.016,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.45,
-    "aoa_raw": 3.63,
-    "domain": null,
-    "area_px": 2312
-   },
-   "b": 0.739,
-   "p0": 0.323,
-   "pm1": 0.149,
-   "aoi_cells": [
-    "MC",
-    "BL",
-    "BC"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "entity",
    "text": "There is a ladder",
    "accepted": [
@@ -243,12 +195,12 @@
    "animate": false,
    "domain": null,
    "template": "ladder_nothing",
-   "event": "e2",
+   "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.445,
+    "s": -0.449,
     "r": 0,
     "d": 0.0,
     "f": 0.03,
@@ -256,17 +208,18 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": null,
-    "area_px": 8168
+    "area_px": 8124
    },
-   "b": -0.426,
-   "p0": 0.605,
+   "b": -0.424,
+   "p0": 0.604,
    "pm1": 0.36,
    "aoi_cells": [
-    "MR"
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i04",
    "type": "contradiction_notice",
    "text": "Something is wrong with the ladder",
    "accepted": [
@@ -288,12 +241,12 @@
    "animate": false,
    "domain": "physical",
    "template": "ladder_nothing",
-   "event": "e2",
+   "event": "e1",
    "features": {
     "type": "contradiction_notice",
     "chain": 0,
     "animate": false,
-    "s": -0.445,
+    "s": -0.449,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
@@ -301,17 +254,18 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 8168
+    "area_px": 8124
    },
-   "b": 0.162,
-   "p0": 0.46,
+   "b": 0.164,
+   "p0": 0.459,
    "pm1": 0.238,
    "aoi_cells": [
-    "MR"
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "contradiction_explain",
    "text": "The ladder is leaning on nothing, so it should fall over",
    "accepted": [
@@ -335,12 +289,12 @@
    "animate": false,
    "domain": "physical",
    "template": "ladder_nothing",
-   "event": "e2",
+   "event": "e1",
    "features": {
     "type": "contradiction_explain",
     "chain": 1,
     "animate": false,
-    "s": -0.445,
+    "s": -0.449,
     "r": 0,
     "d": 0.0,
     "f": 0.0,
@@ -348,72 +302,18 @@
     "zipf_raw": 4.03,
     "aoa_raw": 4.4,
     "domain": "physical",
-    "area_px": 8168
+    "area_px": 8124
    },
-   "b": 1.362,
-   "p0": 0.204,
+   "b": 1.365,
+   "p0": 0.203,
    "pm1": 0.086,
    "aoi_cells": [
-    "MR"
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i07",
-   "type": "action",
-   "text": "A grandfather is pushing a baby in a stroller",
-   "accepted": {
-    "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
-    ],
-    "what": [
-     "pushing a stroller",
-     "pushing a pram",
-     "pushing a baby carriage",
-     "baby",
-     "walking with a baby",
-     "buggy"
-    ]
-   },
-   "key": "stroller",
-   "elements": [
-    "pusher_5",
-    "stroller_6"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": true,
-   "domain": null,
-   "template": "push_stroller",
-   "event": "e3",
-   "features": {
-    "type": "action",
-    "chain": 0,
-    "animate": true,
-    "s": 0.524,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.92,
-    "a": 7.84,
-    "zipf_raw": 3.08,
-    "aoa_raw": 7.84,
-    "domain": null,
-    "area_px": 32028
-   },
-   "b": -1.126,
-   "p0": 0.755,
-   "pm1": 0.531,
-   "aoi_cells": [
-    "ML",
-    "BL"
-   ]
-  },
-  {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -456,7 +356,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -499,7 +399,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i08",
    "type": "entity",
    "text": "There is a path",
    "accepted": [
@@ -524,7 +424,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.838,
+    "s": 0.854,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -532,18 +432,18 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 49848
+    "area_px": 51000
    },
-   "b": -1.272,
-   "p0": 0.781,
-   "pm1": 0.568,
+   "b": -1.28,
+   "p0": 0.782,
+   "pm1": 0.57,
    "aoi_cells": [
     "MR",
     "BR"
    ]
   },
   {
-   "id": "i11",
+   "id": "i09",
    "type": "entity",
    "text": "There is a pond",
    "accepted": [
@@ -566,7 +466,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.055,
+    "s": 1.186,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -574,11 +474,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 67704
+    "area_px": 81416
    },
-   "b": -1.161,
-   "p0": 0.762,
-   "pm1": 0.54,
+   "b": -1.227,
+   "p0": 0.773,
+   "pm1": 0.557,
    "aoi_cells": [
     "ML",
     "MC",
@@ -587,7 +487,7 @@
    ]
   },
   {
-   "id": "i12",
+   "id": "i10",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -629,7 +529,7 @@
    ]
   },
   {
-   "id": "i13",
+   "id": "i11",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -674,24 +574,24 @@
   }
  ],
  "counts": {
-  "content": 10,
-  "inference_units": 2,
+  "content": 9,
+  "inference_units": 1,
   "contradictions": 1,
-  "items_total": 13
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.711,
-   "inference": 0.329
+   "content": 0.703,
+   "inference": 0.331
   },
   "theta_minus_1": {
-   "content": 0.483,
-   "inference": 0.158
+   "content": 0.473,
+   "inference": 0.162
   }
  },
  "bands": {
   "content_count": false,
-  "inference_units": true,
+  "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
   "inference_completeness": true
@@ -708,20 +608,16 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "19 drawn objects (tier band 20-30)"
+   "detail": "18 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 19,
-  "edge_density": 0.0253,
-  "png_bytes": 192696,
-  "jpeg_bytes": 130915
+  "objects": 18,
+  "edge_density": 0.0237,
+  "png_bytes": 165060,
+  "jpeg_bytes": 125257
  },
  "signature": [
-  [
-   "action",
-   0
-  ],
   [
    "action",
    0
@@ -765,10 +661,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "inference",
-   1
   ]
  ],
  "elements": [
@@ -820,8 +712,8 @@
     522.0
    ],
    "area_px": 155664,
-   "visible_px": 111856,
-   "occlusion": 0.281
+   "visible_px": 112056,
+   "occlusion": 0.28
   },
   {
    "id": "tree_line",
@@ -847,8 +739,8 @@
     1000.0
    ],
    "area_px": 51696,
-   "visible_px": 49848,
-   "occlusion": 0.036
+   "visible_px": 51000,
+   "occlusion": 0.013
   },
   {
    "id": "pond",
@@ -862,23 +754,23 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 67704,
-   "occlusion": 0.198
+   "visible_px": 81416,
+   "occlusion": 0.035
   },
   {
-   "id": "crumbs_3",
-   "label": "Bread crumbs flying toward the water",
-   "role": "scored",
-   "z": -64,
+   "id": "blanket",
+   "label": "Picnic blanket",
+   "role": "setting",
+   "z": -60,
    "bbox": [
-    456.0,
-    674.0,
-    600.0,
-    724.0
+    542.0,
+    808.0,
+    818.0,
+    924.0
    ],
-   "area_px": 796,
-   "visible_px": 768,
-   "occlusion": 0.035
+   "area_px": 14980,
+   "visible_px": 10124,
+   "occlusion": 0.324
   },
   {
    "id": "filler_bush_b",
@@ -909,6 +801,36 @@
    "area_px": 22556,
    "visible_px": 22556,
    "occlusion": 0.0
+  },
+  {
+   "id": "duck_1",
+   "label": "animal.duck_01__swim__neutral__y090",
+   "role": "scored",
+   "z": 612,
+   "bbox": [
+    348.0,
+    560.0,
+    420.0,
+    614.0
+   ],
+   "area_px": 1944,
+   "visible_px": 1944,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.duck_01__swim__neutral__y090",
+    "family": "animal.duck_01",
+    "scale": 0.3757,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "duck",
+     "accepted_names": [
+      "duck",
+      "duckling",
+      "bird"
+     ],
+     "category": "water_bird"
+    }
+   }
   },
   {
    "id": "lamp",
@@ -974,46 +896,16 @@
    "id": "ladder_4",
    "label": "Ladder leaning on nothing",
    "role": "scored",
-   "z": 668.81,
+   "z": 675.73,
    "bbox": [
-    1116.0,
-    416.0,
-    1222.0,
-    676.0
+    1114.0,
+    422.0,
+    1212.0,
+    682.0
    ],
-   "area_px": 8168,
-   "visible_px": 8168,
+   "area_px": 8124,
+   "visible_px": 8124,
    "occlusion": 0.0
-  },
-  {
-   "id": "hungryduck_2",
-   "label": "animal.duck_01__swim_look__neutral__y090",
-   "role": "scored",
-   "z": 700,
-   "bbox": [
-    486.0,
-    648.0,
-    564.0,
-    700.0
-   ],
-   "area_px": 2312,
-   "visible_px": 2312,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.duck_01__swim_look__neutral__y090",
-    "family": "animal.duck_01",
-    "scale": 0.4083,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "duck",
-     "accepted_names": [
-      "duck",
-      "duckling",
-      "bird"
-     ],
-     "category": "water_bird"
-    }
-   }
   },
   {
    "id": "tree",
@@ -1031,23 +923,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "duckfeeder_1",
-   "label": "person.mei__feed_birds__smile__y090",
+   "id": "picnicker_2",
+   "label": "person.mei__sit_ground__smile__y045",
    "role": "scored",
-   "z": 835,
+   "z": 885,
    "bbox": [
-    604.0,
-    552.0,
-    724.0,
-    842.0
+    464.0,
+    700.0,
+    668.0,
+    908.0
    ],
-   "area_px": 15816,
-   "visible_px": 15816,
-   "occlusion": 0.0,
+   "area_px": 15164,
+   "visible_px": 14120,
+   "occlusion": 0.069,
    "asset": {
-    "variant": "person.mei__feed_birds__smile__y090",
+    "variant": "person.mei__sit_ground__smile__y045",
     "family": "person.mei",
-    "scale": 0.4583,
+    "scale": 0.4769,
     "mirrored": true,
     "labels": {
      "everyday_name": "woman",
@@ -1068,55 +960,18 @@
    }
   },
   {
-   "id": "pusher_5",
-   "label": "person.tomas__push__smile__y090",
+   "id": "basket_3",
+   "label": "Picnic basket with a loaf and a bottle",
    "role": "scored",
-   "z": 927.62,
+   "z": 886,
    "bbox": [
-    236.0,
-    628.0,
-    394.0,
-    934.0
+    640.0,
+    792.0,
+    718.0,
+    888.0
    ],
-   "area_px": 18164,
-   "visible_px": 17772,
-   "occlusion": 0.022,
-   "asset": {
-    "variant": "person.tomas__push__smile__y090",
-    "family": "person.tomas",
-    "scale": 0.4926,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "grandfather",
-     "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
-     }
-    }
-   }
-  },
-  {
-   "id": "stroller_6",
-   "label": "Baby stroller",
-   "role": "scored",
-   "z": 931.62,
-   "bbox": [
-    96.0,
-    762.0,
-    260.0,
-    934.0
-   ],
-   "area_px": 14256,
-   "visible_px": 14256,
+   "area_px": 5048,
+   "visible_px": 5048,
    "occlusion": 0.0
   },
   {
@@ -1142,11 +997,11 @@
  "attempts": [
   [
    23031,
-   "could not place ladder_nothing; could not place push_stroller"
+   "could not place ladder_nothing"
   ],
   [
    24031,
-   "could not place ladder_nothing; could not place push_stroller"
+   "could not place ladder_nothing"
   ],
   [
    25031,
@@ -1154,10 +1009,10 @@
   ],
   [
    26031,
-   "layout 4: accepted after 3 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 3,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 23031,
@@ -1167,16 +1022,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "push_stroller"
-   ],
-   "modules": [
-    "ducks_bread"
+    "picnic",
+    "ducks_swimming"
    ],
    "contradictions": [
     "ladder_nothing"
    ]
   },
-  "placement_rev": 44
+  "placement_rev": 45
  },
  "probe": true
 }

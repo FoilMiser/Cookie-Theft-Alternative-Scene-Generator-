@@ -27,8 +27,12 @@ NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # v0.47: five for the eight templates of v0.46's list, each drawn or placed anew in this release: the four under the gate (dog_reading,
 # about_to_trip, sweep_fork, blocked_hose; vision/flaws_v046.md R1 to R4), bird_steals (R5) and the three of R6 (cat_stalks_bird, water_upward,
 # lost_balloon)
-NEED_T = {"dog_reading": 5, "about_to_trip": 5, "sweep_fork": 5, "blocked_hose": 5, "bird_steals": 5, "cat_stalks_bird": 5, "water_upward": 5,
-          "lost_balloon": 5}
+# v0.48: five for the four R rows of v0.47's list (about_to_trip, which failed the gate twice and has motion lines and a nearer obstacle now;
+# blocked_hose, lost_balloon, water_upward: vision/flaws_v047.md R1 to R4) and for five templates whose animal was drawn anew and carries the
+# reading: dog_reading, bird_steals and cat_stalks_bird (R5), walk_dog (the dog whose stand and walk lost its pair on the bench, and a walker
+# whose direction one bench reader had the other way) and dog_sleeping (not read small and far in the bench's fourth round)
+NEED_T = {"about_to_trip": 5, "blocked_hose": 5, "lost_balloon": 5, "water_upward": 5, "dog_reading": 5, "bird_steals": 5, "cat_stalks_bird": 5,
+          "walk_dog": 5, "dog_sleeping": 5}
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):

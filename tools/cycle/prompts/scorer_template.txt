@@ -1,6 +1,6 @@
 Score picture descriptions against an answer key, like a clinician scoring a picture-description test.
 
-Inputs (read only these files):
+Inputs (read only these files, each with the Read tool; do not list or search the folder):
 - @V@/desc_pic_@A@.md … desc_pic_@B@.md — blind descriptions of @N@ cartoon pictures (pic_@A@ to pic_@B@). Each has a free description, an inventory, and an "unsure or ambiguous" section.
 - @V@/keys_@T@.json — for each of those pictures, the scored items: id, type (entity, action, inference, contradiction_notice, contradiction_explain), the target text, and accepted phrasings.
 
@@ -11,11 +11,11 @@ For each item decide, using the whole description file (free description + inven
 - "misread" = the element was mentioned but read as something else (record what they said instead)
 For inference items, credit 1 only if the describer states the inferred meaning (the cause, prediction or intention), not just the visible elements. For contradiction items, credit 1 only if they say it is wrong/impossible/odd or describe the impossible fact itself.
 
-Write @V@/scores_@T@.json as:
+Write @V@/scores_@T@.json, with the Write tool, as:
 {"pic_@A@": {"items": {"i01": {"score": 1, "note": "short evidence or misreading"}, ...},
             "unintended": ["oddities the describer reported that are NOT scored items, e.g. 'bike standing by itself'"]}, ...}
 List under "unintended" only what the describer presents as looking wrong, impossible or confusing, at most three for a picture, the most striking first; leave out hedges about small details. Where the key lists the picture's "animals", end an oddity about one of them with its angle from the key in square brackets, e.g. "the dog's legs are hard to count [dog, three-quarter front]".
 Every item of every picture in keys_@T@.json must get exactly one score: before you finish, check that none is missing and none is invented, and say so in the summary file.
-Then write @V@/scores_summary_@T@.md: a table of mean score by item type, a list of every item scored 0, 0.5 or misread (pic, id, target text, what the describer said), and a list of all unintended oddities grouped by kind, with those about animals also counted by angle.
+Then write @V@/scores_summary_@T@.md, with the Write tool: a table of mean score by item type, a list of every item scored 0, 0.5 or misread (pic, id, target text, what the describer said), a list of every judgement call you scored 1 (pic, id, why it was a call: a near word, or the target beside another reading), and a list of all unintended oddities grouped by kind, with those about animals also counted by angle.
 
 Do not open any other file (no pictures, no code, no other keys or descriptions). Reply with a 10-line summary: mean score by type, every item below 1, and the most common unintended oddities.

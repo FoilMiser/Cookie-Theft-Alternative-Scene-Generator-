@@ -6,7 +6,7 @@ TPDB_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && { pwd -W 2>/dev/null || pw
 export TPDB_ROOT
 if [ -f "$TPDB_ROOT/.venv/Scripts/activate" ]; then . "$TPDB_ROOT/.venv/Scripts/activate"; else . "$TPDB_ROOT/.venv/bin/activate"; fi
 export PYTHONUTF8=1
-export TPDB_VER=${TPDB_VER:-0.47}
+export TPDB_VER=${TPDB_VER:-0.48}
 export TPDB_WORK=${TPDB_WORK:-$TPDB_ROOT/tpdb_work}
 # The scripts and the runbook say python3; on Windows that name is the Microsoft Store stub.
 python3() { python "$@"; }

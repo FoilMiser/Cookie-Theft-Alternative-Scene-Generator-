@@ -6,8 +6,8 @@
  "seed": 23042,
  "mirror": false,
  "versions": {
-  "generator": "0.47.0",
-  "cast_builder": "0.47.0",
+  "generator": "0.48.0",
+  "cast_builder": "0.48.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,17 +57,15 @@
  },
  "features": [
   "bench",
-  "clothesline",
-  "flowers",
-  "hose_reel",
-  "laundry"
+  "feeder",
+  "flowers"
  ],
  "templates": [
   {
-   "id": "drink_bench",
-   "kind": "event",
+   "id": "water_upward",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
@@ -75,58 +73,150 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A girl is sitting on the bench with a drink",
+   "text": "A teenager is watering the flowers",
    "accepted": {
     "who": [
+     "teenager",
+     "teen",
+     "boy",
      "girl",
-     "little girl",
-     "child",
      "kid",
-     "daughter"
+     "young person"
     ],
     "what": [
-     "drinking",
-     "having coffee",
-     "drinking tea",
-     "sitting on the bench",
-     "cup",
-     "mug"
+     "watering the flowers",
+     "watering the plants",
+     "watering can"
     ]
    },
-   "key": "drinking",
+   "key": "flowers",
    "elements": [
-    "sitter_1"
+    "waterer_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "drink_bench",
+   "template": "water_upward",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.561,
+    "s": -0.192,
     "r": 0,
     "d": 0.0,
-    "f": 0.71,
-    "a": 3.47,
-    "zipf_raw": 4.71,
-    "aoa_raw": 3.47,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 6936
+    "area_px": 11668
    },
-   "b": -1.312,
-   "p0": 0.788,
-   "pm1": 0.577,
+   "b": -1.476,
+   "p0": 0.814,
+   "pm1": 0.617,
    "aoi_cells": [
-    "BL"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the water from the watering can",
+   "accepted": [
+    "the water is weird",
+    "something's wrong with the water",
+    "that's not right"
+   ],
+   "key": "water",
+   "elements": [
+    "water_2"
+   ],
+   "cues": [
+    "water_2"
+   ],
+   "effect": [
+    "water_2"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -1.504,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 1836
+   },
+   "b": 0.452,
+   "p0": 0.389,
+   "pm1": 0.19,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The water is going up into the air instead of falling down onto the flowers",
+   "accepted": [
+    "water going up",
+    "water going the wrong way",
+    "water should fall down",
+    "water flowing upward"
+   ],
+   "key": "water",
+   "elements": [
+    "water_2"
+   ],
+   "cues": [
+    "water_2"
+   ],
+   "effect": [
+    "water_2"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "water_upward",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -1.504,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.52,
+    "aoa_raw": 2.37,
+    "domain": "physical",
+    "area_px": 1836
+   },
+   "b": 1.652,
+   "p0": 0.161,
+   "pm1": 0.066,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -169,7 +259,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -211,7 +301,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -252,7 +342,51 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
+   "type": "entity",
+   "text": "There is a bird feeder",
+   "accepted": [
+    "bird feeder",
+    "feeder",
+    "birdhouse",
+    "bird house",
+    "bird table"
+   ],
+   "key": "feeder",
+   "elements": [
+    "feeder"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.401,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.54,
+    "a": 7.29,
+    "zipf_raw": 3.46,
+    "aoa_raw": 7.29,
+    "domain": null,
+    "area_px": 8688
+   },
+   "b": -0.517,
+   "p0": 0.626,
+   "pm1": 0.382,
+   "aoi_cells": [
+    "TR",
+    "MR"
+   ]
+  },
+  {
+   "id": "i08",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -275,7 +409,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.894,
+    "s": 1.927,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -283,11 +417,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 221172
+    "area_px": 231524
    },
-   "b": -1.89,
-   "p0": 0.869,
-   "pm1": 0.709,
+   "b": -1.906,
+   "p0": 0.871,
+   "pm1": 0.712,
    "aoi_cells": [
     "ML",
     "MC",
@@ -295,7 +429,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i09",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -321,7 +455,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.836,
+    "s": 1.84,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
@@ -329,9 +463,9 @@
     "zipf_raw": 5.71,
     "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 203648
+    "area_px": 204952
    },
-   "b": -2.311,
+   "b": -2.313,
    "p0": 0.91,
    "pm1": 0.788,
    "aoi_cells": [
@@ -341,21 +475,16 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i10",
    "type": "entity",
-   "text": "Clothes are hanging on the line",
+   "text": "There is a bench",
    "accepted": [
-    "clothes",
-    "laundry",
-    "washing",
-    "clothesline",
-    "clothes line",
-    "towel",
-    "pants"
+    "bench",
+    "seat"
    ],
-   "key": "laundry",
+   "key": "bench",
    "elements": [
-    "laundry"
+    "bench"
    ],
    "cues": [],
    "effect": [],
@@ -368,81 +497,38 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.103,
+    "s": -0.105,
     "r": 0,
     "d": 0.0,
-    "f": 0.06,
-    "a": 6.05,
-    "zipf_raw": 4.06,
-    "aoa_raw": 6.05,
+    "f": 0.39,
+    "a": 4.21,
+    "zipf_raw": 4.39,
+    "aoa_raw": 4.21,
     "domain": null,
-    "area_px": 13236
+    "area_px": 13200
    },
-   "b": -0.847,
-   "p0": 0.7,
-   "pm1": 0.462,
+   "b": -0.945,
+   "p0": 0.72,
+   "pm1": 0.486,
    "aoi_cells": [
-    "MC"
-   ]
-  },
-  {
-   "id": "i08",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 25880
-   },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
-   "aoi_cells": [
-    "BL",
-    "BC"
+    "BL"
    ]
   }
  ],
  "counts": {
   "content": 8,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 8
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.794,
-   "inference": null
+   "content": 0.781,
+   "inference": 0.275
   },
   "theta_minus_1": {
-   "content": 0.595,
-   "inference": null
+   "content": 0.58,
+   "inference": 0.128
   }
  },
  "bands": {
@@ -464,18 +550,26 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0383,
-  "png_bytes": 141596,
-  "jpeg_bytes": 177964
+  "objects": 14,
+  "edge_density": 0.0376,
+  "png_bytes": 136211,
+  "jpeg_bytes": 173329
  },
  "signature": [
   [
    "action",
+   0
+  ],
+  [
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
    0
   ],
   [
@@ -598,23 +692,38 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 221172,
-   "occlusion": 0.082
+   "visible_px": 231524,
+   "occlusion": 0.039
   },
   {
-   "id": "filler_bush_left",
+   "id": "filler_bush_mid",
    "label": "Bush",
    "role": "filler",
    "z": 648,
    "bbox": [
-    292.0,
-    598.0,
-    428.0,
-    684.0
+    946.0,
+    602.0,
+    1074.0,
+    682.0
    ],
-   "area_px": 8296,
-   "visible_px": 7496,
-   "occlusion": 0.096
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
+  },
+  {
+   "id": "feeder",
+   "label": "Bird table on a post",
+   "role": "setting",
+   "z": 652,
+   "bbox": [
+    1208.0,
+    302.0,
+    1282.0,
+    664.0
+   ],
+   "area_px": 8688,
+   "visible_px": 8688,
+   "occlusion": 0.0
   },
   {
    "id": "filler_pots",
@@ -632,36 +741,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "clothesline",
-   "label": "Clothesline",
-   "role": "setting",
-   "z": 705,
-   "bbox": [
-    606.0,
-    382.0,
-    976.0,
-    708.0
-   ],
-   "area_px": 13848,
-   "visible_px": 13368,
-   "occlusion": 0.035
-  },
-  {
-   "id": "laundry",
-   "label": "Clothes hanging on the line",
-   "role": "setting",
-   "z": 706,
-   "bbox": [
-    648.0,
-    392.0,
-    778.0,
-    524.0
-   ],
-   "area_px": 13236,
-   "visible_px": 13236,
-   "occlusion": 0.0
-  },
-  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -673,8 +752,46 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 203648,
-   "occlusion": 0.006
+   "visible_px": 204952,
+   "occlusion": 0.0
+  },
+  {
+   "id": "waterer_1",
+   "label": "person.leo__water_plants__smile__y090",
+   "role": "scored",
+   "z": 820,
+   "bbox": [
+    526.0,
+    566.0,
+    628.0,
+    826.0
+   ],
+   "area_px": 11896,
+   "visible_px": 11668,
+   "occlusion": 0.019,
+   "asset": {
+    "variant": "person.leo__water_plants__smile__y090",
+    "family": "person.leo",
+    "scale": 0.4528,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
   },
   {
    "id": "flowers",
@@ -688,37 +805,22 @@
     838.0
    ],
    "area_px": 25880,
-   "visible_px": 25880,
-   "occlusion": 0.0
+   "visible_px": 25432,
+   "occlusion": 0.017
   },
   {
-   "id": "hose_reel",
-   "label": "Hose reel",
-   "role": "setting",
-   "z": 886,
+   "id": "water_2",
+   "label": "Water from the can",
+   "role": "scored",
+   "z": 837,
    "bbox": [
-    254.0,
-    804.0,
-    318.0,
-    888.0
+    440.0,
+    586.0,
+    532.0,
+    732.0
    ],
-   "area_px": 4264,
-   "visible_px": 4092,
-   "occlusion": 0.04
-  },
-  {
-   "id": "hose_tail",
-   "label": "End of the hose",
-   "role": "setting",
-   "z": 887,
-   "bbox": [
-    302.0,
-    842.0,
-    406.0,
-    924.0
-   ],
-   "area_px": 2004,
-   "visible_px": 2004,
+   "area_px": 1836,
+   "visible_px": 1836,
    "occlusion": 0.0
   },
   {
@@ -733,59 +835,7 @@
     930.0
    ],
    "area_px": 13200,
-   "visible_px": 10872,
-   "occlusion": 0.176
-  },
-  {
-   "id": "sitter_1",
-   "label": "person.nia__sit_drink__smile__y045",
-   "role": "scored",
-   "z": 931,
-   "bbox": [
-    76.0,
-    750.0,
-    174.0,
-    914.0
-   ],
-   "area_px": 6936,
-   "visible_px": 6936,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.nia__sit_drink__smile__y045",
-    "family": "person.nia",
-    "scale": 0.4939,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "girl",
-     "accepted_names": [
-      "girl",
-      "little girl",
-      "child",
-      "kid",
-      "daughter"
-     ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin2",
-      "hair": "puffs"
-     }
-    }
-   }
-  },
-  {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
-   "bbox": [
-    1142.0,
-    884.0,
-    1238.0,
-    962.0
-   ],
-   "area_px": 4400,
-   "visible_px": 4400,
+   "visible_px": 13200,
    "occlusion": 0.0
   },
   {
@@ -823,11 +873,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "drink_bench"
+   "contradictions": [
+    "water_upward"
    ]
   },
-  "placement_rev": 44
+  "placement_rev": 45
  },
  "probe": true
 }

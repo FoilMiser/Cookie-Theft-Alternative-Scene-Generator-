@@ -6,8 +6,8 @@ import bpy  # noqa: F401
 import bmesh
 from mathutils import Quaternion, Vector
 
-from .core import ISECT39, Rig, anchor, cyl, ellipsoid, flatten_above, flatten_below, link, mat, no_isect, open_end, rest_shade, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
-from .face import Face, build_people_face, people_expression_states
+from .core import HEAD48, ISECT39, Rig, anchor, cut_field, cyl, ellipsoid, flatten_above, flatten_below, head_f, head_g, head_pt, link, mat, no_isect, open_end, rest_shade, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
+from .face import FACE48, MOUTH_DZ, PROF48, PROF48_MOUTH, Face, build_people_face, people_expression_states
 
 # v0.23 (TPDB_HEAD; the release builds with B): the older man's fringe of hair kept to the back, and a fuller nose
 HEAD_STYLE = __import__("os").environ.get("TPDB_HEAD", "B")   # v0.23: B (bench: both readers had him walking the right way)
@@ -103,6 +103,17 @@ NOSE47 = __import__("os").environ.get("TPDB_NOSE47", "B")
 #   from the front, the back and the side its outline is the ball's, and turned 45 degrees the far cheek stands past the far eye.
 HEAD47 = __import__("os").environ.get("TPDB_HEAD47", "B")
 HN = 3.0 if HEAD47 == "B" else 2.0
+# v0.48 (core.HEAD48 "B"): the head's half width, half depth and half height in units of its radius (v0.47: 1.04, 0.98, 0.96, or 0.99, 0.98,
+# 1.00 for the two women with the narrower face), and how far its chin is lowered
+HEAD48_R = tuple(float(x) for x in __import__("os").environ.get("TPDB_HEAD48_R", "0.92,0.97,1.06").split(","))
+HEAD48_CHIN = __import__("os").environ.get("TPDB_HEAD48_CHIN", "")
+# (pair bench 1, vision/isolation_v048.md: under the narrower jaw more of the neck shows, a child's most of all, "long and thin like a stalk, so
+# the head looks perched on a stick". The chin is set lower by this much of the head's radius, a child's further, and a child's neck is fuller)
+HEAD48_CHIN_KIND = {"adult": -0.04, "child": -0.14}
+# TPDB_TORSO48 "B" (pair bench 1: "the shirt is very short and the trouser waist very high, so the upper body looks short against long legs",
+# of four figures in v0.47's drawing and in v0.48's alike): a tee worn over trousers or shorts is hemmed at the hips, as the hoodie and the
+# cardigan have been since v0.39, and not at the waist. "O": v0.47's short tee
+TORSO48 = __import__("os").environ.get("TPDB_TORSO48", "B")
 
 
 def person_skeleton(kind):
@@ -186,6 +197,11 @@ def build_person(spec):
     if NECK46 == "B" and HS < 1.0:
         # v0.46: the chin of a scaled-down head where a full-size head's is
         hc = P(0, 0, J["head_c"] - J["head_r"] * 0.96) + Vector((0, 0, HR[2]))
+    if HEAD48 == "B":
+        # v0.48 (core.HEAD48): taller than wide, with its chin where v0.47's was
+        chin_z = hc.z - HR[2]
+        HR = tuple(hr * a for a in HEAD48_R)
+        hc = Vector((hc.x, hc.y, chin_z + HR[2] + (float(HEAD48_CHIN) if HEAD48_CHIN else HEAD48_CHIN_KIND[kind]) * hr))
     sh = {sd: P(sg * sx, 0, J["sh_z"]) for sd, sg in (("L", 1), ("R", -1))}
     el = {sd: P(sg * (sx + 0.015 * s), 0, J["el_z"]) for sd, sg in (("L", 1), ("R", -1))}
     wr = {sd: P(sg * (sx + 0.025 * s), 0, J["wr_z"]) for sd, sg in (("L", 1), ("R", -1))}
@@ -207,6 +223,7 @@ def build_person(spec):
     top_col = spec["shirt"]
     dp = B["depth"]
     LB = B["limbs"]
+    LA = LB * B.get("arms", 1.0)      # v0.48: the arms' own thickness (a woman's arms as thick as her legs: "thick tube")
     TI = 1.12
 
     # --- torso (shirt / dress top / cardigan / hoodie) ----------------------
@@ -216,6 +233,8 @@ def build_person(spec):
              (0.160 * k * B["chest"] * TI, 0.116 * k * dp * TI), (0.128 * k * B["chest"] * TI, 0.086 * k * dp * TI)]
     tucked = MID39 == "B" and top in ("tee", "long", "vest") and bottom in ("pants", "shorts")
     hemmed = MID39 in ("B", "C") and top in ("hoodie", "cardigan") and not tucked
+    if TORSO48 == "B" and MID39 == "C" and top == "tee" and bottom in ("pants", "shorts"):
+        hemmed = True
     if MID39 in ("B", "C") and bottom == "dress":
         # (the dress's top narrows into its skirt at the waist, which carries on below as one piece)
         radii[0] = (0.128 * k * B["waist"] * TI, 0.100 * k * dp * TI)
@@ -644,6 +663,8 @@ def build_person(spec):
     # --- skin: neck + forearms (+ upper arms for sleeveless) ---------------
     verts = [P(0, 0, nk - 0.05 * s), P(0, 0, J["head_base"] + 0.03 * s)]
     neck_r = (0.060 if kind == "child" else COLLAR46_NR) * (1.0 + 0.5 * (HS - 1) if NECK46 == "O" or HS > 1.0 else 1.0)
+    if HEAD48 == "B" and kind == "child":
+        neck_r *= 1.12
     radii = [neck_r * k * 1.1, neck_r * k]
     wts = [{"chest": 1.0}, {"neck": 0.5, "head": 0.5}]
     edges = [(0, 1)]
@@ -654,28 +675,28 @@ def build_person(spec):
             if LIMB47 == "B":
                 # v0.47: the upper arm narrows to the elbow, the forearm swells a little under it and narrows to the wrist
                 verts += [start, el[sd], el[sd].lerp(wr[sd], 0.28), wr[sd], wr[sd] + Vector((0, 0, -0.040 * k))]
-                radii += [0.051 * k * LB, 0.041 * k * LB, 0.044 * k * LB, 0.028 * k * LB, 0.022 * k * LB]
+                radii += [0.051 * k * LA, 0.041 * k * LA, 0.044 * k * LA, 0.028 * k * LA, 0.022 * k * LA]
                 wts += [{f"upper_arm_{sd}": 1.0}, {f"upper_arm_{sd}": 0.5, f"forearm_{sd}": 0.5}, {f"forearm_{sd}": 1.0}, {f"forearm_{sd}": 1.0}, {f"hand_{sd}": 1.0}]
                 edges += [(i0, i0 + 1), (i0 + 1, i0 + 2), (i0 + 2, i0 + 3), (i0 + 3, i0 + 4)]
                 continue
             verts += [start, el[sd], wr[sd]]
-            radii += [0.049 * k * LB, 0.045 * k * LB, 0.038 * k * LB] if ARM46 == "B" else [0.046 * k * LB, 0.043 * k * LB, 0.037 * k * LB]
+            radii += [0.049 * k * LA, 0.045 * k * LA, 0.038 * k * LA] if ARM46 == "B" else [0.046 * k * LA, 0.043 * k * LA, 0.037 * k * LA]
             wts += [{f"upper_arm_{sd}": 1.0}, {f"upper_arm_{sd}": 0.5, f"forearm_{sd}": 0.5}, {f"forearm_{sd}": 1.0}]
             edges += [(i0, i0 + 1), (i0 + 1, i0 + 2)]
             if CLEAN46 == "B":
                 # v0.46: the forearm runs on, narrowing, to the middle of the hand. It ended at the wrist wider than the hand's top, and the
                 # rim of that end was the line across every wrist
-                verts.append(wr[sd] + Vector((0, 0, -0.040 * k))); radii.append(0.024 * k * LB); wts.append({f"hand_{sd}": 1.0})
+                verts.append(wr[sd] + Vector((0, 0, -0.040 * k))); radii.append(0.024 * k * LA); wts.append({f"hand_{sd}": 1.0})
                 edges.append((i0 + 2, i0 + 3))
     else:
         for sd in ("L", "R"):
             i0 = len(verts)
             verts += [wr[sd] + (el[sd] - wr[sd]) * 0.12, wr[sd]]
-            radii += [0.040 * k * LB, 0.037 * k * LB] if LIMB47 != "B" else [0.033 * k * LB, 0.028 * k * LB]
+            radii += [0.040 * k * LA, 0.037 * k * LA] if LIMB47 != "B" else [0.033 * k * LA, 0.028 * k * LA]
             wts += [{f"forearm_{sd}": 1.0}, {f"forearm_{sd}": 1.0}]
             edges += [(i0, i0 + 1)]
             if CLEAN46 == "B":
-                verts.append(wr[sd] + Vector((0, 0, -0.040 * k))); radii.append((0.022 if LIMB47 == "B" else 0.024) * k * LB); wts.append({f"hand_{sd}": 1.0})
+                verts.append(wr[sd] + Vector((0, 0, -0.040 * k))); radii.append((0.022 if LIMB47 == "B" else 0.024) * k * LA); wts.append({f"hand_{sd}": 1.0})
                 edges.append((i0 + 1, i0 + 2))
     skin_object("Skin", verts, edges, radii, spec["skin"], rig, wts)
 
@@ -701,10 +722,23 @@ def build_person(spec):
             ellipsoid(f"Toe_{sd}", P(sg * hx, -0.062 * s, 0.034 * s), (0.058 * k, 0.080 * k, 0.036 * k), spec["shoes"], rig, f"foot_{sd}")
 
     # --- head --------------------------------------------------------------
-    ellipsoid("Head", hc, HR, spec["skin"], rig, "head", seg=40, rings=22, sq=HN)
+    ellipsoid("Head", hc, HR, spec["skin"], rig, "head", seg=40, rings=22, sq=HN, head={} if HEAD48 == "B" else None)
     for sd, sg in (("L", 1), ("R", -1)):
+        if HEAD48 == "B" and HAIR48 == "B" and spec.get("hair") == "long":
+            continue        # v0.48: long hair lies over the ears (an ear stood out through it like a knob)
+        if HEAD48 == "B":
+            # v0.48: on the egg head the ear sits on the side of the head at its own height, a little behind the middle
+            ez = -0.030 * kh
+            ezs = ez / HR[2]
+            # (pair bench 3: "large and placed near the middle of the side of the head, so the head reads as seen from behind": smaller, a
+            # little further back)
+            ellipsoid(f"Ear_{sd}", hc + Vector((sg * HR[0] * head_f(ezs) * 0.985, 0.022 * kh - HR[1] * head_g(ezs), ez)),
+                      (0.015 * kh, 0.021 * kh, 0.031 * kh), spec["skin"], rig, "head")
+            continue
         ellipsoid(f"Ear_{sd}", hc + Vector((sg * HR[0] * 0.97, 0.005, -0.012 * kh)), (0.016 * kh, 0.026 * kh, 0.034 * kh), spec["skin"], rig, "head")
     face = Face(rig, "head", hc, HR, kh, n=HN)
+    if FACE48 == "B" and spec.get("brow"):
+        face.brow_k = spec["brow"]          # v0.48: (length, depth, weight) of this face's brows against the standard
     eye_dx, eye_z = 0.060 * kh, 0.010 * kh
     kf = kh
     if AF:
@@ -712,7 +746,13 @@ def build_person(spec):
         eye_dx, eye_z, kf = 0.056 * kh, -0.002 * kh, kh * 0.88
     # v0.47 (TPDB_HEAD47 "B"): the eyes a little nearer each other, so the far one stands clear of the outline in a three-quarter view
     eye_dx *= 0.92 if HEAD47 == "B" else 1.0
-    if HEAD_STYLE == "B" and spec.get("hair") == "bald_ring":
+    if FACE48 == "B":
+        # v0.48 (face.FACE48): one layout for every face, the eyes just under the middle of the taller head
+        eye_dx, eye_z, kf = 0.052 * kh, -0.004 * kh, kh * (0.94 if AF else 1.0)
+    if FACE48 == "B":
+        nk = kh * (1.22 if HEAD_STYLE == "B" and spec.get("hair") == "bald_ring" else 1.0)
+        nose = ellipsoid("Nose", face.at(0, eye_z - 0.046 * kh, 0.003 * kh), (0.020 * nk, 0.024 * nk, 0.018 * nk), spec["skin"], rig, "head")
+    elif HEAD_STYLE == "B" and spec.get("hair") == "bald_ring":
         # v0.23 bench B: a fuller nose standing out from the face, so a profile shows which way the face is turned
         nose = ellipsoid("Nose", face.at(0, eye_z - 0.044 * kh, 0.010 * kh), (0.026 * kh, 0.030 * kh, 0.022 * kh), spec["skin"], rig, "head")
     elif NOSE47 in ("B", "C"):
@@ -724,6 +764,12 @@ def build_person(spec):
         no_isect(nose)          # no ring where it passes into the face: its own outline shows only where it stands clear of the face
     build_hair(spec, rig, hc, HR, kh)
     build_facial_hair(spec, rig, face, eye_z, kh)
+    if PROF48 == "B" and spec.get("facial_hair"):
+        # v0.48 (face.PROF48): the moustache a second time, round the cheek with the side view's mouth (pair bench 3, of the side view's
+        # mouth round the cheek under a moustache left at the front: "a small brown smudge below the nose")
+        face.xoff = -PROF48_MOUTH * kf
+        build_facial_hair(spec, rig, face, eye_z, kh, pre="p_")
+        face.xoff = 0.0
     build_hat(spec, rig, hc, HR, kh)
     if spec.get("backpack"):
         # v0.24 bench (TPDB_TEEN=B): a school backpack on the chest bone, with a pocket and two straps over the shoulders
@@ -750,14 +796,16 @@ def build_person(spec):
     anchor(rig, "gaze_target", mid + Vector((0, -1.0, 0)), "head")
     anchor(rig, "head_top", hc + Vector((0, 0, HR[2] + 0.02 * kh)), "head")
     anchor(rig, "seat", P(0, 0.02 * s, J["pelvis"] - 0.10 * s), "hips")
-    anchor(rig, "mouth", face.at(0, eye_z - 0.080 * kh), "head")
+    anchor(rig, "mouth", face.at(0, eye_z + MOUTH_DZ * kf if FACE48 == "B" else eye_z - 0.080 * kh), "head")
     anchor(rig, "chest", P(0, -0.12 * s, J["chest"]), "spine")
     states = people_expression_states(face, eye_dx, eye_z, kf)
+    states_p = people_expression_states(face, eye_dx, eye_z, kf, profile=True) if PROF48 == "B" else None
 
     ctx = PersonCtx()
     ctx.J, ctx.S, ctx.s, ctx.k, ctx.kh, ctx.HS = J, S, s, k, kh, HS
     ctx.hc, ctx.HR, ctx.face, ctx.eye_dx, ctx.eye_z = hc, HR, face, eye_dx, eye_z
     ctx.spec, ctx.kind = spec, kind
+    ctx.states_profile = states_p
     rest_shade()        # v0.47 (TPDB_SHADE47): the trunk's cloth keeps its upright shading; the rig is at rest here
     return rig, states, ctx
 
@@ -885,6 +933,8 @@ def _shell(name, hc, HR, extra, keep, matkey, rig, k, thick=0.012, subsurf=1):
     bmesh.ops.delete(bm, geom=doomed, context="VERTS")
     for vv in bm.verts:
         q = squircle(vv.co, HN)
+        if HEAD48 == "B":
+            q = head_pt(q)
         vv.co = Vector((q.x * (HR[0] + extra), q.y * (HR[1] + extra), q.z * (HR[2] + extra)))
     bmesh.ops.solidify(bm, geom=bm.faces[:], thickness=thick * k)
     ob = _mesh_object(name, bm, matkey)
@@ -934,11 +984,133 @@ CURLY_SIDE_BACK = 0.10
 CURLY_TEMPLE = 0.30
 
 
+# v0.48 (TPDB_HAIR48; vision/isolation_v048.md): hair with a drawn hairline. Until v0.47 every head of hair was a shell of the ball cut where a
+# grid's points passed a test: a level fringe straight across the brow and a square corner at each temple, a bowl on every head. "B": the
+# shell is cut along the zero line of a smooth field (core.cut_field), so a hairline is a curve: higher over the middle of the brow or at a
+# parting, rounding down into the temple, a short sideburn in front of the ear and the ear left clear on a short cut, the hair a little
+# fuller toward the crown. "O": v0.47's hair
+HAIR48 = __import__("os").environ.get("TPDB_HAIR48", "B")
+
+
+def _smin(a, b, r=0.10):
+    return 0.5 * (a + b - math.sqrt((a - b) ** 2 + r * r))
+
+
+def _sstep(a, b, x):
+    t = max(0.0, min(1.0, (x - a) / (b - a)))
+    return t * t * (3 - 2 * t)
+
+
+def _bump(x, c, w):
+    t = max(0.0, 1.0 - abs(x - c) / w)
+    return t * t * (3 - 2 * t)
+
+
+def _hair_field(top, y_front, low, r=0.10):
+    """Where there is no hair (positive): in front of the line y = -y_front below the hairline top(x), and below the lower edge low(y)."""
+    def f(c):
+        return -_smin(-_smin(-c.y - y_front, top(c.x) - c.z, r), c.z - low(c.y), 0.06)
+    return f
+
+
+def _shell48(name, hc, HR, extra, field, matkey, rig, k, thick=0.012, subsurf=1, crown=0.0, seg=64, rings=40):
+    """A shell of the head cut along the zero line of field (a number for each point of the unit ball; the positive side goes)."""
+    bm = bmesh.new()
+    bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
+    cut_field(bm, {vv: field(vv.co) for vv in bm.verts})
+    for vv in bm.verts:
+        c = vv.co.copy()
+        q = head_pt(squircle(c, HN))
+        up = extra + crown * max(0.0, c.z) ** 1.5
+        vv.co = Vector((q.x * (HR[0] + up), q.y * (HR[1] + up), q.z * (HR[2] + up)))
+    bmesh.ops.solidify(bm, geom=bm.faces[:], thickness=thick * k)
+    ob = _mesh_object(name, bm, matkey)
+    ob.location = hc
+    if subsurf:
+        sub = ob.modifiers.new("Subsurf", "SUBSURF")
+        sub.levels = sub.render_levels = subsurf
+    upd()
+    rig.attach(ob, "head")
+    return ob
+
+
+def build_hair48(spec, rig, hc, HR, k):
+    """v0.48: the styles drawn with a hairline. Returns False for a style it does not draw (build_hair then draws v0.47's)."""
+    style, col = spec["hair"], spec["hair_col"]
+    hcx = hc + Vector((0, 0.006 * k, 0.010 * k))
+    part = spec.get("part", "side")
+    if style == "short":
+        # a short cut with a parting: the hairline a little higher on the parting's side, rounding down into the temples; a short sideburn in
+        # front of the ear; the ear clear; behind the ear down to the nape
+        sgn = -1.0 if spec.get("part_side", "L") == "L" else 1.0
+
+        def top(x):
+            return 0.58 + sgn * 0.08 * x - 0.14 * x * x
+
+        def low(y):
+            return 0.10 - 0.26 * _bump(y, -0.20, 0.16) - 0.62 * _sstep(0.18, 0.50, y)
+        _shell48("Hair", hcx, HR, 0.012 * k, _hair_field(top, 0.38, low), col, rig, k, thick=0.014, crown=0.012 * k)
+        return True
+    if style in ("long", "ponytail", "bun", "low_bun"):
+        if part == "center":
+            def top(x):
+                return 0.80 - 0.64 * math.sqrt(x * x + 0.006)
+        else:
+            sgn = -1.0 if spec.get("part_side", "L") == "L" else 1.0
+
+            def top(x):
+                # swept from a parting on one side: high at the parting, lower across the brow to the other temple
+                return 0.60 + sgn * 0.22 * x - 0.22 * x * x
+        if style == "long":
+            def low(y):
+                return -0.70 if y < 0.35 else -2.0
+            # (0.50 at first: seen from the side the hair lay over the cheek to the eye's corner, "no visible face" as v0.18's readers had
+            # it of the bob; the side panels stop short of the cheek)
+            yf = 0.40
+        else:
+            # drawn back: the ear clear, the hair behind it down to the nape
+            def low(y):
+                return 0.06 - 0.60 * _sstep(0.16, 0.48, y)
+            yf = 0.40
+        _shell48("Hair", hcx, HR, 0.014 * k, _hair_field(top, yf, low), col, rig, k, thick=0.016, crown=0.012 * k)
+        return True
+    if style == "puffs":
+        # parted in the middle and drawn up into the two puffs: the ear clear
+        def top(x):
+            return 0.74 - 0.46 * math.sqrt(x * x + 0.006)
+
+        def low(y):
+            return 0.08 - 0.58 * _sstep(0.16, 0.48, y)
+        _shell48("Hair", hcx, HR, 0.012 * k, _hair_field(top, 0.40, low), col, rig, k, thick=0.014, crown=0.010 * k)
+        return True
+    if style == "buzz":
+        # cropped close: a rounded hairline, squared a little at the temples, the ear clear
+        def top(x):
+            return 0.56 - 0.20 * x * x
+
+        def low(y):
+            return 0.12 - 0.16 * _bump(y, -0.18, 0.14) - 0.52 * _sstep(0.18, 0.48, y)
+        _shell48("Hair", hc + Vector((0, 0.004 * k, 0.006 * k)), HR, 0.004 * k, _hair_field(top, 0.36, low, r=0.07), col, rig, k, thick=0.008)
+        return True
+    if style == "curly":
+        # the cap under the curls: a rounded hairline, the cheek clear in a side view (v0.19)
+        def top(x):
+            return 0.54 - 0.12 * x * x
+
+        def low(y):
+            return 0.16 - 0.60 * _sstep(0.14, 0.46, y)
+        _shell48("Hair", hcx, HR, 0.012 * k, _hair_field(top, 0.30, low), col, rig, k, thick=0.014)
+        return True
+    return False
+
+
 def build_hair(spec, rig, hc, HR, k):
     style, col = spec["hair"], spec["hair_col"]
     off = Vector((0, 0.006 * k, 0.012 * k))
     hcx = hc + off
-    if style in ("short", "long", "bun", "ponytail", "puffs", "low_bun") and spec.get("sideburns"):
+    if HAIR48 == "B" and HEAD48 == "B" and build_hair48(spec, rig, hc, HR, k):
+        pass
+    elif style in ("short", "long", "bun", "ponytail", "puffs", "low_bun") and spec.get("sideburns"):
         # v0.39 bench (TPDB_BEN39): short hair with sideburns, a strip forward of each ear down to the cheekbone, and a side part
         def keep39(c):
             if abs(c.x) > 0.74 and -0.58 < c.y < -0.20 and -0.20 < c.z < 0.50:
@@ -980,7 +1152,11 @@ def build_hair(spec, rig, hc, HR, k):
         _blob_chain("HairBack", [hc + Vector((0, 0.07 * k, 0.05 * k)), hc + Vector((0, 0.10 * k, -0.12 * k)), hc + Vector((0, 0.08 * k, -0.30 * k))],
                     [(0.15 * k, 0.09 * k), (0.15 * k, 0.07 * k), (0.12 * k, 0.04 * k)], col, rig)
     if style == "bun":
-        ellipsoid("Bun", hc + Vector((0, 0.07 * k, HR[2] * 0.92)), (0.062 * k, 0.058 * k, 0.055 * k), col, rig, "head")
+        if HAIR48 == "B" and HEAD48 == "B":
+            # (pair bench 3: "the bun on top is very small and hard to see, so the hair could read as a cap or helmet")
+            ellipsoid("Bun", hc + Vector((0, 0.085 * k, HR[2] * 0.96)), (0.076 * k, 0.070 * k, 0.064 * k), col, rig, "head")
+        else:
+            ellipsoid("Bun", hc + Vector((0, 0.07 * k, HR[2] * 0.92)), (0.062 * k, 0.058 * k, 0.055 * k), col, rig, "head")
     if style == "low_bun":
         # v0.42 (TPDB_MEI42): the hair drawn back from the face and tied in a bun at the nape (a bun on top stood "like a topknot", v0.41)
         ellipsoid("Bun", hc + Vector((0, HR[1] * 1.02, -0.035 * k)), (0.060 * k, 0.050 * k, 0.052 * k), col, rig, "head")
@@ -1004,29 +1180,37 @@ def build_hair(spec, rig, hc, HR, k):
             if d.y < CURLY_SIDE_BACK and d.z < CURLY_TEMPLE:
                 continue
             d = squircle(d, HN)
+            if HEAD48 == "B":
+                d = head_pt(d)
             ellipsoid(f"Curl{i}", hc + Vector((d.x * HR[0], d.y * HR[1], d.z * HR[2])) * 1.0 + d * 0.012 * k,
                       (0.042 * k,) * 3, col, rig, "head", seg=12, rings=8)
 
 
-def build_facial_hair(spec, rig, face, eye_z, k):
+def build_facial_hair(spec, rig, face, eye_z, k, pre=""):
+    """pre "p_" (v0.48, face.PROF48): only the moustache's curve, a second time, for the side view's face (face.xoff set by the caller)."""
     col = spec.get("facial_hair_col", spec["hair_col"])
     fh = spec.get("facial_hair")
     if not fh:
         return
-    mz = eye_z - 0.080 * k
+    mz = eye_z + (MOUTH_DZ if FACE48 == "B" else -0.080) * k
     if fh == "mustache" and MOUSTACHE47 == "B":
         # v0.47 (TPDB_MOUSTACHE47): see the switch
         w, z0, zt = 0.064 * k, mz + 0.021 * k, mz + 0.007 * k
+        if FACE48 == "B":
+            # v0.48 (pair bench 1: "very large and curled, sitting over an open red mouth; slightly comic", "long drooping moustache crosses
+            # the lower face and partly covers the mouth"): shorter, its ends level with the mouth's corners and not below them
+            # (pair bench 2: "no mouth under the moustache, so the face is a little blank": higher, under the nose, and lighter)
+            w, z0, zt = 0.046 * k, mz + 0.031 * k, mz + 0.022 * k
         half = [(0.0, z0), (0.25 * w, z0 + 0.0015 * k), (0.50 * w, z0), (0.78 * w, z0 - 0.45 * (z0 - zt)), (w, zt)]
         pts = [(-x, z) for x, z in reversed(half[1:])] + half
         dense = [(q.x, q.z) for q in smooth_curve([(x, 0.0, z) for x, z in pts], n=6)]
         dark = {"hair_brown": "hair_brown_dark"}.get(col, col)
-        ob = face.curve_on("mustache36", dense, 0.0125 * k, dark, 0.006 * k)
+        ob = face.curve_on(pre + "mustache36", dense, (0.0092 if FACE48 == "B" else 0.0125) * k, dark, 0.006 * k)
         n, nip, full = len(dense) - 1, 0.5, 0.28
         for i, q in enumerate(ob.data.splines[0].points):
             t = abs(i / n - 0.5) * 2
             q.radius = nip + (1.0 - nip) * t / full if t < full else 1.0 - 0.78 * ((t - full) / (1.0 - full)) ** 1.5
-        ob.name = "FH_mustache36"
+        ob.name = "FH_" + pre + "mustache36"
     elif fh == "mustache" and __import__("os").environ.get("TPDB_MOUSTACHE36", "M") == "M":
         # v0.36: chosen on the bench (vision/isolation_v036.md; TPDB_MOUSTACHE36=O builds v0.35's). A bold white moustache, wider and thicker and standing off the skin, an age cue that a hat cannot cover (the
         # thin one did not show at scene size, and under the bucket the grandfather was "a boy")
@@ -1044,19 +1228,23 @@ def build_facial_hair(spec, rig, face, eye_z, k):
             # brown blob", "a moustache, or dirt"). "B" thins from the middle on, to 0.38 of its thickness; "C" keeps its thickness over
             # most of its length and rounds off only the ends, to 0.70
             dense = [(q.x, q.z) for q in smooth_curve([(x, 0.0, z) for x, z in pts], n=6)]
-            ob = face.curve_on("mustache36", dense, rad, col, out)
+            ob = face.curve_on(pre + "mustache36", dense, rad, col, out)
             n = len(dense) - 1
             taper, power = (0.62, 1.6) if MOUSTACHE46 == "B" else (0.30, 2.6)
             for i, q in enumerate(ob.data.splines[0].points):
                 t = abs(i / n - 0.5) * 2
                 q.radius = 1.0 - taper * t ** power
         else:
-            ob = face.curve_on("mustache36", pts, rad, col, out)
-        ob.name = "FH_mustache36"
-    elif fh in ("mustache", "beard"):
+            ob = face.curve_on(pre + "mustache36", pts, rad, col, out)
+        ob.name = "FH_" + pre + "mustache36"
+    elif fh == "beard" and HAIR48 == "B" and HEAD48 == "B":
+        pass        # v0.48: the beard below is drawn round the mouth and is its own moustache
+    elif fh in ("mustache", "beard") and not pre:
         pts = [(-0.034 * k, mz + 0.006 * k), (-0.016 * k, mz + 0.020 * k), (0, mz + 0.018 * k), (0.016 * k, mz + 0.020 * k), (0.034 * k, mz + 0.006 * k)]
         ob = face.curve_on("mustache", pts, 0.0105 * k, col, 0.010 * k)
         ob.name = "FH_mustache"
+    if fh == "beard" and pre and not (HAIR48 == "B" and HEAD48 == "B"):
+        return
     if fh == "beard":
         ax, ay, az = face.ax, face.ay, face.az
         mzr = (mz - 0.016 * k) / az
@@ -1077,7 +1265,42 @@ def build_facial_hair(spec, rig, face, eye_z, k):
                 # now that the turned head shows it; "hair and beard merge into one dark shape")
                 return abs(c.x) > 0.60 and -0.9 < c.z < -0.34 and c.y < 0.05
             return abs(c.x) > 0.60 and -0.9 < c.z < 0.02 and c.y < 0.25
-        _shell("Beard", face.c, (ax, ay, az), 0.004 * k, keep, col, rig, k, thick=0.020)
+        if HAIR48 == "B" and HEAD48 == "B":
+            # v0.48: a short full beard: from the sideburn along the jaw and under the mouth, its upper edge a curve that leaves the cheeks and
+            # the lower lip clear (v0.28's goatee was a cap on the chin's underside: on the egg head "a strap")
+            # (first trial: a full beard from the sideburns round the jaw. With cropped hair of its own colour it closed the face in a dark
+            # ring, a hood or a mask, as v0.27's readers had it: "a chin strap, helmet strap or face mask".) A moustache and a chin beard in
+            # one piece round the mouth, the mouth in an opening of it, the cheeks and the jaw's sides clear
+            # (second trial: a moustache and chin beard in one piece with an opening for the mouth: a square patch.) A chin beard whose
+            # upper edge is a curve under the lower lip, rising to the mouth's corners, where the moustache's ends come down to it
+            # (third trial, pair bench 1: a chin beard and a moustache in the hair's own dark colour were, turned, "a larger dark mass that runs
+            # from the mouth into the cheek, reading more like a smudge or shadow than facial hair".) A short full beard as a tone: a shade
+            # darker than the skin, with no line round it, from the sideburn along the jaw and under the lower lip, and a moustache of the
+            # same tone; the mouth's line stays clear between them
+            # (fourth trial, pair bench 2: as a tone with no line it was "a soft darker-brown patch on the cheek and jaw with no edge, so it
+            # reads more like a shadow or dirt than a beard", and v0.47's small dark one "reads as a beard".) A chin beard in the hair's own
+            # colour with its line, rounded, under the lower lip and round the chin, the cheeks clear; and a short moustache over the mouth
+            # that does not come down to it, so the mouth shows between the two
+            mzs = mz / az
+
+            def nobeard(c):
+                up = mzs - 0.125 + 0.16 * min(1.0, abs(c.x) / 0.34) ** 2
+                return -_smin(_smin(up - c.z, 0.36 - abs(c.x), 0.12), 0.20 - c.y, 0.10)
+            if not pre:
+                _shell48("Beard", face.c, (ax, ay, az), 0.003 * k, nobeard, col, rig, k, thick=0.010)
+            w, z0 = 0.040 * k, mz + 0.030 * k
+            half = [(0.0, z0), (0.30 * w, z0 + 0.002 * k), (0.62 * w, z0 - 0.001 * k), (0.86 * w, z0 - 0.005 * k), (w, z0 - 0.010 * k)]
+            pts = [(-x, z) for x, z in reversed(half[1:])] + half
+            dense = [(q.x, q.z) for q in smooth_curve([(x, 0.0, z) for x, z in pts], n=6)]
+            ob = face.curve_on(pre + "mustache36", dense, 0.0088 * k, col, 0.004 * k)
+            ob.lineart.usage = "EXCLUDE"
+            n = len(dense) - 1
+            for i, q in enumerate(ob.data.splines[0].points):
+                t = abs(i / n - 0.5) * 2
+                q.radius = 0.62 + 0.38 * min(1.0, t / 0.3) if t < 0.3 else 1.0 - 0.45 * ((t - 0.3) / 0.7) ** 1.5
+            ob.name = "FH_" + pre + "mustache36"
+        else:
+            _shell("Beard", face.c, (ax, ay, az), 0.004 * k, keep, col, rig, k, thick=0.020)
 
 
 def build_hat(spec, rig, hc, HR, k):

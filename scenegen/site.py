@@ -49,61 +49,66 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v046", "v047"
+PREV, CUR = "v047", "v048"
 
-# v0.47 drew the cast again from a study of one figure and worked eight templates on a blind bench (vision/isolation_v047.md, vision/design_tests_v047.md):
-# the eight, two that were looked at and left, and the plain events that redrawn figures carry (vision/flaws_v047.md)
+# v0.48 drew the heads, faces and hair again from a study of two figures, and every animal (vision/isolation_v048.md, vision/design_tests_v048.md): the one
+# template it worked, the templates of the v0.47 list that carry the redrawn figures, the two that fell, and the plain events of the redrawn animals
+# (vision/flaws_v048.md)
 REDRAWN_NOTES = {
-    "dog_reading": "A pose of its own, the open paper held in both forepaws below the muzzle, drawn four times on the bench. In full in five pictures: 'a brown dog wearing glasses is sitting up and reading a newspaper, which a dog could not really do'.",
-    "about_to_trip": "The walk was drawn again so that the feet show which way a walker goes, and a new rule keeps posts and trunks from behind and ahead of the walker. It fails again, the same way: in full in four pictures of five and misread in the fifth. See the next list.",
-    "sweep_fork": "A low grey heap of dust and an open dustpan that fit a path. In full in five pictures. Three of the fifteen full marks stand beside another reading, 'could be read as a rake'.",
-    "blocked_hose": "The dog stands still and square with a forepaw flat on the hose. In full in five pictures: 'A brown dog with a red collar is standing on the hose further along, which would explain why the water has stopped.' Five of the twenty full marks stand beside another reading.",
-    "bird_steals": "The bird is tipped over with its beak in the sandwich. In full in five pictures: 'a small blue bird is pecking at it without him noticing'.",
-    "cat_stalks_bird": "The bird pecks at seeds on the ground, and the four paws of the cat are apart. In full in five pictures, as in v0.46.",
-    "water_upward": "One stream with a round top. In full in five pictures: 'The water from the watering can flows upward from the spout, which is physically impossible'. A hose is offered beside the water in four descriptions.",
-    "lost_balloon": "The end of the string is nearer the reaching hand. One half mark in five pictures: 'may have just let the blue balloon go, or is reaching for it'.",
-    "square_wheel": "Not worked on the bench. In full in five pictures.",
-    "seesaw_heavy": "Benched and left as it was. In full in three pictures, and how a rider sits is still remarked on: 'The man is perched right at the low end of the seesaw, partly beside it rather than clearly on a seat, but it reads as sitting on it.'",
-    "paint_fence": "A new rule stands the roller on its board. In full in seven pictures: 'The painter stands a little in front of the fence; the roller just reaches the boards, so it reads as painting.'",
-    "ice_cream_drop": "A new rule lets either child drop the ice cream. In full in six pictures.",
-    "ice_cream": "The eaters drawn anew. In full in thirteen pictures.",
-    "sweep": "The sweepers drawn anew. In full in ten pictures.",
-    "walk_dog": "The walkers and their dogs drawn anew. In full in four pictures.",
-    "read_bench": "The reader on the bench drawn anew. In full in three pictures.",
+    "about_to_trip": "Two motion lines behind the walker, the obstacle half a step from the leading toe, and a side view with a face of its own. In full in five pictures, after failing two gates: 'he looks about to trip over it'. Four of the five readings add that the walker may miss the box, 'she could trip on it or might pass just beside it'.",
+    "rain_coming": "Not worked; only the figure who points is drawn anew. It fails: in one picture of three the reader named the storm clouds and the child pointing at them and did not go on to the rain. See the next list.",
+    "ice_cream": "The eaters drawn anew, with the new face. Two half marks in twenty pictures, on walkers whose cone is held up and not seen at the mouth: 'he does not seem to be eating at this moment, just holding the cone up'.",
+    "blocked_hose": "Not worked; the new dog stands on the hose. Two half marks in five pictures, both for the tap: 'this could be because the dog is standing on it (pinching it) or simply because the tap is not on'.",
+    "lost_balloon": "Not worked. Two half marks in five pictures: 'The red balloon might have been let go by the girl, or the girl is just looking at it.'",
+    "bird_steals": "The birds drawn without a line at the neck. One half mark in six pictures, where the bird was pecking at the sandwich and the theft was not said.",
+    "water_upward": "Not worked. In full in five pictures; a hose or a thin pipe is offered beside the water in two.",
+    "cat_stalks_bird": "The cats drawn anew: a longer body, a broad skull, large ears and a bright iris. In full in five pictures, and no scorer listed a judgement call against it.",
+    "dog_reading": "The new dog in its reading pose. In full in five pictures: 'A dog wearing glasses and reading a newspaper is impossible.'",
+    "walk_dog": "The dogs drawn anew, and the walker with the face of a side view. In full in six pictures, each walker and dog going one way.",
+    "dog_sleeping": "The new dog lies on its belly with its head down. In full in five pictures.",
+    "dog_begs": "The new dog sits up on its haunches with its forepaws folded. In full in four pictures.",
+    "dog_playing": "The new dog in a play bow. In full in four pictures.",
+    "goat_grazing": "A deeper barrel, slim legs on split hooves and a wedge face. In full in four pictures: a goat in all four, and a sheep in none.",
+    "cat_on_fence": "The new cat walking the fence. In full in three pictures.",
+    "cat_sleeping": "The new cat asleep. In full in three pictures, a cat in each.",
 }
 
-# what the v0.47 screen readers made of the one template that fails the gate (vision/flaws_v047.md); nothing was mended or read again after the screen
+# what the v0.48 screen readers made of the one template that fails the gate (vision/flaws_v048.md); nothing was mended or read again after the screen
 WEAK_NOTES = {
-    "about_to_trip": "Read in four pictures of five: 'a cardboard box sits on the grass just ahead of him, so he may trip over it'. In the fifth, where the walker is the smallest of the five, the reader had him going the other way: 'the man is walking away from it (it is behind him)'. The mean is at the bar and the template fails on the misread. Three of the four readings add that he may walk past the box. First on the list for v0.48.",
+    "rain_coming": "Read in two pictures of three: 'A back garden under a grey sky with three dark storm clouds, so it looks like rain is coming.' In the third the reader had the dark clouds and a child pointing up, 'perhaps at the storm clouds', and did not say that rain is coming: a zero on the inference, and no item misread. Nothing of the template was changed in this release but the figure who points, and it read in full in v0.47. First on the list for v0.49: something a person does about the rain.",
 }
-SCREEN_NOTE = ("The v0.47 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. The redrawn figures and actions were read on the bench first, in five rounds of cut-outs and of pairs beside the drawing of v0.46, and then in whole test scenes. "
-               "941 of 960 items had full marks and one was misread. 63 of the 64 templates pass the gate and one fails it, the walker about to trip, where 60 passed in v0.46; nothing was mended, swapped or read again after the screen. "
-               "The scorers were asked this time to list their judgement calls: with the 41 full marks that stand beside another reading halved, 56 of the 64 pass. "
-               "Every person and every animal is drawn anew, so no picture is the same as in v0.46. "
+SCREEN_NOTE = ("The v0.48 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. The new heads, faces and hair and the redrawn animals were judged on the bench first, in five rounds of pairs beside the drawing of v0.47, a bench on which way a figure goes and four rounds of cut-outs, and then in whole test scenes. "
+               "939 of 971 items had full marks and none was misread. 63 of the 64 templates pass the gate and one fails it, the coming rain, where the walker about to trip failed in v0.47; nothing was mended, swapped or read again after the screen. "
+               "With the 33 full marks that stand beside another reading halved, 55 of the 64 pass. "
+               "Every person and every animal is drawn anew, so no picture is the same as in v0.47. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("pair:person.mei__stand__neutral__y045>person.mei__stand__neutral__y045", "The figure of the study",
-          "v0.46: a flat line of shoulder as wide as the chest, arms and legs of one width, a hand with no thumb and a flat oval shoe. Three reviewers read 24 drawings of this one figure: 'Square coat-hanger shoulders'. v0.47: the shoulders slope, the limbs taper to the elbow, wrist, knee and ankle, the hand is a mitten with its thumb clear and the shoe a wedge on a sole, on every person. The new drawing was the better in fourteen of sixteen pairs on the bench."),
-         ("pair:person.ben__walk__smile__y090>person.ben__walk__smile__y090", "The walk",
-          "v0.46: a stride that one reader took to go the other way. v0.47: the trailing foot up on its toe, heel high and knee bent, and the leading leg reaching forward to a flat foot. The head of a side view also turns further toward the viewer, 48 degrees for 35. Not enough at small size: the one misread of the screen is again a walker read as going the other way."),
-         ("pair:person.dev__run__determined__y090>person.dev__run__determined__y090", "The run",
-          "v0.46: 'running pose is a little stiff, with the back foot kicked up high'. v0.47: the front knee bent and forward, the back shin lower, the hips a little lower. On the bench: 'Its bent arms and fist make a convincing running action, and both feet are cleanly attached.' One screen reader of a runner: 'her face, outstretched arm and the speed lines say she is running right, but her torso faces the viewer'."),
-         ("pair:person.nia__sit_ground__smile__y045>person.nia__sit_ground__smile__y045", "Sitting on the ground",
-          "v0.46: of a boy sitting, 'legs look slightly short or tucked, so it is hard to tell whether they are stretched out straight or bent'. v0.47: both legs out straight, a little apart, heels down and feet tipped forward."),
-         ("pair:animal.dog_01__sit_up_hold__read__y090>animal.dog_01__sit_read__read__y090", "The reading dog",
-          "v0.46: sitting up with the paper at its muzzle, 'A brown dog sits up holding a newspaper in its mouth.' v0.47: a pose of its own, the open paper held by its lower corners in both forepaws, below the muzzle, the head tipped down to it. Drawn four times on the bench, and read as reading in all five screened pictures."),
-         ("pair:animal.dog_01__stand__neutral__y090>animal.dog_01__stand_hose__neutral__y090", "The dog on the hose",
-          "v0.46: the standing dog set over the hose, 'The dog may be standing on the hose or just in front of it.' v0.47: a pose of its own, still and square, the near forepaw flat on the hose. In full in five screened pictures, though the swelling at the paw is still a thing of its own to some: 'The hose has a connector/bulge where the dog stands; it might be read as a joint rather than paws pressing it.'"),
-         ("pair:animal.bird_02__peck__neutral__y090>animal.bird_02__peck__neutral__y090", "The pecking bird",
-          "v0.46: the body nearly level and only the head dipped, read as standing by. v0.47: the body tipped 58 degrees about the hips, the beak near the ground ahead of the feet, and one whole eye in the side of the head. As a drawing it lost three pairs of four to the level bird, 'a conveys pecking more strongly but the rear-placed leg makes it look as if it is falling over.', and was kept for the reading."),
-         ("pair:animal.cat_01__stalk_paw__alert__y090>animal.cat_01__stalk_paw__alert__y090", "The stalking cat",
-          "v0.46: the forelegs a knot. A bench reader of that pose: 'It looks as if the cat is holding something or hugging itself, not standing on four legs.' v0.47: the four paws apart along the ground, the far foreleg down under the chest and the near one reaching forward, each leg showing whole."),
-         ("portrait:person.rosa__stand__smile__y000", "The glasses",
-          "v0.46: a plain dark wire with the eye as large as the opening of the lens. v0.47: each rim is a flat ring centred on its eye, and the eyes are drawn smaller behind the lens, so skin shows round each eye. One reviewer of the bench still had a fault in it: 'the far lens also extends to the face edge, slightly outside it.'"),
-         ("portrait:person.ben__stand__smile__y000", "The moustache",
-          "v0.46: 'could also be a smear of something (for example chocolate) on his face'. v0.47: wider than the mouth, in two halves parted under the nose and a shade darker than the hair. Named a moustache in 10 of 15 screened descriptions, for 4 of 11, and no screen reader wrote of a smear. On the watch list: one test reader had 'brown marks around his mouth that could be a moustache or ice cream/chocolate smeared on his face'.")]
+FIXES = [("portrait:person.mei__stand__smile__y000", "The head and the face",
+          "v0.47: a head wider than tall, a fringe cut straight across the brow with a square corner at each temple, and a smile drawn as an angular red shape with a dark edge. v0.48: an egg head with a jaw and a chin, the hair parted in the middle and rounding down at the temples, and the mouth one plain line. A bench reviewer, of the new one beside the old: 'The face reads clearly as a smiling woman with a simple nose and mouth, and the hair falls naturally'. The new drawing was the better in 10, 9 and 12 pairs of 16 over three benches."),
+         ("portrait:person.ben__stand__smile__y000", "The second figure of the study",
+          "v0.47: a moustache with curled ends over an open red mouth, to one reviewer 'very large and curled, sitting over an open red mouth; slightly comic'. v0.48: a short thin moustache over a plain mouth, ears that show, and a hairline with a temple. It cost a reading: no screen reader named a moustache in any of his 17 pictures, where 10 of 15 had in v0.47, and he is a boy in 2 of the 17."),
+         ("pair:person.ben__walk__smile__y090>person.ben__walk__smile__y090", "A side view has a face of its own",
+          "v0.47: the head of a side view turned 48 degrees to the viewer, a three-quarter face over a body in profile, and five readers of that screen wrote of which way a figure faces. v0.48: the head turns 22 degrees, and the near eye, its brow and the mouth are set round the cheek as in a drawn profile, with nothing of the far eye. On the bench: 'the profile head looking down at the foot fits the kick and the face is placed consistently on the head'. One remark on direction in the screen, and no misread."),
+         ("pair:person.ben__stand__neutral__y045>person.ben__stand__neutral__y045", "One flat tone, and a tee to the hips",
+          "v0.47: a second, darker tone laid by the turn of the surface, and a tee hemmed at the waist. Of both, on the bench: 'a faint lighter triangular mark on the far thigh, like a stray patch'; 'the shirt is very short and the trouser waist very high, so the upper body looks short against long legs'. v0.48: flat colour inside the line, the tee hemmed at the hips, the standing feet turned out."),
+         ("portrait:person.rosa__stand__smile__y000", "The glasses and the bun",
+          "v0.47: heavy round rims and a fringe straight across the brow. v0.48: a lighter wire with an arm to each ear, hair swept from a parting, and a larger bun, after one reviewer had 'the bun on top is very small and hard to see, so the hair could read as a cap or helmet'. The glasses are named in all 16 of her screened descriptions and the bun in 8."),
+         ("portrait:person.dev__stand__smile__y000", "The beard",
+          "v0.47: a dark block of beard across the chin under an angular red mouth. v0.48: a small dark beard on the chin under a short thin moustache, the fourth drawing on the study sheets; one before it, a soft tone with no line, 'reads more like a shadow or dirt than a beard'. No screen reader named the beard in any of his 24 pictures."),
+         ("pair:person.kai__stand__smile__y000>person.kai__stand__smile__y000", "A child",
+          "v0.47: a round, wide head. v0.48: the egg head on a fuller neck. The first trial of the new head lost its pair here, the neck 'long and thin like a stalk, so the head looks perched on a stick', and the neck was made fuller and the chin lower before the next bench."),
+         ("pair:animal.dog_01__sit__happy__y090>animal.dog_01__sit__happy__y090", "The sitting dog",
+          "v0.47: to a reviewer 'a ramp-shaped body with no hind quarters and an over-long neck'. v0.48: a haunch, a folded hind leg and a tail of its own: 'it reads clearly as a sitting dog with a proper haunch, hind leg and separate tail'."),
+         ("pair:animal.dog_01__stand__neutral__y090>animal.dog_01__stand__neutral__y090", "The legs of the dogs",
+          "v0.47: legs set under the body with no shoulder or thigh of their own. v0.48: a shoulder, an elbow, a wrist and a paw, and a hip, a stifle, a hock and a paw, each on a bone of its own. The first new legs lost this pair, 'very long and thin for the body, giving a stilt-like, spidery look', and were shortened and thickened: 'Its legs and hip join cleanly and the body reads as solid and balanced'."),
+         ("pair:animal.cat_01__sit__happy__y090>animal.cat_01__sit__happy__y090", "The cats",
+          "v0.47: to a reviewer 'a detached ball head, no hind quarters and a tail fused into a ramp-shaped body'. v0.48: 'it reads as a proper sitting cat with a haunch, folded hind leg, neck and separate tail', with a bright iris and a slit pupil that stay open in every face but the sleeping one. A cat is a cat in all 11 screened descriptions of a picture with one."),
+         ("pair:animal.goat_01__graze__neutral__y090>animal.goat_01__graze__neutral__y090", "The goat",
+          "v0.47: a straight sloping back on thin legs of one width. v0.48: a deeper barrel, slim legs on split hooves and a wedge face. A goat in all four of its screened pictures and a sheep in none, where two readers of v0.47 had offered a sheep."),
+         ("pair:animal.dog_01__beg__happy__y090>animal.dog_01__beg__happy__y090", "The begging dog",
+          "v0.47: upright on a narrow base. v0.48: sitting up on its haunches with the forepaws folded at the chest. A bench reader of a cut-out: 'sits up on its hind legs on the grass next to the bench, looking up toward her, as if begging for the ice cream'. In full in four screened pictures.")]
 
 
 

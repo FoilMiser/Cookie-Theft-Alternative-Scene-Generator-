@@ -282,7 +282,21 @@ class PlacementError(Exception):
 # round top, with no drops beside it (draw.UPW47; thinned to its top with drops off both sides it was "more like a spray than a pour"). The
 # fence painter stands so that the roller's middle lies on the middle of its board, above that board's wet paint (templates.PAINT47; at a
 # board's edge it was "well away from the blue part").
-PLACEMENT_REV = 44
+#
+# Revision 45 (v0.48): the cast is drawn anew (builder 0.48.0: the head an egg and not a ball, a face and a hairline of its own, a side view's
+# own face, one flat tone; the animals' bodies and limbs), so every figure's box and anchors are new. One rule of the scene's own
+# (vision/flaws_v047.md O2, carried from v0.45 and v0.46 and in five pictures of v0.47's screen: "His legs overlap the pond outline, so he
+# could be read as standing at the water's edge or just in front of it."; "at a glance he can look as if he is at or in the pond edge"):
+# a person in front of the pond stands far enough down the picture that the legs are clear of the water: the hips, half the figure's height
+# above the feet, lie below the pond's near edge at the figure's own place (POND48; revision 10 and 19 had kept only the feet off the rim,
+# 70 px below it, and a grown figure's legs are twice that).
+# A second rule, found on my own look at the set before any reader had it (REEL48): no animal on the ground stands over the garden's hose reel
+# or over the end of the hose that hangs from it. In a tier-2 isomorph the begging dog sat up in front of the reel with its head on the reel's
+# drum, so the drum was a ring behind the head and the hose's end a thing coming from the neck. The reel's own "blocked" patch keeps feet off
+# it; a sitting dog's head is as high as the drum.
+PLACEMENT_REV = 45
+POND48 = __import__("os").environ.get("TPDB_POND48", "B")      # "O": revision 44's pond
+REEL48 = __import__("os").environ.get("TPDB_REEL48", "B")      # "O": animals may stand over the hose reel, as up to revision 44
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
@@ -577,6 +591,10 @@ class Scene:
             for st in self.S.anchors.get("path", {}).get("stones", ()):
                 if min(bbox[2], st[2] + 6) > max(bbox[0], st[0] - 6) and min(bbox[3], st[3] + 6) > max(bbox[1], st[1] - 6):
                     return False
+        if p is not None and PLACEMENT_REV >= 45 and REEL48 == "B" and p.family.startswith("animal.") and not p.m["variant"].get("airborne") \
+                and not self.setting_clear(bbox, only=("hose_reel", "hose_tail")):
+            # revision 45 (REEL48): no animal over the hose reel or the end of the hose that hangs from it
+            return False
         if p is not None and PLACEMENT_REV >= 9 and p.family.startswith("person.") and not self.clear_of_house_edges(bbox):
             return False
         if p is not None and PLACEMENT_REV >= 10 and p.family.startswith("animal.") and not p.m["variant"].get("airborne") \
@@ -585,6 +603,9 @@ class Scene:
             return False
         if p is not None and PLACEMENT_REV >= 10 and p.family.startswith("person.") and "pond" not in getattr(self, "exempt", ()) \
                 and not self.clear_of_pond_edge(bbox):
+            return False
+        if p is not None and PLACEMENT_REV >= 45 and POND48 == "B" and p.family.startswith("person.") and "pond" not in getattr(self, "exempt", ()) \
+                and not p.m["variant"].get("airborne") and not self.clear_of_pond_v45(bbox):
             return False
         if PLACEMENT_REV >= 9:
             for k in getattr(self, "groundzones", ()):
@@ -1027,6 +1048,19 @@ class Scene:
             if b[0] - 10 < fx < b[2] + 10 and b[3] - 30 < box[3] < b[3] + 28:
                 return False
         return True
+
+    def clear_of_pond_v45(self, box):
+        """Revision 45 (POND48): a person in front of the pond has the legs clear of the water: the hips (half the figure's height above
+        the feet) lie below the pond's near edge at the figure's own place."""
+        A = self.S.anchors.get("pond")
+        if not A or "center" not in A:
+            return True
+        (cx, cy), rx, ry = A["center"], A["rx"], A["ry"]
+        fx = (box[0] + box[2]) / 2
+        if abs(fx - cx) >= rx + 12 or box[3] < cy:
+            return True
+        t = min(1.0, abs(fx - cx) / rx)
+        return box[3] - 0.5 * (box[3] - box[1]) > cy + ry * (1 - t * t) ** 0.5 + 4
 
     def clear_of_pond_v19(self, box, p):
         """Revision 19: a person or animal clear of the pond's cattails (one "poking up just behind the young person's head",
