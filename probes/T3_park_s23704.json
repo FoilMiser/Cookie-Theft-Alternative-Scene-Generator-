@@ -1,0 +1,920 @@
+{
+ "name": "T3_park_s23704",
+ "tier": 3,
+ "setting": "park",
+ "sky": "dark",
+ "seed": 23704,
+ "mirror": true,
+ "versions": {
+  "generator": "0.49.0",
+  "cast_builder": "0.49.0",
+  "weights": "spec-starting-v1",
+  "salience_ref": {
+   "mu": -4.65,
+   "sd": 1.41,
+   "source": "Garden prototype item library (house +1.90, drip -3.22)"
+  },
+  "lexical": {
+   "wordfreq": "3.1.1",
+   "aoa_norms": "scenegen/norms/aoa_kuperman2012.tsv",
+   "aoa_sha256": "528acc57d4d5c5aed9886b2bfa455f964f5521388f83d768c250b33d0089c588",
+   "aoa_center": 4.47,
+   "zipf_lookup": {
+    "leaves": "leaf"
+   },
+   "zipf_override": {
+    "ice cream": 4.47
+   },
+   "lexical_types": [
+    "entity",
+    "action"
+   ],
+   "weights": {
+    "b0": -1.0,
+    "type": {
+     "entity": 0.0,
+     "action": 0.3,
+     "inference": 0.39,
+     "contradiction_notice": 0.58,
+     "contradiction_explain": 1.18
+    },
+    "chain": 0.6,
+    "animate": -0.8,
+    "salience": -0.5,
+    "redundancy": -0.3,
+    "separation": 1.2,
+    "frequency": -0.3,
+    "domain": {
+     "null": 0.0,
+     "physical": 0.0,
+     "biological": -0.2,
+     "functional": 0.2
+    },
+    "load": 0.12,
+    "aoa": 0.0
+   }
+  }
+ },
+ "features": [
+  "bench",
+  "flowers"
+ ],
+ "templates": [
+  {
+   "id": "rain_coming",
+   "kind": "inference",
+   "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "read_bench",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
+  }
+ ],
+ "scene_load": 2,
+ "items": [
+  {
+   "id": "i01",
+   "type": "action",
+   "text": "A man is reading on the bench",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "sitting and reading"
+    ]
+   },
+   "key": "reading",
+   "elements": [
+    "sitter_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "read_bench",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.05,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
+    "domain": null,
+    "area_px": 16420
+   },
+   "b": -1.627,
+   "p0": 0.836,
+   "pm1": 0.652,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "Dark clouds are coming",
+   "accepted": [
+    "dark clouds",
+    "storm clouds",
+    "clouds",
+    "cloudy",
+    "storm",
+    "gray sky"
+   ],
+   "key": "clouds",
+   "elements": [
+    "clouds_dark"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.001,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.16,
+    "a": 3.63,
+    "zipf_raw": 4.16,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 62768
+   },
+   "b": -1.308,
+   "p0": 0.787,
+   "pm1": 0.576,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "action",
+   "text": "A teenager is pointing up at the sky",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "pointing at the sky",
+     "pointing at the clouds",
+     "pointing up",
+     "looking up",
+     "worried"
+    ]
+   },
+   "key": "pointing",
+   "elements": [
+    "skywatcher_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.079,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.2,
+    "a": 4.55,
+    "zipf_raw": 4.2,
+    "aoa_raw": 4.55,
+    "domain": null,
+    "area_px": 17104
+   },
+   "b": -1.36,
+   "p0": 0.796,
+   "pm1": 0.589,
+   "aoi_cells": [
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "It is about to rain",
+   "accepted": [
+    "it's going to rain",
+    "a storm is coming",
+    "rain is coming",
+    "it might rain",
+    "going to get wet"
+   ],
+   "key": "rain",
+   "elements": [
+    "clouds_dark",
+    "skywatcher_2"
+   ],
+   "cues": [
+    "clouds_dark",
+    "skywatcher_2"
+   ],
+   "effect": [
+    "clouds_dark"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "rain_coming",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": 1.001,
+    "r": 1,
+    "d": 0.386,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.71,
+    "aoa_raw": 3.6,
+    "domain": null,
+    "area_px": 62768
+   },
+   "b": -0.107,
+   "p0": 0.527,
+   "pm1": 0.29,
+   "aoi_cells": [
+    "TL",
+    "TC",
+    "TR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "entity",
+   "text": "There is a path",
+   "accepted": [
+    "path",
+    "walkway",
+    "trail",
+    "footpath",
+    "sidewalk"
+   ],
+   "key": "path",
+   "elements": [
+    "path"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.863,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.71,
+    "a": 6.11,
+    "zipf_raw": 4.71,
+    "aoa_raw": 6.11,
+    "domain": null,
+    "area_px": 51656
+   },
+   "b": -1.405,
+   "p0": 0.803,
+   "pm1": 0.6,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i06",
+   "type": "entity",
+   "text": "There is a pond",
+   "accepted": [
+    "pond",
+    "lake",
+    "water"
+   ],
+   "key": "pond",
+   "elements": [
+    "pond"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.168,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.02,
+    "a": 5.16,
+    "zipf_raw": 3.98,
+    "aoa_raw": 5.16,
+    "domain": null,
+    "area_px": 79444
+   },
+   "b": -1.338,
+   "p0": 0.792,
+   "pm1": 0.584,
+   "aoi_cells": [
+    "MC",
+    "MR",
+    "BC",
+    "BR"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
+   "text": "There is a big tree",
+   "accepted": [
+    "tree",
+    "trees",
+    "big tree"
+   ],
+   "key": "tree",
+   "elements": [
+    "tree"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 1.012,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.85,
+    "a": 3.57,
+    "zipf_raw": 4.85,
+    "aoa_raw": 3.57,
+    "domain": null,
+    "area_px": 63708
+   },
+   "b": -1.521,
+   "p0": 0.821,
+   "pm1": 0.627,
+   "aoi_cells": [
+    "ML",
+    "BL"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "entity",
+   "text": "There is a lamp post",
+   "accepted": [
+    "lamp post",
+    "lamp",
+    "street light",
+    "light post",
+    "lamppost"
+   ],
+   "key": "lamp",
+   "elements": [
+    "lamp"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.444,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.05,
+    "a": 4.0,
+    "zipf_raw": 4.05,
+    "aoa_raw": 4.0,
+    "domain": null,
+    "area_px": 8176
+   },
+   "b": -0.553,
+   "p0": 0.635,
+   "pm1": 0.39,
+   "aoi_cells": [
+    "TC",
+    "MC"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "entity",
+   "text": "There are flowers",
+   "accepted": [
+    "flowers",
+    "flower bed",
+    "flowerbed"
+   ],
+   "key": "flowers",
+   "elements": [
+    "flowers"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.319,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.64,
+    "a": 3.11,
+    "zipf_raw": 4.64,
+    "aoa_raw": 3.11,
+    "domain": null,
+    "area_px": 23992
+   },
+   "b": -1.111,
+   "p0": 0.752,
+   "pm1": 0.528,
+   "aoi_cells": [
+    "BR"
+   ]
+  }
+ ],
+ "counts": {
+  "content": 8,
+  "inference_units": 1,
+  "contradictions": 0,
+  "items_total": 9
+ },
+ "predicted": {
+  "theta_0": {
+   "content": 0.778,
+   "inference": 0.527
+  },
+  "theta_minus_1": {
+   "content": 0.568,
+   "inference": 0.29
+  }
+ },
+ "bands": {
+  "content_count": false,
+  "inference_units": false,
+  "contradictions": true,
+  "content_completeness": false,
+  "inference_completeness": false
+ },
+ "in_tier": false,
+ "checks": {
+  "skywatcher_2_looks_at_clouds": {
+   "result": false,
+   "detail": ""
+  },
+  "occlusion_and_size": {
+   "result": true,
+   "detail": "all scored elements visible >= 80% and >= 3% of width"
+  },
+  "legibility": {
+   "result": true,
+   "detail": "no head covered or backed by another element; no string or pole crosses a person"
+  },
+  "clutter_band": {
+   "result": false,
+   "detail": "16 drawn objects (tier band 20-30)"
+  }
+ },
+ "clutter": {
+  "objects": 16,
+  "edge_density": 0.025,
+  "png_bytes": 192746,
+  "jpeg_bytes": 129878
+ },
+ "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
+   1
+  ]
+ ],
+ "elements": [
+  {
+   "id": "sky",
+   "label": "Sky",
+   "role": "background",
+   "z": -100
+  },
+  {
+   "id": "clouds_dark",
+   "label": "Dark clouds rolling in",
+   "role": "scored",
+   "z": -98,
+   "bbox": [
+    472.0,
+    8.0,
+    1200.0,
+    196.0
+   ],
+   "area_px": 62768,
+   "visible_px": 62768,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hills",
+   "label": "Hills in the distance",
+   "role": "setting",
+   "z": -97,
+   "bbox": [
+    0.0,
+    402.0,
+    1600.0,
+    522.0
+   ],
+   "area_px": 155668,
+   "visible_px": 115100,
+   "occlusion": 0.261
+  },
+  {
+   "id": "tree_line",
+   "label": "Trees in the distance",
+   "role": "background",
+   "z": -96
+  },
+  {
+   "id": "ground",
+   "label": "Grass",
+   "role": "background",
+   "z": -90
+  },
+  {
+   "id": "path",
+   "label": "Path",
+   "role": "setting",
+   "z": -80,
+   "bbox": [
+    292.0,
+    520.0,
+    558.0,
+    1000.0
+   ],
+   "area_px": 51712,
+   "visible_px": 51656,
+   "occlusion": 0.001
+  },
+  {
+   "id": "pond",
+   "label": "Pond",
+   "role": "setting",
+   "z": -70,
+   "bbox": [
+    798.0,
+    570.0,
+    1462.0,
+    730.0
+   ],
+   "area_px": 84408,
+   "visible_px": 79444,
+   "occlusion": 0.059
+  },
+  {
+   "id": "filler_bush_b",
+   "label": "Bush",
+   "role": "filler",
+   "z": 560,
+   "bbox": [
+    694.0,
+    526.0,
+    786.0,
+    584.0
+   ],
+   "area_px": 3880,
+   "visible_px": 3880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree_small",
+   "label": "Small tree",
+   "role": "setting",
+   "z": 575,
+   "bbox": [
+    1402.0,
+    394.0,
+    1578.0,
+    578.0
+   ],
+   "area_px": 22560,
+   "visible_px": 22560,
+   "occlusion": 0.0
+  },
+  {
+   "id": "lamp",
+   "label": "Lamp post",
+   "role": "setting",
+   "z": 640,
+   "bbox": [
+    644.0,
+    202.0,
+    696.0,
+    642.0
+   ],
+   "area_px": 8176,
+   "visible_px": 8176,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_l",
+   "label": "Bush",
+   "role": "filler",
+   "z": 640,
+   "bbox": [
+    1448.0,
+    596.0,
+    1568.0,
+    672.0
+   ],
+   "area_px": 6628,
+   "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bush_r",
+   "label": "Bush",
+   "role": "filler",
+   "z": 650,
+   "bbox": [
+    32.0,
+    606.0,
+    152.0,
+    682.0
+   ],
+   "area_px": 6628,
+   "visible_px": 6628,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tree",
+   "label": "Big tree",
+   "role": "setting",
+   "z": 760,
+   "bbox": [
+    56.0,
+    338.0,
+    344.0,
+    762.0
+   ],
+   "area_px": 63708,
+   "visible_px": 63708,
+   "occlusion": 0.0
+  },
+  {
+   "id": "bench",
+   "label": "Park bench",
+   "role": "setting",
+   "z": 830,
+   "bbox": [
+    416.0,
+    718.0,
+    624.0,
+    832.0
+   ],
+   "area_px": 12184,
+   "visible_px": 8284,
+   "occlusion": 0.32
+  },
+  {
+   "id": "sitter_1",
+   "label": "person.ben__sit_read__neutral__y045",
+   "role": "scored",
+   "z": 833,
+   "bbox": [
+    460.0,
+    612.0,
+    594.0,
+    866.0
+   ],
+   "area_px": 16420,
+   "visible_px": 16420,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ben__sit_read__neutral__y045",
+    "family": "person.ben",
+    "scale": 0.4576,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 936,
+   "bbox": [
+    1180.0,
+    792.0,
+    1420.0,
+    940.0
+   ],
+   "area_px": 23992,
+   "visible_px": 23992,
+   "occlusion": 0.0
+  },
+  {
+   "id": "skywatcher_2",
+   "label": "person.leo__point_up__worried__y045",
+   "role": "scored",
+   "z": 950.96,
+   "bbox": [
+    1012.0,
+    672.0,
+    1144.0,
+    958.0
+   ],
+   "area_px": 17104,
+   "visible_px": 17104,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__point_up__worried__y045",
+    "family": "person.leo",
+    "scale": 0.5013,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "filler_rock",
+   "label": "Rock",
+   "role": "filler",
+   "z": 960,
+   "bbox": [
+    712.0,
+    914.0,
+    808.0,
+    962.0
+   ],
+   "area_px": 3740,
+   "visible_px": 3740,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bin_p2",
+   "label": "Bin",
+   "role": "filler",
+   "z": 980,
+   "bbox": [
+    1500.0,
+    892.0,
+    1570.0,
+    982.0
+   ],
+   "area_px": 5276,
+   "visible_px": 5276,
+   "occlusion": 0.0
+  }
+ ],
+ "canvas": [
+  1600,
+  1000
+ ],
+ "attempts": [
+  [
+   23704,
+   "layout 1: accepted after 0 rejected layouts"
+  ]
+ ],
+ "layout": 0,
+ "knob": 0,
+ "regen": {
+  "base_seed": 23704,
+  "max_tries": 6,
+  "placements": 14,
+  "require_band": false,
+  "usage": {},
+  "forced": {
+   "modules": [
+    "rain_coming"
+   ],
+   "events": [
+    "read_bench"
+   ]
+  },
+  "placement_rev": 46
+ },
+ "probe": true
+}

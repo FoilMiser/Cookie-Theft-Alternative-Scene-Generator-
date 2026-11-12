@@ -35,7 +35,7 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.48.0"
+BUILDER_VERSION = "0.49.0"
 # the postures with both thighs swung forward of the trunk, in which a skirt is drawn as a wrap of the thighs (people.py, TPDB_SEAT47)
 SEATED47 = {"sit", "sit_swing", "sit_ground", "sit_dangle", "sit_hang", "sit_low", "sit_slide", "crouch", "jump_tuck"}
 
@@ -98,7 +98,7 @@ def main(out_dir, only=None):
             # v0.34, chosen on the bench: the woman in yellow with long hair, tied back. With the bob, seated reading, she was "a child with
             # short dark hair" or "a boy"; with it, "a woman", "a girl or young woman" (vision/isolation_v034.md). O keeps the bob
             spec = dict(spec, hair="long")
-        rig, states, ctx = build_person(spec)
+        rig, states, ctx = build_person(dict(spec, family=fam))
         P = make_people_actions(rig, ctx)
         if bpy.data.objects.get("SkirtPanel"):
             # v0.34 bench: the cloth across the lap shows only seated on a bench or the ground's edge (lower "sit", "sit_low")

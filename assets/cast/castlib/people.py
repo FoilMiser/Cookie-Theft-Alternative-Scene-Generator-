@@ -6,7 +6,7 @@ import bpy  # noqa: F401
 import bmesh
 from mathutils import Quaternion, Vector
 
-from .core import HEAD48, ISECT39, Rig, anchor, cut_field, cyl, ellipsoid, flatten_above, flatten_below, head_f, head_g, head_pt, link, mat, no_isect, open_end, rest_shade, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
+from .core import HEAD48, HEAD49, ISECT39, Rig, anchor, cut_field, cyl, ellipsoid, flatten_above, flatten_below, head_f, head_g, head_pt, link, mat, no_isect, open_end, rest_shade, set_head, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
 from .face import FACE48, MOUTH_DZ, PROF48, PROF48_MOUTH, Face, build_people_face, people_expression_states
 
 # v0.23 (TPDB_HEAD; the release builds with B): the older man's fringe of hair kept to the back, and a fuller nose
@@ -116,6 +116,21 @@ HEAD48_CHIN_KIND = {"adult": -0.04, "child": -0.14}
 TORSO48 = __import__("os").environ.get("TPDB_TORSO48", "B")
 
 
+NECK49 = __import__("os").environ.get("TPDB_NECK49", "B")       # "O": the neck a piece of the skin's one mesh, as up to v0.48
+
+
+def head49_shape(spec, kind):
+    """v0.49 (core.HEAD49): the shape of this person's head. TPDB_HEAD49_SHAPE (bench) is a JSON dict of changes for everybody, or one per family
+    name with "*" for the rest."""
+    env = __import__("os").environ.get("TPDB_HEAD49_SHAPE")
+    if env:
+        d = __import__("json").loads(env)
+        if any(isinstance(v, dict) for v in d.values()):
+            d = d.get(spec.get("family"), d.get(kind, d.get("*")))
+        return d
+    return spec.get("head49", "child" if kind == "child" else "man")
+
+
 def person_skeleton(kind):
     if kind == "child":
         return dict(ankle=0.05, knee=0.26, hip=0.48, pelvis=0.53, chest=0.71, neck=0.79, head_base=0.82,
@@ -197,11 +212,13 @@ def build_person(spec):
     if NECK46 == "B" and HS < 1.0:
         # v0.46: the chin of a scaled-down head where a full-size head's is
         hc = P(0, 0, J["head_c"] - J["head_r"] * 0.96) + Vector((0, 0, HR[2]))
+    HSH = set_head(head49_shape(spec, kind) if HEAD49 == "B" else None)     # v0.49 (core.HEAD49): this person's head
     if HEAD48 == "B":
         # v0.48 (core.HEAD48): taller than wide, with its chin where v0.47's was
         chin_z = hc.z - HR[2]
-        HR = tuple(hr * a for a in HEAD48_R)
-        hc = Vector((hc.x, hc.y, chin_z + HR[2] + (float(HEAD48_CHIN) if HEAD48_CHIN else HEAD48_CHIN_KIND[kind]) * hr))
+        HR = tuple(hr * a for a in (HSH["R"] if HEAD49 == "B" else HEAD48_R))
+        # (v0.49, HSH["hy"]: the head carried forward of the neck by that share of its radius)
+        hc = Vector((hc.x, hc.y - HSH.get("hy", 0.0) * hr, chin_z + HR[2] + (float(HEAD48_CHIN) if HEAD48_CHIN else HSH.get("chin", HEAD48_CHIN_KIND[kind])) * hr))
     sh = {sd: P(sg * sx, 0, J["sh_z"]) for sd, sg in (("L", 1), ("R", -1))}
     el = {sd: P(sg * (sx + 0.015 * s), 0, J["el_z"]) for sd, sg in (("L", 1), ("R", -1))}
     wr = {sd: P(sg * (sx + 0.025 * s), 0, J["wr_z"]) for sd, sg in (("L", 1), ("R", -1))}
@@ -668,6 +685,21 @@ def build_person(spec):
     radii = [neck_r * k * 1.1, neck_r * k]
     wts = [{"chest": 1.0}, {"neck": 0.5, "head": 0.5}]
     edges = [(0, 1)]
+    if HEAD49 == "B" and (HSH.get("neck", 1.0) != 1.0 or HSH.get("neck_y")):
+        # v0.49 (core.HEAD49): the neck keeps v0.48's width up to the collar and narrows from there to the jaw (HSH["neck"] of v0.48's
+        # width), so the chin stands out past it on both sides; its top may be set back under the skull (HSH["neck_y"], in head radii)
+        # (its foot, inside the top, is narrower: the rounded end of the wider one came to the cloth of a slim chest from behind, and Line
+        # Art drew a dash of its rim on the front of the dress)
+        verts = [verts[0], P(0, 0, nk + 0.030 * s), verts[1] + Vector((0, HSH.get("neck_y", 0.0) * hr, 0))]
+        radii = [neck_r * k * 0.85, neck_r * k * 1.10, neck_r * k * HSH.get("neck", 1.0)]
+        wts = [{"chest": 1.0}, {"chest": 0.5, "neck": 0.5}, {"neck": 0.5, "head": 0.5}]
+        edges = [(0, 1), (1, 2)]
+        if NECK49 == "B":
+            # v0.49 (TPDB_NECK49): the neck is a part of its own, and Line Art keeps its intersections: the line where the neck passes into
+            # the head is drawn whole in every view, and the head's own outline is cut exactly where it meets the neck. As a piece of
+            # "Skin", which draws no intersections (ISECT39), the chin's line across the neck came out in dashes in some views
+            skin_object("Neck", verts, edges, radii, spec["skin"], rig, wts)
+            verts, radii, wts, edges = [], [], [], []
     if not long_sleeve:
         for sd in ("L", "R"):
             i0 = len(verts)
@@ -698,7 +730,8 @@ def build_person(spec):
             if CLEAN46 == "B":
                 verts.append(wr[sd] + Vector((0, 0, -0.040 * k))); radii.append((0.022 if LIMB47 == "B" else 0.024) * k * LA); wts.append({f"hand_{sd}": 1.0})
                 edges.append((i0 + 1, i0 + 2))
-    skin_object("Skin", verts, edges, radii, spec["skin"], rig, wts)
+    if verts:
+        skin_object("Skin", verts, edges, radii, spec["skin"], rig, wts)
 
     for sd, sg in (("L", 1), ("R", -1)):
         hcen = wr[sd] + Vector((0.002 * sg, 0, -0.042 * k))
@@ -722,7 +755,8 @@ def build_person(spec):
             ellipsoid(f"Toe_{sd}", P(sg * hx, -0.062 * s, 0.034 * s), (0.058 * k, 0.080 * k, 0.036 * k), spec["shoes"], rig, f"foot_{sd}")
 
     # --- head --------------------------------------------------------------
-    ellipsoid("Head", hc, HR, spec["skin"], rig, "head", seg=40, rings=22, sq=HN, head={} if HEAD48 == "B" else None)
+    ellipsoid("Head", hc, HR, spec["skin"], rig, "head", seg=56 if HEAD49 == "B" else 40, rings=40 if HEAD49 == "B" else 22, sq=HN,
+              head={} if HEAD48 == "B" else None)
     for sd, sg in (("L", 1), ("R", -1)):
         if HEAD48 == "B" and HAIR48 == "B" and spec.get("hair") == "long":
             continue        # v0.48: long hair lies over the ears (an ear stood out through it like a knob)
@@ -1186,6 +1220,12 @@ def build_hair(spec, rig, hc, HR, k):
                       (0.042 * k,) * 3, col, rig, "head", seg=12, rings=8)
 
 
+# v0.49 (TPDB_MOUSTACHE49 "B"; flaws_v048.md O1): v0.48's short, thin moustache was named by the screen's readers in none of its wearers'
+# seventeen pictures, for ten of fifteen with v0.47's ("very large and curled", "slightly comic" to a reviewer of enlarged figures). "B": between
+# the two, a fifth wider and a quarter thicker than v0.48's, its ends a little lower, still clear of the mouth. "O": v0.48's
+MOUSTACHE49 = __import__("os").environ.get("TPDB_MOUSTACHE49", "B")
+
+
 def build_facial_hair(spec, rig, face, eye_z, k, pre=""):
     """pre "p_" (v0.48, face.PROF48): only the moustache's curve, a second time, for the side view's face (face.xoff set by the caller)."""
     col = spec.get("facial_hair_col", spec["hair_col"])
@@ -1201,11 +1241,13 @@ def build_facial_hair(spec, rig, face, eye_z, k, pre=""):
             # the lower face and partly covers the mouth"): shorter, its ends level with the mouth's corners and not below them
             # (pair bench 2: "no mouth under the moustache, so the face is a little blank": higher, under the nose, and lighter)
             w, z0, zt = 0.046 * k, mz + 0.031 * k, mz + 0.022 * k
+            if MOUSTACHE49 == "B":
+                w, zt = 0.056 * k, mz + 0.016 * k
         half = [(0.0, z0), (0.25 * w, z0 + 0.0015 * k), (0.50 * w, z0), (0.78 * w, z0 - 0.45 * (z0 - zt)), (w, zt)]
         pts = [(-x, z) for x, z in reversed(half[1:])] + half
         dense = [(q.x, q.z) for q in smooth_curve([(x, 0.0, z) for x, z in pts], n=6)]
         dark = {"hair_brown": "hair_brown_dark"}.get(col, col)
-        ob = face.curve_on(pre + "mustache36", dense, (0.0092 if FACE48 == "B" else 0.0125) * k, dark, 0.006 * k)
+        ob = face.curve_on(pre + "mustache36", dense, ((0.0116 if MOUSTACHE49 == "B" else 0.0092) if FACE48 == "B" else 0.0125) * k, dark, 0.006 * k)
         n, nip, full = len(dense) - 1, 0.5, 0.28
         for i, q in enumerate(ob.data.splines[0].points):
             t = abs(i / n - 0.5) * 2

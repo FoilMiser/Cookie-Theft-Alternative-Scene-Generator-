@@ -541,22 +541,91 @@ HEAD48 = os.environ.get("TPDB_HEAD48", "B")
 HEAD48_SHAPE = {"z0": 0.22, "jaw": 0.34, "p": 1.45, "fwd": 0.05}
 
 
-def head_f(zs, shape=None):
-    """The share of the ball's width and depth that the head keeps at unit height zs."""
-    if HEAD48 != "B":
+# v0.49 (TPDB_HEAD49; vision/isolation_v049.md): a head with a jaw and a chin. Sam, of v0.48's cast: "they look a little like bowling pins
+# since they do not have chins". The egg narrowed to a rounded point no wider than the neck under it, so the jaw's line ran straight on into
+# the neck's. "B": below the middle the head's outline is a superellipse (|z|^m, m over 2: fuller toward the bottom) times the taper, so the
+# cheeks come down to a corner and the chin is a rounded shelf wider than the neck; the face's side of the head has the same corner (a chin
+# in a side view), the back of the head narrows to the nape on its own (`back`). A head's shape is a dict (HEAD49_SHAPES; a person's spec
+# names one), set with set_head before that person is built. "O": v0.48's egg
+HEAD49 = os.environ.get("TPDB_HEAD49", "B") if HEAD48 == "B" else "O"
+HEAD49_SHAPES = {
+    # R: half width, depth and height in units of the head's radius; chin: how far the chin is set below v0.47's, in radii; neck: the neck's
+    # radius against v0.48's
+    "egg48": {"z0": 0.22, "jaw": 0.34, "p": 1.45, "fwd": 0.05, "m": 2.0, "md": 2.0, "back": 0.0, "R": (0.92, 0.97, 1.06), "neck": 1.0},
+    # the round jaw, chosen on the head benches (vision/isolation_v049.md): full cheeks down to a broad, rounded chin. `jawd` and `md` are
+    # the taper and the fullness of the face's side of the head; `hy` carries the head forward of the neck and `neck_y` sets the neck's top
+    # back, so the underside of the chin lies in front of the neck and its line is drawn across it
+    "man": {"z0": 0.05, "jaw": 0.28, "jawd": 0.33, "p": 1.3, "fwd": 0.16, "m": 3.2, "md": 3.0, "R": (0.95, 0.97, 1.03), "neck": 0.90,
+            "chin": -0.12, "hy": 0.10, "neck_y": 0.04},
+    "woman": {"z0": 0.05, "jaw": 0.34, "jawd": 0.33, "p": 1.3, "fwd": 0.16, "m": 3.0, "md": 3.0, "R": (0.95, 0.97, 1.03), "neck": 0.82,
+              "chin": -0.12, "hy": 0.10, "neck_y": 0.04},
+    "teen": {"z0": 0.05, "jaw": 0.30, "jawd": 0.33, "p": 1.3, "fwd": 0.16, "m": 3.1, "md": 3.0, "R": (0.96, 0.97, 1.02), "neck": 0.86,
+             "chin": -0.13, "hy": 0.10, "neck_y": 0.04},
+    "child": {"z0": 0.0, "jaw": 0.20, "jawd": 0.29, "p": 1.3, "fwd": 0.16, "m": 3.0, "md": 3.0, "R": (1.0, 0.98, 1.0), "neck": 0.90,
+              "chin": -0.15, "hy": 0.10, "neck_y": 0.04},
+}
+_HEAD = dict(HEAD49_SHAPES["egg48"])
+
+
+def set_head(shape=None):
+    """The shape of the head being built (a name in HEAD49_SHAPES, a dict of changes to "egg48", or None for v0.48's egg)."""
+    _HEAD.clear()
+    _HEAD.update(HEAD49_SHAPES["egg48"])
+    if isinstance(shape, str):
+        _HEAD.update(HEAD49_SHAPES[shape])
+    elif shape:
+        if shape.get("base"):
+            _HEAD.update(HEAD49_SHAPES[shape["base"]])
+        _HEAD.update({k: v for k, v in shape.items() if k != "base"})
+    return _HEAD
+
+
+def _box(zs, m):
+    """How much fuller than the ball's a superellipse outline |r|^m + |z|^m = 1 is at unit height zs, below the middle."""
+    if zs >= 0 or m == 2.0:
         return 1.0
-    sh = shape or HEAD48_SHAPE
+    z = min(0.997, -zs)
+    return (1.0 - z ** m) ** (1.0 / m) / math.sqrt(1.0 - z * z)
+
+
+def _taper(zs, sh, key="jaw"):
     if zs >= sh["z0"]:
         return 1.0
     t = min(1.0, (sh["z0"] - zs) / (sh["z0"] + 1.0))
-    return 1.0 - sh["jaw"] * t ** sh["p"]
+    return 1.0 - sh[key] * t ** sh["p"]
+
+
+def head_f(zs, shape=None):
+    """The share of the ball's width that the head keeps at unit height zs."""
+    if HEAD48 != "B":
+        return 1.0
+    sh = shape or _HEAD
+    f = _taper(zs, sh) * _box(zs, sh.get("m", 2.0))
+    if sh.get("cheek"):
+        # fuller cheeks: a swell centred a third of the way down the lower face
+        t = max(0.0, 1.0 - abs(zs + 0.38) / 0.55)
+        f *= 1.0 + sh["cheek"] * t * t * (3 - 2 * t)
+    return f
+
+
+def head_fy(zs, back=False, shape=None):
+    """The share of the ball's depth that the head keeps at unit height zs: on the face's side, or (back) behind the ears."""
+    if HEAD48 != "B":
+        return 1.0
+    sh = shape or _HEAD
+    if back:
+        f = _taper(zs, sh)
+        if sh.get("back") and zs < 0:
+            f *= 1.0 - sh["back"] * min(1.0, -zs) ** 2
+        return f
+    return _taper(zs, sh, "jawd" if "jawd" in sh else "jaw") * _box(zs, sh.get("md", 2.0))
 
 
 def head_g(zs, shape=None):
     """How far forward (in units of the head's half depth) the head is carried at unit height zs."""
     if HEAD48 != "B":
         return 0.0
-    sh = shape or HEAD48_SHAPE
+    sh = shape or _HEAD
     if zs >= sh["z0"]:
         return 0.0
     t = min(1.0, (sh["z0"] - zs) / (sh["z0"] + 1.0))
@@ -566,7 +635,7 @@ def head_g(zs, shape=None):
 def head_pt(q, shape=None):
     """A point of the unit ball (after squircle) moved to the unit head: scale it by the head's radii afterwards."""
     f = head_f(q[2], shape)
-    return Vector((q[0] * f, q[1] * f - head_g(q[2], shape), q[2]))
+    return Vector((q[0] * f, q[1] * head_fy(q[2], q[1] > 0, shape) - head_g(q[2], shape), q[2]))
 
 
 def ellipsoid(name, center, radii, matkey, rig=None, bone=None, rot=None, seg=24, rings=14, sq=None, head=None):

@@ -11,6 +11,25 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.49 (builder 0.49.0: every person's head with a jaw and a chin on a neck of its own, the moustache, the ice cream at the mouth, the
+    # hand held out for the rain; revision 46: the storm watcher, the goat's rope, the picture's foot):
+    # a garden under storm clouds: the watcher, the fence painted, digging
+    ("garden", 3, 49401, {"modules": ["rain_coming"], "events": ["paint_fence", "dig"]}, None),
+    # a park under storm clouds: the watcher, an ice cream, a reader on the bench
+    ("park", 3, 49402, {"modules": ["rain_coming"], "events": ["ice_cream", "read_bench"]}, None),
+    # a street: an ice cream, a dog walked, the trip
+    ("street", 3, 49403, {"modules": ["about_to_trip"], "events": ["ice_cream", "walk_dog"]}, "trip"),
+    # a park: the goat grazing, a game of catch, a picnic
+    ("park", 3, 49404, {"events": ["goat_grazing", "play_catch", "picnic"]}, None),
+    # a playground: an ice cream, a ball kicked, a balloon held (the swing is the garden's and cannot be forced here)
+    ("playground", 3, 49405, {"events": ["ice_cream", "kick_ball", "balloon"]}, None),
+    # a street: a dog begging, the path swept, a bag carried
+    ("street", 3, 49406, {"modules": ["dog_begs"], "events": ["sweep", "carry_bag"]}, None),
+    # a garden: washing hung, the cat on the fence, a raker (with the flowers watered the washing placed on none of 80 seeds; the seed is one
+    # whose garden has room by the line)
+    ("garden", 3, 52407, {"events": ["hang_laundry", "cat_on_fence", "rake"]}, None),
+    # a park: birds fed, a kite flown, a reader on the bench
+    ("park", 3, 49408, {"events": ["feed_birds", "fly_kite", "read_bench"]}, None),
     # v0.48 (builder 0.48.0: every person's head, face and hair, the side view's own face, one flat tone, the walk; every dog, cat and the goat
     # drawn again with bodies and limbs of their own; revision 45: the pond rule):
     # a park: a reader on the bench, a dog walked, birds fed, by the pond

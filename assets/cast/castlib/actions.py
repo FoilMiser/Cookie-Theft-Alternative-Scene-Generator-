@@ -45,6 +45,12 @@ CALL44 = _os44.environ.get("TPDB_CALL44", "A")  # v0.44 bench (vision/isolation_
 # blown kiss: the cone, the colour of skin, hid in the fist and the scoop sat on the cheek. "A": the cone darker (wood) and longer above the fist, cone
 # and scoop larger (half as big again on a child, whose props shrink with the body), the scoop below and in front of the mouth.
 ICE45 = _os44.environ.get("TPDB_ICE45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.49 (TPDB_ICE49 "B"; flaws_v048.md R5): the scoop at the mouth. On v0.48's face the mouth is lower and a plain line, and the cone stopped a
+# hand's width short of it: "she may be about to eat it or just carrying it", "he does not seem to be eating at this moment, just holding the
+# cone up" (ice_cream 0.95 by the gate, 0.75 with its eight calls halved). "B": the scoop's near side a finger from the lips, its middle just
+# under the mouth, and the head tipped twelve degrees to it for six. "O": v0.48's reach
+ICE49 = _os44.environ.get("TPDB_ICE49", "B")
+ICE49_PITCH = -12 if ICE49 == "B" else -6
 # v0.45 bench (vision/flaws_v044.md R2, TPDB_CAM45): the camera at the eyes was once more "a camera (or binoculars)". "A": the camera larger, a prism
 # hump in the middle of its top, a longer lens with a wide silver ring, and a strap hanging in a loop under it; a "flash" anchor for the scene.
 CAM45 = _os44.environ.get("TPDB_CAM45", "A")  # v0.45 bench (vision/isolation_v045.md): A
@@ -652,6 +658,15 @@ def up_point_up(P):
     # far-side arm up and ahead of the face, index finger up
     P.arms({"L": (P.lm("sh_L") + nrm((0.20, -0.62, 0.76)) * P.A * 0.99, (1, 0.4, -0.5)), "R": P.rest_arm("R")})
     P.hand("L", "point")
+
+
+def up_feel_rain(P):
+    """v0.49 bench (flaws_v048.md R1; TPDB_RAIN49 "B", not chosen): a hand held out in front, palm up, for the first drop; the other arm
+    at rest. The head looks up (the pose's head_pitch). The far arm, as in point_up: turned 45 degrees the near one, held forward, lies
+    across the trunk."""
+    u = P.u
+    P.arms({"L": (P.lm("sh_L") + Vector((0.07, -0.33, -0.16)) * u, (0.6, 0.5, -1)), "R": P.rest_arm("R")})
+    P.hand("L", "open", palm=(0, 0, 1))
 
 
 def up_reach_up(P):
@@ -1408,6 +1423,12 @@ def up_ice_cream(P):
         k = {"child": 1.5, "teen": 1.32}.get(P.c.spec.get("age"), 1.2)
         rim, sr = 0.070 * k, 0.050 * k
         tgt = m + Vector((-0.02, -(0.050 + sr * 1.15), -(rim + sr * 0.62 + sr * 0.80 + 0.012))) * u
+        if ICE49 == "B":
+            # (a child's head is larger against its hand's reach: the scoop a little nearer still)
+            # (round 1 of the bench, three readers of four: "pressed right against his face", "partly covers the mouth/nose": a finger
+            # further off and lower, the scoop's top level with the mouth)
+            gap = {"child": -0.002, "teen": 0.016}.get(P.c.spec.get("age"), 0.028)
+            tgt = m + Vector((-0.012, -(gap + sr), -(rim + sr * 0.62 + sr * 0.62))) * u
         P.arms({"R": (tgt, (-1, 0.4, -0.8)), "L": P.rest_arm("L")})
         g = P.grip("R")
         P.prop("cone", cyl("cone", g + Vector((0, 0, rim)) * u, g + Vector((0, 0, -0.085)) * u, 0.043 * k * u, "wood", seg=20, r1=0.004 * u))
@@ -1886,7 +1907,7 @@ def up_trowel(P):
 
 
 UPPER = {
-    "walk_swing": up_walk_swing, "run_swing": up_run_swing, "wave": up_wave, "point": up_point, "point_up": up_point_up,
+    "walk_swing": up_walk_swing, "run_swing": up_run_swing, "wave": up_wave, "point": up_point, "point_up": up_point_up, "feel_rain": up_feel_rain,
     "reach_up": up_reach_up, "hang_up": up_hang_up, "cheer": up_cheer, "slide_up": up_slide_up, "slide_hold": up_slide_hold,
     "hands_on_hips": up_hands_on_hips, "shrug": up_shrug,
     "hands_to_face": up_hands_to_face, "hold_front": up_hold_front, "clap": up_clap, "call_out": up_call_out,
@@ -1959,7 +1980,7 @@ ACTIONS = [
     ("carry_basket", "stand", {}, "carry_basket", "carrying a basket", ["carry", "picnic"]),
     ("carry_bucket", "stand", {}, "carry_bucket", "carrying a bucket", ["carry"]),
     ("drink", "stand", {"head_pitch": 16, "lean": -3}, "drink", "drinking from a cup through a straw", ["food"]),
-    ("eat_ice_cream", "stand", {"head_pitch": -6}, "ice_cream", "eating an ice cream cone", ["food"]),
+    ("eat_ice_cream", "stand", {"head_pitch": ICE49_PITCH}, "ice_cream", "eating an ice cream cone", ["food"]),
     ("eat_apple", "stand", {}, "apple", "eating an apple", ["food"]),
     ("look_up", "stand", {"head_pitch": 30, "lean": -4}, None, "looking up", ["look_up"]),
     ("read", "stand", {"head_pitch": -28}, "read", "reading a book", ["read"]),
@@ -1979,11 +2000,11 @@ ACTIONS = [
     ("walk_umbrella", "walk", {}, "umbrella", "walking with an umbrella", ["rain", "move"]),
     ("walk_dog", "walk", {}, "walk_dog", "walking a dog", ["dog", "move"]),
     ("walk_balloon", "walk", {"head_pitch": 4}, "balloon", "walking with a balloon", ["balloon", "move"]),
-    ("walk_ice_cream", "walk", {"head_pitch": -6}, "ice_cream", "walking with an ice cream", ["food", "move"]),
+    ("walk_ice_cream", "walk", {"head_pitch": ICE49_PITCH}, "ice_cream", "walking with an ice cream", ["food", "move"]),
     ("walk_basket", "walk", {}, "carry_basket", "carrying a basket", ["carry", "picnic", "move"]),
     ("sit_read", "sit", {"head_pitch": -26}, "read", "sitting and reading", ["sit", "read"]),
     ("sit_drink", "sit", {"head_pitch": 16}, "drink", "sitting with a drink", ["sit", "food"]),
-    ("sit_ice_cream", "sit", {"head_pitch": -6}, "ice_cream", "sitting and eating ice cream", ["sit", "food"]),
+    ("sit_ice_cream", "sit", {"head_pitch": ICE49_PITCH}, "ice_cream", "sitting and eating ice cream", ["sit", "food"]),
     ("sit_feed_birds", "sit", {"lean": 10, "head_pitch": -26}, "feed_birds", "sitting and feeding the birds", ["sit", "birds"]),
     ("sit_clap", "sit", {"head_pitch": 4}, "clap", "sitting and clapping", ["sit", "emotion"]),
     # v0.7
@@ -2074,6 +2095,9 @@ def make_people_actions(rig, ctx):
     P = Poser(rig, ctx)
     import os
     acts = ACTIONS + (experimental_actions() if os.environ.get("TPDB_PEXP") else [])
+    if os.environ.get("TPDB_RAIN49") == "B":
+        # v0.49 bench (vision/isolation_v049.md round 1; scenegen templates.RAIN49 "B"), not chosen: built only for that bench
+        acts = acts + [("feel_rain", "stand", {"head_pitch": 26}, "feel_rain", "holding a hand out, palm up, and looking up", ["social", "look_up"])]
     if os.environ.get("TPDB_PEXP_ONLY"):
         acts = [a for a in acts if a[0].startswith("exp") or a[0] in ("stand", "walk")]
     for name, lower, largs, upper, desc, tags in acts:

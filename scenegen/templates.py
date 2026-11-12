@@ -2609,8 +2609,9 @@ def _goat_tether(sc, a, f, s):
                     f"S {D.P(foot[0] + (mx_ - foot[0]) * 0.3, foot[1] + 6 * s)} {D.P(*foot)}")
             knot = (f'<ellipse cx="{peg[0]:.1f}" cy="{peg[1] - 6 * s:.1f}" rx="{6.2 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="{D.OUT}" stroke-width="{4.0 * s:.1f}"/>'
                     f'<ellipse cx="{peg[0]:.1f}" cy="{peg[1] - 6 * s:.1f}" rx="{6.2 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="#c9a56a" stroke-width="{2.2 * s:.1f}"/>')
-        svg = (f'<path d="{rope}" fill="none" stroke="{D.OUT}" stroke-width="{4.6 * s:.1f}" stroke-linecap="round"/>'
-               f'<path d="{rope}" fill="none" stroke="#c9a56a" stroke-width="{2.6 * s:.1f}" stroke-linecap="round"/>')
+        rw = (6.6, 4.2) if SCN.PLACEMENT_REV >= 46 and ROPE49 == "B" else (4.6, 2.6)        # revision 46 (ROPE49)
+        svg = (f'<path d="{rope}" fill="none" stroke="{D.OUT}" stroke-width="{rw[0] * s:.1f}" stroke-linecap="round"/>'
+               f'<path d="{rope}" fill="none" stroke="#c9a56a" stroke-width="{rw[1] * s:.1f}" stroke-linecap="round"/>')
         stake = (f'<path d="M {D.P(peg[0] - 4.5 * s, peg[1])} L {D.P(peg[0] - 4.5 * s, peg[1] - 22 * s)} Q {D.P(peg[0], peg[1] - 26 * s)} '
                  f'{D.P(peg[0] + 4.5 * s, peg[1] - 22 * s)} L {D.P(peg[0] + 4.5 * s, peg[1])} Z" fill="{C["wood"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}"/>') + knot
         bb = (min(cx, g1[0], peg[0]) - 10 * s, min(cy, pb[1]) - 4, max(cx, g1[0], peg[0]) + 10 * s, pb[3])
@@ -3502,6 +3503,15 @@ def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
     return svg, bb
 
 
+# RAIN49 (revision 46; vision/flaws_v048.md R1, vision/isolation_v049.md round 1): "B" the watcher of the storm clouds holds a hand out, palm
+#   up, and looks up, and points at nothing. Tried on the bench and not chosen: of four readers of it one had the rain as the first reading,
+#   two as one of two, and one not at all (the open hand was a finger pointed at what stood in front of it), where both readers of the
+#   pointer went on to the rain. "O", the release's: revision 45's pointer
+RAIN49 = __import__("os").environ.get("TPDB_RAIN49", "O")
+# ROPE49 "B" (revision 46; flaws_v048.md O5): the goat's rope and peg heavier. "O": revision 45's
+ROPE49 = __import__("os").environ.get("TPDB_ROPE49", "B")
+
+
 class RainComing(T):
     id = "rain_coming"
     kind = "inference"
@@ -3518,7 +3528,9 @@ class RainComing(T):
         sc = self.sc
         self.p = sc.person(None)
         # revision 9: always worried (surprise did not say what was coming)
-        self.vp = sc.need(self.p, "point_up", "worried" if SCN.PLACEMENT_REV >= 9 else sc.rng.choice(["worried", "surprised"]), 45)
+        self.feel = SCN.PLACEMENT_REV >= 46 and RAIN49 == "B"
+        self.vp = sc.need(self.p, "feel_rain" if self.feel else "point_up",
+                          "worried" if SCN.PLACEMENT_REV >= 9 else sc.rng.choice(["worried", "surprised"]), 45)
 
     def place(self):
         sc = self.sc
@@ -3552,12 +3564,21 @@ class RainComing(T):
             # fingertip)
             acc9 = accept
             accept = lambda p: acc9(p) and self.tip_clear(p)
+        if self.feel:
+            # revision 46 (RAIN49): no finger and no pointing line. The watcher faces the clouds' side, stands clear of the trees, and has
+            # nothing scored in front of the open hand
+            accept = lambda p: (sc.gaze_ok(p, box) or p.facing() == (1 if cx > p.X else -1)) and self.hand_clear(p)                 and sc.setting_clear((p.bbox()[0] - 70, 0, p.bbox()[2] + 70, p.bbox()[3]), only=("tree", "tree_small"))
         p = sc.try_put(ep, self.vp, cands, want_face=self.face_to(cx), accept=accept)
         if not p:
             return False
         sc.checks[f"{ep}_looks_at_clouds"] = sc.gaze_ok(p, box)
         self.ent("Dark clouds are coming", ["dark clouds", "storm clouds", "clouds", "cloudy", "storm", "gray sky"], "clouds", ["clouds_dark"])
-        self.act(self.p, "pointing up at the sky", ["pointing at the sky", "pointing at the clouds", "pointing up", "looking up", "worried"], "pointing", [ep])
+        if self.feel:
+            self.act(self.p, "holding a hand out, palm up, and looking up at the sky",
+                     ["holding a hand out", "hand out", "palm up", "feeling for rain", "checking for rain", "looking up", "looking at the sky", "worried"],
+                     "sky", [ep])
+        else:
+            self.act(self.p, "pointing up at the sky", ["pointing at the sky", "pointing at the clouds", "pointing up", "looking up", "worried"], "pointing", [ep])
         self.inf("It is about to rain", ["it's going to rain", "a storm is coming", "rain is coming", "it might rain", "going to get wet"],
                  "rain", 1, cues=["clouds_dark", ep], effect=["clouds_dark"])
         return True
@@ -3582,6 +3603,23 @@ def _rain_tip_clear(self, p):
 
 
 RainComing.tip_clear = _rain_tip_clear
+
+
+def _rain_hand_clear(self, p):
+    """Revision 46 (RAIN49): nothing scored (but the clouds) in front of the watcher's open hand: 200 units on from it, from 150 above it to
+    70 below. A hand held out toward somebody is held out to them."""
+    sc = self.sc
+    f = p.facing()
+    grips = [p.anchor(k) for k in ("hand_L_grip", "hand_R_grip") if p.has_anchor(k)]
+    if not grips:
+        return True
+    hx, hy = max(grips, key=lambda q: q[0] * f)
+    s = sz(p.Y)
+    zone = (min(hx, hx + f * 200 * s), hy - 150 * s, max(hx, hx + f * 200 * s), hy + 70 * s)
+    return not any(sc.overlap(zone, b) > 0 for k, b, _ in sc.scored_boxes(ignore=(getattr(p, "id", None),)) if "cloud" not in k)
+
+
+RainComing.hand_clear = _rain_hand_clear
 
 
 RAIN_STRUCT9 = ("lamp", "stall", "tree", "tree_small", "clothesline", "laundry", "swing", "swing_seat", "slide", "seesaw", "feeder",

@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.48.0"
+GENERATOR_VERSION = "0.49.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -50,18 +50,18 @@ def feasible(cls, setting, sky):
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
 PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.22 calibration.json)
-    "blocked_hose": [("inference", 2, -0.39, 0.171, 2, "water")],
+    "blocked_hose": [("inference", 2, -0.39, 0.169, 2, "water")],
     "rain_coming": [("inference", 1, 0.95, 0.409, 1, "rain")],
-    "cat_stalks_bird": [("inference", 1, -0.48, 0.099, 1, "cat")],
-    "ball_in_tree": [("inference", 1, -0.69, 0.142, 1, "stuck")],
-    "kite_in_tree": [("inference", 1, -0.54, 0.244, 2, "stuck")],
-    "ice_cream_drop": [("inference", 1, -1.43, 0.080, 2, "dropped")],
-    "about_to_trip": [("inference", 1, 0.16, 0.094, 1, "trip")],
+    "cat_stalks_bird": [("inference", 1, -0.50, 0.099, 1, "cat")],
+    "ball_in_tree": [("inference", 1, -0.69, 0.141, 1, "stuck")],
+    "kite_in_tree": [("inference", 1, -0.54, 0.245, 2, "stuck")],
+    "ice_cream_drop": [("inference", 1, -1.44, 0.079, 2, "dropped")],
+    "about_to_trip": [("inference", 1, 0.16, 0.093, 1, "trip")],
     "dog_begs": [("inference", 1, -0.79, 0.080, 1, "begging")],
     "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
     "paint_tracks": [("inference", 2, -0.78, 0.141, 2, "paint")],
-    "windy_hat": [("inference", 2, -1.24, 0.145, 1, "wind")],
-    "bird_steals": [("inference", 2, -1.76, 0.067, 1, "stealing")],
+    "windy_hat": [("inference", 2, -1.23, 0.144, 1, "wind")],
+    "bird_steals": [("inference", 2, -1.76, 0.068, 1, "stealing")],
     "lost_balloon": [("inference", 1, -1.16, 0.180, 2, "lost")],
     "ducks_bread": [("inference", 1, -1.34, 0.016, 1, "hungry")],
     "seesaw_heavy": [("inference", 1, -0.69, 0.166, 1, "heavy")],
@@ -73,8 +73,8 @@ for _cid, _s, _k in [("water_upward", -1.44, "water"),
                      ("fish_in_tree", -1.31, "fish"),
                      ("pan_watering", 0.07, "pan"),
                      ("sweep_fork", 0.25, "fork"),
-                     ("bucket_hat", 0.28, "bucket"),
-                     ("sitting_on_air", 0.09, "chair"),
+                     ("bucket_hat", 0.29, "bucket"),
+                     ("sitting_on_air", 0.10, "chair"),
                      ("ladder_nothing", -0.44, "ladder"),
                      ("dog_reading", -0.30, "newspaper")]:
     PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]

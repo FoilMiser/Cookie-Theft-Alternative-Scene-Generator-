@@ -294,7 +294,27 @@ class PlacementError(Exception):
 # or over the end of the hose that hangs from it. In a tier-2 isomorph the begging dog sat up in front of the reel with its head on the reel's
 # drum, so the drum was a ring behind the head and the hose's end a thing coming from the neck. The reel's own "blocked" patch keeps feet off
 # it; a sitting dog's head is as high as the drum.
-PLACEMENT_REV = 45
+#
+# Revision 46 (v0.49): the people's heads are drawn anew (builder 0.49.0: a jaw and a chin on a narrower neck, vision/isolation_v049.md), so
+# every person's box and anchors are new. Two rules with it, and one tried, from vision/flaws_v048.md:
+#   R1 (templates.RAIN49, tried and left at "O"): `rain_coming` failed v0.48's gate at 0.889: of the three pictures one reader had "A back
+#   garden under a grey sky with dark storm clouds." and the child "pointing up at the sky, perhaps at the storm clouds", and did not go on
+#   to the rain. A watcher who looks up with a hand held out, palm up, for the first drop (the cast's `feel_rain`) read worse on the bench
+#   than the pointer, so the pointer stays and the probes give it five pictures for three.
+#   O5 (templates.ROPE49): the goat's rope half as thick again ("The goat's lead is thin and hard to see; it could be
+#   read as a rope tying it to a stake, or just a stick/line on the grass.").
+#   O6 (EDGE49): an animal's box ends at least 8 px above the picture's foot, where 4 px is the rule for everything ("The dog is cut off
+#   at the bottom edge of the picture slightly; otherwise nothing looks strange."). The rule was written twice before it was this one.
+#   First for every figure, people too, at 14 px: that took from the people the front strip of the ground, where a crowded picture stands
+#   its largest figures, and tier 4 all but stopped placing (the set built under it needed 56 seeds for the tier-4 garden and a forced set
+#   for the tier-3 playground, and found no tier-4 isomorph in 235 calls). Then for animals only, still at 14 px: the set came back to
+#   v0.48's seeds in 14 cells of 16, and the tier-4 isomorph still would not build in 126 calls, because a stalking cat and a bird of
+#   v0.48's own isomorph stand 8 and 10 px above the foot. At 8 px that isomorph builds on its seed, and of the 106 records built at
+#   14 px two rebuild differently and were built again (a tier-2 cell and a probe). Each rule was tried with one call of last release's
+#   isomorph, the switch on and off (TPDB_EDGE49, TPDB_EDGE49_PX).
+PLACEMENT_REV = 46
+EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
+EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value
 POND48 = __import__("os").environ.get("TPDB_POND48", "B")      # "O": revision 44's pond
 REEL48 = __import__("os").environ.get("TPDB_REEL48", "B")      # "O": animals may stand over the hose reel, as up to revision 44
 WORKER = "person.jo"
@@ -509,6 +529,8 @@ class Scene:
     def fits(self, bbox, ignore=(), limit=0.12, margin=8):
         if bbox[0] < margin or bbox[2] > D.W - margin or bbox[1] < margin or bbox[3] > D.H - 4:
             return False
+        if PLACEMENT_REV >= 46 and EDGE49 == "B" and bbox[3] > D.H - EDGE49_PX and getattr(getattr(bbox, "asset", None), "family", "").startswith("animal."):
+            return False        # revision 46 (EDGE49): an animal's box clear of the picture's foot
         for k, b, _ in self.scored_boxes(ignore):
             if self.overlap(bbox, b) > limit:
                 return False

@@ -22,6 +22,22 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.49 (the people's heads drawn anew with a jaw and a chin, vision/isolation_v049.md; revision 46). The third letter x marks the release;
+    # N the v0.49 cast (assets/cast/out049, lib049) with every revision-46 switch at the release's value, O the same cast with that case's
+    # switch at "O" (TPDB_RAIN49, TPDB_ICE49 for a cast built beside the release's). rcx: the watcher of the storm clouds, the whole
+    # single-event picture, since the clouds are the setting's; iex: the ice cream at the mouth; ggx: the goat's rope
+    "rcxN_1": ("garden", 49101, {"modules": ["rain_coming"]}, "full", None),
+    "rcxN_2": ("park", 49102, {"modules": ["rain_coming"]}, "full", None),
+    "rcxN_3": ("playground", 49103, {"modules": ["rain_coming"]}, "full", None),
+    "rcxN_4": ("street", 49104, {"modules": ["rain_coming"]}, "full", None),
+    "rcxO_1": ("garden", 49101, {"modules": ["rain_coming"]}, "full", None),
+    "rcxO_2": ("park", 49102, {"modules": ["rain_coming"]}, "full", None),
+    "iexN_1": ("street", 49111, {"events": ["ice_cream"]}, "event", None),
+    "iexN_2": ("park", 49112, {"events": ["ice_cream"]}, "event", None),
+    "iexN_3": ("playground", 49113, {"events": ["ice_cream"]}, "event", None),
+    "iexN_4": ("park", 49114, {"events": ["ice_cream"]}, "event", None),
+    "ggxN_1": ("park", 49121, {"events": ["goat_grazing"]}, "event", None),
+    "ggxN_2": ("garden", 49122, {"events": ["goat_grazing"]}, "event", None),
     # v0.48 (the cast drawn anew: the egg head, the faces, the side view's own face, the flat tone; the animals' bodies and limbs;
     # vision/isolation_v048.md). The third letter w marks the release; N the v0.48 cast (assets/cast/out048, lib048) on revision 45. Each event
     # alone and cropped: every event an animal is in, so that each redrawn animal is read doing its thing before it goes into a scene; and the

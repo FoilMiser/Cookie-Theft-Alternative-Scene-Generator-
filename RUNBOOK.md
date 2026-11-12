@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.48 was made, written so that a fresh session can make the next one (v0.49) from this
+How each release from v0.12 to v0.49 was made, written so that a fresh session can make the next one (v0.50) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -56,6 +56,13 @@ changes (a new placement revision, step 3).
 - `tools/cycle/iso_round.py <bench_dir> vision/isolation_v<TAG>/round1 <WORK>/isop <tag> case1 case2 ...` shuffles the
   crops into `iso_NN.png`, writes `map.json`, and writes one reader prompt per two crops (never two takes of the same
   thing for one reader). Give each prompt to a fresh reader (a subagent) that sees only its images.
+- When the brief is about how a figure looks (v0.48 the faces, v0.49 the head), judge the drawing before any event: trials of one family built
+  alone and rendered at 800 px per metre (`TPDB_PPM`), sheets of heads with a row at scene size under them, and blind reviewers who compare two
+  drawings at a time, each pairing in both orders. A sheet of more than two rows is ranked by a row's place (Lessons, v0.49).
+- The age bench, whenever heads or proportions change: `python tools/cycle/age_bench.py <list.json> vision/isolation_v<TAG>/who 48=<renders> 49=<renders>`
+  writes strips of four small figures and a prompt a strip (what would you call this person, how old, what is on the face, how sure), and
+  `age_tally.py <folder> <map.json>` counts the answers by cast.
+- `python tools/cycle/qcheck.py <doc.md> [folders]` looks up every quotation of a document in the readers' own files while it is being written.
 - Write `vision/isolation_v<TAG>.md`: each case, what was tested, what the readers said (quotes), which variant wins.
   Make the winners the defaults, bump `BUILDER_VERSION` in `assets/cast/build_cast.py` if the cast changed, then
   `python build_cast.py out<TAG>`; copy `lib<PREV>` to `lib<TAG>` minus the changed families' files (they re-render on
@@ -93,6 +100,7 @@ python tools/cycle/isos.py 0,1,2,3 isomorph_summary_a.json   # tier 2-3 isomorph
 python tools/cycle/iso_t4.py 6111,7111,8111,9111,10111      # the tier-4 isomorph
 python tools/cycle/iso_t4_wide.py 164111,38111,94111,...    # when that finds none: only the pairs that can build (edit `pairs`), last release's seed first
 python tools/cycle/merge_iso.py                             # the part summaries into scenes<TAG>/isomorph_summary.json, each entry checked
+TPDB_EDGE49=O python tools/cycle/iso_one.py T4_park_s728923 street 164111 $TPDB_WORK/iso_o   # one isomorph call with a switch off: is a new rule what stops a search?
 ```
 
 - The previous release's base seeds are in its `scenes/showcase_summary.json` (`base_seed`). Try those first for tier 4.
@@ -136,7 +144,8 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   `python vision/gate.py vision/v<TAG> scenes,probes`.
 - Then the three counts beside the gate: `python tools/cycle/gate_yaw.py vision/v<TAG> scenes,probes` (the gate per template and angle, and the
   animal oddities by angle); `python tools/cycle/strict_count.py` (fill its two lists from the scorers' judgement calls first); and
-  `python tools/cycle/who_called.py person.ana purple` for each grown figure (what the readers called it: a woman or a girl, a man or a boy).
+  `python tools/cycle/who_called.py person.ana purple` for each grown figure (what the readers called it: a woman or a girl, a man or a boy), and
+  `python tools/cycle/who_cmp.py` for the count of the four grown figures called young first, this screen beside the last by one rule.
 - Write `vision/flaws_v<TAG>.md` (headline table, what the earlier list became, the gate table, the R rows and O rows for
   the next release), update `vision/limits.txt` (it fills the README's Known limits) and add the release's line to
   `vision/screen_prompts.md`.
@@ -154,8 +163,14 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   Publish to the page (https://claude.ai/artifact/6affEGUfuZyCQNoguG5dnL, slug `2d310fee-c012-4eea-b09a-cd0405c4c225`) through the `claude-artifacts` tools: read `guide` topic `pages` first, take
   `base_version` from `get_artifact`, then `publish_files` with `files` as `{as, path}` and `remove` for what is gone, for the files that `python tools/cycle/site_patch.py site<PREV> site<TAG>` lists. A publish changes only the files it names.
   To compare with what is live, use `list_files`. The live page from v0.30 and before differs from `git archive`'s `index.html` by that skeleton.
-- Spec doc ("TPDB Difficulty Model Spec", https://claude.ai/artifact/3fdacwmfKaN4YRePWLrddF): add a section after the
-  previous release's "Legibility gate outcome" paragraph, in the same shape as the earlier ones, through the docs connector (`update` on the doc's node, engine `prose`, an `insert` after the last block). Its screen table carries every version's column, so copy the last one and add a column.
+- Spec doc ("TPDB Difficulty Model Spec", https://claude.ai/artifact/3fdacwmfKaN4YRePWLrddF): two tabs since v0.48. The first,
+  "Spec and current release", holds the spec, a paragraph that points to the second tab, the sections of the releases from v0.48 on,
+  then "Open decisions" and "References". The second, "Release history, v0.5 to v0.47", holds the older sections and is close to the
+  service's limit of 20,000 blocks a tab, so nothing is added to it. Add the new release's section to the first tab, after the last
+  paragraph of the previous release's section and in the same shape, through the docs connector (`update` on that tab's body node,
+  engine `prose`, an `insert` after that block). Its screen table has the last five screens only; the columns from v0.4 are in the
+  table of the v0.47 section, in the history tab. The tools do not move blocks between tabs: a tab's content is sent inline, and
+  `export` gives a tab back as markdown to check it against.
 - `python tools/cycle/lf.py`, then `python3 package_release.py 0.XX --single` (it checks the zip file by file); set `zip_mb` in the text JSON to the size,
   refill the README and package again. Send the zip to Sam.
 - GitHub (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-): the working folder is the clone. Work on a
@@ -557,3 +572,59 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
 - The helper scripts a release needs belong in `tools/cycle/`, not in `tpdb_work/`, which git ignores. Until v0.47 the angle pass, the forced probes,
   the wide isomorph search, the merge, the per-angle gate and the strict count were copied from one release's scratch folder to the next; v0.48
   moved them (`probe_angle.py`, `more_probes.py`, `iso_t4_wide.py`, `merge_iso.py`, `gate_yaw.py`, `strict_count.py`, `who_called.py`).
+- A sheet of several rows is ranked by a row's place as much as by its drawing. v0.49's first head bench gave four reviewers the same nine
+  heads drawn five ways, the rows shuffled for each: all four put the top row last and the second row fourth, whatever was in them, and
+  three different shapes were somebody's first. Compare two drawings at a time, larger, each pairing in both orders, and count the
+  choices (`vision/isolation_v049.md`, benches 1 and 2). A reviewer can describe its two rows the wrong way round and still choose:
+  count that choice and quote only words that fit the picture.
+- When the brief is about taste, send Sam the candidates before the cast is built. v0.49 sent one sheet (`vision/isolation_v049/head_candidates.png`:
+  the old head and four shapes, heads large and whole figures small) with the one the release would go ahead with named on it, and went ahead.
+- A line where two parts join has to come from Line Art's intersections, not from an outline that happens to cross. The chin's line across the
+  neck came out as stubs or dashes while the neck was a piece of the skin's one mesh, which draws no intersections (v0.39): the head's
+  underside is buried in the neck there, and Line Art shows or hides whole segments of it. The neck as a part of its own, with its
+  intersections kept, drew the line whole in every view. To find which part draws a stray line, open the family's `.blend`, set
+  `bpy.data.objects[<name>].lineart.usage = "EXCLUDE"` on one suspect, save a copy and render it; a dash under a collar was the rim of the
+  neck's rounded foot.
+- Bench a new gesture against the old one on the same seeds before it replaces it. A hand held out, palm up, for the first drop of rain
+  looked right on my own sheet and read worse than the pointer it was to replace: at a picture's size an open hand held level is a
+  finger pointed at whatever stands in front of it.
+- A pass is not a mend. `rain_coming` failed v0.48's gate in three pictures and passes v0.49's in five with the drawing unchanged. Say which it
+  is wherever the result is reported, and do not take a template off the list for a pass its drawing did not earn.
+- What makes a small figure read as grown is a mark of age, not the head. The age bench (`age_bench.py`, `age_tally.py`) gave the same answer
+  for four casts, v0.48's head, v0.49's, and v0.49's at 0.90 and 0.83 of its size: one figure of fourteen called young first, or none. Grey
+  hair, glasses, a cap and a moustache are named every time a reader is sure. The screen then counted more young names with the jaw, not
+  fewer (20 of 89 for 11 of 81, `who_cmp.py`). Do not spend a release on a head's outline or proportions for this.
+- Price a rule that takes ground away on the crowded cells before the set is built, with the rule on and off. Revision 46's edge rule was
+  written three times. For every figure at 14 px it did nothing to a single event's yield and all but stopped tier 4: the tier-4 garden
+  failed on 56 seeds, the tier-3 playground went to a forced set, and no tier-4 isomorph came in 235 calls. For animals at 14 px the set
+  came back and the tier-4 isomorph still would not build in 126 calls. At 8 px it built on last release's seed, third call. A scene switch
+  is read from the environment when `scenegen.scene` is imported, so a comparison is two runs: `TPDB_EDGE49=O python tools/cycle/yield_set.py ...`
+  beside the plain one.
+- When a search that took three calls in the last release has taken two hundred, stop and look for the rule. One call with each new
+  switch off (`tools/cycle/iso_one.py`: last release's isomorph on its own seed, into a scratch folder) answered in half a minute what the
+  wider and wider searches had not. Then look at the boxes: the cat and the bird that the 14 px margin refused stood 8 and 10 px above the foot.
+- When a rule changes after the set is built, `verify_all.py` under the new value says what to build again. `TPDB_EDGE49_PX=8` over the 106
+  records built at 14 px found 104 identical and 2 different; those two were built again and the rest stand. Without that count the choice
+  is a third whole build or a rule nobody tested on the release's own pictures. The calibration was left as measured, and the README says so.
+- Measure a forced set before a design test spends 80 seeds on it (`yield_set.py N SETTING SEED 3 '<set>' BAND=0`, seconds once the
+  variants are rendered). v0.49 lost two design-test builds to sets that cannot be cast or placed: a swing forced in the playground
+  (it is the garden's event) and the washing beside the watered flowers.
+- The washing can only be hung by the three tallest grown figures: the hanger's feet must stand within 30 px of the posts' depth, and
+  the others' hands do not reach the line from there. `probes.py` gives the template up when its three groups cast a shorter one;
+  `more_probes.py` with small groups on more seeds fills it. In v0.49's last build `probes.py` left nine templates short, each on a partner
+  (the storm beside a watering template, a second dog, the playground's events with each other), and small groups filled all nine.
+- A rerun of `probe_angle.py` starts again at its first seed and overwrites a probe of the same name: v0.49's replaced an angle probe of the
+  dropped ice cream with one of the playing dog. Both passes still ended `SHORT {}`, but count the probes and rerun `probes.py 3` and
+  `probe_angle.py 2` for their last line after any rerun.
+- The setting's items are most of what a screen leaves under full marks, and they are a reader's habit: 41 of v0.49's 42, from seven readers,
+  two of whom left the clouds out of all eight of their pictures, and the set's mean fell from 0.993 to 0.967 on them alone. Read a set's
+  headline with the things apart from the rest, and say in the README which moved.
+- State the rule with a count, so the next release can make the same one. v0.48's "51 of the calibration's 252 numbers moved" could not be
+  made again from the two files (45 by a threshold of 0.002, 66 with none). v0.49's is: of n, b0_mean, b0_sd, s_mean, d_mean, r and a over
+  the 36 items, those that moved by 0.002 or more (24).
+- `make_readers.py` deals the pictures in the order their names sort as text, so with more than 99 pictures the second reader has pictures 9,
+  10 and 100 to 105. It harms nothing; say it in `screen_prompts.md`.
+- Begin every shell command at the repository's root (`cd /e/Cognitive_Test_Scene_Creator && ...`). A `cd` into a subfolder in one call is
+  still in force in the next, and twice in v0.49 a command ran in the wrong folder for it.
+- A write on this exFAT drive can fail once with `OSError: [Errno 22] Invalid argument` and work on the next try. Check the file's size
+  and tail before going on; a patch script that asserts what it replaces can simply be run again.

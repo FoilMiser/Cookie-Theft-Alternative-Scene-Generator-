@@ -31,7 +31,9 @@ NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # blocked_hose, lost_balloon, water_upward: vision/flaws_v047.md R1 to R4) and for five templates whose animal was drawn anew and carries the
 # reading: dog_reading, bird_steals and cat_stalks_bird (R5), walk_dog (the dog whose stand and walk lost its pair on the bench, and a walker
 # whose direction one bench reader had the other way) and dog_sleeping (not read small and far in the bench's fourth round)
-NEED_T = {"about_to_trip": 5, "blocked_hose": 5, "lost_balloon": 5, "water_upward": 5, "dog_reading": 5, "bird_steals": 5, "cat_stalks_bird": 5,
+# v0.49: five for rain_coming too (vision/flaws_v048.md R1: it failed the gate at 0.889 on one unsaid inference in three pictures, and its
+# verdict rests on one inference a picture)
+NEED_T = {"rain_coming": 5, "about_to_trip": 5, "blocked_hose": 5, "lost_balloon": 5, "water_upward": 5, "dog_reading": 5, "bird_steals": 5, "cat_stalks_bird": 5,
           "walk_dog": 5, "dog_sleeping": 5}
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()

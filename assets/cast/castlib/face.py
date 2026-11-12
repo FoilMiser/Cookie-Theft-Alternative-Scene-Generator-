@@ -10,7 +10,7 @@ import math
 import bpy  # noqa: F401
 from mathutils import Matrix, Quaternion, Vector
 
-from .core import HEAD48, capsule_arc, ellipsoid, half_ellipsoid, head_f, head_g, list_m, nrm, smooth_curve, tube, upd
+from .core import HEAD48, capsule_arc, ellipsoid, half_ellipsoid, head_f, head_fy, head_g, list_m, nrm, smooth_curve, tube, upd
 
 
 class Face:
@@ -30,7 +30,7 @@ class Face:
             zs = max(-0.999, min(0.999, z / self.az))
             f = head_f(zs)
             u = max(1e-4, 1 - zs * zs) ** (n / 2) - abs(x / (self.ax * f)) ** n
-            return Vector((x, -self.ay * (f * max(1e-4, u) ** (1.0 / n) + head_g(zs)), z))
+            return Vector((x, -self.ay * (head_fy(zs) * max(1e-4, u) ** (1.0 / n) + head_g(zs)), z))
         if self.n != 2.0:
             n = self.n
             u = max(1e-4, 1 - (z / self.az) ** 2) ** (n / 2) - abs(x / self.ax) ** n
@@ -80,7 +80,7 @@ class Face:
         zs = max(-0.999, min(0.999, z / self.az))
         f = head_f(zs)
         yy = y + self.ay * head_g(zs)
-        u = max(1e-4, 1 - zs * zs) ** (n / 2) - abs(yy / (self.ay * f)) ** n
+        u = max(1e-4, 1 - zs * zs) ** (n / 2) - abs(yy / (self.ay * head_fy(zs, yy > 0))) ** n
         return self.c + Vector((s * (self.ax * f * max(1e-4, u) ** (1.0 / n) + out), y, z))
 
     def curve_on(self, key, pts2d, radius, matkey, out):

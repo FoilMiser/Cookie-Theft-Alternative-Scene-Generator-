@@ -125,6 +125,15 @@ if ADULT43 == "C":
     PEOPLE["person.mei"].update(hem_drop=0.12)
     PEOPLE["person.ana"].update(hair="ponytail", tie="charcoal")
 
+# v0.49 (core.HEAD49): whose head has which jaw. Unnamed, a grown figure has the man's and a child the child's
+for _fam, _h in (("person.ana", "woman"), ("person.mei", "woman"), ("person.rosa", "woman"), ("person.leo", "teen")):
+    PEOPLE[_fam]["head49"] = _h
+# v0.49 bench (TPDB_HS49; vision/isolation_v049.md, the age bench): a grown figure's head scaled by this against its body. 1.0 is v0.48's
+_HS49 = float(os.environ.get("TPDB_HS49", "1.0"))
+if _HS49 != 1.0:
+    for _fam, _sp in PEOPLE.items():
+        if _sp["age"] in ("adult", "older_adult"):
+            _sp["head_scale"] = _sp.get("head_scale", 1.0) * _HS49
 # v0.48 (people.HAIR48, face.FACE48): the two women's brows finer, and their hair parted differently so that they differ by more than colour
 if os.environ.get("TPDB_HAIR48", "B") == "B":
     PEOPLE["person.mei"].update(part="center", brow=(0.92, 1.0, 0.80))
