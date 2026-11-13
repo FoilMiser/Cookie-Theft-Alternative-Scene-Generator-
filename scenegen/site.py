@@ -49,56 +49,41 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v051", "v052"
+PREV, CUR = "v052", "v053"
 
-# v0.52 worked the brief (the upper arms, the shoulders and the sleeves) in the cast alone (vision/isolation_v052.md): no template was drawn
-# again, and the set is the set of v0.51 with the new figures in it (vision/flaws_v052.md)
+# v0.53 worked the list of v0.52 in the scene alone (vision/isolation_v053.md): the square wheel of the wheelbarrow is larger, and a jump is
+# never planned beside a game of catch. The cast is the cast of v0.52 (vision/flaws_v053.md)
 REDRAWN_NOTES = {
-    "square_wheel": "Not drawn again. v0.51: in full in eight pictures, three of them naming the wheel only among the unsure things. v0.52: under the gate in the same eight pictures; two readers of the four wheelbarrows did not notice the wheel: 'Wheelbarrow, bottom right: grey.' First on the list for v0.53.",
-    "bird_steals": "Not drawn again. One inference of six is not stated: 'pecking at a sandwich', and no more.",
-    "ducks_bread": "Not drawn again. One half mark in five pictures: the slice of bread is seen, and one reader does not say that the duck comes for it.",
-    "blocked_hose": "Not drawn again. In full in five pictures, where v0.51 had two half marks in one. The reader of that picture still writes 'It is not certain the dog is the cause of the hose having no water', and its scorer gave full marks.",
-    "ice_cream": "Looked at and left: the scoop is at the mouth already. In full in fifteen pictures, where v0.51 had one half mark.",
-    "floating_box": "Not drawn again. In full in three pictures, two of its marks beside a throw or a fall: 'floating, falling, or blown/thrown; nothing explains it, so it looks impossible'.",
-    "sweep": "An upright sweeper was read in ten whole pictures and not taken: the sweeper was read as grown with either pose. In full in nineteen pictures. One reader of the man in the red shirt: 'could be read as a teenage boy or a man'.",
-    "wave": "The raised arm carries its sleeve up with it. In full in three pictures.",
-    "hang_laundry": "Both arms are raised, each in its sleeve. In full in three pictures.",
-    "paint_fence": "The arm on the roller is in its sleeve. In full in nine pictures.",
+    "square_wheel": "The wheel of the wheelbarrow is larger, 68 units across for 50. v0.52: under the gate; two readers of the four wheelbarrows did not notice the wheel: 'Wheelbarrow, bottom right: grey.' v0.53: the four wheelbarrows in full: 'The wheelbarrow wheel is square rather than round, which looks unintentionally strange.' The one miss is a bicycle, drawn as it was: 'Red bicycle, right-front, standing on its kickstand.'",
+    "jump": "No longer planned into a picture with a game of catch: beside one, the jump was read as a try for the ball. In full in five pictures.",
+    "play_catch": "No longer planned into a picture with a child jumping for joy. In full in five pictures.",
+    "bird_steals": "Not drawn again. In full in five pictures, where v0.52 had one inference not stated; the picture it was missed in came back unchanged and was read in full by another reader.",
+    "ducks_bread": "Not drawn again. In full in five pictures, where v0.52 had one half mark, in a picture that came back unchanged.",
+    "dog_begs": "Not drawn again. In full in six pictures, five of its marks beside another reading: 'The dog could be begging for the ice cream, or just sitting up to be noticed / do a trick.'",
+    "blocked_hose": "Not drawn again. In full in five pictures, five of its marks beside a doubt: 'It is not certain the dog is blocking the water, but it is standing on the hose and no water comes out of the nozzle.'",
+    "floating_box": "Looked at and left: the list asked for the box lower with a shadow, which revisions 10 and 11 drew and replaced. In full in three pictures, two of its marks beside a throw: 'floating impossibly, or as having been thrown and about to fall down into the garden'.",
+    "cat_stalks_bird": "Not drawn again. In full in three pictures, two of its marks beside another reading: 'or just crouching and walking; it reads mostly as stalking'.",
+    "seesaw_heavy": "Measured and left: the man sits at the right height on the plank. In full in three pictures; the remark is of his legs: 'The seesaw bar seems to run past or through his legs, which looks a bit awkward.'",
 }
 
-# the next list: every template under 0.9, and every one that fails the gate
+# the next list: every template under 0.9, and every one that fails the gate (none in v0.53)
 WEAK_NOTES = {
-    "square_wheel": "Under the gate. The wheel is drawn as it was in v0.51, where three readers of eight named it only among the unsure things; in v0.52 two readers of the four wheelbarrows do not name it at all, and one names only the back wheel of the bicycle: 'square-ish'. For v0.53: the wheel of the barrow larger and darker, read in whole pictures against the wheel of v0.52.",
 }
-SCREEN_NOTE = ("The v0.52 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. The set is the set of v0.51 with the new figures in it: every cell, isomorph and probe placed on the seed of v0.51 with the same templates, and the answer keys are the same item for item. "
-               "1,095 of 1,114 items had full marks and none was misread. 63 of the 64 templates pass the gate; the square wheel does not, on two wheelbarrows that their readers did not notice. Nothing was mended, swapped or read again after the screen. "
-               "Item for item, 1,054 of the 1,114 scores are those of v0.51; fifty of the sixty others are the clouds or a tree. "
-               "With the 34 full marks that stand beside another reading halved, 54 of the 64 pass. "
-               "No reader of a whole picture wrote of a sleeve or a shoulder: the new drawing was judged large and in pairs, and chosen there by 10 reviewers of 12, 10 of 12 and 4 of 6. "
+SCREEN_NOTE = ("The v0.53 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. "
+               "1,084 of 1,102 items had full marks and none was misread. All 64 templates pass the gate. The square wheel reads 0.938: the four wheelbarrows, drawn with a larger wheel, were read in full, and the square wheels of one bicycle of four were not named. Nothing was mended, swapped or read again after the screen. "
+               "Twenty-four of the 99 pictures are those of v0.52 to the pixel: 282 of their 289 items have the score they had, and four of the seven others are the clouds. "
+               "With the 32 full marks that stand beside another reading halved, 56 of the 64 pass. "
+               "The cast is the cast of v0.52. A fuller figure with a cardigan or a longer skirt was tried for the woman in purple in whole scenes and not taken: readers called her a woman with every drawing. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("pair:person.ben__stand__smile__y000>person.ben__stand__smile__y000", "A tee, from the front",
-          "v0.51: the sleeve a cap that ends above the armpit with no hem, and the arm wider under it: 'the puffed caps sit on the arm like small pads'. v0.52: a sleeve as wide as the arm and a little more, with a hem cut across the arm."),
-         ("pair:person.ben__stand__neutral__y045>person.ben__stand__neutral__y045", "A tee, turned",
-          "v0.51: 'the sleeve is a round bump with no hem'. v0.52: the near sleeve has its hem, and the arm comes out of it."),
-         ("pair:person.kai__stand__smile__y000>person.kai__stand__smile__y000", "A child in a tee",
-          "The sleeve follows the arm of its wearer: a child has a small sleeve, and a slim arm a slim one. The first trial gave every arm the sleeve of a man: 'the sleeves flare out like wings, much wider than the arms'."),
-         ("pair:person.ben__reach_up__surprised__y045>person.ben__reach_up__surprised__y045", "An arm raised",
-          "v0.51: the arm goes up bare from a stub of cloth at the armpit: 'the raised arm comes almost straight out of the body like a tank top'. v0.52: the sleeve goes up with the arm. Reviewers of pairs were split on this view, and chose whichever row was drawn below."),
-         ("pair:person.kai__wave__smile__y000>person.kai__wave__smile__y000", "A wave",
-          "The waving arm carries its sleeve."),
-         ("pair:person.ben__hang_washing__neutral__y090>person.ben__hang_washing__neutral__y090", "Both arms raised, from the side",
-          "v0.51: of the side view, the top of the arm lay on the shirt 'like a sticker'. v0.52: each arm is in a sleeve with a hem."),
-         ("pair:person.leo__stand__neutral__y045>person.leo__stand__neutral__y045", "The hooded top",
-          "v0.51: one thick tube from a round shoulder to a rounded end at the wrist: 'sleeves are uniformly inflated, sausage-like tubes'. v0.52: tapered from the shoulder to an open cuff."),
-         ("pair:person.rosa__stand__neutral__y045>person.rosa__stand__neutral__y045", "The cardigan",
-          "v0.51: 'it reads as a puffed costume sleeve'. v0.52: a sleeve that narrows to a cuff above the wrist."),
-         ("pair:person.tomas__stand__neutral__y045>person.tomas__stand__neutral__y045", "The shirt under the waistcoat",
-          "The long sleeve is drawn the same way under the waistcoat; its top still shows round in the armhole."),
-         ("pair:person.jo__stand__neutral__y045>person.jo__stand__neutral__y045", "The tee under the safety vest",
-          "v0.51: the cap of the tee a pad on the shoulder. v0.52: a sleeve that comes out from under the vest.")]
+FIXES = [("crop:probes_v052/T3_garden_s53703.png@272,634,588,800>probes/T3_garden_s53703.png@272,634,588,800", "The wheelbarrow in a garden",
+          "v0.52: the square wheel 50 units across, half of it under the fork; its reader wrote of a grey wheelbarrow and no more. v0.53: the same wheel 68 units across, the barrow raised with it: 'The wheelbarrow wheel is square rather than round, which looks unintentionally strange.'"),
+         ("crop:probes_v052/T3_park_s51702.png@1248,818,1600,1000>probes/T3_park_s51702.png@1248,818,1600,1000", "The wheelbarrow in the park",
+          "v0.52: 'Wheelbarrow, bottom right: grey.' v0.53: 'The wheelbarrow wheel is square/frame-shaped instead of round, which looks wrong'."),
+         ("crop:probes_v052/T3_garden_s51701.png@670,608,962,768>probes/T3_garden_s51701.png@926,818,1284,1000", "The wheelbarrow by a sprinkler",
+          "v0.53: read as a square wheel, and by one reader as perhaps something else: 'It could alternatively be a separate square object (a grate or frame) standing in front of the wheelbarrow.' That second reading is on the next list.")]
 
 
 

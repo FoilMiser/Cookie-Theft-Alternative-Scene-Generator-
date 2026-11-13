@@ -7,15 +7,15 @@ sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
 # a cell built from a forced template set (regen.forced) carries this note in place of the search notes
-FORCED = set()
-NOTES = {("garden", 4): "v0.51's seed, 552716 (v0.48's), which placed again on its twenty-sixth step (s577716) with v0.51's templates and "
-                        "v0.51's people in v0.51's places: revision 48 stands and only the cast is drawn again",
-         ("park", 4): "the v0.43 seed, which placed again under revision 48 with the same templates, as in v0.39 to v0.51, and the same people in "
-                      "the same places as v0.51's",
+FORCED = {("garden", 4)}
+NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden). v0.52's cell held a jump beside a game of "
+                        "catch, which revision 49 never plans, and the free search failed on ten bases, v0.52's first",
+         ("park", 4): "the v0.43 seed, which placed again under revision 49 with the same templates, as in v0.39 to v0.52, and the same people in "
+                      "the same places as v0.52's",
          ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates and the same people "
-                        "in the same places as v0.51's",
-         ("playground", 4): "v0.47's seed (v0.45's, 494878), which placed again on its ninth step with the same templates and the same people in "
-                            "the same places as v0.51's"}
+                        "in the same places as v0.52's",
+         ("playground", 4): "v0.52's base, 494878, did not place under revision 49, with the square wheel's prior as measured or put back to "
+                            "v0.52's; the eighth base of the list, 506950, placed on its seventh step"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

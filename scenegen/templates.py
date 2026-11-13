@@ -1310,9 +1310,21 @@ CATCH51 = __import__("os").environ.get("TPDB_CATCH51S", "C")
 CATCH51_REV = 48        # (the whole-scene bench sets 47, to build v0.50's own records again with the switch)
 
 
+class _Ex53:
+    """Revision 49 (templates.JUMP53 "X"): a template's exclusive resources, with "air_game" for the jump and the game of catch, so that the
+    planner never draws both. Read when the planner asks, so that revision 48's records keep their plans and a switch set at run time counts."""
+
+    def __init__(self, base):
+        self.base = base
+
+    def __get__(self, obj, cls):
+        return self.base + (("air_game",) if SCN.PLACEMENT_REV >= 49 and JUMP53 == "X" else ())
+
+
 class PlayCatch(T):
     id = "play_catch"
     content = 2
+    exclusive = _Ex53(())
 
     def bind(self):
         sc = self.sc
@@ -1334,6 +1346,12 @@ class PlayCatch(T):
             pb = sc.placed(self.vb, Xb, Yb, sc.mirror_for(self.vb, -want), eid=eb)
             if not (sc.fits(pa.bbox()) and sc.fits(pb.bbox()) and sc.overlap(pa.bbox(), pb.bbox()) < 0.05):
                 continue
+            if SCN.PLACEMENT_REV >= 49 and JUMP53 in ("B", "X"):
+                # revision 49 (templates.JUMP53): no jumper beside the game, when the jumper is there first
+                x0_, x1_ = min(pa.bbox()[0], pb.bbox()[0]), max(pa.bbox()[2], pb.bbox()[2])
+                if any(k_.startswith("jumper") and not (q_.bbox()[2] + JUMP53_GAP * sz(q_.Y) < x0_ or q_.bbox()[0] - JUMP53_GAP * sz(q_.Y) > x1_)
+                       for k_, q_ in sc.assets.items()):
+                    continue
             s = sz(Y)
             rx_, ry_ = pa.anchor("release") if pa.has_anchor("release") else pa.anchor("hand_R_grip")
             gl, gr = pb.anchor("hand_L_grip"), pb.anchor("hand_R_grip")
@@ -1598,6 +1616,14 @@ class KickBall(T):
 JUMP_CLEAR30 = 200   # revision 30: the least gap, in units, from the jumper to a thing stuck in a tree, side to side
 NEAR31 = 100         # revision 31: the least gap, in units, from a pointer's fingertip to anything scored above it (a cat on the fence)
 WIND32 = ("windy_hat",)   # revision 32: the templates that draw wind
+# JUMP53 "B" (revision 49; vision/flaws_v052.md R2, jump 1.00 and 0.8 on the strict count): a child jumping for joy beside a game of catch, arms up
+#   under the ball, "might be cheering, or jumping for the ball" (a scorer's note on v0.52 picture 73). The jumper and the game keep JUMP53_GAP
+#   units apart, side to side, whichever is placed first: the jumper's box off the span from one player to the other. "O": revision 48's
+#   "X": the two are never planned into one picture (the gap stays for a forced set). v0.53: X. In two design tests under "B", the jumper 150
+#   units behind the catcher (vision/design_tests_v053.md), both readers still offered the jump as a try for the ball: "he could be trying
+#   to catch it too", and "could be cheering at a game, or jumping to try to catch the ball"
+JUMP53 = __import__("os").environ.get("TPDB_JUMP53", "X")
+JUMP53_GAP = float(__import__("os").environ.get("TPDB_JUMP53_GAP", "150"))
 
 
 def _windy(sc, me):
@@ -1611,6 +1637,7 @@ def _windy(sc, me):
 
 class Jump(T):
     id = "jump"
+    exclusive = _Ex53(())
 
     def bind(self):
         sc = self.sc
@@ -1660,6 +1687,18 @@ class Jump(T):
                     return False
                 b, s_ = p.bbox(), sz(p.Y)
                 return not any(b[0] - JUMP_CLEAR30 * s_ < t[2] and t[0] < b[2] + JUMP_CLEAR30 * s_ for t in stuck)
+        if SCN.PLACEMENT_REV >= 49 and JUMP53 in ("B", "X"):
+            # revision 49 (templates.JUMP53): not beside a game of catch that is already there
+            base49 = accept
+            game = [q_.bbox() for k_, q_ in sc.assets.items() if k_.startswith(("thrower", "catcher"))]
+
+            def accept(p, base=base49, game=game):
+                if base and not base(p):
+                    return False
+                if not game:
+                    return True
+                b, s_ = p.bbox(), sz(p.Y)
+                return b[2] + JUMP53_GAP * s_ < min(g[0] for g in game) or b[0] - JUMP53_GAP * s_ > max(g[2] for g in game)
         # (revision 20: and in the front half of the ground, where the gap under the feet is big enough to see: at the back,
         # by the playground's fence or the street's shop fronts, the jump read as "jumping or cheering ... or just a loosely
         # placed shadow"; in front it read as "jumping in the air with both arms raised" in the test scenes)
@@ -6210,6 +6249,10 @@ class FloatingBox(T):
 BARROW51 = __import__("os").environ.get("TPDB_BARROW51", "B")
 
 
+# revision 49 (draw.WHEEL53): the wheelbarrow's square wheel larger
+WHEEL53_REV = 49        # (the whole-scene bench sets 48, to build v0.52's own records again with the larger wheel)
+
+
 class SquareWheel(T):
     id = "square_wheel"
     kind = "contradiction"
@@ -6227,7 +6270,7 @@ class SquareWheel(T):
             f = sc.rng.choice([1, -1])
             if self.thing == "wheelbarrow":
                 svg, bb = D.wheelbarrow(X, Y, s * self.k3(1.5, 1.25, 1.05), square=True, f=f, both=SCN.PLACEMENT_REV >= 7, bracket=SCN.PLACEMENT_REV >= 10, low=SCN.PLACEMENT_REV >= 15,
-                                        v20=SCN.PLACEMENT_REV >= 20)
+                                        v20=SCN.PLACEMENT_REV >= 20, v53=SCN.PLACEMENT_REV >= WHEEL53_REV)
                 acc, key = ["wheelbarrow", "cart", "barrow"], "wheelbarrow"
             else:
                 # (revision 12: its stand drawn in front, light grey against the dark square wheel; behind the wheel it went unseen

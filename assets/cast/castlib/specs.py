@@ -165,6 +165,26 @@ if "M" in AGE50:
 # moustache is in his inventory line in 9 of 16 with B and 7 of 16 with O, and he is a boy first in 2 of 16 with each. The width is not it.
 # Three of the four boys are the sweeper, bent over his broom with his face down: the pose, for the next list
 MOUST51 = os.environ.get("TPDB_MOUST51", "O")
+# v0.53 bench (TPDB_ANA53; vision/flaws_v052.md O1): the woman in purple was a girl first in 4 of her 25 v0.52 pictures and in 4 of v0.51's, in
+# three poses. Her hair hangs loose down her back in one narrow fall, which from the side is a ponytail. "N": drawn back into a low bun at the
+# nape (the woman in yellow's of v0.42). "S": cut to the shoulders and full at the sides. "O": v0.52's
+ANA53 = os.environ.get("TPDB_ANA53", "O")
+if "N" in ANA53:
+    PEOPLE["person.ana"].update(hair="low_bun")
+if "S" in ANA53:
+    PEOPLE["person.ana"].update(hair="shoulder")
+if "F" in ANA53:
+    # a woman's figure: a narrower waist, wider hips and a fuller bust than v0.50 gave her
+    PEOPLE["person.ana"]["build"] = dict(PEOPLE["person.ana"].get("build", {}), **__import__("json").loads(os.environ.get("TPDB_ANA53_F", '{"waist": 0.84, "hips": 1.16, "bust": 1.5}')))
+if "K" in ANA53:
+    # a skirt to the knee in the trousers' colour
+    PEOPLE["person.ana"].update(bottom="skirt")
+if "L" in ANA53:
+    # a skirt to below the knee, as the woman in yellow's dress is
+    PEOPLE["person.ana"].update(bottom="skirt", hem_drop=float(os.environ.get("TPDB_ANA53_HEM", "0.15")))
+if "C" in ANA53:
+    # a cardigan in her purple over a cream top, for the tee
+    PEOPLE["person.ana"].update(top="cardigan", inner="cream")
 if "P" in AGE50:
     for _fam, _sp in PEOPLE.items():
         if _sp["age"] in ("adult", "older_adult"):

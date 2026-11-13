@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.52 was made, written so that a fresh session can make the next one (v0.53) from this
+How each release from v0.12 to v0.53 was made, written so that a fresh session can make the next one (v0.54) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -66,6 +66,12 @@ changes (a new placement revision, step 3).
   figure standing at four angles. The hull can break at the shoulders for one figure of ten (Lessons, v0.52).
 - A cast that changes every figure is read in whole scenes as well: `tools/cycle/who_build.py ARM pic,pic` builds the last screen's pictures again from their own
   records with a trial cast (v0.52's own, its arms and paths written in), and `age_scenes.py prepare` and `tally` deal and count them.
+- A drawing of the scene and a trial cast can share one bench in whole scenes (v0.53): `tools/cycle/bench_build.py ARM pic,pic` builds the last screen's pictures
+  again with a scene switch made to act at the records' own revision (`templates.WHEEL53_REV`) or with a trial cast; `bench_prepare.py` deals both questions to one set
+  of readers, a reader's two pictures of the scene's thing both of one arm; `bench_tally.py` counts who a figure is called and where a thing is named. Count the last
+  screen by reader before building a bench for a naming fault, and look at a trial figure large first (Lessons, v0.53).
+- `python tools/cycle/crops.py OUT.png [SCALE] NAME:substr[:pad] ...` cuts named elements out of built pictures onto one sheet (`CROP_DIRS` for other folders):
+  the flagged pictures of the last screen at full size, before anything is drawn.
 - The age bench, whenever heads, proportions or marks of age change, reads whole scenes (v0.50). Build each trial cast into its own folder
   (`TPDB_AGE50=M python build_cast.py <WORK>/age/out_M`), give each a library that starts as a copy of the last one minus the changed
   families, and build the picked pictures of the last screen again from their own records with it (`G.regenerate(lib, record, out)`:
@@ -108,6 +114,7 @@ to a fresh reader with `tools/cycle/prompts/reader_template.txt` (one picture), 
 
 ```bash
 python tools/cycle/calib_wrap.py      # -> <WORK>/calibration<TAG>.json
+python tools/cycle/calib_cmp.py $TPDB_WORK/calibration$PREV.json $TPDB_WORK/calibration$TAG.json   # what moved by 0.002 or more, the README's count
 python tools/cycle/set_prior.py       # rewrites the PRIOR block in scenegen/planner.py
 cp $TPDB_WORK/calibration$TAG.json calibration.json
 bash tools/cycle/build_set.sh         # showcase pass into scenes<TAG>, then searches for missing tier 1-3 cells
@@ -785,3 +792,43 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   a width or a length without a patch.
 - `tools/env.sh` and `tools/cycle/cfg.py` carry the release's number: set both at the start (`age_scenes.py` took v0.50's key map until they
   were). `cd` to the repository's root at the start of every command; a `cd` inside a command chain moved the working folder three times.
+- Read a list's proposal against the code's comments before drawing it. Three of v0.52's proposals had been the drawing before: the floating box lower
+  with its shadow (revisions 10 and 11 took it up from there, and say why), a level box (benched in v0.41), a piece of bread in the thief bird's beak (the
+  drawing until v0.47's bench took the bite). `grep` the template for the thing the list asks for; a comment that quotes a reader is a bench already run.
+- Measure a remark before designing for it. The heavy seesaw's man "in front of the plank" sits within 1.6 units of where the children's measure
+  (`_under50`) would put him; the remark is of his legs, one each side of the plank, as v0.32 found. And look at where the code puts a figure before
+  moving it: the grown duck feeders stand at the pond's front because the ends' spots fail on the cattails' zone, which keeps a reed from behind a head.
+- Before building a bench for what readers call a figure, count the screen by reader (the readers' prompt files say who had which picture). v0.52's four
+  girls were three readers' of thirteen, and the nine others never wrote it. A bench of nine fresh readers then had none of the three kinds among them: she was
+  a woman in 18 readings of 18 as screened, and the bench could choose nothing. A fault that is some readers' habit needs more readers than the screen had
+  to show itself, or it is left as a note for the scoring.
+- A bench whose first arm does not show the fault is still a result, and the first arm is what says so. Report all arms, say that nothing was chosen,
+  and keep the drawings behind their switch.
+- Look at a trial figure large before spending readers on it, and look for what it becomes from the front: hair drawn back into a bun made a woman a boy
+  with short hair, and a skirt to the knee made her younger. Three of six trials were set aside on one sheet each (`build_cast.py <dir> person.ana`, a minute).
+- One bench can ask two questions of one set of readers when the pictures do not overlap (`tools/cycle/bench_build.py`, `bench_prepare.py`,
+  `bench_tally.py`). Where a reader has two pictures of the thing in question, give both of one arm, so that what the reader carries from the first to the
+  second stays inside the arm, and count by reader as well as by reading: the old wheel was named late by two readers of four, in both their pictures each.
+- A fault that is a thing not noticed shows on a bench as a thing named late. No bench reader missed the old wheel altogether, as two of the screen's had;
+  half of them came to it only in the unsure section. Count where in a description a thing is named, not only whether.
+- A larger drawing is noticed more and read more ways. The larger wheel was in every description, and two readers of five then offered a crate or a grate
+  for it, which nobody had said of the smaller one on the same bench. Take the change for what it was for, and put the new reading on the list.
+- When a gap between two events does not end a reading, stop tuning the gap. The jumper 150 units behind the catcher was still jumping for the ball to two
+  readers of two; the two templates now share an exclusive tag (`templates._Ex53`, a descriptor read when the planner asks, so that older records keep
+  their plans). A rule of that kind draws nothing, so it has no test of its own: say so.
+- A cell whose templates a new rule forbids will not come back, and the free search for another can be long. Measure the earlier releases' sets for that
+  cell with `yield_set.py` first, each from the seed it was built on with the band on: of four garden sets one placed, in seconds, and was forced
+  (`forced_cell.py`, its `SETS` and the reason). A forced copy of a free cell's own set does not reproduce the free plan, so pricing a rule that way on
+  the cell's own seed shows nothing: all four arms failed alike.
+- A release that changes no figure keeps the cast: copy `out`, `lib` and `gallery` to the new tag so that the tools' paths hold, leave `BUILDER_VERSION`,
+  and say in the README that the cast is the last release's. Cells that hold none of the changed templates then come back to the pixel (19 of 21), and
+  their items are a retest. The probes do not come back: the probe pass composes its groups from what the set shows, and two changed cells changed
+  73 of 78. Compare by pixels (`tools/cycle/retest.py`), not by names: 63 names were in both releases and 24 pictures were the same.
+- The retest keeps saying one thing: v0.52's three non-setting items under full marks in pictures that came back unchanged were all in full in v0.53,
+  with nothing drawn. A template that passes on such a picture has not been mended; say "a pass its drawing did not earn" where the result is reported.
+- A scorer can list what is not a call. One listed seven items for a grandparent called an older man or an older woman, which are the key's accepted
+  names. Check a listed near word against the key's accepted phrasings before counting it, and say what was left out and why.
+- `grep -c "^PROBE"` on a log counts a line that starts `PROBES_EXIT` too. Count with the name after it (`^PROBE \S`), and check a sum of passes against
+  the folder: 61, 2, 12 and 3 are 78, and the first draft had 62 and 11.
+- A patch that replaces several things in one file should write only at its end. v0.53's patch of the limits stopped on a wrong anchor at its eleventh
+  step and had changed nothing, so it could be mended and run again.

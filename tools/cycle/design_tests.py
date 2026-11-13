@@ -11,6 +11,17 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.53 (revision 49: the wheelbarrow's square wheel larger, no jump beside a game of catch; the cast is v0.52's):
+    # a garden: a child jumping for joy, a game of catch, leaves raked
+    ("garden", 3, 53401, {"events": ["jump", "play_catch", "rake"]}, None),
+    # a playground: a child jumping for joy, a game of catch, a child on the slide
+    ("playground", 3, 53402, {"events": ["jump", "play_catch", "slide"]}, None),
+    # a garden: a sprinkler soaking a package, the square-wheeled barrow, a game of catch (v0.51's first test, with the larger wheel)
+    ("garden", 3, 53403, {"modules": ["sprinkler_package"], "contradictions": ["square_wheel"], "events": ["play_catch"]}, None),
+    # a park: bread for the ducks, the square-wheeled barrow, a kite flown
+    ("park", 3, 53404, {"modules": ["ducks_bread"], "contradictions": ["square_wheel"], "events": ["fly_kite"]}, None),
+    # a garden: the square-wheeled barrow, a child jumping for joy, the fence painted
+    ("garden", 3, 53405, {"contradictions": ["square_wheel"], "events": ["jump", "paint_fence"]}, None),
     # v0.51 (builder 0.51.0: the catcher's two open hands and the thrower's planted feet, the moustache, the roller's caps; revision 48: the
     # thrown ball early on its path, no hose by the barrow, bread in the feeder's hand, the lost balloon's string end, the painter's tin):
     # a garden: a sprinkler soaking a package, the square-wheeled barrow, a game of catch (the three of v0.50's tier-3 garden, where the

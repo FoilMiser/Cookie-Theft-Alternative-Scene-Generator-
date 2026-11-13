@@ -347,7 +347,12 @@ class PlacementError(Exception):
 # What the rules cost, each on twelve seeds with the switch off and on (tools/cycle/yield_set.py): the barrow alone 12 and 12 in every
 # setting, with a sprinkler in the garden 12 and 11 and in the park 12 and 12, with the stopped hose and two events 11 and 11; the lost
 # balloon 12 and 12 in the garden and the park and 10 and 10 in the playground; the bread and the tin 12 of 12.
-PLACEMENT_REV = 48
+# 49 (v0.53): the list of vision/flaws_v052.md (vision/isolation_v053.md).
+#   R1 (draw.WHEEL53 "B"): the wheelbarrow's square wheel larger, 34 units from hub to side for 25, and the barrow raised with it.
+#   `square_wheel` was under v0.52's gate: two readers of the four wheelbarrows did not notice the wheel ("Wheelbarrow, bottom right: grey.").
+#   R2 (templates.JUMP53): no child jumping for joy beside a game of catch ("might be cheering, or jumping for the ball", a scorer's note).
+# The woman in purple is drawn again with it (builder 0.53.0, specs.ANA53), so her box and anchors are new.
+PLACEMENT_REV = 49
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
 EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value
 POND48 = __import__("os").environ.get("TPDB_POND48", "B")      # "O": revision 44's pond

@@ -6,7 +6,7 @@
  "seed": 23072,
  "mirror": false,
  "versions": {
-  "generator": "0.52.0",
+  "generator": "0.53.0",
   "cast_builder": "0.52.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
@@ -56,7 +56,8 @@
   }
  },
  "features": [
-  "seesaw"
+  "seesaw",
+  "slide"
  ],
  "templates": [
   {
@@ -64,9 +65,15 @@
    "kind": "inference",
    "event": "e1",
    "units": 1
+  },
+  {
+   "id": "slide",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
@@ -112,9 +119,9 @@
     "domain": null,
     "area_px": 12932
    },
-   "b": -0.862,
-   "p0": 0.703,
-   "pm1": 0.466,
+   "b": -0.742,
+   "p0": 0.677,
+   "pm1": 0.436,
    "aoi_cells": [
     "BC",
     "BR"
@@ -166,9 +173,9 @@
     "domain": null,
     "area_px": 5804
    },
-   "b": -1.447,
-   "p0": 0.81,
-   "pm1": 0.61,
+   "b": -1.327,
+   "p0": 0.79,
+   "pm1": 0.581,
    "aoi_cells": [
     "MR",
     "BR"
@@ -218,9 +225,9 @@
     "domain": null,
     "area_px": 5804
    },
-   "b": 0.353,
-   "p0": 0.413,
-   "pm1": 0.205,
+   "b": 0.473,
+   "p0": 0.384,
+   "pm1": 0.186,
    "aoi_cells": [
     "MR",
     "BC",
@@ -229,6 +236,59 @@
   },
   {
    "id": "i04",
+   "type": "action",
+   "text": "A child is sliding down the slide",
+   "accepted": {
+    "who": [
+     "child",
+     "kid",
+     "boy",
+     "girl",
+     "son",
+     "daughter"
+    ],
+    "what": [
+     "going down the slide",
+     "sliding down",
+     "sliding",
+     "on the slide",
+     "playing on the slide"
+    ]
+   },
+   "key": "slide",
+   "elements": [
+    "slidekid_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "slide",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.654,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.3,
+    "a": 4.79,
+    "zipf_raw": 4.3,
+    "aoa_raw": 4.79,
+    "domain": null,
+    "area_px": 6084
+   },
+   "b": -1.023,
+   "p0": 0.736,
+   "pm1": 0.506,
+   "aoi_cells": [
+    "ML"
+   ]
+  },
+  {
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -263,15 +323,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
     "TL"
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -305,16 +365,16 @@
     "domain": null,
     "area_px": 15048
    },
-   "b": -0.922,
-   "p0": 0.715,
-   "pm1": 0.481,
+   "b": -0.802,
+   "p0": 0.69,
+   "pm1": 0.451,
    "aoi_cells": [
     "TC",
     "TR"
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "There is a railing around the playground",
    "accepted": [
@@ -337,7 +397,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.171,
+    "s": 1.157,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -345,11 +405,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 79772
+    "area_px": 78140
    },
-   "b": -1.529,
-   "p0": 0.822,
-   "pm1": 0.629,
+   "b": -1.401,
+   "p0": 0.802,
+   "pm1": 0.599,
    "aoi_cells": [
     "ML",
     "MC",
@@ -357,7 +417,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -390,54 +450,12 @@
     "domain": null,
     "area_px": 57704
    },
-   "b": -1.606,
-   "p0": 0.833,
-   "pm1": 0.647,
+   "b": -1.486,
+   "p0": 0.815,
+   "pm1": 0.619,
    "aoi_cells": [
     "TR",
     "MR"
-   ]
-  },
-  {
-   "id": "i08",
-   "type": "entity",
-   "text": "There is a slide",
-   "accepted": [
-    "slide",
-    "playground slide",
-    "slide"
-   ],
-   "key": "slide",
-   "elements": [
-    "slide"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.237,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.3,
-    "a": 4.79,
-    "zipf_raw": 4.3,
-    "aoa_raw": 4.79,
-    "domain": null,
-    "area_px": 21376
-   },
-   "b": -1.089,
-   "p0": 0.748,
-   "pm1": 0.522,
-   "aoi_cells": [
-    "ML",
-    "BL"
    ]
   }
  ],
@@ -449,12 +467,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.769,
-   "inference": 0.413
+   "content": 0.749,
+   "inference": 0.384
   },
   "theta_minus_1": {
-   "content": 0.555,
-   "inference": 0.205
+   "content": 0.528,
+   "inference": 0.186
   }
  },
  "bands": {
@@ -476,14 +494,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "11 drawn objects (tier band 20-30)"
+   "detail": "12 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 11,
+  "objects": 12,
   "edge_density": 0.0291,
-  "png_bytes": 123803,
-  "jpeg_bytes": 135147
+  "png_bytes": 133917,
+  "jpeg_bytes": 136154
  },
  "signature": [
   [
@@ -495,7 +513,7 @@
    0
   ],
   [
-   "entity",
+   "action",
    0
   ],
   [
@@ -580,8 +598,8 @@
     620.0
    ],
    "area_px": 91648,
-   "visible_px": 79772,
-   "occlusion": 0.13
+   "visible_px": 78140,
+   "occlusion": 0.147
   },
   {
    "id": "filler_bush_pl2",
@@ -640,8 +658,46 @@
     726.0
    ],
    "area_px": 21376,
-   "visible_px": 21376,
-   "occlusion": 0.0
+   "visible_px": 20040,
+   "occlusion": 0.062
+  },
+  {
+   "id": "slidekid_3",
+   "label": "person.kai__slide_down__smile__y090",
+   "role": "scored",
+   "z": 721,
+   "bbox": [
+    368.0,
+    496.0,
+    478.0,
+    648.0
+   ],
+   "area_px": 6084,
+   "visible_px": 6084,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.kai__slide_down__smile__y090",
+    "family": "person.kai",
+    "scale": 0.4161,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "child",
+     "accepted_names": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "son",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin3",
+      "hair": "curly_dark"
+     }
+    }
+   }
   },
   {
    "id": "heavyend_1_farleg",
@@ -779,11 +835,14 @@
   "require_band": false,
   "usage": {},
   "forced": {
+   "events": [
+    "slide"
+   ],
    "modules": [
     "seesaw_heavy"
    ]
   },
-  "placement_rev": 48
+  "placement_rev": 49
  },
  "probe": true
 }

@@ -1146,7 +1146,7 @@ def build_hair48(spec, rig, hc, HR, k):
             return 0.10 - 0.26 * _bump(y, -0.20, 0.16) - 0.62 * _sstep(0.18, 0.50, y)
         _shell48("Hair", hcx, HR, 0.012 * k, _hair_field(top, 0.38, low), col, rig, k, thick=0.014, crown=0.012 * k)
         return True
-    if style in ("long", "ponytail", "bun", "low_bun"):
+    if style in ("long", "ponytail", "bun", "low_bun", "shoulder"):
         if part == "center":
             def top(x):
                 return 0.80 - 0.64 * math.sqrt(x * x + 0.006)
@@ -1156,7 +1156,7 @@ def build_hair48(spec, rig, hc, HR, k):
             def top(x):
                 # swept from a parting on one side: high at the parting, lower across the brow to the other temple
                 return 0.60 + sgn * 0.22 * x - 0.22 * x * x
-        if style == "long":
+        if style in ("long", "shoulder"):
             def low(y):
                 return -0.70 if y < 0.35 else -2.0
             # (0.50 at first: seen from the side the hair lay over the cheek to the eye's corner, "no visible face" as v0.18's readers had
@@ -1199,20 +1199,24 @@ def build_hair48(spec, rig, hc, HR, k):
     return False
 
 
+SHOULDER53 = dict(y=(0.060, 0.080, 0.072), z=-0.215, w=(0.150, 0.172, 0.165), d=(0.095, 0.090, 0.066))
+SHOULDER53.update(__import__("json").loads(__import__("os").environ.get("TPDB_SHOULDER53_P", "{}")))
+
+
 def build_hair(spec, rig, hc, HR, k):
     style, col = spec["hair"], spec["hair_col"]
     off = Vector((0, 0.006 * k, 0.012 * k))
     hcx = hc + off
     if HAIR48 == "B" and HEAD48 == "B" and build_hair48(spec, rig, hc, HR, k):
         pass
-    elif style in ("short", "long", "bun", "ponytail", "puffs", "low_bun") and spec.get("sideburns"):
+    elif style in ("short", "long", "bun", "ponytail", "puffs", "low_bun", "shoulder") and spec.get("sideburns"):
         # v0.39 bench (TPDB_BEN39): short hair with sideburns, a strip forward of each ear down to the cheekbone, and a side part
         def keep39(c):
             if abs(c.x) > 0.74 and -0.58 < c.y < -0.20 and -0.20 < c.z < 0.50:
                 return True
             return _face_window(c, 0.46)
         _shell("Hair", hcx, HR, 0.012 * k, keep39, col, rig, k)
-    elif style in ("short", "long", "bun", "ponytail", "puffs", "low_bun"):
+    elif style in ("short", "long", "bun", "ponytail", "puffs", "low_bun", "shoulder"):
         _shell("Hair", hcx, HR, 0.012 * k, lambda c: _face_window(c, 0.46), col, rig, k)
     elif style == "curly":
         # (v0.19: below the temples the hair stays behind the ear, so a profile shows the cheek; covering the side of the
@@ -1246,6 +1250,12 @@ def build_hair(spec, rig, hc, HR, k):
     if style == "long":
         _blob_chain("HairBack", [hc + Vector((0, 0.07 * k, 0.05 * k)), hc + Vector((0, 0.10 * k, -0.12 * k)), hc + Vector((0, 0.08 * k, -0.30 * k))],
                     [(0.15 * k, 0.09 * k), (0.15 * k, 0.07 * k), (0.12 * k, 0.04 * k)], col, rig)
+    if style == "shoulder":
+        # v0.53 (specs.ANA53): cut to the shoulders and full: a fall as wide as the head behind the neck, wider at its foot, which shows on
+        # both sides of the neck from the front and as a mass behind it from the side (the long hair is one narrow fall down the back)
+        q53 = SHOULDER53
+        _blob_chain("HairBack", [hc + Vector((0, q53["y"][0] * k, 0.04 * k)), hc + Vector((0, q53["y"][1] * k, -0.10 * k)), hc + Vector((0, q53["y"][2] * k, q53["z"] * k))],
+                    [(q53["w"][0] * k, q53["d"][0] * k), (q53["w"][1] * k, q53["d"][1] * k), (q53["w"][2] * k, q53["d"][2] * k)], col, rig)
     if style == "bun":
         if HAIR48 == "B" and HEAD48 == "B":
             # (pair bench 3: "the bun on top is very small and hard to see, so the hair could read as a cap or helmet")

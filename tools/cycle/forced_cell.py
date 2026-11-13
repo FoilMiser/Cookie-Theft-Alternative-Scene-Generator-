@@ -30,6 +30,10 @@ SETS = {
     # v0.47: of fourteen sets measured with yield_set.py four placed in the band; this one, built on base 6043, holds three templates no other
     # cell of the v0.47 set has
     "v047play3b": ["lost_balloon", "seesaw_heavy", "bucket_hat", "bird_perched", "dog_playing"],
+    # v0.53, the tier-4 garden. v0.51 and v0.52 had a jump beside a game of catch there (T4_garden_s577716), which revision 49 never plans
+    # (templates.JUMP53), and the free search on v0.52's base failed. Of four earlier releases' garden sets measured with yield_set.py under
+    # revision 49 (v0.45, v0.46, v0.47, v0.49, five seeds each from the seed each was built on), only v0.46's placed in the band, on two seeds
+    "v046garden": ["blocked_hose", "ball_in_tree", "bucket_hat", "square_wheel", "birds_flying", "drink_bench", "paint_fence", "sweep", "cat_on_fence"],
 }
 setting, tier, name, seeds = sys.argv[1], int(sys.argv[2]), sys.argv[3], [int(x) for x in sys.argv[4].split(",")]
 forced = {"modules": [], "contradictions": [], "events": []}

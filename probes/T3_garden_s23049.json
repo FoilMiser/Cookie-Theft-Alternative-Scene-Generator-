@@ -6,7 +6,7 @@
  "seed": 23049,
  "mirror": true,
  "versions": {
-  "generator": "0.52.0",
+  "generator": "0.53.0",
   "cast_builder": "0.52.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
@@ -55,152 +55,75 @@
    }
   }
  },
- "features": [],
+ "features": [
+  "flowers"
+ ],
  "templates": [
   {
-   "id": "floating_box",
-   "kind": "contradiction",
+   "id": "plant_flowers",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   }
  ],
  "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "entity",
-   "text": "There is a box",
-   "accepted": [
-    "box",
-    "crate",
-    "wooden box",
-    "cardboard box"
-   ],
-   "key": "box",
+   "type": "action",
+   "text": "A man is planting flowers",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "planting flowers",
+     "planting",
+     "gardening",
+     "kneeling in the garden"
+    ]
+   },
+   "key": "planting",
    "elements": [
-    "floatbox_1"
+    "planter_1",
+    "pot_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "floating_box",
+   "template": "plant_flowers",
    "event": "e1",
    "features": {
-    "type": "entity",
+    "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": -0.322,
+    "animate": true,
+    "s": 0.086,
     "r": 0,
     "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
+    "f": -0.19,
+    "a": 3.95,
+    "zipf_raw": 3.81,
+    "aoa_raw": 3.95,
     "domain": null,
-    "area_px": 9720
+    "area_px": 17260
    },
-   "b": -1.031,
-   "p0": 0.737,
-   "pm1": 0.508,
+   "b": -1.366,
+   "p0": 0.797,
+   "pm1": 0.59,
    "aoi_cells": [
-    "TC"
+    "MC",
+    "BC",
+    "BR"
    ]
   },
   {
    "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the box",
-   "accepted": [
-    "the box is weird",
-    "something odd about the box",
-    "that box"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [
-    "floatbox_1"
-   ],
-   "effect": [
-    "floatbox_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.322,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 9720
-   },
-   "b": -0.139,
-   "p0": 0.535,
-   "pm1": 0.297,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_explain",
-   "text": "The box is floating in the air with nothing holding it up",
-   "accepted": [
-    "floating box",
-    "box in the air",
-    "nothing holding it up",
-    "box should fall"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_1"
-   ],
-   "cues": [
-    "floatbox_1"
-   ],
-   "effect": [
-    "floatbox_1"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.322,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 9720
-   },
-   "b": 1.061,
-   "p0": 0.257,
-   "pm1": 0.113,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -243,7 +166,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i03",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -285,7 +208,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -326,7 +249,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -349,7 +272,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.946,
+    "s": 1.944,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -357,9 +280,9 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 237892
+    "area_px": 237056
    },
-   "b": -1.916,
+   "b": -1.915,
    "p0": 0.872,
    "pm1": 0.714,
    "aoi_cells": [
@@ -369,7 +292,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -413,65 +336,22 @@
     "MR",
     "BR"
    ]
-  },
-  {
-   "id": "i09",
-   "type": "entity",
-   "text": "There is a flower bed",
-   "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
-   ],
-   "key": "flowers",
-   "elements": [
-    "flowers"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 0.373,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
-    "domain": null,
-    "area_px": 25884
-   },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
-   "aoi_cells": [
-    "BC",
-    "BR"
-   ]
   }
  ],
  "counts": {
-  "content": 7,
-  "inference_units": 1,
-  "contradictions": 1,
-  "items_total": 9
+  "content": 6,
+  "inference_units": 0,
+  "contradictions": 0,
+  "items_total": 6
  },
  "predicted": {
   "theta_0": {
-   "content": 0.8,
-   "inference": 0.396
+   "content": 0.814,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.604,
-   "inference": 0.205
+   "content": 0.625,
+   "inference": null
   }
  },
  "bands": {
@@ -493,30 +373,18 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "11 drawn objects (tier band 20-30)"
+   "detail": "15 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 11,
-  "edge_density": 0.0327,
-  "png_bytes": 111891,
-  "jpeg_bytes": 158105
+  "objects": 15,
+  "edge_density": 0.0351,
+  "png_bytes": 141965,
+  "jpeg_bytes": 168477
  },
  "signature": [
   [
-   "contradiction_explain",
-   1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
+   "action",
    0
   ],
   [
@@ -631,8 +499,23 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 237892,
-   "occlusion": 0.013
+   "visible_px": 237056,
+   "occlusion": 0.016
+  },
+  {
+   "id": "filler_bush_mid",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    526.0,
+    602.0,
+    654.0,
+    682.0
+   ],
+   "area_px": 7424,
+   "visible_px": 7424,
+   "occlusion": 0.0
   },
   {
    "id": "filler_bush_left",
@@ -680,21 +563,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "floatbox_1",
-   "label": "Box floating in the air",
-   "role": "scored",
-   "z": 827.17,
-   "bbox": [
-    752.0,
-    232.0,
-    874.0,
-    342.0
-   ],
-   "area_px": 9720,
-   "visible_px": 9720,
-   "occlusion": 0.0
-  },
-  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -706,7 +574,74 @@
     838.0
    ],
    "area_px": 25884,
-   "visible_px": 25884,
+   "visible_px": 22944,
+   "occlusion": 0.114
+  },
+  {
+   "id": "dugsoil_3",
+   "label": "Hole dug by the trowel",
+   "role": "prop",
+   "z": 837,
+   "bbox": [
+    1042.0,
+    800.0,
+    1086.0,
+    816.0
+   ],
+   "area_px": 392,
+   "visible_px": 308,
+   "occlusion": 0.214
+  },
+  {
+   "id": "planter_1",
+   "label": "person.ben__kneel_plant__neutral__y090",
+   "role": "scored",
+   "z": 838,
+   "bbox": [
+    878.0,
+    612.0,
+    1054.0,
+    824.0
+   ],
+   "area_px": 14800,
+   "visible_px": 14800,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ben__kneel_plant__neutral__y090",
+    "family": "person.ben",
+    "scale": 0.4517,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "pot_2",
+   "label": "Flower pot",
+   "role": "scored",
+   "z": 841.71,
+   "bbox": [
+    1076.0,
+    778.0,
+    1124.0,
+    844.0
+   ],
+   "area_px": 2460,
+   "visible_px": 2460,
    "occlusion": 0.0
   },
   {
@@ -722,6 +657,21 @@
    ],
    "area_px": 4404,
    "visible_px": 4404,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_wheelbarrow",
+   "label": "Wheelbarrow",
+   "role": "filler",
+   "z": 975,
+   "bbox": [
+    522.0,
+    892.0,
+    704.0,
+    980.0
+   ],
+   "area_px": 8772,
+   "visible_px": 8772,
    "occlusion": 0.0
   }
  ],
@@ -744,11 +694,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "floating_box"
+   "events": [
+    "plant_flowers"
    ]
   },
-  "placement_rev": 48
+  "placement_rev": 49
  },
  "probe": true
 }
