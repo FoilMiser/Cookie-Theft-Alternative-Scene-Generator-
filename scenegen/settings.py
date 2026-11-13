@@ -164,6 +164,9 @@ def _rev():
 # hand rail over the deck (draw.slide ladder3); "O" as revision 42, a slate ladder leaning across the red upright ("drawn in front of/beside the red
 # frame", "slightly separate from/behind the red frame", "slanted and separate from the frame": three of six readers)
 SLIDE45 = "B"  # v0.45 bench (vision/isolation_v045.md): B
+# v0.50 (revision 47; my look at the design tests): SEESAW50 "B": an empty seesaw has the grab bars that a ridden one has under templates.SEAT50
+# (draw.seesaw `arch`); "O" the T handles of revision 46, which a picture with both would show side by side with the grab bars of another
+SEESAW50 = __import__("os").environ.get("TPDB_SEESAW50", "B")
 # FOOT45 "B" (design test 3): the bird table's post stands in a tuft of grass blades; "O" as revision 42, a flat dark oval at its foot ("The green
 # patch at the base of the birdhouse pole is unexplained (could be a small bush or a drawing artefact)")
 FOOT45 = "B"  # v0.45 design tests (vision/design_tests_v045.md): B
@@ -552,7 +555,8 @@ def build_playground(features, sky):
     if "seesaw" in features:
         # revision 6: an empty seesaw rests with one end on the ground (level, it read as balanced on air)
         from . import scene as _SCN
-        ss, si = D.seesaw(1185, 860, sz(860), tilt=-math.degrees(math.asin(82 / 212)) if _SCN.PLACEMENT_REV >= 6 else 0.0)
+        ss, si = D.seesaw(1185, 860, sz(860), tilt=-math.degrees(math.asin(82 / 212)) if _SCN.PLACEMENT_REV >= 6 else 0.0,
+                          **({"arch": (True, True)} if _SCN.PLACEMENT_REV >= 47 and SEESAW50 == "B" else {}))
         S.anchors["seesaw"] = {"cx": 1185, "base_y": 860, "depth": 860}
         S.add("seesaw", "Seesaw", ss, 860, "setting", si["bbox"], entity=E("There is a seesaw", ["seesaw", "see-saw", "teeter-totter"], "seesaw"),
               blocked=(si["bbox"][0] - 20, 790, si["bbox"][2] + 20, 900))

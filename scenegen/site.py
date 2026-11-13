@@ -49,54 +49,63 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v048", "v049"
+PREV, CUR = "v049", "v050"
 
-# v0.49 drew every person's head again, with a jaw and a chin (vision/isolation_v049.md, vision/design_tests_v049.md): the three templates it worked
-# (the rain, the ice cream, the goat's rope) and the templates of the v0.48 list that were not worked and carry the new heads (vision/flaws_v049.md)
+# v0.50 worked the list of the v0.49 screen (vision/flaws_v049.md) on the bench (vision/isolation_v050.md, vision/design_tests_v050.md): the grown
+# figures drawn again, the children on the seesaw seated, the lost balloon, the stake of the goat, the held balloon and the pole of the painter;
+# the stopped hose and the slide were benched and left, and the dogs were looked at and left (vision/flaws_v050.md)
 REDRAWN_NOTES = {
-    "rain_coming": "A new gesture, a hand held out for the first drop, read worse on the bench than the pointer and was not used. The pointer of v0.48, in five pictures for three: in full, and the rain is said in all five: 'pointing up at the dark clouds as though rain is coming'. More pictures and other readers, not a mended visual.",
-    "ice_cream": "The scoop at the mouth and the head tipped to it. In full in fourteen pictures, eaten or licked in thirteen: 'walks along the path eating a pink ice-cream cone'. In the fourteenth a running child is 'holding a pink ice-cream cone up near his face'.",
-    "goat_grazing": "The rope half as thick again. In full in five pictures, a rope or a tether in each. The remark is now the stake, which 'looks very short; the goat could be tethered or just standing by a stake'.",
-    "lost_balloon": "Not worked. One half mark in six pictures: 'The red balloon may belong to the girl (she let go) or to someone else; she seems to be reaching for it.' The only template under 1.00, and first on the list for v0.50.",
-    "blocked_hose": "Not worked. In full in five pictures, with six of its twenty full marks a judgement call: the dog is 'on the hose, or on its connector'.",
-    "about_to_trip": "Not worked. In full in six pictures. One reading adds that the walker 'may be about to bump into it or walk past it, though tripping seems implied'.",
-    "bird_steals": "Not worked. In full in five pictures.",
-    "ducks_bread": "Not worked. In full in three pictures.",
-    "play_catch": "Not worked. In full by the gate, with three of its eight marks beside another reading: 'she could also be the one who threw it'.",
-    "dog_begs": "Not worked. In full in four pictures. One reading adds 'begging for the ice cream, or just looking up at the boy'.",
-    "seesaw_heavy": "Not worked. In full in three pictures. The hand at the mouth of the child up in the air is read three ways: 'could be worry, surprise, or calling out; hard to say which'.",
+    "seesaw": "A child on the seesaw is set down until its own drawing rests on the plank, and the handle is a grab bar ahead of the knees. In full in five pictures, as in three before; what changed is the remark. v0.49: 'perches a little above the plank'. v0.50: no rider above the plank in any picture, 'sitting on the raised left end of the seesaw, holding the handle'.",
+    "seesaw_heavy": "The child is seated the same way, the grown rider as before. In full in five pictures, with two of its marks a judgement call: 'most likely she is calling to the man'. The grown rider is once 'partly seated on the board and partly crouched/sitting in front of it'.",
+    "lost_balloon": "In the garden the end of the string had been lifted onto the hedge, far from the hand: 'The red balloon may belong to the girl (she let go) or to someone else; she seems to be reaching for it.' It now ends a little above the reaching hand in every setting. In full in five pictures, and the balloon belongs to nobody else in any. In three the end is now near something else: 'tied to something on the fence'.",
+    "goat_grazing": "The stake is half as tall again and the rope goes round its upper part in two turns. In full in five pictures, and no reader calls the stake short: 'it is just tethered, not escaping'.",
+    "balloon": "The string hangs in a loose S, where it was a straight line that two bench readers of three took for a stick. In full in five pictures, and a stick in none.",
+    "paint_fence": "The pole of the roller is dark, where it had the colour of the fence behind it. In full in nine pictures, painting in each. One reader of one picture: 'looks almost like a separate pale cylinder against the fence'.",
+    "blocked_hose": "Benched with no swelling before the paw, and left as it was: without the swelling one bench reader of three went on to the stopped water, for two of three with it. Two half marks in one picture of five: 'actually on the hose or just behind the bulge'.",
+    "slide": "Left as it was, after four places for the slider read alike on the bench. In full in five pictures. One reader: 'slightly above the chute surface in places, but it reads normally as sliding'.",
+    "bird_steals": "Not worked. A half mark and a zero in five pictures, the theft not said: 'or he may be sharing it'.",
+    "ducks_bread": "Not worked. A half mark in three pictures: 'her hand item is small and hard to make out'.",
+    "dog_sleeping": "Looked at and left. In full in five pictures, with two of its marks beside another reading: 'The dog could be asleep, resting, or crouching scared of the coming storm.'",
+    "dog_wants_walk": "Looked at and left. In full in five pictures, with three of its marks beside another reading: 'or simply carrying the leash'.",
+    "dog_begs": "Looked at and left. In full in six pictures, with four of its marks beside another reading.",
 }
 
-# no template fails the v0.49 gate and none is under 0.9, so the page has no next list; the lost balloon (0.972) is in the table above
+# the two templates that fail the v0.50 gate, first on the list for v0.51 (vision/flaws_v050.md, R1 and R2)
 WEAK_NOTES = {
+    "play_catch": "Fails the gate: four half marks in two pictures of five. In both a small girl has thrown to a grown woman, and the ball is drawn at the end of its path, by the hands of the woman: 'the ball is either just leaving the woman or arriving at her'. The three other pictures read right. Next: the ball early on its path with the dashed line only behind it, and the thrower standing with the arm through.",
+    "square_wheel": "Fails the gate: a half mark and the one misread of the screen, both in one picture of four. The three bicycles are read at once. The wheelbarrow has the hose of the sprinkler on the ground behind its square wheel: 'looks like a hose reel or a fan-like grate'. Next: a rule that keeps any hose off the barrow, and the wheel of the barrow drawn as the wheel of the bicycle is.",
 }
-SCREEN_NOTE = ("The v0.49 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. The new head was chosen on the bench first, among four shapes read by reviewers who did not know which was which, ranked on one sheet and then two at a time, and then read in whole test scenes. "
-               "1,102 of 1,144 items had full marks and none was misread. All 64 templates pass the gate, where one failed in v0.48; nothing was mended, swapped or read again after the screen. "
-               "With the 42 full marks that stand beside another reading halved, 54 of the 64 pass. "
-               "Of the 42 items under full marks, 41 are the clouds, a tree or the sun, left out by seven readers, and one is a half mark on the lost balloon. "
-               "Every person is drawn anew, so no picture is the same as in v0.48; thirteen of the sixteen cells have the seeds and templates of v0.48. "
+SCREEN_NOTE = ("The v0.50 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. What makes a grown figure read as grown was measured first, in whole scenes: pictures of the v0.49 screen were built again with four casts and read blind, and marks of age with a smaller head left one young name in 45 appearances, where the cast of v0.49 had 13. "
+               "946 of 992 items had full marks and one was misread. 62 of the 64 templates pass the gate, where all 64 did in v0.49: the game of catch and the square wheel fail, each in a set picture. Nothing was mended, swapped or read again after the screen. "
+               "With the 33 full marks that stand beside another reading halved, 52 of the 64 pass. "
+               "Of the 46 items under full marks, 35 are the clouds or a tree, left out by six readers. "
+               "Every grown figure is drawn anew, so no picture is the same as in v0.49; five of the sixteen cells have the templates of v0.49. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("portrait:person.ben__stand__smile__y000", "The jaw and the chin",
-          "v0.48: an egg that narrows below the cheeks to a rounded point, so the line of the jaw runs straight on into the neck and no chin shows; to reviewers who did not know which drawing was which, 'a circle sitting on a stalk' and 'a balloon on a stick'. v0.49: full cheeks down to a corner and a broad, rounded chin wider than the neck. Of a narrower jaw beside this one: 'Row a tapers to a small chin under a wide cranium, which looks boyish'. The round jaw was chosen in both of its pairings, each read in both orders."),
-         ("portrait:person.mei__stand__smile__y000", "On a woman",
-          "v0.48: the same egg on a slim neck. v0.49: a little narrower in the chin than on a man, on a neck that narrows to the jaw. The reviewers found less between the shapes here: 'The difference is strongest on the men (front, turned, side and bearded) and slight on the women and the child.'"),
-         ("pair:person.ben__walk__smile__y090>person.ben__walk__smile__y090", "From the side",
-          "v0.48: the underside of the head ran into the neck with no line between them. v0.49: the head is carried a tenth of its radius forward of the neck, so the jaw stands ahead of it, and the neck is a part of its own, so the line where it passes into the head is drawn whole."),
-         ("portrait:person.kai__stand__smile__y000", "A child",
-          "v0.48: the egg on a fuller neck. v0.49: a head as wide as it is tall, with a small taper to a round chin."),
-         ("portrait:person.tomas__stand__smile__y000", "The moustache",
-          "v0.48: short and thin, and named by no reader of that screen. v0.49: a fifth wider and a quarter thicker, still clear of the mouth. On the age bench it was 'a grey moustache', where the one before was a 'small grey/dark mark under the nose'. In the screen the moustache of the man in the red shirt is named in 13 of his 22 pictures."),
-         ("pair:person.leo__eat_ice_cream__smile__y045>person.leo__eat_ice_cream__smile__y045", "The ice cream at the mouth",
-          "v0.48: the cone stopped short of the mouth, and two screen readers had a walker 'just holding the cone up'. v0.49: the scoop a finger from the lips and the head tipped to it. Eaten or licked in 13 of its 14 screened pictures."),
-         ("portrait:person.ana__stand__smile__y000", "Still read young",
-          "v0.48: a girl first in 7 of her 22 screened pictures. v0.49, with the jaw: a girl first in 9 of 24, 'Girl, centre-front: dark ponytail, purple top, teal trousers; running to the right.' The age bench had found no difference between the two heads, nor from a smaller head. What a reader goes by is a mark of age, and she has none. First of the oddities for v0.50."),
-         ("portrait:person.dev__stand__smile__y000", "The beard",
-          "The beard is as v0.48 drew it, on the new jaw. Named in none of his 25 screened pictures, as in v0.48; in a design test where he stood in front it was the first thing said of him: 'a man with dark skin and a beard'."),
-         ("portrait:person.rosa__stand__smile__y000", "The older woman",
-          "The glasses and the bun are as v0.48 drew them, on the new jaw. The glasses are named in all 21 of her screened descriptions and the bun in 18.")]
+FIXES = [("pair:person.ana__stand__smile__y000>person.ana__stand__smile__y000", "The woman in purple",
+          "v0.49: a girl first in 9 of her 24 screened pictures: 'Girl, centre-front: dark ponytail, purple top, teal trousers; running to the right.' v0.50: as tall as the woman in yellow, with a bust, and a head 0.86 of its size on the same body. A girl first in 1 of 18, and the runner is now 'Woman 2, right, front: dark hair, purple top, teal trousers; running to the right, speed lines behind her.'"),
+         ("pair:person.mei__stand__smile__y000>person.mei__stand__smile__y000", "The woman in the yellow dress",
+          "v0.49: a girl first in 5 of her 18 screened pictures. v0.50: a bust, the dress to below the knee, and the smaller head. A girl in none of 18."),
+         ("pair:person.dev__stand__smile__y000>person.dev__stand__smile__y000", "The man in green",
+          "v0.49: a boy first in 4 of his 25 screened pictures, and the beard named in none. v0.50: a fuller beard that stands off the chin, on the smaller head. A boy in none of 20, and the beard named in 16: 'short dark hair and beard, green shirt, beige trousers'."),
+         ("pair:person.ben__stand__smile__y000>person.ben__stand__smile__y000", "The man in the red shirt",
+          "v0.49: the moustache named in 13 of his 22 screened pictures. v0.50: the same moustache on the smaller head, named in 7 of 23. He is the one grown figure still called a boy, twice, sweeping: 'Boy, left front: brown hair, red shirt, blue jeans; sweeping leaves on the path with a broom.' On the list for v0.51."),
+         ("pair:person.rosa__stand__smile__y000>person.rosa__stand__smile__y000", "The older woman",
+          "The grandparents have the smaller head too. The glasses of the older woman are named in all 14 of her screened descriptions and her bun in 9."),
+         ("pair:person.kai__stand__smile__y000>person.kai__stand__smile__y000", "A child, unchanged",
+          "The children and the teenager are as v0.49 drew them. Beside them a grown figure is now about five heads tall, for four and a third."),
+         ("crop:vision/isolation_v050/round1/iso_29.png@0,0,570,340>vision/isolation_v050/round2/iso_04.png@0,0,570,340", "The children on the seesaw",
+          "v0.49: 'The right child appears to sit slightly above/in front of the plank rather than firmly on it'. v0.50: each child is set down until its own drawing rests on the plank, and the handle is a grab bar that comes down to the plank ahead of the knees: 'holding a black curved handle'. One seed, cut out for the bench."),
+         ("crop:vision/isolation_v050/round1/iso_03.png@0,0,420,688>vision/isolation_v050/round2/iso_05.png@0,0,420,622", "The string of the lost balloon",
+          "v0.49, in the garden: the end of the string lifted onto the hedge above the fence, 'so the link between him and that balloon is implied rather than shown'. v0.50: the end a little above the reaching hand, as in the other settings. Escaped from this child to all three bench readers of each drawing."),
+         ("crop:vision/isolation_v050/round1/iso_07.png@0,0,420,305>vision/isolation_v050/round1/iso_11.png@0,0,420,305", "The stake of the goat",
+          "v0.49: 'looks very short; the goat could be tethered or just standing by a stake'. v0.50: half as tall again, with the rope in two turns round its upper part. Tethered to both bench readers, and still 'a short brown wooden stake' to the second."),
+         ("crop:vision/isolation_v050/round4/iso_07.png@0,0,420,370>vision/isolation_v050/round4/iso_02.png@0,0,420,370", "The string of a held balloon",
+          "v0.49: a straight line, and a stick to two bench readers of three: 'so it could read as a stick (a balloon on a stick) rather than a string'. v0.50: a loose S, and a string to three of three."),
+         ("crop:vision/isolation_v050/round4/iso_12.png@0,0,420,386>vision/isolation_v050/round4/iso_05.png@0,0,420,386", "The pole of the painter",
+          "v0.49: the pole had the colour of the fence behind it, so the head of the roller stood alone above the hands: 'The roller looks a little small and oddly held'. v0.50: a dark pole, a little thicker. A long-handled roller to all six bench readers.")]
 
 
 
@@ -157,7 +166,7 @@ def fix_pairs(old_dir, new_dir, gimg):
                 if not os.path.exists(path):
                     break
                 bx = [int(v) for v in box.split(",")]
-                name = f"fix_{tag}_{os.path.basename(path)[:-4]}_{bx[0]}_{bx[1]}.webp"     # (two crops of one picture stay two files)
+                name = f"fix_{tag}_{os.path.basename(os.path.dirname(path))}_{os.path.basename(path)[:-4]}_{bx[0]}_{bx[1]}.webp"     # (two crops of one picture, or of two folders, stay two files)
                 im = Image.open(path).convert("RGB").crop(tuple(bx))
                 im.save(os.path.join(gimg, name), "WEBP", quality=90, method=6)
                 tiles.append({"src": f"img/g/{name}", "w": im.width, "h": im.height})

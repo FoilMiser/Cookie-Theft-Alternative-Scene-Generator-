@@ -2583,7 +2583,9 @@ def _goat_tether(sc, a, f, s):
     for back, dy in ((1, 40), (1, 26), (-1, 34)):
         g1 = (fp[0] + f * 8 * s, a.Y + 5 * s)
         peg = (g1[0] - back * f * 36 * s, a.Y + dy * s)
-        pb = (peg[0] - 8 * s, peg[1] - 26 * s, peg[0] + 8 * s, peg[1] + 3 * s)
+        st50 = SCN.PLACEMENT_REV >= 47 and STAKE50 == "B"        # revision 47 (templates.STAKE50)
+        ph_ = 40 if st50 else 26
+        pb = (peg[0] - 8 * s, peg[1] - ph_ * s, peg[0] + 8 * s, peg[1] + 3 * s)
         if pb[0] < 8 or pb[2] > D.W - 8 or pb[3] > D.H - 4 or not sc.S.walkable(peg[0], peg[1]):
             continue
         if SCN.PLACEMENT_REV >= 43 and TETHER45 == "B":
@@ -2593,7 +2595,7 @@ def _goat_tether(sc, a, f, s):
             k_ = K.MASK_SCALE
             if U_ is not None and U_[int(max(0, pb[1] - 10) * k_):int((pb[3] + 10) * k_) + 1, int(max(0, pb[0] - 10) * k_):int((pb[2] + 10) * k_) + 1].any():
                 continue
-        run = (min(g1[0], peg[0]) - 4 * s, min(g1[1], peg[1] - 26 * s), max(g1[0], peg[0]) + 4 * s, peg[1] + 3 * s)
+        run = (min(g1[0], peg[0]) - 4 * s, min(g1[1], peg[1] - ph_ * s), max(g1[0], peg[0]) + 4 * s, peg[1] + 3 * s)
         if any(sc.overlap(run, b) > 0 for b in others):
             continue
         top = (peg[0], peg[1] - 19 * s)
@@ -2609,11 +2611,21 @@ def _goat_tether(sc, a, f, s):
                     f"S {D.P(foot[0] + (mx_ - foot[0]) * 0.3, foot[1] + 6 * s)} {D.P(*foot)}")
             knot = (f'<ellipse cx="{peg[0]:.1f}" cy="{peg[1] - 6 * s:.1f}" rx="{6.2 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="{D.OUT}" stroke-width="{4.0 * s:.1f}"/>'
                     f'<ellipse cx="{peg[0]:.1f}" cy="{peg[1] - 6 * s:.1f}" rx="{6.2 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="#c9a56a" stroke-width="{2.2 * s:.1f}"/>')
+            if st50:
+                # the rope comes up off the grass to two turns round the stake's upper part
+                kz_ = peg[1] - 27 * s
+                foot = (peg[0] + (1 if g1[0] > peg[0] else -1) * 4 * s, kz_ + 1 * s)
+                rope = (f"M {D.P(cx, cy)} C {D.P(cx + f * 16 * s, cy + (g1[1] - cy) * 0.35)} {D.P(g1[0] + f * 10 * s, g1[1] - 9 * s)} {D.P(g1[0], g1[1])} "
+                        f"C {D.P(g1[0] + (mx_ - g1[0]) * 0.5, g1[1] + 7 * s)} {D.P(mx_ - (mx_ - g1[0]) * 0.3, my_ - 2 * s)} {D.P(mx_, my_ - 3 * s)} "
+                        f"S {D.P(foot[0] + (mx_ - foot[0]) * 0.25, foot[1] + 4 * s)} {D.P(*foot)}")
+                knot = "".join(f'<ellipse cx="{peg[0]:.1f}" cy="{kz_ + dz_ * s:.1f}" rx="{6.4 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="{D.OUT}" stroke-width="{4.4 * s:.1f}"/>'
+                               f'<ellipse cx="{peg[0]:.1f}" cy="{kz_ + dz_ * s:.1f}" rx="{6.4 * s:.1f}" ry="{2.6 * s:.1f}" fill="none" stroke="#c9a56a" stroke-width="{2.4 * s:.1f}"/>'
+                               for dz_ in (0, 4.5))
         rw = (6.6, 4.2) if SCN.PLACEMENT_REV >= 46 and ROPE49 == "B" else (4.6, 2.6)        # revision 46 (ROPE49)
         svg = (f'<path d="{rope}" fill="none" stroke="{D.OUT}" stroke-width="{rw[0] * s:.1f}" stroke-linecap="round"/>'
                f'<path d="{rope}" fill="none" stroke="#c9a56a" stroke-width="{rw[1] * s:.1f}" stroke-linecap="round"/>')
-        stake = (f'<path d="M {D.P(peg[0] - 4.5 * s, peg[1])} L {D.P(peg[0] - 4.5 * s, peg[1] - 22 * s)} Q {D.P(peg[0], peg[1] - 26 * s)} '
-                 f'{D.P(peg[0] + 4.5 * s, peg[1] - 22 * s)} L {D.P(peg[0] + 4.5 * s, peg[1])} Z" fill="{C["wood"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}"/>') + knot
+        stake = (f'<path d="M {D.P(peg[0] - 4.5 * s, peg[1])} L {D.P(peg[0] - 4.5 * s, peg[1] - (ph_ - 4) * s)} Q {D.P(peg[0], peg[1] - ph_ * s)} '
+                 f'{D.P(peg[0] + 4.5 * s, peg[1] - (ph_ - 4) * s)} L {D.P(peg[0] + 4.5 * s, peg[1])} Z" fill="{C["wood"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}"/>') + knot
         bb = (min(cx, g1[0], peg[0]) - 10 * s, min(cy, pb[1]) - 4, max(cx, g1[0], peg[0]) + 10 * s, pb[3])
         sc.svg(sc.eid("tether"), "The goat's tether, a rope from its collar to a peg in the ground", svg + stake, a.Y + dy * s, bb, "setting")
         sc.keepout.append(run)
@@ -2881,6 +2893,44 @@ LOW_RISE32 = -6    # (F) how far up he sits, in units (on the plank, not astride
 LOW_RISE_B32 = 5   # (B) the same, with both legs behind the plank
 # v0.32 bench: how far up the stuck rider sits, in units (14 is RIDE31's: "may look like she is hovering slightly", v0.31)
 STUCK32 = 14
+# SEAT50 "B" (revision 47; vision/flaws_v049.md O2, vision/isolation_v050.md): a child on the seesaw is set down until its own drawing rests on the
+#   plank. Since the bodies were drawn again (v0.47, v0.48) the constant rise of 14 units left the hips 4 to 10 units above the plank's top edge,
+#   measured in the sprites: "perches a little above the plank", in every screen since v0.45. The rise is now measured for each rider (`_under50`:
+#   how far its drawing reaches below its seat anchor, at the hips), and the handle moves with it and is a grab bar that comes down to the plank
+#   ahead of the knees (draw.seesaw `arch`: seated, the riders hid the old handle's post in their laps, and all three readers of round 1 wrote
+#   that they had no handles). "O": revision 46's. v0.50: B, on the bench (vision/isolation_v050.md, rounds 1 and 2): no rider of five above
+#   the plank, and a handle held in all five
+SEAT50 = __import__("os").environ.get("TPDB_SEAT50", "B")
+# SLIDE50 (revision 47; flaws_v049.md O2, the slider "slightly above the chute surface"): "B" the chute's near wall drawn again over the slider
+#   (round 1); "A" that, with the slider's underside SEAT50_SLIDE units below the rim (round 2); "T" the slider's underside on the far rail's
+#   top edge, the whole figure above the slide (round 3). "O": revision 46's. B and A read no better than O (two, three and two cut-outs of
+#   three with a remark on how the child sits)
+SLIDE50 = __import__("os").environ.get("TPDB_SLIDE50", "O")
+SEAT50_POSES = ("sit", "seesaw_stuck", "seesaw_stuck_call")
+SEAT50_SINK = 1.5       # how far into the plank's top edge the hips' underside lies, in units
+SEAT50_SLIDE = 12.0     # how far below the chute's rim a slider's underside lies, in units (bench round 1: with the wall drawn over a slider
+#                         placed as before, the smaller child's hips were hardly below the rim, "floating next to it rather than sliding on it")
+
+
+def _under50(lib, q, v, dx=(0, 8)):
+    """Revision 47 (SEAT50): how far the drawing `v` of the placed figure `q` reaches below its seat anchor, in scene px: over the columns dx[0]
+    to dx[1] render px ahead of the anchor (the way the figure faces), the lowest opaque pixel of the run through the anchor's row; the deepest."""
+    import numpy as np
+    A_ = q.m["anchors"]
+    sx_, sy_ = A_["seat"]["px"]
+    al = np.asarray(lib.image(v))[:, :, 3] > 127
+    f0 = 1
+    if "gaze_target" in A_ and "eye_L" in A_:
+        f0 = 1 if A_["gaze_target"]["px"][0] >= (A_["eye_L"]["px"][0] + A_["eye_R"]["px"][0]) / 2 else -1
+    best = 0
+    for d_ in range(dx[0], dx[1] + 1):
+        c_, y_ = int(round(sx_ + f0 * d_)), int(round(sy_))
+        if not (0 <= c_ < al.shape[1] and 0 <= y_ < al.shape[0]) or not al[y_, c_]:
+            continue
+        while y_ + 1 < al.shape[0] and al[y_ + 1, c_]:
+            y_ += 1
+        best = max(best, y_ - int(round(sy_)))
+    return best * q.k
 
 
 def ride_parts(sc, v, parts=("near", "far")):
@@ -2963,8 +3013,25 @@ class SeesawPlay(T):
         rev26 = SCN.PLACEMENT_REV >= 26
         rev29_ = SCN.PLACEMENT_REV >= 29
         ups = (handle_up(va), handle_up(vb))
+        rise50 = {}
+        if SCN.PLACEMENT_REV >= 47 and SEAT50 == "B" and rev29_ and SEESAW31 == "U":
+            # revision 47 (templates.SEAT50): each child's rise measured from its own drawing, and its handle with it
+            _, info0 = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26)
+            ta_, ca_ = math.tan(math.radians(tilt)), math.cos(math.radians(tilt))
+            ups = list(ups)
+            for i_, (v_, end_, sg_) in enumerate(((va, "left", 1), (vb, "right", -1))):
+                if v_[1] not in SEAT50_POSES:
+                    continue
+                q_ = sc.placed(v_, 0, 0, sc.mirror_for(v_, sg_), depth_y=A["depth"] + 2)
+                under_ = _under50(sc.lib, q_, vid(v_[0], v_[1] + "~near", v_[2], v_[3]))
+                if under_ <= 0:
+                    continue
+                # (the plank's top edge straight under the seat point lies 6 - 8 tan - 7 / cos units from it: draw.seesaw)
+                rise50[end_] = (-6 * s + sg_ * 8 * s * ta_ + 7 * s / ca_ - SEAT50_SINK * s + under_) / s - D.RIDE24["seesaw"]
+                ups[i_] = rise50[end_] if v_[1] in GRIP32 else rise50[end_] - RIDE31[SEESAW31][0]
+            ups = tuple(ups)
         svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26, pad=rev29_ and SEESAW31 == "P",
-                             **({"up": ups} if any(ups) else {}))
+                             **({"up": ups} if any(ups) else {}), **({"arch": ("left" in rise50, "right" in rise50)} if rise50 else {}))
         placed = []
         for eid, v, end, want in ((ea, va, "left", 1), (eb, vb, "right", -1)):
             # revision 30: (bench) the man reading turned away from the plank
@@ -2974,7 +3041,7 @@ class SeesawPlay(T):
             if turn_:
                 sg_, a_ = (1 if end == "left" else -1), math.radians(tilt)
                 seat = (seat[0] - sg_ * LOW_IN32 * s * math.cos(a_), seat[1] + sg_ * LOW_IN32 * s * math.sin(a_))
-            rise_ = ride_rise(v, turn_)
+            rise_ = rise50.get(end, ride_rise(v, turn_))
             p.move_anchor_to("seat", (seat[0], seat[1] - (D.RIDE24["seesaw"] + rise_) * s) if SCN.PLACEMENT_REV >= 22 else seat)
             if not sc.fits(p.bbox(), limit=0.15):
                 return None
@@ -3177,6 +3244,12 @@ class SlidePlay(T):
             for t in (0.48, 0.40, 0.56):
                 p = sc.placed(self.vp, 0, 0, sc.mirror_for(self.vp, f), depth_y=A["depth"] + 1, eid=ep)
                 drop = D.RIDE24["slide"] if SCN.PLACEMENT_REV >= 22 else 8 if SCN.PLACEMENT_REV >= 9 else 3
+                if SCN.PLACEMENT_REV >= 47 and SLIDE50 in ("A", "T") and "chute_poly" in A:
+                    # revision 47 (templates.SLIDE50): the slider's own underside SEAT50_SLIDE units below the chute's rim ("A"), or on the
+                    # far rail's top edge, 15.5 units above the rim ("T")
+                    under_ = _under50(sc.lib, p, p.v)
+                    if under_ > 0:
+                        drop = (SEAT50_SLIDE if SLIDE50 == "A" else -15.5) - under_ / sz(A["depth"])
                 p.move_anchor_to("seat", (x0 + (x1 - x0) * t, y0 + (y1 - y0) * t + drop * sz(A["depth"])))
                 if sc.fits(p.bbox(), limit=0.2):
                     break
@@ -3184,6 +3257,12 @@ class SlidePlay(T):
                 return False
             sc.assets[ep] = p
             sc.legib_ok.add(("slide", ep))
+            if SCN.PLACEMENT_REV >= 47 and SLIDE50 in ("A", "B") and "chute_poly" in A:
+                # revision 47 (templates.SLIDE50): the chute's near wall drawn again over the slider, whose hips lie below its rim: in the chute,
+                # where the whole figure in front of the wall was "slightly above the chute surface"
+                cp_ = A["chute_poly"]
+                sc.svg(ep + "_wall", "The slide's near wall, in front of the slider", D.poly(cp_, D.C["yellow"]), p.z + 0.5,
+                       (min(c[0] for c in cp_), min(c[1] for c in cp_), max(c[0] for c in cp_), max(c[1] for c in cp_)), "background")
             self.act(self.p, "sliding down the slide", ["going down the slide", "sliding down", "sliding", "on the slide", "playing on the slide"], "slide", [ep])
             return True
         x, y = A["bottom"]
@@ -3477,6 +3556,10 @@ def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
         return "M " + " L ".join(D.P(*q) for q in tp + bt[::-1]) + " Z"
     bulge = f'<path d="{outline(ow)}" fill="{D.OUT}" stroke="{D.OUT}" stroke-width="1" stroke-linejoin="round"/>'
     bulge += f'<path d="{outline(0)}" fill="{C["hose"]}"/>'
+    if SCN.PLACEMENT_REV >= 47 and HOSE50 == "B":
+        # revision 47 (templates.HOSE50): full and thick all the way from the reel, ending under the paw; no swelling
+        up = D.hose_path([(rx, ry), (rx - f * 20, cy + 5 * s), (px + f * 9 * s, cy)], HOSE50_FULL)
+        bulge = ""
     # squashed flat under the paw: a thin band longer than the paw, showing on both sides of it and in front of its toes
     bw, bh = G["band"]
     flat = D.ell(px - f * 2 * s, cy + 0.6 * s, bw * s, bh * s, C["hose"], D.OW * 0.7)
@@ -3510,6 +3593,23 @@ def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
 RAIN49 = __import__("os").environ.get("TPDB_RAIN49", "O")
 # ROPE49 "B" (revision 46; flaws_v048.md O5): the goat's rope and peg heavier. "O": revision 45's
 ROPE49 = __import__("os").environ.get("TPDB_ROPE49", "B")
+# HOSE50 "B" (revision 47; flaws_v049.md R2): no swelling before the paw. The hose runs full and thick from the reel to the paw, lies flat
+#   under it and runs on thin: v0.47's short round swelling was the dog "on the hose, or on its connector" in three v0.49 pictures of five
+#   (a long low one had been "a puddle", v0.33). "O": revision 46's.
+#   v0.50: O, on the bench (vision/isolation_v050.md, round 1). Without the swelling no reader named a connector, and only one of three went on
+#   to the stopped water, for two of three with it: the swelling is what says that something happens at the paw. R2 is closed with that
+HOSE50 = __import__("os").environ.get("TPDB_HOSE50", "O")
+HOSE50_FULL = 1.4        # the full run's thickness against the hose's own (the slack run is 0.5)
+# LOST50 "B" (revision 47; flaws_v049.md R1): in the garden the lost balloon's string ends by the reaching hand, as in the other settings.
+#   WOOD45 lifted its end onto the hedge above the fence, up to 200 units above the hand, on the builder's look and no reader's word, and
+#   all six v0.49 pictures of the template were garden ones: "may belong to the girl (she let go) or to someone else". "O": revision 46's.
+#   "M": no lift either, and the end a head's height above the hand (the two draws of BAL45 with 30 units more). v0.50: M, on the bench
+#   (vision/isolation_v050.md, rounds 1 and 2). At B's distance two readers of three had the child perhaps "still holding it", the gap "a
+#   drawing error"; at M's all three had the balloon escaped from this child, as with O, and its string ends by the child
+LOST50 = __import__("os").environ.get("TPDB_LOST50", "M")
+# STAKE50 "B" (revision 47; flaws_v049.md O4): the goat's stake half as tall again, the rope tied round its upper part ("The goat's
+#   tether stake looks very short; the goat could be tethered or just standing by a stake."). "O": revision 46's
+STAKE50 = __import__("os").environ.get("TPDB_STAKE50", "B")
 
 
 class RainComing(T):
@@ -5313,10 +5413,14 @@ def _lost_balloon_place7(self):
             if SCN.PLACEMENT_REV >= 44 and BAL47 == "B":
                 # revision 44 (templates.BAL47): nearer the reaching hand, from the same two draws
                 send = (reach[0] + f * (u1_ - 8) * s, reach[1] - (u2_ - 20) * s)
+                if SCN.PLACEMENT_REV >= 47 and LOST50 == "M":
+                    # (templates.LOST50 "M", bench round 2: a head's height above the hand)
+                    send = (reach[0] + f * (u1_ - 8) * s, reach[1] - (u2_ + 30) * s)
             # and the curled end keeps clear of the top line of the setting's fence (on the playground railing's top line it "could look like it is
             # tied to or caught on the fence")
             fb_ = next((e["bbox"] for e in sc.S.elements if e["id"] == "fence" and e.get("bbox")), None)
-            if fb_ and WOOD45 == "B" and sc.S.id == "garden" and fb_[0] <= send[0] <= fb_[2] and fb_[1] - 34 * s < send[1] < fb_[3] + 6 * s:
+            lost50 = SCN.PLACEMENT_REV >= 47 and LOST50 in ("B", "M")       # revision 47 (templates.LOST50): no lift over the wooden fence
+            if fb_ and WOOD45 == "B" and not lost50 and sc.S.id == "garden" and fb_[0] <= send[0] <= fb_[2] and fb_[1] - 34 * s < send[1] < fb_[3] + 6 * s:
                 # (templates.WOOD45: clear above the wooden fence's pickets)
                 send = (send[0], fb_[1] - sc.rng.uniform(34, 48) * s)
                 if reach[1] - send[1] > WOOD45_GAP * s:

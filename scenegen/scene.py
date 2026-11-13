@@ -312,7 +312,24 @@ class PlacementError(Exception):
 #   v0.48's own isomorph stand 8 and 10 px above the foot. At 8 px that isomorph builds on its seed, and of the 106 records built at
 #   14 px two rebuild differently and were built again (a tier-2 cell and a probe). Each rule was tried with one call of last release's
 #   isomorph, the switch on and off (TPDB_EDGE49, TPDB_EDGE49_PX).
-PLACEMENT_REV = 46
+# Revision 47 (v0.50): the grown figures are drawn anew (builder 0.50.0: marks of age and smaller heads, vision/isolation_v050.md), so their
+# boxes and anchors are new. With it the work list of vision/flaws_v049.md, each rule behind a switch in templates.py and read on the bench
+# against revision 46's drawing on the same seeds (vision/isolation_v050.md). Three rules stand and two were tried and left:
+#   O2 (templates.SEAT50): "The girl looks small and perches a little above the plank; she might be slightly floating above the seat, but it
+#   mostly reads as sitting." A child on the seesaw is set down until its own drawing rests on the plank: the rise is measured in the sprite
+#   (`_under50`), where a constant of 14 units had been left 4 to 10 units too high by two redrawings of the bodies. The handle is a grab
+#   bar that comes down to the plank ahead of the knees, since the seated riders hid the old post in their laps (draw.seesaw `arch`); an
+#   empty seesaw has the same bars (settings.SEESAW50).
+#   O2, the slider (templates.SLIDE50, tried and left at "O"): behind the chute's near wall, sunk until the wall hid the hips, or on top
+#   of the far rail, the child sat "slightly above" the chute to as many readers as before. Where the slider is put is not what they see.
+#   R1 (templates.LOST50 "M"): in the garden the lost balloon's string ends a head's height above the reaching hand, over the fence's
+#   boards. WOOD45 had lifted it onto the hedge, up to 200 units from the hand ("may belong to the girl (she let go) or to someone else");
+#   by the hand it was "still holding it" to two readers of three.
+#   R2 (templates.HOSE50, tried and left at "O"): with no swelling before the paw no reader named a connector, and only one of three
+#   went on to the stopped water, for two of three with it. The swelling stays.
+#   O4 (templates.STAKE50): the goat's stake half as tall again, the rope in two turns round its upper part.
+# None of the three that stand costs a place: each template alone placed on 12 seeds of 12 with its rule on and off (yield_set.py).
+PLACEMENT_REV = 47
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
 EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value
 POND48 = __import__("os").environ.get("TPDB_POND48", "B")      # "O": revision 44's pond

@@ -22,6 +22,73 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.50 (vision/flaws_v049.md; vision/isolation_v050.md; revision 47). The third letter q marks the release; N the release's cast with every
+    # revision-47 switch at the release's value, O the same with that case's switch at "O" (revision 46's drawing) on the same seed. ss, sh, sl:
+    # the seesaw, the heavy seesaw and the slide (SEAT50); hs the stopped hose (HOSE50); lb the lost balloon in the garden (LOST50); gg the
+    # goat's stake (STAKE50)
+    "ssqN_1": ("playground", 50101, {"events": ["seesaw"]}, "event", None),
+    "ssqN_2": ("playground", 50102, {"events": ["seesaw"]}, "event", None),
+    "ssqN_3": ("playground", 50103, {"events": ["seesaw"]}, "event", None),
+    "ssqO_1": ("playground", 50101, {"events": ["seesaw"]}, "event", None),
+    "ssqO_2": ("playground", 50102, {"events": ["seesaw"]}, "event", None),
+    "ssqO_3": ("playground", 50103, {"events": ["seesaw"]}, "event", None),
+    "shqN_1": ("playground", 50111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "shqN_2": ("playground", 50112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "shqO_1": ("playground", 50111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "shqO_2": ("playground", 50112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "slqN_1": ("playground", 50121, {"events": ["slide"]}, "event", None),
+    "slqN_2": ("playground", 50122, {"events": ["slide"]}, "event", None),
+    "slqN_3": ("playground", 50123, {"events": ["slide"]}, "event", None),
+    "slqO_1": ("playground", 50121, {"events": ["slide"]}, "event", None),
+    "slqO_2": ("playground", 50122, {"events": ["slide"]}, "event", None),
+    "slqO_3": ("playground", 50123, {"events": ["slide"]}, "event", None),
+    "hsqN_1": ("garden", 50131, {"modules": ["blocked_hose"]}, "event", None),
+    "hsqN_2": ("garden", 50132, {"modules": ["blocked_hose"]}, "event", None),
+    "hsqN_3": ("garden", 50133, {"modules": ["blocked_hose"]}, "event", None),
+    "hsqO_1": ("garden", 50131, {"modules": ["blocked_hose"]}, "event", None),
+    "hsqO_2": ("garden", 50132, {"modules": ["blocked_hose"]}, "event", None),
+    "hsqO_3": ("garden", 50133, {"modules": ["blocked_hose"]}, "event", None),
+    "lbqN_1": ("garden", 50141, {"modules": ["lost_balloon"]}, "event", None),
+    "lbqN_2": ("garden", 50142, {"modules": ["lost_balloon"]}, "event", None),
+    "lbqN_3": ("garden", 50143, {"modules": ["lost_balloon"]}, "event", None),
+    "lbqO_1": ("garden", 50141, {"modules": ["lost_balloon"]}, "event", None),
+    "lbqO_2": ("garden", 50142, {"modules": ["lost_balloon"]}, "event", None),
+    "lbqO_3": ("garden", 50143, {"modules": ["lost_balloon"]}, "event", None),
+    # round 2 (after round 1's readings): the fourth letter A the seat rule with the handle as a grab bar ahead of the knees (ss, sh) and the
+    # slider sunk by measure (sl), on round 1's seeds; lbqM the lost balloon's string ending a head's height above the hand (LOST50 "M")
+    "ssqA_1": ("playground", 50101, {"events": ["seesaw"]}, "event", None),
+    "ssqA_2": ("playground", 50102, {"events": ["seesaw"]}, "event", None),
+    "ssqA_3": ("playground", 50103, {"events": ["seesaw"]}, "event", None),
+    "shqA_1": ("playground", 50111, {"modules": ["seesaw_heavy"]}, "event", None),
+    "shqA_2": ("playground", 50112, {"modules": ["seesaw_heavy"]}, "event", None),
+    "slqA_1": ("playground", 50121, {"events": ["slide"]}, "event", None),
+    "slqA_2": ("playground", 50122, {"events": ["slide"]}, "event", None),
+    "slqA_3": ("playground", 50123, {"events": ["slide"]}, "event", None),
+    # round 4, the cast's two props: bl a balloon held (TPDB_STRING50), pf the fence painter (TPDB_ROLLER50). N the v0.50 cast (assets/cast/out050),
+    # O v0.49's (BENCH_CAST=assets/cast/out049, a scratch copy of its library), revision 47's rules both times
+    "blqN_1": ("park", 50161, {"events": ["balloon"]}, "event", None),
+    "blqN_2": ("street", 50162, {"events": ["balloon"]}, "event", None),
+    "blqN_3": ("playground", 50163, {"events": ["balloon"]}, "event", None),
+    "blqO_1": ("park", 50161, {"events": ["balloon"]}, "event", None),
+    "blqO_2": ("street", 50162, {"events": ["balloon"]}, "event", None),
+    "blqO_3": ("playground", 50163, {"events": ["balloon"]}, "event", None),
+    "pfqN_1": ("garden", 50171, {"events": ["paint_fence"]}, "event", None),
+    "pfqN_2": ("garden", 50172, {"events": ["paint_fence"]}, "event", None),
+    "pfqN_3": ("garden", 50173, {"events": ["paint_fence"]}, "event", None),
+    "pfqO_1": ("garden", 50171, {"events": ["paint_fence"]}, "event", None),
+    "pfqO_2": ("garden", 50172, {"events": ["paint_fence"]}, "event", None),
+    "pfqO_3": ("garden", 50173, {"events": ["paint_fence"]}, "event", None),
+    # round 3: slqT the slider on top of the far rail (SLIDE50 "T"), on round 1's seeds
+    "slqT_1": ("playground", 50121, {"events": ["slide"]}, "event", None),
+    "slqT_2": ("playground", 50122, {"events": ["slide"]}, "event", None),
+    "slqT_3": ("playground", 50123, {"events": ["slide"]}, "event", None),
+    "lbqM_1": ("garden", 50141, {"modules": ["lost_balloon"]}, "event", None),
+    "lbqM_2": ("garden", 50142, {"modules": ["lost_balloon"]}, "event", None),
+    "lbqM_3": ("garden", 50143, {"modules": ["lost_balloon"]}, "event", None),
+    "ggqN_1": ("park", 50151, {"events": ["goat_grazing"]}, "event", None),
+    "ggqN_2": ("garden", 50152, {"events": ["goat_grazing"]}, "event", None),
+    "ggqO_1": ("park", 50151, {"events": ["goat_grazing"]}, "event", None),
+    "ggqO_2": ("garden", 50152, {"events": ["goat_grazing"]}, "event", None),
     # v0.49 (the people's heads drawn anew with a jaw and a chin, vision/isolation_v049.md; revision 46). The third letter x marks the release;
     # N the v0.49 cast (assets/cast/out049, lib049) with every revision-46 switch at the release's value, O the same cast with that case's
     # switch at "O" (TPDB_RAIN49, TPDB_ICE49 for a cast built beside the release's). rcx: the watcher of the storm clouds, the whole
@@ -1190,6 +1257,9 @@ NEW44 = {n for n in BENCH if n[2] in "67" and BENCH[n][1] // 1000 == 44}
 NEW45 = {n for n in BENCH if n[2] in "89" and BENCH[n][1] // 1000 == 45}
 NEW46 = {n for n in BENCH if n[2] == "x" and BENCH[n][1] // 1000 == 46}
 NEW47 = {n for n in BENCH if n[2] in "yz" and BENCH[n][1] // 1000 == 47}
+NEW50 = {n for n in BENCH if n[2] == "q" and BENCH[n][1] // 1000 == 50}
+SW50 = {"ss": ("SEAT50",), "sh": ("SEAT50",), "sl": ("SLIDE50",), "hs": ("HOSE50",), "lb": ("LOST50",), "gg": ("STAKE50",),
+        "bl": (), "pf": ()}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -1347,6 +1417,21 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
                 for (m, k_) in _REL:
                     if k_ == k:
                         setattr(m, k, name[3])
+    if name in NEW50:
+        # the release's value of every switch; for the letter O, that case's own revision-47 switch at "O"
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        if name[3] == "O":
+            for k in SW50[name[:2]]:
+                for (m, k_) in _REL:
+                    if k_ == k:
+                        setattr(m, k, "O")
+        elif name[:2] == "hs":
+            _T0.HOSE50 = "B"            # (round 1's N: the hose with no swelling, which the release did not take)
+        elif name[:3] == "slq":
+            _T0.SLIDE50 = {"N": "B", "A": "A", "T": "T"}[name[3]]       # (rounds 1, 2 and 3)
+        elif name[:3] == "lbq":
+            _T0.LOST50 = {"N": "B", "M": "M"}[name[3]]
     rec = None
     for k in range(40):
         USAGE.clear()

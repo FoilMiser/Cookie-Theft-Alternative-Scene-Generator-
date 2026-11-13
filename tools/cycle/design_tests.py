@@ -11,6 +11,24 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.50 (builder 0.50.0: marks of age on the grown figures and smaller heads on them, the balloon's string, the painter's pole; revision 47:
+    # the seesaw's seat and grab bar, the lost balloon's string, the goat's stake):
+    # a playground: two children on the seesaw, a photographer, a pram pushed (a shopper cannot be forced in the playground)
+    ("playground", 3, 50401, {"events": ["seesaw", "photo", "push_stroller"]}, None),
+    # a playground: the heavy seesaw, a runner, an ice cream
+    ("playground", 3, 50402, {"modules": ["seesaw_heavy"], "events": ["run", "ice_cream"]}, None),
+    # a garden: a balloon lost, the fence painted, the path swept
+    ("garden", 3, 50403, {"modules": ["lost_balloon"], "events": ["paint_fence", "sweep"]}, None),
+    # a park: the goat grazing, a balloon held, a reader on the bench
+    ("park", 3, 50404, {"events": ["goat_grazing", "balloon", "read_bench"]}, None),
+    # a street: an ice cream, a dog walked, a shopper
+    ("street", 3, 50405, {"events": ["ice_cream", "walk_dog", "carry_bag"]}, None),
+    # a garden: the hose stopped by a dog standing on it, a box carried, a child on the swing
+    ("garden", 3, 50406, {"modules": ["blocked_hose"], "events": ["carry_box", "swing"]}, None),
+    # a park: a runner, a photographer, a picnic
+    ("park", 3, 50407, {"events": ["run", "photo", "picnic"]}, None),
+    # a playground: a child on the slide, a wave, a pram pushed
+    ("playground", 3, 50408, {"events": ["slide", "wave", "push_stroller"]}, None),
     # v0.49 (builder 0.49.0: every person's head with a jaw and a chin on a neck of its own, the moustache, the ice cream at the mouth, the
     # hand held out for the rain; revision 46: the storm watcher, the goat's rope, the picture's foot):
     # a garden under storm clouds: the watcher, the fence painted, digging

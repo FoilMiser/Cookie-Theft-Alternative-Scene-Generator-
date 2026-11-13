@@ -280,6 +280,11 @@ def build_person(spec):
         radii.append((0.128 * k * B["waist"], 0.100 * k * dp))
         wts.append({"spine": 0.8, "hips": 0.2})
         edges.append((1, i0))
+    if B.get("bust", 0.0) > 0:
+        # v0.50 (specs.AGE50): a woman's bust is the chest node set forward and deeper, as the belly is the waist node. The back stays where it was
+        bf50 = 0.030 * B["bust"]
+        verts[2] = verts[2] + P(0, -bf50 * s, -0.012 * s)
+        radii[2] = (radii[2][0], radii[2][1] + bf50 * k)
     iu = 3
     if SHOULDER47 == "B":
         # v0.47: the top node is the base of the neck, a little wider than the neck it surrounds, and a node under it carries the
@@ -1328,7 +1333,15 @@ def build_facial_hair(spec, rig, face, eye_z, k, pre=""):
             def nobeard(c):
                 up = mzs - 0.125 + 0.16 * min(1.0, abs(c.x) / 0.34) ** 2
                 return -_smin(_smin(up - c.z, 0.36 - abs(c.x), 0.12), 0.20 - c.y, 0.10)
-            if not pre:
+
+            def nobeard50(c):
+                # v0.50 (specs.AGE50 "M"): fuller, wider along the jaw and standing off the chin, so that it changes the chin's outline
+                # (in the hair's colour on dark skin the v0.48 beard was named in none of its wearer's 25 v0.49 pictures)
+                up = mzs - 0.110 + 0.22 * min(1.0, abs(c.x) / 0.50) ** 2
+                return -_smin(_smin(up - c.z, 0.52 - abs(c.x), 0.12), 0.26 - c.y, 0.10)
+            if not pre and spec.get("beard50"):
+                _shell48("Beard", face.c, (ax, ay, az), 0.012 * k, nobeard50, col, rig, k, thick=0.016)
+            elif not pre:
                 _shell48("Beard", face.c, (ax, ay, az), 0.003 * k, nobeard, col, rig, k, thick=0.010)
             w, z0 = 0.040 * k, mz + 0.030 * k
             half = [(0.0, z0), (0.30 * w, z0 + 0.002 * k), (0.62 * w, z0 - 0.001 * k), (0.86 * w, z0 - 0.005 * k), (w, z0 - 0.010 * k)]

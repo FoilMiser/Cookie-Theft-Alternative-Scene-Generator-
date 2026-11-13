@@ -14,6 +14,7 @@ import bmesh
 
 from .core import Frame, _mesh_object, anchor, box, cyl, ellipsoid, flat_prism, frame_toward, half_ellipsoid, nrm, tube_mesh, upd
 from .core import PALETTE as _PAL44
+from .core import smooth_curve as _smooth50
 
 import colorsys as _cs44
 import os as _os44
@@ -67,6 +68,16 @@ TROWEL45 = _os44.environ.get("TPDB_TROWEL45", "A")  # v0.45 bench (vision/isolat
 # v0.45 bench (look review, TPDB_PAINT45): the roller, a blue bar on the end of a pole, read as "a paddle". "A": a wire frame cranked up behind the
 # roller and into its top end, and a cream cap at each end of the sleeve.
 PAINT45 = _os44.environ.get("TPDB_PAINT45", "A")  # v0.45 bench (vision/isolation_v045.md): A
+# v0.50 bench switches (vision/flaws_v049.md; vision/isolation_v050.md), "O" for v0.49's drawing.
+# TPDB_STRING50 "B" (O5): a held balloon's string hangs in a loose S from the balloon to the fist. Straight, it was "perfectly straight and
+#   stiff, so it could be a balloon on a stick, or a lollipop/ice lolly on a stick".
+# TPDB_ROLLER50 "B" (O3): the painter's pole is a dark metal one, a little thicker. In the wood's colour it lay on a fence of the same colour and
+#   was not seen: "The roller looks a little small and oddly held, high above the woman's hand", in three v0.49 pictures of eight.
+# v0.50: B for both, on the bench (vision/isolation_v050.md, round 4): the straight string was a stick to two readers of three and the curved
+# one a string to three of three; with the wood-coloured pole two readers of three offered something else for the roller's head, and with the
+# dark one none did.
+STRING50 = _os44.environ.get("TPDB_STRING50", "B")
+ROLLER50 = _os44.environ.get("TPDB_ROLLER50", "B")
 # v0.45 bench (look review, TPDB_BOX45): the carried box was the fence's colour to the digit (both wood_light) and sank into it. "A": khaki, with a
 # brown tape.
 BOX45 = _os44.environ.get("TPDB_BOX45", "A")  # v0.45 bench (vision/isolation_v045.md): A
@@ -1602,7 +1613,13 @@ def up_balloon(P):
     P.arms({"R": (ch + Vector((-0.05, -0.32, 0.10)) * u, (-1, 0.4, -0.7)), "L": P.rest_arm("L")})
     g = P.grip("R")
     b = Vector((g.x, g.y - 0.07 * u, P.lm("head_top").z + 0.40 * u))
-    P.prop("string", tube_mesh("string", [g, g.lerp(b, 0.5) + Vector((0.03 * u, 0, 0)), b - Vector((0, 0, 0.17 * u))], 0.0045 * u, "outline"))
+    if STRING50 == "B":
+        # v0.50 (TPDB_STRING50): a loose S, seen from the front and from the side alike
+        k0 = b - Vector((0, 0, 0.17 * u))
+        ctrl = [g, g.lerp(k0, 0.27) + Vector((0.040 * u, -0.040 * u, 0)), g.lerp(k0, 0.52), g.lerp(k0, 0.78) + Vector((-0.036 * u, 0.036 * u, 0)), k0]
+        P.prop("string", tube_mesh("string", _smooth50(ctrl, n=8), 0.0045 * u, "outline"))
+    else:
+        P.prop("string", tube_mesh("string", [g, g.lerp(b, 0.5) + Vector((0.03 * u, 0, 0)), b - Vector((0, 0, 0.17 * u))], 0.0045 * u, "outline"))
     bc = _pcol(P, "yellow", ("red", "blue"))      # v0.44 (TPDB_PROP44)
     P.prop("balloon", ellipsoid("balloon", b, (0.135 * u, 0.13 * u, 0.165 * u), bc))
     P.prop("knot", cyl("knot", b - Vector((0, 0, 0.18 * u)), b - Vector((0, 0, 0.155 * u)), 0.006 * u, bc, r1=0.018 * u))
@@ -1615,7 +1632,10 @@ def up_paint(P):
     T = Vector((-0.04 * u, -0.10 * u, P.lm("pelvis").z + 0.12 * u))
     _pole_grips(P, T, head, 0.42, 0.10, hintL=(1, 0.3, -0.6), hintR=(-1, 0.3, -0.6))
     d = (head - T).normalized()
-    P.prop("pole", cyl("pole", T - d * 0.05 * u, head - d * 0.04 * u, 0.014 * u, "wood"))
+    if ROLLER50 == "B":
+        P.prop("pole", cyl("pole", T - d * 0.05 * u, head - d * 0.04 * u, 0.018 * u, "slate"))      # v0.50 (TPDB_ROLLER50)
+    else:
+        P.prop("pole", cyl("pole", T - d * 0.05 * u, head - d * 0.04 * u, 0.014 * u, "wood"))
     if ROLLER_STYLE in ("A", "B"):
         # v0.25 bench (TPDB_ROLLER): the roller upright, its side to the viewer, a T on the end of the pole (its axis along the
         # line of sight left only its round end in view: "a small pale oval", "hardly seems to touch the fence"). B longer and fatter

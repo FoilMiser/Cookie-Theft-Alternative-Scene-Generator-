@@ -33,8 +33,12 @@ NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # whose direction one bench reader had the other way) and dog_sleeping (not read small and far in the bench's fourth round)
 # v0.49: five for rain_coming too (vision/flaws_v048.md R1: it failed the gate at 0.889 on one unsaid inference in three pictures, and its
 # verdict rests on one inference a picture)
-NEED_T = {"rain_coming": 5, "about_to_trip": 5, "blocked_hose": 5, "lost_balloon": 5, "water_upward": 5, "dog_reading": 5, "bird_steals": 5, "cat_stalks_bird": 5,
-          "walk_dog": 5, "dog_sleeping": 5}
+# v0.50: five for the R rows of v0.49's list (lost_balloon, blocked_hose, play_catch, the four dog templates, seesaw_heavy:
+# vision/flaws_v049.md R1 to R5), for the templates whose drawing or placing changed (seesaw and slide, O2; balloon, O5; paint_fence, O3;
+# goat_grazing, O4) and for rain_coming, whose verdict rests on one inference a picture. The eight of v0.48 that are not on v0.49's list
+# go back to three
+NEED_T = {"rain_coming": 5, "lost_balloon": 5, "blocked_hose": 5, "play_catch": 5, "dog_begs": 5, "dog_playing": 5, "dog_sleeping": 5,
+          "dog_wants_walk": 5, "seesaw_heavy": 5, "seesaw": 5, "slide": 5, "balloon": 5, "paint_fence": 5, "goat_grazing": 5}
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):

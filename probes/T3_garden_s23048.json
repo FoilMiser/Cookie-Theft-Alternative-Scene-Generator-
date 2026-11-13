@@ -6,8 +6,8 @@
  "seed": 23048,
  "mirror": false,
  "versions": {
-  "generator": "0.49.0",
-  "cast_builder": "0.49.0",
+  "generator": "0.50.0",
+  "cast_builder": "0.50.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,167 +56,228 @@
   }
  },
  "features": [
-  "bench",
-  "clothesline",
-  "feeder",
-  "flowers",
-  "laundry"
+  "swing"
  ],
  "templates": [
   {
-   "id": "bird_steals",
+   "id": "lost_balloon",
    "kind": "inference",
    "event": "e1",
    "units": 1
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is reading on the bench",
+   "text": "A girl is holding balloons and reaching up for one, upset",
    "accepted": {
     "who": [
-     "grandmother",
-     "grandma",
-     "old woman",
-     "older woman",
-     "lady",
-     "woman"
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
     ],
     "what": [
-     "reading",
-     "reading a book",
-     "sitting on the bench",
-     "not paying attention"
+     "reaching up",
+     "holding balloons",
+     "upset",
+     "sad",
+     "trying to catch the balloon"
     ]
    },
-   "key": "reading",
+   "key": "reaching",
    "elements": [
-    "benchreader_1"
+    "balloonlost_1",
+    "heldbal_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "bird_steals",
+   "template": "lost_balloon",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.035,
+    "s": -0.258,
     "r": 0,
     "d": 0.0,
-    "f": 1.14,
-    "a": 4.11,
-    "zipf_raw": 5.14,
-    "aoa_raw": 4.11,
+    "f": 0.46,
+    "a": 4.89,
+    "zipf_raw": 4.46,
+    "aoa_raw": 4.89,
     "domain": null,
-    "area_px": 16064
+    "area_px": 10628
    },
-   "b": -1.74,
-   "p0": 0.851,
-   "pm1": 0.677,
+   "b": -1.269,
+   "p0": 0.781,
+   "pm1": 0.567,
    "aoi_cells": [
-    "BL"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i02",
-   "type": "action",
-   "text": "A bird is pecking at a sandwich on the bench",
+   "type": "entity",
+   "text": "A balloon is floating up into the sky",
    "accepted": [
-    "bird eating the sandwich",
-    "bird on the bench",
-    "bird pecking",
-    "sandwich"
+    "balloon flying away",
+    "balloon in the sky",
+    "balloon floating away",
+    "floating balloon"
    ],
-   "key": "sandwich",
+   "key": "balloon",
    "elements": [
-    "thief_2",
-    "sandwich_3"
+    "loosebal_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "bird_steals",
+   "template": "lost_balloon",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -1.082,
+    "animate": false,
+    "s": -1.24,
     "r": 0,
     "d": 0.0,
-    "f": 0.13,
-    "a": 4.79,
-    "zipf_raw": 4.13,
-    "aoa_raw": 4.79,
+    "f": -0.1,
+    "a": 4.37,
+    "zipf_raw": 3.9,
+    "aoa_raw": 4.37,
     "domain": null,
-    "area_px": 3328
+    "area_px": 2664
    },
-   "b": -0.878,
-   "p0": 0.706,
-   "pm1": 0.47,
+   "b": -0.11,
+   "p0": 0.527,
+   "pm1": 0.291,
    "aoi_cells": [
-    "BL"
+    "TC",
+    "MC"
    ]
   },
   {
    "id": "i03",
    "type": "inference",
-   "text": "The bird is stealing the sandwich while the grandmother is busy reading",
+   "text": "The girl let go of one of the balloons",
    "accepted": [
-    "the bird is stealing the food",
-    "she doesn't notice the bird",
-    "the bird is eating her lunch",
-    "he isn't watching his sandwich"
+    "one balloon got away",
+    "lost one of the balloons",
+    "the balloon slipped away",
+    "let go of the string",
+    "one floated away from the bunch"
    ],
-   "key": "stealing",
+   "key": "lost",
    "elements": [
-    "thief_2",
-    "benchreader_1"
+    "loosebal_3",
+    "balloonlost_1",
+    "heldbal_2"
    ],
    "cues": [
-    "thief_2",
-    "benchreader_1"
+    "loosebal_3",
+    "balloonlost_1",
+    "heldbal_2"
    ],
    "effect": [
-    "sandwich_3"
+    "loosebal_3"
    ],
-   "chain": 2,
+   "chain": 1,
    "animate": false,
    "domain": null,
-   "template": "bird_steals",
+   "template": "lost_balloon",
    "event": "e1",
    "features": {
     "type": "inference",
-    "chain": 2,
+    "chain": 1,
     "animate": false,
-    "s": -1.592,
-    "r": 1,
-    "d": 0.071,
+    "s": -1.24,
+    "r": 2,
+    "d": 0.16,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.23,
-    "aoa_raw": 6.17,
+    "zipf_raw": 5.39,
+    "aoa_raw": 5.78,
     "domain": null,
-    "area_px": 1620
+    "area_px": 2664
    },
-   "b": 1.291,
-   "p0": 0.216,
-   "pm1": 0.092,
+   "b": 0.442,
+   "p0": 0.391,
+   "pm1": 0.191,
    "aoi_cells": [
-    "BL"
+    "TC",
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i04",
+   "type": "action",
+   "text": "A man is sweeping",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "broom"
+    ]
+   },
+   "key": "sweeping",
+   "elements": [
+    "sweeper_4"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "sweep",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": 0.242,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
+    "domain": null,
+    "area_px": 21512
+   },
+   "b": -1.318,
+   "p0": 0.789,
+   "pm1": 0.579,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -251,15 +312,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
     "TR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i06",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -293,15 +354,15 @@
     "domain": null,
     "area_px": 19276
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.89,
+   "p0": 0.709,
+   "pm1": 0.473,
    "aoi_cells": [
     "TC"
    ]
   },
   {
-   "id": "i06",
+   "id": "i07",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -333,56 +394,12 @@
     "domain": null,
     "area_px": 43028
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.382,
+   "p0": 0.799,
+   "pm1": 0.594,
    "aoi_cells": [
     "TL",
     "ML"
-   ]
-  },
-  {
-   "id": "i07",
-   "type": "entity",
-   "text": "There is a bird feeder",
-   "accepted": [
-    "bird feeder",
-    "feeder",
-    "birdhouse",
-    "bird house",
-    "bird table"
-   ],
-   "key": "feeder",
-   "elements": [
-    "feeder"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.401,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.54,
-    "a": 7.29,
-    "zipf_raw": 3.46,
-    "aoa_raw": 7.29,
-    "domain": null,
-    "area_px": 8688
-   },
-   "b": -0.517,
-   "p0": 0.626,
-   "pm1": 0.382,
-   "aoi_cells": [
-    "TR",
-    "MR"
    ]
   },
   {
@@ -409,7 +426,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.883,
+    "s": 1.871,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -417,11 +434,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 217780
+    "area_px": 213828
    },
-   "b": -1.885,
-   "p0": 0.868,
-   "pm1": 0.708,
+   "b": -1.758,
+   "p0": 0.853,
+   "pm1": 0.681,
    "aoi_cells": [
     "ML",
     "MC",
@@ -455,7 +472,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.825,
+    "s": 1.84,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
@@ -463,11 +480,11 @@
     "zipf_raw": 5.71,
     "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 200504
+    "area_px": 204952
    },
-   "b": -2.305,
-   "p0": 0.909,
-   "pm1": 0.787,
+   "b": -2.193,
+   "p0": 0.9,
+   "pm1": 0.767,
    "aoi_cells": [
     "TL",
     "ML",
@@ -477,19 +494,15 @@
   {
    "id": "i10",
    "type": "entity",
-   "text": "Clothes are hanging on the line",
+   "text": "There is a swing set",
    "accepted": [
-    "clothes",
-    "laundry",
-    "washing",
-    "clothesline",
-    "clothes line",
-    "towel",
-    "pants"
+    "swing",
+    "swings",
+    "swing set"
    ],
-   "key": "laundry",
+   "key": "swing",
    "elements": [
-    "laundry"
+    "swing"
    ],
    "cues": [],
    "effect": [],
@@ -502,21 +515,23 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.103,
+    "s": 0.602,
     "r": 0,
     "d": 0.0,
-    "f": 0.06,
-    "a": 6.05,
-    "zipf_raw": 4.06,
-    "aoa_raw": 6.05,
+    "f": 0.34,
+    "a": 4.16,
+    "zipf_raw": 4.34,
+    "aoa_raw": 4.16,
     "domain": null,
-    "area_px": 13236
+    "area_px": 35772
    },
-   "b": -0.847,
-   "p0": 0.7,
-   "pm1": 0.462,
+   "b": -1.163,
+   "p0": 0.762,
+   "pm1": 0.541,
    "aoi_cells": [
-    "MC"
+    "MR",
+    "BC",
+    "BR"
    ]
   },
   {
@@ -554,9 +569,9 @@
     "domain": null,
     "area_px": 25880
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.139,
+   "p0": 0.757,
+   "pm1": 0.535,
    "aoi_cells": [
     "BL",
     "BC"
@@ -571,12 +586,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.775,
-   "inference": 0.216
+   "content": 0.761,
+   "inference": 0.391
   },
   "theta_minus_1": {
-   "content": 0.571,
-   "inference": 0.092
+   "content": 0.553,
+   "inference": 0.191
   }
  },
  "bands": {
@@ -588,6 +603,10 @@
  },
  "in_tier": false,
  "checks": {
+  "balloonlost_1_looks_at_balloon": {
+   "result": false,
+   "detail": ""
+  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -598,14 +617,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0398,
-  "png_bytes": 153513,
-  "jpeg_bytes": 181164
+  "objects": 17,
+  "edge_density": 0.0408,
+  "png_bytes": 183519,
+  "jpeg_bytes": 186243
  },
  "signature": [
   [
@@ -650,7 +669,7 @@
   ],
   [
    "inference",
-   2
+   1
   ]
  ],
  "elements": [
@@ -714,8 +733,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 80792,
-   "occlusion": 0.006
+   "visible_px": 58724,
+   "occlusion": 0.277
   },
   {
    "id": "tree",
@@ -744,8 +763,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 217780,
-   "occlusion": 0.096
+   "visible_px": 213828,
+   "occlusion": 0.112
   },
   {
    "id": "filler_bush_left",
@@ -763,64 +782,41 @@
    "occlusion": 0.096
   },
   {
-   "id": "feeder",
-   "label": "Bird table on a post",
-   "role": "setting",
-   "z": 652,
+   "id": "balloonlost_1",
+   "label": "person.nia__balloon_reach__scared__y045",
+   "role": "scored",
+   "z": 703.8,
    "bbox": [
-    1208.0,
-    302.0,
-    1282.0,
-    664.0
+    642.0,
+    550.0,
+    730.0,
+    706.0
    ],
-   "area_px": 8688,
-   "visible_px": 8688,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
-   "bbox": [
-    1100.0,
-    596.0,
-    1220.0,
-    702.0
-   ],
-   "area_px": 8080,
-   "visible_px": 8080,
-   "occlusion": 0.0
-  },
-  {
-   "id": "clothesline",
-   "label": "Clothesline",
-   "role": "setting",
-   "z": 705,
-   "bbox": [
-    606.0,
-    382.0,
-    976.0,
-    708.0
-   ],
-   "area_px": 13848,
-   "visible_px": 13368,
-   "occlusion": 0.035
-  },
-  {
-   "id": "laundry",
-   "label": "Clothes hanging on the line",
-   "role": "setting",
-   "z": 706,
-   "bbox": [
-    648.0,
-    392.0,
-    778.0,
-    524.0
-   ],
-   "area_px": 13236,
-   "visible_px": 13236,
-   "occlusion": 0.0
+   "area_px": 5764,
+   "visible_px": 5744,
+   "occlusion": 0.003,
+   "asset": {
+    "variant": "person.nia__balloon_reach__scared__y045",
+    "family": "person.nia",
+    "scale": 0.4097,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
   },
   {
    "id": "house",
@@ -834,8 +830,8 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 200504,
-   "occlusion": 0.022
+   "visible_px": 204952,
+   "occlusion": 0.0
   },
   {
    "id": "flowers",
@@ -853,102 +849,86 @@
    "occlusion": 0.0
   },
   {
-   "id": "bench",
-   "label": "Garden bench",
+   "id": "swing_seat",
+   "label": "Empty swing seat",
    "role": "setting",
-   "z": 928,
+   "z": 845,
    "bbox": [
-    38.0,
-    804.0,
-    242.0,
-    930.0
+    1134.0,
+    474.0,
+    1224.0,
+    784.0
    ],
-   "area_px": 13200,
-   "visible_px": 5972,
-   "occlusion": 0.548
+   "area_px": 4492,
+   "visible_px": 4420,
+   "occlusion": 0.016
   },
   {
-   "id": "benchreader_1",
-   "label": "person.rosa__sit_read__neutral__y045",
-   "role": "scored",
-   "z": 931,
+   "id": "swing",
+   "label": "Swing set",
+   "role": "setting",
+   "z": 846,
    "bbox": [
-    14.0,
-    694.0,
-    146.0,
-    954.0
+    1032.0,
+    458.0,
+    1324.0,
+    856.0
    ],
-   "area_px": 16064,
-   "visible_px": 16064,
-   "occlusion": 0.0,
+   "area_px": 35772,
+   "visible_px": 35772,
+   "occlusion": 0.0
+  },
+  {
+   "id": "sweeper_4",
+   "label": "person.dev__sweep__neutral__y045",
+   "role": "scored",
+   "z": 936.38,
+   "bbox": [
+    1374.0,
+    636.0,
+    1482.0,
+    976.0
+   ],
+   "area_px": 22316,
+   "visible_px": 21512,
+   "occlusion": 0.036,
    "asset": {
-    "variant": "person.rosa__sit_read__neutral__y045",
-    "family": "person.rosa",
-    "scale": 0.4939,
+    "variant": "person.dev__sweep__neutral__y045",
+    "family": "person.dev",
+    "scale": 0.4959,
     "mirrored": true,
     "labels": {
-     "everyday_name": "grandmother",
+     "everyday_name": "man",
      "accepted_names": [
-      "grandmother",
-      "grandma",
-      "old woman",
-      "older woman",
-      "lady",
-      "woman"
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
      ],
      "category": "adult_person",
      "person": {
-      "age_group": "older_adult",
-      "skin_tone": "skin1",
-      "hair": "gray_bun"
+      "age_group": "adult",
+      "skin_tone": "skin3",
+      "hair": "buzz_beard"
      }
     }
    }
   },
   {
-   "id": "sandwich_3",
-   "label": "Sandwich on the bench",
+   "id": "sweepheap_5",
+   "label": "What has been swept",
    "role": "scored",
-   "z": 931.5,
+   "z": 938.38,
    "bbox": [
-    138.0,
-    824.0,
-    208.0,
-    864.0
+    1358.0,
+    908.0,
+    1442.0,
+    950.0
    ],
-   "area_px": 1800,
-   "visible_px": 1708,
-   "occlusion": 0.051
-  },
-  {
-   "id": "thief_2",
-   "label": "animal.bird_02__peck__neutral__y090",
-   "role": "scored",
-   "z": 932,
-   "bbox": [
-    188.0,
-    816.0,
-    252.0,
-    860.0
-   ],
-   "area_px": 1620,
-   "visible_px": 1620,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.bird_02__peck__neutral__y090",
-    "family": "animal.bird_02",
-    "scale": 0.3954,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "bird",
-     "accepted_names": [
-      "bird",
-      "bluebird",
-      "little bird"
-     ],
-     "category": "bird"
-    }
-   }
+   "area_px": 1792,
+   "visible_px": 1792,
+   "occlusion": 0.0
   },
   {
    "id": "filler_watering_can",
@@ -979,6 +959,36 @@
    "area_px": 8776,
    "visible_px": 8776,
    "occlusion": 0.0
+  },
+  {
+   "id": "heldbal_2",
+   "label": "Balloons held by the child",
+   "role": "scored",
+   "z": 1499,
+   "bbox": [
+    580.0,
+    466.0,
+    666.0,
+    618.0
+   ],
+   "area_px": 4884,
+   "visible_px": 4884,
+   "occlusion": 0.0
+  },
+  {
+   "id": "loosebal_3",
+   "label": "Balloon floating away",
+   "role": "scored",
+   "z": 1500,
+   "bbox": [
+    738.0,
+    276.0,
+    788.0,
+    488.0
+   ],
+   "area_px": 2664,
+   "visible_px": 2664,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -1000,11 +1010,14 @@
   "require_band": false,
   "usage": {},
   "forced": {
+   "events": [
+    "sweep"
+   ],
    "modules": [
-    "bird_steals"
+    "lost_balloon"
    ]
   },
-  "placement_rev": 46
+  "placement_rev": 47
  },
  "probe": true
 }

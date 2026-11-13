@@ -6,8 +6,8 @@
  "seed": 23047,
  "mirror": false,
  "versions": {
-  "generator": "0.49.0",
-  "cast_builder": "0.49.0",
+  "generator": "0.50.0",
+  "cast_builder": "0.50.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,7 +58,7 @@
  "features": [],
  "templates": [
   {
-   "id": "about_to_trip",
+   "id": "dog_wants_walk",
    "kind": "inference",
    "event": "e1",
    "units": 1
@@ -69,147 +69,100 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is reading while walking",
-   "accepted": {
-    "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
-    ],
-    "what": [
-     "reading while walking",
-     "walking and reading",
-     "not looking where he's going",
-     "reading a book"
-    ]
-   },
-   "key": "reading",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
    "elements": [
-    "reader_1"
+    "waitingdog_1",
+    "leash_2"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "about_to_trip",
+   "template": "dog_wants_walk",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.02,
+    "s": -0.48,
     "r": 0,
     "d": 0.0,
-    "f": 1.14,
-    "a": 4.11,
-    "zipf_raw": 5.14,
-    "aoa_raw": 4.11,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
     "domain": null,
-    "area_px": 15740
+    "area_px": 7772
    },
-   "b": -1.732,
-   "p0": 0.85,
-   "pm1": 0.675,
+   "b": -0.981,
+   "p0": 0.727,
+   "pm1": 0.495,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "BL"
    ]
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "There is a box on the ground in front of a woman",
-   "accepted": [
-    "box",
-    "crate",
-    "a box in the way"
-   ],
-   "key": "box",
-   "elements": [
-    "obstacle_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "about_to_trip",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.694,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
-    "domain": null,
-    "area_px": 5752
-   },
-   "b": -0.845,
-   "p0": 0.7,
-   "pm1": 0.461,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i03",
    "type": "inference",
-   "text": "The woman is going to trip over a box",
+   "text": "The dog wants to go for a walk",
    "accepted": [
-    "going to trip over the box",
-    "going to fall",
-    "will bump into it",
-    "isn't looking where they're going"
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
    ],
-   "key": "trip",
+   "key": "walk",
    "elements": [
-    "reader_1",
-    "obstacle_3"
+    "waitingdog_1",
+    "leash_2",
+    "house"
    ],
    "cues": [
-    "reader_1",
-    "obstacle_3"
+    "waitingdog_1",
+    "leash_2",
+    "house"
    ],
    "effect": [
-    "obstacle_3"
+    "waitingdog_1"
    ],
    "chain": 1,
    "animate": false,
    "domain": null,
-   "template": "about_to_trip",
+   "template": "dog_wants_walk",
    "event": "e1",
    "features": {
     "type": "inference",
     "chain": 1,
     "animate": false,
-    "s": 0.02,
-    "r": 1,
-    "d": 0.08,
+    "s": -0.552,
+    "r": 2,
+    "d": 0.166,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.22,
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
     "domain": null,
-    "area_px": 15740
+    "area_px": 7028
    },
-   "b": -0.104,
-   "p0": 0.526,
-   "pm1": 0.29,
+   "b": -0.015,
+   "p0": 0.504,
+   "pm1": 0.272,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "TL",
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i04",
+   "id": "i03",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -252,7 +205,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i04",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -294,7 +247,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i05",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -335,7 +288,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i06",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -358,7 +311,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.921,
+    "s": 1.944,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -366,11 +319,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 229648
+    "area_px": 237184
    },
-   "b": -1.904,
-   "p0": 0.87,
-   "pm1": 0.712,
+   "b": -1.915,
+   "p0": 0.872,
+   "pm1": 0.714,
    "aoi_cells": [
     "ML",
     "MC",
@@ -378,53 +331,7 @@
    ]
   },
   {
-   "id": "i08",
-   "type": "entity",
-   "text": "It is the back yard of a house",
-   "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
-    "garden"
-   ],
-   "key": "house",
-   "elements": [
-    "house"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 1.84,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
-    "domain": null,
-    "area_px": 204952
-   },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
-   "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
-   ]
-  },
-  {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -468,19 +375,19 @@
   }
  ],
  "counts": {
-  "content": 8,
+  "content": 6,
   "inference_units": 1,
   "contradictions": 0,
-  "items_total": 9
+  "items_total": 7
  },
  "predicted": {
   "theta_0": {
-   "content": 0.802,
-   "inference": 0.526
+   "content": 0.781,
+   "inference": 0.504
   },
   "theta_minus_1": {
-   "content": 0.607,
-   "inference": 0.29
+   "content": 0.572,
+   "inference": 0.272
   }
  },
  "bands": {
@@ -507,21 +414,13 @@
  },
  "clutter": {
   "objects": 14,
-  "edge_density": 0.0355,
-  "png_bytes": 137714,
-  "jpeg_bytes": 167424
+  "edge_density": 0.0346,
+  "png_bytes": 128474,
+  "jpeg_bytes": 165081
  },
  "signature": [
   [
    "action",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
    0
   ],
   [
@@ -640,8 +539,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 229648,
-   "occlusion": 0.047
+   "visible_px": 237184,
+   "occlusion": 0.015
   },
   {
    "id": "filler_bush_mid",
@@ -659,6 +558,21 @@
    "occlusion": 0.0
   },
   {
+   "id": "filler_bush_left",
+   "label": "Bush",
+   "role": "filler",
+   "z": 648,
+   "bbox": [
+    292.0,
+    598.0,
+    428.0,
+    684.0
+   ],
+   "area_px": 8296,
+   "visible_px": 7496,
+   "occlusion": 0.096
+  },
+  {
    "id": "filler_pots",
    "label": "Flower pots",
    "role": "filler",
@@ -674,73 +588,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "obstacle_3",
-   "label": "a box in the way",
-   "role": "scored",
-   "z": 762.08,
-   "bbox": [
-    642.0,
-    706.0,
-    724.0,
-    782.0
-   ],
-   "area_px": 5752,
-   "visible_px": 5752,
-   "occlusion": 0.0
-  },
-  {
-   "id": "reader_1",
-   "label": "person.mei__walk_read_open__neutral__y090",
-   "role": "scored",
-   "z": 762.08,
-   "bbox": [
-    696.0,
-    506.0,
-    844.0,
-    768.0
-   ],
-   "area_px": 15740,
-   "visible_px": 15740,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.mei__walk_read_open__neutral__y090",
-    "family": "person.mei",
-    "scale": 0.4313,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
-  },
-  {
-   "id": "steplines_2",
-   "label": "Motion lines behind the walker",
-   "role": "setting",
-   "z": 763.08,
-   "bbox": [
-    822.0,
-    598.0,
-    860.0,
-    642.0
-   ],
-   "area_px": 116,
-   "visible_px": 116,
-   "occlusion": 0.0
-  },
-  {
    "id": "house",
    "label": "Back of the house",
    "role": "setting",
@@ -752,7 +599,52 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
+   "visible_px": 199648,
+   "occlusion": 0.026
+  },
+  {
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
+   "role": "scored",
+   "z": 806,
+   "bbox": [
+    78.0,
+    678.0,
+    172.0,
+    816.0
+   ],
+   "area_px": 7060,
+   "visible_px": 7028,
+   "occlusion": 0.005,
+   "asset": {
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    164.0,
+    706.0,
+    184.0,
+    778.0
+   ],
+   "area_px": 744,
+   "visible_px": 744,
    "occlusion": 0.0
   },
   {
@@ -821,10 +713,10 @@
   "usage": {},
   "forced": {
    "modules": [
-    "about_to_trip"
+    "dog_wants_walk"
    ]
   },
-  "placement_rev": 46
+  "placement_rev": 47
  },
  "probe": true
 }

@@ -1480,7 +1480,7 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False, ladder3=False):
     if ladder3:
         xs = [x - f * 90 * s, cx1 + f * 40 * s]
     info = {"platform": (x + f * pw / 2, top - 10 * s), "bottom": (cx1 + f * 50 * s, base_y), "depth": base_y,
-            "chute": ((cx0, top - 4 * s), (cx1, base_y - 26 * s)),
+            "chute": ((cx0, top - 4 * s), (cx1, base_y - 26 * s)), "chute_poly": chute,
             "bbox": (min(xs), top - 62 * s, max(xs), base_y)}
     return svg, info
 
@@ -1489,7 +1489,7 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False, ladder3=False):
 SEESAW_IN28 = 22
 
 
-def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False, up=(0, 0)):
+def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False, up=(0, 0), arch=(False, False)):
     """Seesaw on a pivot; tilt > 0 lifts the right end. Returns svg and the two seat points.
     inset (v0.28) moves the seats and handles in from the plank's ends; ground (v0.28) casts one shadow under the whole plank, for the riders too.
     up (v0.32): how much taller each end's handle stands, in units (left, right), for a rider raised onto the plank who grips it."""
@@ -1508,6 +1508,11 @@ def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False,
         ht = 42 + (up[0] if name == "left" else up[1])
         svg += stroke(poly_d([(hx, hy - 6 * s), (hx, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
         svg += stroke(poly_d([(hx - 9 * s, hy - ht * s), (hx + 9 * s, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
+        if arch[0 if name == "left" else 1]:
+            # (v0.50, templates.SEAT50) the handle is a grab bar: from its top it comes down to the plank ahead of the rider's knees, where it
+            # shows (a rider who sits on the plank hides the post in the lap: "Neither child seems to have handles to hold", bench round 1)
+            fx, fy = hx + sg * 22 * s * math.cos(a), hy - sg * 22 * s * math.sin(a) - 6 * s
+            svg += stroke(f"M {P(hx + sg * 7 * s, hy - ht * s)} Q {P(fx, hy - ht * s)} {P(fx, fy)}", C["charcoal"], 6 * s, OW * 0.7)
         if pad:
             # (v0.31 bench) a seat on the plank, under the rider
             nx_, ny_ = -math.sin(a) * 9 * s, -math.cos(a) * 9 * s

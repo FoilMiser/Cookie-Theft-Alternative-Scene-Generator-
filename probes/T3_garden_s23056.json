@@ -6,8 +6,8 @@
  "seed": 23056,
  "mirror": true,
  "versions": {
-  "generator": "0.49.0",
-  "cast_builder": "0.49.0",
+  "generator": "0.50.0",
+  "cast_builder": "0.50.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,18 +60,119 @@
  ],
  "templates": [
   {
-   "id": "dig",
-   "kind": "event",
+   "id": "dog_wants_walk",
+   "kind": "inference",
    "event": "e1",
+   "units": 1
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
    "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is digging",
+   "text": "A dog is sitting by the door with its leash in its mouth",
+   "accepted": [
+    "dog with a leash",
+    "dog holding a leash",
+    "dog by the door",
+    "leash in its mouth"
+   ],
+   "key": "leash",
+   "elements": [
+    "waitingdog_1",
+    "leash_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.48,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.53,
+    "a": 5.79,
+    "zipf_raw": 3.47,
+    "aoa_raw": 5.79,
+    "domain": null,
+    "area_px": 7772
+   },
+   "b": -0.861,
+   "p0": 0.703,
+   "pm1": 0.465,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "inference",
+   "text": "The dog wants to go for a walk",
+   "accepted": [
+    "the dog wants a walk",
+    "wants to go out",
+    "waiting to be taken for a walk",
+    "asking for a walk"
+   ],
+   "key": "walk",
+   "elements": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "cues": [
+    "waitingdog_1",
+    "leash_2",
+    "house"
+   ],
+   "effect": [
+    "waitingdog_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "dog_wants_walk",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.552,
+    "r": 2,
+    "d": 0.166,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 5.08,
+    "aoa_raw": 3.45,
+    "domain": null,
+    "area_px": 7028
+   },
+   "b": 0.105,
+   "p0": 0.474,
+   "pm1": 0.249,
+   "aoi_cells": [
+    "TR",
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "action",
+   "text": "A man is sweeping",
    "accepted": {
     "who": [
      "man",
@@ -81,49 +182,47 @@
      "person"
     ],
     "what": [
-     "digging",
-     "digging a hole",
-     "shoveling",
-     "using a shovel",
-     "spade"
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "broom"
     ]
    },
-   "key": "digging",
+   "key": "sweeping",
    "elements": [
-    "digger_1",
-    "soil_2"
+    "sweeper_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "dig",
-   "event": "e1",
+   "template": "sweep",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.331,
+    "s": 0.186,
     "r": 0,
     "d": 0.0,
-    "f": -0.01,
-    "a": 4.19,
-    "zipf_raw": 3.99,
-    "aoa_raw": 4.19,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 24404
+    "area_px": 19884
    },
-   "b": -1.542,
-   "p0": 0.824,
-   "pm1": 0.632,
+   "b": -1.29,
+   "p0": 0.784,
+   "pm1": 0.572,
    "aoi_cells": [
-    "MC",
-    "BC"
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i02",
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -158,15 +257,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
     "TL"
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -200,15 +299,15 @@
     "domain": null,
     "area_px": 19280
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.89,
+   "p0": 0.709,
+   "pm1": 0.473,
    "aoi_cells": [
     "TC"
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -240,16 +339,16 @@
     "domain": null,
     "area_px": 43040
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.382,
+   "p0": 0.799,
+   "pm1": 0.594,
    "aoi_cells": [
     "TR",
     "MR"
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -272,7 +371,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.897,
+    "s": 1.889,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -280,11 +379,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 222068
+    "area_px": 219336
    },
-   "b": -1.892,
-   "p0": 0.869,
-   "pm1": 0.709,
+   "b": -1.768,
+   "p0": 0.854,
+   "pm1": 0.683,
    "aoi_cells": [
     "ML",
     "MC",
@@ -292,53 +391,7 @@
    ]
   },
   {
-   "id": "i06",
-   "type": "entity",
-   "text": "It is the back yard of a house",
-   "accepted": [
-    "house",
-    "home",
-    "backyard",
-    "back yard",
-    "yard",
-    "garden"
-   ],
-   "key": "house",
-   "elements": [
-    "house"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": 1.84,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.71,
-    "a": 3.16,
-    "zipf_raw": 5.71,
-    "aoa_raw": 3.16,
-    "domain": null,
-    "area_px": 204952
-   },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
-   "aoi_cells": [
-    "TR",
-    "MR",
-    "BR"
-   ]
-  },
-  {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There is a swing set",
    "accepted": [
@@ -371,9 +424,9 @@
     "domain": null,
     "area_px": 35772
    },
-   "b": -1.283,
-   "p0": 0.783,
-   "pm1": 0.57,
+   "b": -1.163,
+   "p0": 0.762,
+   "pm1": 0.541,
    "aoi_cells": [
     "ML",
     "BL",
@@ -381,7 +434,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i09",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -415,9 +468,9 @@
     "domain": null,
     "area_px": 25884
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.139,
+   "p0": 0.757,
+   "pm1": 0.535,
    "aoi_cells": [
     "BC",
     "BR"
@@ -426,18 +479,18 @@
  ],
  "counts": {
   "content": 8,
-  "inference_units": 0,
+  "inference_units": 1,
   "contradictions": 0,
-  "items_total": 8
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.809,
-   "inference": null
+   "content": 0.763,
+   "inference": 0.474
   },
   "theta_minus_1": {
-   "content": 0.615,
-   "inference": null
+   "content": 0.545,
+   "inference": 0.249
   }
  },
  "bands": {
@@ -459,16 +512,20 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "16 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0377,
-  "png_bytes": 160680,
-  "jpeg_bytes": 181514
+  "objects": 16,
+  "edge_density": 0.0393,
+  "png_bytes": 175991,
+  "jpeg_bytes": 182606
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -498,8 +555,8 @@
    0
   ],
   [
-   "entity",
-   0
+   "inference",
+   1
   ]
  ],
  "elements": [
@@ -563,8 +620,8 @@
     1000.0
    ],
    "area_px": 81248,
-   "visible_px": 80796,
-   "occlusion": 0.006
+   "visible_px": 64424,
+   "occlusion": 0.207
   },
   {
    "id": "tree",
@@ -593,8 +650,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 222068,
-   "occlusion": 0.078
+   "visible_px": 219336,
+   "occlusion": 0.09
   },
   {
    "id": "filler_bush_left",
@@ -623,7 +680,52 @@
     784.0
    ],
    "area_px": 204952,
-   "visible_px": 204952,
+   "visible_px": 199648,
+   "occlusion": 0.026
+  },
+  {
+   "id": "waitingdog_1",
+   "label": "animal.dog_01__sit_wait__neutral__y045",
+   "role": "scored",
+   "z": 806,
+   "bbox": [
+    1428.0,
+    678.0,
+    1522.0,
+    816.0
+   ],
+   "area_px": 7060,
+   "visible_px": 7028,
+   "occlusion": 0.005,
+   "asset": {
+    "variant": "animal.dog_01__sit_wait__neutral__y045",
+    "family": "animal.dog_01",
+    "scale": 0.4476,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_2",
+   "label": "Leash in the dog's mouth",
+   "role": "scored",
+   "z": 807,
+   "bbox": [
+    1416.0,
+    706.0,
+    1436.0,
+    778.0
+   ],
+   "area_px": 744,
+   "visible_px": 744,
    "occlusion": 0.0
   },
   {
@@ -672,38 +774,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "soil_2",
-   "label": "Hole and pile of dirt",
+   "id": "sweeper_3",
+   "label": "person.ben__sweep__smile__y045",
    "role": "scored",
-   "z": 917.82,
+   "z": 849.95,
    "bbox": [
-    858.0,
-    884.0,
-    1020.0,
-    938.0
+    116.0,
+    562.0,
+    220.0,
+    888.0
    ],
-   "area_px": 4452,
-   "visible_px": 3628,
-   "occlusion": 0.185
-  },
-  {
-   "id": "digger_1",
-   "label": "person.dev__dig_lift__determined__y045",
-   "role": "scored",
-   "z": 918.82,
-   "bbox": [
-    742.0,
-    640.0,
-    916.0,
-    934.0
-   ],
-   "area_px": 20776,
-   "visible_px": 20776,
-   "occlusion": 0.0,
+   "area_px": 20608,
+   "visible_px": 19884,
+   "occlusion": 0.035,
    "asset": {
-    "variant": "person.dev__dig_lift__determined__y045",
-    "family": "person.dev",
-    "scale": 0.4894,
+    "variant": "person.ben__sweep__smile__y045",
+    "family": "person.ben",
+    "scale": 0.4639,
     "mirrored": false,
     "labels": {
      "everyday_name": "man",
@@ -717,11 +804,26 @@
      "category": "adult_person",
      "person": {
       "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
+      "skin_tone": "skin1",
+      "hair": "short_brown"
      }
     }
    }
+  },
+  {
+   "id": "sweepheap_4",
+   "label": "What has been swept",
+   "role": "scored",
+   "z": 851.95,
+   "bbox": [
+    156.0,
+    824.0,
+    236.0,
+    864.0
+   ],
+   "area_px": 1592,
+   "visible_px": 1592,
+   "occlusion": 0.0
   },
   {
    "id": "filler_watering_can",
@@ -774,10 +876,13 @@
   "usage": {},
   "forced": {
    "events": [
-    "dig"
+    "sweep"
+   ],
+   "modules": [
+    "dog_wants_walk"
    ]
   },
-  "placement_rev": 46
+  "placement_rev": 47
  },
  "probe": true
 }

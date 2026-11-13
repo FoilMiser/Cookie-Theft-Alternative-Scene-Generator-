@@ -144,6 +144,25 @@ if os.environ.get("TPDB_HAIR48", "B") == "B":
     for _f, _a in (("person.mei", 0.88), ("person.ana", 0.90), ("person.rosa", 0.92), ("person.nia", 0.92)):
         PEOPLE[_f]["build"] = dict(PEOPLE[_f].get("build", {}), arms=_a)      # slimmer arms (people.py, "arms")
 
+# v0.50 bench (TPDB_AGE50; vision/flaws_v049.md O1, vision/isolation_v050.md): the grown figures were called a girl or a boy first in 20 of their 89
+# v0.49 pictures. Letters, any of them together: "M" marks of age (the woman in purple as tall as the woman in yellow, and a woman's bust; the woman in yellow a
+# bust and her dress to below the knee; the man in green a fuller beard); "P" every grown figure's head smaller against its body. "O": v0.49's.
+# v0.50: MP, on the bench in whole scenes (tools/cycle/age_scenes.py: 32 of v0.49's pictures built with each of four casts, 128 readings by
+# sixteen readers, two pictures of each cast to a reader). Called young first, of the four figures' 45 appearances: O 13, M 3, P 5, MP 1
+AGE50 = os.environ.get("TPDB_AGE50", "MP")
+AGE50_HEAD = float(os.environ.get("TPDB_AGE50_HEAD", "0.86"))
+if "M" in AGE50:
+    # (first look: with her hair up in a bun and her whole face bare the woman in purple looked younger, a child with a topknot; her hair stays)
+    PEOPLE["person.ana"].update(scale=1.03)
+    PEOPLE["person.ana"]["build"] = dict(PEOPLE["person.ana"].get("build", {}), bust=float(os.environ.get("TPDB_BUST50", "1.0")))
+    PEOPLE["person.mei"]["build"] = dict(PEOPLE["person.mei"].get("build", {}), bust=float(os.environ.get("TPDB_BUST50", "1.0")))
+    PEOPLE["person.mei"].update(hem_drop=0.10)
+    PEOPLE["person.dev"].update(beard50=True)
+if "P" in AGE50:
+    for _fam, _sp in PEOPLE.items():
+        if _sp["age"] in ("adult", "older_adult"):
+            _sp["head_scale"] = _sp.get("head_scale", 1.0) * AGE50_HEAD
+
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",
                           labels=dict(everyday_name="dog", accepted_names=["dog", "puppy", "pup"], category="medium_animal")),

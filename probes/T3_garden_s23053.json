@@ -6,8 +6,8 @@
  "seed": 23053,
  "mirror": false,
  "versions": {
-  "generator": "0.49.0",
-  "cast_builder": "0.49.0",
+  "generator": "0.50.0",
+  "cast_builder": "0.50.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -60,13 +60,19 @@
  ],
  "templates": [
   {
-   "id": "paint_tracks",
-   "kind": "inference",
+   "id": "paint_fence",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
+  },
+  {
+   "id": "sweep",
+   "kind": "event",
+   "event": "e2",
+   "units": 0
   }
  ],
- "scene_load": 1,
+ "scene_load": 2,
  "items": [
   {
    "id": "i01",
@@ -103,7 +109,7 @@
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.601,
+    "s": 0.59,
     "r": 0,
     "d": 0.0,
     "f": 0.52,
@@ -111,11 +117,11 @@
     "zipf_raw": 4.52,
     "aoa_raw": 4.45,
     "domain": null,
-    "area_px": 35692
+    "area_px": 35168
    },
-   "b": -1.837,
-   "p0": 0.863,
-   "pm1": 0.698,
+   "b": -1.711,
+   "p0": 0.847,
+   "pm1": 0.671,
    "aoi_cells": [
     "MC",
     "MR",
@@ -125,140 +131,57 @@
   {
    "id": "i02",
    "type": "action",
-   "text": "A dog is walking away from the paint",
-   "accepted": [
-    "dog walking",
-    "dog",
-    "dog with paint on its feet"
-   ],
-   "key": "dog",
+   "text": "A man is sweeping",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "sweeping",
+     "sweeping the path",
+     "sweeping the ground",
+     "broom"
+    ]
+   },
+   "key": "sweeping",
    "elements": [
-    "paintdog_4"
+    "sweeper_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "paint_tracks",
-   "event": "e1",
+   "template": "sweep",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.849,
+    "s": 0.284,
     "r": 0,
     "d": 0.0,
-    "f": 1.1,
-    "a": 2.8,
-    "zipf_raw": 5.1,
-    "aoa_raw": 2.8,
+    "f": -0.21,
+    "a": 4.2,
+    "zipf_raw": 3.79,
+    "aoa_raw": 4.2,
     "domain": null,
-    "area_px": 4620
+    "area_px": 22836
    },
-   "b": -1.285,
-   "p0": 0.783,
-   "pm1": 0.571,
+   "b": -1.339,
+   "p0": 0.792,
+   "pm1": 0.584,
    "aoi_cells": [
+    "MR",
     "BR"
    ]
   },
   {
    "id": "i03",
-   "type": "entity",
-   "text": "There are paw prints in paint on the grass",
-   "accepted": [
-    "paw prints",
-    "footprints",
-    "paint prints",
-    "blue prints",
-    "tracks"
-   ],
-   "key": "footprints",
-   "elements": [
-    "prints_6",
-    "tray_5"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "paint_tracks",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.165,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.71,
-    "a": 5.78,
-    "zipf_raw": 3.29,
-    "aoa_raw": 5.78,
-    "domain": null,
-    "area_px": 2960
-   },
-   "b": -0.084,
-   "p0": 0.521,
-   "pm1": 0.286,
-   "aoi_cells": [
-    "BR"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "inference",
-   "text": "The dog stepped in the paint and left footprints",
-   "accepted": [
-    "the dog walked through the paint",
-    "the dog stepped in the tray",
-    "the dog made the footprints",
-    "paint on the dog's paws"
-   ],
-   "key": "paint",
-   "elements": [
-    "paintdog_4",
-    "prints_6",
-    "tray_5"
-   ],
-   "cues": [
-    "paintdog_4",
-    "prints_6",
-    "tray_5"
-   ],
-   "effect": [
-    "prints_6"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "paint_tracks",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -0.849,
-    "r": 2,
-    "d": 0.152,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.52,
-    "aoa_raw": 4.45,
-    "domain": null,
-    "area_px": 4620
-   },
-   "b": 0.717,
-   "p0": 0.328,
-   "pm1": 0.152,
-   "aoi_cells": [
-    "BR"
-   ]
-  },
-  {
-   "id": "i05",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -293,15 +216,15 @@
     "domain": null,
     "area_px": 13440
    },
-   "b": -1.125,
-   "p0": 0.755,
-   "pm1": 0.531,
+   "b": -1.005,
+   "p0": 0.732,
+   "pm1": 0.501,
    "aoi_cells": [
     "TR"
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -335,15 +258,15 @@
     "domain": null,
     "area_px": 19276
    },
-   "b": -1.01,
-   "p0": 0.733,
-   "pm1": 0.502,
+   "b": -0.89,
+   "p0": 0.709,
+   "pm1": 0.473,
    "aoi_cells": [
     "TC"
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -375,16 +298,16 @@
     "domain": null,
     "area_px": 43028
    },
-   "b": -1.502,
-   "p0": 0.818,
-   "pm1": 0.623,
+   "b": -1.382,
+   "p0": 0.799,
+   "pm1": 0.594,
    "aoi_cells": [
     "TL",
     "ML"
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -407,7 +330,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.846,
+    "s": 1.848,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -415,11 +338,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 206604
+    "area_px": 207088
    },
-   "b": -1.866,
-   "p0": 0.866,
-   "pm1": 0.704,
+   "b": -1.747,
+   "p0": 0.852,
+   "pm1": 0.679,
    "aoi_cells": [
     "ML",
     "MC",
@@ -427,7 +350,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -463,9 +386,9 @@
     "domain": null,
     "area_px": 204952
    },
-   "b": -2.313,
-   "p0": 0.91,
-   "pm1": 0.788,
+   "b": -2.193,
+   "p0": 0.9,
+   "pm1": 0.767,
    "aoi_cells": [
     "TL",
     "ML",
@@ -473,7 +396,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i08",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -507,9 +430,9 @@
     "domain": null,
     "area_px": 25880
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.139,
+   "p0": 0.757,
+   "pm1": 0.535,
    "aoi_cells": [
     "BL",
     "BC"
@@ -517,19 +440,19 @@
   }
  ],
  "counts": {
-  "content": 9,
-  "inference_units": 1,
+  "content": 8,
+  "inference_units": 0,
   "contradictions": 0,
-  "items_total": 10
+  "items_total": 8
  },
  "predicted": {
   "theta_0": {
-   "content": 0.781,
-   "inference": 0.328
+   "content": 0.799,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.585,
-   "inference": 0.152
+   "content": 0.6,
+   "inference": null
   }
  },
  "bands": {
@@ -537,7 +460,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -551,14 +474,14 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "17 drawn objects (tier band 20-30)"
+   "detail": "14 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 17,
-  "edge_density": 0.0348,
-  "png_bytes": 143462,
-  "jpeg_bytes": 165278
+  "objects": 14,
+  "edge_density": 0.0352,
+  "png_bytes": 159781,
+  "jpeg_bytes": 165878
  },
  "signature": [
   [
@@ -592,14 +515,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "inference",
-   2
   ]
  ],
  "elements": [
@@ -663,8 +578,8 @@
     1000.0
    ],
    "area_px": 81244,
-   "visible_px": 75212,
-   "occlusion": 0.074
+   "visible_px": 74596,
+   "occlusion": 0.082
   },
   {
    "id": "tree",
@@ -693,8 +608,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 206604,
-   "occlusion": 0.142
+   "visible_px": 207088,
+   "occlusion": 0.14
   },
   {
    "id": "paintstripe_2",
@@ -708,8 +623,8 @@
     618.0
    ],
    "area_px": 23156,
-   "visible_px": 22788,
-   "occlusion": 0.016
+   "visible_px": 22832,
+   "occlusion": 0.014
   },
   {
    "id": "filler_bush_left",
@@ -733,12 +648,12 @@
    "z": 704,
    "bbox": [
     1012.0,
-    446.0,
-    1140.0,
-    710.0
+    452.0,
+    1136.0,
+    708.0
    ],
-   "area_px": 12904,
-   "visible_px": 12904,
+   "area_px": 12336,
+   "visible_px": 12336,
    "occlusion": 0.0,
    "asset": {
     "variant": "person.dev__paint__smile__y090",
@@ -775,37 +690,7 @@
     718.0
    ],
    "area_px": 1688,
-   "visible_px": 1548,
-   "occlusion": 0.083
-  },
-  {
-   "id": "tray_5",
-   "label": "Paint tray",
-   "role": "scored",
-   "z": 729.88,
-   "bbox": [
-    1154.0,
-    712.0,
-    1234.0,
-    732.0
-   ],
-   "area_px": 1452,
-   "visible_px": 1428,
-   "occlusion": 0.017
-  },
-  {
-   "id": "prints_6",
-   "label": "Paint paw prints",
-   "role": "scored",
-   "z": 730.88,
-   "bbox": [
-    1208.0,
-    730.0,
-    1416.0,
-    786.0
-   ],
-   "area_px": 1532,
-   "visible_px": 1532,
+   "visible_px": 1688,
    "occlusion": 0.0
   },
   {
@@ -824,51 +709,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "paintdog_4",
-   "label": "animal.dog_02__walk__happy__y045",
-   "role": "scored",
-   "z": 781.64,
-   "bbox": [
-    1432.0,
-    682.0,
-    1528.0,
-    790.0
-   ],
-   "area_px": 5120,
-   "visible_px": 4620,
-   "occlusion": 0.098,
-   "asset": {
-    "variant": "animal.dog_02__walk__happy__y045",
-    "family": "animal.dog_02",
-    "scale": 0.4386,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "dog",
-     "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
-     ],
-     "category": "small_animal"
-    }
-   }
-  },
-  {
-   "id": "paintpaws_7",
-   "label": "Paint on the dog's paws",
-   "role": "setting",
-   "z": 784.64,
-   "bbox": [
-    1434.0,
-    766.0,
-    1506.0,
-    790.0
-   ],
-   "area_px": 508,
-   "visible_px": 508,
-   "occlusion": 0.0
-  },
-  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -884,18 +724,55 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
+   "id": "sweeper_4",
+   "label": "person.ben__sweep__smile__y045",
+   "role": "scored",
+   "z": 950.92,
    "bbox": [
-    1142.0,
-    884.0,
-    1238.0,
-    962.0
+    1242.0,
+    638.0,
+    1354.0,
+    990.0
    ],
-   "area_px": 4400,
-   "visible_px": 4400,
+   "area_px": 23680,
+   "visible_px": 22836,
+   "occlusion": 0.036,
+   "asset": {
+    "variant": "person.ben__sweep__smile__y045",
+    "family": "person.ben",
+    "scale": 0.5013,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
+  },
+  {
+   "id": "sweepheap_5",
+   "label": "What has been swept",
+   "role": "scored",
+   "z": 952.92,
+   "bbox": [
+    1226.0,
+    922.0,
+    1312.0,
+    964.0
+   ],
+   "area_px": 1824,
+   "visible_px": 1824,
    "occlusion": 0.0
   },
   {
@@ -933,11 +810,12 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "modules": [
-    "paint_tracks"
+   "events": [
+    "paint_fence",
+    "sweep"
    ]
   },
-  "placement_rev": 46
+  "placement_rev": 47
  },
  "probe": true
 }

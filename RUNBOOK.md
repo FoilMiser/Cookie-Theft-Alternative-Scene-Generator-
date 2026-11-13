@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.49 was made, written so that a fresh session can make the next one (v0.50) from this
+How each release from v0.12 to v0.50 was made, written so that a fresh session can make the next one (v0.51) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -59,9 +59,15 @@ changes (a new placement revision, step 3).
 - When the brief is about how a figure looks (v0.48 the faces, v0.49 the head), judge the drawing before any event: trials of one family built
   alone and rendered at 800 px per metre (`TPDB_PPM`), sheets of heads with a row at scene size under them, and blind reviewers who compare two
   drawings at a time, each pairing in both orders. A sheet of more than two rows is ranked by a row's place (Lessons, v0.49).
-- The age bench, whenever heads or proportions change: `python tools/cycle/age_bench.py <list.json> vision/isolation_v<TAG>/who 48=<renders> 49=<renders>`
-  writes strips of four small figures and a prompt a strip (what would you call this person, how old, what is on the face, how sure), and
-  `age_tally.py <folder> <map.json>` counts the answers by cast.
+- The age bench, whenever heads, proportions or marks of age change, reads whole scenes (v0.50). Build each trial cast into its own folder
+  (`TPDB_AGE50=M python build_cast.py <WORK>/age/out_M`), give each a library that starts as a copy of the last one minus the changed
+  families, and build the picked pictures of the last screen again from their own records with it (`G.regenerate(lib, record, out)`:
+  the same seed and the same forced set). Then `python tools/cycle/age_scenes.py prepare vision/isolation_v<TAG>/who <WORK>/maps/who_map.json
+  <picks.json> O=scenes,probes M=<folder> ...` deals the pictures to readers, eight each, two of every cast and no picture
+  twice, with the screen's own reader prompt, and `age_scenes.py tally <out> <map>` counts by `who_cmp.py`'s rule how each grown figure
+  was called. The first arm is the last release's own pictures: it must show the fault the screen showed, or the bench measures nothing.
+  The cut-out bench of v0.48 and v0.49 (`age_bench.py`, `age_tally.py`: strips of four small figures) sits at its ceiling and is kept
+  only for what a reader names on a face.
 - `python tools/cycle/qcheck.py <doc.md> [folders]` looks up every quotation of a document in the readers' own files while it is being written.
 - Write `vision/isolation_v<TAG>.md`: each case, what was tested, what the readers said (quotes), which variant wins.
   Make the winners the defaults, bump `BUILDER_VERSION` in `assets/cast/build_cast.py` if the cast changed, then
@@ -590,10 +596,11 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   finger pointed at whatever stands in front of it.
 - A pass is not a mend. `rain_coming` failed v0.48's gate in three pictures and passes v0.49's in five with the drawing unchanged. Say which it
   is wherever the result is reported, and do not take a template off the list for a pass its drawing did not earn.
-- What makes a small figure read as grown is a mark of age, not the head. The age bench (`age_bench.py`, `age_tally.py`) gave the same answer
-  for four casts, v0.48's head, v0.49's, and v0.49's at 0.90 and 0.83 of its size: one figure of fourteen called young first, or none. Grey
-  hair, glasses, a cap and a moustache are named every time a reader is sure. The screen then counted more young names with the jaw, not
-  fewer (20 of 89 for 11 of 81, `who_cmp.py`). Do not spend a release on a head's outline or proportions for this.
+- v0.49 wrote here that what makes a small figure read as grown is a mark of age and not the head, and not to spend a release on
+  proportions. The first half held and the second was wrong. That bench (`age_bench.py`: figures cut out on strips) gave the same answer
+  for four casts, one figure of fourteen called young or none, because it was at its ceiling: nobody calls a figure alone on a strip a
+  child. In whole scenes (`age_scenes.py`, v0.50) the marks of age alone took 13 young names of 45 to 3, a head at 0.86 of its size alone
+  took them to 5, and both to 1; the screen then counted 3 of 79 for 20 of 89. A lesson drawn from a bench is as good as the bench.
 - Price a rule that takes ground away on the crowded cells before the set is built, with the rule on and off. Revision 46's edge rule was
   written three times. For every figure at 14 px it did nothing to a single event's yield and all but stopped tier 4: the tier-4 garden
   failed on 56 seeds, the tier-3 playground went to a forced set, and no tier-4 isomorph came in 235 calls. For animals at 14 px the set
@@ -628,3 +635,51 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   still in force in the next, and twice in v0.49 a command ran in the wrong folder for it.
 - A write on this exFAT drive can fail once with `OSError: [Errno 22] Invalid argument` and work on the next try. Check the file's size
   and tail before going on; a patch script that asserts what it replaces can simply be run again.
+- A bench at its ceiling measures nothing, and a choice made on it is no choice. v0.49's age bench read figures cut out on strips and found
+  every cast grown; v0.41's and v0.43's benches of the same fault had chosen on cut-outs too. The fault lives in whole scenes, so bench it
+  there: `tools/cycle/age_scenes.py` takes pictures of the last screen that hold the figures, builds each again with every candidate cast
+  from its own record, gives each reader two pictures of every cast and no picture twice, and counts with the screen's own counter. v0.50's
+  found the fault where the screen had it (13 of 45 appearances called young, for the screen's 16 of 45 on the same pictures) and what
+  cured it (1 of 45).
+- Before trusting a new bench, see that it shows the fault with the old drawing. That is what the O cast was for.
+- Two changes that each may help are benched as a square: neither, each, both. Marks of age alone took 13 to 3 and smaller heads alone
+  to 5; both to 1. Without the two middle casts the release could not have said that either would have done most of it.
+- A trial cast's library starts as a copy of the last library's variants of the families the trial does not change; the rest render on
+  demand. All 96 rebuilt pictures came back with the same templates and the same poses for the same people.
+- A constant that seats a figure stops seating it when the figure is drawn again. The seesaw's riders had sat on the plank at a rise of 14
+  units in v0.31; after two redrawings of the bodies their hips lay 4 to 10 units above it, and the remark was carried five times as a
+  drawing problem. Measure the drawing where the rule acts (`templates._under50` reads the sprite's own underside at its seat anchor),
+  and when a remark is carried, measure before designing a fix.
+- A fix can hide the thing the fault was showing. Seated on the plank, the riders covered the handle's post, and all three readers wrote
+  that they had no handles. Read a round for what is new as well as for what it was aimed at, and give the mend its own round.
+- When a remark comes back from every position, it is not about the position. The slider was read in front of the chute, behind its near
+  wall, sunk in it and on top of it, and sat "slightly above" the chute in two or three cut-outs of three each time. Stop, say so, and put
+  the other kind of change (the chute's drawing, the pose) on the list.
+- A cue that is misnamed can still carry the reading. The hose's swelling is a connector to every bench reader and is also what tells two
+  of three that the water stops at the paw; without it one of three got there. Bench a cue's absence before taking it away for its name.
+- A rule that came from the builder's own look is a guess until a reader has had it. `WOOD45` lifted the lost balloon's string up to 200
+  units from the hand in the garden, from my look at two pictures; all six of v0.49's pictures of the template were garden ones, and a
+  reader took the balloon for perhaps someone else's. When a template's pictures all come from one setting, look for a rule that only
+  that setting has.
+- Look at the picture at full size before taking the list's own fix. The tear on the catcher's cheek was the white of a wide eye at the
+  edge of a face in profile, and the roller held oddly high was a roller on a pole drawn in the colour of the fence behind it.
+- A template that was looked at and left can fail the next gate. `play_catch` had 1.00 by v0.49's gate and 0.812 on its strict count, on
+  one reader's doubt about who threw; v0.50 left it, and in two pictures of five the catcher was then read as the thrower, or as either: 0.80. The strict count
+  (`strict_count.py`) is the list of passes that are one doubt from a failure: bench the lowest of them, or say that the release chose not to.
+- A template can fail on a neighbour nobody benched. `square_wheel` failed on its one wheelbarrow, with the sprinkler's hose on the ground
+  behind the square wheel: a square with a hose through it is a hose reel. Three of its four pictures were bicycles in v0.49 too. When
+  a template has two carriers, see that the probes hold both more than once, and look at what lies behind a contradiction's object.
+- A bench run with the default library renders what it lacks into that library. Before the release's own library existed, round 1 rendered
+  one variant into the last release's `lib049`, which is tracked. Give every bench a scratch library (`BENCH_LIB`), and look at
+  `git status` after a bench.
+- A failed write can leave a patch unapplied and the next command running. `python patch.py && [ ... ] && cp ...; ls ... && run` went on
+  after the patch's `OSError 22`: the bench was asked for case names that did not exist, built nothing and said nothing. Chain with `&&`
+  to the end, and check a log's size.
+- A patch that replaces everything between two marks replaces what you did not read between them. v0.50's site patch cut from the
+  screens' pair to the first function and took the page's skeleton (`PAGE_OPEN`) with the notes; the build said so. Keep a copy of the
+  file, cut from the first thing replaced to the end of the last, and diff the result against the copy before running it.
+- A set can change though no rule about it did. With a new cast and its prior, 5 of 16 cells came back with v0.49's templates (v0.49: 13
+  of 16 with v0.48's); the tier-4 garden failed on v0.49's base and placed on v0.48's. Try the bases of the last two releases.
+- The site's before-and-after pairs can come from the bench: a round's cut-outs of the old and the new drawing are on the same seed
+  (`crop:` keys in `scenegen/site.py`, the round's map says which is which). The notes in `site.py` keep clear of apostrophes,
+  which `check_quotes.py` pairs as quotation marks on a line.
