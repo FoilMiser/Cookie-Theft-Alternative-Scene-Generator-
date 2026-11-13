@@ -37,8 +37,13 @@ NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # vision/flaws_v049.md R1 to R5), for the templates whose drawing or placing changed (seesaw and slide, O2; balloon, O5; paint_fence, O3;
 # goat_grazing, O4) and for rain_coming, whose verdict rests on one inference a picture. The eight of v0.48 that are not on v0.49's list
 # go back to three
-NEED_T = {"rain_coming": 5, "lost_balloon": 5, "blocked_hose": 5, "play_catch": 5, "dog_begs": 5, "dog_playing": 5, "dog_sleeping": 5,
-          "dog_wants_walk": 5, "seesaw_heavy": 5, "seesaw": 5, "slide": 5, "balloon": 5, "paint_fence": 5, "goat_grazing": 5}
+# v0.51: five for the R rows of v0.50's list (play_catch and square_wheel, which failed the gate; bird_steals, blocked_hose, ducks_bread:
+# vision/flaws_v050.md R1 to R5; and R6's five, jump, dog_sleeping, dog_wants_walk, dog_begs and plant_flowers, whose full marks rest on
+# hedges), for lost_balloon and paint_fence, whose placing changed (O1, O3), and for rain_coming, whose verdict rests on one inference a
+# picture. Six of v0.50's that are not on v0.50's list go back to three (dog_playing, seesaw_heavy, seesaw, slide, balloon, goat_grazing).
+# square_wheel has two carriers, the barrow and the bicycle: count them after the passes and see that each has two pictures or more
+NEED_T = {"rain_coming": 5, "play_catch": 5, "square_wheel": 5, "bird_steals": 5, "blocked_hose": 5, "ducks_bread": 5, "lost_balloon": 5,
+          "paint_fence": 5, "jump": 5, "dog_sleeping": 5, "dog_wants_walk": 5, "dog_begs": 5, "plant_flowers": 5}
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):

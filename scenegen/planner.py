@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.50.0"
+GENERATOR_VERSION = "0.51.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -62,7 +62,7 @@ PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measure
     "paint_tracks": [("inference", 2, -0.78, 0.152, 2, "paint")],
     "windy_hat": [("inference", 2, -1.24, 0.144, 1, "wind")],
     "bird_steals": [("inference", 2, -1.76, 0.068, 1, "stealing")],
-    "lost_balloon": [("inference", 1, -1.07, 0.197, 2, "lost")],
+    "lost_balloon": [("inference", 1, -1.12, 0.189, 2, "lost")],
     "ducks_bread": [("inference", 1, -1.34, 0.015, 1, "hungry")],
     "seesaw_heavy": [("inference", 1, -0.69, 0.166, 1, "heavy")],
     "dog_wants_walk": [("inference", 1, -0.55, 0.166, 2, "walk")],
@@ -394,6 +394,9 @@ def realize(sc):
             return 198
         if SCN.PLACEMENT_REV >= 5 and t.id in ORDER_LAST:
             return 200
+        if SCN.PLACEMENT_REV >= 48 and TP.BARROW51 == "B" and t.id == "square_wheel":
+            # revision 48 (templates.BARROW51): after every template that lays a hose, so that it can keep off them all
+            return 197
         return 99
     order = sorted(sc.templates, key=rank)
     for t in order:

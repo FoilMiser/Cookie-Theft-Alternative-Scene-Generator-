@@ -16,8 +16,9 @@ OUT = f"probes{TAG}"
 # vision/flaws_v049.md R1 to R5), for the templates whose drawing or placing changed (seesaw and slide, O2; balloon, O5; paint_fence, O3;
 # goat_grazing, O4) and for rain_coming, whose verdict rests on one inference a picture. The eight of v0.48 that are not on v0.49's list
 # go back to three
-NEED_T = {"rain_coming": 5, "lost_balloon": 5, "blocked_hose": 5, "play_catch": 5, "dog_begs": 5, "dog_playing": 5, "dog_sleeping": 5,
-          "dog_wants_walk": 5, "seesaw_heavy": 5, "seesaw": 5, "slide": 5, "balloon": 5, "paint_fence": 5, "goat_grazing": 5}
+# v0.51: as probes.py's (the R rows of v0.50's list, lost_balloon, paint_fence and rain_coming)
+NEED_T = {"rain_coming": 5, "play_catch": 5, "square_wheel": 5, "bird_steals": 5, "blocked_hose": 5, "ducks_bread": 5, "lost_balloon": 5,
+          "paint_fence": 5, "jump": 5, "dog_sleeping": 5, "dog_wants_walk": 5, "dog_begs": 5, "plant_flowers": 5}
 # v0.49: probes.py gave up nine templates. The washing: only the three tallest grown figures reach the line (the hanger's feet must stand
 # within 30 px of the posts' depth), and its groups cast a shorter one on most seeds. The others lost their three groups to a partner:
 # the storm with a watering template (not feasible under a dark sky), the begging dog and the dog that wants its walk with a second dog
@@ -50,7 +51,7 @@ GROUPS = [("hang_laundry", "garden", ["hang_laundry", "cat_on_fence", "rake"]),
           ("dog_begs", "park", ["dog_begs", "ice_cream"]),
           ("dog_begs", "street", ["dog_begs", "sweep", "carry_bag"]),
           ("dog_begs", "playground", ["dog_begs", "kick_ball"]),
-          # (v0.50: probes.py left only the begging dog short, two pictures of its five; two more groups for it)
+          # (v0.50: probes.py left only the begging dog short, two pictures of its five; two more groups for it. v0.51: the same again)
           ("dog_begs", "park", ["dog_begs", "fly_kite"]),
           ("dog_begs", "street", ["dog_begs", "carry_box"]),
           ("windy_hat", "park", ["windy_hat", "feed_birds", "walk_dog"]),

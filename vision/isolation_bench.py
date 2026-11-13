@@ -22,6 +22,51 @@ lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH
 # name: (setting, seed, forced templates, what to crop: "event", "full", or a setting element id or filler prefix,
 #        accept rule or None)
 BENCH = {
+    # v0.51 (vision/flaws_v050.md; vision/isolation_v051.md; revision 48). The third letter r marks the release and the fourth is the arm: O is
+    # revision 47's drawing on the same seed, the others are named in SW51 below. pc: the game of catch with a child throwing to a grown catcher
+    # (CATCH51; arm A with v0.50's cast, arm B with the trial cast's poses)
+    "pcrO_1": ("garden", 51101, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrO_2": ("playground", 51102, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrO_3": ("park", 51103, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrA_1": ("garden", 51101, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrA_2": ("playground", 51102, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrA_3": ("park", 51103, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrB_1": ("garden", 51101, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrB_2": ("playground", 51102, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    "pcrB_3": ("park", 51103, {"events": ["play_catch"]}, "event", ("catchpair",)),
+    # bw: the square-wheeled barrow with a sprinkler or a watering hose in the picture (BARROW51); db: bread for the ducks (BREAD51); lb: the
+    # lost balloon in the garden and by the pond (LOST51); hp: the paw on the stopped hose (PAW51); pt: the fence painter (TIN51, and the
+    # trial cast's roller in arm B)
+    "bwrO_1": ("garden", 51111, {"modules": ["sprinkler_package"], "contradictions": ["square_wheel"]}, "square", None),
+    "bwrO_2": ("park", 51112, {"modules": ["sprinkler_package"], "contradictions": ["square_wheel"]}, "square", None),
+    "bwrO_3": ("garden", 51113, {"events": ["water_flowers"], "contradictions": ["square_wheel"]}, "square", None),
+    "bwrB_1": ("garden", 51111, {"modules": ["sprinkler_package"], "contradictions": ["square_wheel"]}, "square", None),
+    "bwrB_2": ("park", 51112, {"modules": ["sprinkler_package"], "contradictions": ["square_wheel"]}, "square", None),
+    "bwrB_3": ("garden", 51113, {"events": ["water_flowers"], "contradictions": ["square_wheel"]}, "square", None),
+    "dbrO_1": ("park", 51121, {"modules": ["ducks_bread"]}, "event", None),
+    "dbrO_2": ("park", 51122, {"modules": ["ducks_bread"]}, "event", None),
+    "dbrO_3": ("park", 51123, {"modules": ["ducks_bread"]}, "event", None),
+    "dbrB_1": ("park", 51121, {"modules": ["ducks_bread"]}, "event", None),
+    "dbrB_2": ("park", 51122, {"modules": ["ducks_bread"]}, "event", None),
+    "dbrB_3": ("park", 51123, {"modules": ["ducks_bread"]}, "event", None),
+    "lbrO_1": ("garden", 51131, {"modules": ["lost_balloon"]}, "event", None),
+    "lbrO_2": ("garden", 51132, {"modules": ["lost_balloon"]}, "event", None),
+    "lbrO_3": ("park", 51133, {"modules": ["lost_balloon"]}, "event", None),
+    "lbrB_1": ("garden", 51131, {"modules": ["lost_balloon"]}, "event", None),
+    "lbrB_2": ("garden", 51132, {"modules": ["lost_balloon"]}, "event", None),
+    "lbrB_3": ("park", 51133, {"modules": ["lost_balloon"]}, "event", None),
+    "hprO_1": ("garden", 51141, {"modules": ["blocked_hose"]}, "event", None),
+    "hprO_2": ("garden", 51142, {"modules": ["blocked_hose"]}, "event", None),
+    "hprO_3": ("garden", 51143, {"modules": ["blocked_hose"]}, "event", None),
+    "hprB_1": ("garden", 51141, {"modules": ["blocked_hose"]}, "event", None),
+    "hprB_2": ("garden", 51142, {"modules": ["blocked_hose"]}, "event", None),
+    "hprB_3": ("garden", 51143, {"modules": ["blocked_hose"]}, "event", None),
+    "ptrO_1": ("garden", 51151, {"events": ["paint_fence"]}, "event", None),
+    "ptrO_2": ("garden", 51152, {"events": ["paint_fence"]}, "event", None),
+    "ptrO_3": ("garden", 51153, {"events": ["paint_fence"]}, "event", None),
+    "ptrB_1": ("garden", 51151, {"events": ["paint_fence"]}, "event", None),
+    "ptrB_2": ("garden", 51152, {"events": ["paint_fence"]}, "event", None),
+    "ptrB_3": ("garden", 51153, {"events": ["paint_fence"]}, "event", None),
     # v0.50 (vision/flaws_v049.md; vision/isolation_v050.md; revision 47). The third letter q marks the release; N the release's cast with every
     # revision-47 switch at the release's value, O the same with that case's switch at "O" (revision 46's drawing) on the same seed. ss, sh, sl:
     # the seesaw, the heavy seesaw and the slide (SEAT50); hs the stopped hose (HOSE50); lb the lost balloon in the garden (LOST50); gg the
@@ -1223,6 +1268,9 @@ def accepted(rec, rule):
             return not any(e["id"] == "hose_reel" for e in rec["elements"])
         if rule[0] == "fencecat":
             return any(it.get("template") == "cat_stalks_bird" and "on the fence" in it["text"] for it in rec["items"])
+        if rule[0] == "catchpair":
+            fam = lambda pre: next((e["asset"]["variant"].split("__")[0] for e in rec["elements"] if e["id"].startswith(pre) and e.get("asset")), "")
+            return fam("thrower") in ("person.nia", "person.kai") and fam("catcher") in ("person.ana", "person.mei", "person.dev", "person.ben")
         if rule[0] == "backrow":
             return any(e.get("asset", {}).get("family", "").startswith("person.") and e["bbox"][3] < 700 for e in rec["elements"] if e.get("bbox"))
     if rule == "kidwave":
@@ -1260,6 +1308,12 @@ NEW47 = {n for n in BENCH if n[2] in "yz" and BENCH[n][1] // 1000 == 47}
 NEW50 = {n for n in BENCH if n[2] == "q" and BENCH[n][1] // 1000 == 50}
 SW50 = {"ss": ("SEAT50",), "sh": ("SEAT50",), "sl": ("SLIDE50",), "hs": ("HOSE50",), "lb": ("LOST50",), "gg": ("STAKE50",),
         "bl": (), "pf": ()}
+NEW51 = {n for n in BENCH if n[2] == "r" and BENCH[n][1] // 1000 == 51}
+# v0.51: what each arm of a case sets, over the release's values (an arm not named here is the release's own drawing)
+SW51 = {"pc": {"O": {"CATCH51": "O"}, "A": {"CATCH51": "B"}, "B": {"CATCH51": "B"}},
+        "bw": {"O": {"BARROW51": "O"}, "B": {"BARROW51": "B"}}, "db": {"O": {"BREAD51": "O"}, "B": {"BREAD51": "B"}},
+        "lb": {"O": {"LOST51": "O"}, "B": {"LOST51": "B"}}, "hp": {"O": {"PAW51": "O"}, "B": {"PAW51": "B"}},
+        "pt": {"O": {"TIN51": "O"}, "B": {"TIN51": "B"}}}
 # v0.33: a case name used twice is refused (v0.32's ridO_1 to _3 were silently replaced by v0.31's, written further down)
 import ast as _ast
 _keys = [k.value for n_ in _ast.walk(_ast.parse(open(os.path.abspath(__file__), encoding="utf-8").read()))
@@ -1432,6 +1486,15 @@ for name, (st, seed, forced, what, rule) in BENCH.items():
             _T0.SLIDE50 = {"N": "B", "A": "A", "T": "T"}[name[3]]       # (rounds 1, 2 and 3)
         elif name[:3] == "lbq":
             _T0.LOST50 = {"N": "B", "M": "M"}[name[3]]
+    if name in NEW51:
+        for (m, k), v in _REL.items():
+            setattr(m, k, v)
+        for k, v in SW51.get(name[:2], {}).get(name[3], {}).items():
+            hit = [m for (m, k_) in _REL if k_ == k]
+            if not hit:
+                sys.exit(f"no switch {k}")
+            for m in hit:
+                setattr(m, k, v)
     rec = None
     for k in range(40):
         USAGE.clear()

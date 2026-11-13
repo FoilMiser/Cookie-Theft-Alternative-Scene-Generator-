@@ -49,63 +49,56 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v049", "v050"
+PREV, CUR = "v050", "v051"
 
-# v0.50 worked the list of the v0.49 screen (vision/flaws_v049.md) on the bench (vision/isolation_v050.md, vision/design_tests_v050.md): the grown
-# figures drawn again, the children on the seesaw seated, the lost balloon, the stake of the goat, the held balloon and the pole of the painter;
-# the stopped hose and the slide were benched and left, and the dogs were looked at and left (vision/flaws_v050.md)
+# v0.51 worked the list of the v0.50 screen (vision/flaws_v050.md) on the bench (vision/isolation_v051.md, vision/design_tests_v051.md): the game
+# of catch and the square wheel, which had failed the gate; the bread for the ducks, the string of the lost balloon and the fence painter; the
+# stopped hose and a wider moustache were benched and left (vision/flaws_v051.md)
 REDRAWN_NOTES = {
-    "seesaw": "A child on the seesaw is set down until its own drawing rests on the plank, and the handle is a grab bar ahead of the knees. In full in five pictures, as in three before; what changed is the remark. v0.49: 'perches a little above the plank'. v0.50: no rider above the plank in any picture, 'sitting on the raised left end of the seesaw, holding the handle'.",
-    "seesaw_heavy": "The child is seated the same way, the grown rider as before. In full in five pictures, with two of its marks a judgement call: 'most likely she is calling to the man'. The grown rider is once 'partly seated on the board and partly crouched/sitting in front of it'.",
-    "lost_balloon": "In the garden the end of the string had been lifted onto the hedge, far from the hand: 'The red balloon may belong to the girl (she let go) or to someone else; she seems to be reaching for it.' It now ends a little above the reaching hand in every setting. In full in five pictures, and the balloon belongs to nobody else in any. In three the end is now near something else: 'tied to something on the fence'.",
-    "goat_grazing": "The stake is half as tall again and the rope goes round its upper part in two turns. In full in five pictures, and no reader calls the stake short: 'it is just tethered, not escaping'.",
-    "balloon": "The string hangs in a loose S, where it was a straight line that two bench readers of three took for a stick. In full in five pictures, and a stick in none.",
-    "paint_fence": "The pole of the roller is dark, where it had the colour of the fence behind it. In full in nine pictures, painting in each. One reader of one picture: 'looks almost like a separate pale cylinder against the fence'.",
-    "blocked_hose": "Benched with no swelling before the paw, and left as it was: without the swelling one bench reader of three went on to the stopped water, for two of three with it. Two half marks in one picture of five: 'actually on the hose or just behind the bulge'.",
-    "slide": "Left as it was, after four places for the slider read alike on the bench. In full in five pictures. One reader: 'slightly above the chute surface in places, but it reads normally as sliding'.",
-    "bird_steals": "Not worked. A half mark and a zero in five pictures, the theft not said: 'or he may be sharing it'.",
-    "ducks_bread": "Not worked. A half mark in three pictures: 'her hand item is small and hard to make out'.",
-    "dog_sleeping": "Looked at and left. In full in five pictures, with two of its marks beside another reading: 'The dog could be asleep, resting, or crouching scared of the coming storm.'",
-    "dog_wants_walk": "Looked at and left. In full in five pictures, with three of its marks beside another reading: 'or simply carrying the leash'.",
-    "dog_begs": "Looked at and left. In full in six pictures, with four of its marks beside another reading.",
+    "play_catch": "The ball is drawn a third of the way along its path, at the end of a short dashed line from the hand of the thrower, and the catcher reaches for it with two open hands. v0.50: under the gate, 'has just thrown a red ball (a dashed line shows its arc) toward a girl'. v0.51: in full in five pictures, the thrower the thrower in each: 'who holds his arms out ready to catch it'.",
+    "square_wheel": "No hose lies by the barrow or the bicycle with square wheels: the template is placed after every hose and keeps off each. v0.50: under the gate on its one wheelbarrow, 'looks like a hose reel or a fan-like grate'. v0.51: in full in eight pictures, four of the barrow, and no reel: 'has a square wheel, which is impossible'. Three readers of eight name it only among the things they are unsure of.",
+    "ducks_bread": "A slice of bread stands in the forward hand of the feeder. v0.50: 'her hand item is small and hard to make out'. v0.51: in full in five pictures, 'holds a slice of bread, so she seems to be feeding the duck'.",
+    "lost_balloon": "The end of the string lies on no rail of the fence, by no gate, on no line of the backdrop and over no pond. v0.50: 'tied to something on the fence'. v0.51: in full in five pictures, 'Its string ends in mid-air near the fence top, not near her hand.' Whose balloon it is, the older doubt, is asked in three of the five.",
+    "paint_fence": "The tin stands at the heel of the painter and the caps of the roller are dark. In full in nine pictures, painting in each, and nothing of a pale cylinder or of the tin. Two readers ask which boards are being painted: 'or is about to start on the next unpainted ones'.",
+    "blocked_hose": "Benched with the swelling ending short of the paw, and left as it was: that read as 'two hose pieces'. Two half marks in one picture of five, as in v0.50: 'or just standing next to it'.",
+    "bird_steals": "Not worked. In full in six pictures, with four of its eighteen marks beside a second reading: 'or just perching beside it'.",
+    "ice_cream": "Not worked. One half mark in fifteen pictures, the woman in purple walking with a cone: 'She may be looking at the ice cream, or about to lick it.'",
+    "floating_box": "Not worked. In full in three pictures, with five of its nine marks beside a throw or a fall: 'could be falling (just thrown over the fence from the other side) or floating impossibly'.",
+    "dog_sleeping": "Left. In full in five pictures, with three of its five marks beside another reading: 'sleeping, sulking, or crouching ready to pounce'.",
+    "plant_flowers": "Left. In full in five pictures, with three of its five marks beside weeding or digging something out.",
+    "sweep": "In full in nineteen pictures; the action is always read. It is the pose in which a grown sweeper is called young: 'Boy, right, front-ish, brown hair, red T-shirt, blue trousers' and 'Girl sweeping'. On the list for v0.52.",
 }
 
-# the two templates that fail the v0.50 gate, first on the list for v0.51 (vision/flaws_v050.md, R1 and R2)
+# no template fails the v0.51 gate and none is under 0.9, so the page has no next list; the stopped hose (0.95) is in the table above
 WEAK_NOTES = {
-    "play_catch": "Fails the gate: four half marks in two pictures of five. In both a small girl has thrown to a grown woman, and the ball is drawn at the end of its path, by the hands of the woman: 'the ball is either just leaving the woman or arriving at her'. The three other pictures read right. Next: the ball early on its path with the dashed line only behind it, and the thrower standing with the arm through.",
-    "square_wheel": "Fails the gate: a half mark and the one misread of the screen, both in one picture of four. The three bicycles are read at once. The wheelbarrow has the hose of the sprinkler on the ground behind its square wheel: 'looks like a hose reel or a fan-like grate'. Next: a rule that keeps any hose off the barrow, and the wheel of the barrow drawn as the wheel of the bicycle is.",
 }
-SCREEN_NOTE = ("The v0.50 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. What makes a grown figure read as grown was measured first, in whole scenes: pictures of the v0.49 screen were built again with four casts and read blind, and marks of age with a smaller head left one young name in 45 appearances, where the cast of v0.49 had 13. "
-               "946 of 992 items had full marks and one was misread. 62 of the 64 templates pass the gate, where all 64 did in v0.49: the game of catch and the square wheel fail, each in a set picture. Nothing was mended, swapped or read again after the screen. "
-               "With the 33 full marks that stand beside another reading halved, 52 of the 64 pass. "
-               "Of the 46 items under full marks, 35 are the clouds or a tree, left out by six readers. "
-               "Every grown figure is drawn anew, so no picture is the same as in v0.49; five of the sixteen cells have the templates of v0.49. "
+SCREEN_NOTE = ("The v0.51 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. Where a thrown ball is drawn was measured first, in whole scenes: the two pictures that failed in v0.50 were built again in three versions and read blind, and the thrower was read as the thrower in 3 readings of 8 as screened and in 7 of 8 with the ball early on its path. "
+               "1,067 of 1,114 items had full marks and none was misread. All 64 templates pass the gate, where 62 did in v0.50. Nothing was mended, swapped or read again after the screen. "
+               "With the 44 full marks that stand beside another reading halved, 56 of the 64 pass. "
+               "Of the 47 items under full marks, 44 are the clouds or a tree, left out by eight readers. "
+               "Seven of the sixteen cells have the templates of v0.50, and six of the 102 pictures are the same to the pixel. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("pair:person.ana__stand__smile__y000>person.ana__stand__smile__y000", "The woman in purple",
-          "v0.49: a girl first in 9 of her 24 screened pictures: 'Girl, centre-front: dark ponytail, purple top, teal trousers; running to the right.' v0.50: as tall as the woman in yellow, with a bust, and a head 0.86 of its size on the same body. A girl first in 1 of 18, and the runner is now 'Woman 2, right, front: dark hair, purple top, teal trousers; running to the right, speed lines behind her.'"),
-         ("pair:person.mei__stand__smile__y000>person.mei__stand__smile__y000", "The woman in the yellow dress",
-          "v0.49: a girl first in 5 of her 18 screened pictures. v0.50: a bust, the dress to below the knee, and the smaller head. A girl in none of 18."),
-         ("pair:person.dev__stand__smile__y000>person.dev__stand__smile__y000", "The man in green",
-          "v0.49: a boy first in 4 of his 25 screened pictures, and the beard named in none. v0.50: a fuller beard that stands off the chin, on the smaller head. A boy in none of 20, and the beard named in 16: 'short dark hair and beard, green shirt, beige trousers'."),
-         ("pair:person.ben__stand__smile__y000>person.ben__stand__smile__y000", "The man in the red shirt",
-          "v0.49: the moustache named in 13 of his 22 screened pictures. v0.50: the same moustache on the smaller head, named in 7 of 23. He is the one grown figure still called a boy, twice, sweeping: 'Boy, left front: brown hair, red shirt, blue jeans; sweeping leaves on the path with a broom.' On the list for v0.51."),
-         ("pair:person.rosa__stand__smile__y000>person.rosa__stand__smile__y000", "The older woman",
-          "The grandparents have the smaller head too. The glasses of the older woman are named in all 14 of her screened descriptions and her bun in 9."),
-         ("pair:person.kai__stand__smile__y000>person.kai__stand__smile__y000", "A child, unchanged",
-          "The children and the teenager are as v0.49 drew them. Beside them a grown figure is now about five heads tall, for four and a third."),
-         ("crop:vision/isolation_v050/round1/iso_29.png@0,0,570,340>vision/isolation_v050/round2/iso_04.png@0,0,570,340", "The children on the seesaw",
-          "v0.49: 'The right child appears to sit slightly above/in front of the plank rather than firmly on it'. v0.50: each child is set down until its own drawing rests on the plank, and the handle is a grab bar that comes down to the plank ahead of the knees: 'holding a black curved handle'. One seed, cut out for the bench."),
-         ("crop:vision/isolation_v050/round1/iso_03.png@0,0,420,688>vision/isolation_v050/round2/iso_05.png@0,0,420,622", "The string of the lost balloon",
-          "v0.49, in the garden: the end of the string lifted onto the hedge above the fence, 'so the link between him and that balloon is implied rather than shown'. v0.50: the end a little above the reaching hand, as in the other settings. Escaped from this child to all three bench readers of each drawing."),
-         ("crop:vision/isolation_v050/round1/iso_07.png@0,0,420,305>vision/isolation_v050/round1/iso_11.png@0,0,420,305", "The stake of the goat",
-          "v0.49: 'looks very short; the goat could be tethered or just standing by a stake'. v0.50: half as tall again, with the rope in two turns round its upper part. Tethered to both bench readers, and still 'a short brown wooden stake' to the second."),
-         ("crop:vision/isolation_v050/round4/iso_07.png@0,0,420,370>vision/isolation_v050/round4/iso_02.png@0,0,420,370", "The string of a held balloon",
-          "v0.49: a straight line, and a stick to two bench readers of three: 'so it could read as a stick (a balloon on a stick) rather than a string'. v0.50: a loose S, and a string to three of three."),
-         ("crop:vision/isolation_v050/round4/iso_12.png@0,0,420,386>vision/isolation_v050/round4/iso_05.png@0,0,420,386", "The pole of the painter",
-          "v0.49: the pole had the colour of the fence behind it, so the head of the roller stood alone above the hands: 'The roller looks a little small and oddly held'. v0.50: a dark pole, a little thicker. A long-handled roller to all six bench readers.")]
+FIXES = [("pair:person.leo__catch__surprised__y090>person.leo__catch__surprised__y090", "The catcher",
+          "v0.50: both arms straight out and the hands together, 'clasped together rather than cupped open, which could read as clapping or praying instead of catching'. v0.51: both arms reach toward the ball and the hands are open, one above the other, with room for the ball between them: 'who stands with her hands raised ready to catch it'."),
+         ("pair:person.leo__throw_ball__smile__y090>person.leo__throw_ball__smile__y090", "The thrower",
+          "v0.50: a long stride, which one reader took for running to catch: 'who runs with her arms out to catch it'. v0.51: two planted feet, the arm through."),
+         ("crop:vision/isolation_v051/ws/blind/pic_001.png@532,414,1022,782>vision/isolation_v051/ws/blind/pic_012.png@532,414,1022,782", "The game of catch, in the garden of v0.50",
+          "v0.50, as screened: the ball late on its arc, by the hands of the catcher. Read by four fresh readers, the girl was the thrower to one: 'has just thrown a red ball, and a dashed line shows it arcing toward a small girl'. v0.51, the same picture built again from its record: the ball a third of the way along its path. The girl was the thrower to four of four: 'has just thrown a red ball (a dashed line shows its path from her hand)'."),
+         ("crop:vision/isolation_v051/ws/blind/pic_017.png@504,356,942,704>vision/isolation_v051/ws/blind/pic_023.png@504,356,942,704", "The game of catch, in the playground of v0.50",
+          "The second picture that failed. As screened the girl was the thrower to two of four fresh readers, and with the ball early to three of four; the fourth gave both ways."),
+         ("crop:vision/isolation_v051/round1/iso_04.png@0,0,424,266>vision/isolation_v051/round1/iso_22.png@0,0,420,340", "No hose by the wheelbarrow",
+          "One seed, with a sprinkler in the garden. Without the rule its hose runs behind the square wheel: 'so it could look like it is standing on the hose'. With the rule the barrow stands clear of every hose. The wheel is drawn as it was."),
+         ("crop:vision/isolation_v051/round1/iso_03.png@0,0,428,414>vision/isolation_v051/final/dbrB_1.png@0,0,428,414", "Bread in the hand of the feeder",
+          "v0.50: 'her hand item is small and hard to make out'. v0.51: a slice of bread with its crust in the forward hand. One seed; the second cut-out was built after the bench round, which read the slice without its crust: 'a piece of bread in the other'."),
+         ("crop:vision/isolation_v051/round1/iso_18.png@0,0,420,682>vision/isolation_v051/final/lbrB_3.png@0,0,420,588", "The string of the lost balloon, by the pond",
+          "v0.50: the end of the string over the far edge of the pond, 'almost touching the pond area'. v0.51: the end over no pond and on no line of the backdrop. One seed; the second cut-out was built after the bench round."),
+         ("crop:vision/isolation_v051/round1/iso_33.png@0,0,390,580>vision/isolation_v051/round1/iso_20.png@0,0,356,604", "The string of the lost balloon, in the garden",
+          "v0.50: the end by the top of the gate. v0.51: on the plain boards of the fence, between its two rails: 'with nothing holding it'."),
+         ("crop:vision/isolation_v051/round1/iso_07.png@0,0,420,422>vision/isolation_v051/round1/iso_21.png@0,0,420,422", "The tin and the roller of the painter",
+          "v0.50: 'The paint bucket is fairly far from him, behind his legs.', and the cream caps of the roller 'a small lantern or a can stuck to the fence'. v0.51: the tin at the heel and the caps a dark blue: 'sits on the grass by his feet'.")]
 
 
 

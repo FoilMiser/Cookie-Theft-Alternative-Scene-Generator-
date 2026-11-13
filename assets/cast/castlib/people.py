@@ -1248,11 +1248,13 @@ def build_facial_hair(spec, rig, face, eye_z, k, pre=""):
             w, z0, zt = 0.046 * k, mz + 0.031 * k, mz + 0.022 * k
             if MOUSTACHE49 == "B":
                 w, zt = 0.056 * k, mz + 0.016 * k
+        m51 = spec.get("moust51", 1.0)          # v0.51 (specs.MOUST51)
+        w *= m51
         half = [(0.0, z0), (0.25 * w, z0 + 0.0015 * k), (0.50 * w, z0), (0.78 * w, z0 - 0.45 * (z0 - zt)), (w, zt)]
         pts = [(-x, z) for x, z in reversed(half[1:])] + half
         dense = [(q.x, q.z) for q in smooth_curve([(x, 0.0, z) for x, z in pts], n=6)]
         dark = {"hair_brown": "hair_brown_dark"}.get(col, col)
-        ob = face.curve_on(pre + "mustache36", dense, ((0.0116 if MOUSTACHE49 == "B" else 0.0092) if FACE48 == "B" else 0.0125) * k, dark, 0.006 * k)
+        ob = face.curve_on(pre + "mustache36", dense, ((0.0116 if MOUSTACHE49 == "B" else 0.0092) if FACE48 == "B" else 0.0125) * k * m51, dark, 0.006 * k)
         n, nip, full = len(dense) - 1, 0.5, 0.28
         for i, q in enumerate(ob.data.splines[0].points):
             t = abs(i / n - 0.5) * 2

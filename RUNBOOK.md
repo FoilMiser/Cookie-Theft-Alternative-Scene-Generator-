@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.50 was made, written so that a fresh session can make the next one (v0.51) from this
+How each release from v0.12 to v0.51 was made, written so that a fresh session can make the next one (v0.52) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -68,6 +68,11 @@ changes (a new placement revision, step 3).
   was called. The first arm is the last release's own pictures: it must show the fault the screen showed, or the bench measures nothing.
   The cut-out bench of v0.48 and v0.49 (`age_bench.py`, `age_tally.py`: strips of four small figures) sits at its ceiling and is kept
   only for what a reader names on a face.
+- When the screen's fault is a reading of who does what to whom, bench it in the pictures that failed (v0.51, the game of catch). `tools/cycle/ws_build.py ARM pic,pic`
+  builds the last screen's pictures again from their own records with a trial cast and, for one arm, a scene switch made to act at the record's own revision
+  (`templates.CATCH51_REV`); `ws_prepare.py` deals the arms to readers with the screen's own prompt, the map kept outside the folder; `ws_tally.py catch` prints by arm
+  every sentence on the event. The three are v0.51's own, with its picks, arms and paths written in: edit them. Give a reader one picture of a pair of people, or count
+  by reader as well as by arm: a reader who has two pictures of the same people carries the reading from one to the other (Lessons, v0.51).
 - `python tools/cycle/qcheck.py <doc.md> [folders]` looks up every quotation of a document in the readers' own files while it is being written.
 - Write `vision/isolation_v<TAG>.md`: each case, what was tested, what the readers said (quotes), which variant wins.
   Make the winners the defaults, bump `BUILDER_VERSION` in `assets/cast/build_cast.py` if the cast changed, then
@@ -124,6 +129,8 @@ python tools/cycle/probes.py 3          # probes<TAG>: every template in at leas
 python tools/cycle/probes_fix.py NAME [seed]   # rebuild one probe with the same templates (SETTING=park to move it)
 python tools/cycle/probe_angle.py 2     # every angle an animal template is drawn at in at least two screened pictures; must end "SHORT {}"
 python tools/cycle/more_probes.py       # the templates probes.py gave up, forced in small groups (edit GROUPS and NEED_T); must end "SHORT {}"
+python tools/cycle/extra_probes.py 51700 garden:square_wheel,sprinkler_package,rake park:square_wheel,fly_kite   # probes forced whatever the counts say: a carrier
+                                        # the passes cannot count (the wheelbarrow, where three square wheels of four were bicycles)
 python tools/cycle/verify_all.py scenes<TAG>   # every record rebuilt and compared; writes <WORK>/variants_used.json
 python tools/cycle/verify_probes.py probes<TAG>
 python tools/cycle/prune_lib.py               # lib<TAG> keeps only the variants the set and probes use
@@ -683,3 +690,48 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
 - The site's before-and-after pairs can come from the bench: a round's cut-outs of the old and the new drawing are on the same seed
   (`crop:` keys in `scenegen/site.py`, the round's map says which is which). The notes in `site.py` keep clear of apostrophes,
   which `check_quotes.py` pairs as quotation marks on a line.
+- A cut-out bench can sit at its ceiling for an event as it did for an age. v0.50's game of catch was read the wrong way round in two
+  whole pictures of five, and on the bench all three readers of the same drawing, cut out, read it right. When the screen's fault is a
+  reading of who does what to whom, bench it where it failed: build the failing pictures again from their own records
+  (`tools/cycle/ws_build.py`: `G.regenerate` with the trial cast, and the switch made to act at the record's own revision,
+  `templates.CATCH51_REV`), one arm as screened, and give each arm several fresh readers with the screen's prompt.
+- A reader who has two pictures of the same people carries the reading of one to the other. Each reader of v0.51's catch bench had one
+  picture 79 and one picture 90, the same girl and the same woman, from two arms. The four readers whose arms were the old ball twice read
+  none of eight right; the eight who had one picture with the early ball read it right seven times, and their other picture, an old ball,
+  seven times too. Counted by arm that made the old ball 3 and 4 of 8 where, alone, it was 0 of 8. Give a reader one picture of a pair,
+  or count by reader as well as by arm, and say which arms shared readers.
+- A trail does not say which end it began at; what it is next to does. A ball at the far end of a dashed arc, by the catcher's hands,
+  was hers to throw, and the same dashed line with the ball a third of the way from the thrower's hand was read right by seven of eight.
+  Three solid lines behind the ball, as behind a runner, were read no better than the dashes and drew more doubt on cut-outs.
+- A pose can be right for the bench and not move the reading. The catcher's two open hands ended the clasped hands that six cut-outs of
+  six had remarked, and in whole scenes changed nothing of who threw. Take such a change for what it does, and say that.
+- Before redrawing a mark for a reading, count the reading by pose. The man in the red shirt was a boy in two v0.50 pictures and the list
+  asked for a wider moustache; on sixteen pictures a side the wider one changed nothing (a boy in two of sixteen each, the moustache named in
+  nine for seven), and three of the four boys were one pose, the sweeper bent over his broom. `tools/cycle/ws_tally.py moustache` prints
+  the line each count rests on.
+- A second look at a first drawing is cheap when it is only a pose. The catcher was drawn three times in an afternoon (one family alone
+  builds in five seconds, `tpdb_work/v051/try.sh`), and the second, which looked right on my sheet, was "waving or fending the ball off" to
+  all three readers: an open palm shown flat to a side view is a wave. Read a new gesture before building a bench cast round it.
+- When a thing is misread beside a neighbour, order the placing before writing a check in every neighbour. The barrow needed to keep off four
+  templates' hoses; placed after them all (`planner.realize`'s rank), one check in the barrow's own template did it, from the boxes the
+  hoses had already left (`sc.keepout`, the hose elements' boxes). Price it with the crowded sets as well as alone.
+- `yield_set.py` now takes `BENCH_CAST` and `BENCH_LIB`, as the bench does: before the release has a library of its own, a rule is priced
+  on a scratch copy of the last library and nothing is rendered into a tracked folder.
+- Renders are not the same to the byte from one run to the next: an unchanged pose rendered from the new cast differed from the last
+  library's file in one pixel by one level. A library carried from the last release (minus what was redrawn) is what keeps a release's
+  unchanged figures identical; compare redrawn variants by their pixels and not by a hash.
+- A quote in a code comment is counted as well as checked. "in six cut-outs of six" and "two of three wrote" were each one reader's words
+  put in several mouths in a first draft of v0.51's comments; the count goes outside the quotation marks, and each quoted phrase is
+  looked up in the file it came from.
+- A template's pictures are counted two ways, and they differ. The records' template lists gave the fence painter five pictures; the gate counts the
+  pictures that hold one of its items, and the painter of `paint_tracks` is its item too: nine. Take a count from `gate.json` when the sentence
+  is about what was scored, and say which count it is.
+- An entry of `vision/limits.txt` can run over two lines. v0.50's patch put three new entries after the first line of the rider's and parted
+  it from its second; v0.51 found the stray line and put it back. Insert after the last line of an entry (the next line that starts with `- `),
+  and read the entries round an insertion in the built README.
+- A screen with pictures that came back identical is a retest as well, and it is cheap to count: six of v0.51's 102 pictures were v0.50's to
+  the pixel, and 70 of their 71 items had the same score from other readers and scorers. Say it beside the gate; it is what a single half mark
+  is measured against.
+- A full gate after two failures is the gate as the scorers applied it. v0.51's 64 of 64 has 44 full marks beside another reading and eight
+  templates that would fall with them halved, one of them (`bird_steals`) not drawn since v0.47. Write the next list from the strict count
+  when the gate gives none, and say of each pass whether its drawing earned it.

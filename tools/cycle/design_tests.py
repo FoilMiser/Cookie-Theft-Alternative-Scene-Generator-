@@ -11,6 +11,25 @@ lib = Library()
 ONLY = sys.argv[2].split(",") if len(sys.argv) > 2 else None
 # (setting, tier, seed, forced, rule)
 jobs = [
+    # v0.51 (builder 0.51.0: the catcher's two open hands and the thrower's planted feet, the moustache, the roller's caps; revision 48: the
+    # thrown ball early on its path, no hose by the barrow, bread in the feeder's hand, the lost balloon's string end, the painter's tin):
+    # a garden: a sprinkler soaking a package, the square-wheeled barrow, a game of catch (the three of v0.50's tier-3 garden, where the
+    # sprinkler's hose ran behind the barrow's wheel and the catch was read the wrong way round)
+    ("garden", 3, 51401, {"modules": ["sprinkler_package"], "contradictions": ["square_wheel"], "events": ["play_catch"]}, None),
+    # a playground: a game of catch, a child on the slide, an ice cream
+    ("playground", 3, 51402, {"events": ["play_catch", "slide", "ice_cream"]}, None),
+    # a park: bread for the ducks, a balloon lost, the square-wheeled barrow
+    ("park", 3, 51403, {"modules": ["ducks_bread", "lost_balloon"], "contradictions": ["square_wheel"]}, None),
+    # a garden: a balloon lost, the fence painted, the path swept
+    ("garden", 3, 51404, {"modules": ["lost_balloon"], "events": ["paint_fence", "sweep"]}, None),
+    # a park: bread for the ducks, a game of catch, a picnic
+    ("park", 3, 51405, {"modules": ["ducks_bread"], "events": ["play_catch", "picnic"]}, None),
+    # a street: the square-wheeled bicycle, a game of catch, the path swept
+    ("street", 3, 51406, {"contradictions": ["square_wheel"], "events": ["play_catch", "sweep"]}, None),
+    # a garden: the hose stopped by a dog standing on it, the square-wheeled barrow, the fence painted
+    ("garden", 3, 51407, {"modules": ["blocked_hose"], "contradictions": ["square_wheel"], "events": ["paint_fence"]}, None),
+    # a park: a balloon lost, the path swept, an ice cream
+    ("park", 3, 51408, {"modules": ["lost_balloon"], "events": ["sweep", "ice_cream"]}, None),
     # v0.50 (builder 0.50.0: marks of age on the grown figures and smaller heads on them, the balloon's string, the painter's pole; revision 47:
     # the seesaw's seat and grab bar, the lost balloon's string, the goat's stake):
     # a playground: two children on the seesaw, a photographer, a pram pushed (a shopper cannot be forced in the playground)

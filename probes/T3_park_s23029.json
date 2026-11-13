@@ -6,8 +6,8 @@
  "seed": 23029,
  "mirror": false,
  "versions": {
-  "generator": "0.50.0",
-  "cast_builder": "0.50.0",
+  "generator": "0.51.0",
+  "cast_builder": "0.51.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,19 +61,19 @@
  ],
  "templates": [
   {
-   "id": "push_stroller",
+   "id": "run",
    "kind": "event",
    "event": "e1",
    "units": 0
   },
   {
-   "id": "fishing",
+   "id": "ducks_swimming",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "ducks_swimming",
+   "id": "fishing",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -84,14 +84,15 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandfather is fishing",
+   "text": "A grandmother is fishing",
    "accepted": {
     "who": [
-     "grandfather",
-     "grandpa",
-     "old man",
-     "older man",
-     "man"
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
     ],
     "what": [
      "fishing",
@@ -111,12 +112,12 @@
    "animate": true,
    "domain": null,
    "template": "fishing",
-   "event": "e2",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.03,
+    "s": 0.002,
     "r": 0,
     "d": 0.0,
     "f": 0.47,
@@ -124,11 +125,11 @@
     "zipf_raw": 4.47,
     "aoa_raw": 4.72,
     "domain": null,
-    "area_px": 15952
+    "area_px": 15340
    },
-   "b": -1.296,
-   "p0": 0.785,
-   "pm1": 0.573,
+   "b": -1.282,
+   "p0": 0.783,
+   "pm1": 0.57,
    "aoi_cells": [
     "ML",
     "MC",
@@ -156,7 +157,7 @@
    "animate": true,
    "domain": null,
    "template": "ducks_swimming",
-   "event": "e3",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
@@ -181,54 +182,53 @@
   {
    "id": "i03",
    "type": "action",
-   "text": "A woman is pushing a baby in a stroller",
+   "text": "A teenager is running",
    "accepted": {
     "who": [
-     "woman",
-     "lady",
-     "mother",
-     "mom",
-     "person"
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
     ],
     "what": [
-     "pushing a stroller",
-     "pushing a pram",
-     "pushing a baby carriage",
-     "baby",
-     "walking with a baby",
-     "buggy"
+     "running",
+     "jogging",
+     "out for a run",
+     "exercising"
     ]
    },
-   "key": "stroller",
+   "key": "running",
    "elements": [
-    "pusher_4",
-    "stroller_5"
+    "runner_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "push_stroller",
+   "template": "run",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.556,
+    "s": -0.323,
     "r": 0,
     "d": 0.0,
-    "f": -0.92,
-    "a": 7.84,
-    "zipf_raw": 3.08,
-    "aoa_raw": 7.84,
+    "f": 1.23,
+    "a": 4.47,
+    "zipf_raw": 5.23,
+    "aoa_raw": 4.47,
     "domain": null,
-    "area_px": 33508
+    "area_px": 9696
    },
-   "b": -1.142,
-   "p0": 0.758,
-   "pm1": 0.535,
+   "b": -1.348,
+   "p0": 0.794,
+   "pm1": 0.586,
    "aoi_cells": [
+    "MR",
     "BR"
    ]
   },
@@ -321,6 +321,50 @@
   {
    "id": "i06",
    "type": "entity",
+   "text": "There is a path",
+   "accepted": [
+    "path",
+    "walkway",
+    "trail",
+    "footpath",
+    "sidewalk"
+   ],
+   "key": "path",
+   "elements": [
+    "path"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "setting",
+   "event": null,
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": 0.837,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.71,
+    "a": 6.11,
+    "zipf_raw": 4.71,
+    "aoa_raw": 6.11,
+    "domain": null,
+    "area_px": 49808
+   },
+   "b": -1.272,
+   "p0": 0.781,
+   "pm1": 0.568,
+   "aoi_cells": [
+    "MR",
+    "BR"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "entity",
    "text": "There is a pond",
    "accepted": [
     "pond",
@@ -342,7 +386,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.114,
+    "s": 1.116,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -350,9 +394,9 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 73636
+    "area_px": 73772
    },
-   "b": -1.191,
+   "b": -1.192,
    "p0": 0.767,
    "pm1": 0.548,
    "aoi_cells": [
@@ -363,7 +407,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i08",
    "type": "entity",
    "text": "There is a big tree",
    "accepted": [
@@ -405,7 +449,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i09",
    "type": "entity",
    "text": "There is a lamp post",
    "accepted": [
@@ -449,7 +493,7 @@
    ]
   },
   {
-   "id": "i09",
+   "id": "i10",
    "type": "entity",
    "text": "There is a park bench",
    "accepted": [
@@ -491,7 +535,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i11",
    "type": "entity",
    "text": "There are flowers",
    "accepted": [
@@ -533,18 +577,18 @@
   }
  ],
  "counts": {
-  "content": 10,
+  "content": 11,
   "inference_units": 0,
   "contradictions": 0,
-  "items_total": 10
+  "items_total": 11
  },
  "predicted": {
   "theta_0": {
-   "content": 0.711,
+   "content": 0.72,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.481,
+   "content": 0.493,
    "inference": null
   }
  },
@@ -566,15 +610,15 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
-   "result": true,
-   "detail": "20 drawn objects (tier band 20-30)"
+   "result": false,
+   "detail": "19 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 20,
-  "edge_density": 0.0293,
-  "png_bytes": 208538,
-  "jpeg_bytes": 145144
+  "objects": 19,
+  "edge_density": 0.0272,
+  "png_bytes": 184950,
+  "jpeg_bytes": 134249
  },
  "signature": [
   [
@@ -587,6 +631,10 @@
   ],
   [
    "action",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -667,8 +715,8 @@
     522.0
    ],
    "area_px": 155664,
-   "visible_px": 114764,
-   "occlusion": 0.263
+   "visible_px": 112676,
+   "occlusion": 0.276
   },
   {
    "id": "tree_line",
@@ -694,8 +742,8 @@
     1000.0
    ],
    "area_px": 51696,
-   "visible_px": 38728,
-   "occlusion": 0.251
+   "visible_px": 49808,
+   "occlusion": 0.037
   },
   {
    "id": "pond",
@@ -709,8 +757,8 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 73636,
-   "occlusion": 0.128
+   "visible_px": 73772,
+   "occlusion": 0.126
   },
   {
    "id": "line_2",
@@ -718,29 +766,14 @@
    "role": "scored",
    "z": -65,
    "bbox": [
-    380.0,
-    490.0,
-    430.0,
+    392.0,
+    506.0,
+    442.0,
     676.0
    ],
-   "area_px": 780,
-   "visible_px": 772,
-   "occlusion": 0.01
-  },
-  {
-   "id": "filler_bush_b",
-   "label": "Bush",
-   "role": "filler",
-   "z": 560,
-   "bbox": [
-    814.0,
-    526.0,
-    906.0,
-    584.0
-   ],
-   "area_px": 3880,
-   "visible_px": 3880,
-   "occlusion": 0.0
+   "area_px": 744,
+   "visible_px": 736,
+   "occlusion": 0.011
   },
   {
    "id": "tree_small",
@@ -833,6 +866,59 @@
    "occlusion": 0.0
   },
   {
+   "id": "runner_4",
+   "label": "person.leo__run__smile__y090",
+   "role": "scored",
+   "z": 692.58,
+   "bbox": [
+    1104.0,
+    476.0,
+    1228.0,
+    690.0
+   ],
+   "area_px": 9696,
+   "visible_px": 9696,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.leo__run__smile__y090",
+    "family": "person.leo",
+    "scale": 0.4056,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "speedlines_5",
+   "label": "Motion lines behind the runner",
+   "role": "setting",
+   "z": 693.58,
+   "bbox": [
+    1182.0,
+    534.0,
+    1248.0,
+    592.0
+   ],
+   "area_px": 220,
+   "visible_px": 220,
+   "occlusion": 0.0
+  },
+  {
    "id": "tree",
    "label": "Big tree",
    "role": "setting",
@@ -864,37 +950,38 @@
   },
   {
    "id": "fisher_1",
-   "label": "person.tomas__fish__neutral__y090",
+   "label": "person.rosa__fish__smile__y090",
    "role": "scored",
    "z": 835,
    "bbox": [
-    426.0,
-    488.0,
-    726.0,
+    438.0,
+    504.0,
+    724.0,
     842.0
    ],
-   "area_px": 15180,
-   "visible_px": 15180,
+   "area_px": 14604,
+   "visible_px": 14604,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.tomas__fish__neutral__y090",
-    "family": "person.tomas",
+    "variant": "person.rosa__fish__smile__y090",
+    "family": "person.rosa",
     "scale": 0.4583,
     "mirrored": true,
     "labels": {
-     "everyday_name": "grandfather",
+     "everyday_name": "grandmother",
      "accepted_names": [
-      "grandfather",
-      "grandpa",
-      "old man",
-      "older man",
-      "man"
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
      ],
      "category": "adult_person",
      "person": {
       "age_group": "older_adult",
-      "skin_tone": "skin2",
-      "hair": "gray_ring"
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
      }
     }
    }
@@ -930,58 +1017,6 @@
    "occlusion": 0.0
   },
   {
-   "id": "pusher_4",
-   "label": "person.mei__push__neutral__y090",
-   "role": "scored",
-   "z": 970.47,
-   "bbox": [
-    1202.0,
-    674.0,
-    1366.0,
-    978.0
-   ],
-   "area_px": 18696,
-   "visible_px": 18232,
-   "occlusion": 0.025,
-   "asset": {
-    "variant": "person.mei__push__neutral__y090",
-    "family": "person.mei",
-    "scale": 0.5085,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
-  },
-  {
-   "id": "stroller_5",
-   "label": "Baby stroller",
-   "role": "scored",
-   "z": 974.47,
-   "bbox": [
-    1342.0,
-    792.0,
-    1510.0,
-    976.0
-   ],
-   "area_px": 15276,
-   "visible_px": 15276,
-   "occlusion": 0.0
-  },
-  {
    "id": "filler_bin_p2",
    "label": "Bin",
    "role": "filler",
@@ -1004,10 +1039,10 @@
  "attempts": [
   [
    23029,
-   "layout 6: accepted after 5 rejected layouts"
+   "layout 1: accepted after 0 rejected layouts"
   ]
  ],
- "layout": 5,
+ "layout": 0,
  "knob": 0,
  "regen": {
   "base_seed": 23029,
@@ -1017,12 +1052,12 @@
   "usage": {},
   "forced": {
    "events": [
-    "push_stroller",
-    "fishing",
-    "ducks_swimming"
+    "run",
+    "ducks_swimming",
+    "fishing"
    ]
   },
-  "placement_rev": 47
+  "placement_rev": 48
  },
  "probe": true
 }

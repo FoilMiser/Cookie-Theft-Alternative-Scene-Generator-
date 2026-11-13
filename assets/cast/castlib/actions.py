@@ -33,6 +33,13 @@ RUN44 = _os44.environ.get("TPDB_RUN44", "A")  # v0.44 bench (vision/isolation_v0
 # follow-through, the throwing arm at shoulder height across the front of the body, the hand open with its palm to the viewer, the other arm back.
 # "O": v0.43
 THROW44 = _os44.environ.get("TPDB_THROW44", "O")  # v0.44: O (A looked no better than v0.43's; not benched)
+# v0.51 bench (vision/flaws_v050.md R1, TPDB_CATCH51): a small girl's throw to a grown catcher was read the wrong way round in two pictures of the
+# v0.50 screen, the catcher's straight arms with the hands together as a throw's end and the thrower's long stride as running to catch. "B": the
+# catcher's two arms reaching toward the ball, the hands open and apart, one above the other, a pocket for the ball; the thrower on two planted
+# feet. "O": v0.50. (Bench round 1 read a first drawing of B, the upper hand raised with its palm out: "waving or fending the ball off".)
+# v0.51: B. Round 1's readers wrote of v0.50's catcher that the hands were together in six cut-outs of six, "clasped together" in four; in whole
+# scenes the new catcher has "her hands raised ready to catch it" (vision/isolation_v051.md)
+CATCH51 = _os44.environ.get("TPDB_CATCH51", "B")
 # v0.44 bench (figure-review-v043.md item 6, TPDB_SPADE44): the sand spade's small red blade, apart from its blue handle, read as a floating red cross
 # (a first-aid sign). "A": the handle runs into a blade twice the size with a pointed foot. "O": v0.43
 SPADE44 = _os44.environ.get("TPDB_SPADE44", "A")  # v0.44 bench (vision/isolation_v044.md): A
@@ -78,6 +85,10 @@ PAINT45 = _os44.environ.get("TPDB_PAINT45", "A")  # v0.45 bench (vision/isolatio
 # dark one none did.
 STRING50 = _os44.environ.get("TPDB_STRING50", "B")
 ROLLER50 = _os44.environ.get("TPDB_ROLLER50", "B")
+# v0.51 bench (TPDB_ROLLER51; vision/flaws_v050.md O3): the roller's cream end caps, "The roller's top part looks almost like a separate pale
+# cylinder against the fence". "B": the caps in a darker blue, of a piece with the sleeve. "O": v0.50's
+# v0.51: B (bench round 1: of v0.50's, once more, "an upright pale-blue cylinder"; of B's three cut-outs nothing of the kind)
+ROLLER51 = _os44.environ.get("TPDB_ROLLER51", "B")
 # v0.45 bench (look review, TPDB_BOX45): the carried box was the fence's colour to the digit (both wood_light) and sank into it. "A": khaki, with a
 # brown tape.
 BOX45 = _os44.environ.get("TPDB_BOX45", "A")  # v0.45 bench (vision/isolation_v045.md): A
@@ -426,6 +437,13 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
         P.hides.setdefault(P.cur, []).extend(["Sole_L", "Sole_R"])      # v0.45 (TPDB_SOLE45)
 
 
+def lo_throw51(P, lean=12.0, head_pitch=10.0):
+    """v0.51 (TPDB_CATCH51 "B"): the thrower's stance, both feet planted flat and the leading foot a step ahead."""
+    feet = {"L": (0.0, 0.11, 0.0), "R": (0.0, -0.13, 0.0)}
+    P.torso(lean=lean, drop=P.drop_hips_for(feet), head_pitch=head_pitch)
+    P.place_legs(feet, hint={"L": (0, -1, 0.1), "R": (0, -1, 0.3)})
+
+
 def lo_run(P):
     if RUN44 == "A":
         # v0.44 (TPDB_RUN44): off the ground, the back shin kicked up behind, the front foot just lifted, the hips up, leaning into the run; the
@@ -616,7 +634,7 @@ LOWER = {"stand": lo_stand, "wide": lo_wide, "walk": lo_walk, "run": lo_run, "ju
          "kick_low": lo_kick_low, "dig_lunge": lo_dig_lunge,
          "sit": lo_sit, "sit_swing": lo_sit_swing, "sit_ground": lo_sit_ground, "crouch": lo_crouch,
          "kneel": lo_kneel, "lie": lo_lie, "jump_tuck": lo_jump_tuck, "sit_dangle": lo_sit_dangle, "sit_hang": lo_sit_hang, "sit_low": lo_sit_low,
-         "sit_slide": lo_sit_slide}
+         "sit_slide": lo_sit_slide, "throw51": lo_throw51}
 
 
 # ================================================================== upper bodies (no props)
@@ -803,6 +821,11 @@ def up_cross_arms(P):
 def up_catch(P):
     u = P.u
     sz = P.lm("sh_R").z
+    if CATCH51 == "B":
+        P.arms({"R": (Vector((-0.10 * u, -0.35 * u, sz + 0.13 * u)), (-1, 0.5, -0.7)), "L": (Vector((0.10 * u, -0.36 * u, sz - 0.04 * u)), (1, 0.5, -0.7))})
+        P.hand("R", "open", palm=(0.6, -0.2, -0.75))
+        P.hand("L", "open", palm=(0.6, -0.2, 0.75))
+        return
     P.arms({"R": (Vector((-0.12 * u, -0.38 * u, sz + 0.06 * u)), (-1, 0.4, -0.6)), "L": (Vector((0.12 * u, -0.38 * u, sz + 0.06 * u)), (1, 0.4, -0.6))})
     for sd in ("L", "R"):
         P.hand(sd, "open", palm=(0, -1, 0.35))
@@ -1651,7 +1674,7 @@ def up_paint(P):
                                                 Vector((c.x, c.y, c.z + hl * u))], 0.010 * u, "gray"))
             P.prop("roller", cyl("roller", c + Vector((0, 0, -hl * u)), c + Vector((0, 0, hl * u)), rr * u, "blue", seg=24))
             for nm_, sg in (("cap0", -1), ("cap1", 1)):
-                P.prop(nm_, cyl(nm_, c + Vector((0, 0, sg * hl * u)), c + Vector((0, 0, sg * (hl + 0.016) * u)), rr * 0.80 * u, "cream", seg=24))
+                P.prop(nm_, cyl(nm_, c + Vector((0, 0, sg * hl * u)), c + Vector((0, 0, sg * (hl + 0.016) * u)), rr * 0.80 * u, "navy" if ROLLER51 == "B" else "cream", seg=24))
             P.panchor("roller", c + Vector((0, -rr * u, 0)))
             return
         P.prop("frame", cyl("frame", head - d * 0.04 * u, c, 0.012 * u, "gray"))
@@ -2123,6 +2146,8 @@ def make_people_actions(rig, ctx):
     for name, lower, largs, upper, desc, tags in acts:
         if name == "walk_read_open" and ctx.spec.get("hair") != "bob":
             largs = dict(largs, head_pitch=WALK_READ_PITCH_OTHERS)
+        if name == "throw_ball" and CATCH51 == "B":
+            lower, largs = "throw51", {"lean": 12.0, "head_pitch": 10.0}
         if name == "walk_ice_cream" and os.environ.get("TPDB_ICE", "B") == "B":
             # v0.27: this one is only drawn in full profile, so its head can turn in the pose itself, and the cone goes to the turned mouth
             largs = dict(largs, head_turn=PROFILE47)

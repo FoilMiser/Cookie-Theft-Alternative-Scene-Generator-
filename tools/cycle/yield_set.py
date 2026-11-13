@@ -34,7 +34,9 @@ for a in sys.argv[5:]:
             break
     else:
         raise SystemExit("no switch " + k)
-lib = Library()
+# (BENCH_CAST and BENCH_LIB, as for the isolation bench: a scratch library, so that pricing a rule before the release has a library of its
+#  own renders nothing into the last release's)
+lib = Library(**({"cast_dir": os.environ["BENCH_CAST"]} if os.environ.get("BENCH_CAST") else {}), **({"lib_dir": os.environ["BENCH_LIB"]} if os.environ.get("BENCH_LIB") else {}))
 for fj in sets:
     forced = json.loads(fj)
     t0 = time.time()

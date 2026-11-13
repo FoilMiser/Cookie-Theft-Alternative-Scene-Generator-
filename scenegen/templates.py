@@ -1297,6 +1297,19 @@ class HangLaundry(T):
         return False
 
 
+# CATCH51 "B" (revision 48; flaws_v050.md R1, play_catch 0.80 and under the gate): the ball a third of the way along its path, clear of the
+#   thrower's hand, and behind it three solid lines along the path, as behind a runner; the dashed arc from hand to ball is gone. "O":
+#   revision 47's, the ball past the top of its arc at the end of a dashed line from the thrower's hand
+#   "C": the ball early as in B, at the end of the dashed line from the thrower's hand (bench round 1: with the three solid lines five
+#   readers of six added that the ball might be coming the other way, "the lines are short and ambiguous in direction"; of the dashed
+#   arc from the hand none of three did)
+#   v0.51: C, on a bench in whole scenes (vision/isolation_v051.md): v0.50's two pictures of a small girl throwing to a woman, each in three
+#   arms and each arm read by four fresh readers. As screened (O) the throw was read the right way in 3 readings of 8 and the wrong way in 3;
+#   with the trial cast's poses and v0.50's ball (D) in 4 of 8 and 3; with those poses and the ball early (C) in 7 of 8 and none
+CATCH51 = __import__("os").environ.get("TPDB_CATCH51S", "C")
+CATCH51_REV = 48        # (the whole-scene bench sets 47, to build v0.50's own records again with the switch)
+
+
 class PlayCatch(T):
     id = "play_catch"
     content = 2
@@ -1341,6 +1354,11 @@ class PlayCatch(T):
                 # at the woman's hands", and who threw it could be read either way)
                 while t > 0.50 and math.hypot(bez(t)[0] - cx, bez(t)[1] - cy) < 5 * r:
                     t -= 0.03
+            c51 = SCN.PLACEMENT_REV >= CATCH51_REV and CATCH51 in ("B", "C")
+            if c51:
+                t = 0.30
+                while t < 0.46 and math.hypot(bez(t)[0] - rx_, bez(t)[1] - ry_) < 5.5 * r:
+                    t += 0.02
             bx, by = bez(t)
             if not sc.fits((bx - r * 2, by - r * 2, bx + r * 2, by + r * 2), limit=0.02, ignore=(ea, eb)):
                 continue
@@ -1399,6 +1417,24 @@ class PlayCatch(T):
             # dotted trail from the hand to the ball: the ball has just left the thrower's hand
             trail = " ".join(D.P(*bez(k / 10 * (t - 0.08))) for k in range(11))
             arc = f'<path d="M {trail}" fill="none" stroke="{D.OUT}" stroke-width="2.4" stroke-dasharray="5 9" stroke-linecap="round" stroke-opacity="0.65"/>'
+            if c51 and CATCH51 == "B":
+                # three solid lines behind the ball: one along its path from just off the hand, two shorter beside it
+                u1 = t
+                while u1 > 0.02 and math.hypot(bez(u1)[0] - bx, bez(u1)[1] - by) < 1.7 * r:
+                    u1 -= 0.005
+                u0 = 0.0
+                while u0 < u1 and math.hypot(bez(u0)[0] - rx_, bez(u0)[1] - ry_) < 0.9 * r:
+                    u0 += 0.005
+
+                def side(u, off):
+                    (xa, ya), (xb, yb) = bez(u - 0.004), bez(u + 0.004)
+                    L_ = math.hypot(xb - xa, yb - ya) or 1.0
+                    qx, qy = bez(u)
+                    return qx - (yb - ya) / L_ * off, qy + (xb - xa) / L_ * off
+                arc = ""
+                for off, a_, b_ in ((0.0, u0, u1), (0.95 * r, u0 + 0.50 * (u1 - u0), u1 - 0.004), (-0.95 * r, u0 + 0.62 * (u1 - u0), u1 - 0.004)):
+                    d_ = " ".join(D.P(*side(a_ + (b_ - a_) * k / 8, off)) for k in range(9))
+                    arc += f'<path d="M {d_}" fill="none" stroke="{D.OUT}" stroke-width="{max(2.2, 3.0 * s):.1f}" stroke-linecap="round" stroke-opacity="0.7"/>'
             eb_ = sc.svg(sc.eid("ball"), "Ball in the air", arc + D.ball(bx, by, r), max(Y, Yb) + 1, (bx - r, by - r, bx + r, by + r), "scored")
             self.act(self.a, "throwing a ball", ["throwing a ball", "throwing", "playing catch", "playing ball"], "ball", [ea, eb_])
             self.act(self.b, "catching the ball", ["catching the ball", "catching", "playing catch", "playing ball"], "ball", [eb])
@@ -1879,6 +1915,12 @@ class IceCream(T):
         return True
 
 
+# TIN51 "B" (revision 48; flaws_v050.md O3): the painter's tin at the heel, where it stood a body's width back ("several steps behind/left of
+#   the man"). "O": revision 47's
+#   v0.51: B (bench round 1: O's tin "fairly far from him, behind his legs"; B's "by his feet" twice and "at her feet")
+TIN51 = __import__("os").environ.get("TPDB_TIN51", "B")
+
+
 class PaintFence(T):
     id = "paint_fence"
     settings = ("garden",)
@@ -1924,7 +1966,7 @@ class PaintFence(T):
                 # revision 7: a tin of paint at the painter's feet, behind him, or ahead if a post is in the way
                 # (p.Y is 668 before revision 43)
                 f0, s0 = p.facing() or 1, sz(p.Y)
-                for dx in (-58, 64, -88, 92):
+                for dx in ((-44, 50, -58, 64, -88, 92) if SCN.PLACEMENT_REV >= 48 and TIN51 == "B" else (-58, 64, -88, 92)):
                     tin, tbb = D.paint_tin(x + f0 * dx * s0, p.Y + 12, s0 * 1.3)
                     if sc.air_clear((tbb[0] - 4, tbb[1], tbb[2] + 4, tbb[3])) and sc.fits(tbb, limit=0.05, ignore=(ep,)):
                         sc.svg(sc.eid("painttin"), "Tin of paint", tin, p.Y + 12, tbb, "prop")
@@ -3324,6 +3366,9 @@ class BlockedHose(T):
     needs = {"garden": {"hose_reel"}}
     exclusive = ("hose_reel",)
     units, content = 1, 3
+    # revision 48 (flaws_v050.md O7): never under the storm clouds, as the watering templates since revision 30. Both v0.50 pictures that had
+    # the two together drew the remark: "Watering with a hose just before a storm is also a little ironic." (v050 pic_38)
+    sky = "clear" if SCN.PLACEMENT_REV >= 48 else None
 
     def bind(self):
         sc = self.sc
@@ -3533,13 +3578,17 @@ def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
     cy = py + G["line"] * s                        # the hose's line: the paw's toes stand on it, and its near half shows in front of them
     sw, hmax = G["swell"][0] * s, G["swell"][1] * s
     x0 = px + f * sw
+    paw51 = SCN.PLACEMENT_REV >= 48 and PAW51 == "B"
+    end51 = px + f * PAW51_GAP * s if paw51 else px - f * 2 * s
+    if paw51:
+        x0 = end51 + f * sw
     up = D.hose_path([(rx, ry), (rx - f * 20, cy + 5 * s), (x0, cy)], 1.0)
     # the swelling (revision 27's slim egg), ending in under the paw
     prof = [(x0 + f * 8 * s, 4.5, 0.0)]
     n = 48
     for i in range(n + 1):
         t = i / n
-        x = x0 + (px - f * 2 * s - x0) * t
+        x = x0 + (end51 - x0) * t
         if t <= 0.80:
             g = math.sin(math.pi / 2 * min(1.0, t / 0.55)) ** 0.8
             hw = 4.5 + (hmax - 4.5) * g
@@ -3562,6 +3611,8 @@ def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
         bulge = ""
     # squashed flat under the paw: a thin band longer than the paw, showing on both sides of it and in front of its toes
     bw, bh = G["band"]
+    if paw51:
+        bw = PAW51_BAND
     flat = D.ell(px - f * 2 * s, cy + 0.6 * s, bw * s, bh * s, C["hose"], D.OW * 0.7)
     # downstream: thin, bending toward the viewer under the paw and running in front of the other paws, past the last of them, then up to the hand
     yr = max(cy, low + 2 * s) + G["clear"] * s
@@ -3607,6 +3658,20 @@ HOSE50_FULL = 1.4        # the full run's thickness against the hose's own (the 
 #   (vision/isolation_v050.md, rounds 1 and 2). At B's distance two readers of three had the child perhaps "still holding it", the gap "a
 #   drawing error"; at M's all three had the balloon escaped from this child, as with O, and its string ends by the child
 LOST50 = __import__("os").environ.get("TPDB_LOST50", "M")
+# LOST51 "B" (revision 48; flaws_v050.md O1): the string's free end lay on a rail of the garden's fence in two v0.50 pictures and over the pond
+#   in one: "although a viewer might wonder whether it is tied to something on the fence", "could read as anchored in the pond". The end
+#   stays where LOST50 put it, a head above the hand, and the child stands where that is on plain boards between the fence's rails, or
+#   clear of the fence; and never over the pond. "O": revision 47's
+#   v0.51: B (bench round 1: in the garden the end is "not attached to anything" in one cut-out and has "nothing holding it" in the other; in
+#   the park it lay on the hedge's line, and the rule took the backdrop's lines in as well)
+LOST51 = __import__("os").environ.get("TPDB_LOST51", "B")
+# PAW51 "B" (revision 48; flaws_v050.md R4, blocked_hose 0.95): "It is not completely clear whether the dog's paw is actually on the hose or
+#   just behind the bulge". The swelling ends PAW51_GAP units before the paw, and the paw stands on a longer flat stretch of the hose that
+#   shows on both sides of it. "O": revision 47's, the swelling's end under the paw
+#   v0.51: O (bench round 1: with B the hose "ends in a wide flattened bulge" and "It looks like two hose pieces"; the stopped water was read
+#   by one reader of three, for three of three with O, two of them as a maybe). R4 is closed with that
+PAW51 = __import__("os").environ.get("TPDB_PAW51", "O")
+PAW51_GAP, PAW51_BAND = 13.0, 21.0
 # STAKE50 "B" (revision 47; flaws_v049.md O4): the goat's stake half as tall again, the rope tied round its upper part ("The goat's
 #   tether stake looks very short; the goat could be tethered or just standing by a stake."). "O": revision 46's
 STAKE50 = __import__("os").environ.get("TPDB_STAKE50", "B")
@@ -5429,6 +5494,17 @@ def _lost_balloon_place7(self):
                 continue
             if fb_ and RAIL45 == "B" and sc.S.id == "playground" and fb_[0] <= send[0] <= fb_[2] and fb_[1] - 26 * s < send[1] < fb_[3] + 6 * s:
                 continue        # (templates.RAIL45: nowhere on a railing)
+            if SCN.PLACEMENT_REV >= 48 and LOST51 == "B":
+                # revision 48 (templates.LOST51): on the garden's fence only on its plain boards between the two rails (the rails are at 480 to
+                # 496 and 565 to 581, settings.build_garden), never by the gate; and nowhere over the pond
+                if fb_ and sc.S.id == "garden" and fb_[0] <= send[0] <= fb_[2] and fb_[1] - 34 * s <= send[1] <= fb_[3] + 8:
+                    if not (510 <= send[1] <= 551) or 1420 <= send[0] <= 1580:
+                        continue
+                elif not sc.outline_clear((send[0] - 14, send[1] - 14, send[0] + 14, send[1] + 14)):
+                    # (bench round 1, in the park: at the hedge's line the end "can look as if it is tied to or growing out of the bushes")
+                    continue
+                if not sc.setting_clear((send[0] - 36, send[1] - 36, send[0] + 36, send[1] + 36), only=("pond",)):
+                    continue
         lx, ly = send[0] + f * 24 * s, send[1] - (38 + 92) * bs * s
         bal44 = SCN.PLACEMENT_REV >= 42 and BAL44 == "B"
         if bal44:
@@ -5495,6 +5571,14 @@ def _seg_near(a, b, c, r):
     return math.hypot(ax + t * dx - c[0], ay + t * dy - c[1]) < r
 
 
+# BREAD51 "B" (revision 48; flaws_v050.md R5, ducks_bread 0.944 on nine items): "she may be feeding the duck (crumbs are near the duck), or
+#   simply holding something; her hand item is small and hard to make out". A slice of bread stands out of the bag, and three pieces are in
+#   the air on an arc from the bag to the water by the duck's bill. "O": revision 47's
+#   v0.51: B (bench round 1: all three readers of B have a piece of bread in the hand; of O one wrote that the hand "holds nothing" and one of
+#   "no visible trail from his hand")
+BREAD51 = __import__("os").environ.get("TPDB_BREAD51", "B")
+
+
 class DucksBread(T):
     id = "ducks_bread"
     exempt_extra = ("pond",)      # revision 10: stands at the water's edge on purpose
@@ -5558,9 +5642,33 @@ class DucksBread(T):
                         crumbs += "".join(D.ell(mx_ - want * (1 + i * 15), my_ + 2 + (i % 2) * 4, 6, 3.5, crumb_c, D.OW * 0.5) for i in range(3))
                     else:
                         crumbs += "".join(D.ell(front - want * (8 + i * 15), dy - 3 + (i % 2) * 4, 6, 3.5, crumb_c, D.OW * 0.5) for i in range(3))
+                top51 = sy
+                air51 = ""
+                if SCN.PLACEMENT_REV >= 48 and BREAD51 == "B":
+                    # revision 48 (templates.BREAD51): a slice standing out of the bag and three pieces in the air, drawn over the feeder
+                    mx_, my_ = d.anchor("mouth")
+                    far_ = abs(mx_ - sx)
+                    a0, a1 = (sx + want * 10, sy - 10), (mx_ - want * min(52.0, max(6.0, far_ - 80.0)), my_ - 6)
+                    span_ = abs(a1[0] - a0[0])
+                    ac = ((a0[0] + a1[0]) / 2, min(a0[1], a1[1]) - (22 + 0.42 * span_))
+                    for t_ in ((0.28, 0.56, 0.82) if span_ >= 90 else ()):       # (nearer than that the crumbs on the water already lie between the hand and the bill)
+                        qx = (1 - t_) ** 2 * a0[0] + 2 * (1 - t_) * t_ * ac[0] + t_ * t_ * a1[0]
+                        qy = (1 - t_) ** 2 * a0[1] + 2 * (1 - t_) * t_ * ac[1] + t_ * t_ * a1[1]
+                        air51 += D.ell(qx, qy, 7.5, 5.5, crumb_c, D.OW * 0.6)
+                        top51 = min(top51, qy - 8)
+                    by_ = sy + 7
+                    # (bench round 1: seen in the hand by all three readers, and "could also be a cup or small container" to two: a crust round it,
+                    #  and a little lower in the hand)
+                    air51 += (f'<path d="M {D.P(sx - 8, by_)} L {D.P(sx - 8, by_ - 13)} Q {D.P(sx - 8, by_ - 20)} {D.P(sx, by_ - 20)} Q {D.P(sx + 8, by_ - 20)} '
+                              f'{D.P(sx + 8, by_ - 13)} L {D.P(sx + 8, by_)} Z" fill="{C["wood_light"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}" stroke-linejoin="round"/>'
+                              f'<path d="M {D.P(sx - 5.2, by_ - 2.8)} L {D.P(sx - 5.2, by_ - 12.6)} Q {D.P(sx - 5.2, by_ - 17.2)} {D.P(sx, by_ - 17.2)} Q {D.P(sx + 5.2, by_ - 17.2)} '
+                              f'{D.P(sx + 5.2, by_ - 12.6)} L {D.P(sx + 5.2, by_ - 2.8)} Z" fill="{crumb_c}"/>')
+                    top51 = min(top51, sy - 18)
                 ec = sc.svg(sc.eid("crumbs"), "Bread crumbs flying toward the water", crumbs + wake, -64, (min(sx, dx) - 40, sy, max(sx, dx) + 40, dy + 30), "scored")
                 if SCN.PLACEMENT_REV >= 4:      # the wake now trails on the far side of the duck
                     sc.svgs[ec]["bbox"] = (min(sx, dx - 100), sy, max(sx, dx + 100), dy + 30)
+                if air51:
+                    sc.svg(sc.eid("breadair"), "Bread in the bag and in the air", air51, p.Y + 2, (min(sx, a1[0]) - 10, top51, max(sx, a1[0]) + 10, max(sy, a1[1]) + 8), "background")
                 self.act(self.p, "throwing bread to the ducks", ["feeding the ducks", "throwing bread", "feeding the birds", "bread"], "bread", [ep, ec])
                 it = self.ent("A duck is swimming toward the shore", ["duck", "duck swimming", "ducks in the pond"], "duck", [ed], animate=True)
                 it["type"] = "action"
@@ -6092,6 +6200,16 @@ class FloatingBox(T):
         return False
 
 
+# BARROW51 "B" (revision 48; flaws_v050.md R2, square_wheel 0.875 with the screen's one misread): no hose behind, under or beside the barrow or
+#   the bicycle with square wheels. The sprinkler's hose ran along the ground behind the barrow's wheel in v0.50's tier-3 garden, and a square
+#   with a hose through it "looks like a hose reel or a fan-like grate". The template is placed after every template that lays a hose
+#   (planner.realize), and its box keeps off every hose's run on the ground, off the ground no one may stand on (a sprinkler's spray, a
+#   tether) and well off the garden's hose reel. "O": revision 47's
+#   v0.51: B (bench round 1: with the hose behind the wheel the barrow was also "standing on the hose"; in three cut-outs under the rule the
+#   wheel is a wheel that is square, and no reel)
+BARROW51 = __import__("os").environ.get("TPDB_BARROW51", "B")
+
+
 class SquareWheel(T):
     id = "square_wheel"
     kind = "contradiction"
@@ -6138,6 +6256,18 @@ class SquareWheel(T):
                 # revision 40: and clear of the stall and the bench (in front of the fruit stall's legs, its square wheels among them, the bicycle was
                 # "parked against the stall", and nothing wrong with it was seen: v0.42 picture 10)
                 continue
+            if SCN.PLACEMENT_REV >= 48 and BARROW51 == "B":
+                # revision 48 (templates.BARROW51)
+                wide = (bb[0] - 16, bb[1], bb[2] + 16, bb[3] + 16)
+                bands = list(sc.keepout)
+                for k_, v_ in sc.svgs.items():
+                    b_ = v_.get("bbox")
+                    if k_.startswith("hose") and not k_.startswith(("hose_reel", "hosejoin", "hoseman", "hoseanimal")) and b_:
+                        bands.append((b_[0] - 20, b_[3] - 90, b_[2] + 20, b_[3] + 12))
+                if any(min(wide[2], k_[2]) > max(wide[0], k_[0]) and min(wide[3], k_[3]) > max(wide[1], k_[1]) for k_ in bands):
+                    continue
+                if not sc.setting_clear((bb[0] - 60, bb[1] - 20, bb[2] + 60, bb[3] + 30), only=("hose_reel", "hose_tail")):
+                    continue
             if SCN.PLACEMENT_REV >= 20:
                 # revision 20: nobody's feet on it (a boy's foot over its handles: "about to trip over / run into" them)
                 own = getattr(sc, "placing", None)

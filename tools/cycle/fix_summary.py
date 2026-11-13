@@ -8,12 +8,14 @@ from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
 # a cell built from a forced template set (regen.forced) carries this note in place of the search notes
 FORCED = set()
-NOTES = {("garden", 4): "v0.49's seed, 763887, fails on all forty of its steps under revision 47 and v0.50's prior (calibrated again with "
-                        "the v0.50 cast), and three more bases beside it; v0.48's seed, 552716, placed on its seventh step (s558716), with other templates",
-         ("park", 4): "the v0.43 seed, which placed again under revision 47 with the same templates, as in v0.39 to v0.49; redrawn with the v0.50 cast",
-         ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates; redrawn with the "
-                        "v0.50 cast",
-         ("playground", 4): "v0.47's seed (v0.45's, 494878), which placed again on its ninth step with the same templates; redrawn with the v0.50 cast"}
+NOTES = {("garden", 4): "v0.50's seed, 552716 (v0.48's), placed on its twenty-sixth step (s577716) with other templates: v0.50's set had the "
+                        "stopped hose under storm clouds, which revision 48 no longer plans together",
+         ("park", 4): "the v0.43 seed, which placed again under revision 48 with the same templates, as in v0.39 to v0.50; the duck feeder "
+                      "holds a slice of bread now",
+         ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates; the "
+                        "square-wheeled bicycle is placed last now, and the layout is another",
+         ("playground", 4): "v0.47's seed (v0.45's, 494878), which placed again on its ninth step with the same templates; the square-wheeled "
+                            "bicycle is placed last now, and the layout is another"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

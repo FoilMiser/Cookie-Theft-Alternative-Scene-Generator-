@@ -329,7 +329,25 @@ class PlacementError(Exception):
 #   went on to the stopped water, for two of three with it. The swelling stays.
 #   O4 (templates.STAKE50): the goat's stake half as tall again, the rope in two turns round its upper part.
 # None of the three that stand costs a place: each template alone placed on 12 seeds of 12 with its rule on and off (yield_set.py).
-PLACEMENT_REV = 47
+# 48 (v0.51): the list of vision/flaws_v050.md, each rule behind a switch whose "O" is revision 47's drawing (vision/isolation_v051.md).
+#   R1 (templates.CATCH51 "C"): the thrown ball early on its path, a third of the way along it, at the end of a short dashed line from the
+#   thrower's hand. At the far end of the arc, by a grown catcher's hands, it was hers to throw: "has just thrown a red ball (a dashed line
+#   shows its arc) toward a girl" (v050 pic_79). Chosen on a bench in whole scenes: v0.50's two pictures of that pair built again from their
+#   own records, three arms, four fresh readers an arm. Read the right way in 3 readings of 8 as screened, in 4 of 8 with the cast's new
+#   poses alone, in 7 of 8 with the ball early. Three solid lines behind the ball ("B") were tried on cut-outs and left.
+#   R2 (templates.BARROW51): no hose behind, under or beside the square-wheeled barrow or bicycle. The template is placed after every
+#   template that lays a hose (planner.realize), and its box keeps off each hose's run, off the ground nobody may stand on and off the
+#   garden's reel: "looks like a hose reel or a fan-like grate" (v050 pic_79), of the barrow's wheel with the sprinkler's hose behind it.
+#   R4 (templates.PAW51, tried and left at "O"): the swelling ending short of the paw read as two pieces of hose.
+#   R5 (templates.BREAD51): a slice of bread in the duck feeder's hand, and pieces in the air when the duck is far enough for an arc.
+#   O1 (templates.LOST51): the lost balloon's string never ends on a rail of the garden's fence, by its gate, on a line of the backdrop or
+#   over the pond: "although a viewer might wonder whether it is tied to something on the fence" (v050 pic_61).
+#   O3 (templates.TIN51): the painter's tin at the heel.
+#   O7: the stopped hose never under storm clouds (BlockedHose.sky), as the watering templates since revision 30.
+# What the rules cost, each on twelve seeds with the switch off and on (tools/cycle/yield_set.py): the barrow alone 12 and 12 in every
+# setting, with a sprinkler in the garden 12 and 11 and in the park 12 and 12, with the stopped hose and two events 11 and 11; the lost
+# balloon 12 and 12 in the garden and the park and 10 and 10 in the playground; the bread and the tin 12 of 12.
+PLACEMENT_REV = 48
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
 EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value
 POND48 = __import__("os").environ.get("TPDB_POND48", "B")      # "O": revision 44's pond

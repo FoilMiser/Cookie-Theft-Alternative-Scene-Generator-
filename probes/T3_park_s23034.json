@@ -6,8 +6,8 @@
  "seed": 23034,
  "mirror": false,
  "versions": {
-  "generator": "0.50.0",
-  "cast_builder": "0.50.0",
+  "generator": "0.51.0",
+  "cast_builder": "0.51.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -61,19 +61,19 @@
  ],
  "templates": [
   {
-   "id": "windy_hat",
+   "id": "ducks_bread",
    "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "photo",
+   "id": "run",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "fishing",
+   "id": "goat_grazing",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -84,53 +84,53 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A man is fishing",
+   "text": "A grandmother is throwing bread to the ducks",
    "accepted": {
     "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
+     "grandmother",
+     "grandma",
+     "old woman",
+     "older woman",
+     "lady",
+     "woman"
     ],
     "what": [
-     "fishing",
-     "fishing in the pond",
-     "fishing rod",
-     "catching fish"
+     "feeding the ducks",
+     "throwing bread",
+     "feeding the birds",
+     "bread"
     ]
    },
-   "key": "fishing",
+   "key": "bread",
    "elements": [
-    "fisher_1",
-    "line_2"
+    "duckfeeder_1",
+    "crumbs_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "fishing",
-   "event": "e3",
+   "template": "ducks_bread",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.052,
+    "s": -0.048,
     "r": 0,
     "d": 0.0,
-    "f": 0.47,
-    "a": 4.72,
-    "zipf_raw": 4.47,
-    "aoa_raw": 4.72,
+    "f": 0.5,
+    "a": 3.58,
+    "zipf_raw": 4.5,
+    "aoa_raw": 3.58,
     "domain": null,
-    "area_px": 16468
+    "area_px": 14292
    },
-   "b": -1.307,
-   "p0": 0.787,
-   "pm1": 0.576,
+   "b": -1.266,
+   "p0": 0.78,
+   "pm1": 0.566,
    "aoi_cells": [
-    "ML",
     "MC",
     "BC"
    ]
@@ -138,7 +138,100 @@
   {
    "id": "i02",
    "type": "action",
-   "text": "A woman is reaching up for a hat",
+   "text": "A duck is swimming toward the shore",
+   "accepted": [
+    "duck",
+    "duck swimming",
+    "ducks in the pond"
+   ],
+   "key": "duck",
+   "elements": [
+    "hungryduck_2"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "ducks_bread",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -1.34,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.21,
+    "a": 3.5,
+    "zipf_raw": 4.21,
+    "aoa_raw": 3.5,
+    "domain": null,
+    "area_px": 2312
+   },
+   "b": -0.533,
+   "p0": 0.63,
+   "pm1": 0.385,
+   "aoi_cells": [
+    "MC",
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The duck has come to eat the bread",
+   "accepted": [
+    "the duck wants the bread",
+    "the ducks are hungry",
+    "the duck is swimming over for food",
+    "the duck is eating the bread"
+   ],
+   "key": "hungry",
+   "elements": [
+    "hungryduck_2",
+    "crumbs_3"
+   ],
+   "cues": [
+    "hungryduck_2",
+    "crumbs_3"
+   ],
+   "effect": [
+    "crumbs_3"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "ducks_bread",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -1.34,
+    "r": 1,
+    "d": 0.016,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.45,
+    "aoa_raw": 3.63,
+    "domain": null,
+    "area_px": 2312
+   },
+   "b": 0.739,
+   "p0": 0.323,
+   "pm1": 0.149,
+   "aoi_cells": [
+    "MC",
+    "BL",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A woman is running",
    "accepted": {
     "who": [
      "woman",
@@ -148,186 +241,85 @@
      "person"
     ],
     "what": [
-     "reaching for the hat",
-     "trying to catch the hat",
-     "surprised",
-     "reaching up"
+     "running",
+     "jogging",
+     "out for a run",
+     "exercising"
     ]
    },
-   "key": "hat",
+   "key": "running",
    "elements": [
-    "hatperson_3"
+    "runner_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
+   "template": "run",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.156,
+    "s": -0.255,
     "r": 0,
     "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 12284
-   },
-   "b": -1.221,
-   "p0": 0.772,
-   "pm1": 0.555,
-   "aoi_cells": [
-    "MR"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "entity",
-   "text": "A hat is flying through the air",
-   "accepted": [
-    "hat in the air",
-    "hat flying",
-    "flying hat",
-    "cap",
-    "hat"
-   ],
-   "key": "hat",
-   "elements": [
-    "flyinghat_6"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -1.587,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.53,
-    "a": 3.33,
-    "zipf_raw": 4.53,
-    "aoa_raw": 3.33,
-    "domain": null,
-    "area_px": 1632
-   },
-   "b": -0.006,
-   "p0": 0.501,
-   "pm1": 0.27,
-   "aoi_cells": [
-    "TR",
-    "MR"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "inference",
-   "text": "The wind blew the woman's hat off",
-   "accepted": [
-    "the wind blew the hat off",
-    "it's windy",
-    "the hat blew away",
-    "the wind took the hat"
-   ],
-   "key": "wind",
-   "elements": [
-    "flyinghat_6",
-    "hatperson_3"
-   ],
-   "cues": [
-    "flyinghat_6",
-    "hatperson_3"
-   ],
-   "effect": [
-    "flyinghat_6"
-   ],
-   "chain": 2,
-   "animate": false,
-   "domain": null,
-   "template": "windy_hat",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 2,
-    "animate": false,
-    "s": -1.587,
-    "r": 1,
-    "d": 0.108,
-    "f": 0.0,
+    "f": 1.23,
     "a": 4.47,
-    "zipf_raw": 4.84,
-    "aoa_raw": 3.89,
+    "zipf_raw": 5.23,
+    "aoa_raw": 4.47,
     "domain": null,
-    "area_px": 1632
+    "area_px": 10676
    },
-   "b": 1.573,
-   "p0": 0.172,
-   "pm1": 0.071,
+   "b": -1.381,
+   "p0": 0.799,
+   "pm1": 0.594,
    "aoi_cells": [
-    "TR",
+    "MC",
     "MR"
    ]
   },
   {
    "id": "i05",
    "type": "action",
-   "text": "A man is taking a photo",
-   "accepted": {
-    "who": [
-     "man",
-     "guy",
-     "father",
-     "dad",
-     "person"
-    ],
-    "what": [
-     "taking a picture",
-     "taking a photo",
-     "photographing",
-     "camera"
-    ]
-   },
-   "key": "camera",
+   "text": "A goat is eating grass",
+   "accepted": [
+    "goat eating",
+    "goat eating grass",
+    "goat grazing",
+    "goat"
+   ],
+   "key": "goat",
    "elements": [
-    "photographer_8"
+    "goat_grazing_7"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "photo",
-   "event": "e2",
+   "template": "goat_grazing",
+   "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.285,
+    "s": -0.175,
     "r": 0,
     "d": 0.0,
-    "f": 0.87,
-    "a": 6.0,
-    "zipf_raw": 4.87,
-    "aoa_raw": 6.0,
+    "f": 0.02,
+    "a": 5.21,
+    "zipf_raw": 4.02,
+    "aoa_raw": 5.21,
     "domain": null,
-    "area_px": 22856
+    "area_px": 11948
    },
-   "b": -1.544,
-   "p0": 0.824,
-   "pm1": 0.633,
+   "b": -1.058,
+   "p0": 0.742,
+   "pm1": 0.514,
    "aoi_cells": [
-    "BR"
+    "BC"
    ]
   },
   {
@@ -442,7 +434,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.775,
+    "s": 0.863,
     "r": 0,
     "d": 0.0,
     "f": 0.71,
@@ -450,11 +442,11 @@
     "zipf_raw": 4.71,
     "aoa_raw": 6.11,
     "domain": null,
-    "area_px": 45648
+    "area_px": 51640
    },
-   "b": -1.24,
-   "p0": 0.776,
-   "pm1": 0.56,
+   "b": -1.284,
+   "p0": 0.783,
+   "pm1": 0.571,
    "aoi_cells": [
     "MR",
     "BR"
@@ -484,7 +476,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.135,
+    "s": 1.114,
     "r": 0,
     "d": 0.0,
     "f": -0.02,
@@ -492,11 +484,11 @@
     "zipf_raw": 3.98,
     "aoa_raw": 5.16,
     "domain": null,
-    "area_px": 75828
+    "area_px": 73544
    },
-   "b": -1.201,
-   "p0": 0.769,
-   "pm1": 0.55,
+   "b": -1.191,
+   "p0": 0.767,
+   "pm1": 0.548,
    "aoi_cells": [
     "ML",
     "MC",
@@ -682,12 +674,12 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.717,
-   "inference": 0.172
+   "content": 0.724,
+   "inference": 0.323
   },
   "theta_minus_1": {
-   "content": 0.494,
-   "inference": 0.071
+   "content": 0.496,
+   "inference": 0.149
   }
  },
  "bands": {
@@ -695,18 +687,10 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": false
+  "inference_completeness": true
  },
  "in_tier": false,
  "checks": {
-  "hatperson_3_looks_at_hat": {
-   "result": false,
-   "detail": ""
-  },
-  "photographer_8_photographs_fisher_1": {
-   "result": true,
-   "detail": ""
-  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -717,14 +701,14 @@
   },
   "clutter_band": {
    "result": true,
-   "detail": "21 drawn objects (tier band 20-30)"
+   "detail": "23 drawn objects (tier band 20-30)"
   }
  },
  "clutter": {
-  "objects": 21,
-  "edge_density": 0.0286,
-  "png_bytes": 216075,
-  "jpeg_bytes": 143803
+  "objects": 23,
+  "edge_density": 0.0298,
+  "png_bytes": 202406,
+  "jpeg_bytes": 141056
  },
  "signature": [
   [
@@ -740,7 +724,7 @@
    0
   ],
   [
-   "entity",
+   "action",
    0
   ],
   [
@@ -777,7 +761,7 @@
   ],
   [
    "inference",
-   2
+   1
   ]
  ],
  "elements": [
@@ -829,8 +813,8 @@
     522.0
    ],
    "area_px": 155664,
-   "visible_px": 107852,
-   "occlusion": 0.307
+   "visible_px": 109504,
+   "occlusion": 0.297
   },
   {
    "id": "tree_line",
@@ -856,8 +840,8 @@
     1000.0
    ],
    "area_px": 51696,
-   "visible_px": 45648,
-   "occlusion": 0.117
+   "visible_px": 51640,
+   "occlusion": 0.001
   },
   {
    "id": "pond",
@@ -871,52 +855,37 @@
     730.0
    ],
    "area_px": 84408,
-   "visible_px": 75828,
-   "occlusion": 0.102
+   "visible_px": 73544,
+   "occlusion": 0.129
   },
   {
-   "id": "line_2",
-   "label": "Fishing line",
+   "id": "crumbs_3",
+   "label": "Bread crumbs flying toward the water",
    "role": "scored",
-   "z": -65,
+   "z": -64,
    "bbox": [
-    368.0,
-    476.0,
-    418.0,
-    676.0
+    456.0,
+    674.0,
+    600.0,
+    724.0
    ],
-   "area_px": 836,
-   "visible_px": 832,
-   "occlusion": 0.005
+   "area_px": 684,
+   "visible_px": 656,
+   "occlusion": 0.041
   },
   {
-   "id": "breeze_4",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
+   "id": "filler_bush_b",
+   "label": "Bush",
+   "role": "filler",
+   "z": 560,
    "bbox": [
-    624.0,
-    240.0,
-    782.0,
-    280.0
+    814.0,
+    526.0,
+    906.0,
+    584.0
    ],
-   "area_px": 1320,
-   "visible_px": 1320,
-   "occlusion": 0.0
-  },
-  {
-   "id": "breeze_5",
-   "label": "Wind lines",
-   "role": "setting",
-   "z": 0,
-   "bbox": [
-    114.0,
-    76.0,
-    272.0,
-    116.0
-   ],
-   "area_px": 1368,
-   "visible_px": 1368,
+   "area_px": 3880,
+   "visible_px": 3880,
    "occlusion": 0.0
   },
   {
@@ -935,23 +904,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "hatperson_3",
-   "label": "person.mei__reach_up__surprised__y045",
+   "id": "runner_5",
+   "label": "person.mei__run__smile__y090",
    "role": "scored",
-   "z": 617.62,
+   "z": 629.52,
    "bbox": [
-    1110.0,
-    374.0,
-    1214.0,
-    626.0
+    1020.0,
+    410.0,
+    1158.0,
+    628.0
    ],
-   "area_px": 12284,
-   "visible_px": 12284,
+   "area_px": 10676,
+   "visible_px": 10676,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.mei__reach_up__surprised__y045",
+    "variant": "person.mei__run__smile__y090",
     "family": "person.mei",
-    "scale": 0.3778,
+    "scale": 0.3822,
     "mirrored": false,
     "labels": {
      "everyday_name": "woman",
@@ -972,33 +941,18 @@
    }
   },
   {
-   "id": "flyinghat_6",
-   "label": "Hat blowing away",
-   "role": "scored",
-   "z": 618.62,
-   "bbox": [
-    1196.0,
-    290.0,
-    1262.0,
-    348.0
-   ],
-   "area_px": 1632,
-   "visible_px": 1632,
-   "occlusion": 0.0
-  },
-  {
-   "id": "gusts_7",
-   "label": "Wind lines and blowing leaves",
+   "id": "speedlines_6",
+   "label": "Motion lines behind the runner",
    "role": "setting",
-   "z": 618.62,
+   "z": 630.52,
    "bbox": [
-    976.0,
-    314.0,
-    1204.0,
-    372.0
+    1004.0,
+    466.0,
+    1072.0,
+    526.0
    ],
-   "area_px": 3020,
-   "visible_px": 3020,
+   "area_px": 220,
+   "visible_px": 220,
    "occlusion": 0.0
   },
   {
@@ -1032,19 +986,49 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_bin",
-   "label": "Bin",
+   "id": "filler_bush_r",
+   "label": "Bush",
    "role": "filler",
-   "z": 652,
+   "z": 650,
    "bbox": [
-    950.0,
-    584.0,
-    1006.0,
-    654.0
+    1448.0,
+    606.0,
+    1568.0,
+    682.0
    ],
-   "area_px": 3228,
-   "visible_px": 3228,
+   "area_px": 6628,
+   "visible_px": 6628,
    "occlusion": 0.0
+  },
+  {
+   "id": "hungryduck_2",
+   "label": "animal.duck_01__swim_look__neutral__y090",
+   "role": "scored",
+   "z": 700,
+   "bbox": [
+    486.0,
+    648.0,
+    564.0,
+    700.0
+   ],
+   "area_px": 2312,
+   "visible_px": 2312,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.duck_01__swim_look__neutral__y090",
+    "family": "animal.duck_01",
+    "scale": 0.4083,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "duck",
+     "accepted_names": [
+      "duck",
+      "duckling",
+      "bird"
+     ],
+     "category": "water_bird"
+    }
+   }
   },
   {
    "id": "tree",
@@ -1077,41 +1061,63 @@
    "occlusion": 0.0
   },
   {
-   "id": "fisher_1",
-   "label": "person.dev__fish__smile__y090",
+   "id": "duckfeeder_1",
+   "label": "person.rosa__feed_birds__smile__y090",
    "role": "scored",
    "z": 835,
    "bbox": [
-    416.0,
-    474.0,
+    612.0,
+    568.0,
     724.0,
     842.0
    ],
-   "area_px": 15636,
-   "visible_px": 15636,
+   "area_px": 13636,
+   "visible_px": 13636,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.dev__fish__smile__y090",
-    "family": "person.dev",
+    "variant": "person.rosa__feed_birds__smile__y090",
+    "family": "person.rosa",
     "scale": 0.4583,
     "mirrored": true,
     "labels": {
-     "everyday_name": "man",
+     "everyday_name": "grandmother",
      "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
+      "grandmother",
+      "grandma",
+      "old woman",
+      "older woman",
+      "lady",
+      "woman"
      ],
      "category": "adult_person",
      "person": {
-      "age_group": "adult",
-      "skin_tone": "skin3",
-      "hair": "buzz_beard"
+      "age_group": "older_adult",
+      "skin_tone": "skin1",
+      "hair": "gray_bun"
      }
     }
    }
+  },
+  {
+   "id": "breadair_4",
+   "label": "Bread in the bag and in the air",
+   "role": "background",
+   "z": 837
+  },
+  {
+   "id": "grasstuft_9",
+   "label": "Grass at the goat's mouth",
+   "role": "setting",
+   "z": 935.74,
+   "bbox": [
+    974.0,
+    914.0,
+    1012.0,
+    940.0
+   ],
+   "area_px": 520,
+   "visible_px": 468,
+   "occlusion": 0.1
   },
   {
    "id": "flowers",
@@ -1129,56 +1135,78 @@
    "occlusion": 0.0
   },
   {
-   "id": "filler_rock",
-   "label": "Rock",
-   "role": "filler",
-   "z": 960,
+   "id": "goat_grazing_7",
+   "label": "animal.goat_01__graze__happy__y090",
+   "role": "scored",
+   "z": 936.24,
    "bbox": [
-    792.0,
-    914.0,
-    888.0,
-    962.0
+    804.0,
+    816.0,
+    988.0,
+    942.0
    ],
-   "area_px": 3740,
-   "visible_px": 3740,
+   "area_px": 12136,
+   "visible_px": 11948,
+   "occlusion": 0.015,
+   "asset": {
+    "variant": "animal.goat_01__graze__happy__y090",
+    "family": "animal.goat_01",
+    "scale": 0.4958,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "goat",
+     "accepted_names": [
+      "goat",
+      "kid"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "grassbite_10",
+   "label": "Grass in the goat's mouth",
+   "role": "setting",
+   "z": 938.24,
+   "bbox": [
+    974.0,
+    918.0,
+    996.0,
+    930.0
+   ],
+   "area_px": 128,
+   "visible_px": 128,
    "occlusion": 0.0
   },
   {
-   "id": "photographer_8",
-   "label": "person.ben__photo__smile__y045",
-   "role": "scored",
-   "z": 968.25,
+   "id": "tether_8",
+   "label": "The goat's tether, a rope from its collar to a peg in the ground",
+   "role": "setting",
+   "z": 977.99,
    "bbox": [
-    1234.0,
-    646.0,
-    1358.0,
-    976.0
+    878.0,
+    868.0,
+    950.0,
+    980.0
    ],
-   "area_px": 22856,
-   "visible_px": 22856,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "person.ben__photo__smile__y045",
-    "family": "person.ben",
-    "scale": 0.5077,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "man",
-     "accepted_names": [
-      "man",
-      "guy",
-      "father",
-      "dad",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin1",
-      "hair": "short_brown"
-     }
-    }
-   }
+   "area_px": 1440,
+   "visible_px": 1440,
+   "occlusion": 0.0
+  },
+  {
+   "id": "filler_bin_p2",
+   "label": "Bin",
+   "role": "filler",
+   "z": 980,
+   "bbox": [
+    30.0,
+    892.0,
+    100.0,
+    982.0
+   ],
+   "area_px": 5276,
+   "visible_px": 5276,
+   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -1201,14 +1229,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "photo",
-    "fishing"
+    "run",
+    "goat_grazing"
    ],
    "modules": [
-    "windy_hat"
+    "ducks_bread"
    ]
   },
-  "placement_rev": 47
+  "placement_rev": 48
  },
  "probe": true
 }

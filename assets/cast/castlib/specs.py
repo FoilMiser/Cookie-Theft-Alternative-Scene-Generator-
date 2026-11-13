@@ -158,10 +158,19 @@ if "M" in AGE50:
     PEOPLE["person.mei"]["build"] = dict(PEOPLE["person.mei"].get("build", {}), bust=float(os.environ.get("TPDB_BUST50", "1.0")))
     PEOPLE["person.mei"].update(hem_drop=0.10)
     PEOPLE["person.dev"].update(beard50=True)
+# v0.51 bench (TPDB_MOUST51; vision/flaws_v050.md O2): on the smaller head the moustache is a smaller mark. v0.50's readers named it in 7 of
+# the 23 pictures of the man in the red shirt, for 13 of 22 in v0.49, and he is the one grown figure still called a boy (2 of 23). "B": as wide
+# and as thick as it was on v0.49's head. "O": v0.50's, scaled with the head
+# v0.51: O. Sixteen of v0.50's pictures of him, built again with B and read in whole scenes beside v0.50's own (vision/isolation_v051.md): the
+# moustache is in his inventory line in 9 of 16 with B and 7 of 16 with O, and he is a boy first in 2 of 16 with each. The width is not it.
+# Three of the four boys are the sweeper, bent over his broom with his face down: the pose, for the next list
+MOUST51 = os.environ.get("TPDB_MOUST51", "O")
 if "P" in AGE50:
     for _fam, _sp in PEOPLE.items():
         if _sp["age"] in ("adult", "older_adult"):
             _sp["head_scale"] = _sp.get("head_scale", 1.0) * AGE50_HEAD
+            if MOUST51 == "B":
+                _sp["moust51"] = 1.0 / AGE50_HEAD
 
 QUADRUPEDS = {
     "animal.dog_01": dict(kind="dog", scale=1.0, body="tan", belly="cream", accent="brown", collar="red", tail="dog",
