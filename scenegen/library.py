@@ -21,8 +21,8 @@ from .draw import C, OUT, ppm
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, ".."))
-CAST_DIR = os.path.join(ROOT, "assets", "cast", "out051")
-LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib051")
+CAST_DIR = os.path.join(ROOT, "assets", "cast", "out052")
+LIB_DIR = os.path.join(ROOT, "assets", "cast", "lib052")
 RENDER_SET = os.path.join(ROOT, "assets", "cast", "render_set.py")
 # v0.28 bench (isolation_v028.md): "O" keeps the shadow from the figure's box
 SHADOW28 = "B"

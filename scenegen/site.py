@@ -49,56 +49,56 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v050", "v051"
+PREV, CUR = "v051", "v052"
 
-# v0.51 worked the list of the v0.50 screen (vision/flaws_v050.md) on the bench (vision/isolation_v051.md, vision/design_tests_v051.md): the game
-# of catch and the square wheel, which had failed the gate; the bread for the ducks, the string of the lost balloon and the fence painter; the
-# stopped hose and a wider moustache were benched and left (vision/flaws_v051.md)
+# v0.52 worked the brief (the upper arms, the shoulders and the sleeves) in the cast alone (vision/isolation_v052.md): no template was drawn
+# again, and the set is the set of v0.51 with the new figures in it (vision/flaws_v052.md)
 REDRAWN_NOTES = {
-    "play_catch": "The ball is drawn a third of the way along its path, at the end of a short dashed line from the hand of the thrower, and the catcher reaches for it with two open hands. v0.50: under the gate, 'has just thrown a red ball (a dashed line shows its arc) toward a girl'. v0.51: in full in five pictures, the thrower the thrower in each: 'who holds his arms out ready to catch it'.",
-    "square_wheel": "No hose lies by the barrow or the bicycle with square wheels: the template is placed after every hose and keeps off each. v0.50: under the gate on its one wheelbarrow, 'looks like a hose reel or a fan-like grate'. v0.51: in full in eight pictures, four of the barrow, and no reel: 'has a square wheel, which is impossible'. Three readers of eight name it only among the things they are unsure of.",
-    "ducks_bread": "A slice of bread stands in the forward hand of the feeder. v0.50: 'her hand item is small and hard to make out'. v0.51: in full in five pictures, 'holds a slice of bread, so she seems to be feeding the duck'.",
-    "lost_balloon": "The end of the string lies on no rail of the fence, by no gate, on no line of the backdrop and over no pond. v0.50: 'tied to something on the fence'. v0.51: in full in five pictures, 'Its string ends in mid-air near the fence top, not near her hand.' Whose balloon it is, the older doubt, is asked in three of the five.",
-    "paint_fence": "The tin stands at the heel of the painter and the caps of the roller are dark. In full in nine pictures, painting in each, and nothing of a pale cylinder or of the tin. Two readers ask which boards are being painted: 'or is about to start on the next unpainted ones'.",
-    "blocked_hose": "Benched with the swelling ending short of the paw, and left as it was: that read as 'two hose pieces'. Two half marks in one picture of five, as in v0.50: 'or just standing next to it'.",
-    "bird_steals": "Not worked. In full in six pictures, with four of its eighteen marks beside a second reading: 'or just perching beside it'.",
-    "ice_cream": "Not worked. One half mark in fifteen pictures, the woman in purple walking with a cone: 'She may be looking at the ice cream, or about to lick it.'",
-    "floating_box": "Not worked. In full in three pictures, with five of its nine marks beside a throw or a fall: 'could be falling (just thrown over the fence from the other side) or floating impossibly'.",
-    "dog_sleeping": "Left. In full in five pictures, with three of its five marks beside another reading: 'sleeping, sulking, or crouching ready to pounce'.",
-    "plant_flowers": "Left. In full in five pictures, with three of its five marks beside weeding or digging something out.",
-    "sweep": "In full in nineteen pictures; the action is always read. It is the pose in which a grown sweeper is called young: 'Boy, right, front-ish, brown hair, red T-shirt, blue trousers' and 'Girl sweeping'. On the list for v0.52.",
+    "square_wheel": "Not drawn again. v0.51: in full in eight pictures, three of them naming the wheel only among the unsure things. v0.52: under the gate in the same eight pictures; two readers of the four wheelbarrows did not notice the wheel: 'Wheelbarrow, bottom right: grey.' First on the list for v0.53.",
+    "bird_steals": "Not drawn again. One inference of six is not stated: 'pecking at a sandwich', and no more.",
+    "ducks_bread": "Not drawn again. One half mark in five pictures: the slice of bread is seen, and one reader does not say that the duck comes for it.",
+    "blocked_hose": "Not drawn again. In full in five pictures, where v0.51 had two half marks in one. The reader of that picture still writes 'It is not certain the dog is the cause of the hose having no water', and its scorer gave full marks.",
+    "ice_cream": "Looked at and left: the scoop is at the mouth already. In full in fifteen pictures, where v0.51 had one half mark.",
+    "floating_box": "Not drawn again. In full in three pictures, two of its marks beside a throw or a fall: 'floating, falling, or blown/thrown; nothing explains it, so it looks impossible'.",
+    "sweep": "An upright sweeper was read in ten whole pictures and not taken: the sweeper was read as grown with either pose. In full in nineteen pictures. One reader of the man in the red shirt: 'could be read as a teenage boy or a man'.",
+    "wave": "The raised arm carries its sleeve up with it. In full in three pictures.",
+    "hang_laundry": "Both arms are raised, each in its sleeve. In full in three pictures.",
+    "paint_fence": "The arm on the roller is in its sleeve. In full in nine pictures.",
 }
 
-# no template fails the v0.51 gate and none is under 0.9, so the page has no next list; the stopped hose (0.95) is in the table above
+# the next list: every template under 0.9, and every one that fails the gate
 WEAK_NOTES = {
+    "square_wheel": "Under the gate. The wheel is drawn as it was in v0.51, where three readers of eight named it only among the unsure things; in v0.52 two readers of the four wheelbarrows do not name it at all, and one names only the back wheel of the bicycle: 'square-ish'. For v0.53: the wheel of the barrow larger and darker, read in whole pictures against the wheel of v0.52.",
 }
-SCREEN_NOTE = ("The v0.51 screen read the set pictures and enough probe pictures that every template appeared in at least three "
-               "screened pictures, and every angle an animal is drawn at in at least two. Where a thrown ball is drawn was measured first, in whole scenes: the two pictures that failed in v0.50 were built again in three versions and read blind, and the thrower was read as the thrower in 3 readings of 8 as screened and in 7 of 8 with the ball early on its path. "
-               "1,067 of 1,114 items had full marks and none was misread. All 64 templates pass the gate, where 62 did in v0.50. Nothing was mended, swapped or read again after the screen. "
-               "With the 44 full marks that stand beside another reading halved, 56 of the 64 pass. "
-               "Of the 47 items under full marks, 44 are the clouds or a tree, left out by eight readers. "
-               "Seven of the sixteen cells have the templates of v0.50, and six of the 102 pictures are the same to the pixel. "
+SCREEN_NOTE = ("The v0.52 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+               "screened pictures, and every angle an animal is drawn at in at least two. The set is the set of v0.51 with the new figures in it: every cell, isomorph and probe placed on the seed of v0.51 with the same templates, and the answer keys are the same item for item. "
+               "1,095 of 1,114 items had full marks and none was misread. 63 of the 64 templates pass the gate; the square wheel does not, on two wheelbarrows that their readers did not notice. Nothing was mended, swapped or read again after the screen. "
+               "Item for item, 1,054 of the 1,114 scores are those of v0.51; fifty of the sixty others are the clouds or a tree. "
+               "With the 34 full marks that stand beside another reading halved, 54 of the 64 pass. "
+               "No reader of a whole picture wrote of a sleeve or a shoulder: the new drawing was judged large and in pairs, and chosen there by 10 reviewers of 12, 10 of 12 and 4 of 6. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("pair:person.leo__catch__surprised__y090>person.leo__catch__surprised__y090", "The catcher",
-          "v0.50: both arms straight out and the hands together, 'clasped together rather than cupped open, which could read as clapping or praying instead of catching'. v0.51: both arms reach toward the ball and the hands are open, one above the other, with room for the ball between them: 'who stands with her hands raised ready to catch it'."),
-         ("pair:person.leo__throw_ball__smile__y090>person.leo__throw_ball__smile__y090", "The thrower",
-          "v0.50: a long stride, which one reader took for running to catch: 'who runs with her arms out to catch it'. v0.51: two planted feet, the arm through."),
-         ("crop:vision/isolation_v051/ws/blind/pic_001.png@532,414,1022,782>vision/isolation_v051/ws/blind/pic_012.png@532,414,1022,782", "The game of catch, in the garden of v0.50",
-          "v0.50, as screened: the ball late on its arc, by the hands of the catcher. Read by four fresh readers, the girl was the thrower to one: 'has just thrown a red ball, and a dashed line shows it arcing toward a small girl'. v0.51, the same picture built again from its record: the ball a third of the way along its path. The girl was the thrower to four of four: 'has just thrown a red ball (a dashed line shows its path from her hand)'."),
-         ("crop:vision/isolation_v051/ws/blind/pic_017.png@504,356,942,704>vision/isolation_v051/ws/blind/pic_023.png@504,356,942,704", "The game of catch, in the playground of v0.50",
-          "The second picture that failed. As screened the girl was the thrower to two of four fresh readers, and with the ball early to three of four; the fourth gave both ways."),
-         ("crop:vision/isolation_v051/round1/iso_04.png@0,0,424,266>vision/isolation_v051/round1/iso_22.png@0,0,420,340", "No hose by the wheelbarrow",
-          "One seed, with a sprinkler in the garden. Without the rule its hose runs behind the square wheel: 'so it could look like it is standing on the hose'. With the rule the barrow stands clear of every hose. The wheel is drawn as it was."),
-         ("crop:vision/isolation_v051/round1/iso_03.png@0,0,428,414>vision/isolation_v051/final/dbrB_1.png@0,0,428,414", "Bread in the hand of the feeder",
-          "v0.50: 'her hand item is small and hard to make out'. v0.51: a slice of bread with its crust in the forward hand. One seed; the second cut-out was built after the bench round, which read the slice without its crust: 'a piece of bread in the other'."),
-         ("crop:vision/isolation_v051/round1/iso_18.png@0,0,420,682>vision/isolation_v051/final/lbrB_3.png@0,0,420,588", "The string of the lost balloon, by the pond",
-          "v0.50: the end of the string over the far edge of the pond, 'almost touching the pond area'. v0.51: the end over no pond and on no line of the backdrop. One seed; the second cut-out was built after the bench round."),
-         ("crop:vision/isolation_v051/round1/iso_33.png@0,0,390,580>vision/isolation_v051/round1/iso_20.png@0,0,356,604", "The string of the lost balloon, in the garden",
-          "v0.50: the end by the top of the gate. v0.51: on the plain boards of the fence, between its two rails: 'with nothing holding it'."),
-         ("crop:vision/isolation_v051/round1/iso_07.png@0,0,420,422>vision/isolation_v051/round1/iso_21.png@0,0,420,422", "The tin and the roller of the painter",
-          "v0.50: 'The paint bucket is fairly far from him, behind his legs.', and the cream caps of the roller 'a small lantern or a can stuck to the fence'. v0.51: the tin at the heel and the caps a dark blue: 'sits on the grass by his feet'.")]
+FIXES = [("pair:person.ben__stand__smile__y000>person.ben__stand__smile__y000", "A tee, from the front",
+          "v0.51: the sleeve a cap that ends above the armpit with no hem, and the arm wider under it: 'the puffed caps sit on the arm like small pads'. v0.52: a sleeve as wide as the arm and a little more, with a hem cut across the arm."),
+         ("pair:person.ben__stand__neutral__y045>person.ben__stand__neutral__y045", "A tee, turned",
+          "v0.51: 'the sleeve is a round bump with no hem'. v0.52: the near sleeve has its hem, and the arm comes out of it."),
+         ("pair:person.kai__stand__smile__y000>person.kai__stand__smile__y000", "A child in a tee",
+          "The sleeve follows the arm of its wearer: a child has a small sleeve, and a slim arm a slim one. The first trial gave every arm the sleeve of a man: 'the sleeves flare out like wings, much wider than the arms'."),
+         ("pair:person.ben__reach_up__surprised__y045>person.ben__reach_up__surprised__y045", "An arm raised",
+          "v0.51: the arm goes up bare from a stub of cloth at the armpit: 'the raised arm comes almost straight out of the body like a tank top'. v0.52: the sleeve goes up with the arm. Reviewers of pairs were split on this view, and chose whichever row was drawn below."),
+         ("pair:person.kai__wave__smile__y000>person.kai__wave__smile__y000", "A wave",
+          "The waving arm carries its sleeve."),
+         ("pair:person.ben__hang_washing__neutral__y090>person.ben__hang_washing__neutral__y090", "Both arms raised, from the side",
+          "v0.51: of the side view, the top of the arm lay on the shirt 'like a sticker'. v0.52: each arm is in a sleeve with a hem."),
+         ("pair:person.leo__stand__neutral__y045>person.leo__stand__neutral__y045", "The hooded top",
+          "v0.51: one thick tube from a round shoulder to a rounded end at the wrist: 'sleeves are uniformly inflated, sausage-like tubes'. v0.52: tapered from the shoulder to an open cuff."),
+         ("pair:person.rosa__stand__neutral__y045>person.rosa__stand__neutral__y045", "The cardigan",
+          "v0.51: 'it reads as a puffed costume sleeve'. v0.52: a sleeve that narrows to a cuff above the wrist."),
+         ("pair:person.tomas__stand__neutral__y045>person.tomas__stand__neutral__y045", "The shirt under the waistcoat",
+          "The long sleeve is drawn the same way under the waistcoat; its top still shows round in the armhole."),
+         ("pair:person.jo__stand__neutral__y045>person.jo__stand__neutral__y045", "The tee under the safety vest",
+          "v0.51: the cap of the tee a pad on the shoulder. v0.52: a sleeve that comes out from under the vest.")]
 
 
 

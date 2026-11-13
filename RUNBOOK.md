@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.51 was made, written so that a fresh session can make the next one (v0.52) from this
+How each release from v0.12 to v0.52 was made, written so that a fresh session can make the next one (v0.53) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -59,6 +59,13 @@ changes (a new placement revision, step 3).
 - When the brief is about how a figure looks (v0.48 the faces, v0.49 the head), judge the drawing before any event: trials of one family built
   alone and rendered at 800 px per metre (`TPDB_PPM`), sheets of heads with a row at scene size under them, and blind reviewers who compare two
   drawings at a time, each pairing in both orders. A sheet of more than two rows is ranked by a row's place (Lessons, v0.49).
+  `python tools/cycle/fig_pairs.py ROUND A_DIR B_DIR A_NAME B_NAME [SETS.json]` makes the sheets of such a bench from two folders of renders (v0.52's own, with its
+  six sets of four views and its prompt written in: edit them): each set twice, one drawing above and then the other, the map outside the folder; and
+  `fig_pairs_tally.py ROUND` counts the choices by set and order. A set whose choice follows the row in every round is a toss-up (Lessons, v0.52).
+- After any change to the body's hull, build with `TPDB_HULLCHECK=1` and compare each family's vertex count with the last build's; then look at every
+  figure standing at four angles. The hull can break at the shoulders for one figure of ten (Lessons, v0.52).
+- A cast that changes every figure is read in whole scenes as well: `tools/cycle/who_build.py ARM pic,pic` builds the last screen's pictures again from their own
+  records with a trial cast (v0.52's own, its arms and paths written in), and `age_scenes.py prepare` and `tally` deal and count them.
 - The age bench, whenever heads, proportions or marks of age change, reads whole scenes (v0.50). Build each trial cast into its own folder
   (`TPDB_AGE50=M python build_cast.py <WORK>/age/out_M`), give each a library that starts as a copy of the last one minus the changed
   families, and build the picked pictures of the last screen again from their own records with it (`G.regenerate(lib, record, out)`:
@@ -735,3 +742,46 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
 - A full gate after two failures is the gate as the scorers applied it. v0.51's 64 of 64 has 44 full marks beside another reading and eight
   templates that would fall with them halved, one of them (`bird_steals`) not drawn since v0.47. Write the next list from the strict count
   when the gate gives none, and say of each pass whether its drawing earned it.
+- When the brief is about how a part of every figure is drawn (v0.52: the upper arms, the shoulders and the sleeves), start with sheets of the last
+  release's own cast, large: every person standing at five angles, and two of them in every pose that moves the part (`tpdb_work/v052/rs.sh`
+  renders a list from a cast at 800 px per metre; `upper.py` cuts the upper half of each figure). The list of faults comes from those sheets.
+  v0.51's readers had written nothing of a sleeve in 102 pictures, and neither did v0.52's: a reader of a whole picture does not name it.
+- A fault of line can be a part that draws no line. The bare arm is `Skin`, which draws no line where it passes into another part (v0.39), so a
+  sleeve that ended in the hull's rounded end had no hem at all. Before redrawing an edge, ask which object draws it and with which Line Art usage.
+- An opening is a lid. A hull's branch is cut at a plane across the limb, its end faces come off, and those faces, set a few millimetres inside,
+  are a part of their own that draws the line where the limb comes through (`core.open_branch`, as `open_end` for a hem). Make the lid a
+  little smaller than the opening, or its edge lies on the sleeve's own wall and Line Art draws dashes of it; and begin the limb well up inside
+  the sleeve, or its rounded end sits at the lid and the line is dashes again.
+- The Skin hull is fragile where four branches meet (the neck, the chest and two shoulders). A shoulder's radius scaled to a slimmer arm, or its
+  place moved a centimetre, left one figure of ten with a plate of cloth through the chest, and only that figure. Build with `TPDB_HULLCHECK=1`,
+  which prints each hull's vertex count, compare the counts with the last build's, and look at every figure standing at four angles after any
+  change to a node of the trunk. The count is a hint: three figures have counts of their own and are sound.
+- Give a garment the width of its wearer where it lies on the wearer, and its own width where it hangs. A tee's sleeve as wide as a man's on
+  every arm stood off a woman's and a child's arms "like wings"; a long sleeve as wide as a slim arm was "a stick". The tee's sleeve follows the
+  arm's own thickness (`LA`), the long sleeve the garment's (`LB`).
+- A bench of pairs has a place effect, and both orders are what cancels it. Row b was chosen by 8 reviewers of 12, 8 of 12 and 5 of 6. Where
+  a drawing wins in both orders the effect does not matter. Where the choice follows the row, in every round, the two drawings are a toss-up,
+  and that is the result: say it, and do not count such a set for either. Two reviewers of one set gave the same reason for opposite rows.
+- Stop refining when a round's remarks come back from the other drawing too. "A long thin tube" was said of the new sleeve on a raised arm in
+  round 3 by the reviewer who had the old drawing below, and the reviewer who had it above preferred the new one for the same arm.
+- Send the sheet to Sam when the choice is made, with the choice named, and go on (`vision/isolation_v052/arms_v051_v052.png`).
+- A release that changes only the cast, and by a few pixels of outline, can bring the whole set back: all sixteen cells, the five isomorphs
+  and the 81 probes placed on v0.51's seeds with v0.51's templates and people, by v0.51's own commands in v0.51's order. Run the last release's
+  commands first, compare records by template, cast and place (`python tools/cycle/same_set.py scenes scenes_v051`), and say in the README that the
+  screen is then a second reading of the last set.
+- A second reading shows what one reader is worth. With the same pictures, keys and picture numbers, 1,054 of 1,114 items had v0.51's score;
+  fifty of the sixty others were the clouds or a tree; and of the ten that were not, three were all of v0.51's non-setting items under full
+  marks, now at full marks with nothing drawn, and seven were new misses. Compare item by item whenever the keys are the same.
+- "Nothing to draw" was wrong. v0.51's list said it of the square wheel because every reader had seen it, three of eight only among the unsure
+  things. In v0.52 those three pictures cost the template the gate: two readers did not name the wheel at all. A thing that a third of its
+  readers name only in passing goes to a bench in whole pictures, where not noticing can happen; a cut-out is always noticed.
+- When a bench in whole scenes is run for one question, read it for the cast's other questions too. The eighteen pictures built for the sweeper
+  were also the test that new sleeves do not change how old a figure looks (4, 3 and 1 of 35), and the design test of the cast in whole scenes.
+  And see what the first arm shows before reading the others: the sweeper was grown in 9 of 10 as screened, so the bench could not have shown
+  an upright sweeper to be better. Two arms that share files for most pictures also measure the readers: the same two pictures made the woman
+  in purple a girl in one arm and a woman in the other.
+- A helper script made to try one family at a time pays for itself in an hour: `tpdb_work/v052/try.sh TAG LIST.json` builds the named families
+  with the environment's switches, renders a list and makes a sheet. `TPDB_SLEEVE52_P`, a JSON dict of the drawing's numbers, let a trial change
+  a width or a length without a patch.
+- `tools/env.sh` and `tools/cycle/cfg.py` carry the release's number: set both at the start (`age_scenes.py` took v0.50's key map until they
+  were). `cd` to the repository's root at the start of every command; a `cd` inside a command chain moved the working folder three times.

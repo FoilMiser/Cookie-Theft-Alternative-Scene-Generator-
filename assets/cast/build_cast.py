@@ -35,7 +35,7 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.51.0"
+BUILDER_VERSION = "0.52.0"
 # the postures with both thighs swung forward of the trunk, in which a skirt is drawn as a wrap of the thighs (people.py, TPDB_SEAT47)
 SEATED47 = {"sit", "sit_swing", "sit_ground", "sit_dangle", "sit_hang", "sit_low", "sit_slide", "crouch", "jump_tuck"}
 

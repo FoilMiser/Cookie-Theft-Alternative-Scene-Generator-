@@ -58,6 +58,11 @@ ICE45 = _os44.environ.get("TPDB_ICE45", "A")  # v0.45 bench (vision/isolation_v0
 # cone up" (ice_cream 0.95 by the gate, 0.75 with its eight calls halved). "B": the scoop's near side a finger from the lips, its middle just
 # under the mouth, and the head tipped twelve degrees to it for six. "O": v0.48's reach
 ICE49 = _os44.environ.get("TPDB_ICE49", "B")
+# v0.52 (TPDB_SWEEP52; vision/flaws_v051.md O1), benched and not taken: "B" stands the sweeper nearly upright, looking ahead of the broom. Bent
+# ten degrees over it with the face down, the man in the red shirt was a boy in three of eight readings on v0.51's bench. Ten of v0.51's
+# pictures with a grown sweeper, read in whole scenes (isolation_v052/who): the sweeper grown in 9 of 10 as screened, in 10 of 10 with the new
+# sleeves and v0.51's pose, and in 10 of 10 upright. Nothing to choose between the poses, so v0.51's stays. "O": v0.51's
+SWEEP52 = _os44.environ.get("TPDB_SWEEP52", "O")
 ICE49_PITCH = -12 if ICE49 == "B" else -6
 # v0.45 bench (vision/flaws_v044.md R2, TPDB_CAM45): the camera at the eyes was once more "a camera (or binoculars)". "A": the camera larger, a prism
 # hump in the middle of its top, a longer lens with a wide silver ring, and a strap hanging in a loop under it; a "flash" anchor for the scene.
@@ -2015,7 +2020,7 @@ ACTIONS = [
     ("hose_inspect", "stand", {"head_pitch": -6, "head_turn": PROFILE47 if HEAD47 == "B" else -28, "lean": 4} if HOSE45 == "A" else
      {"head_pitch": 2, "head_turn": 20, "lean": 4} if INSPECT44 == "A" else {"head_pitch": -20, "lean": 4}, "hose_inspect",
      "looking into the hose nozzle", ["garden", "hose", "look"]),
-    ("sweep", "stand", {"lean": 10, "head_pitch": -18}, "sweep", "sweeping", ["chore"]),
+    ("sweep", "stand", {"lean": 4, "head_pitch": -6} if SWEEP52 == "B" else {"lean": 10, "head_pitch": -18}, "sweep", "sweeping", ["chore"]),
     ("rake", "stand", {"lean": 14, "head_pitch": -20}, "rake", "raking leaves", ["chore", "garden"]),
     ("dig_lift", "dig_lunge", {}, "dig_lift", "digging, lifting a spadeful of earth", ["chore", "garden"]),
     ("carry_box", "stand", {"lean": -4}, "carry_box", "carrying a box", ["carry"]),

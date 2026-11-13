@@ -220,6 +220,15 @@ def skin_object(name, verts, edges, radii, matkey, rig, weights, subsurf=2):
     ob.data = baked
     bpy.data.meshes.remove(old)
     baked.name = name
+    if os.environ.get("TPDB_HULLCHECK"):
+        # v0.52: where four branches meet (the neck, the chest and two shoulders) the Skin hull can break when a radius changes by a
+        # millimetre: the chest's ring then stands out of a collapsed trunk like a plate. A broken hull has edges folded nearly flat.
+        hb = bmesh.new()
+        hb.from_mesh(baked)
+        hb.normal_update()
+        folds = sum(1 for e in hb.edges if len(e.link_faces) == 2 and e.link_faces[0].normal.dot(e.link_faces[1].normal) < -0.6)
+        print("HULLCHECK", name, "verts", len(hb.verts), "folds", folds, "open", sum(1 for e in hb.edges if len(e.link_faces) != 2))
+        hb.free()
     V = [Vector(p) for p in verts]
     R = [(r, r) if not isinstance(r, (tuple, list)) else tuple(r) for r in radii]
     segs = list(edges) or [(i, i) for i in range(len(V))]
@@ -492,6 +501,78 @@ def open_end(ob, z, rig, matkey, lid=None, inset=0.003, axis=2):
                 v[ldl][gi] = wt
             vs.append(v)
         lb.faces.new(vs)
+    lo = _mesh_object(lid, lb, matkey, smooth=True)
+    for g in sorted(ob.vertex_groups, key=lambda g: g.index):
+        lo.vertex_groups.new(name=g.name)
+    lo.parent = rig.arm
+    m = lo.modifiers.new("Armature", "ARMATURE")
+    m.object = rig.arm
+    sub = next((x for x in ob.modifiers if x.type == "SUBSURF"), None)
+    m = lo.modifiers.new("Subsurf", "SUBSURF")
+    m.levels = m.render_levels = sub.levels if sub else 2
+    try:
+        lo.lineart.usage = "FORCE_INTERSECTION"
+    except (AttributeError, TypeError):
+        pass
+    upd()
+    return lo
+
+
+def open_branch(ob, p, n, rig, matkey, lid, pick, inset=0.004, lid_k=1.0, hem_k=1.0):
+    """v0.52: open the end of one branch of a baked hull (a sleeve) at the plane through p whose normal n points out of the end. Of the
+    vertices that pick(co, weights by bone name) takes, those past the plane are brought onto it; the faces lying in the plane come off
+    the hull and are an object of their own, lid, a little inside the opening, as open_end's lid is: the arm comes out through it, and it
+    draws the line where it does. The branch's edge is then the hem."""
+    n = n.normalized()
+    gname = {g.index: g.name for g in ob.vertex_groups}
+    took = set()
+    for v in ob.data.vertices:
+        if not pick(v.co, {gname[g.group]: g.weight for g in v.groups if g.group in gname}):
+            continue
+        d = (v.co - p).dot(n)
+        if d > -1e-5:
+            v.co = v.co - n * d
+            took.add(v.index)
+    if hem_k != 1.0 and took:
+        # (the opening's ring drawn in a little: smoothed, an open edge keeps its ring's size while the tube above it draws in, and the hem
+        # stood out like the mouth of a bell)
+        cen0 = sum((ob.data.vertices[i].co for i in took), Vector()) / len(took)
+        for i in took:
+            ob.data.vertices[i].co = cen0 + (ob.data.vertices[i].co - cen0) * hem_k
+    ob.data.update()
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    bm.normal_update()
+    dl = bm.verts.layers.deform.verify()
+    faces = [f for f in bm.faces if all(v.index in took for v in f.verts)]
+    quads = [[(v.co.copy(), dict(v[dl].items())) for v in f.verts] for f in faces]
+    if faces:
+        bmesh.ops.delete(bm, geom=faces, context="FACES")
+    bm.to_mesh(ob.data)
+    bm.free()
+    ob.data.update()
+    print("open_branch", ob.name, lid, "moved", len(took), "lid faces", len(quads))
+    if not quads:
+        return None
+    lb = bmesh.new()
+    ldl = lb.verts.layers.deform.verify()
+    seen = {}
+    for q in quads:
+        vs = []
+        for co, w in q:
+            key = (round(co.x, 6), round(co.y, 6), round(co.z, 6))
+            if key not in seen:
+                v = lb.verts.new(co - n * inset)
+                for gi, wt in w.items():
+                    v[ldl][gi] = wt
+                seen[key] = v
+            vs.append(seen[key])
+        lb.faces.new(vs)
+    if lid_k != 1.0 and seen:
+        # (the lid a little smaller than the opening: with its edge lying on the sleeve's own wall, Line Art drew short dashes of it there)
+        cen = sum((v.co for v in seen.values()), Vector()) / len(seen)
+        for v in seen.values():
+            v.co = cen + (v.co - cen) * lid_k
     lo = _mesh_object(lid, lb, matkey, smooth=True)
     for g in sorted(ob.vertex_groups, key=lambda g: g.index):
         lo.vertex_groups.new(name=g.name)

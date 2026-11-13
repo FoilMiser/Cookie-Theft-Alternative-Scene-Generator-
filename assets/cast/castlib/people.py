@@ -6,7 +6,7 @@ import bpy  # noqa: F401
 import bmesh
 from mathutils import Quaternion, Vector
 
-from .core import HEAD48, HEAD49, ISECT39, Rig, anchor, cut_field, cyl, ellipsoid, flatten_above, flatten_below, head_f, head_g, head_pt, link, mat, no_isect, open_end, rest_shade, set_head, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
+from .core import HEAD48, HEAD49, ISECT39, Rig, anchor, cut_field, cyl, ellipsoid, flatten_above, flatten_below, head_f, head_g, head_pt, link, mat, no_isect, open_branch, open_end, rest_shade, set_head, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
 from .face import FACE48, MOUTH_DZ, PROF48, PROF48_MOUTH, Face, build_people_face, people_expression_states
 
 # v0.23 (TPDB_HEAD; the release builds with B): the older man's fringe of hair kept to the back, and a fuller nose
@@ -117,6 +117,30 @@ TORSO48 = __import__("os").environ.get("TPDB_TORSO48", "B")
 
 
 NECK49 = __import__("os").environ.get("TPDB_NECK49", "B")       # "O": the neck a piece of the skin's one mesh, as up to v0.48
+
+# v0.52 (TPDB_SLEEVE52 "B"; vision/isolation_v052.md). Sam's brief was the upper arms, the shoulders and the sleeves. "O": v0.51's drawing.
+#   What v0.51 drew. A tee's sleeve was a short cap that ended above the armpit in the hull's rounded end, narrower than the arm it held; the bare
+#   arm is a part that draws no line where it passes into another, so the sleeve had no hem, the arm stepped out wider under it, and raised it
+#   went up bare from a stub of cloth at the armpit. Reviewers of pairs, who did not know which row was which: "the puffed caps sit on the arm like small pads",
+#   "The arm's rounded top sits flat on the shirt like a sticker.", "the raised arm comes almost straight out of the body like a tank top". A long sleeve
+#   was one thick tube to a rounded end at the wrist: "sleeves are uniformly inflated, sausage-like tubes", "it reads as a puffed costume sleeve".
+#   "B". The sleeve is cloth round the arm: a tee's runs 0.44 of the way to the elbow, as wide as this figure's own arm and four millimetres
+#   more, tapering a little to its hem; the hem is cut straight across the arm and open (core.open_branch), with a lid just inside that draws
+#   the line where the arm comes out, and it goes with the arm wherever the arm goes. A long sleeve has a node on the upper arm and tapers
+#   from the shoulder to an open cuff above the wrist, the forearm coming out through the cuff's lid. The shoulder's ball is where v0.51 had it.
+#   Three rounds of blind pairs, each pairing in both orders (isolation_v052/arms1 to arms3): the new drawing was chosen by 10 reviewers of 12,
+#   10 of 12 and 4 of 6. The four sets of standing and working figures chose it in both orders every time; the two sets of raised arms and of
+#   long sleeves in action chose whichever row was drawn below, three rounds of three. What the rounds changed: the first trial's sleeves were
+#   as wide as a man's on every arm ("the sleeves flare out like wings, much wider than the arms") and longer, and its long sleeves thinner.
+#   The Skin hull breaks at the node where the neck, the chest and the two shoulders meet when a shoulder's radius or place changes by a few
+#   millimetres (one figure of ten, a plate of cloth through the chest): TPDB_HULLCHECK=1 prints each hull's count, and a count that
+#   differs from the last build's is looked at on a sheet before anything else.
+SLEEVE52 = __import__("os").environ.get("TPDB_SLEEVE52", "B")
+# (the numbers of the drawing, in metres of a standard adult before the figure's own scale; TPDB_SLEEVE52_P, a JSON dict, changes some for a trial)
+SLEEVE52_P = dict(ball_dx=0.014, ball_dz=0.035, ball_r=0.054, ls_ball_r=0.052, ball_w=0.45, ball_pow=0.0, up_w=0.10,
+                  ss_f=0.44, ss_r=0.0515, ss_mid_f=0.24, ss_mid_r=0.0535, arm_f=0.30,
+                  ls_up_f=0.30, ls_up=0.051, ls_el=0.047, ls_cuff=0.040, ls_f=0.08, stub_f=0.30, inset=0.004, lid_k=0.90, hem_k=0.95)
+SLEEVE52_P.update(__import__("json").loads(__import__("os").environ.get("TPDB_SLEEVE52_P", "{}")))
 
 
 def head49_shape(spec, kind):
@@ -293,8 +317,34 @@ def build_person(spec):
         iu = len(verts)
         verts.append(P(0, 0, J["sh_z"] - 0.050 * s)); radii.append((0.105 * k * B["chest"] * TI, 0.085 * k * dp * TI)); wts.append({"chest": 1.0})
         edges = [e for e in edges if e != (2, 3)] + [(2, iu), (iu, 3)]
+    hems52 = {}
     for sd, sg in (("L", 1), ("R", -1)):
         i0 = len(verts)
+        if SLEEVE52 != "O":
+            # v0.52: the sleeve is cloth round the arm and wider than it, and it ends in a hem cut straight across the arm (open_branch, below)
+            # (the sleeve is as wide as this figure's own arm and a little more: on the slimmer arms of the women and the girl the first trial's
+            # sleeves, as wide as a man's, stood out "like wings"; the shoulder's ball goes half the way with the arm's width)
+            q52 = SLEEVE52_P
+            verts.append(sh[sd] + Vector((-sg * q52["ball_dx"] * k, 0, -q52["ball_dz"] * k)))
+            radii.append(q52["ls_ball_r" if long_sleeve else "ball_r"] * k * LB * B.get("arms", 1.0) ** q52["ball_pow"])
+            wts.append({"chest": q52["ball_w"], f"upper_arm_{sd}": 1 - q52["ball_w"]})
+            edges.append((iu, i0))
+            up52 = {"chest": q52["up_w"], f"upper_arm_{sd}": 1 - q52["up_w"]}
+            if long_sleeve:
+                cuff52 = wr[sd] + (el[sd] - wr[sd]) * q52["ls_f"]
+                verts += [sh[sd].lerp(el[sd], q52["ls_up_f"]), el[sd], cuff52]
+                # (a long sleeve keeps the garment's own width, whoever wears it: as wide as a slim arm only, the cardigan's raised sleeve was "a stick")
+                radii += [q52["ls_up"] * k * LB, q52["ls_el"] * k * LB, q52["ls_cuff"] * k * LB]
+                wts += [up52, {f"upper_arm_{sd}": 0.5, f"forearm_{sd}": 0.5}, {f"forearm_{sd}": 1.0}]
+                hems52[sd] = (cuff52, (wr[sd] - el[sd]).normalized())
+                edges += [(i0, i0 + 1), (i0 + 1, i0 + 2), (i0 + 2, i0 + 3)]
+            else:
+                verts += [sh[sd].lerp(el[sd], q52["ss_mid_f"]), sh[sd].lerp(el[sd], q52["ss_f"])]
+                radii += [q52["ss_mid_r"] * k * LA, q52["ss_r"] * k * LA]
+                wts += [up52, {f"upper_arm_{sd}": 1.0}]
+                hems52[sd] = (verts[-1], (el[sd] - sh[sd]).normalized())
+                edges += [(i0, i0 + 1), (i0 + 1, i0 + 2)]
+            continue
         shp = sh[sd] + Vector((-sg * 0.006 * k, 0, 0.004 * k))
         if ARM46 == "B":
             # (the shoulder's ball lower and smaller: it stood above the neckline, a peak at each corner of the shirt from the front)
@@ -316,6 +366,11 @@ def build_person(spec):
     shirt = skin_object("Shirt", verts, edges, radii, spec.get("inner", "cream") if shell_cardi else top_col, rig, wts)
     if hemmed:
         flatten_below(shirt, (pel - 0.022 * s) * S, spare=("upper_arm_", "forearm_", "hand_"))
+    for sd, (hp52, hn52) in hems52.items():
+        arm52 = (f"upper_arm_{sd}", f"forearm_{sd}", f"hand_{sd}")
+        open_branch(shirt, hp52 - hn52 * 0.002 * k, hn52, rig, spec.get("inner", "cream") if shell_cardi else top_col, f"SleeveLid_{sd}",
+                    lambda co, w, a=arm52, p=hp52, n=hn52: sum(w.get(b, 0.0) for b in a) > 0.5 and (co - p).dot(n) > -0.03 * k,
+                    inset=SLEEVE52_P["inset"] * k, lid_k=SLEEVE52_P["lid_k"], hem_k=SLEEVE52_P["hem_k"])
 
     if top == "vest" and SHOULDER47 == "B":
         # v0.47: the vest is a shell of the shirt's own surface (core.shell_over), a centimetre off it: cut away at each arm where the
@@ -708,7 +763,7 @@ def build_person(spec):
     if not long_sleeve:
         for sd in ("L", "R"):
             i0 = len(verts)
-            start = sh[sd].lerp(el[sd], 0.38)
+            start = sh[sd].lerp(el[sd], SLEEVE52_P["arm_f"] if SLEEVE52 != "O" else 0.38)
             if LIMB47 == "B":
                 # v0.47: the upper arm narrows to the elbow, the forearm swells a little under it and narrows to the wrist
                 verts += [start, el[sd], el[sd].lerp(wr[sd], 0.28), wr[sd], wr[sd] + Vector((0, 0, -0.040 * k))]
@@ -728,7 +783,8 @@ def build_person(spec):
     else:
         for sd in ("L", "R"):
             i0 = len(verts)
-            verts += [wr[sd] + (el[sd] - wr[sd]) * 0.12, wr[sd]]
+            # (v0.52: the forearm begins well up inside the sleeve, so it passes whole through the cuff's lid)
+            verts += [wr[sd] + (el[sd] - wr[sd]) * (SLEEVE52_P["stub_f"] if SLEEVE52 != "O" else 0.12), wr[sd]]
             radii += [0.040 * k * LA, 0.037 * k * LA] if LIMB47 != "B" else [0.033 * k * LA, 0.028 * k * LA]
             wts += [{f"forearm_{sd}": 1.0}, {f"forearm_{sd}": 1.0}]
             edges += [(i0, i0 + 1)]

@@ -8,14 +8,14 @@ from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
 # a cell built from a forced template set (regen.forced) carries this note in place of the search notes
 FORCED = set()
-NOTES = {("garden", 4): "v0.50's seed, 552716 (v0.48's), placed on its twenty-sixth step (s577716) with other templates: v0.50's set had the "
-                        "stopped hose under storm clouds, which revision 48 no longer plans together",
-         ("park", 4): "the v0.43 seed, which placed again under revision 48 with the same templates, as in v0.39 to v0.50; the duck feeder "
-                      "holds a slice of bread now",
-         ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates; the "
-                        "square-wheeled bicycle is placed last now, and the layout is another",
-         ("playground", 4): "v0.47's seed (v0.45's, 494878), which placed again on its ninth step with the same templates; the square-wheeled "
-                            "bicycle is placed last now, and the layout is another"}
+NOTES = {("garden", 4): "v0.51's seed, 552716 (v0.48's), which placed again on its twenty-sixth step (s577716) with v0.51's templates and "
+                        "v0.51's people in v0.51's places: revision 48 stands and only the cast is drawn again",
+         ("park", 4): "the v0.43 seed, which placed again under revision 48 with the same templates, as in v0.39 to v0.51, and the same people in "
+                      "the same places as v0.51's",
+         ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates and the same people "
+                        "in the same places as v0.51's",
+         ("playground", 4): "v0.47's seed (v0.45's, 494878), which placed again on its ninth step with the same templates and the same people in "
+                            "the same places as v0.51's"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))
