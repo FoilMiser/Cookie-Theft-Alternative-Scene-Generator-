@@ -351,7 +351,13 @@ class PlacementError(Exception):
 #   R1 (draw.WHEEL53 "B"): the wheelbarrow's square wheel larger, 34 units from hub to side for 25, and the barrow raised with it.
 #   `square_wheel` was under v0.52's gate: two readers of the four wheelbarrows did not notice the wheel ("Wheelbarrow, bottom right: grey.").
 #   R2 (templates.JUMP53): no child jumping for joy beside a game of catch ("might be cheering, or jumping for the ball", a scorer's note).
-# The woman in purple is drawn again with it (builder 0.53.0, specs.ANA53), so her box and anchors are new.
+# (The woman in purple was benched with it, specs.ANA53, and not drawn again: v0.53's cast is v0.52's, builder 0.52.0. This line said
+# otherwise in v0.53's package, written before the bench and not put right.)
+# v0.54: no new revision. The list of vision/flaws_v053.md was worked on one bench in whole pictures (vision/isolation_v054.md). Two drawings
+# of the scene were read and not taken, the bicycle's square wheels larger (draw.WHEEL54) and tread on the barrow's square tyre
+# (draw.TREAD54); both stay behind their switches and would act from templates.WHEEL54_REV. What was taken is in the cast (builder
+# 0.54.0, castlib.actions.READ54): a grown man with facial hair reads with his head up. His sprite's box and mask are new in the
+# reading poses, so a picture that holds one can place differently under the same rules.
 PLACEMENT_REV = 49
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
 EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value

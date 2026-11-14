@@ -49,41 +49,39 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v052", "v053"
+PREV, CUR = "v053", "v054"
 
-# v0.53 worked the list of v0.52 in the scene alone (vision/isolation_v053.md): the square wheel of the wheelbarrow is larger, and a jump is
-# never planned beside a game of catch. The cast is the cast of v0.52 (vision/flaws_v053.md)
+# v0.54 worked the list of v0.53 on one bench in whole pictures (vision/isolation_v054.md): a grown man with facial hair reads with his head up
+# (the cast, builder 0.54.0); two drawings of the square wheel were read and not taken. Placement revision 49 stands (vision/flaws_v054.md)
 REDRAWN_NOTES = {
-    "square_wheel": "The wheel of the wheelbarrow is larger, 68 units across for 50. v0.52: under the gate; two readers of the four wheelbarrows did not notice the wheel: 'Wheelbarrow, bottom right: grey.' v0.53: the four wheelbarrows in full: 'The wheelbarrow wheel is square rather than round, which looks unintentionally strange.' The one miss is a bicycle, drawn as it was: 'Red bicycle, right-front, standing on its kickstand.'",
-    "jump": "No longer planned into a picture with a game of catch: beside one, the jump was read as a try for the ball. In full in five pictures.",
-    "play_catch": "No longer planned into a picture with a child jumping for joy. In full in five pictures.",
-    "bird_steals": "Not drawn again. In full in five pictures, where v0.52 had one inference not stated; the picture it was missed in came back unchanged and was read in full by another reader.",
-    "ducks_bread": "Not drawn again. In full in five pictures, where v0.52 had one half mark, in a picture that came back unchanged.",
-    "dog_begs": "Not drawn again. In full in six pictures, five of its marks beside another reading: 'The dog could be begging for the ice cream, or just sitting up to be noticed / do a trick.'",
-    "blocked_hose": "Not drawn again. In full in five pictures, five of its marks beside a doubt: 'It is not certain the dog is blocking the water, but it is standing on the hose and no water comes out of the nozzle.'",
-    "floating_box": "Looked at and left: the list asked for the box lower with a shadow, which revisions 10 and 11 drew and replaced. In full in three pictures, two of its marks beside a throw: 'floating impossibly, or as having been thrown and about to fall down into the garden'.",
-    "cat_stalks_bird": "Not drawn again. In full in three pictures, two of its marks beside another reading: 'or just crouching and walking; it reads mostly as stalking'.",
-    "seesaw_heavy": "Measured and left: the man sits at the right height on the plank. In full in three pictures; the remark is of his legs: 'The seesaw bar seems to run past or through his legs, which looks a bit awkward.'",
+    "read_bench": "A grown man with facial hair reads with his head up, bent 10 degrees over the book for 26. v0.53: the man in the red shirt a boy in both pictures where he sits reading: 'Boy on bench, front right: brown hair, red shirt, blue trousers, reading a red book.' v0.54: a man in both, his moustache named in both: 'Man, front right: brown hair, moustache, red shirt, blue trousers; sitting on a bench reading a red book.'",
+    "about_to_trip": "The walker with a book holds his head up when he is a grown man with facial hair. In full in three pictures, as in v0.53, the walker about to trip in each. The man in the red shirt walking with his book is still a boy to its reader: 'Boy, centre front: brown hair, red T-shirt, blue jeans. He is walking or hurrying (motion lines) while reading an open book.'",
+    "sitting_on_air": "The man in green who sits on nothing with a book holds his head up. In full in three pictures, as in v0.53.",
+    "square_wheel": "Not drawn again. Two drawings were read in whole pictures and not taken: larger wheels for the bicycle, which two readers of six took for a rack: 'it could be a bike parked in a bike rack, or a bike drawn with square wheels', and tread on the tyre of the wheelbarrow, which no reader named. v0.53: 0.938. v0.54: 0.896 and under the gate, on the same eight pictures: 'Red bicycle, right-front: lying on its side.'",
+    "blocked_hose": "Not drawn again. 0.975 in five pictures: a half mark, and four full marks beside a doubt: 'It could be blocking the water (which would explain the woman frowning at the nozzle) or just standing near it.'",
+    "dog_begs": "Looked at and left: the dog looks up at the eater, and the food is at the mouth of the eater. In full in six pictures, four of its marks beside another reading.",
+    "kite_in_tree": "Not drawn again. In full in four pictures, four of its marks beside a kite that may still be flying.",
 }
 
-# the next list: every template under 0.9, and every one that fails the gate (none in v0.53)
+# the next list: every template under 0.9, and every one that fails the gate
 WEAK_NOTES = {
+    "square_wheel": "Under the gate, on eight pictures that are those of v0.53 to the pixel and read 0.938 there. The bicycle of the tier-4 playground was a bicycle and no more to a second reader running: 'Red bicycle, right-front: lying on its side.' Over two screens and the bench that bicycle was read five times, its wheels square in the description twice, among the unsure things once and not named twice. It is no smaller than the other bicycles; it stands in the front corner of the picture with the most events. Larger wheels were benched and are not it. For v0.55: its place and its stand, read in whole pictures.",
 }
-SCREEN_NOTE = ("The v0.53 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+SCREEN_NOTE = ("The v0.54 screen read the set pictures and enough probe pictures that every template appeared in at least three "
                "screened pictures, and every angle an animal is drawn at in at least two. "
-               "1,084 of 1,102 items had full marks and none was misread. All 64 templates pass the gate. The square wheel reads 0.938: the four wheelbarrows, drawn with a larger wheel, were read in full, and the square wheels of one bicycle of four were not named. Nothing was mended, swapped or read again after the screen. "
-               "Twenty-four of the 99 pictures are those of v0.52 to the pixel: 282 of their 289 items have the score they had, and four of the seven others are the clouds. "
-               "With the 32 full marks that stand beside another reading halved, 56 of the 64 pass. "
-               "The cast is the cast of v0.52. A fuller figure with a cardigan or a longer skirt was tried for the woman in purple in whole scenes and not taken: readers called her a woman with every drawing. "
+               "1,072 of 1,102 items had full marks and none was misread. 63 of the 64 templates pass the gate. The square wheel reads 0.896 in eight pictures that are those of v0.53 to the pixel and read 0.938 there: one bicycle was named as a bicycle and no more, and the wheel of one wheelbarrow was named only among the unsure things. Nothing was mended, swapped or read again after the screen. "
+               "Ninety-five of the 99 pictures are those of v0.53 to the pixel: 1,003 of their 1,039 items have the score they had, and thirty-three of the 36 others are the clouds or a tree. "
+               "With the 42 full marks that stand beside another reading halved, 54 of the 64 pass. "
+               "The cast has one pose rule more: a grown man with facial hair reads with his head up. The man in the red shirt, a boy to every reader of him reading in v0.53, is a man in both pictures where he sits with a book, and still a boy in the one where he walks with it. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:probes_v052/T3_garden_s53703.png@272,634,588,800>probes/T3_garden_s53703.png@272,634,588,800", "The wheelbarrow in a garden",
-          "v0.52: the square wheel 50 units across, half of it under the fork; its reader wrote of a grey wheelbarrow and no more. v0.53: the same wheel 68 units across, the barrow raised with it: 'The wheelbarrow wheel is square rather than round, which looks unintentionally strange.'"),
-         ("crop:probes_v052/T3_park_s51702.png@1248,818,1600,1000>probes/T3_park_s51702.png@1248,818,1600,1000", "The wheelbarrow in the park",
-          "v0.52: 'Wheelbarrow, bottom right: grey.' v0.53: 'The wheelbarrow wheel is square/frame-shaped instead of round, which looks wrong'."),
-         ("crop:probes_v052/T3_garden_s51701.png@670,608,962,768>probes/T3_garden_s51701.png@926,818,1284,1000", "The wheelbarrow by a sprinkler",
-          "v0.53: read as a square wheel, and by one reader as perhaps something else: 'It could alternatively be a separate square object (a grate or frame) standing in front of the wheelbarrow.' That second reading is on the next list.")]
+FIXES = [("crop:probes_v053/T3_garden_s23013.png@1336,641,1584,1000>probes/T3_garden_s23013.png@1336,641,1584,1000", "The man reading on a bench",
+          "v0.53: his head bent 26 degrees over the book: 'Boy, front right, on a bench: brown hair, red shirt, blue trousers; reading a red book.' v0.54: bent 10 degrees, his eyes on the page: 'Man, front right: brown hair, moustache, red shirt, blue trousers; sitting on a bench reading a red book.'"),
+         ("crop:probes_v053/T3_garden_s23014.png@722,601,1018,1000>probes/T3_garden_s23014.png@722,601,1018,1000", "The man walking with a book",
+          "v0.53: 'Boy, centre front: brown hair, red shirt, blue trousers; walking quickly while reading an open book.' v0.54, his head up: still a boy to its reader: 'Boy, centre front: brown hair, red T-shirt, blue jeans.' The walker is on the next list."),
+         ("crop:scenes_v053/T4_street_s464887.png@455,565,797,1000>scenes/T4_street_s464887.png@455,565,797,1000", "The man in green sitting on nothing with a book",
+          "v0.53 and v0.54, both read in full. With his head up his beard shows.")]
 
 
 

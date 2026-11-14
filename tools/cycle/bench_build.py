@@ -1,42 +1,56 @@
-"""(v0.53's own script, kept in tools/cycle as the model for the next whole-scene bench of a scene switch beside a cast: its arms and paths are written in. Edit them.)
-bench_build.py ARM pic,pic,... : v0.53's whole-scene bench. Rebuilds v0.52's records (vision/v052/key_map.json) from each record's own regen
-(same base seed, same forced set, revision 48) into tpdb_work/v053/who/sc_ARM.
-ARM W: v0.52's cast, the wheelbarrow's larger square wheel acting from revision 48 (templates.WHEEL53_REV).
-ARM FC, FL: v0.52's cast with the woman in purple built again (TPDB_ANA53: a woman's figure and a cardigan, or a skirt to below the knee);
-the library starts as a copy of lib052 without her variants."""
+"""(v0.54's own script, kept in tools/cycle as the model for the next whole-scene bench of scene switches beside a trial cast: its arms and paths are written in. Edit them.)
+bench_build.py ARM name,name,... [SRC_DIR] : v0.54's whole-scene bench. Rebuilds v0.53's records from each record's own regen (same base seed, same
+forced set, revision 49) into tpdb_work/v054/bench/sc_ARM. A name is a record's name or a pic_NN of v0.53's screen; SRC_DIR is where the records
+lie when they are not in scenes or probes (the extra pictures of the man reading, built for this bench).
+ARM WB: v0.53's cast, the bicycle's larger square wheels acting from revision 49 (templates.WHEEL54_REV, draw.WHEEL54 "B").
+ARM TT: v0.53's cast, tread on the barrow's square tyre from revision 49 (draw.TREAD54 "T").
+ARM RB: v0.53's cast with the two grown men who have facial hair built again (TPDB_READ54=B: the reading head up); the library starts as a copy of
+lib053 without their reading poses.
+ARM O: nothing changed (a check that a record rebuilds as it was, and the library the extra pictures are built with)."""
 import json, os, shutil, sys, time
 ROOT = "E:/Cognitive_Test_Scene_Creator"
 sys.path.insert(0, ROOT); os.chdir(ROOT)
 arm, picks = sys.argv[1], sys.argv[2].split(",")
-W = "tpdb_work/v053/who/"
+src_dir = sys.argv[3] if len(sys.argv) > 3 else None
+W = "tpdb_work/v054/bench/"
+READ = ("sit_read", "seesaw_low_read", "walk_read_open", "read")
 lib_dir, out = W + "lib_" + arm, W + "sc_" + arm
 if not os.path.exists(lib_dir):
     os.makedirs(lib_dir, exist_ok=True)
     n = 0
-    for f in os.listdir("assets/cast/lib052"):
-        if f.startswith(".") or (arm != "W" and f.startswith("person.ana")):
+    for f in os.listdir("assets/cast/lib053"):
+        if f.startswith("."):
             continue
-        shutil.copy2("assets/cast/lib052/" + f, lib_dir + "/" + f); n += 1
+        if arm == "RB" and f.startswith(("person.ben__", "person.dev__")) and f.split("__")[1] in READ:
+            continue
+        shutil.copy2("assets/cast/lib053/" + f, lib_dir + "/" + f); n += 1
     print("seeded", lib_dir, n, "files", flush=True)
 os.makedirs(out, exist_ok=True)
 from scenegen.library import Library
 from scenegen import generate as G
 import scenegen.templates as T
-if arm == "W":
-    T.WHEEL53_REV = 48
-else:
-    T.WHEEL53_REV = 99
-lib = Library(cast_dir="assets/cast/out052" if arm == "W" else W + "out_" + arm, lib_dir=lib_dir)
-km = json.load(open("vision/v052/key_map.json"))
+import scenegen.draw as D
+T.WHEEL54_REV = 49 if arm in ("WB", "TT") else 99
+if arm == "WB":
+    D.WHEEL54 = "B"
+if arm == "TT":
+    D.TREAD54 = "T"
+lib = Library(cast_dir=(W + "out_RB") if arm == "RB" else "assets/cast/out053", lib_dir=lib_dir)
+km = json.load(open("vision/v053/key_map.json"))
 for pic in picks:
-    name = km[pic]
+    name = km.get(pic, pic)
     if os.path.exists(f"{out}/{name}.json"):
         continue
-    src = next(p for p in (f"scenes/{name}.json", f"probes/{name}.json") if os.path.exists(p))
+    dirs = ([src_dir] if src_dir else []) + ["scenes", "probes"]
+    src = next(f"{d}/{name}.json" for d in dirs if os.path.exists(f"{d}/{name}.json"))
     r0 = json.load(open(src, encoding="utf-8"))
     t0 = time.time()
     try:
-        rec, _, why = G.regenerate(lib, src, out)
+        res = G.regenerate(lib, src, out)
+        rec = res[0]
+        if isinstance(rec, tuple):
+            rec = rec[0]
+        why = res[2] if len(res) > 2 else None
     except Exception as e:
         print(pic, name, "ERROR", repr(e)[:300], flush=True)
         continue
@@ -46,5 +60,12 @@ for pic in picks:
     same_t = [t["id"] for t in rec["templates"]] == [t["id"] for t in r0["templates"]]
     fam0 = sorted((e.get("asset") or {}).get("variant", "") for e in r0["elements"] if e.get("asset"))
     fam1 = sorted((e.get("asset") or {}).get("variant", "") for e in rec["elements"] if e.get("asset"))
+    moved = 0
+    b0 = {e["id"]: e.get("bbox") for e in r0["elements"] if e.get("bbox")}
+    for e in rec["elements"]:
+        b = e.get("bbox")
+        if b and e["id"] in b0 and max(abs(x - y) for x, y in zip(b, b0[e["id"]])) > 12:
+            moved += 1
     print(pic, name, "->", rec["name"], "templates same" if same_t else "TEMPLATES DIFFER", "cast same" if fam0 == fam1 else "CAST DIFFERS",
-          f"{time.time() - t0:.0f}s", flush=True)
+          "moved %d" % moved, f"{time.time() - t0:.0f}s", flush=True)
+print("BUILD_END", arm)

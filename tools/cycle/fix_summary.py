@@ -8,14 +8,14 @@ from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
 # a cell built from a forced template set (regen.forced) carries this note in place of the search notes
 FORCED = {("garden", 4)}
-NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden). v0.52's cell held a jump beside a game of "
-                        "catch, which revision 49 never plans, and the free search failed on ten bases, v0.52's first",
-         ("park", 4): "the v0.43 seed, which placed again under revision 49 with the same templates, as in v0.39 to v0.52, and the same people in "
-                      "the same places as v0.52's",
+NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden), as in v0.53: the same templates and the same "
+                        "people in the same places",
+         ("park", 4): "the v0.43 seed, which placed again with the same templates, as in v0.39 to v0.53, and the same people in the same places as "
+                      "v0.53's",
          ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates and the same people "
-                        "in the same places as v0.52's",
-         ("playground", 4): "v0.52's base, 494878, did not place under revision 49, with the square wheel's prior as measured or put back to "
-                            "v0.52's; the eighth base of the list, 506950, placed on its seventh step"}
+                        "in the same places as v0.53's",
+         ("playground", 4): "v0.53's base, 506950, which placed again on its seventh step with the same templates and the same people in the same "
+                            "places as v0.53's"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

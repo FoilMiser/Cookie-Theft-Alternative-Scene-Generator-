@@ -277,6 +277,25 @@ UPW47 = "B"
 WHEEL53 = __import__("os").environ.get("TPDB_WHEEL53", "B")
 WHEEL53_P = dict(r=34.0, fwd=0.6, t=0.27, spoke=0.10)
 WHEEL53_P.update(__import__("json").loads(__import__("os").environ.get("TPDB_WHEEL53_P", "{}")))
+# v0.54 (revision 50; vision/flaws_v053.md R1, square_wheel 0.938): the one square wheel v0.53's readers did not name was a bicycle's ("- Red bicycle,
+# right-front, standing on its kickstand."), and over three screens a bicycle's square wheels were named only among the unsure things, or not at all,
+# in 4 readings of 12. "B": the bicycle's square wheels larger, WHEEL54_P["r"] units from hub to side for 30, the tyre and the spokes a little
+# heavier, the frame raised and the wheelbase longer by as much, so that the bicycle stands on them as it did. "O": v0.53's
+# v0.54 bench (vision/isolation_v054.md): O. Four bicycles in whole pictures, twelve readers: the wheels are called square in the description or
+# the inventory in 10 readings of 12 as screened and in 8 of 12 larger, and two readers of the six who had the larger wheels took them for a rack
+# ("The bicycle's wheels sit inside black square frames: it could be a bike parked in a bike rack, or a bike drawn with square wheels."), which
+# no reader of v0.53's wheels did. Not taken
+WHEEL54 = __import__("os").environ.get("TPDB_WHEEL54", "O")
+WHEEL54_P = dict(r=38.0, t=0.26, spoke=0.10)
+WHEEL54_P.update(__import__("json").loads(__import__("os").environ.get("TPDB_WHEEL54_P", "{}")))
+# v0.54 (revision 50; vision/flaws_v053.md R1): the larger barrow wheel has a second reading, "a separate square object (a grate or frame) standing in
+# front of the wheelbarrow". "T": tread marks across the square tyre, its corners kept sharp. "O": v0.53's plain tyre
+# v0.54 bench (vision/isolation_v054.md): O. v0.53's four barrows in whole pictures, twelve readers: no reader of either tyre offered a crate or a
+# grate, and none named the tread. The wheel is called square in the description or the inventory in 12 readings of 12 with the tread and in 8 of
+# 12 without, the four being two readers' who named the bicycles' wheels late as well. Nothing to choose on the reading it was drawn for: not taken
+TREAD54 = __import__("os").environ.get("TPDB_TREAD54", "O")
+TREAD54_P = dict(step=0.30, w=0.05, col="slate")
+TREAD54_P.update(__import__("json").loads(__import__("os").environ.get("TPDB_TREAD54_P", "{}")))
 
 
 def wheel(cx, cy, r, square=False, col=None, v12=None):
@@ -293,8 +312,8 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
         box_ = f'x="{cx - r + t / 2:.1f}" y="{cy - r + t / 2:.1f}" width="{2 * r - t:.1f}" height="{2 * r - t:.1f}" rx="{r * 0.22:.1f}" fill="none"'
         svg += f'<rect {box_} stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
         return svg + circ(cx, cy, r * 0.16, C["gray"], OW * 0.6)
-    if square and v12 in ("barrow20", "barrow53"):
-        t = max(3.5, r * (WHEEL53_P["t"] if v12 == "barrow53" else 0.30))
+    if square and v12 in ("barrow20", "barrow53", "barrow53t"):
+        t = max(3.5, r * (WHEEL53_P["t"] if v12 != "barrow20" else 0.30))
         style = SQUARE_STYLE20
         box_ = f'x="{cx - r + t / 2:.1f}" y="{cy - r + t / 2:.1f}" width="{2 * r - t:.1f}" height="{2 * r - t:.1f}" stroke-linejoin="miter"'
         if style == "A":
@@ -306,11 +325,20 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
             return svg
         if style == "C":
             # eight straight spokes from a square hub to the corners and the middles of the sides
-            w = max(1.8, r * (WHEEL53_P["spoke"] if v12 == "barrow53" else 0.085))
+            w = max(1.8, r * (WHEEL53_P["spoke"] if v12 != "barrow20" else 0.085))
             svg = ""
             for ax, ay in ((1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)):
                 svg += line(cx, cy, cx + ax * (r - t * 0.6), cy + ay * (r - t * 0.6), OUT, w)
             svg += f'<rect {box_} fill="none" stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} fill="none" stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
+            if v12 == "barrow53t":
+                # v0.54 (TREAD54 "T"): tread marks across the tyre on all four sides, between the corners
+                n_ = max(2, int(round(2 * (r - t) / (r * TREAD54_P["step"]))))
+                tw = max(1.2, r * TREAD54_P["w"])
+                for i_ in range(n_ + 1):
+                    d_ = -(r - t) + 2 * (r - t) * i_ / n_
+                    for x0, y0, x1, y1 in ((cx + d_, cy - r + t * 0.12, cx + d_, cy - r + t * 0.88), (cx + d_, cy + r - t * 0.88, cx + d_, cy + r - t * 0.12),
+                                           (cx - r + t * 0.12, cy + d_, cx - r + t * 0.88, cy + d_), (cx + r - t * 0.88, cy + d_, cx + r - t * 0.12, cy + d_)):
+                        svg += line(x0, y0, x1, y1, C[TREAD54_P["col"]], tw)
             h = r * 0.24
             return svg + rect(cx - h, cy - h, 2 * h, 2 * h, C["charcoal"], 0, OW * 0.6)
         w = max(2.4, r * 0.14)
@@ -325,12 +353,12 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
         # showing between them, a thin tyre over their ends and a round hub. Four spokes on the diagonals
         # of a filled square made an X ("a crate", "a square box behind the wheelbarrow"); tread blocks and
         # rounded corners made "a rounded square or octagon", "a round wheel drawn badly"
-        t = max(3.0, r * 0.22)
+        t = max(3.0, r * (WHEEL54_P["t"] if v12 == "bike54" else 0.22))
         for k in range(8):
             a = math.radians(22.5 + 45 * k)
             c, sn = math.cos(a), math.sin(a)
             L = (r - t * 0.6) / max(abs(c), abs(sn))
-            svg_ = line(cx, cy, cx + c * L, cy + sn * L, OUT, max(1.8, r * 0.085))
+            svg_ = line(cx, cy, cx + c * L, cy + sn * L, OUT, max(1.8, r * (WHEEL54_P["spoke"] if v12 == "bike54" else 0.085)))
             svg = svg_ if k == 0 else svg + svg_
         box_ = f'x="{cx - r + t / 2:.1f}" y="{cy - r + t / 2:.1f}" width="{2 * r - t:.1f}" height="{2 * r - t:.1f}" fill="none" stroke-linejoin="miter"'
         svg += f'<rect {box_} stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} stroke="{col}" stroke-width="{t - OW * 0.2:.1f}"/>'
@@ -357,7 +385,7 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
     return circ(cx, cy, r, col) + circ(cx, cy, r * 0.3, C["gray"], OW * 0.6)
 
 
-def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False, v20=False, v53=False):
+def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False, v20=False, v53=False, v54=False):
     """Ground point x,y under the wheel's center; f = +1 handles to the right. both = also draw the far
     handle and leg (v0.9: with one handle showing it read as "a one-handled wheelbarrow"). stand (v0.20): the tub raised
     on a bigger wheel and two long legs (low on the grass it read as "very flat ... with no visible legs, looks tipped")."""
@@ -399,7 +427,7 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
     if bracket:
         # v0.12: the wheel tucked under the front of the tub, the tub drawn over its top (drawn in front of
         # the tub, a square wheel read as a crate standing in front of the barrow)
-        svg += wheel(wx, wy, r, square, v12=("barrow53" if big else "barrow20") if v20 else "barrow")
+        svg += wheel(wx, wy, r, square, v12=(("barrow53t" if (v54 and TREAD54 == "T") else "barrow53") if big else "barrow20") if v20 else "barrow")
         svg += poly(tub, C["gray"])
     else:
         svg += poly(tub, C["gray"])
@@ -478,17 +506,20 @@ def _wheelbarrow_stand(x, y, s, f, both):
     return svg, (min(x - f * e, x + f * 152 * s), tb - 50 * s, max(x - f * e, x + f * 152 * s), y)
 
 
-def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, heavy_stand=False, front_stand=False, center_stand=False):
+def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, heavy_stand=False, front_stand=False, center_stand=False, v54=False):
     """Parked bicycle seen from the side. x,y = ground point midway between the wheels. wide (v0.12): a
     longer wheelbase and smaller wheels (the wheels nearly touching read as "squashed")."""
     col = col or C["teal"]
-    r = (30 if wide else 34) * s
-    wb = (64 if wide else 52) * s
+    # v0.54 (WHEEL54 "B"): the square wheels larger by `big` units from hub to side, the frame raised and the wheelbase longer by as much
+    big = (WHEEL54_P["r"] - 30.0) if (v54 and square and wide and WHEEL54 == "B") else 0.0
+    r = ((30 + big) if wide else 34) * s
+    wb = ((64 + big) if wide else 52) * s
     a, b = (x - f * wb, y - r), (x + f * wb, y - r)
-    seat = (x - f * (22 if wide else 18) * s, y - 92 * s)
-    bars = (x + f * (42 if wide else 34) * s, y - 102 * s)
+    seat = (x - f * (22 if wide else 18) * s, y - (92 + big) * s)
+    bars = (x + f * (42 if wide else 34) * s, y - (102 + big) * s)
     crank = (x, y - r)
-    svg = wheel(a[0], a[1], r, square, C["charcoal"], v12="bike" if wide else None) + wheel(b[0], b[1], r, square and WHEEL44 != "B", C["charcoal"], v12="bike" if wide else None)
+    bk = ("bike54" if big else "bike") if wide else None
+    svg = wheel(a[0], a[1], r, square, C["charcoal"], v12=bk) + wheel(b[0], b[1], r, square and WHEEL44 != "B", C["charcoal"], v12=bk)
     frame = f"M {P(*a)} L {P(*crank)} L {P(seat[0], seat[1] + 12 * s)} Z M {P(*crank)} L {P(bars[0] - f * 6 * s, bars[1] + 14 * s)} L {P(seat[0], seat[1] + 12 * s)} M {P(bars[0] - f * 6 * s, bars[1] + 14 * s)} L {P(*b)}"
     svg += stroke(frame, col, 6 * s)
     if wide:
@@ -561,8 +592,8 @@ def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, he
         hw = (70 if wide else 60) * s if rack != "narrow" else 30 * s
         hoop = f"M {P(x - hw, y - 4 * s)} L {P(x - hw, y - 78 * s)} Q {P(x - hw, y - 104 * s)} {P(x - hw + 26 * s, y - 104 * s)} L {P(x + hw - 26 * s, y - 104 * s)} Q {P(x + hw, y - 104 * s)} {P(x + hw, y - 78 * s)} L {P(x + hw, y - 4 * s)}"
         svg = stroke(hoop, C["gray"], 8 * s, OW * 0.9) + svg
-    ext = (98 if wide else 90) * s
-    return svg, (x - ext, y - 110 * s, x + ext, y)
+    ext = ((98 + 2 * big) if wide else 90) * s
+    return svg, (x - ext, y - (110 + big) * s, x + ext, y)
 
 
 def floating_crate(x, y, s=1.0, lift=0.0, col=None, tilt=12.0, ground_shadow=True):

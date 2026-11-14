@@ -6251,6 +6251,9 @@ BARROW51 = __import__("os").environ.get("TPDB_BARROW51", "B")
 
 # revision 49 (draw.WHEEL53): the wheelbarrow's square wheel larger
 WHEEL53_REV = 49        # (the whole-scene bench sets 48, to build v0.52's own records again with the larger wheel)
+# v0.54 (draw.WHEEL54, draw.TREAD54): the revision from which the bicycle's larger square wheels and the barrow tyre's tread would act. Neither was
+# taken on v0.54's bench, which set this to 49 to build v0.53's own records again; with both switches at O it does nothing
+WHEEL54_REV = 50
 
 
 class SquareWheel(T):
@@ -6270,14 +6273,14 @@ class SquareWheel(T):
             f = sc.rng.choice([1, -1])
             if self.thing == "wheelbarrow":
                 svg, bb = D.wheelbarrow(X, Y, s * self.k3(1.5, 1.25, 1.05), square=True, f=f, both=SCN.PLACEMENT_REV >= 7, bracket=SCN.PLACEMENT_REV >= 10, low=SCN.PLACEMENT_REV >= 15,
-                                        v20=SCN.PLACEMENT_REV >= 20, v53=SCN.PLACEMENT_REV >= WHEEL53_REV)
+                                        v20=SCN.PLACEMENT_REV >= 20, v53=SCN.PLACEMENT_REV >= WHEEL53_REV, v54=SCN.PLACEMENT_REV >= WHEEL54_REV)
                 acc, key = ["wheelbarrow", "cart", "barrow"], "wheelbarrow"
             else:
                 # (revision 12: its stand drawn in front, light grey against the dark square wheel; behind the wheel it went unseen
                 # and the bicycle "stands upright by itself with no stand or rack". A rack hoop behind it was tried on the bench:
                 # its legs on the square wheels made them "square wheel-holder frames that belong to the rack")
                 svg, bb = D.bicycle(X, Y, s * self.k3(1.35, 1.1, 0.9), square=True, col=sc.rng.choice([C["red"], C["teal"]]), f=f, wide=SCN.PLACEMENT_REV >= 10,
-                                    heavy_stand=SCN.PLACEMENT_REV >= 11, front_stand=SCN.PLACEMENT_REV >= 12)
+                                    heavy_stand=SCN.PLACEMENT_REV >= 11, front_stand=SCN.PLACEMENT_REV >= 12, v54=SCN.PLACEMENT_REV >= WHEEL54_REV)
                 acc, key = ["bike", "bicycle"], "bike"
             if not sc.fits(bb, limit=0.03):
                 continue

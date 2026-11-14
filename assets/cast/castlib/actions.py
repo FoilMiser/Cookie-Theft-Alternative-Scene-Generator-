@@ -1978,6 +1978,19 @@ WALK_READ_PITCH = -20
 # v0.19: everyone else back at 30 degrees, as in v0.17, when every reading walker read as reading in six pictures (at 20
 # the windy park's reader held "an open newspaper", "papers in the wind"); the bob keeps 20 for its face
 WALK_READ_PITCH_OTHERS = -30
+# v0.54 bench (TPDB_READ54; vision/flaws_v053.md O1): the man in the red shirt was a boy first in every picture in which he reads, three of three in
+# v0.53's screen and one of one in v0.52's, from four readers, and a man in every other pose (26 pictures of 26 over the two screens). Reading, his
+# head is bent 26 or 30 degrees over the book, and the marks that make him a man (the moustache, the sideburns) are a few pixels at the lower edge
+# of a face seen from above; the women and the grandparents who read in the same pose are never young. "B": a grown man (not an older one) with
+# facial hair reads with his head bent READ54_P["sit"] degrees when seated and READ54_P["walk"] when walking, his eyes on the book. "O": v0.53's
+# v0.54 bench (vision/isolation_v054.md): B. Six pictures of him reading, built again from their own records and read in whole scenes by twelve
+# readers: a boy first in 6 readings of 12 as screened (four readers of six) and in 1 of 12 with his head up (one reader of six); he is read as
+# reading in 12 of 12 either way, and the walker about to trip over a box in 6 of 6 either way
+READ54 = _os44.environ.get("TPDB_READ54", "B")
+READ54_P = dict(sit=-10.0, walk=-10.0)
+READ54_P.update(__import__("json").loads(_os44.environ.get("TPDB_READ54_P", "{}")))
+READ54_POSES = ("sit_read", "seesaw_low_read", "walk_read_open", "read")
+
 
 # name: (lower, lower_args, upper, description, tags)
 #   description = how a healthy speaker would say it ("<who> is ...")
@@ -2151,6 +2164,8 @@ def make_people_actions(rig, ctx):
     for name, lower, largs, upper, desc, tags in acts:
         if name == "walk_read_open" and ctx.spec.get("hair") != "bob":
             largs = dict(largs, head_pitch=WALK_READ_PITCH_OTHERS)
+        if READ54 == "B" and name in READ54_POSES and ctx.spec.get("facial_hair") and ctx.spec.get("age") == "adult":
+            largs = dict(largs, head_pitch=READ54_P["walk" if name == "walk_read_open" else "sit"])
         if name == "throw_ball" and CATCH51 == "B":
             lower, largs = "throw51", {"lean": 12.0, "head_pitch": 10.0}
         if name == "walk_ice_cream" and os.environ.get("TPDB_ICE", "B") == "B":

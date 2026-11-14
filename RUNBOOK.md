@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.53 was made, written so that a fresh session can make the next one (v0.54) from this
+How each release from v0.12 to v0.54 was made, written so that a fresh session can make the next one (v0.55) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -70,6 +70,11 @@ changes (a new placement revision, step 3).
   again with a scene switch made to act at the records' own revision (`templates.WHEEL53_REV`) or with a trial cast; `bench_prepare.py` deals both questions to one set
   of readers, a reader's two pictures of the scene's thing both of one arm; `bench_tally.py` counts who a figure is called and where a thing is named. Count the last
   screen by reader before building a bench for a naming fault, and look at a trial figure large first (Lessons, v0.53).
+- Count the last screens by pose as well (v0.54): `python tools/cycle/who_pose.py 053 person.ben "red (t-?shirt|shirt|top|tee)" 053` prints every picture of a
+  figure with its pose, its reader and what the reader called it. v0.54's bench (the three `bench_*.py` as they now stand: edit them) asked three questions of
+  twelve readers, two pictures of each a reader, both of one arm, and the three questions' arms crossed, so that a reader's habit shows across the questions;
+  `bench_extra.py` and `bench_search.py` build pictures for a bench with the last release's code when the screen has too few. `python tools/cycle/pixcmp.py A B`
+  says which pictures of folder A are folder B's to the pixel.
 - `python tools/cycle/crops.py OUT.png [SCALE] NAME:substr[:pad] ...` cuts named elements out of built pictures onto one sheet (`CROP_DIRS` for other folders):
   the flagged pictures of the last screen at full size, before anything is drawn.
 - The age bench, whenever heads, proportions or marks of age change, reads whole scenes (v0.50). Build each trial cast into its own folder
@@ -115,7 +120,8 @@ to a fresh reader with `tools/cycle/prompts/reader_template.txt` (one picture), 
 ```bash
 python tools/cycle/calib_wrap.py      # -> <WORK>/calibration<TAG>.json
 python tools/cycle/calib_cmp.py $TPDB_WORK/calibration$PREV.json $TPDB_WORK/calibration$TAG.json   # what moved by 0.002 or more, the README's count
-python tools/cycle/set_prior.py       # rewrites the PRIOR block in scenegen/planner.py
+python tools/cycle/set_prior.py       # rewrites the PRIOR block in scenegen/planner.py; then `git diff scenegen/planner.py`: a prior on a rounding edge can
+                                      # change on a move of 0.001 (Lessons, v0.54)
 cp $TPDB_WORK/calibration$TAG.json calibration.json
 bash tools/cycle/build_set.sh         # showcase pass into scenes<TAG>, then searches for missing tier 1-3 cells
 bash tools/cycle/t4_search.sh street <previous street base seed> 400000   # one per tier-4 cell still missing
@@ -832,3 +838,42 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   the folder: 61, 2, 12 and 3 are 78, and the first draft had 62 and 11.
 - A patch that replaces several things in one file should write only at its end. v0.53's patch of the limits stopped on a wrong anchor at its eleventh
   step and had changed nothing, so it could be mended and run again.
+- Count a naming fault by pose before anything else (`python tools/cycle/who_pose.py 053 person.ben "red (t-?shirt|shirt|top|tee)" 053`: every picture of a figure
+  in a screen, its pose, its reader and the first word for a person in its line). v0.53's list had the man in the red shirt a boy "when he reads" from three
+  pictures; counted over two screens he was a boy in four reading pictures of four and in none of his 27 others, and the women and grandparents who read were
+  never young. A fault that is one pose's shows on a bench's first arm (6 readings of 12), where a fault that is some readers' habit did not (v0.53, none of 18).
+- A mark of age must be in view in the pose. The moustache and sideburns that make him a man were a few pixels at the edge of a face bent 26 degrees over a book.
+  The mend was the pose and not the mark, and only for the figures whose mark is on the face (`castlib.actions.READ54`: a grown man with facial hair). Check the
+  reading it must not cost on the same bench: that he reads, and that a walker with a book still does not see the box.
+- What worked for one carrier of a template does not carry to the other. The larger square wheel that was named sooner on the wheelbarrow was named no sooner on
+  the bicycle, and two readers of six took two large dark squares under a bicycle for a rack, as v0.14's readers had taken a real rack for the wheels' frames.
+  `grep` the code's comments for the reading a larger drawing might walk into before drawing it.
+- Cross the arms when one bench asks several questions (`tools/cycle/bench_prepare.py`: three questions, two pictures of each a reader, both of one arm, the
+  arms crossed). Then a reader's habit shows across the questions: both readers who named the plain tyre's wheel only among the unsure things named their
+  bicycles' wheels there too, so four late readings of twelve were two readers' and not the tyre's. Six readers an arm is too few to tell a drawing from two
+  such readers; say so and do not take the drawing.
+- A bench question can go unasked by the readers. The tread was drawn against "a crate or a grate", and no reader of either tyre offered one. Nothing to choose
+  is the result; the drawing stays behind its switch.
+- An isomorph does not build again as the same picture when a drawing's box grows, and a picture that changed for a new box can come back in another layout.
+  Build extra pictures for the bench with the last release's code (`tools/cycle/bench_extra.py`, and `bench_search.py`, which keeps the seeds that cast the
+  figure in question), and say which of the bench's pictures were screened and which were built for it.
+- `set_prior.py` keeps two places, and a prior can sit on a rounding edge. The calibration moved in no number by 0.002 (`calib_cmp.py`), and one prior still
+  changed, 0.14 to 0.15, on a mean that went from 0.145 to 0.146. Run `git diff scenegen/planner.py` after `set_prior.py`. v0.54 left that prior as it was and
+  said so in the README; with it every cell, isomorph and probe came back on v0.53's seed, and 95 pictures of 99 to the pixel.
+- When only some poses of some figures change, take only those files out of the copied library and gallery (the families' variants whose pose is in the list).
+  Every other variant stays the last release's file, the pictures that do not hold the pose come back to the pixel, and the screen is a second reading of them.
+  `python tools/cycle/pixcmp.py scenes054 scenes` says which.
+- The gate can fail on pictures that did not change, and then the retest is what to report. All eight pictures of the square wheel were v0.53's to the pixel;
+  v0.53's readers gave them 22.5 marks of 24 and v0.54's 21.5. In v0.53 the three items that moved in unchanged pictures went up and the gate was full; in
+  v0.54 three went down and it was not. A template at 0.94 on 24 items is two half marks from failing: write "at the gate's edge" when a pass is that near,
+  and do not mend after the screen for a move the retest explains.
+- Measure a cause before writing it into the list. A first draft had the tier-4 playground's bicycle as "the smallest a scene draws"; `k3` picks by the scene's
+  knob and not by its tier, every bicycle of the screen is drawn at the same factor, and that one is 220 units wide where the four are 188 to 226. What is its
+  own is the picture. Print the boxes (`element["bbox"]`) and the record's `knob` before a sentence about size.
+- A comment written before a bench can ship wrong. v0.53's header in `scenegen/scene.py` said the woman in purple had been drawn again; the bench left her as
+  she was, the README said so, and the comment stayed. After the bench decides, `grep` the code for every switch of the release and read what the comments
+  say was taken.
+- A job's log must end with a marker the waiting loop can find. `calib_wrap.py` prints none, and a loop that waited for one sat out its whole nine minutes
+  after the calibration had finished. Start a long job as `python job.py > log 2>&1; echo JOB_EXIT $? >> log`.
+- A release can end with its gate lower than the last one's and still be the right release: one drawing was taken on a bench that showed its fault and its
+  mend, two were not taken on the same bench, and the screen then moved a template nobody drew by one reader's sentence. Report each for what it is.
