@@ -1,48 +1,39 @@
-"""(v0.54's own script, kept in tools/cycle as the model for the next whole-scene bench of scene switches beside a trial cast: its arms and paths are written in. Edit them.)
-bench_build.py ARM name,name,... [SRC_DIR] : v0.54's whole-scene bench. Rebuilds v0.53's records from each record's own regen (same base seed, same
-forced set, revision 49) into tpdb_work/v054/bench/sc_ARM. A name is a record's name or a pic_NN of v0.53's screen; SRC_DIR is where the records
-lie when they are not in scenes or probes (the extra pictures of the man reading, built for this bench).
-ARM WB: v0.53's cast, the bicycle's larger square wheels acting from revision 49 (templates.WHEEL54_REV, draw.WHEEL54 "B").
-ARM TT: v0.53's cast, tread on the barrow's square tyre from revision 49 (draw.TREAD54 "T").
-ARM RB: v0.53's cast with the two grown men who have facial hair built again (TPDB_READ54=B: the reading head up); the library starts as a copy of
-lib053 without their reading poses.
-ARM O: nothing changed (a check that a record rebuilds as it was, and the library the extra pictures are built with)."""
+"""(v0.55's own script, kept in tools/cycle as the model for the next whole-scene bench of a trial cast: its arm and paths are written in. Edit them.)
+bench_build.py ARM name,name,... : v0.55's whole-scene bench. Rebuilds v0.54's records from each record's own regen (same base seed, same forced
+set, revision 49) into tpdb_work/v055/bench/sc_ARM.
+ARM SB: v0.54's cast with the ten people built again (TPDB_SEAT55=B TPDB_SIT55=B: the seated lower body in stiff pieces, the feet under the knees);
+the library starts as a copy of lib054 without the people's seated poses (those whose lower posture is in build_cast.SEATED55).
+ARM O: nothing changed (a check that a record rebuilds as it was)."""
 import json, os, shutil, sys, time
 ROOT = "E:/Cognitive_Test_Scene_Creator"
 sys.path.insert(0, ROOT); os.chdir(ROOT)
-arm, picks = sys.argv[1], sys.argv[2].split(",")
-src_dir = sys.argv[3] if len(sys.argv) > 3 else None
-W = "tpdb_work/v054/bench/"
-READ = ("sit_read", "seesaw_low_read", "walk_read_open", "read")
+arm, picks = sys.argv[1], [p for p in sys.argv[2].split(",") if p]
+W = "tpdb_work/v055/bench/"
+SEATED55 = {"sit", "sit_swing", "sit_dangle", "sit_hang", "sit_low", "sit_slide"}
+cat = json.load(open("assets/cast/out054/cast_catalog.json"))["actions"]
 lib_dir, out = W + "lib_" + arm, W + "sc_" + arm
 if not os.path.exists(lib_dir):
     os.makedirs(lib_dir, exist_ok=True)
-    n = 0
-    for f in os.listdir("assets/cast/lib053"):
+    n = k = 0
+    for f in os.listdir("assets/cast/lib054"):
         if f.startswith("."):
             continue
-        if arm == "RB" and f.startswith(("person.ben__", "person.dev__")) and f.split("__")[1] in READ:
+        pose = f.split("__")[1].split("~")[0] if f.startswith("person.") and "__" in f else None
+        if arm == "SB" and pose and cat.get(pose, {}).get("lower") in SEATED55:
+            k += 1
             continue
-        shutil.copy2("assets/cast/lib053/" + f, lib_dir + "/" + f); n += 1
-    print("seeded", lib_dir, n, "files", flush=True)
+        shutil.copy2("assets/cast/lib054/" + f, lib_dir + "/" + f); n += 1
+    print("seeded", lib_dir, n, "files, left out", k, flush=True)
 os.makedirs(out, exist_ok=True)
 from scenegen.library import Library
 from scenegen import generate as G
-import scenegen.templates as T
-import scenegen.draw as D
-T.WHEEL54_REV = 49 if arm in ("WB", "TT") else 99
-if arm == "WB":
-    D.WHEEL54 = "B"
-if arm == "TT":
-    D.TREAD54 = "T"
-lib = Library(cast_dir=(W + "out_RB") if arm == "RB" else "assets/cast/out053", lib_dir=lib_dir)
-km = json.load(open("vision/v053/key_map.json"))
+lib = Library(cast_dir=(W + "out_SB") if arm == "SB" else "assets/cast/out054", lib_dir=lib_dir)
+km = json.load(open("vision/v054/key_map.json"))
 for pic in picks:
     name = km.get(pic, pic)
     if os.path.exists(f"{out}/{name}.json"):
         continue
-    dirs = ([src_dir] if src_dir else []) + ["scenes", "probes"]
-    src = next(f"{d}/{name}.json" for d in dirs if os.path.exists(f"{d}/{name}.json"))
+    src = next(f"{d}/{name}.json" for d in ("scenes", "probes") if os.path.exists(f"{d}/{name}.json"))
     r0 = json.load(open(src, encoding="utf-8"))
     t0 = time.time()
     try:

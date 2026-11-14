@@ -49,39 +49,48 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v053", "v054"
+PREV, CUR = "v054", "v055"
 
-# v0.54 worked the list of v0.53 on one bench in whole pictures (vision/isolation_v054.md): a grown man with facial hair reads with his head up
-# (the cast, builder 0.54.0); two drawings of the square wheel were read and not taken. Placement revision 49 stands (vision/flaws_v054.md)
+# v0.55: the brief was the legs of a seated figure (vision/isolation_v055.md). The lower body of every seated figure is drawn again in the cast
+# (builder 0.55.0) and the feet are under the knees; placement revision 49 stands, and the list of v0.54 was not worked (vision/flaws_v055.md)
 REDRAWN_NOTES = {
-    "read_bench": "A grown man with facial hair reads with his head up, bent 10 degrees over the book for 26. v0.53: the man in the red shirt a boy in both pictures where he sits reading: 'Boy on bench, front right: brown hair, red shirt, blue trousers, reading a red book.' v0.54: a man in both, his moustache named in both: 'Man, front right: brown hair, moustache, red shirt, blue trousers; sitting on a bench reading a red book.'",
-    "about_to_trip": "The walker with a book holds his head up when he is a grown man with facial hair. In full in three pictures, as in v0.53, the walker about to trip in each. The man in the red shirt walking with his book is still a boy to its reader: 'Boy, centre front: brown hair, red T-shirt, blue jeans. He is walking or hurrying (motion lines) while reading an open book.'",
-    "sitting_on_air": "The man in green who sits on nothing with a book holds his head up. In full in three pictures, as in v0.53.",
-    "square_wheel": "Not drawn again. Two drawings were read in whole pictures and not taken: larger wheels for the bicycle, which two readers of six took for a rack: 'it could be a bike parked in a bike rack, or a bike drawn with square wheels', and tread on the tyre of the wheelbarrow, which no reader named. v0.53: 0.938. v0.54: 0.896 and under the gate, on the same eight pictures: 'Red bicycle, right-front: lying on its side.'",
-    "blocked_hose": "Not drawn again. 0.975 in five pictures: a half mark, and four full marks beside a doubt: 'It could be blocking the water (which would explain the woman frowning at the nozzle) or just standing near it.'",
-    "dog_begs": "Looked at and left: the dog looks up at the eater, and the food is at the mouth of the eater. In full in six pictures, four of its marks beside another reading.",
-    "kite_in_tree": "Not drawn again. In full in four pictures, four of its marks beside a kite that may still be flying.",
+    "read_bench": "The sitter is drawn again: a level thigh, a knee, an upright shin, a flat seat, the feet under the knees. In full in four pictures, as in v0.54: 'Man, right front: brown hair, moustache, red shirt, blue trousers; sitting on a bench reading a red book.'",
+    "drink_bench": "The sitter is drawn again. In full in three pictures, as in v0.54: 'Right centre: man in red shirt and blue trousers, sitting on a bench, drinking through a straw from a red cup.'",
+    "sitting_on_air": "The figure that sits on nothing is drawn again, and its pose is the pose of a chair. In full in three pictures, as in v0.54: 'The old man appears to be sitting on nothing; there is no chair, stool or bench under him.'",
+    "seesaw_heavy": "The man on the low end sits with his legs out and holds his book higher; the child on the high end has a knee. In full in three pictures, as in v0.54, but two readers of three now have the man on the grass at the end of the plank: 'The man seems to sit almost on the grass at the end of the seesaw rather than clearly on the seat; could be read as sitting on the ground holding the end down.' On the next list.",
+    "seesaw": "Both riders are drawn again. In full in three pictures, as in v0.54.",
+    "swing": "The child on the swing is drawn again. In full in three pictures, as in v0.54: 'Child on swing, left: dark hair, pink outfit, yellow shoes; smiling, swinging (motion lines behind).'",
+    "slide": "The slider is drawn again, the legs reaching further down the chute. In full in three pictures, as in v0.54: 'Left: child in yellow T-shirt and orange shorts, sliding down the slide.'",
+    "bird_steals": "The reader beside the sandwich is drawn again; the bird is not. 0.967 in five pictures: a half mark, and five full marks beside a bird that may only sit there: 'or simply sitting next to food'.",
+    "square_wheel": "Not drawn again. 0.938 in eight pictures with one misread, and under the gate: seven pictures read in full, and the bicycle of the tier-4 playground was read as lying down a second screen running: 'Red bicycle, bottom right: lying on its side on the grass.'",
+    "blocked_hose": "Not drawn again. 0.975 in five pictures: a half mark, and five full marks beside a doubt: 'The hose: no water is visible coming out; it could be because the dog is standing on it, or she may simply not have turned it on.'",
+    "ice_cream_drop": "Not drawn again. 0.982 in seven pictures: one half mark, where a dog licking the fallen ice cream might have caused the fall.",
 }
 
 # the next list: every template under 0.9, and every one that fails the gate
 WEAK_NOTES = {
-    "square_wheel": "Under the gate, on eight pictures that are those of v0.53 to the pixel and read 0.938 there. The bicycle of the tier-4 playground was a bicycle and no more to a second reader running: 'Red bicycle, right-front: lying on its side.' Over two screens and the bench that bicycle was read five times, its wheels square in the description twice, among the unsure things once and not named twice. It is no smaller than the other bicycles; it stands in the front corner of the picture with the most events. Larger wheels were benched and are not it. For v0.55: its place and its stand, read in whole pictures.",
+    "square_wheel": "Under the gate on a misread, with a mean of 0.938: seven of its eight pictures read in full. The eighth is the bicycle of the tier-4 playground, in a part of the picture that did not change: 'Red bicycle, bottom right: lying on its side on the grass.' Over three screens and a bench that bicycle was read six times, its wheels square in the description twice, among the unsure things once and not named three times. No other bicycle is read so. It stands in the front corner of the picture with the most events. For v0.56: its place and its stand, read in whole pictures.",
 }
-SCREEN_NOTE = ("The v0.54 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+SCREEN_NOTE = ("The v0.55 screen read the set pictures and enough probe pictures that every template appeared in at least three "
                "screened pictures, and every angle an animal is drawn at in at least two. "
-               "1,072 of 1,102 items had full marks and none was misread. 63 of the 64 templates pass the gate. The square wheel reads 0.896 in eight pictures that are those of v0.53 to the pixel and read 0.938 there: one bicycle was named as a bicycle and no more, and the wheel of one wheelbarrow was named only among the unsure things. Nothing was mended, swapped or read again after the screen. "
-               "Ninety-five of the 99 pictures are those of v0.53 to the pixel: 1,003 of their 1,039 items have the score they had, and thirty-three of the 36 others are the clouds or a tree. "
-               "With the 42 full marks that stand beside another reading halved, 54 of the 64 pass. "
-               "The cast has one pose rule more: a grown man with facial hair reads with his head up. The man in the red shirt, a boy to every reader of him reading in v0.53, is a man in both pictures where he sits with a book, and still a boy in the one where he walks with it. "
+               "1,074 of 1,102 items had full marks and one was misread. 63 of the 64 templates pass the gate. The square wheel reads 0.938 in eight pictures and fails on the misread: one bicycle, in a part of a picture that did not change, was read as lying on its side. Nothing was mended, swapped or read again after the screen. "
+               "Every template that draws a figure on a seat reads 1.00, and each of their 37 items has the score it had in v0.54. "
+               "Sixty-nine of the 99 pictures are those of v0.54 to the pixel: 690 of their 717 items have the score they had, and twenty-six of the 27 others are the clouds or a tree. The other thirty are the same pictures with their sitters drawn again: 371 of their 385 items have the score they had. "
+               "With the 48 full marks that stand beside another reading halved, 52 of the 64 pass. "
+               "What the readers still doubt about a sitter: the man on the low end of the seesaw, who sits on the grass to two readers of three, and legs in front of a bench in two pictures. "
                "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
 
 
-FIXES = [("crop:probes_v053/T3_garden_s23013.png@1336,641,1584,1000>probes/T3_garden_s23013.png@1336,641,1584,1000", "The man reading on a bench",
-          "v0.53: his head bent 26 degrees over the book: 'Boy, front right, on a bench: brown hair, red shirt, blue trousers; reading a red book.' v0.54: bent 10 degrees, his eyes on the page: 'Man, front right: brown hair, moustache, red shirt, blue trousers; sitting on a bench reading a red book.'"),
-         ("crop:probes_v053/T3_garden_s23014.png@722,601,1018,1000>probes/T3_garden_s23014.png@722,601,1018,1000", "The man walking with a book",
-          "v0.53: 'Boy, centre front: brown hair, red shirt, blue trousers; walking quickly while reading an open book.' v0.54, his head up: still a boy to its reader: 'Boy, centre front: brown hair, red T-shirt, blue jeans.' The walker is on the next list."),
-         ("crop:scenes_v053/T4_street_s464887.png@455,565,797,1000>scenes/T4_street_s464887.png@455,565,797,1000", "The man in green sitting on nothing with a book",
-          "v0.53 and v0.54, both read in full. With his head up his beard shows.")]
+FIXES = [("crop:probes_v054/T3_garden_s23013.png@1314,631,1600,1000>probes/T3_garden_s23013.png@1314,631,1600,1000", "A man reading on a bench",
+          "v0.54: the thighs slope off the bench and the feet stand far in front of it. v0.55: a level thigh, a knee, an upright shin, the feet under the knees: 'Man, right front: brown hair, moustache, red shirt, blue trousers; sitting on a bench reading a red book.'"),
+         ("crop:scenes_v054/T1_park_s1021.png@939,553,1213,908>scenes/T1_park_s1021.png@939,553,1213,908", "A man with a drink on a bench",
+          "v0.54 and v0.55, both read in full: 'Right centre: man in red shirt and blue trousers, sitting on a bench, drinking through a straw from a red cup.'"),
+         ("crop:probes_v054/T3_garden_s25021.png@265,529,531,870>probes/T3_garden_s25021.png@265,529,531,870", "A woman sitting on nothing",
+          "The seat that is missing is missed in both. With the new legs the pose is the pose of a chair; a bench reader: 'her knees are bent at chair height and her feet are on the ground, so it looks like a missing chair'."),
+         ("crop:probes_v054/T3_playground_s23042.png@180,560,660,900>probes/T3_playground_s23042.png@180,560,660,900", "The heavy seesaw",
+          "v0.54: the man squats on the low end, his knee thin under the forearm. v0.55: his legs are out and the book is higher. Read in full in both; two readers of three now have him on the grass at the end of the plank, which is on the next list."),
+         ("crop:probes_v054/T3_park_s23701.png@415,610,640,864>probes/T3_park_s23701.png@415,610,640,864", "A child on a bench",
+          "A child sits with level thighs and hanging shins, the feet off the ground as the feet of a child on a bench are. Read in full in both.")]
 
 
 

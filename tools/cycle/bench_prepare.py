@@ -1,49 +1,31 @@
-"""(v0.54's own script, kept in tools/cycle as the model for a whole-scene bench with three questions on one set of readers: its picks, arms and paths are written in. Edit them.)
-bench_prepare.py : v0.54's whole-scene bench (vision/isolation_v054/bench), three questions on one set of twelve readers, six pictures each.
-
-Bike: four bicycles with square wheels (v0.53's pic_51, pic_58 and pic_63, and one built for the bench; v0.53's fourth is an isomorph and did not build
-again as the same picture) in two arms, O as screened and B the wheels larger (draw.WHEEL54).
-Barrow: v0.53's four wheelbarrows (pic_41, pic_42, pic_68, pic_97) in two arms, O as screened and T with tread on the tyre (draw.TREAD54).
-Read: six pictures of the man in the red shirt reading (v0.53's pic_29, pic_60 and pic_67, and three built for the bench in the park, the playground
-and the street) in two arms, O as screened and B his head up (castlib.actions.READ54).
-A reader has two pictures of each question, both of one arm, so that what a reader carries from the first to the second stays inside its arm; six
-readers have each arm of each question, and the arms of the three questions are crossed. Count by reader as well as by picture.
-Writes the blind pictures under shuffled numbers, the map outside the folder, and one prompt a reader: the screen's own reader prompt."""
+"""(v0.55's own script: its picks, arms and paths are written in. Edit them.)
+bench_prepare.py : v0.55's whole-scene bench (vision/isolation_v055/bench): eighteen of v0.54's pictures that hold a seated figure, each in two
+arms, O as v0.54 screened it and B built again from its own record with the trial cast (the seated lower body in stiff pieces, the feet under
+the knees: tpdb_work/v055/bench/sc_SB, tools/cycle/bench_build.py SB).
+Twelve readers, six pictures each, three of each arm and no picture twice; every picture is read by two readers in each arm. The pictures lie
+in a ring and a reader has six in a row, the first three of one arm and the next three of the other, the arms the other way round for the
+second six readers. Writes the blind pictures under shuffled numbers, the map outside the folder, and one prompt a reader: the screen's own
+reader prompt."""
 import collections, json, os, random, shutil
 ROOT = "E:/Cognitive_Test_Scene_Creator"
 os.chdir(ROOT)
-OUT, MAP, PR = "vision/isolation_v054/bench", "tpdb_work/v054/maps/bench_map.json", "tpdb_work/v054/bench_prompts"
-B = "tpdb_work/v054/bench/"
-km = json.load(open("vision/v053/key_map.json"))
-ARM_DIR = {("bike", "B"): B + "sc_WB", ("barrow", "T"): B + "sc_TT", ("read", "B"): B + "sc_RB"}
-
-
-def src(bench, pick, arm):
-    name = km.get(pick, pick)
-    if arm == "O":
-        return name, next(f"{d}/{name}.png" for d in ("scenes", "probes", B + "sc_X") if os.path.exists(f"{d}/{name}.json"))
-    f = f"{ARM_DIR[(bench, arm)]}/{name}.png"
-    assert os.path.exists(f), f
-    return name, f
-
-
-PICKS = {"bike": ["pic_51", "pic_58", "pic_63", "T3_playground_s54401"],
-         "barrow": ["pic_41", "pic_42", "pic_68", "pic_97"],
-         "read": ["pic_29", "pic_60", "pic_67", "T3_park_s54102", "T3_playground_s54314", "T3_street_s54204"]}
-P4 = [(0, 1), (2, 3), (0, 2), (1, 3), (0, 3), (1, 2)]
-P6 = [(0, 3), (1, 4), (2, 5), (0, 4), (1, 5), (2, 3)]
-ARMS = {"bike": "OBOBOBOBOBOB", "barrow": "OOTTOOTTOOTT", "read": "OBBOBOOBOBBO"}
+OUT, MAP, PR = "vision/isolation_v055/bench", "tpdb_work/v055/maps/bench_map.json", "tpdb_work/v055/bench_prompts"
+SB = "tpdb_work/v055/bench/sc_SB"
+km = json.load(open("vision/v054/key_map.json"))
+# (in a ring: no two pictures of one event side by side, so that a reader has at most two of an event, one in each arm at the most often)
+PICKS = ["pic_29", "pic_46", "pic_22", "pic_64", "pic_94", "pic_55", "pic_40", "pic_38", "pic_77", "pic_06", "pic_17", "pic_57",
+         "pic_16", "pic_27", "pic_11", "pic_79", "pic_07", "pic_71"]
 rows = []
-for bench in ("bike", "barrow", "read"):
-    seen = collections.Counter()
-    for rd in range(12):
-        arm = ARMS[bench][rd]
-        k = seen[arm]; seen[arm] += 1
-        for i in (P6 if bench == "read" else P4)[k]:
-            pick = PICKS[bench][i]
-            name, f = src(bench, pick, arm)
-            rows.append({"bench": bench, "pick": pick, "name": name, "arm": arm, "reader": rd + 1, "src": f})
-random.Random(5454).shuffle(rows)
+for rd in range(12):
+    first, second = ("O", "B") if rd < 6 else ("B", "O")
+    for j in range(6):
+        pick = PICKS[(3 * rd + j) % 18]
+        arm = first if j < 3 else second
+        name = km[pick]
+        f = f"{SB}/{name}.png" if arm == "B" else next(f"{d}/{name}.png" for d in ("scenes", "probes") if os.path.exists(f"{d}/{name}.json"))
+        assert os.path.exists(f), f
+        rows.append({"pick": pick, "name": name, "arm": arm, "reader": rd + 1, "src": f})
+random.Random(5555).shuffle(rows)
 if os.path.exists(OUT + "/blind"):
     raise SystemExit("blind folder exists: " + OUT)
 os.makedirs(OUT + "/blind")
@@ -66,8 +48,8 @@ for rd in sorted({r["reader"] for r in rows}):
     txt = h + "Images (open each with the Read tool):\n" + "\n".join(f"{ROOT}/{OUT}/blind/{p}.png" for p in mine) + "\n\n" + t
     open(f"{PR}/reader_{rd}.txt", "w", encoding="utf-8").write(txt)
     mine_r = [r for r in rows if r["reader"] == rd]
-    c = collections.Counter((r["bench"], r["arm"]) for r in mine_r)
+    c = collections.Counter(r["arm"] for r in mine_r)
     print("reader", rd, sz, "pictures", dict(c), "pictures all different:", len({r["name"] for r in mine_r}) == sz)
-c = collections.Counter((r["bench"], r["arm"], r["pick"]) for r in rows)
-print(sorted(c.items()))
+c = collections.Counter((r["pick"], r["arm"]) for r in rows)
+print("every picture twice in each arm:", set(c.values()) == {2}, len(c))
 print(len(rows), "pictures in", OUT + "/blind;", "map", MAP)

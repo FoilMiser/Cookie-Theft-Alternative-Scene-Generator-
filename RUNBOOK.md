@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.54 was made, written so that a fresh session can make the next one (v0.55) from this
+How each release from v0.12 to v0.55 was made, written so that a fresh session can make the next one (v0.56) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -62,6 +62,12 @@ changes (a new placement revision, step 3).
   `python tools/cycle/fig_pairs.py ROUND A_DIR B_DIR A_NAME B_NAME [SETS.json]` makes the sheets of such a bench from two folders of renders (v0.52's own, with its
   six sets of four views and its prompt written in: edit them): each set twice, one drawing above and then the other, the map outside the folder; and
   `fig_pairs_tally.py ROUND` counts the choices by set and order. A set whose choice follows the row in every round is a toss-up (Lessons, v0.52).
+  The two scripts as they now stand are v0.55's (six sets of four seated figures, each figure whole and large; `RENDER_LIST=path` writes the sets' views as a
+  render list). Read every review's list of the new row's faults and mend by round (Lessons, v0.55).
+- A posture that bends a joint far is drawn in stiff pieces shown only in that posture (v0.55, the seated lower body: `people.build_seat55`, `core.lathe`,
+  `build_cast.SEATED55`); the standing objects are not touched, so every other variant stays the last release's file. `tools/cycle/bench_build.py SB names`
+  builds the last screen's pictures again with the trial cast, `bench_prepare.py` deals them both ways to twelve readers (one question, three pictures of each
+  arm a reader), and `bench_tally.py` prints each reader's lines on the sitters.
 - After any change to the body's hull, build with `TPDB_HULLCHECK=1` and compare each family's vertex count with the last build's; then look at every
   figure standing at four angles. The hull can break at the shoulders for one figure of ten (Lessons, v0.52).
 - A cast that changes every figure is read in whole scenes as well: `tools/cycle/who_build.py ARM pic,pic` builds the last screen's pictures again from their own
@@ -121,7 +127,9 @@ to a fresh reader with `tools/cycle/prompts/reader_template.txt` (one picture), 
 python tools/cycle/calib_wrap.py      # -> <WORK>/calibration<TAG>.json
 python tools/cycle/calib_cmp.py $TPDB_WORK/calibration$PREV.json $TPDB_WORK/calibration$TAG.json   # what moved by 0.002 or more, the README's count
 python tools/cycle/set_prior.py       # rewrites the PRIOR block in scenegen/planner.py; then `git diff scenegen/planner.py`: a prior on a rounding edge can
-                                      # change on a move of 0.001 (Lessons, v0.54)
+                                      # change on a move of 0.001 (Lessons, v0.54). New priors change the planner's draw on cells that do not hold the
+                                      # templates they belong to, and the probes follow the set: decide first whether the release is like for like
+                                      # (Lessons, v0.55)
 cp $TPDB_WORK/calibration$TAG.json calibration.json
 bash tools/cycle/build_set.sh         # showcase pass into scenes<TAG>, then searches for missing tier 1-3 cells
 bash tools/cycle/t4_search.sh street <previous street base seed> 400000   # one per tier-4 cell still missing
@@ -877,3 +885,36 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   after the calibration had finished. Start a long job as `python job.py > log 2>&1; echo JOB_EXIT $? >> log`.
 - A release can end with its gate lower than the last one's and still be the right release: one drawing was taken on a bench that showed its fault and its
   mend, two were not taken on the same bench, and the screen then moved a template nobody drew by one reader's sentence. Report each for what it is.
+- When the brief is one part of the drawing, render every figure in the poses it names, large, before anything else (v0.55: ten people, eight seated views each
+  at 800 px per metre), write down what the sheets show, and find each thing's cause in the builder. The seated leg's hose was three rings to a leg and a knee
+  ring carried half by each bone: bent a right angle such a ring shrinks to seven-tenths. No amount of posing mends what the hull cannot draw.
+- For a posture that bends a joint far, draw the limb in stiff pieces that each end in a dome at the joint (`core.lathe`; `people.build_seat55`), shown only in
+  those postures and hidden in the rest (`ctx.sit55`, `ctx.std55`, `build_cast.SEATED55`), as v0.47's seated skirt is. The standing objects are then untouched,
+  every variant that is not in the postures stays the last release's file, and the pictures without one come back to the pixel. Check it: render a dozen
+  variants outside the postures from the trial cast and from the last one and compare them (the library's own files differ from a `render_set.py` render by a
+  few hundred soft pixels either way, so compare render with render).
+- Read part 3 of every pair review for the new drawing's row. Reviewers who chose it 12 of 12 still named its faults, nine of them the same one, and each round
+  of v0.55 mended what the last had named (the table in `isolation_v055.md`). A set that goes to the row drawn below in round after round is a toss-up, and a
+  mend aimed at one reviewer's taste can lose the next: the trouser legs went from "thick" to "long, thin, straight columns" in one round.
+- A new piece that meets an old garment must be built as the old piece under that garment is built. Three seats were tried under a top's hem. A roll across the
+  hips left a strip of the waist piece showing under a child's tee, which five pair reviewers saw and no sheet had shown me; the roll made taller left the hem
+  ragged; a narrower waist piece left the hem with no line. The seat that works has the standing trousers' own rings where the hem lies and draws the hem's
+  line as they do (`lineart.usage` left at its default for that piece alone). Look at every join with an old garment at full size, on a child and on an adult.
+- A correct pose shows what a wrong one hid. The grown figures' thigh is 30 cm for a shin of 37 since v0.27; v0.54's sloping thigh and forward shin hid it, and a
+  level thigh does not. Say so; do not chase it with the pose.
+- The planner's draw at a seed depends on every prior of the setting, not only on the templates it ends up with. v0.55's calibration moved on two templates
+  whose sitter is measured; with their two new priors the tier-3 playground drew another plan on the same seed, and `probes.py`, which fills each template's
+  count from what the set holds, then drew other events in most probes: of the first 26, nine had the last release's templates. Decide before the set whether
+  the release is to be read like for like. If it is, leave the priors, say so in the README, and check with the last record itself:
+  `G.regenerate(lib, "scenes/<name>.json", out)` replays its base seed and its usage history, where a one-cell showcase run does not (it has no history and
+  lands elsewhere).
+- Stop a chain of background jobs by its process ids, parents first. A job started as `( a; b; c ) &` under the tool's shell is four `bash.exe` above the
+  `python.exe`; killing only the Python lets the chain run on to `b`. `Get-CimInstance Win32_Process` filtered on the command line lists them with their parents.
+- The cast builds in parallel: two families a process into a folder of its own, five processes, then one folder and one catalog made from the parts (families
+  and actions in the last catalog's order). `build_cast.py` rewrites `cast_catalog.json` whole, so two processes must not share an output folder.
+- A bench and a screen can disagree on a small count, and both go in the record. With the same twelve readers reading both ways, doubts about a sitter's legs
+  fell from 10 readings of 36 to 6; in the screen, one reader a picture, they rose from 4 pictures of 30 to 7. `tools/cycle/sit_screen.py` prints the unsure
+  lines of the same pictures in two screens side by side; the count is a hand count of what the lines say.
+- A scorer may mark a misread where the last scorer gave a zero to the same words about the same picture. The gate's no-misread rule then fails a template
+  whose mean passes. Report the mean, the misread and the last screen's score of the same reading, and do not rescore.
+- When a release draws one thing, say in the README what was not worked, and keep the list's rows as they were (`flaws_v055.md` carries v0.54's R1 to R3 on).

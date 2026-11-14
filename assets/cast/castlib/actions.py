@@ -141,6 +141,19 @@ RUN47 = _os44.environ.get("TPDB_RUN47", "B")
 # and the near sole is a dark disc over the far foot (bench g1). "C": both legs out straight along the ground, a little apart, heels down, the
 # feet tipped forward of upright so that their soles do not face the viewer (bench g3). "O": v0.46
 SITG47 = _os44.environ.get("TPDB_SITG47", "C")
+# v0.55 (TPDB_SIT55 "B"; Sam's brief, the legs of a seated figure; vision/isolation_v055.md): on a bench the feet were set 32 cm ahead of the
+# hips, or 26 cm for a child, with a thigh of 30 cm, or 22: the shins sloped forward, a child's by twenty degrees with the
+# thigh sloping down to the knee, and the sitter was sliding off the seat. "B": each foot under its knee, the thigh level and the shin
+# upright; the far foot SIT55_P["far"] ahead of that and the near one SIT55_P["near"] behind it (a hair ahead), so that a side view shows both shins and
+# a three-quarter view shows them apart (the first trial had the near foot ahead, which at 45 degrees laid one shin on the other: pair
+# bench legs1, "each pair of legs reads as one thick block with a seam line down the middle").
+# The reader on the seesaw's low end has the feet at SIT55_P["low"], further forward than v0.54's 19 cm, and holds the book
+# SIT55_P["book"] higher (up_read_open dz): with a knee as thick as the leg the knees stood in front of the book, and with the feet
+# further forward still and the book left where it was the knee lay under the forearm (legs1: "one long straight slant with no visible knee").
+# "O": v0.54's
+SIT55 = _os44.environ.get("TPDB_SIT55", "B")
+SIT55_P = dict(far=0.045, near=-0.01, dx=0.03, low=(0.20, -0.34), book=0.10, slide=0.95)
+SIT55_P.update(__import__("json").loads(_os44.environ.get("TPDB_SIT55_P", "{}")))
 
 
 def _pcol(P, default, alts):
@@ -511,6 +524,9 @@ def lo_sit(P, lean=-2.0, head_pitch=0.0):
     # (v0.27: an adult's feet closer in, as the thigh is shorter: at 0.40 "he looks as if he is sliding")
     fwd = 0.32 if s == 1.0 and J["hip"] < 0.80 else 0.40
     feet = {"L": (0.02, -fwd * s, 0.0), "R": (-0.02, -fwd * s, 0.0)}
+    if SIT55 == "B":
+        y0 = 0.04 * s - (J["hip"] - J["knee"])          # a foot here is straight under its knee
+        feet = {"L": (SIT55_P["dx"], y0 - SIT55_P["far"] * s, 0.0), "R": (-SIT55_P["dx"], y0 + SIT55_P["near"] * s, 0.0)}
     P.torso(drop=drop, back=0.04 * S * s, lean=lean, head_pitch=head_pitch)
     P.place_legs(feet, hint=(0, -1, 1))
 
@@ -630,6 +646,11 @@ def lo_sit_slide(P, slope=34.0):
     drop = J["hip"] * S - 0.13 * u
     P.torso(drop=drop, back=0.0, lean=-8, head_pitch=6)
     fy = 0.50 * P.s
+    if SIT55 == "B":
+        # v0.55: the feet SIT55_P["slide"] of the way down the chute that the legs reach (at half the figure's height ahead a child's knee
+        # was bent 45 degrees, which the stiff thigh and shin now show: pair bench legs3, "like sitting on a chair edge rather than a
+        # slope"; at 0.985 of the reach, legs4, "the leg looks nearly straight and stiff")
+        fy = SIT55_P["slide"] * (J["hip"] - J["ankle"]) * math.cos(math.radians(slope))
     fz = 0.13 * P.s - fy * math.tan(math.radians(slope))
     lift = fz - J["ankle"]
     P.place_legs({"L": (0.04, -fy, lift), "R": (-0.04, -fy * 0.97, lift + 0.01 * P.s)}, hint=(0, -1, 1))
@@ -1809,12 +1830,12 @@ def up_balloon_reach(P):
     P.panchor("strings_at", P.grip("R") + Vector((0, -0.01, 0.02)) * u)
 
 
-def up_read_open(P, rz=55.0, k=1.25):
+def up_read_open(P, rz=55.0, k=1.25, dz=0.0):
     """v0.9: a bigger book held open and turned toward the near side, so the pages show in side view
     (edge-on in profile, the small red book read as a phone)."""
     u = P.u
     ch = P.lm("chest")
-    C = ch + Vector((0, -0.30, -0.05)) * u
+    C = ch + Vector((0, -0.30, -0.05 + dz)) * u
     F = Frame.euler(C, rx=48, rz=rz)
     w, h = 0.17 * k, 0.24 * k
     if __import__("os").environ.get("TPDB_BOOK", "B") == "B":
@@ -1969,7 +1990,7 @@ UPPER = {
     "hold_ball": up_hold_ball, "kite": up_kite, "balloon": up_balloon, "paint": up_paint, "photo": up_photo,
     "flowers": up_flowers, "feed_birds": up_feed_birds, "walk_dog": up_walk_dog, "fish": up_fish,
     "bucket_hat": up_bucket_hat, "trowel": up_trowel, "empty_cone": up_empty_cone, "empty_cone_low": up_empty_cone_low,
-    "sweep_dinner_fork": up_sweep_dinner_fork, "sweep_giant_fork": up_sweep_giant_fork, "spade_pat": up_spade_pat, "feed_birds_low": up_feed_birds_low, "grip_handle": up_grip_handle, "grip_call": up_grip_call, "grip_reach": up_grip_reach, "balloon_reach": up_balloon_reach, "read_open": up_read_open,
+    "sweep_dinner_fork": up_sweep_dinner_fork, "sweep_giant_fork": up_sweep_giant_fork, "spade_pat": up_spade_pat, "feed_birds_low": up_feed_birds_low, "grip_handle": up_grip_handle, "grip_call": up_grip_call, "grip_reach": up_grip_reach, "balloon_reach": up_balloon_reach, "read_open": up_read_open, "read_open_hi": lambda P: up_read_open(P, dz=SIT55_P["book"]),
 }
 
 # v0.18: the reading walker's head bent 20 degrees, not 30 (bent further, the dark-haired woman's face was hidden: "no
@@ -2082,8 +2103,8 @@ ACTIONS = [
     # v0.32 bench (TPDB_LOW, with templates.LOW32): "O" knees up, the feet planted near the seat, so the near shin crosses the rising plank ("sitting on the
     # plank end or sitting just beside it with the plank behind his legs", v0.31); "X" the legs out along the ground under the plank; "F" the feet further out, for a
     # rider turned away from the plank, whose feet land past its end
-    ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": {"O": (0.20, -0.19), "X": (0.17, -0.86), "F": (0.20, -0.30)}[__import__("os").environ.get("TPDB_LOW", "O")]},
-     "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
+    ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": tuple(SIT55_P["low"]) if SIT55 == "B" else {"O": (0.20, -0.19), "X": (0.17, -0.86), "F": (0.20, -0.30)}[__import__("os").environ.get("TPDB_LOW", "O")]},
+     "read_open_hi" if SIT55 == "B" else "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
     # v0.10
     ("cone_dropped", "stand", {"head_pitch": -34, "head_roll": 4}, "empty_cone_low", "holding an empty cone, upset, looking down at the dropped ice cream", ["food", "emotion"]),
     # v0.24: U, chosen on the bench (isolation_v024.md); O the v0.23 arms, H hands holding the chute ("just sitting still")

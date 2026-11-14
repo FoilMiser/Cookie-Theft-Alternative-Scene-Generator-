@@ -885,6 +885,69 @@ def disc(name, center, normal, r, thickness, matkey, seg=32, r_top=None):
 ISECT39 = os.environ.get("TPDB_ISECT39", "B")  # v0.39 bench (vision/isolation_v039.md): B, no intersection lines on the overlap parts
 
 
+def lathe(name, p0, p1, prof, matkey, cap0="round", cap1="round", side=(1, 0, 0), seg=32, dome=7, flat=0.0):
+    """v0.55 (people.SEAT55): a limb as one stiff piece, rings along the line p0 to p1. prof: [(t, rx, ry, dy)], t from 0 to 1 along the line,
+    rx the half width (along side), ry the half depth, dy the ring's centre moved along the depth axis (the line's direction crossed with
+    side: forward, for a leg at rest). A cap is "round" (a dome of the end ring's own radii beyond the end), "flat" (a lid) or "open".
+    flat: each ring a stadium, two half rings of half width rx - flat set flat apart on either side (the cloth round two thighs)."""
+    p0, p1 = Vector(p0), Vector(p1)
+    a = (p1 - p0).normalized()
+    ex = Vector(side)
+    ex = (ex - a * ex.dot(a)).normalized()
+    ey = a.cross(ex)
+    ln = (p1 - p0).length
+
+    def cap(row, sgn):
+        t, rx, ry, dy = row
+        c0 = p0 + a * (ln * t) + ey * dy
+        h = (rx - flat + ry) / 2
+        out = [(c0 + a * (sgn * h * math.sin(math.pi / 2 * i / dome)), flat + (rx - flat) * math.cos(math.pi / 2 * i / dome), ry * math.cos(math.pi / 2 * i / dome))
+               for i in range(1, dome)]
+        return out + [(c0 + a * (sgn * h), 0.0, 0.0)]
+    rows = []
+    if cap0 == "round":
+        rows += reversed(cap(prof[0], -1))
+    rows += [(p0 + a * (ln * t) + ey * dy, rx, ry) for t, rx, ry, dy in prof]
+    if cap1 == "round":
+        rows += cap(prof[-1], 1)
+    bm = bmesh.new()
+    rings = []
+    for c, rx, ry in rows:
+        if rx == 0.0 and not flat:
+            rings.append([bm.verts.new(c)])
+        else:
+            rx = max(rx, flat + 1e-5)
+            rings.append([bm.verts.new(c + ex * (math.copysign(flat, math.cos(2 * math.pi * j / seg)) + (rx - flat) * math.cos(2 * math.pi * j / seg))
+                                       + ey * (ry * math.sin(2 * math.pi * j / seg))) for j in range(seg)])
+    for r0, r1 in zip(rings, rings[1:]):
+        for j in range(seg):
+            j1 = (j + 1) % seg
+            if len(r0) == 1:
+                bm.faces.new((r0[0], r1[j], r1[j1]))
+            elif len(r1) == 1:
+                bm.faces.new((r0[j], r1[0], r0[j1]))
+            else:
+                bm.faces.new((r0[j], r1[j], r1[j1], r0[j1]))
+    if cap0 == "flat":
+        bm.faces.new(rings[0])
+    if cap1 == "flat":
+        bm.faces.new(rings[-1])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+    return _mesh_object(name, bm, matkey, smooth=True)
+
+
+def lathe_lid(name, c, a, rx, ry, matkey, side=(1, 0, 0), seg=32, flat=0.0):
+    """v0.55: a flat lid just inside a lathe's open end: centre c, the lathe's direction a, the end ring's radii."""
+    c, a = Vector(c), Vector(a).normalized()
+    ex = Vector(side)
+    ex = (ex - a * ex.dot(a)).normalized()
+    ey = a.cross(ex)
+    bm = bmesh.new()
+    bm.faces.new([bm.verts.new(c + ex * (math.copysign(flat, math.cos(2 * math.pi * j / seg)) + (rx - flat) * math.cos(2 * math.pi * j / seg))
+                               + ey * (ry * math.sin(2 * math.pi * j / seg))) for j in range(seg)])
+    return _mesh_object(name, bm, matkey, smooth=True)
+
+
 def no_isect(ob):
     """No Line Art intersection line where this part passes into its neighbour (its own contour is still drawn)."""
     try:

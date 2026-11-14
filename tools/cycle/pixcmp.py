@@ -16,4 +16,4 @@ for f in sorted(glob.glob(A + "/T*.json")):
         bb = ImageChops.difference(a, b).getbbox() if a.size == b.size else None
         diff.append((name, bb))
 print(len(same), "identical;", len(diff), "differ:", diff, ";", len(new), "new:", new)
-json.dump({"same": same, "diff": [d[0] for d in diff], "new": new}, open("tpdb_work/v054/pix_%s.json" % os.path.basename(A), "w"), indent=1)
+json.dump({"same": same, "diff": [d[0] for d in diff], "new": new}, open("tpdb_work/v055/pix_%s.json" % os.path.basename(A), "w"), indent=1)

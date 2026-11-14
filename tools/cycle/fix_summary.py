@@ -8,14 +8,14 @@ from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
 # a cell built from a forced template set (regen.forced) carries this note in place of the search notes
 FORCED = {("garden", 4)}
-NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden), as in v0.53: the same templates and the same "
-                        "people in the same places",
-         ("park", 4): "the v0.43 seed, which placed again with the same templates, as in v0.39 to v0.53, and the same people in the same places as "
-                      "v0.53's",
+NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden), as in v0.53 and v0.54: the same templates "
+                        "and the same people in the same places",
+         ("park", 4): "the v0.43 seed, which placed again with the same templates, as in v0.39 to v0.54, and the same people in the same places as "
+                      "v0.54's",
          ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates and the same people "
-                        "in the same places as v0.53's",
+                        "in the same places as v0.54's",
          ("playground", 4): "v0.53's base, 506950, which placed again on its seventh step with the same templates and the same people in the same "
-                            "places as v0.53's"}
+                            "places as v0.54's"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

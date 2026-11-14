@@ -358,6 +358,9 @@ class PlacementError(Exception):
 # (draw.TREAD54); both stay behind their switches and would act from templates.WHEEL54_REV. What was taken is in the cast (builder
 # 0.54.0, castlib.actions.READ54): a grown man with facial hair reads with his head up. His sprite's box and mask are new in the
 # reading poses, so a picture that holds one can place differently under the same rules.
+# v0.55: no new revision. Sam's brief was the legs of a seated figure, and the work is in the cast (builder 0.55.0, castlib.people.SEAT55
+# and castlib.actions.SIT55; vision/isolation_v055.md): in the seated postures the lower body is drawn in stiff pieces with a knee, the
+# feet under the knees. A seated sprite's box and mask are new, so a picture that holds one can place differently under the same rules.
 PLACEMENT_REV = 49
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
 EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value

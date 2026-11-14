@@ -6,7 +6,7 @@ import bpy  # noqa: F401
 import bmesh
 from mathutils import Quaternion, Vector
 
-from .core import HEAD48, HEAD49, ISECT39, Rig, anchor, cut_field, cyl, ellipsoid, flatten_above, flatten_below, head_f, head_g, head_pt, link, mat, no_isect, open_branch, open_end, rest_shade, set_head, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
+from .core import HEAD48, HEAD49, ISECT39, Rig, anchor, cut_field, cyl, ellipsoid, flatten_above, flatten_below, head_f, head_g, head_pt, lathe, lathe_lid, link, mat, no_isect, open_branch, open_end, rest_shade, set_head, shell_over, skin_like, skin_object, smooth_curve, squircle, tube, tube_mesh, upd, _mesh_object
 from .face import FACE48, MOUTH_DZ, PROF48, PROF48_MOUTH, Face, build_people_face, people_expression_states
 
 # v0.23 (TPDB_HEAD; the release builds with B): the older man's fringe of hair kept to the back, and a fuller nose
@@ -91,6 +91,27 @@ SHOE47 = __import__("os").environ.get("TPDB_SHOE47", "B")
 HEM47 = __import__("os").environ.get("TPDB_HEM47", "B")
 # TPDB_SEAT47 "B": seated, a skirt is another object, a wrap of the two thighs (see the skirt below); "O" keeps the bell in every posture
 SEAT47 = __import__("os").environ.get("TPDB_SEAT47", "B")
+# v0.55 (TPDB_SEAT55 "B"; vision/isolation_v055.md). Sam's brief was the legs of a seated figure. "O": v0.54's drawing.
+#   What v0.54 drew. The trousers are one hull with three rings to a leg, at the hip, the knee and the cuff, and the knee's ring goes half
+#   with the thigh and half with the shin: bent a right angle it shrinks to seven-tenths of its width, so a seated leg was a hose with no
+#   knee, thinning to the bend. Where the two legs leave the seat the hull is stretched between rings that turn and rings that do not, and
+#   hung under the thigh as a sack. A bare leg had the same knee.
+#   "B". In the seated postures (build_cast.SEATED55) the lower body is another set of objects, each of them stiff: a seat, flat underneath
+#   at the level of the thighs' underside; a thigh from the hip joint to the knee, as thick at the knee as a trouser leg is, ending in a
+#   dome at the knee; a shin that begins in a dome at the knee and ends in the cuff. The two domes are the knee, a rounded corner at any
+#   bend. Bare legs are a thigh's end and a shin with its calf in the same way, under a short sleeve of the shorts or a wrap of the skirt
+#   that is open at the hem. None draws a line where it passes into another: they are one cloth, or one leg.
+#   Four rounds of blind pairs against v0.54's drawing, each pairing in both orders (isolation_v055/legs1 to legs4): the new drawing was
+#   chosen by 12 reviewers of 12, 10 of 12, 10 of 12 and 4 of 6. A figure on a seat from the side, in trousers or with bare legs, and one
+#   with bare legs at three-quarters went to it in both orders every round (20 of 20); the swing and the slide went to whichever row was
+#   drawn below, and so did trousers at three-quarters in the last two rounds. Read in eighteen whole pictures by twelve readers, the
+#   figure sits in 36 readings of 36 with either cast, and a doubt about a sitter's legs, feet or seat is in 6 readings for 10.
+SEAT55 = __import__("os").environ.get("TPDB_SEAT55", "B")
+# (radii in metres of a standard adult, before the figure's scale and its build; TPDB_SEAT55_P, a JSON dict, changes some for a trial)
+SEAT55_P = dict(th_root=0.074, th_knee=0.059, sh_knee=0.058, cuff=0.051, sleeve=0.064, bare_top=0.058, bare_knee=0.049, bare_sk=0.047,
+                calf=0.060, calf_dy=-0.024, ankle=0.027, wrap_pad=0.014, pel_back=0.008, seat_k=1.0, lid=0.004,
+                knee_in=0.60, hull_d=0.86, blk_d=0.92, blk_c=0.050, cuff_z=0.012)
+SEAT55_P.update(__import__("json").loads(__import__("os").environ.get("TPDB_SEAT55_P", "{}")))
 # TPDB_CARDI47 "B": a cardigan shows the top under it in a V below the collar and closes in a line down the front, its buttons on the line;
 # "O" is v0.46's strip of the inner colour from collar to hem with the buttons beside it ("a plank", off the middle in a turned view)
 CARDI47 = __import__("os").environ.get("TPDB_CARDI47", "B")
@@ -544,6 +565,7 @@ def build_person(spec):
             # a seat: the back of the hips set back and deeper, so a profile has a rump, not a straight column
             verts[3] = P(0, 0.016 * s, pel - 0.070 * s)
             radii[3] = (0.136 * k * B["hips"] * TI, 0.110 * k * dp * TI)
+        top55 = (list(verts), list(radii), list(wts))
         edges = [(0, 1), (1, 2), (2, 3)]
         for sd, sg in (("L", 1), ("R", -1)):
             i0 = len(verts)
@@ -599,6 +621,7 @@ def build_person(spec):
                      (0.200 * k * B["hips"], 0.160 * k * dp), (0.206 * k * B["hips"], 0.166 * k * dp)]
             wts = [{"hips": 0.6, "spine": 0.4}, {"hips": 1.0}, {"hips": 0.5, "thigh_L": 0.25, "thigh_R": 0.25}, {"hips": 0.4, "thigh_L": 0.3, "thigh_R": 0.3}]
             sk_edges = [(0, 1), (1, 2), (2, 3)]
+        top55 = (list(verts[:2]), list(radii[:2]), list(wts[:2]))
         pants_ob = skin_object("Skirt", verts, sk_edges, radii, bcol, rig, wts)
         if MID39 in ("B", "C"):
             flatten_below(pants_ob, hem_z * S - 0.004 * S)
@@ -695,6 +718,7 @@ def build_person(spec):
             wts += [{f"thigh_{sd}": 1.0}, {f"thigh_{sd}": 0.5, f"shin_{sd}": 0.5}, {f"shin_{sd}": 1.0}]
             edges += [(i0, i0 + 1), (i0 + 1, i0 + 2)]
         skin_object("Legs", verts, edges, radii, spec["skin"], rig, wts)
+    sit55 = build_seat55(rig, P, J, S, s, k, hx, B, LB, TI, dp, bottom, bcol, spec, top55, tucked) if SEAT55 == "B" else []
 
     if __import__("os").environ.get("TPDB_DRESS", "B") == "B" and bottom == "dress" and MID39 not in ("B", "C"):
         # v0.27, chosen on the bench: a belt at the join (the top and the bell drawn as two lobes: "two pieces with a visible join or drawing seam at the waist")
@@ -901,8 +925,133 @@ def build_person(spec):
     ctx.hc, ctx.HR, ctx.face, ctx.eye_dx, ctx.eye_z = hc, HR, face, eye_dx, eye_z
     ctx.spec, ctx.kind = spec, kind
     ctx.states_profile = states_p
+    # v0.55 (SEAT55): the seated lower body's objects, and the standing one's that it stands in for (build_cast shows one set or the other)
+    ctx.sit55 = sit55
+    ctx.std55 = [n for n in ("Pants", "Legs", "Skirt", "SkirtLap", "SkirtSeat", "SkirtSeatLid") if bpy.data.objects.get(n)] if sit55 else []
     rest_shade()        # v0.47 (TPDB_SHADE47): the trunk's cloth keeps its upright shading; the rig is at rest here
     return rig, states, ctx
+
+
+def build_seat55(rig, P, J, S, s, k, hx, B, LB, TI, dp, bottom, bcol, spec, top55, tucked):
+    """v0.55 (SEAT55 "B"): the lower body of a seated figure in stiff pieces; see the switch. Built at rest; returns the objects' names."""
+    p = SEAT55_P
+    names = []
+    skin = spec["skin"]
+    hipz, kneez, ankz, pel = J["hip"], J["knee"], J["ankle"], J["pelvis"]
+
+    def piece(ob, w):
+        if w == "sides":
+            # each side with its own thigh, the middle shared between the two: the cloth of a skirt, which two thighs that part pull out between them
+            gl, gr = ob.vertex_groups.new(name="thigh_L"), ob.vertex_groups.new(name="thigh_R")
+            for vv in ob.data.vertices:
+                wl = max(0.0, min(1.0, 0.5 + vv.co.x / (2 * hx * S * 0.9)))
+                gl.add([vv.index], wl, "REPLACE")
+                gr.add([vv.index], 1.0 - wl, "REPLACE")
+            w = {}
+        for bone, wt in w.items():
+            ob.vertex_groups.new(name=bone).add(list(range(len(ob.data.vertices))), wt, "REPLACE")
+        m = ob.modifiers.new("Armature", "ARMATURE")
+        m.object = rig.arm
+        ob.parent = rig.arm
+        no_isect(ob)
+        names.append(ob.name)
+        return ob
+
+    def open_lid(name, c0, c1, rx, ry, col, w, flat=0.0):
+        # the lid just inside an open hem: it draws the line where a leg comes out (core.open_end)
+        a = (c1 - c0).normalized()
+        lid = piece(lathe_lid(name, c1 - a * (p["lid"] * k), a, rx * 0.985, ry * 0.985, col, flat=flat, seg=48 if flat else 32), w)
+        try:
+            lid.lineart.usage = "FORCE_INTERSECTION"
+        except (AttributeError, TypeError):
+            pass
+
+    r_root = p["th_root"] * k * B["hips"]
+    verts, radii, wts = top55
+    rt = p["bare_top"] * k * LB + p["wrap_pad"] * k
+    rz = r_root if bottom in ("pants", "shorts") else rt
+    # the trunk's end, from the waist to the hips, as the standing figure has it, without the standing figure's rump: seated, with the roll
+    # below, it stood out behind the line of the back (pair bench legs1: "like a cushion stuck to the hips", nine reviewers of twelve)
+    if bottom in ("pants", "shorts"):
+        r2 = radii[2]
+        verts, radii, wts = verts[:2], radii[:2], wts[:2]
+    else:
+        radii = [radii[0], (radii[1][0], radii[1][1] * p["hull_d"])]
+    seat = skin_object("SitSeat", list(verts), [(i, i + 1) for i in range(len(verts) - 1)], list(radii), bcol, rig, list(wts))
+    if tucked:
+        flatten_above(seat, (pel + 0.062 * s) * S)
+    no_isect(seat)
+    names.append(seat.name)
+    # the seat itself: the hips as a block, a lathe down the trunk's line. Its rings at the waist and the hips are the standing trousers'
+    # own (a little less deep: the standing figure's seat stood out behind the back, pair bench legs1), so the hem of a top lies on it as
+    # it does standing; below, its wall is rounded into a flat underside as far under the hip joints as a thigh is thick, which runs on
+    # into the thighs' underside. It holds the round ends of both thighs whichever way they point.
+    # (Two trials before it were a roll across the hip joints: with the waist piece above it, a strip of trouser showed under a child's
+    # tee with the roll's line beneath, legs2, "a darker orange band between the shirt and the shorts, which looks like a separate
+    # strip", five reviewers; made taller, to the hem, it left the hem ragged.)
+    if bottom in ("pants", "shorts"):
+        zt, rt0 = (pel + 0.045 * s) * S, (radii[1][0], radii[1][1] * p["blk_d"])
+        zm, rm = (pel - 0.010 * s) * S, (r2[0], r2[1] * p["blk_d"])
+    else:
+        zm, rm = (pel - 0.020 * s) * S, (radii[1][0] * 0.985, radii[1][1])
+        zt, rt0 = zm + 0.020 * k, (rm[0] * 0.96, rm[1] * 0.96)
+    zb = hipz * S - rz * p["seat_k"]
+    c = min(p["blk_c"] * k, 0.8 * (zm - zb))
+    dyb, ln = -p["pel_back"] * k, zt - zb
+    prof = [(0, rt0[0], rt0[1], dyb), ((zt - zm) / ln, rm[0], rm[1], dyb)]
+    for a in (0, 15, 30, 45, 60, 75, 90):
+        ar = math.radians(a)
+        prof.append(((zt - (zb + c * (1 - math.sin(ar)))) / ln, rm[0] - c * (1 - math.cos(ar)), rm[1] - c * (1 - math.cos(ar)), dyb))
+    blk = piece(lathe("SitHips", Vector((0, 0, zt)), Vector((0, 0, zb)), prof, bcol, cap0="flat", cap1="flat", seg=48), {"hips": 1.0})
+    if bottom != "dress":
+        # (the line where a top's hem lies on the trousers, as the standing figure has it: the other pieces draw no line of intersection, so
+        # none is drawn where they pass into the block; a dress is one cloth with its top)
+        try:
+            blk.lineart.usage = "INHERIT"
+        except (AttributeError, TypeError):
+            pass
+    if bottom in ("skirt", "dress"):
+        # the cloth over the two thighs, one wrap from the hips to the hem, open at the hem; it goes with the thighs
+        hem_z = kneez + (0.05 if bottom == "skirt" else 0.03) * s - spec.get("hem_drop", 0.0) * s
+        hem_s = max(hem_z, kneez + 0.020 * s)
+        w0, w1 = P(0, 0, hipz), P(0, -0.008 * s, hem_s)
+        wr = "sides"
+        piece(lathe("SitWrap", w0, w1, [(0, hx * S + rt * 1.03, rt * 1.06, 0), (1, hx * S + rt, rt, 0)], bcol, cap1="open", seg=48, flat=hx * S), wr)
+        open_lid("SitWrapLid", w0, w1, hx * S + rt, rt, bcol, wr, flat=hx * S)
+    def knee(H, K, A, r):
+        # the thigh ends and the shin begins a little short of the knee joint, each in its dome: the two domes together round the knee
+        # off more than one would (legs1: "the knee is a hard square corner, which looks stiff and blocky")
+        d = p["knee_in"] * r
+        return K - (K - H).normalized() * d, K + (A - K).normalized() * d
+
+    for sd, sg in (("L", 1), ("R", -1)):
+        H, K, A = P(sg * hx, 0, hipz), P(sg * hx, -0.01 * s, kneez), P(sg * hx, 0, ankz)
+        tw, sw = {f"thigh_{sd}": 1.0}, {f"shin_{sd}": 1.0}
+        if bottom == "pants":
+            rk, rs, rc = p["th_knee"] * k * LB, p["sh_knee"] * k * LB, p["cuff"] * k * LB
+            Kt, Ks = knee(H, K, A, rk)
+            piece(lathe(f"SitThigh_{sd}", H, Kt, [(0, r_root, r_root, 0), (0.55, r_root * 0.45 + rk * 0.55, r_root * 0.45 + rk * 0.55, 0), (1, rk, rk, 0)], bcol), tw)
+            # (the cuff a little above the ankle joint: a trouser leg rides up when its wearer sits, and the shoe shows whole; standing it
+            # hangs 3.4 cm below the joint, over the shoe)
+            piece(lathe(f"SitShin_{sd}", Ks, P(sg * hx, 0, ankz + p["cuff_z"] * s), [(0, rs, rs, 0), (0.5, (rs + rc) / 2, (rs + rc) / 2, 0), (1, rc, rc, 0)],
+                        bcol, cap1="flat"), sw)
+            continue
+        if bottom == "shorts":
+            E = P(sg * hx, -0.006 * s, kneez + 0.10 * s)
+            re = p["sleeve"] * k * LB
+            piece(lathe(f"SitThigh_{sd}", H, E, [(0, r_root, r_root, 0), (1, re, re, 0)], bcol, cap1="open"), tw)
+            open_lid(f"SitThighLid_{sd}", H, E, re, re, bcol, tw)
+        rt_, rk, rs = p["bare_top"] * k * LB, p["bare_knee"] * k * LB, p["bare_sk"] * k * LB
+        rcf, ra = p["calf"] * k * LB, p["ankle"] * k * LB
+        # (the bare thigh from the hip joint, inside the cloth: where two thighs part, low on a seesaw, it comes out of the cloth as a thigh)
+        Kt, Ks = knee(H, K, A, rk)
+        piece(lathe(f"SitLegT_{sd}", H, Kt, [(0, rt_, rt_, 0), (0.5, rt_, rt_, 0), (1, rk, rk, 0)], skin), tw)
+        cd = p["calf_dy"] * k
+        piece(lathe(f"SitLegS_{sd}", Ks, A, [(0, rs, rs, 0), (0.10, rs * 0.75 + rcf * 0.25, rs * 0.75 + rcf * 0.25, cd * 0.22), (0.21, rs * 0.3 + rcf * 0.7, rs * 0.3 + rcf * 0.7, cd * 0.7),
+                                             (0.33, rcf, rcf, cd), (0.50, rcf * 0.8 + ra * 0.2, rcf * 0.8 + ra * 0.2, cd * 0.8),
+                                             (0.68, rcf * 0.45 + ra * 0.55, rcf * 0.45 + ra * 0.55, cd * 0.42), (0.86, rcf * 0.15 + ra * 0.85, rcf * 0.15 + ra * 0.85, cd * 0.12),
+                                             (1, ra, ra, 0)], skin), sw)
+    return names
 
 
 def shoe39(name, ankle, s, k, S, matkey, rig, bone):
