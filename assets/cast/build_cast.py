@@ -35,11 +35,15 @@ from castlib.actions import make_people_actions  # noqa: E402
 from castlib.animals import build_bird, build_quadruped  # noqa: E402
 from castlib.specs import BIRDS, PEOPLE, PERSON_AFFORDANCES, QUAD_AFFORDANCES, QUADRUPEDS  # noqa: E402
 
-BUILDER_VERSION = "0.55.0"
+BUILDER_VERSION = "0.56.0"
 # the postures with both thighs swung forward of the trunk, in which a skirt is drawn as a wrap of the thighs (people.py, TPDB_SEAT47)
 SEATED47 = {"sit", "sit_swing", "sit_ground", "sit_dangle", "sit_hang", "sit_low", "sit_slide", "crouch", "jump_tuck"}
 # v0.55: the postures drawn with the seated lower body (people.py, TPDB_SEAT55): on a seat, the thighs forward of the trunk and the knees bent
 SEATED55 = set(os.environ.get("TPDB_SEATED55", "sit,sit_swing,sit_dangle,sit_hang,sit_low,sit_slide").split(","))
+# v0.56 (people.py, TPDB_SKIRT56): postures of SEATED47 that are not in SEATED55 in which a skirt would be drawn as the seated postures' sheet
+# over the standing legs. None by default: TPDB_SEATED56G=sit_ground is the trial that was looked at and left (people.py says why; crouching
+# was tried too, where the thighs slope steeply and the sheet's fold between them drew stray lines)
+SEATED56G = set(x for x in os.environ.get("TPDB_SEATED56G", "").split(",") if x)
 
 # v0.46 bench switch (vision/isolation_v046.md), "O" for v0.45's drawing. TPDB_STYLE46 "B": the whole figure's outer edge
 # is drawn at 9.5 px (4.5 px in a picture at the set's median scale, the settings' own line) and the lines inside it at
@@ -116,6 +120,14 @@ def main(out_dir, only=None):
             # v0.55 (TPDB_SEAT55): the seated lower body in the seated postures, the standing one in the rest
             for _n, _m in P.meta.items():
                 P.hides.setdefault(_n, []).extend(ctx.std55 if _m["lower"] in SEATED55 else ctx.sit55)
+        if getattr(ctx, "gnd56", None):
+            # v0.56 (people.SKIRT56): sitting on the ground, a skirt is the seated postures' sheet over the standing legs
+            for _n, _m in P.meta.items():
+                _h = P.hides.setdefault(_n, [])
+                if _m["lower"] in SEATED56G:
+                    _h[:] = [_x for _x in _h if _x not in ctx.gnd56["show"]] + ctx.gnd56["hide"]
+                else:
+                    _h.extend(ctx.gnd56["only"])
         poses = {}
         props = []
         hideable = set()

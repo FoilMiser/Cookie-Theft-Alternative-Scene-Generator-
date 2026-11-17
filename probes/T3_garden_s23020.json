@@ -6,8 +6,8 @@
  "seed": 23020,
  "mirror": false,
  "versions": {
-  "generator": "0.55.0",
-  "cast_builder": "0.55.0",
+  "generator": "0.56.0",
+  "cast_builder": "0.56.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,23 +56,24 @@
   }
  },
  "features": [
-  "flowers"
+  "flowers",
+  "hose_reel"
  ],
  "templates": [
   {
-   "id": "floating_box",
-   "kind": "contradiction",
+   "id": "about_to_trip",
+   "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "rake",
+   "id": "hose_water",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "water_flowers",
+   "id": "jump",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -83,7 +84,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A teenager is watering the flowers",
+   "text": "A teenager is watering the flowers with a hose",
    "accepted": {
     "who": [
      "teenager",
@@ -94,41 +95,42 @@
      "young person"
     ],
     "what": [
-     "watering the flowers",
-     "watering the plants",
-     "watering the garden",
-     "watering can"
+     "watering with a hose",
+     "spraying water",
+     "hosing the flowers",
+     "watering the garden"
     ]
    },
-   "key": "flowers",
+   "key": "hose",
    "elements": [
-    "waterer_1",
-    "water_2"
+    "hoser_1",
+    "hose_2",
+    "spray_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "water_flowers",
-   "event": "e3",
+   "template": "hose_water",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.105,
+    "s": 0.164,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": -0.27,
+    "a": 5.33,
+    "zipf_raw": 3.73,
+    "aoa_raw": 5.33,
     "domain": null,
-    "area_px": 13196
+    "area_px": 19288
    },
-   "b": -1.28,
-   "p0": 0.782,
-   "pm1": 0.57,
+   "b": -1.141,
+   "p0": 0.758,
+   "pm1": 0.535,
    "aoi_cells": [
     "MC",
     "BL",
@@ -137,141 +139,8 @@
   },
   {
    "id": "i02",
-   "type": "entity",
-   "text": "There is a box",
-   "accepted": [
-    "box",
-    "crate",
-    "wooden box",
-    "cardboard box"
-   ],
-   "key": "box",
-   "elements": [
-    "floatbox_3"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.402,
-    "r": 0,
-    "d": 0.0,
-    "f": 1.04,
-    "a": 4.3,
-    "zipf_raw": 5.04,
-    "aoa_raw": 4.3,
-    "domain": null,
-    "area_px": 8684
-   },
-   "b": -0.751,
-   "p0": 0.679,
-   "pm1": 0.438,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with the box",
-   "accepted": [
-    "the box is weird",
-    "something odd about the box",
-    "that box"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_3"
-   ],
-   "cues": [
-    "floatbox_3"
-   ],
-   "effect": [
-    "floatbox_3"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -0.402,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 8684
-   },
-   "b": 0.141,
-   "p0": 0.465,
-   "pm1": 0.242,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "contradiction_explain",
-   "text": "The box is floating in the air with nothing holding it up",
-   "accepted": [
-    "floating box",
-    "box in the air",
-    "nothing holding it up",
-    "box should fall"
-   ],
-   "key": "floating",
-   "elements": [
-    "floatbox_3"
-   ],
-   "cues": [
-    "floatbox_3"
-   ],
-   "effect": [
-    "floatbox_3"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "physical",
-   "template": "floating_box",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": -0.402,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.18,
-    "aoa_raw": 5.39,
-    "domain": "physical",
-    "area_px": 8684
-   },
-   "b": 1.341,
-   "p0": 0.207,
-   "pm1": 0.088,
-   "aoi_cells": [
-    "TC"
-   ]
-  },
-  {
-   "id": "i05",
    "type": "action",
-   "text": "A woman is raking leaves",
+   "text": "A woman is reading while walking",
    "accepted": {
     "who": [
      "woman",
@@ -281,44 +150,185 @@
      "person"
     ],
     "what": [
-     "raking",
-     "raking leaves",
-     "rake",
-     "cleaning up leaves",
-     "raking grass"
+     "reading while walking",
+     "walking and reading",
+     "not looking where she's going",
+     "reading a book"
     ]
    },
-   "key": "raking",
+   "key": "reading",
    "elements": [
-    "raker_4",
-    "leaves_5"
+    "reader_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "rake",
-   "event": "e2",
+   "template": "about_to_trip",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.03,
+    "s": -0.114,
     "r": 0,
     "d": 0.0,
-    "f": -1.05,
-    "a": 5.32,
-    "zipf_raw": 2.95,
-    "aoa_raw": 5.32,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
     "domain": null,
-    "area_px": 15952
+    "area_px": 13032
    },
-   "b": -0.84,
-   "p0": 0.698,
-   "pm1": 0.46,
+   "b": -1.425,
+   "p0": 0.806,
+   "pm1": 0.605,
    "aoi_cells": [
-    "MR",
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "entity",
+   "text": "There is a box on the ground in front of a woman",
+   "accepted": [
+    "box",
+    "crate",
+    "a box in the way"
+   ],
+   "key": "box",
+   "elements": [
+    "obstacle_7"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.759,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
+    "domain": null,
+    "area_px": 5248
+   },
+   "b": -0.573,
+   "p0": 0.639,
+   "pm1": 0.395,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "inference",
+   "text": "The woman is going to trip over a box",
+   "accepted": [
+    "going to trip over the box",
+    "going to fall",
+    "will bump into it",
+    "isn't looking where they're going"
+   ],
+   "key": "trip",
+   "elements": [
+    "reader_5",
+    "obstacle_7"
+   ],
+   "cues": [
+    "reader_5",
+    "obstacle_7"
+   ],
+   "effect": [
+    "obstacle_7"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": null,
+   "template": "about_to_trip",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 1,
+    "animate": false,
+    "s": -0.114,
+    "r": 1,
+    "d": 0.075,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.9,
+    "aoa_raw": 4.22,
+    "domain": null,
+    "area_px": 13032
+   },
+   "b": 0.197,
+   "p0": 0.451,
+   "pm1": 0.232,
+   "aoi_cells": [
+    "MC",
+    "BC"
+   ]
+  },
+  {
+   "id": "i05",
+   "type": "action",
+   "text": "A girl is jumping for joy",
+   "accepted": {
+    "who": [
+     "girl",
+     "little girl",
+     "child",
+     "kid",
+     "daughter"
+    ],
+    "what": [
+     "jumping",
+     "jumping for joy",
+     "excited",
+     "happy",
+     "cheering"
+    ]
+   },
+   "key": "jumping",
+   "elements": [
+    "jumper_8"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "jump",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.396,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.23,
+    "a": 2.84,
+    "zipf_raw": 4.23,
+    "aoa_raw": 2.84,
+    "domain": null,
+    "area_px": 8756
+   },
+   "b": -1.011,
+   "p0": 0.733,
+   "pm1": 0.503,
+   "aoi_cells": [
     "BR"
    ]
   },
@@ -472,7 +482,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.919,
+    "s": 1.914,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -480,11 +490,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 228820
+    "area_px": 227488
    },
-   "b": -1.663,
-   "p0": 0.841,
-   "pm1": 0.66,
+   "b": -1.66,
+   "p0": 0.84,
+   "pm1": 0.659,
    "aoi_cells": [
     "ML",
     "MC",
@@ -539,19 +549,19 @@
   }
  ],
  "counts": {
-  "content": 8,
+  "content": 9,
   "inference_units": 1,
-  "contradictions": 1,
+  "contradictions": 0,
   "items_total": 10
  },
  "predicted": {
   "theta_0": {
-   "content": 0.757,
-   "inference": 0.336
+   "content": 0.76,
+   "inference": 0.451
   },
   "theta_minus_1": {
-   "content": 0.544,
-   "inference": 0.165
+   "content": 0.547,
+   "inference": 0.232
   }
  },
  "bands": {
@@ -559,7 +569,7 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
@@ -573,14 +583,18 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "13 drawn objects (tier band 20-30)"
+   "detail": "16 drawn objects (tier band 20-30)"
+  },
+  "grey": {
+   "result": false,
+   "detail": "obstacle_7 grey 153 on 168 (23% of it stands off)"
   }
  },
  "clutter": {
-  "objects": 13,
-  "edge_density": 0.0343,
-  "png_bytes": 147599,
-  "jpeg_bytes": 163416
+  "objects": 16,
+  "edge_density": 0.0362,
+  "png_bytes": 168198,
+  "jpeg_bytes": 171958
  },
  "signature": [
   [
@@ -592,36 +606,36 @@
    0
   ],
   [
-   "contradiction_explain",
+   "action",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "entity",
+   0
+  ],
+  [
+   "inference",
    1
-  ],
-  [
-   "contradiction_notice",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "entity",
-   0
   ]
  ],
  "elements": [
@@ -715,8 +729,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 228820,
-   "occlusion": 0.05
+   "visible_px": 227488,
+   "occlusion": 0.056
   },
   {
    "id": "filler_bush_left",
@@ -734,23 +748,38 @@
    "occlusion": 0.096
   },
   {
-   "id": "raker_4",
-   "label": "person.ana__rake__smile__y045",
+   "id": "obstacle_7",
+   "label": "a box in the way",
    "role": "scored",
-   "z": 744.51,
+   "z": 701.67,
    "bbox": [
-    1216.0,
-    494.0,
-    1308.0,
-    774.0
+    862.0,
+    648.0,
+    942.0,
+    722.0
    ],
-   "area_px": 15132,
-   "visible_px": 14880,
-   "occlusion": 0.017,
+   "area_px": 5248,
+   "visible_px": 5248,
+   "occlusion": 0.0
+  },
+  {
+   "id": "reader_5",
+   "label": "person.ana__walk_read_open__neutral__y090",
+   "role": "scored",
+   "z": 701.67,
+   "bbox": [
+    752.0,
+    464.0,
+    890.0,
+    706.0
+   ],
+   "area_px": 13032,
+   "visible_px": 13032,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.ana__rake__smile__y045",
+    "variant": "person.ana__walk_read_open__neutral__y090",
     "family": "person.ana",
-    "scale": 0.4248,
+    "scale": 0.4089,
     "mirrored": false,
     "labels": {
      "everyday_name": "woman",
@@ -771,33 +800,18 @@
    }
   },
   {
-   "id": "floatbox_3",
-   "label": "Box floating in the air",
-   "role": "scored",
-   "z": 756.1,
+   "id": "steplines_6",
+   "label": "Motion lines behind the walker",
+   "role": "setting",
+   "z": 702.67,
    "bbox": [
-    936.0,
-    238.0,
-    1056.0,
-    336.0
+    738.0,
+    550.0,
+    770.0,
+    592.0
    ],
-   "area_px": 8684,
-   "visible_px": 8684,
-   "occlusion": 0.0
-  },
-  {
-   "id": "leaves_5",
-   "label": "Pile of leaves",
-   "role": "scored",
-   "z": 764.19,
-   "bbox": [
-    1260.0,
-    746.0,
-    1350.0,
-    770.0
-   ],
-   "area_px": 1072,
-   "visible_px": 1072,
+   "area_px": 108,
+   "visible_px": 108,
    "occlusion": 0.0
   },
   {
@@ -816,23 +830,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "waterer_1",
-   "label": "person.leo__water_plants__smile__y090",
+   "id": "hoser_1",
+   "label": "person.leo__hose_spray__neutral__y090",
    "role": "scored",
-   "z": 820,
+   "z": 830,
    "bbox": [
-    526.0,
-    572.0,
-    628.0,
-    826.0
+    574.0,
+    578.0,
+    670.0,
+    836.0
    ],
-   "area_px": 11840,
-   "visible_px": 11612,
-   "occlusion": 0.019,
+   "area_px": 11192,
+   "visible_px": 10748,
+   "occlusion": 0.04,
    "asset": {
-    "variant": "person.leo__water_plants__smile__y090",
+    "variant": "person.leo__hose_spray__neutral__y090",
     "family": "person.leo",
-    "scale": 0.4528,
+    "scale": 0.4565,
     "mirrored": true,
     "labels": {
      "everyday_name": "teenager",
@@ -854,6 +868,12 @@
    }
   },
   {
+   "id": "hosejoin_3",
+   "label": "Garden hose at the hand",
+   "role": "background",
+   "z": 831
+  },
+  {
    "id": "flowers",
    "label": "Flower bed",
    "role": "setting",
@@ -865,23 +885,90 @@
     838.0
    ],
    "area_px": 25880,
-   "visible_px": 24328,
-   "occlusion": 0.06
+   "visible_px": 23384,
+   "occlusion": 0.096
   },
   {
-   "id": "water_2",
-   "label": "Water from the can",
+   "id": "hose_2",
+   "label": "Garden hose",
+   "role": "scored",
+   "z": 836.5,
+   "bbox": [
+    278.0,
+    682.0,
+    606.0,
+    884.0
+   ],
+   "area_px": 6596,
+   "visible_px": 6148,
+   "occlusion": 0.068
+  },
+  {
+   "id": "spray_4",
+   "label": "Water spraying",
    "role": "scored",
    "z": 837,
    "bbox": [
-    460.0,
-    722.0,
-    534.0,
-    804.0
+    474.0,
+    680.0,
+    578.0,
+    802.0
    ],
-   "area_px": 1584,
-   "visible_px": 1584,
+   "area_px": 2392,
+   "visible_px": 2392,
    "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 886,
+   "bbox": [
+    254.0,
+    804.0,
+    318.0,
+    888.0
+   ],
+   "area_px": 4264,
+   "visible_px": 4264,
+   "occlusion": 0.0
+  },
+  {
+   "id": "jumper_8",
+   "label": "person.nia__jump_tuck__laughing__y045",
+   "role": "scored",
+   "z": 964.81,
+   "bbox": [
+    1058.0,
+    744.0,
+    1160.0,
+    938.0
+   ],
+   "area_px": 8756,
+   "visible_px": 8756,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.nia__jump_tuck__laughing__y045",
+    "family": "person.nia",
+    "scale": 0.5064,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "girl",
+     "accepted_names": [
+      "girl",
+      "little girl",
+      "child",
+      "kid",
+      "daughter"
+     ],
+     "category": "child_person",
+     "person": {
+      "age_group": "child",
+      "skin_tone": "skin2",
+      "hair": "puffs"
+     }
+    }
+   }
   }
  ],
  "canvas": [
@@ -904,14 +991,14 @@
   "usage": {},
   "forced": {
    "events": [
-    "rake",
-    "water_flowers"
+    "hose_water",
+    "jump"
    ],
-   "contradictions": [
-    "floating_box"
+   "modules": [
+    "about_to_trip"
    ]
   },
-  "placement_rev": 49
+  "placement_rev": 50
  },
  "probe": true
 }

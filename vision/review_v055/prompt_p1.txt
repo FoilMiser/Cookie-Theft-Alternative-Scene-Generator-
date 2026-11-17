@@ -1,0 +1,23 @@
+You are reviewing drawings for a picture-description test. Work only from this brief and the files it names.
+
+BACKGROUND. The project in E:/Cognitive_Test_Scene_Creator generates cartoon scenes (1600 x 1000 pixels) that a person will be shown one at a time and asked to describe aloud, as in a clinical picture-description task. Each picture holds a few planned events: plain events (someone doing something), inferences (something the viewer must work out, such as a ball stuck in a tree), and deliberate contradictions (something impossible on purpose, such as a bicycle with square wheels or a dog reading a newspaper). A picture works when a first-time viewer sees every event for what it is and nothing in the drawing distracts, puzzles or misleads. The pictures are composed by code from a cast of rendered figures and drawn props, so a fault tends to be systematic: the same figure, prop or placement rule goes wrong the same way in several pictures.
+
+YOUR SHARE. The 26 pictures listed in E:/Cognitive_Test_Scene_Creator/tpdb_work/review56/list_p1.txt. Each line gives a picture's PNG, its record (a JSON file that lists the events under "templates", the scored statements under "items", and every drawn element with its bounding box under "elements"), and its events with their kind.
+
+WHAT TO DO.
+1. Look at every picture whole, at full size, before you read its record. Note what you take each thing to be and what strikes you as odd.
+2. Then read its record and look closely at each event. Crop the region of its elements and view the crop enlarged two or three times (Python with Pillow is available; begin every Bash command with `cd /e/Cognitive_Test_Scene_Creator && source tools/env.sh`; save crops under tpdb_work/review56/crops_p1/). Also view the whole picture reduced to 800 x 500, which is nearer the size a person may see it at.
+3. Ask of each event and each figure: does it read at once as what the record says? What else could it be taken for? Is anything about the drawing wrong or distracting? Look in particular for: a pose that does not read as its action; hands that do not hold what they hold, feet that do not stand on the ground, a sitter who is not on the seat; a thing that floats, looks pasted on, is cut off, or overlaps another so that depth is unclear; a thing that is the colour of what is behind it; one thing the wrong size against another; anatomy and proportion; a face that is hidden, or an expression that contradicts the event; a prop that does not read as what it is; lines (strings, leashes, hoses, water, motion marks) that read as something else; the setting (paths, pond, fences, houses, trees, sky) drawn wrongly or oddly; and what is missing that the scene needs for the event to make sense. Compare the same person or prop across your pictures: is it drawn the same, and does a fault repeat?
+4. Deliberate contradictions are not flaws. Judge only how clearly each is drawn: would a viewer notice it, and see that it is wrong on purpose and not a slip of the drawing?
+
+DO NOT read anything under vision/, nor README.md, RUNBOOK.md, or any notes or other reviews under tpdb_work/ (this brief names the only files of tpdb_work/review56 that are yours): the review must be your own look. Do not change any file other than your crops and your report. Do not run Blender, the scene generator or git.
+
+REPORT. Write E:/Cognitive_Test_Scene_Creator/tpdb_work/review56/review_p1.md with these parts:
+- Two lines of scope: what you viewed and how.
+- "## Findings, most severe first": numbered findings. Each has a title line with its severity (High = could cost a scored statement or cause a misreading; Medium = a viewer would likely remark on it or hesitate; Low = polish); the picture name or names and the pixel region [x0,y0,x1,y1]; what is wrong, in plain concrete words, one fault to a finding; the event it touches; "Seen in: k of n", counted over the pictures of your share that hold that event, figure or prop; and a proposed fix. Put a fault that repeats into one finding and list its pictures.
+- "## Contradictions": one line for each deliberate contradiction in your share: how clearly it reads, and what it could be mistaken for.
+- "## Picture by picture": one line a picture, its worst problem or "nothing found".
+- "## Looked for and found fine": a short list.
+Write every observation as a complete sentence on one line. Be specific and honest: do not pad the list, and do not report a fault you have not looked at in a crop. If a picture has nothing wrong, say so.
+
+When you are done, reply with at most 15 lines: the number of findings by severity, and your five most important findings.

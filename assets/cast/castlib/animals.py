@@ -1744,6 +1744,11 @@ def build_quadruped48(spec):
         w = r_e * 1.1
         face.curve_on(f"arcup_{sd}", [(x - w, eye_z - 0.010 * k), (x, eye_z + 0.013 * k), (x + w, eye_z - 0.010 * k)], 0.006 * k, "outline", 0.004 * k)
         face.curve_on(f"arcdn_{sd}", [(x - w, eye_z + 0.002 * k), (x, eye_z - 0.012 * k), (x + w, eye_z + 0.002 * k)], 0.006 * k, "outline", 0.004 * k)
+        if kind == "dog" and SLEEP56 != "O":
+            # v0.56 (TPDB_SLEEP56): a closed eye as one smooth arc, a lid shut over the eye (the three-point arc drew two straight strokes)
+            w6 = r_e * 1.25
+            face.curve_on(f"arcsl_{sd}", [(x + w6 * math.cos(a), eye_z + 0.003 * k - SLEEP56_P["sag"] * k * math.sin(a)) for a in [math.pi * i / 10 for i in range(11)]],
+                          0.0058 * k, "outline", 0.004 * k)
         face.place(f"brow_{sd}", ellipsoid("brow", (0, 0, 0), (1, 1, 1), "outline"),
                    face.frame(x, eye_z + 0.040 * k, 0.004 * k, spin=-math.radians(20) * sg, scale=(0.020 * k, 0.006 * k, 0.006 * k)))
     if kind == "dog":
@@ -1769,6 +1774,8 @@ def build_quadruped48(spec):
     }
     if kind == "dog":
         expr["read"] = {"eye_L", "eye_R", "catch_L", "catch_R", "glass_L", "glass_R", "glass_bridge"}
+        if SLEEP56 != "O":
+            expr["sleepy"] = {"arcsl_L", "arcsl_R"}       # v0.56 (TPDB_SLEEP56)
     if iris:
         for name in ("neutral", "alert", "sad"):
             expr[name] = expr[name] | {"iris_L", "iris_R"}
@@ -1796,6 +1803,39 @@ def build_quadruped48(spec):
     anchor(rig, "collar", clip, "neck")
     names = make_quadruped_poses48(rig, S, kind, A)
     return rig, states, names
+
+
+# v0.56 (TPDB_STALK56; vision/flaws_v055.md, second part, I4): the stalking cat stood on fairly straight legs, its hips high and its belly well
+# clear of the ground, and was a cat walking past beside a cat stalking. "A" (round 1): crouched flat, the hips and the chest both down so
+# that the belly is at the ground, the legs folded under it, the forepaws out along the ground under the chin, the head low and level, the
+# tail low. "B" (round 2): frozen in a creep with the body lowered, the belly about a paw's height off the ground and the back level, the
+# head low and stretched forward at the height of the back, the tail low and straight; all four legs bent and each paw with a place of its
+# own, the near forepaw a short step ahead and planted, the near hind leg folded with its hock behind, the far paws (in the far legs'
+# darker tone) between them under the body. "O": v0.55's stalk_paw
+STALK56 = os.environ.get("TPDB_STALK56", "O")
+# (the pose's numbers: how far the hips and the chest come down, in leg lengths; each paw's place fore and aft from where it stands at rest,
+#  l the far side and r the near; the pastern's and the cannon's direction down to the paw; where the elbows and the stifles point)
+STALK56_A = dict(hip=0.24, chest=0.275, fl=-0.09, fr=-0.14, fz=0.0, bl=-0.10, br=-0.03, cannon=(0, -0.85, -0.55), neck=(0, -1.0, -0.04), pitch=3.0,
+                 fhint=(0, 1, 0.7), bhint=(0, -1, 0.5), pastern=(0, -1, -0.6), tail=((0, 1.0, -0.30), (0, 1.0, -0.06), (0, 0.92, 0.38)))
+STALK56_B = dict(hip=0.18, chest=0.20, fl=0.035, fr=-0.13, fz=0.0, bl=-0.085, br=0.02, cannon=(0, -0.55, -1), cannon_l=(0, -0.40, -1),
+                 neck=(0, -1.0, 0.02), pitch=2.0, fhint=(0, 1, 0.25), bhint=(0, -1, 0.2), pastern=(0, -0.6, -1), pastern_l=(0, -0.20, -1),
+                 tail=((0, 1.0, -0.16), (0, 1.0, -0.05), (0, 1.0, 0.08)))
+STALK56_P = dict(STALK56_A if STALK56 == "A" else STALK56_B)
+STALK56_P.update(json.loads(os.environ.get("TPDB_STALK56_P", "{}")))
+# v0.56 (TPDB_SLEEP56; I C4): the sleeping dog's muzzle pointed down at the ground between its paws and its closed eyes were two angled
+# strokes, and it was a dog lying down sniffing or chewing beside a dog asleep. "B" (sleep_paws_turn, the dogs): curled, the trunk bent
+# round toward the viewer, the head laid down level with the chin on the forepaws, the tail brought forward round the haunch to the paws,
+# and the closed eyes two smooth arcs (the "sleepy" face of the dogs). "O": v0.55's sleep_paws_turn and its three-point arcs
+SLEEP56 = os.environ.get("TPDB_SLEEP56", "B")
+SLEEP56_P = dict(cx=-0.06, neck=(-0.35, -0.88, -0.17), pitch=-4.0, turn=-28.0, hip_back=0.08, chest_y=-0.08, sc=(1.12, 0.76, 1.0),
+                 fdy=(0.10, 0.14), fx=(0.050, 0.050), tail=((-0.85, 0.40, -0.30), (-0.75, -0.65, -0.02), (-0.10, -1.0, 0.02)), sag=0.018)
+SLEEP56_P.update(json.loads(os.environ.get("TPDB_SLEEP56_P", "{}")))
+# v0.56 (TPDB_DOOR56; I2): the dog at the door sat looking level past it, and was a dog carrying its lead beside a dog asking for its walk.
+# "B" (sit_wait): sitting as it did, the head tipped up toward the door's handle and the far forepaw raised toward the door, as a dog
+# paws at a door it wants opened. "O": v0.55's sit_wait
+DOOR56 = os.environ.get("TPDB_DOOR56", "O")
+DOOR56_P = dict(pitch=24.0, neck=(0, -0.20, 1), side="L", y=-0.150, z=0.215, x=0.070)
+DOOR56_P.update(json.loads(os.environ.get("TPDB_DOOR56_P", "{}")))
 
 
 def make_quadruped_poses48(rig, S, kind, A):
@@ -2010,6 +2050,12 @@ def make_quadruped_poses48(rig, S, kind, A):
         # as sit, the tail curled forward round the near haunch
         sit()
         tail((-0.80, 0.55, -0.25), (-0.80, -0.60, 0.0), (-0.25, -1.0, 0.03))
+        if DOOR56 != "O":
+            # v0.56 (TPDB_DOOR56): the head tipped up and one forepaw raised toward the door, the wrist bent and the paw hanging
+            q = DOOR56_P
+            look(neck=tuple(q["neck"]), pitch=q["pitch"])
+            s = rig.head(f"fleg_{q['side']}") / S
+            fore(q["side"], s.y + q["y"], z=q["z"] - jz, x=q["x"], hint=(0.2, 0.3, -1), pastern=(0, -0.55, -1), paw=(0, -0.10, -1))
 
     def upright(lean, yh=0.16, sc=(1.10, 0.84, 1.10), pitch=58):
         """Sitting up on the haunches, the trunk lean degrees from level, drawn a little shorter and rounder."""
@@ -2139,6 +2185,16 @@ def make_quadruped_poses48(rig, S, kind, A):
         lie_tail()
 
     def sleep_paws_turn():
+        if SLEEP56 != "O" and dog:
+            # v0.56 (TPDB_SLEEP56): curled, the chin laid level on the forepaws, the tail round to the front
+            q = SLEEP56_P
+            torso(hip=(hip_y - q["hip_back"], LIE_Z[0]), chest=(q["chest_y"], LIE_Z[1] - 0.004), chest_x=q["cx"], spine_scale=tuple(q["sc"]))
+            look(neck=tuple(q["neck"]), pitch=q["pitch"], turn=q["turn"])
+            lie_fore("L", q["fdy"][0], x=q["fx"][0] + q["cx"] * 0.5)
+            lie_fore("R", q["fdy"][1], x=q["fx"][1] - q["cx"] * 0.5)
+            lie_hind(out=0.035)
+            tail(*[tuple(t) for t in q["tail"]])
+            return
         # the same with a shorter trunk, the head turned to the viewer, for a three-quarter view
         torso(hip=(hip_y - 0.08, LIE_Z[0]), chest=(-0.08, LIE_Z[1] - 0.004), spine_scale=(1.12, 0.76, 1.0))
         look(neck=(0, -0.92, 0.12), pitch=-26, turn=-25)
@@ -2190,6 +2246,17 @@ def make_quadruped_poses48(rig, S, kind, A):
     def stalk_paw():
         # stalking, frozen mid-step: the belly low, the head low and level on the prey, the tail low, the four paws apart along the ground,
         # the near forepaw reaching forward a little off the ground (v0.47, TPDB_STALK47: the paws' places)
+        if STALK56 != "O":
+            # v0.56 (TPDB_STALK56): crouched, the body lowered and level, the legs bent under it, the head low and stretched out (see the switch)
+            q = STALK56_P
+            torso(hip=(hip_y, hip_z - q["hip"] * L), chest=(chest_y, chest_z - q["chest"] * L))
+            look(neck=tuple(q["neck"]), pitch=q["pitch"])
+            tail(*[tuple(t) for t in q["tail"]])
+            fore("L", fy0 + q["fl"], hint=tuple(q.get("fhint_l", q["fhint"])), pastern=tuple(q.get("pastern_l", q["pastern"])))
+            fore("R", fy0 + q["fr"], z=q["fz"], hint=tuple(q["fhint"]), pastern=tuple(q["pastern"]))
+            hind("L", by0 + q["bl"], hint=tuple(q.get("bhint_l", q["bhint"])), cannon=tuple(q.get("cannon_l", q["cannon"])))
+            hind("R", by0 + q["br"], hint=tuple(q["bhint"]), cannon=tuple(q["cannon"]))
+            return
         torso(hip=(hip_y, hip_z - 0.10 * L), chest=(chest_y, chest_z - (0.19 if STALK47 in ("B", "C") else 0.22) * L))
         look(neck=(0, -1.0, 0.10), pitch=0)
         tail((0, 1.0, -0.12), (0, 1.0, -0.02), (0, 0.95, 0.25))
@@ -2373,6 +2440,15 @@ def build_bird(spec):
     return rig, states, names
 
 
+# v0.56 (TPDB_STEAL56; vision/flaws_v055.md, quality check, R3): the thief bird at the sandwich was read as "just sitting next to" it in 7 readings of
+# 15 over three screens, and its pecking pose is a ball with the head folded under. "B": a songbird has a pose of its own for the theft, `tug`:
+# upright and leaned back about the hips, the neck up and forward, the head level and the beak shut on the end of a slice of bread, which the scene
+# draws at `mouth` (templates.BirdSteals); the feet braced ahead of the hips, the tail down behind. "O": v0.55 (the pose is not built)
+STEAL56 = os.environ.get("TPDB_STEAL56", "B")
+# (degrees: the body's lean back, the neck above level, the face below level, the legs' slope forward and how far each leg is from it; the tail's slope)
+STEAL56_P = dict(lean=16.0, neck=38.0, face=6.0, brace=14.0, split=5.0, tail=-0.30)
+
+
 def make_bird_poses(rig, S, duck, bz):
     names = []
 
@@ -2458,7 +2534,29 @@ def make_bird_poses(rig, S, duck, bz):
         rig.aim_dir("neck", (0, -0.62, 0.72))
         rig.aim_dir("head", (0, -0.78, 0.62))
 
+    def tug():
+        # v0.56 (TPDB_STEAL56): see the switch
+        lean, nk, fc, brace = STEAL56_P["lean"], STEAL56_P["neck"], STEAL56_P["face"], STEAL56_P["brace"]
+        pb = rig.arm.pose.bones["body"]
+        upd()
+        M = pb.matrix.copy()
+        hp = Vector((0, rig.head("leg_L").y, rig.head("leg_L").z))
+        ll = rig.arm.pose.bones["leg_L"].bone.length
+        dz = ll * (1.0 - math.cos(math.radians(brace)))        # (the feet stay on the ground under the braced legs)
+        pb.matrix = Matrix.Translation(hp - Vector((0, 0, dz))) @ Matrix.Rotation(math.radians(-lean), 4, "X") @ Matrix.Translation(-hp) @ M
+        upd()
+        a = math.radians(nk)
+        rig.aim_dir("neck", (0, -math.cos(a), math.sin(a)))
+        a = math.radians(fc)
+        rig.aim_dir("head", (0, -math.sin(a), math.cos(a)))
+        rig.aim_dir("tail", (0, 1, STEAL56_P["tail"]))
+        for sd, off in (("L", STEAL56_P["split"]), ("R", -STEAL56_P["split"])):
+            ph = math.radians(brace + off)
+            rig.aim_dir(f"leg_{sd}", (0, -math.sin(ph), -math.cos(ph)))
+
     plan = [("perch", perch), ("peck", peck), ("fly", fly), ("sing", sing)]
+    if STEAL56 != "O" and not duck:
+        plan.append(("tug", tug))
     if duck:
         plan.append(("swim", swim))
         plan.append(("swim_eat", swim_eat))

@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23015,
- "mirror": true,
+ "mirror": false,
  "versions": {
-  "generator": "0.55.0",
-  "cast_builder": "0.55.0",
+  "generator": "0.56.0",
+  "cast_builder": "0.56.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,27 +56,27 @@
   }
  },
  "features": [
-  "feeder",
-  "flowers"
+  "bench",
+  "hose_reel"
  ],
  "templates": [
   {
-   "id": "sweep_fork",
-   "kind": "contradiction",
+   "id": "paint_tracks",
+   "kind": "inference",
    "event": "e1",
    "units": 1
   },
   {
-   "id": "fly_kite",
-   "kind": "event",
+   "id": "bird_steals",
+   "kind": "inference",
    "event": "e2",
-   "units": 0
+   "units": 1
   },
   {
-   "id": "paint_fence",
-   "kind": "event",
+   "id": "dog_reading",
+   "kind": "contradiction",
    "event": "e3",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 3,
@@ -84,7 +84,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A grandmother is painting the fence",
+   "text": "A grandmother is reading on the bench",
    "accepted": {
     "who": [
      "grandmother",
@@ -95,50 +95,142 @@
      "woman"
     ],
     "what": [
-     "painting the fence",
-     "painting",
-     "paint roller",
-     "painting the wall"
+     "reading",
+     "reading a book",
+     "sitting on the bench",
+     "not paying attention"
     ]
    },
-   "key": "paint",
+   "key": "reading",
    "elements": [
-    "painter_1",
-    "paintstripe_2"
+    "benchreader_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "paint_fence",
-   "event": "e3",
+   "template": "bird_steals",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.554,
+    "s": 0.022,
     "r": 0,
     "d": 0.0,
-    "f": 0.52,
-    "a": 4.45,
-    "zipf_raw": 4.52,
-    "aoa_raw": 4.45,
+    "f": 1.14,
+    "a": 4.11,
+    "zipf_raw": 5.14,
+    "aoa_raw": 4.11,
     "domain": null,
-    "area_px": 33392
+    "area_px": 15776
    },
-   "b": -1.573,
-   "p0": 0.828,
-   "pm1": 0.639,
+   "b": -1.493,
+   "p0": 0.817,
+   "pm1": 0.621,
    "aoi_cells": [
-    "ML",
-    "MC"
+    "BL"
    ]
   },
   {
    "id": "i02",
    "type": "action",
-   "text": "A woman is sweeping",
+   "text": "A bird is pulling a slice of bread off a sandwich on the bench",
+   "accepted": [
+    "bird eating the sandwich",
+    "bird on the bench",
+    "bird pecking",
+    "sandwich",
+    "bird taking the bread",
+    "bird pulling at the sandwich",
+    "bird with the bread"
+   ],
+   "key": "sandwich",
+   "elements": [
+    "thief_2",
+    "sandwich_3"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "bird_steals",
+   "event": "e2",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.587,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.13,
+    "a": 4.79,
+    "zipf_raw": 4.13,
+    "aoa_raw": 4.79,
+    "domain": null,
+    "area_px": 6688
+   },
+   "b": -0.886,
+   "p0": 0.708,
+   "pm1": 0.472,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "inference",
+   "text": "The bird is stealing the sandwich while the grandmother is busy reading",
+   "accepted": [
+    "the bird is stealing the food",
+    "she doesn't notice the bird",
+    "the bird is eating her lunch",
+    "she isn't watching her sandwich"
+   ],
+   "key": "stealing",
+   "elements": [
+    "thief_2",
+    "benchreader_1"
+   ],
+   "cues": [
+    "thief_2",
+    "benchreader_1"
+   ],
+   "effect": [
+    "sandwich_3"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "bird_steals",
+   "event": "e2",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -1.045,
+    "r": 1,
+    "d": 0.093,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.23,
+    "aoa_raw": 6.17,
+    "domain": null,
+    "area_px": 3504
+   },
+   "b": 1.284,
+   "p0": 0.217,
+   "pm1": 0.092,
+   "aoi_cells": [
+    "BL"
+   ]
+  },
+  {
+   "id": "i04",
+   "type": "action",
+   "text": "A woman is painting the fence",
    "accepted": {
     "who": [
      "woman",
@@ -148,192 +240,323 @@
      "person"
     ],
     "what": [
-     "sweeping",
-     "sweeping the path",
-     "sweeping the ground",
-     "cleaning"
+     "painting the fence",
+     "painting",
+     "paint roller",
+     "painting the wall"
     ]
    },
-   "key": "sweeping",
+   "key": "paint",
    "elements": [
-    "sweeper_4"
+    "painter_4",
+    "paintstripe_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "sweep_fork",
+   "template": "paint_fence",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.359,
+    "s": 0.591,
     "r": 0,
     "d": 0.0,
-    "f": -0.21,
-    "a": 4.2,
-    "zipf_raw": 3.79,
-    "aoa_raw": 4.2,
+    "f": 0.52,
+    "a": 4.45,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
     "domain": null,
-    "area_px": 25392
+    "area_px": 35224
    },
-   "b": -1.256,
-   "p0": 0.778,
-   "pm1": 0.564,
+   "b": -1.591,
+   "p0": 0.831,
+   "pm1": 0.644,
    "aoi_cells": [
-    "BL"
-   ]
-  },
-  {
-   "id": "i03",
-   "type": "contradiction_notice",
-   "text": "Something is wrong with what the person is sweeping with",
-   "accepted": [
-    "the broom is strange",
-    "something's wrong with the broom",
-    "that's odd",
-    "a fork is not for sweeping"
-   ],
-   "key": "fork",
-   "elements": [
-    "sweeper_4"
-   ],
-   "cues": [
-    "sweeper_4"
-   ],
-   "effect": [
-    "sweeper_4"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "functional",
-   "template": "sweep_fork",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": 0.359,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.03,
-    "aoa_raw": 3.63,
-    "domain": "functional",
-    "area_px": 25392
-   },
-   "b": -0.04,
-   "p0": 0.51,
-   "pm1": 0.277,
-   "aoi_cells": [
-    "BL"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "contradiction_explain",
-   "text": "The person is sweeping with a giant fork instead of a broom",
-   "accepted": [
-    "sweeping with a fork",
-    "a fork instead of a broom",
-    "you can't sweep with a fork",
-    "a giant fork",
-    "a huge dinner fork"
-   ],
-   "key": "fork",
-   "elements": [
-    "sweeper_4"
-   ],
-   "cues": [
-    "sweeper_4"
-   ],
-   "effect": [
-    "sweeper_4"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": "functional",
-   "template": "sweep_fork",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
-    "animate": false,
-    "s": 0.359,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.03,
-    "aoa_raw": 3.63,
-    "domain": "functional",
-    "area_px": 25392
-   },
-   "b": 1.16,
-   "p0": 0.239,
-   "pm1": 0.103,
-   "aoi_cells": [
-    "BL"
+    "MC",
+    "MR",
+    "BC"
    ]
   },
   {
    "id": "i05",
    "type": "action",
-   "text": "A girl is flying a kite",
-   "accepted": {
-    "who": [
-     "girl",
-     "little girl",
-     "child",
-     "kid",
-     "daughter"
-    ],
-    "what": [
-     "flying a kite",
-     "kite"
-    ]
-   },
-   "key": "kite",
+   "text": "A dog is walking away from the paint",
+   "accepted": [
+    "dog walking",
+    "dog",
+    "dog with paint on its feet"
+   ],
+   "key": "dog",
    "elements": [
-    "kiteflyer_6",
-    "kite_7"
+    "paintdog_7"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "fly_kite",
-   "event": "e2",
+   "template": "paint_tracks",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.234,
+    "s": -0.727,
     "r": 0,
     "d": 0.0,
-    "f": -0.45,
-    "a": 4.58,
-    "zipf_raw": 3.55,
-    "aoa_raw": 4.58,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
     "domain": null,
-    "area_px": 11004
+    "area_px": 5488
    },
-   "b": -0.888,
-   "p0": 0.708,
-   "pm1": 0.472,
+   "b": -1.107,
+   "p0": 0.752,
+   "pm1": 0.527,
    "aoi_cells": [
-    "TL",
-    "TC",
-    "MC",
     "BC"
    ]
   },
   {
    "id": "i06",
+   "type": "entity",
+   "text": "There are paw prints in paint on the grass",
+   "accepted": [
+    "paw prints",
+    "footprints",
+    "paint prints",
+    "pink prints",
+    "tracks"
+   ],
+   "key": "footprints",
+   "elements": [
+    "prints_9",
+    "tray_8"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": false,
+   "domain": null,
+   "template": "paint_tracks",
+   "event": "e1",
+   "features": {
+    "type": "entity",
+    "chain": 0,
+    "animate": false,
+    "s": -0.946,
+    "r": 0,
+    "d": 0.0,
+    "f": -0.71,
+    "a": 5.78,
+    "zipf_raw": 3.29,
+    "aoa_raw": 5.78,
+    "domain": null,
+    "area_px": 4028
+   },
+   "b": 0.046,
+   "p0": 0.489,
+   "pm1": 0.26,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i07",
+   "type": "inference",
+   "text": "The dog stepped in the paint and left footprints",
+   "accepted": [
+    "the dog walked through the paint",
+    "the dog stepped in the tray",
+    "the dog made the footprints",
+    "paint on the dog's paws"
+   ],
+   "key": "paint",
+   "elements": [
+    "paintdog_7",
+    "prints_9",
+    "tray_8"
+   ],
+   "cues": [
+    "paintdog_7",
+    "prints_9",
+    "tray_8"
+   ],
+   "effect": [
+    "prints_9"
+   ],
+   "chain": 2,
+   "animate": false,
+   "domain": null,
+   "template": "paint_tracks",
+   "event": "e1",
+   "features": {
+    "type": "inference",
+    "chain": 2,
+    "animate": false,
+    "s": -0.727,
+    "r": 2,
+    "d": 0.131,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.52,
+    "aoa_raw": 4.45,
+    "domain": null,
+    "area_px": 5488
+   },
+   "b": 0.871,
+   "p0": 0.295,
+   "pm1": 0.133,
+   "aoi_cells": [
+    "BC"
+   ]
+  },
+  {
+   "id": "i08",
+   "type": "action",
+   "text": "A dog is sitting up holding a newspaper",
+   "accepted": [
+    "dog sitting",
+    "dog with a newspaper",
+    "dog holding a paper"
+   ],
+   "key": "dog",
+   "elements": [
+    "readingdog_11",
+    "newspaper_12"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "dog_reading",
+   "event": "e3",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.227,
+    "r": 0,
+    "d": 0.0,
+    "f": 1.1,
+    "a": 2.8,
+    "zipf_raw": 5.1,
+    "aoa_raw": 2.8,
+    "domain": null,
+    "area_px": 11112
+   },
+   "b": -1.357,
+   "p0": 0.795,
+   "pm1": 0.588,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i09",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the dog",
+   "accepted": [
+    "the dog is strange",
+    "something odd about the dog",
+    "that's funny"
+   ],
+   "key": "newspaper",
+   "elements": [
+    "readingdog_11",
+    "newspaper_12"
+   ],
+   "cues": [
+    "readingdog_11",
+    "newspaper_12"
+   ],
+   "effect": [
+    "readingdog_11",
+    "newspaper_12"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "biological",
+   "template": "dog_reading",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.382,
+    "r": 1,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.6,
+    "aoa_raw": 5.78,
+    "domain": "biological",
+    "area_px": 8932
+   },
+   "b": -0.369,
+   "p0": 0.591,
+   "pm1": 0.347,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i10",
+   "type": "contradiction_explain",
+   "text": "The dog is reading a newspaper, but dogs can't read",
+   "accepted": [
+    "dog reading",
+    "dogs can't read",
+    "a dog reading the paper",
+    "reading the newspaper"
+   ],
+   "key": "newspaper",
+   "elements": [
+    "readingdog_11",
+    "newspaper_12"
+   ],
+   "cues": [
+    "readingdog_11",
+    "newspaper_12"
+   ],
+   "effect": [
+    "readingdog_11",
+    "newspaper_12"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "biological",
+   "template": "dog_reading",
+   "event": "e3",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.382,
+    "r": 1,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.6,
+    "aoa_raw": 5.78,
+    "domain": "biological",
+    "area_px": 8932
+   },
+   "b": 0.831,
+   "p0": 0.303,
+   "pm1": 0.138,
+   "aoi_cells": [
+    "BR"
+   ]
+  },
+  {
+   "id": "i11",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -372,11 +595,11 @@
    "p0": 0.708,
    "pm1": 0.471,
    "aoi_cells": [
-    "TL"
+    "TR"
    ]
   },
   {
-   "id": "i07",
+   "id": "i12",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -408,7 +631,7 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19280
+    "area_px": 19276
    },
    "b": -0.77,
    "p0": 0.684,
@@ -418,7 +641,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i13",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -440,7 +663,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.734,
+    "s": 0.733,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -448,62 +671,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43040
+    "area_px": 43028
    },
    "b": -1.262,
    "p0": 0.779,
    "pm1": 0.565,
-   "aoi_cells": [
-    "TR",
-    "MR"
-   ]
-  },
-  {
-   "id": "i09",
-   "type": "entity",
-   "text": "There is a bird feeder",
-   "accepted": [
-    "bird feeder",
-    "feeder",
-    "birdhouse",
-    "bird house",
-    "bird table"
-   ],
-   "key": "feeder",
-   "elements": [
-    "feeder"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "setting",
-   "event": null,
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.401,
-    "r": 0,
-    "d": 0.0,
-    "f": -0.54,
-    "a": 7.29,
-    "zipf_raw": 3.46,
-    "aoa_raw": 7.29,
-    "domain": null,
-    "area_px": 8692
-   },
-   "b": -0.277,
-   "p0": 0.569,
-   "pm1": 0.327,
    "aoi_cells": [
     "TL",
     "ML"
    ]
   },
   {
-   "id": "i10",
+   "id": "i14",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -526,7 +705,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.83,
+    "s": 1.846,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -534,11 +713,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 201848
+    "area_px": 206440
    },
-   "b": -1.618,
-   "p0": 0.835,
-   "pm1": 0.65,
+   "b": -1.626,
+   "p0": 0.836,
+   "pm1": 0.652,
    "aoi_cells": [
     "ML",
     "MC",
@@ -546,7 +725,7 @@
    ]
   },
   {
-   "id": "i11",
+   "id": "i15",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -572,7 +751,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.84,
+    "s": 1.826,
     "r": 0,
     "d": 0.0,
     "f": 1.71,
@@ -580,19 +759,19 @@
     "zipf_raw": 5.71,
     "aoa_raw": 3.16,
     "domain": null,
-    "area_px": 204952
+    "area_px": 200772
    },
-   "b": -2.073,
+   "b": -2.066,
    "p0": 0.888,
-   "pm1": 0.745,
+   "pm1": 0.744,
    "aoi_cells": [
-    "TR",
-    "MR",
-    "BR"
+    "TL",
+    "ML",
+    "BL"
    ]
   },
   {
-   "id": "i12",
+   "id": "i16",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -624,36 +803,36 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 25884
+    "area_px": 25880
    },
    "b": -1.018,
    "p0": 0.735,
    "pm1": 0.504,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "BL",
+    "BC"
    ]
   }
  ],
  "counts": {
-  "content": 10,
-  "inference_units": 1,
+  "content": 12,
+  "inference_units": 3,
   "contradictions": 1,
-  "items_total": 12
+  "items_total": 16
  },
  "predicted": {
   "theta_0": {
-   "content": 0.751,
-   "inference": 0.374
+   "content": 0.752,
+   "inference": 0.352
   },
   "theta_minus_1": {
-   "content": 0.538,
-   "inference": 0.19
+   "content": 0.541,
+   "inference": 0.178
   }
  },
  "bands": {
-  "content_count": false,
-  "inference_units": false,
+  "content_count": true,
+  "inference_units": true,
   "contradictions": true,
   "content_completeness": false,
   "inference_completeness": true
@@ -669,17 +848,29 @@
    "detail": "no head covered or backed by another element; no string or pole crosses a person"
   },
   "clutter_band": {
+   "result": true,
+   "detail": "23 drawn objects (tier band 20-30)"
+  },
+  "grey": {
    "result": false,
-   "detail": "18 drawn objects (tier band 20-30)"
+   "detail": "paintstripe_5 grey 134 on 142 (23% of it stands off)"
   }
  },
  "clutter": {
-  "objects": 18,
-  "edge_density": 0.0421,
-  "png_bytes": 202257,
-  "jpeg_bytes": 187185
+  "objects": 23,
+  "edge_density": 0.042,
+  "png_bytes": 200093,
+  "jpeg_bytes": 187241
  },
  "signature": [
+  [
+   "action",
+   0
+  ],
+  [
+   "action",
+   0
+  ],
   [
    "action",
    0
@@ -727,6 +918,14 @@
   [
    "entity",
    0
+  ],
+  [
+   "inference",
+   2
+  ],
+  [
+   "inference",
+   2
   ]
  ],
  "elements": [
@@ -742,9 +941,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    52.0,
+    1352.0,
     22.0,
-    248.0,
+    1548.0,
     218.0
    ],
    "area_px": 13440,
@@ -757,13 +956,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    634.0,
+    560.0,
     68.0,
-    1040.0,
+    966.0,
     202.0
    ],
-   "area_px": 19280,
-   "visible_px": 19280,
+   "area_px": 19276,
+   "visible_px": 19276,
    "occlusion": 0.0
   },
   {
@@ -784,14 +983,14 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    38.0,
+    1254.0,
     614.0,
-    346.0,
+    1562.0,
     1000.0
    ],
-   "area_px": 81248,
-   "visible_px": 68544,
-   "occlusion": 0.156
+   "area_px": 81244,
+   "visible_px": 80792,
+   "occlusion": 0.006
   },
   {
    "id": "tree",
@@ -799,13 +998,13 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    1056.0,
+    296.0,
     176.0,
-    1304.0,
+    544.0,
     452.0
    ],
-   "area_px": 44992,
-   "visible_px": 43040,
+   "area_px": 44984,
+   "visible_px": 43028,
    "occlusion": 0.043
   },
   {
@@ -814,29 +1013,29 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    0.0,
+    298.0,
     426.0,
-    1302.0,
+    1600.0,
     618.0
    ],
-   "area_px": 240904,
-   "visible_px": 201848,
-   "occlusion": 0.162
+   "area_px": 240896,
+   "visible_px": 206440,
+   "occlusion": 0.143
   },
   {
-   "id": "paintstripe_2",
+   "id": "paintstripe_5",
    "label": "Freshly painted boards",
    "role": "scored",
    "z": 616,
    "bbox": [
-    414.0,
+    1042.0,
     426.0,
-    558.0,
+    1186.0,
     618.0
    ],
-   "area_px": 23244,
-   "visible_px": 22540,
-   "occlusion": 0.03
+   "area_px": 23156,
+   "visible_px": 22372,
+   "occlusion": 0.034
   },
   {
    "id": "filler_bush_left",
@@ -844,49 +1043,266 @@
    "role": "filler",
    "z": 648,
    "bbox": [
-    1172.0,
+    292.0,
     598.0,
-    1308.0,
+    428.0,
     684.0
    ],
-   "area_px": 8292,
-   "visible_px": 7492,
+   "area_px": 8296,
+   "visible_px": 7496,
    "occlusion": 0.096
   },
   {
-   "id": "feeder",
-   "label": "Bird table on a post",
-   "role": "setting",
-   "z": 652,
+   "id": "filler_pots",
+   "label": "Flower pots",
+   "role": "filler",
+   "z": 700,
    "bbox": [
-    318.0,
-    302.0,
-    392.0,
-    664.0
+    1100.0,
+    596.0,
+    1220.0,
+    702.0
    ],
-   "area_px": 8692,
-   "visible_px": 8692,
+   "area_px": 8080,
+   "visible_px": 8080,
    "occlusion": 0.0
   },
   {
-   "id": "painter_1",
-   "label": "person.rosa__paint__neutral__y090",
+   "id": "painter_4",
+   "label": "person.mei__paint__neutral__y090",
    "role": "scored",
-   "z": 680,
+   "z": 704,
    "bbox": [
-    522.0,
-    450.0,
-    634.0,
-    686.0
+    956.0,
+    454.0,
+    1080.0,
+    710.0
    ],
-   "area_px": 10852,
-   "visible_px": 10852,
+   "area_px": 12852,
+   "visible_px": 12852,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.rosa__paint__neutral__y090",
-    "family": "person.rosa",
-    "scale": 0.4009,
+    "variant": "person.mei__paint__neutral__y090",
+    "family": "person.mei",
+    "scale": 0.4098,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "black_bob"
+     }
+    }
+   }
+  },
+  {
+   "id": "painttin_6",
+   "label": "Tin of paint",
+   "role": "prop",
+   "z": 716,
+   "bbox": [
+    920.0,
+    668.0,
+    958.0,
+    718.0
+   ],
+   "area_px": 1688,
+   "visible_px": 1688,
+   "occlusion": 0.0
+  },
+  {
+   "id": "tray_8",
+   "label": "Paint tray",
+   "role": "scored",
+   "z": 729.88,
+   "bbox": [
+    836.0,
+    698.0,
+    920.0,
+    732.0
+   ],
+   "area_px": 2644,
+   "visible_px": 2624,
+   "occlusion": 0.008
+  },
+  {
+   "id": "prints_9",
+   "label": "Paint paw prints",
+   "role": "scored",
+   "z": 730.88,
+   "bbox": [
+    678.0,
+    730.0,
+    854.0,
+    786.0
+   ],
+   "area_px": 1472,
+   "visible_px": 1404,
+   "occlusion": 0.046
+  },
+  {
+   "id": "house",
+   "label": "Back of the house",
+   "role": "setting",
+   "z": 781,
+   "bbox": [
+    0.0,
+    118.0,
+    342.0,
+    784.0
+   ],
+   "area_px": 204952,
+   "visible_px": 200772,
+   "occlusion": 0.02
+  },
+  {
+   "id": "paintdog_7",
+   "label": "animal.dog_02__walk__happy__y090",
+   "role": "scored",
+   "z": 781.64,
+   "bbox": [
+    568.0,
+    684.0,
+    690.0,
+    786.0
+   ],
+   "area_px": 5952,
+   "visible_px": 5488,
+   "occlusion": 0.078,
+   "asset": {
+    "variant": "animal.dog_02__walk__happy__y090",
+    "family": "animal.dog_02",
+    "scale": 0.4386,
     "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "paintpaws_10",
+   "label": "Paint on the dog's paws",
+   "role": "setting",
+   "z": 784.64,
+   "bbox": [
+    590.0,
+    764.0,
+    684.0,
+    786.0
+   ],
+   "area_px": 520,
+   "visible_px": 520,
+   "occlusion": 0.0
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
+   "bbox": [
+    318.0,
+    694.0,
+    572.0,
+    838.0
+   ],
+   "area_px": 25880,
+   "visible_px": 25880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "newspaper_12",
+   "label": "Newspaper held by the dog",
+   "role": "scored",
+   "z": 859.79,
+   "bbox": [
+    1058.0,
+    776.0,
+    1124.0,
+    828.0
+   ],
+   "area_px": 2180,
+   "visible_px": 2180,
+   "occlusion": 0.0
+  },
+  {
+   "id": "readingdog_11",
+   "label": "animal.dog_01__sit_read__read__y090",
+   "role": "scored",
+   "z": 860.79,
+   "bbox": [
+    1056.0,
+    726.0,
+    1170.0,
+    870.0
+   ],
+   "area_px": 8932,
+   "visible_px": 8932,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "animal.dog_01__sit_read__read__y090",
+    "family": "animal.dog_01",
+    "scale": 0.4679,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "medium_animal"
+    }
+   }
+  },
+  {
+   "id": "bench",
+   "label": "Garden bench",
+   "role": "setting",
+   "z": 928,
+   "bbox": [
+    52.0,
+    804.0,
+    258.0,
+    930.0
+   ],
+   "area_px": 13252,
+   "visible_px": 5860,
+   "occlusion": 0.558
+  },
+  {
+   "id": "benchreader_1",
+   "label": "person.rosa__sit_read__neutral__y045",
+   "role": "scored",
+   "z": 931,
+   "bbox": [
+    176.0,
+    702.0,
+    308.0,
+    950.0
+   ],
+   "area_px": 15776,
+   "visible_px": 15776,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.rosa__sit_read__neutral__y045",
+    "family": "person.rosa",
+    "scale": 0.4939,
+    "mirrored": false,
     "labels": {
      "everyday_name": "grandmother",
      "accepted_names": [
@@ -907,153 +1323,49 @@
    }
   },
   {
-   "id": "painttin_3",
-   "label": "Tin of paint",
-   "role": "prop",
-   "z": 692,
-   "bbox": [
-    630.0,
-    646.0,
-    668.0,
-    694.0
-   ],
-   "area_px": 1616,
-   "visible_px": 1616,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
-   "bbox": [
-    380.0,
-    596.0,
-    500.0,
-    702.0
-   ],
-   "area_px": 8080,
-   "visible_px": 8080,
-   "occlusion": 0.0
-  },
-  {
-   "id": "kiteflyer_6",
-   "label": "person.nia__fly_kite__smile__y090",
+   "id": "sandwich_3",
+   "label": "Sandwich on the bench",
    "role": "scored",
-   "z": 762.59,
+   "z": 931.5,
    "bbox": [
-    892.0,
-    598.0,
-    966.0,
-    766.0
+    86.0,
+    794.0,
+    162.0,
+    860.0
    ],
-   "area_px": 5316,
-   "visible_px": 5292,
-   "occlusion": 0.005,
+   "area_px": 3212,
+   "visible_px": 3184,
+   "occlusion": 0.009
+  },
+  {
+   "id": "thief_2",
+   "label": "animal.bird_02__tug__neutral__y045",
+   "role": "scored",
+   "z": 932,
+   "bbox": [
+    16.0,
+    776.0,
+    96.0,
+    862.0
+   ],
+   "area_px": 3504,
+   "visible_px": 3504,
+   "occlusion": 0.0,
    "asset": {
-    "variant": "person.nia__fly_kite__smile__y090",
-    "family": "person.nia",
-    "scale": 0.4315,
-    "mirrored": true,
+    "variant": "animal.bird_02__tug__neutral__y045",
+    "family": "animal.bird_02",
+    "scale": 0.5931,
+    "mirrored": false,
     "labels": {
-     "everyday_name": "girl",
+     "everyday_name": "bird",
      "accepted_names": [
-      "girl",
-      "little girl",
-      "child",
-      "kid",
-      "daughter"
+      "bird",
+      "bluebird",
+      "little bird"
      ],
-     "category": "child_person",
-     "person": {
-      "age_group": "child",
-      "skin_tone": "skin2",
-      "hair": "puffs"
-     }
+     "category": "bird"
     }
    }
-  },
-  {
-   "id": "house",
-   "label": "Back of the house",
-   "role": "setting",
-   "z": 781,
-   "bbox": [
-    1258.0,
-    118.0,
-    1600.0,
-    784.0
-   ],
-   "area_px": 204952,
-   "visible_px": 204952,
-   "occlusion": 0.0
-  },
-  {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
-   "bbox": [
-    1028.0,
-    694.0,
-    1282.0,
-    838.0
-   ],
-   "area_px": 25884,
-   "visible_px": 25884,
-   "occlusion": 0.0
-  },
-  {
-   "id": "sweeper_4",
-   "label": "person.mei__sweep_giant_fork__neutral__y045",
-   "role": "scored",
-   "z": 969.99,
-   "bbox": [
-    148.0,
-    670.0,
-    352.0,
-    980.0
-   ],
-   "area_px": 25824,
-   "visible_px": 25392,
-   "occlusion": 0.017,
-   "asset": {
-    "variant": "person.mei__sweep_giant_fork__neutral__y045",
-    "family": "person.mei",
-    "scale": 0.5083,
-    "mirrored": true,
-    "labels": {
-     "everyday_name": "woman",
-     "accepted_names": [
-      "woman",
-      "lady",
-      "mother",
-      "mom",
-      "person"
-     ],
-     "category": "adult_person",
-     "person": {
-      "age_group": "adult",
-      "skin_tone": "skin4",
-      "hair": "black_bob"
-     }
-    }
-   }
-  },
-  {
-   "id": "sweptpile_5",
-   "label": "Swept-up dust and grit by a dustpan",
-   "role": "setting",
-   "z": 970.99,
-   "bbox": [
-    70.0,
-    912.0,
-    240.0,
-    984.0
-   ],
-   "area_px": 4676,
-   "visible_px": 4676,
-   "occlusion": 0.0
   },
   {
    "id": "filler_wheelbarrow",
@@ -1061,28 +1373,13 @@
    "role": "filler",
    "z": 975,
    "bbox": [
-    522.0,
+    896.0,
     892.0,
-    704.0,
+    1078.0,
     980.0
    ],
-   "area_px": 8772,
-   "visible_px": 8772,
-   "occlusion": 0.0
-  },
-  {
-   "id": "kite_7",
-   "label": "Kite",
-   "role": "scored",
-   "z": 1500,
-   "bbox": [
-    496.0,
-    84.0,
-    900.0,
-    610.0
-   ],
-   "area_px": 5712,
-   "visible_px": 5712,
+   "area_px": 8776,
+   "visible_px": 8776,
    "occlusion": 0.0
   }
  ],
@@ -1105,15 +1402,15 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "fly_kite",
-    "paint_fence"
+   "modules": [
+    "paint_tracks",
+    "bird_steals"
    ],
    "contradictions": [
-    "sweep_fork"
+    "dog_reading"
    ]
   },
-  "placement_rev": 49
+  "placement_rev": 50
  },
  "probe": true
 }

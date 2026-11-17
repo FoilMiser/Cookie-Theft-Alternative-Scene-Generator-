@@ -18,7 +18,7 @@ from . import scene as SCN
 from .scene import PlacementError, Scene
 from .settings import FEATURES, build as build_setting
 
-GENERATOR_VERSION = "0.55.0"
+GENERATOR_VERSION = "0.56.0"
 
 # how many template instances (scene load) and inference units each tier uses
 TIER_PLAN = {
@@ -50,32 +50,32 @@ def feasible(cls, setting, sky):
 # cues - 1, key word), used only to choose templates whose inference difficulty suits the tier
 # before anything is rendered; every scene is then scored from its real masks.
 PRIOR = {   # (type, chain, salience z, separation, cues - 1, key word); measured by calibrate (v0.22 calibration.json)
-    "blocked_hose": [("inference", 2, -0.39, 0.170, 2, "water")],
-    "rain_coming": [("inference", 1, 0.95, 0.410, 1, "rain")],
-    "cat_stalks_bird": [("inference", 1, -0.49, 0.099, 1, "cat")],
-    "ball_in_tree": [("inference", 1, -0.69, 0.141, 1, "stuck")],
-    "kite_in_tree": [("inference", 1, -0.54, 0.245, 2, "stuck")],
-    "ice_cream_drop": [("inference", 1, -1.43, 0.080, 2, "dropped")],
-    "about_to_trip": [("inference", 1, 0.14, 0.092, 1, "trip")],
+    "blocked_hose": [("inference", 2, -0.39, 0.165, 2, "water")],
+    "rain_coming": [("inference", 1, 0.95, 0.408, 1, "rain")],
+    "cat_stalks_bird": [("inference", 1, -0.51, 0.100, 1, "cat")],
+    "ball_in_tree": [("inference", 1, -0.69, 0.139, 1, "stuck")],
+    "kite_in_tree": [("inference", 1, -0.73, 0.238, 2, "stuck")],
+    "ice_cream_drop": [("inference", 1, -1.46, 0.077, 2, "dropped")],
+    "about_to_trip": [("inference", 1, 0.15, 0.092, 1, "trip")],
     "dog_begs": [("inference", 1, -0.79, 0.079, 1, "begging")],
-    "sprinkler_package": [("inference", 1, 0.00, 0.236, 1, "wet")],
-    "paint_tracks": [("inference", 2, -0.78, 0.152, 2, "paint")],
-    "windy_hat": [("inference", 2, -1.24, 0.144, 1, "wind")],
-    "bird_steals": [("inference", 2, -1.76, 0.067, 1, "stealing")],
-    "lost_balloon": [("inference", 1, -1.12, 0.189, 2, "lost")],
-    "ducks_bread": [("inference", 1, -1.34, 0.015, 1, "hungry")],
-    "seesaw_heavy": [("inference", 1, -0.69, 0.166, 1, "heavy")],
+    "sprinkler_package": [("inference", 1, -0.05, 0.241, 1, "wet")],
+    "paint_tracks": [("inference", 2, -0.78, 0.145, 2, "paint")],
+    "windy_hat": [("inference", 2, -1.28, 0.139, 1, "wind")],
+    "bird_steals": [("inference", 2, -1.13, 0.095, 1, "stealing")],
+    "lost_balloon": [("inference", 1, -1.19, 0.176, 2, "lost")],
+    "ducks_bread": [("inference", 1, -1.34, 0.012, 1, "hungry")],
+    "seesaw_heavy": [("inference", 1, -0.64, 0.164, 1, "heavy")],
     "dog_wants_walk": [("inference", 1, -0.55, 0.166, 2, "walk")],
 }
-for _cid, _s, _k in [("water_upward", -1.45, "water"),
+for _cid, _s, _k in [("water_upward", -1.44, "water"),
                      ("floating_box", -0.38, "floating"),
-                     ("square_wheel", 0.04, "wheel"),
+                     ("square_wheel", -0.03, "wheel"),
                      ("fish_in_tree", -1.31, "fish"),
-                     ("pan_watering", 0.08, "pan"),
-                     ("sweep_fork", 0.26, "fork"),
-                     ("bucket_hat", 0.25, "bucket"),
-                     ("sitting_on_air", 0.07, "chair"),
-                     ("ladder_nothing", -0.44, "ladder"),
+                     ("pan_watering", 0.06, "pan"),
+                     ("sweep_fork", 0.27, "fork"),
+                     ("bucket_hat", 0.23, "bucket"),
+                     ("sitting_on_air", 0.11, "chair"),
+                     ("ladder_nothing", -0.08, "ladder"),
                      ("dog_reading", -0.30, "newspaper")]:
     PRIOR[_cid] = [("contradiction_notice", 0, _s, 0.0, 0, _k), ("contradiction_explain", 1, _s, 0.0, 0, _k)]
 TYPICAL_LOAD = {1: 2.5, 2: 4, 3: 5.5, 4: 8}
@@ -330,6 +330,16 @@ def _plan(tier, setting, seed, lib, forced, bumped):
             # thing up high to offer in the clouds' place, three screens running on one picture ("or up at the cat or something on the fence");
             # revision 31 keeps things off her fingertip, and the cat was across the garden
             continue
+        if SCN.sw56("STEALAT") != "O" and setting == "garden" and any(c.id == "bird_steals" for c in picked)                 and any("hose_reel" in c.exclusive for c in picked)                 and not all(c.id in _fids for c in picked if c.id == "bird_steals" or "hose_reel" in c.exclusive):
+            # revision 50 (templates STEALAT): no thief bird in a garden where somebody uses the hose reel. The reel stands by the garden's
+            # bench, and the bird is drawn with the reel left out ("in one garden probe it touches a hose reel of nearly its colour");
+            # BirdSteals.place refuses such a garden, and picking again here saves the tries
+            continue
+        if SCN.sw56("PARCEL") != "O" and setting == "garden" and {"swing", "sprinkler_package"} <= {c.id for c in picked}                 and not {"swing", "sprinkler_package"} <= _fids:
+            # revision 50 (templates PARCEL): no child on the garden's swing in the picture of the parcel in the sprinkler's water. The
+            # parcel stands on the path, the only lawn for its sprinkler beside the path is in front of the swing, and the arcs would
+            # cross the child on the seat (none of twelve seeds placed the two together)
+            continue
         if SCN.PLACEMENT_REV >= 36 and setting == "garden" and any(c.id == "rain_coming" for c in picked) \
                 and any(c.id == "bird_perched" for c in picked) and "bird_perched" not in _fids:
             # nor a bird perched up high in the garden, the same thing as the cat on its fence (an older screen, of a bird on a street's lamp: "he
@@ -341,6 +351,11 @@ def _plan(tier, setting, seed, lib, forced, bumped):
         if SCN.PLACEMENT_REV >= 14 and any(c.id == "square_wheel" for c in picked):
             # revision 14: no ordinary bicycle in a rack beside the square-wheeled one (as the fillers keep away since revision 9)
             feats.discard("bicycle")
+        if SCN.sw56("LADDER") != "O" and setting == "park" and any(c.id == "ladder_nothing" for c in picked):
+            # revision 50 (LADDER): no lamp post in the park of the ladder that leans on nothing. The longer ladder, whose top third stands
+            # against the open sky, is wider than the one gap revision 27 left it, between the lamp post's 160 units each side and the
+            # big tree; and with no post in the picture there is nothing it could be "meant to lean on" (settings.build_park)
+            feats.add("no_lamp")
         if SCN.PLACEMENT_REV >= 19 and "laundry" in feats and any(c.id == "hang_laundry" for c in picked):
             # revision 19: only the jeans already on the line beside someone pinning up a shirt (see settings.laundry_svg)
             feats.add("laundry_short")
@@ -477,6 +492,9 @@ def add_fillers(sc, target):
                 continue
             if any(min(g[2], z[2]) > max(g[0], z[0]) and min(g[3], z[3]) > max(g[1], z[1]) for z in list(sc.airzones) + list(sc.keepout) + list(getattr(sc, "groundzones", []))):
                 continue
+        if SCN.sw56("LANE") != "O" and any(min(bb[2], z[2]) > max(bb[0], z[0]) and min(bb[3], z[3]) > max(bb[1], z[1]) for z, _ in getattr(sc, "lanes", ())):
+            # revision 50 (LANE): no rock, crate or bin in a walker's lane (a pram "headed for a rock", v0.55 picture 83, three readers)
+            continue
         sc.svg(f"filler_{f['id']}", f["label"], svg, f["y"], bb, "filler")
         n += 1
     return n
@@ -630,6 +648,10 @@ def finalize(sc, objects_target=None, entity_k=None, pc_target=None):
     ok_l, why_l = K.legibility(sc, els, stats)
     checks["legibility"] = (ok_l, "; ".join(why_l[:6]) if why_l else "no head covered or backed by another element; no string or pole crosses a person")
     checks["clutter_band"] = (lo <= n_obj <= hi, f"{n_obj} drawn objects (tier band {lo}-{hi})")
+    if SCN.sw56("GREY") != "O":
+        # v0.56 (GREY): every scored thing the scene draws stands off in grey from what is round it (compose.grey_check)
+        ok_g, why_g, _ = K.grey_check(sc, els, stats, sc.mirror_scene)
+        checks["grey"] = (ok_g, "; ".join(why_g[:6]) if why_g else "every scored thing stands off in grey from what is round it")
     # choose scored setting entities to land content completeness at the band centre
     cands = entity_items(sc, stats)
     n_tpl = sum(1 for it in sc.items if it["type"] in DF.CONTENT_TYPES)

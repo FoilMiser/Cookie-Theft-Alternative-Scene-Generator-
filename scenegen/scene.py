@@ -6,6 +6,7 @@ Templates call these helpers in two phases:
 """
 import math
 import random
+import sys
 
 import numpy as np
 
@@ -361,11 +362,90 @@ class PlacementError(Exception):
 # v0.55: no new revision. Sam's brief was the legs of a seated figure, and the work is in the cast (builder 0.55.0, castlib.people.SEAT55
 # and castlib.actions.SIT55; vision/isolation_v055.md): in the seated postures the lower body is drawn in stiff pieces with a knee, the
 # feet under the knees. A seated sprite's box and mask are new, so a picture that holds one can place differently under the same rules.
-PLACEMENT_REV = 49
+# 50 (v0.56): the list of the second part of vision/flaws_v055.md, a check of v0.55's 99 pictures by seven reviewers after its release
+# (vision/isolation_v056.md, vision/design_tests_v056.md). Every rule and every drawing of the scene is behind a switch of its own, sw56(NAME)
+# below ("O" is v0.55's; the name is given in brackets), and each was read blind before it went into scenes: the cast's drawings in pairs,
+# the scene's in v0.55's own pictures built again (268 readings), the rules in nineteen new pictures (38 readings), and what that left
+# open in a second round (50 readings).
+# Placement:
+#   P1 (BANK, PONDFIG): the pond has a sandy shore along its near side and darker water (draw.pond), and a person of another event stands
+#   with at most 0.30 of its height above the pond's near edge. A doubt whether a figure stood in the water, at its edge or over it was
+#   in 5 readings of 13 of v0.55's pictures, 4 of 28 with the shore alone and none of 10 in the new pictures.
+#   P2 (EDGE): no figure's ground line lower than 970 (EDGE50_Y below, and why it is the ground line and not the box).
+#   P3 (SUN): the street's sun 32 units lower, whole under the picture's top edge.
+#   P4 (HOSEBED, HOSERUN): the sprinkler's hose crosses no flower bed, and no animal but the one that blocks a hose stands or lies on
+#   a hose that runs (run_clear50).
+#   P5 (LANE, FLOAT, REACH): a walker's lane reaches 70 units behind its line and 30 in front, and no filler stands in it; a duck keeps
+#   120 units from an angler's float (FLOAT50_GAP; at 150 a duck and an angler shared a pond on 1 seed of 12); a child jumping for joy
+#   is 150 units clear of the swing and the washing and is never in a picture with a held balloon, a lost one, a hat the wind took or
+#   a floating box (templates._Ex56). The last two are the bench's own: beside the hat the jumper "jumps with both arms raised, as if
+#   leaping to catch the hat", and under the box had "just tossed it".
+#   P6 (PRAM): a pram's wheels on the path where the setting has one. (Lamp posts and bins at the path's edge: two hedged remarks in 297
+#   readings, left.)
+#   P8 (PICNIC): the blanket half as large again, the sitter and the basket in its middle. Off the blanket in 2 readings of 6 of v0.55's
+#   pictures built again, in none of 4 on the larger one.
+#   P9 (PHOTO): the photographer's subject 200 to 430 units away at the photographer's own depth and alone on that side, and the
+#   photographer drawn from the side, the camera along the picture. With the first alone, at three-quarters, four readers of four still
+#   asked what the camera was aimed at ("points out of the picture rather than at any particular person"); from the side all six
+#   named the subject first, each with something else offered beside it.
+#   P10 (BALLOONUP, DROPFRONT, DUCKNEAR): the playground's lost balloon has its string's end above the railing; a dropped ice cream lies
+#   at least 120 units in front of the horizon; a lone duck swims at the pond's near side.
+#   I9 (LADDER): the ladder that leans on nothing is 520 long and its top third stands against open sky, clear of hills, trees, clouds
+#   and the sun, and its park has no lamp post (planner, the feature no_lamp: the one gap between lamp and tree was 111 wide). A support
+#   behind it was offered in 4 readings of 9 of the short ladder and in neither of 2 of the long one.
+#   I5 (RAINLINE): the garden's bird table is kept out of the line of the storm pointer's arm, as buildings and figures were.
+#   I6 (HATHAND): the arm that reaches for the blown hat is clear of the garden's gate.
+#   I10 (BOXHAND): no raised hand within 250 units of the floating box (templates.hand_clear56).
+#   R3 (STEALAT), I1 (PARCEL): nobody's feet within 110 units of the thief bird's bench, and no thief bird in a garden whose hose reel
+#   another template uses; the sprinkler's parcel on the path at its edge, and never with the garden's swing.
+# Drawings of the scene taken: the bicycle with square wheels held by its owner, who is cast with everybody else (BIKE "H": the wheels
+# named as wrong in the description or the inventory in 6 readings of 6, for 4 of 10 on its stand; leaning on a post, "L", in none of 8,
+# and BIKEFALL "L" would let it lean when nobody is free); the wheelbarrow's square wheel at the round wheel's size and place, open on
+# its spokes, the tub red (BARROW "C": 5 of 6, for 1 of 4 as v0.55 drew it and 2 of 8 as a solid square, "a black box at its front
+# end"); the stopped hose with a nozzle twice the size, a drop at its mouth and water seeping at the reel, the swelling kept (HOSE "N",
+# DRIP, SEEP: the dog as the one cause in 8 readings of 10, for none of 4; without the swelling, "B", 1 of 8; without the seep 3 of 8);
+# the seesaw's ends on stops and the plain seesaw tilted 15 degrees (LOWEND, TILT); the thief bird half as large again, pulling the top
+# slice off a larger sandwich (STEAL "B": no likelier to be read as stealing, 12 readings of 24 for 12 of 31, and no longer small);
+# pink paint with a ribbed tray (PAINT, TRAY, ROLLER); a tray of seedlings (SEEDLING); bread thrown underarm (BREAD); the parcel with
+# tape and a blank label (PARCEL); the kite tipped on a limb, yellow or orange (KITE: light in grey; the reading is as it was); the
+# sprinkler's jets with a white core (SPRAY); a loose balloon that is never yellow (LOSTCOL); a stronger pink splat (SPLAT); wicker
+# baskets (BASKET).
+# Read and not taken (each "O" in SW56_DEFAULT): a long lead trailing on the step (LEAD: "a yellow garden hose" to 8 readers of 10, and
+# in red to 2 of 10); the bird turned from the stalking cat (STALKBIRD: no difference); the rising water as streaks and drops (UPW: read
+# as a spray, and missed once); the ball's trail only behind the ball (TRAIL: nobody had the ball on a string in either drawing, and
+# who threw it was doubted in 6 readings of 8 for 1 of 4).
+# The grey check (GREY "W", compose.grey_check): each record says whether every scored thing stands off in grey from what is round it;
+# "B" would fail the layout. K1 (PRON): accepted phrases name a figure as she, he or they by the figure.
+# What the rules cost, seeds placed of 12 with the band off (tpdb_work pricing, tools/cycle/yield_set.py): a pram alone in the park 7
+# for 12, a photographer with two events 7 for 10 in the park, 8 for 11 in the playground, 9 for 10 in the street, the jumper with the
+# washing 8 for 9, the ladder with an angler 13 of 24 for 10; every other rule the same count on and off. On v0.55's four tier-4 sets,
+# six seeds each: park 4 and 4, street 5 and 5, playground 3 and 3, garden 5 and 4.
+PLACEMENT_REV = 50
+# v0.56: the revision from which v0.56's drawings of the scene act, each behind a switch of its own (TPDB_<NAME>56: "B" the new drawing,
+# "O" the drawing as v0.55 had it). The whole-scene bench sets TPDB_REV56=49, to build v0.55's own records again with them.
+REV56 = int(__import__("os").environ.get("TPDB_REV56", "50"))
+SW56_DEFAULT = {"GREY": "W", "BIKE": "H", "BARROW": "C", "HOSE": "N", "LEAD": "O", "STALKBIRD": "O", "UPW": "O", "TRAIL": "O"}      # a switch that is not named here is "B"; one that its bench did not take is named here with "O"
+
+
+def sw56(name):
+    """The value of v0.56's switch NAME for the record being built: "O" under revision REV56, else TPDB_<NAME>56 or its default."""
+    env = __import__("os").environ
+    if PLACEMENT_REV < REV56:
+        return "O"
+    if env.get("TPDB_ONLY56") is not None and name not in env["TPDB_ONLY56"].split(","):
+        return "O"         # (a bench arm: only the named switches act)
+    return env.get("TPDB_" + name + "56", SW56_DEFAULT.get(name, "B"))
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
 EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value
 POND48 = __import__("os").environ.get("TPDB_POND48", "B")      # "O": revision 44's pond
 REEL48 = __import__("os").environ.get("TPDB_REEL48", "B")      # "O": animals may stand over the hose reel, as up to revision 44
+EDGE50_Y = float(__import__("os").environ.get("TPDB_EDGE50_Y", "978"))     # revision 50 (EDGE): no figure's ground line lower than this less 8, 970
+# (the list's rule: no base lower than 970. Taken by the figure's box, whose foot lies 3 to 10 units under the ground line and up to 39
+#  under it for a sweeper, the rule cost the ground's front strip: a grown waver's raised hand clears the garden's fence only from there,
+#  and the wave placed on 2 seeds of 8 for 5. By the ground line at 970 it placed on 5 again.)
+POND50_SHARE = 0.30    # revision 50 (PONDFIG): how much of the height of a figure of another event may lie above the pond's near edge
+FLOAT50_GAP = float(__import__("os").environ.get("TPDB_FLOAT50_GAP", "120"))      # revision 50 (FLOAT): how far a duck keeps from an angler's float, side to side (60 before)
+LANE50_BACK = 70       # revision 50 (LANE): how far behind a walker's line, in depth, its lane reaches (26 before)
 WORKER = "person.jo"
 BACK_STRIP = 90   # revision 22: the strip of open ground behind the horizon line that people on the ground keep out of
 
@@ -678,6 +758,19 @@ class Scene:
         if p is not None and PLACEMENT_REV >= 45 and POND48 == "B" and p.family.startswith("person.") and "pond" not in getattr(self, "exempt", ()) \
                 and not p.m["variant"].get("airborne") and not self.clear_of_pond_v45(bbox):
             return False
+        if p is not None and p.Y > EDGE50_Y - 8 and p.family.startswith(("person.", "animal.")) and not p.m["variant"].get("airborne") \
+                and "__swim__" not in p.v and sw56("EDGE") != "O":
+            # revision 50 (EDGE): no figure with its feet at the picture's foot (twelve figures of v0.55's 99 pictures stood 4 to 12
+            # units from it, and a shadow was cut by it). By the figure's ground line and not its box: a sweeper's box reaches up to 39
+            # units below the feet with the broom, and by the box the rule took the front of the ground from every such pose
+            return False
+        if p is not None and p.family.startswith("person.") and "pond" not in getattr(self, "exempt", ()) and not p.m["variant"].get("airborne") \
+                and sw56("PONDFIG") != "O" and not self.clear_of_pond_v50(bbox):
+            return False
+        if p is not None and p.family.startswith("person.") and sw56("BOXHAND") != "O"                 and not sys.modules["scenegen.templates"].hand_clear56(self, p):
+            # revision 50 (templates BOXHAND): nobody placed after the floating box raises a hand within reach of it (a waver's hand
+            # pointed at it, and the box was "thrown")
+            return False
         if PLACEMENT_REV >= 9:
             for k in getattr(self, "groundzones", ()):
                 if min(bbox[2], k[2]) > max(bbox[0], k[0]) and min(bbox[3], k[3]) > max(bbox[1], k[1]):
@@ -816,6 +909,10 @@ class Scene:
             # seemed to be running "toward the cat and bird, perhaps to stop the cat")
             back = 220 if PLACEMENT_REV >= 21 else 150
             return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 50 * s)
+        if sw56("LANE") != "O":
+            # revision 50 (LANE): a walker's lane deeper behind its line and a little in front of it (a child walking with an ice cream
+            # came up 30 units in front of a bird that a man was feeding: "heading straight at" it, v0.55 picture 21, three readers)
+            return (max(0.0, x0), p.Y - max(back, LANE50_BACK) * s, min(float(D.W), x1), p.Y + 30 * s)
         return (max(0.0, x0), p.Y - back * s, min(float(D.W), x1), p.Y + 16 * s)
 
     def clear_of_knob(self, p, pad=16, r_knob=7):
@@ -913,6 +1010,8 @@ class Scene:
     def clear_of_floats(self, bbox, p=None, gap=60):
         """Revision 21: a box clear of every angler's float and line (floats: (x, y) points, lines: (a, b) segments); a duck
         given as p also faces away from every float."""
+        if sw56("FLOAT") != "O":
+            gap = FLOAT50_GAP       # revision 50 (FLOAT): 70 units from the float a duck was still "by" it (v0.55 picture 56, three readers)
         g = (bbox[0] - gap, bbox[1] - gap * 0.6, bbox[2] + gap, bbox[3] + gap * 0.6)
         for (x, y) in getattr(self, "floats", ()):
             if g[0] <= x <= g[2] and g[1] <= y <= g[3]:
@@ -1133,6 +1232,38 @@ class Scene:
         t = min(1.0, abs(fx - cx) / rx)
         return box[3] - 0.5 * (box[3] - box[1]) > cy + ry * (1 - t * t) ** 0.5 + 4
 
+    def clear_of_pond_v50(self, box, share=None):
+        """Revision 50 (PONDFIG): a person of another event in front of the pond covers its near edge with the head and shoulders at
+        the most: no more than POND50_SHARE of the figure's height lies above the pond's near edge at the figure's own place."""
+        A = self.S.anchors.get("pond")
+        if not A or "center" not in A:
+            return True
+        (cx, cy), rx, ry = A["center"], A["rx"], A["ry"]
+        fx = (box[0] + box[2]) / 2
+        if abs(fx - cx) >= rx + 12 or box[3] < cy:
+            return True
+        t = min(1.0, abs(fx - cx) / rx)
+        near = cy + ry * (1 - t * t) ** 0.5
+        return near - box[1] <= (POND50_SHARE if share is None else share) * (box[3] - box[1])
+
+    def run_clear50(self, boxes, ignore=(), beds=True):
+        """Revision 50 (HOSERUN): a hose's run on the ground, given as boxes along it, crosses no flower bed and lies under no figure
+        but those in ignore (v0.55: the sprinkler's hose ran under a flower bed, picture 41, and a sleeping dog lay on it, picture 57)."""
+        bed = [e["bbox"] for e in self.S.elements if e["id"] == "flowers" and e.get("bbox")] if beds else []
+        for b in boxes:
+            for z in bed:
+                if min(b[2], z[2]) > max(b[0], z[0]) and min(b[3], z[3]) > max(b[1], z[1]):
+                    return False
+            for k, q in self.assets.items():
+                if k in ignore or not getattr(q, "family", "").startswith(("person.", "animal.")) or q.m["variant"].get("airborne"):
+                    continue
+                qb = q.bbox()
+                h = qb[3] - qb[1]
+                z = (qb[0] - 6, qb[3] - (0.6 if q.family.startswith("animal.") else 0.16) * h, qb[2] + 6, qb[3] + 8)
+                if min(b[2], z[2]) > max(b[0], z[0]) and min(b[3], z[3]) > max(b[1], z[1]):
+                    return False
+        return True
+
     def clear_of_pond_v19(self, box, p):
         """Revision 19: a person or animal clear of the pond's cattails (one "poking up just behind the young person's head",
         others "at his hip"), and with the feet not on or inside its rim at the sides either ("overlaps the right edge of the
@@ -1298,6 +1429,10 @@ class Scene:
         """Candidate ground points: walkable, uncrowded, optionally near a point at a distance range (px)."""
         x0, x1 = x_range or (110, D.W - 110)
         y0, y1 = y_range or (self.S.horizon + 50, D.H - 12)
+        if sw56("EDGE") != "O":
+            # revision 50 (EDGE): no candidate lower than a figure may stand (the sampler prefers the front, and its first candidates,
+            # 12 to 30 units from the picture's foot, were all refused: a waver then found no place in 42 layouts of 42)
+            y1 = min(y1, EDGE50_Y - 8)
         out = []
         tries = 0
         while len(out) < n and tries < n * 30:

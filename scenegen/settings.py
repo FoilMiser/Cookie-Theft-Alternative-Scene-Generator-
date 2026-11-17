@@ -160,6 +160,12 @@ def _rev():
     return _SCN.PLACEMENT_REV
 
 
+def _sw56(name):
+    """v0.56's switch NAME for the record being built (scene.sw56)."""
+    from . import scene as _SCN
+    return _SCN.sw56(name)
+
+
 # v0.45 (revision 43; bench round 1): SLIDE45 "B": the slide's ladder is the frame's own end, in the frame's red, its near rail running on up into the
 # hand rail over the deck (draw.slide ladder3); "O" as revision 42, a slate ladder leaning across the red upright ("drawn in front of/beside the red
 # frame", "slightly separate from/behind the red frame", "slanted and separate from the frame": three of six readers)
@@ -354,7 +360,9 @@ def build_garden(features, sky):
     S.filler("bush_mid", 1010, by_ or 612, "Bush", lambda x, y: (D.bush(x, y, 0.85), (x - 66, y - 56, x + 66, y + 28)))
     # by the fence, off the path (pots standing on the stepping stones read as odd)
     S.filler("pots", 1130, 700, "Flower pots", lambda x, y: (D.pot(x, y, C["grass_dark"]) + D.pot(x + 60, y - 20, "#4fae4a"), (x - 30, y - 90, x + 90, y)), (1090, 650, 1230, 720))
-    S.filler("wheelbarrow", 920, 975, "Wheelbarrow", lambda x, y: D.wheelbarrow(x, y, 1.0, both=_rev() >= 7, bracket=_rev() >= 10, low=_rev() >= 15, stand=_rev() >= 18), (890, 940, 1080, 990))
+    # (revision 50, templates BARROWCOL: the plain barrow's tub in the square-wheeled barrow's colour, so that a garden's barrow is one barrow)
+    S.filler("wheelbarrow", 920, 975, "Wheelbarrow", lambda x, y: D.wheelbarrow(x, y, 1.0, both=_rev() >= 7, bracket=_rev() >= 10, low=_rev() >= 15, stand=_rev() >= 18,
+                                                                                **({"tray": C["red"]} if _sw56("BARROWCOL") != "O" else {})), (890, 940, 1080, 990))
     S.filler("watering_can", 1210, 960, "Watering can", lambda x, y: (D.poly([(x - 25, y - 55), (x + 25, y - 55), (x + 20, y), (x - 20, y)], C["teal"]) +
                                                                        D.stroke(D.poly_d([(x - 22, y - 35), (x - 60, y - 60)]), C["teal"], 8) +
                                                                        D.stroke(f"M {x - 15} {y - 55} Q {x} {y - 82} {x + 18} {y - 55}", C["teal"], 6), (x - 66, y - 84, x + 28, y)), (1150, 930, 1250, 975),
@@ -391,7 +399,7 @@ def build_park(features, sky):
     S.add("path", "Path", path, -80, "setting", (1040, 520, 1330, 1000), entity=E("There is a path", ["path", "walkway", "trail", "footpath", "sidewalk"], "path"))
     S.anchors["path"] = {"x0": 1100, "x1": 1260, "y0": 640, "y1": 990, "edges": path_edges(
         ((1040, 1010), (1100, 860), (1300, 760), (1200, 640)), ((1240, 1010), (1220, 880), (1380, 770), (1262, 640)))}
-    S.add("pond", "Pond", D.pond(470, 650, 330, 78), -70, "setting", (130, 560, 810, 730),
+    S.add("pond", "Pond", D.pond(470, 650, 330, 78, bank=_sw56("BANK") != "O"), -70, "setting", (130, 560, 810, 730),
           entity=E("There is a pond", ["pond", "lake", "water"], "pond"))
     S.blocked.append((100, 560, 840, 800))     # keep feet well clear of the water's edge
     S.anchors["pond"] = {"center": (470, 650), "rx": 330, "ry": 78,
@@ -407,10 +415,11 @@ def build_park(features, sky):
     t2, i2 = D.tree(110, 575, sz(575) * 0.85, trunk_h=130)
     S.add("tree_small", "Small tree", t2, 575, "setting", i2["bbox"], blocked=(70, 555, 150, 600))
     S.anchors["tree_small"] = i2
-    ls, li = D.lamp(930, 640, sz(640), 520)
-    S.add("lamp", "Lamp post", ls, 640, "setting", li["bbox"], entity=E("There is a lamp post", ["lamp post", "lamp", "street light", "light post", "lamppost"], "lamp"),
-          blocked=(905, 620, 955, 660))
-    S.anchors["lamp_top"] = (li["top"][0], li["top"][1] + 2, 640)
+    if "no_lamp" not in features:       # (revision 50, LADDER: the planner leaves the lamp post out of the ladder's park)
+        ls, li = D.lamp(930, 640, sz(640), 520)
+        S.add("lamp", "Lamp post", ls, 640, "setting", li["bbox"], entity=E("There is a lamp post", ["lamp post", "lamp", "street light", "light post", "lamppost"], "lamp"),
+              blocked=(905, 620, 955, 660))
+        S.anchors["lamp_top"] = (li["top"][0], li["top"][1] + 2, 640)
     S.walk = [(30, 560, 1570, 992)]
     if "bench" in features:
         s = sz(830)
@@ -425,9 +434,15 @@ def build_park(features, sky):
         S.anchors["flowers"] = {"center": (300, 870), "bbox": bb, "stand_left": (500, 930), "stand_right": (110, 930), "depth": 936}
         S.soft.append((bb[0] - 30, bb[1] + 40, bb[2] + 30, 1000))
     if "blanket" in features:
-        bl, bb = D.blanket(660, 880, sz(880))
+        # (revision 50, PICNIC: the blanket half as large again, so that the sitter and the basket are on it; a sitter is about 200
+        #  units wide and the blanket was 240: "half off the blanket", a reviewer of two pictures of two and a reader)
+        bl, bb = D.blanket(660, 880, sz(880) * (1.5 if _sw56("PICNIC") != "O" else 1.0))
         S.add("blanket", "Picnic blanket", bl, -60, "setting", bb, entity=E("There is a picnic blanket", ["blanket", "picnic", "picnic blanket"], "picnic"))
         S.anchors["blanket"] = {"spots": [(600, 885), (720, 870)], "bbox": bb}
+        if _sw56("PICNIC") != "O":
+            # (and nobody of the pond stands on the larger blanket or right behind it: the shore's places there are left out)
+            S.anchors["pond"]["shore"] = [q for q in S.anchors["pond"]["shore"]
+                                          if not (bb[0] - 40 <= q[0] <= bb[2] + 40 and bb[1] - 20 <= q[1] <= bb[3] + 40)]
         S.soft.append((bb[0] - 10, bb[1] - 10, bb[2] + 10, bb[3] + 40))
     S.filler("bush_l", 60, 640, "Bush", lambda x, y: (D.bush(x, y, 0.8), (x - 62, y - 52, x + 62, y + 26)))
     S.filler("bush_r", 1540, 650, "Bush", lambda x, y: (D.bush(x, y, 0.8), (x - 62, y - 52, x + 62, y + 26)))
@@ -445,7 +460,9 @@ def build_street(features, sky):
     S.horizon = 600
     S.anchors["balloon_max_y"] = 255      # a loose balloon's string ends above the shop awnings
     S.features = set(features)
-    sky_layer(S, sky, 600, sun_at=(1470, 80), clouds=((620, 70, 0.55), (980, 50, 0.45)), dark=((520, 70, 0.95), (820, 50, 0.9), (1100, 80, 0.7)))
+    # (revision 50, SUN: the street's sun 32 units lower, whole inside the picture; its rays were cut by the top edge in all seven
+    #  street pictures of v0.55 that have a sun)
+    sky_layer(S, sky, 600, sun_at=(1470, 112) if _sw56("SUN") != "O" else (1470, 80), clouds=((620, 70, 0.55), (980, 50, 0.45)), dark=((520, 70, 0.95), (820, 50, 0.9), (1100, 80, 0.7)))
     bld = D.facade(-10, 380, 170, 600, C["wall"], C["roof"], awning=C["red"], door_at=0.70)
     bld += D.facade(380, 760, 240, 600, C["wall2"], C["teal"], awning=None, door_at=0.35, windows=2)
     bld += D.facade(760, 1180, 130, 600, C["wall3"], C["slate"], awning=C["green"], door_at=0.62, windows=2)

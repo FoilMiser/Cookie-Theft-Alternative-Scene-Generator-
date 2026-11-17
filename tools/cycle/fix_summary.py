@@ -7,15 +7,15 @@ sys.path.insert(0, ROOT); os.chdir(ROOT)
 from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
 # a cell built from a forced template set (regen.forced) carries this note in place of the search notes
-FORCED = {("garden", 4)}
-NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden), as in v0.53 and v0.54: the same templates "
-                        "and the same people in the same places",
-         ("park", 4): "the v0.43 seed, which placed again with the same templates, as in v0.39 to v0.54, and the same people in the same places as "
-                      "v0.54's",
-         ("street", 4): "v0.49's seed, 443887, which placed again on its twenty-second step (s464887) with the same templates and the same people "
-                        "in the same places as v0.54's",
-         ("playground", 4): "v0.53's base, 506950, which placed again on its seventh step with the same templates and the same people in the same "
-                            "places as v0.54's"}
+FORCED = {("garden", 4), ("street", 4)}
+NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden), as in v0.53 to v0.55, after the free search "
+                        "failed on fourteen bases; the pictures are new, since v0.56's cast and placement revision 50 move every figure",
+         ("park", 4): "the free search's fifth base, 732977 (v0.55's seed 728923 first, which no longer placed)",
+         ("street", 4): "v0.55's street set with the dog that reads a newspaper in place of the man who sits on nothing "
+                        "(tools/cycle/forced_cell.py, v056street), on base 445887. The free search failed on 46 bases, and v0.55's own set, which now "
+                        "holds the bicycle's owner as well, did not place on eight",
+         ("playground", 4): "the free search on a second range of seeds, base 560007, its ninth step (s568007); v0.55's base 506950 and seven "
+                            "more failed first"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

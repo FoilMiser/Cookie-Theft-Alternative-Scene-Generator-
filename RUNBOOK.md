@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.55 was made, written so that a fresh session can make the next one (v0.56) from this
+How each release from v0.12 to v0.56 was made, written so that a fresh session can make the next one (v0.57) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -62,7 +62,8 @@ changes (a new placement revision, step 3).
   `python tools/cycle/fig_pairs.py ROUND A_DIR B_DIR A_NAME B_NAME [SETS.json]` makes the sheets of such a bench from two folders of renders (v0.52's own, with its
   six sets of four views and its prompt written in: edit them): each set twice, one drawing above and then the other, the map outside the folder; and
   `fig_pairs_tally.py ROUND` counts the choices by set and order. A set whose choice follows the row in every round is a toss-up (Lessons, v0.52).
-  The two scripts as they now stand are v0.55's (six sets of four seated figures, each figure whole and large; `RENDER_LIST=path` writes the sets' views as a
+  The two scripts as they now stand are v0.56's: `fig_pairs.py ROUND A_DIR B_DIR A_NAME B_NAME SETS.json`, the sets a JSON file of views with captions that say who a figure
+  is and not what it does, since the review asks what each figure is doing in each row before it asks for faults and a choice (`RENDER_LIST=path` writes the sets' views as a
   render list). Read every review's list of the new row's faults and mend by round (Lessons, v0.55).
 - A posture that bends a joint far is drawn in stiff pieces shown only in that posture (v0.55, the seated lower body: `people.build_seat55`, `core.lathe`,
   `build_cast.SEATED55`); the standing objects are not touched, so every other variant stays the last release's file. `tools/cycle/bench_build.py SB names`
@@ -81,6 +82,14 @@ changes (a new placement revision, step 3).
   twelve readers, two pictures of each a reader, both of one arm, and the three questions' arms crossed, so that a reader's habit shows across the questions;
   `bench_extra.py` and `bench_search.py` build pictures for a bench with the last release's code when the screen has too few. `python tools/cycle/pixcmp.py A B`
   says which pictures of folder A are folder B's to the pixel.
+- A list of many rows is benched in whole pictures row by row (v0.56; the three `bench_*.py` as they now stand, and `bench_round2.py` with `bench_tally2.py`). Every drawing of
+  the scene goes behind `scene.sw56(NAME)`, which is `O` for a record older than the revision; `TPDB_REV56=49 TPDB_ONLY56=<names>` makes the drawings act in the last screen's own
+  records and nothing else. `bench_build.py ARM pics [SLICE/OF]` builds each picture on its own record's plan only (arm B the new drawings, C the alternatives, L one drawing
+  alone in the picture where the fault was found, O a check); `bench_prepare.py` takes up to four pictures for every row of the list, those first that serve the most rows, and
+  deals arm O to one reader, the others to two, and new pictures built under the new revision (arm F, which are the design tests) to two; `bench_tally.py` writes each reading's
+  own lines on a row's words. Analysts who never see a picture, told the arms and the intended reading, count each row from those files (the briefs are kept in
+  `vision/isolation_v056/digest/`); read their closing paragraph against the tally when a number surprises, and count the gate's rows again yourself. What the round leaves open
+  goes to a second round on the same seeds, each scene in every arm and each reader with each scene once (Lessons, v0.56).
 - `python tools/cycle/crops.py OUT.png [SCALE] NAME:substr[:pad] ...` cuts named elements out of built pictures onto one sheet (`CROP_DIRS` for other folders):
   the flagged pictures of the last screen at full size, before anything is drawn.
 - The age bench, whenever heads, proportions or marks of age change, reads whole scenes (v0.50). Build each trial cast into its own folder
@@ -177,6 +186,7 @@ python tools/cycle/make_readers.py 11    # <WORK>/v<TAG>prompts/reader_1..11.txt
 python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt and keys_a..d.json (four near-equal parts; no ranges gives three)
 ```
 
+- With more than 99 pictures the blind names sort as text, so `make_readers.py` gives the second reader pictures 9, 10 and 100 to 105; scorers take ranges by number.
 - Give each reader prompt, verbatim, to a fresh reader (a subagent with no other context); it writes
   `vision/v<TAG>/desc_pic_NN.md`. When a scorer's pictures are all described, give it its scorer prompt; it writes
   `scores_<a|b|c>.json` and `scores_summary_<a|b|c>.md`. Readers and scorers must never see the code, the keys (readers)
@@ -918,3 +928,35 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
 - A scorer may mark a misread where the last scorer gave a zero to the same words about the same picture. The gate's no-misread rule then fails a template
   whose mean passes. Report the mean, the misread and the last screen's score of the same reading, and do not rescore.
 - When a release draws one thing, say in the README what was not worked, and keep the list's rows as they were (`flaws_v055.md` carries v0.54's R1 to R3 on).
+- A long list is worked by several workers at once only if each has files of its own (v0.56: fifty rows; every lesson from here to the end is that release's). Eight drew side by side, each with a scratch folder, its own switches and the functions it
+  owned in the shared files; a class written into `templates.py` above its first use broke every worker's import for some minutes. After any edit of a shared file, import it.
+- About half of a list's proposals lose when they are read. A lead of real length is a garden hose; rising water without its band is a spray; a trail only behind the ball loses
+  the thrower; a hose with no swelling loses the block; a bicycle leaning on a post reads worse than one on its stand; an upright pointing arm asks to speak; a crouching cat is
+  a lump. A proposal is a thing to bench, however well reasoned, and the drawing it would replace is the first arm.
+- A cue can do its work while it is read as something else. The seep at the hose's reel was drawn to say that the tap is on; every reader called it a leak, and with it the dog
+  was the one cause twice as often. Bench a cue's removal on the same pictures before dropping it for what readers call it.
+- A count of two to eight readings chooses between drawings; it does not say what a screen will read. Four of four for one bird was four of twelve in the next round. The pan that
+  eight bench readers of eight called a frying pan was a watering can first to two screen readers of five, and the seesaw's man, doubted by one bench reader of fourteen, by three
+  of five. Give a gate row a second round, and expect the screen to find what neither round did.
+- When a rule keeps a figure from one thing, read what it stands by instead. The jumper kept clear of the swing was leaping for a blown hat in the test picture, and had thrown
+  the floating box in another. Choose a design test's other events so that none of them is in the air.
+- A rule about the picture's edge is a rule about the ground line. Written for the figure's box, whose foot hangs 3 to 39 units under the ground line, it took the front strip
+  of the ground and with it every place from which a raised hand clears the garden's fence.
+- A figure added to a template that had none changes the tier-4 sets it was in. Held by its owner the bicycle is a ninth figure: v0.55's street set did not place on eight seeds,
+  the free search failed on 46 bases, and the cell was built from the set with one figure taken out (`forced_cell.py`, `yield_set.py` first). Price the last release's tier-4 sets
+  with the new drawing before starting the searches.
+- A free tier-4 search with a new cast waits on renders, not on the processor: each new variant is a Blender start, and four searches used a quarter of a core each. Run several
+  seed ranges for a cell side by side. A search that was started in the background is still running after the wait that watched it has ended: look at the processes before
+  counting on a cell or an isomorph being the only one.
+- Render the whole library from the release's cast and compare, and do not copy the last release's files. Of 345 variants whose poses had not changed, thirteen came out one
+  pixel different from a cast built again (`tpdb_work`'s `lib_render.py` and `lib_cmp.py` are a dozen lines each: `Library(cast_dir, lib_dir).ensure(variants)`, then compare).
+- The probes' first pass gives up a template after three failed groups, and the playground's own events fail together: each group of three asked for more children than the
+  cast's two, and four templates had no picture at all. `more_probes.py` takes them in pairs with a partner that needs no child.
+- A template that the release did not change still stands in pictures that it did. `play_catch` went back to three pictures because nothing of it was drawn again, and fell under
+  the gate on two half marks, the ball against a fence in two new layouts. Keep five pictures for any template that has ever been at the gate.
+- The build's grey check is only as good as the reading of its record. It was written to record and not to fail, five records of 126 were flagged, and I wrote that all had
+  passed until I counted. Count a check's verdicts before writing them down, and let a check fail a layout once its thresholds are settled.
+- A clause in the scorer's prompt needs something in the key to match. Scorers were told that an accepted name is not a judgement call, and the key's action items do not list
+  the figure's names, so three of five listed them as before.
+- A patch whose text holds an apostrophe, a backslash or a line continuation goes through a file written with the editor's own tool, not a shell heredoc: three heredocs failed
+  on them in this release, one after its first replacement had been applied. And a `cd` into a subfolder inside a chain stays for the next command.

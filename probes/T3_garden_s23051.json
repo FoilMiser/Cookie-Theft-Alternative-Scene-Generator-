@@ -6,8 +6,8 @@
  "seed": 23051,
  "mirror": true,
  "versions": {
-  "generator": "0.55.0",
-  "cast_builder": "0.55.0",
+  "generator": "0.56.0",
+  "cast_builder": "0.56.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -62,8 +62,8 @@
  ],
  "templates": [
   {
-   "id": "fish_in_tree",
-   "kind": "contradiction",
+   "id": "windy_hat",
+   "kind": "inference",
    "event": "e1",
    "units": 1
   }
@@ -72,136 +72,148 @@
  "items": [
   {
    "id": "i01",
-   "type": "entity",
-   "text": "There is a fish",
-   "accepted": [
-    "fish",
-    "a fish",
-    "goldfish"
-   ],
-   "key": "fish",
+   "type": "action",
+   "text": "A woman is reaching up for a hat",
+   "accepted": {
+    "who": [
+     "woman",
+     "lady",
+     "mother",
+     "mom",
+     "person"
+    ],
+    "what": [
+     "reaching for the hat",
+     "trying to catch the hat",
+     "surprised",
+     "reaching up"
+    ]
+   },
+   "key": "hat",
    "elements": [
-    "treefish_1"
+    "hatperson_1"
+   ],
+   "cues": [],
+   "effect": [],
+   "chain": 0,
+   "animate": true,
+   "domain": null,
+   "template": "windy_hat",
+   "event": "e1",
+   "features": {
+    "type": "action",
+    "chain": 0,
+    "animate": true,
+    "s": -0.053,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.53,
+    "a": 3.33,
+    "zipf_raw": 4.53,
+    "aoa_raw": 3.33,
+    "domain": null,
+    "area_px": 14192
+   },
+   "b": -1.513,
+   "p0": 0.82,
+   "pm1": 0.626,
+   "aoi_cells": [
+    "ML",
+    "MC",
+    "BL"
+   ]
+  },
+  {
+   "id": "i02",
+   "type": "entity",
+   "text": "A hat is flying through the air",
+   "accepted": [
+    "hat in the air",
+    "hat flying",
+    "flying hat",
+    "cap",
+    "hat"
+   ],
+   "key": "hat",
+   "elements": [
+    "flyinghat_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": false,
    "domain": null,
-   "template": "fish_in_tree",
+   "template": "windy_hat",
    "event": "e1",
    "features": {
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -1.324,
+    "s": -1.487,
     "r": 0,
     "d": 0.0,
-    "f": 0.9,
-    "a": 4.05,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
+    "f": 0.53,
+    "a": 3.33,
+    "zipf_raw": 4.53,
+    "aoa_raw": 3.33,
     "domain": null,
-    "area_px": 2364
+    "area_px": 1880
    },
-   "b": -0.488,
-   "p0": 0.62,
-   "pm1": 0.375,
+   "b": -0.295,
+   "p0": 0.573,
+   "pm1": 0.331,
    "aoi_cells": [
-    "TR",
-    "MR"
-   ]
-  },
-  {
-   "id": "i02",
-   "type": "contradiction_notice",
-   "text": "Something is wrong in the tree",
-   "accepted": [
-    "something in the tree",
-    "the tree looks odd",
-    "what's that in the tree"
-   ],
-   "key": "fish",
-   "elements": [
-    "treefish_1"
-   ],
-   "cues": [
-    "treefish_1"
-   ],
-   "effect": [
-    "treefish_1"
-   ],
-   "chain": 0,
-   "animate": false,
-   "domain": "biological",
-   "template": "fish_in_tree",
-   "event": "e1",
-   "features": {
-    "type": "contradiction_notice",
-    "chain": 0,
-    "animate": false,
-    "s": -1.324,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
-    "domain": "biological",
-    "area_px": 2364
-   },
-   "b": 0.162,
-   "p0": 0.46,
-   "pm1": 0.238,
-   "aoi_cells": [
-    "TR",
-    "MR"
+    "MC"
    ]
   },
   {
    "id": "i03",
-   "type": "contradiction_explain",
-   "text": "A fish is sitting up in the tree, but fish live in water",
+   "type": "inference",
+   "text": "The wind blew the woman's hat off",
    "accepted": [
-    "fish in a tree",
-    "fish can't live in trees",
-    "fish belong in water"
+    "the wind blew the hat off",
+    "it's windy",
+    "the hat blew away",
+    "the wind took the hat"
    ],
-   "key": "fish",
+   "key": "wind",
    "elements": [
-    "treefish_1"
+    "flyinghat_3",
+    "hatperson_1"
    ],
    "cues": [
-    "treefish_1"
+    "flyinghat_3",
+    "hatperson_1"
    ],
    "effect": [
-    "treefish_1"
+    "flyinghat_3"
    ],
-   "chain": 1,
+   "chain": 2,
    "animate": false,
-   "domain": "biological",
-   "template": "fish_in_tree",
+   "domain": null,
+   "template": "windy_hat",
    "event": "e1",
    "features": {
-    "type": "contradiction_explain",
-    "chain": 1,
+    "type": "inference",
+    "chain": 2,
     "animate": false,
-    "s": -1.324,
-    "r": 0,
-    "d": 0.0,
+    "s": -1.487,
+    "r": 1,
+    "d": 0.117,
     "f": 0.0,
     "a": 4.47,
-    "zipf_raw": 4.9,
-    "aoa_raw": 4.05,
-    "domain": "biological",
-    "area_px": 2364
+    "zipf_raw": 4.84,
+    "aoa_raw": 3.89,
+    "domain": null,
+    "area_px": 1880
    },
-   "b": 1.362,
-   "p0": 0.204,
-   "pm1": 0.086,
+   "b": 1.294,
+   "p0": 0.215,
+   "pm1": 0.092,
    "aoi_cells": [
-    "TR",
-    "MR"
+    "ML",
+    "MC",
+    "BL"
    ]
   },
   {
@@ -312,7 +324,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.694,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -320,11 +332,11 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 40676
+    "area_px": 43040
    },
-   "b": -1.482,
-   "p0": 0.815,
-   "pm1": 0.618,
+   "b": -1.502,
+   "p0": 0.818,
+   "pm1": 0.623,
    "aoi_cells": [
     "TR",
     "MR"
@@ -354,7 +366,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.894,
+    "s": 1.873,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -362,11 +374,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 221180
+    "area_px": 214712
    },
-   "b": -1.89,
-   "p0": 0.869,
-   "pm1": 0.709,
+   "b": -1.88,
+   "p0": 0.868,
+   "pm1": 0.707,
    "aoi_cells": [
     "ML",
     "MC",
@@ -447,7 +459,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": -0.103,
+    "s": -0.133,
     "r": 0,
     "d": 0.0,
     "f": 0.06,
@@ -455,11 +467,11 @@
     "zipf_raw": 4.06,
     "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 13232
+    "area_px": 12676
    },
-   "b": -0.847,
-   "p0": 0.7,
-   "pm1": 0.462,
+   "b": -0.832,
+   "p0": 0.697,
+   "pm1": 0.458,
    "aoi_cells": [
     "MC"
    ]
@@ -549,19 +561,19 @@
   }
  ],
  "counts": {
-  "content": 9,
+  "content": 10,
   "inference_units": 1,
-  "contradictions": 1,
+  "contradictions": 0,
   "items_total": 11
  },
  "predicted": {
   "theta_0": {
    "content": 0.767,
-   "inference": 0.332
+   "inference": 0.215
   },
   "theta_minus_1": {
-   "content": 0.56,
-   "inference": 0.162
+   "content": 0.562,
+   "inference": 0.092
   }
  },
  "bands": {
@@ -569,10 +581,14 @@
   "inference_units": false,
   "contradictions": true,
   "content_completeness": false,
-  "inference_completeness": true
+  "inference_completeness": false
  },
  "in_tier": false,
  "checks": {
+  "hatperson_1_looks_at_hat": {
+   "result": false,
+   "detail": ""
+  },
   "occlusion_and_size": {
    "result": true,
    "detail": "all scored elements visible >= 80% and >= 3% of width"
@@ -583,22 +599,22 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "15 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
+  },
+  "grey": {
+   "result": true,
+   "detail": "every scored thing stands off in grey from what is round it"
   }
  },
  "clutter": {
-  "objects": 15,
-  "edge_density": 0.0374,
-  "png_bytes": 124671,
-  "jpeg_bytes": 173333
+  "objects": 17,
+  "edge_density": 0.0388,
+  "png_bytes": 149338,
+  "jpeg_bytes": 179253
  },
  "signature": [
   [
-   "contradiction_explain",
-   1
-  ],
-  [
-   "contradiction_notice",
+   "action",
    0
   ],
   [
@@ -636,6 +652,10 @@
   [
    "entity",
    0
+  ],
+  [
+   "inference",
+   2
   ]
  ],
  "elements": [
@@ -703,6 +723,21 @@
    "occlusion": 0.006
   },
   {
+   "id": "breeze_2",
+   "label": "Wind lines",
+   "role": "setting",
+   "z": 0,
+   "bbox": [
+    1104.0,
+    76.0,
+    1262.0,
+    116.0
+   ],
+   "area_px": 1368,
+   "visible_px": 1368,
+   "occlusion": 0.0
+  },
+  {
    "id": "tree",
    "label": "Tree behind the fence",
    "role": "setting",
@@ -714,29 +749,8 @@
     452.0
    ],
    "area_px": 44992,
-   "visible_px": 40676,
-   "occlusion": 0.096
-  },
-  {
-   "id": "limb_2",
-   "label": "Limb of the tree",
-   "role": "background",
-   "z": 450.2
-  },
-  {
-   "id": "treefish_1",
-   "label": "Fish sitting in the tree",
-   "role": "scored",
-   "z": 450.6,
-   "bbox": [
-    1080.0,
-    308.0,
-    1164.0,
-    344.0
-   ],
-   "area_px": 2364,
-   "visible_px": 2364,
-   "occlusion": 0.0
+   "visible_px": 43040,
+   "occlusion": 0.043
   },
   {
    "id": "fence",
@@ -750,8 +764,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 221180,
-   "occlusion": 0.082
+   "visible_px": 214712,
+   "occlusion": 0.109
   },
   {
    "id": "filler_bush_left",
@@ -769,18 +783,70 @@
    "occlusion": 0.096
   },
   {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
+   "id": "hatperson_1",
+   "label": "person.mei__reach_up__scared__y045",
+   "role": "scored",
+   "z": 698.07,
    "bbox": [
-    380.0,
-    596.0,
-    500.0,
-    702.0
+    460.0,
+    434.0,
+    572.0,
+    704.0
    ],
-   "area_px": 8080,
-   "visible_px": 8080,
+   "area_px": 14192,
+   "visible_px": 14192,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.mei__reach_up__scared__y045",
+    "family": "person.mei",
+    "scale": 0.4076,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "woman",
+     "accepted_names": [
+      "woman",
+      "lady",
+      "mother",
+      "mom",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin4",
+      "hair": "black_bob"
+     }
+    }
+   }
+  },
+  {
+   "id": "flyinghat_3",
+   "label": "Hat blowing away",
+   "role": "scored",
+   "z": 699.07,
+   "bbox": [
+    532.0,
+    340.0,
+    608.0,
+    390.0
+   ],
+   "area_px": 1880,
+   "visible_px": 1880,
+   "occlusion": 0.0
+  },
+  {
+   "id": "gusts_4",
+   "label": "Wind lines and blowing leaves",
+   "role": "setting",
+   "z": 699.07,
+   "bbox": [
+    314.0,
+    372.0,
+    560.0,
+    434.0
+   ],
+   "area_px": 3368,
+   "visible_px": 3368,
    "occlusion": 0.0
   },
   {
@@ -795,8 +861,8 @@
     708.0
    ],
    "area_px": 13848,
-   "visible_px": 13372,
-   "occlusion": 0.034
+   "visible_px": 12128,
+   "occlusion": 0.124
   },
   {
    "id": "laundry",
@@ -805,12 +871,12 @@
    "z": 706,
    "bbox": [
     822.0,
-    392.0,
-    952.0,
-    524.0
+    340.0,
+    1016.0,
+    504.0
    ],
-   "area_px": 13232,
-   "visible_px": 13232,
+   "area_px": 12676,
+   "visible_px": 12676,
    "occlusion": 0.0
   },
   {
@@ -908,11 +974,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "contradictions": [
-    "fish_in_tree"
+   "modules": [
+    "windy_hat"
    ]
   },
-  "placement_rev": 49
+  "placement_rev": 50
  },
  "probe": true
 }

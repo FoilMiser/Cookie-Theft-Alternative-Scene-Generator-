@@ -6,8 +6,8 @@
  "seed": 23052,
  "mirror": false,
  "versions": {
-  "generator": "0.55.0",
-  "cast_builder": "0.55.0",
+  "generator": "0.56.0",
+  "cast_builder": "0.56.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -58,58 +58,149 @@
  "features": [],
  "templates": [
   {
-   "id": "cat_on_fence",
-   "kind": "event",
+   "id": "floating_box",
+   "kind": "contradiction",
    "event": "e1",
-   "units": 0
+   "units": 1
   }
  ],
  "scene_load": 1,
  "items": [
   {
    "id": "i01",
-   "type": "action",
-   "text": "A cat is walking along the fence",
+   "type": "entity",
+   "text": "There is a box",
    "accepted": [
-    "cat on the fence",
-    "cat walking",
-    "cat",
-    "cat on top of the fence"
+    "box",
+    "crate",
+    "wooden box",
+    "cardboard box"
    ],
-   "key": "cat",
+   "key": "box",
    "elements": [
-    "fencecat_1"
+    "floatbox_1"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": true,
+   "animate": false,
    "domain": null,
-   "template": "cat_on_fence",
+   "template": "floating_box",
    "event": "e1",
    "features": {
-    "type": "action",
+    "type": "entity",
     "chain": 0,
-    "animate": true,
-    "s": -0.882,
+    "animate": false,
+    "s": -0.438,
     "r": 0,
     "d": 0.0,
-    "f": 0.78,
-    "a": 3.68,
-    "zipf_raw": 4.78,
-    "aoa_raw": 3.68,
+    "f": 1.04,
+    "a": 4.3,
+    "zipf_raw": 5.04,
+    "aoa_raw": 4.3,
     "domain": null,
-    "area_px": 4412
+    "area_px": 8252
    },
-   "b": -1.173,
-   "p0": 0.764,
-   "pm1": 0.543,
+   "b": -0.973,
+   "p0": 0.726,
+   "pm1": 0.493,
    "aoi_cells": [
-    "MC"
+    "TC"
    ]
   },
   {
    "id": "i02",
+   "type": "contradiction_notice",
+   "text": "Something is wrong with the box",
+   "accepted": [
+    "the box is weird",
+    "something odd about the box",
+    "that box"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 0,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_notice",
+    "chain": 0,
+    "animate": false,
+    "s": -0.438,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 8252
+   },
+   "b": -0.081,
+   "p0": 0.52,
+   "pm1": 0.285,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i03",
+   "type": "contradiction_explain",
+   "text": "The box is floating in the air with nothing holding it up",
+   "accepted": [
+    "floating box",
+    "box in the air",
+    "nothing holding it up",
+    "box should fall"
+   ],
+   "key": "floating",
+   "elements": [
+    "floatbox_1"
+   ],
+   "cues": [
+    "floatbox_1"
+   ],
+   "effect": [
+    "floatbox_1"
+   ],
+   "chain": 1,
+   "animate": false,
+   "domain": "physical",
+   "template": "floating_box",
+   "event": "e1",
+   "features": {
+    "type": "contradiction_explain",
+    "chain": 1,
+    "animate": false,
+    "s": -0.438,
+    "r": 0,
+    "d": 0.0,
+    "f": 0.0,
+    "a": 4.47,
+    "zipf_raw": 4.18,
+    "aoa_raw": 5.39,
+    "domain": "physical",
+    "area_px": 8252
+   },
+   "b": 1.119,
+   "p0": 0.246,
+   "pm1": 0.107,
+   "aoi_cells": [
+    "TC"
+   ]
+  },
+  {
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -152,7 +243,7 @@
    ]
   },
   {
-   "id": "i03",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -194,7 +285,7 @@
    ]
   },
   {
-   "id": "i04",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -235,7 +326,7 @@
    ]
   },
   {
-   "id": "i05",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -258,7 +349,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.944,
+    "s": 1.946,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -266,9 +357,9 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 237184
+    "area_px": 237884
    },
-   "b": -1.915,
+   "b": -1.916,
    "p0": 0.872,
    "pm1": 0.714,
    "aoi_cells": [
@@ -278,7 +369,7 @@
    ]
   },
   {
-   "id": "i06",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -324,7 +415,7 @@
    ]
   },
   {
-   "id": "i07",
+   "id": "i09",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -369,18 +460,18 @@
  ],
  "counts": {
   "content": 7,
-  "inference_units": 0,
-  "contradictions": 0,
-  "items_total": 7
+  "inference_units": 1,
+  "contradictions": 1,
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.804,
-   "inference": null
+   "content": 0.799,
+   "inference": 0.383
   },
   "theta_minus_1": {
-   "content": 0.609,
-   "inference": null
+   "content": 0.602,
+   "inference": 0.196
   }
  },
  "bands": {
@@ -402,18 +493,30 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "13 drawn objects (tier band 20-30)"
+   "detail": "11 drawn objects (tier band 20-30)"
+  },
+  "grey": {
+   "result": true,
+   "detail": "every scored thing stands off in grey from what is round it"
   }
  },
  "clutter": {
-  "objects": 13,
-  "edge_density": 0.0341,
-  "png_bytes": 123795,
-  "jpeg_bytes": 163630
+  "objects": 11,
+  "edge_density": 0.0327,
+  "png_bytes": 109336,
+  "jpeg_bytes": 157713
  },
  "signature": [
   [
-   "action",
+   "contradiction_explain",
+   1
+  ],
+  [
+   "contradiction_notice",
+   0
+  ],
+  [
+   "entity",
    0
   ],
   [
@@ -521,36 +624,6 @@
    "occlusion": 0.043
   },
   {
-   "id": "fencecat_1",
-   "label": "animal.cat_02__walk__happy__y090",
-   "role": "scored",
-   "z": 612,
-   "bbox": [
-    692.0,
-    340.0,
-    798.0,
-    442.0
-   ],
-   "area_px": 4704,
-   "visible_px": 4412,
-   "occlusion": 0.062,
-   "asset": {
-    "variant": "animal.cat_02__walk__happy__y090",
-    "family": "animal.cat_02",
-    "scale": 0.3757,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "cat",
-     "accepted_names": [
-      "cat",
-      "kitten",
-      "kitty"
-     ],
-     "category": "small_animal"
-    }
-   }
-  },
-  {
    "id": "fence",
    "label": "Wooden fence with a gate",
    "role": "setting",
@@ -562,8 +635,8 @@
     618.0
    ],
    "area_px": 240896,
-   "visible_px": 237184,
-   "occlusion": 0.015
+   "visible_px": 237884,
+   "occlusion": 0.013
   },
   {
    "id": "filler_bush_left",
@@ -581,21 +654,6 @@
    "occlusion": 0.096
   },
   {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    946.0,
-    602.0,
-    1074.0,
-    682.0
-   ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
-  },
-  {
    "id": "filler_pots",
    "label": "Flower pots",
    "role": "filler",
@@ -608,6 +666,21 @@
    ],
    "area_px": 8080,
    "visible_px": 8080,
+   "occlusion": 0.0
+  },
+  {
+   "id": "floatbox_1",
+   "label": "Box floating in the air",
+   "role": "scored",
+   "z": 725.73,
+   "bbox": [
+    760.0,
+    240.0,
+    876.0,
+    336.0
+   ],
+   "area_px": 8252,
+   "visible_px": 8252,
    "occlusion": 0.0
   },
   {
@@ -654,21 +727,6 @@
    "area_px": 4400,
    "visible_px": 4400,
    "occlusion": 0.0
-  },
-  {
-   "id": "filler_wheelbarrow",
-   "label": "Wheelbarrow",
-   "role": "filler",
-   "z": 975,
-   "bbox": [
-    896.0,
-    892.0,
-    1078.0,
-    980.0
-   ],
-   "area_px": 8776,
-   "visible_px": 8776,
-   "occlusion": 0.0
   }
  ],
  "canvas": [
@@ -690,11 +748,11 @@
   "require_band": false,
   "usage": {},
   "forced": {
-   "events": [
-    "cat_on_fence"
+   "contradictions": [
+    "floating_box"
    ]
   },
-  "placement_rev": 49
+  "placement_rev": 50
  },
  "probe": true
 }

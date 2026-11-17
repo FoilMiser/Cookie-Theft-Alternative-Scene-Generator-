@@ -385,12 +385,16 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
     return circ(cx, cy, r, col) + circ(cx, cy, r * 0.3, C["gray"], OW * 0.6)
 
 
-def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False, v20=False, v53=False, v54=False):
+def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False, v20=False, v53=False, v54=False, wheel56=None, tray=None):
     """Ground point x,y under the wheel's center; f = +1 handles to the right. both = also draw the far
     handle and leg (v0.9: with one handle showing it read as "a one-handled wheelbarrow"). stand (v0.20): the tub raised
-    on a bigger wheel and two long legs (low on the grass it read as "very flat ... with no visible legs, looks tipped")."""
+    on a bigger wheel and two long legs (low on the grass it read as "very flat ... with no visible legs, looks tipped").
+    wheel56 (v0.56, templates' switch BARROW): the square wheel at the plain barrow's wheel's size and place, "B" solid in the tyre's
+    colour, "C" the open square with spokes. tray (v0.56, switch BARROWCOL): the tub's colour, None for the grey of every release before."""
     if stand and not square:
-        return _wheelbarrow_stand(x, y, s, f, both)
+        return _wheelbarrow_stand(x, y, s, f, both, tray=tray)
+    if square and wheel56:
+        return _wheelbarrow_stand(x, y, s, f, both, square56=wheel56, tray=tray)
     # v0.53 (WHEEL53 "B"): the square wheel larger by `big` units of radius, and everything that stands on it raised by as much
     big = (WHEEL53_P["r"] - 25.0) if (v53 and square and bracket and v20 and WHEEL53 == "B") else 0.0
     r = ((25 + big) if square else 17) * s
@@ -428,9 +432,9 @@ def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=F
         # v0.12: the wheel tucked under the front of the tub, the tub drawn over its top (drawn in front of
         # the tub, a square wheel read as a crate standing in front of the barrow)
         svg += wheel(wx, wy, r, square, v12=(("barrow53t" if (v54 and TREAD54 == "T") else "barrow53") if big else "barrow20") if v20 else "barrow")
-        svg += poly(tub, C["gray"])
+        svg += poly(tub, tray or C["gray"])
     else:
-        svg += poly(tub, C["gray"])
+        svg += poly(tub, tray or C["gray"])
         svg += wheel(wx, wy, r, square)
 
     if bracket:
@@ -470,9 +474,15 @@ BIRD25 = 0.8
 PAW25 = "C"
 
 
-def _wheelbarrow_stand(x, y, s, f, both):
+def _wheelbarrow_stand(x, y, s, f, both, square56=None, tray=None):
     """v0.20: the wheelbarrow at rest on its wheel and legs, the tub well off the ground, the handles sloping up to the
-    grips; the same footprint as before."""
+    grips; the same footprint as before.
+    v0.56 (vision/flaws_v055.md R1b, templates' switch BARROW): square56 draws this barrow, the plain one of every garden, with its one wheel
+    square and nothing else changed: the wheel at the round wheel's size and place under the tub's nose, on the same fork and axle. "B" a
+    solid square in the tyre's colour with the hub's grey at its middle, as the round wheel is a dark disc with a grey hub; "C" the open
+    square on eight spokes (wheel(), v12 "barrow20") at that size and place. The square wheel of v0.53 was 68 units across where this
+    barrow's round wheel is 42, dark, and out in front of the tub: three reviewers of v0.55's four barrows had it as a crate, a grate
+    or a window frame beside the barrow. tray (switch BARROWCOL): the tub's colour."""
     r = 21 * s
     wy = y - r
     tb = y - 34 * s                     # the tub's bottom
@@ -495,20 +505,36 @@ def _wheelbarrow_stand(x, y, s, f, both):
         svg += stroke(poly_d([(h0[0] + dx, h0[1] + dy), (h1[0] + dx, h1[1] + dy)]), C["wood"], 7 * s)
         svg += leg(dx, dy) + foot(dx, dy)
     svg += stroke(poly_d([h0, h1]), C["wood"], 7 * s)
-    svg += wheel(x, wy, r, False)
-    svg += poly(tub, C["gray"])
+    if square56 == "B":
+        # (the round wheel is wheel()'s last line: a disc in the tyre's colour and a hub of 0.3 of its radius in grey)
+        hb = r * 0.3
+        svg += rect(x - r, wy - r, 2 * r, 2 * r, C["charcoal"]) + rect(x - hb, wy - hb, 2 * hb, 2 * hb, C["gray"], 0, OW * 0.6)
+    elif square56:
+        svg += wheel(x, wy, r, True, v12="barrow20")
+    else:
+        svg += wheel(x, wy, r, False)
+    svg += poly(tub, tray or C["gray"])
     svg += stroke(poly_d([(x + f * 40 * s, tb - 2 * s), (x + f * 66 * s, tb - 2 * s)]), C["slate"], 4 * s)
     for bx in (x + f * 8 * s, x + f * 30 * s):
         svg += stroke(poly_d([(bx, tb - 2 * s), (x, wy)]), C["slate"], 6 * s, OW * 0.8)
-    svg += circ(x, wy, max(4.0, r * 0.26), C["slate"], OW * 0.7) + circ(x, wy, max(1.6, r * 0.09), OUT, 0)
+    if square56:
+        # (v0.22: a square axle plate, nothing round at a square wheel's middle)
+        a_ = max(4.0, r * 0.26)
+        svg += rect(x - a_, wy - a_, 2 * a_, 2 * a_, C["slate"], 0, OW * 0.7) + rect(x - a_ * 0.35, wy - a_ * 0.35, a_ * 0.7, a_ * 0.7, OUT, 0, 0)
+    else:
+        svg += circ(x, wy, max(4.0, r * 0.26), C["slate"], OW * 0.7) + circ(x, wy, max(1.6, r * 0.09), OUT, 0)
     svg += leg(0, 0) + foot(0, 0)
     e = 34 * s
     return svg, (min(x - f * e, x + f * 152 * s), tb - 50 * s, max(x - f * e, x + f * 152 * s), y)
 
 
-def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, heavy_stand=False, front_stand=False, center_stand=False, v54=False):
+def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, heavy_stand=False, front_stand=False, center_stand=False, v54=False,
+            held56=False, post56=None):
     """Parked bicycle seen from the side. x,y = ground point midway between the wheels. wide (v0.12): a
-    longer wheelbase and smaller wheels (the wheels nearly touching read as "squashed")."""
+    longer wheelbase and smaller wheels (the wheels nearly touching read as "squashed").
+    v0.56 (vision/flaws_v055.md R1a, templates' switch BIKE): held56, no stand, for a bicycle somebody holds by its grip (bicycle_grip); post56, no
+    stand and no oval of shadow, the bicycle leaning on a wooden post that stands behind it and rises post56 units above the ground, a short
+    shadow under each wheel."""
     col = col or C["teal"]
     # v0.54 (WHEEL54 "B"): the square wheels larger by `big` units from hub to side, the frame raised and the wheelbase longer by as much
     big = (WHEEL54_P["r"] - 30.0) if (v54 and square and wide and WHEEL54 == "B") else 0.0
@@ -551,7 +577,9 @@ def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, he
         svg += circ(crank[0], crank[1], 3 * s, C["slate"], OW * 0.4)
         ks0 = (crank[0] - f * 16 * s, crank[1] + 3 * s)
         ks = (crank[0] - f * 30 * s, y - 1)
-        if center_stand:
+        if held56 or post56:
+            pass        # v0.56: no stand
+        elif center_stand:
             # v0.16: a two-legged centre stand under the crank, splayed out to two feet on the open ground between the
             # wheels, dark against the grass (a single stand off the frame, light or dark, still left the bicycle "standing
             # upright with no rider or stand")
@@ -577,7 +605,15 @@ def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, he
         else:
             svg = stroke(poly_d([ks0, ks]), C["slate"], 3.5 * s, OW * 0.6) + svg
             svg += ell(ks[0] - f * 2 * s, ks[1], 6 * s, 2.2 * s, C["charcoal"], OW * 0.5)
-        svg = shadow(x, y, 2 * (wb + r) * 0.95) + svg
+        if post56:
+            # v0.56: the post behind the frame's triangle, its foot on the ground a little further back than the wheels, so that it stands
+            # behind the bicycle and not through it; a short shadow under each wheel and the post's foot
+            px, pw, pb = x + f * 6 * s, 13 * s, y - 9 * s
+            post = rect(px - pw / 2, y - post56 * s, pw, post56 * s - 9 * s, C["wood"], 4 * s)
+            post += line(px - pw / 2 + 3.5 * s, y - post56 * s + 9 * s, px - pw / 2 + 3.5 * s, pb - 6 * s, C["wood_light"], 2.2 * s)
+            svg = shadow(px, pb - 2, 34 * s) + post + shadow(a[0], y, 2 * r * 1.15) + shadow(b[0], y, 2 * r * 1.15) + svg
+        else:
+            svg = shadow(x, y, 2 * (wb + r) * 0.95) + svg
     else:
         svg += circ(crank[0], crank[1], 7 * s, C["gray"], OW * 0.7)
         # kickstand: a parked bike stands on its stand, never by itself
@@ -593,7 +629,17 @@ def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, he
         hoop = f"M {P(x - hw, y - 4 * s)} L {P(x - hw, y - 78 * s)} Q {P(x - hw, y - 104 * s)} {P(x - hw + 26 * s, y - 104 * s)} L {P(x + hw - 26 * s, y - 104 * s)} Q {P(x + hw, y - 104 * s)} {P(x + hw, y - 78 * s)} L {P(x + hw, y - 4 * s)}"
         svg = stroke(hoop, C["gray"], 8 * s, OW * 0.9) + svg
     ext = ((98 + 2 * big) if wide else 90) * s
+    if post56:
+        return svg, (x - ext, y - max(110.0, post56) * s, x + ext, y)
     return svg, (x - ext, y - (110 + big) * s, x + ext, y)
+
+
+BIKE_GRIP56 = (29.0, 112.5)     # the middle of the wide bicycle's handlebar grip: units ahead of the ground point and above the ground, at s = 1
+
+
+def bicycle_grip(x, y, s=1.0, f=1):
+    """v0.56: where a hand closes on the handlebar of bicycle(x, y, s, f=f, wide=True)."""
+    return x + f * BIKE_GRIP56[0] * s, y - BIKE_GRIP56[1] * s
 
 
 def floating_crate(x, y, s=1.0, lift=0.0, col=None, tilt=12.0, ground_shadow=True):
@@ -644,6 +690,31 @@ def long_box(x, y, s=1.0, w=62, h=34, dx=30, dy=62, grain=False):
     else:
         svg += line(x0 + w * 0.5 + dx * 0.1, y0 - h - dy * 0.1, x0 + w * 0.5 + dx * 0.9, y0 - h - dy * 0.9, C["wood"], 3 * s)
     return svg, (x0, y0 - h - dy, x0 + w + dx, y0)
+
+
+# v0.56 (the scene's switch PARCEL; vision/flaws_v055.md I1 and G8): the box in the sprinkler's water as a parcel. "O": the khaki box with a cream
+# strip down its front, grey 178 on grass at 168. "B": cardboard brown (grey 139), a strip of tape along the lid's seam and a short way down the
+# front, and a pale blank label on the front, on the side away from the water (label_side)
+PARCEL56 = dict(front="#b5854f", top="#c4935a", side="#8f653a", tape="#ecdcae", label="#fbf7ee")
+
+
+def parcel56(x, y, s=1.0, label_side=1):
+    """v0.56: a parcel left for someone (PARCEL56). The box is package()'s: the same footprint and the same box."""
+    w, h, d = 74 * s, 50 * s, 12 * s
+    col = PARCEL56
+    svg = shadow(x, y, w)
+    svg += poly([(x - w / 2, y - h), (x - w / 2 + d, y - h - d), (x + w / 2 + d, y - h - d), (x + w / 2, y - h)], col["top"])
+    svg += poly([(x + w / 2, y - h), (x + w / 2 + d, y - h - d), (x + w / 2 + d, y - d), (x + w / 2, y)], col["side"])
+    svg += rect(x - w / 2, y - h, w, h, col["front"], 2 * s)
+    # the tape: along the lid's seam from back to front, and a third of the way down the front
+    tw = 12 * s
+    svg += poly([(x - tw / 2, y - h), (x - tw / 2 + d, y - h - d), (x + tw / 2 + d, y - h - d), (x + tw / 2, y - h)], col["tape"], OW * 0.5)
+    svg += rect(x - tw / 2, y - h, tw, 0.36 * h, col["tape"], 0, OW * 0.5)
+    # the label: pale and blank (no text anywhere in a picture)
+    lw_, lh_ = 23 * s, 16 * s
+    lx_ = x + 9 * s if label_side > 0 else x - 9 * s - lw_
+    svg += rect(lx_, y - 0.50 * h, lw_, lh_, col["label"], 1.5 * s, OW * 0.5)
+    return svg, (x - w / 2, y - h - 12 * s, x + w / 2 + 12 * s, y)
 
 
 def package(x, y, s=1.0):
@@ -744,6 +815,45 @@ def loose_string(a, e, s=1.0, tail=12.0, amp=6.0, waves=1.75):
         pts.append((a[0] + ux * d - uy * w, a[1] + uy * d + ux * w))
     return (f'<path d="M {P(*pts[0])} ' + " ".join(f"L {P(*q)}" for q in pts[1:])
             + f'" fill="none" stroke="{OUT}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>')
+
+
+def dog_lead(mouth, land, end, s=1.0, col=None, dn=1, clip_len=30.0, loop=(24.0, 7.5), w=8.0):
+    """v0.56 (scene switch LEAD, templates.DogWantsWalk): a dog's lead held in the mouth by its middle. One end hangs short in front of the
+    muzzle and carries the clip, a grey snap hook; the other falls to `land` (on a step or the ground), lies along it to `end` and closes
+    there in the hand loop, lying flat. dn: +1 when the lead goes to the right of the mouth. Returns (svg, bbox).
+    (v0.55's lead was a strap of about 70 units ending in a ring in mid-air: "a ring toy or a rubber hoop rather than a leash".)"""
+    col = col or C["yellow"]
+    mx, my = mouth
+    lx, ly = land
+    ex, ey = end
+    drop = ly - my
+    ww = w * s
+    ow = max(1.1, 0.30 * ww)
+
+    def band(d, c=col, k=1.0):
+        return (f'<path d="{d}" fill="none" stroke="{OUT}" stroke-width="{ww * k + 2 * ow:.1f}" stroke-linecap="round" stroke-linejoin="round"/>'
+                f'<path d="{d}" fill="none" stroke="{c}" stroke-width="{ww * k:.1f}" stroke-linecap="round" stroke-linejoin="round"/>')
+    # the clip's end: out past the muzzle and down, hanging free
+    cx, cy = mx + dn * 17 * s, my + clip_len * s
+    d_clip = f"M {P(mx, my)} C {P(mx + dn * 12 * s, my + 2 * s)} {P(cx + dn * 1 * s, my + 12 * s)} {P(cx, cy)}"
+    # the long end: down to the step or the ground, then along it in a slow wave to the loop
+    run = ex - lx
+    d_long = (f"M {P(mx, my)} C {P(mx + dn * 2 * s, my + drop * 0.45)} {P(lx - dn * 9 * s, ly - drop * 0.30)} {P(lx, ly)} "
+              f"C {P(lx + run * 0.30, ly + 4.5 * s)} {P(lx + run * 0.62, ly - 4.5 * s)} {P(ex, ey)}")
+    rx, ry = loop[0] * s, loop[1] * s
+    hx_, hy_ = ex + dn * rx * 0.92, ey
+    hoop = (f'<ellipse cx="{hx_:.1f}" cy="{hy_:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" stroke="{OUT}" stroke-width="{ww * 0.9 + 2 * ow:.1f}"/>'
+            f'<ellipse cx="{hx_:.1f}" cy="{hy_:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" stroke="{col}" stroke-width="{ww * 0.9:.1f}"/>')
+    # the clip: a ferrule on the strap's end and a snap hook below it, in grey
+    g = C["lamp_glass"]
+    fer = rect(cx - 4.2 * s, cy - 2 * s, 8.4 * s, 9 * s, C["gray"], 1.5 * s, ow=ow)
+    hook = (f'<ellipse cx="{cx:.1f}" cy="{cy + 16 * s:.1f}" rx="{5.2 * s:.1f}" ry="{9.5 * s:.1f}" fill="none" stroke="{OUT}" stroke-width="{4.2 * s + 2 * ow:.1f}"/>'
+            f'<ellipse cx="{cx:.1f}" cy="{cy + 16 * s:.1f}" rx="{5.2 * s:.1f}" ry="{9.5 * s:.1f}" fill="none" stroke="{g}" stroke-width="{4.2 * s:.1f}"/>')
+    svg = hoop + band(d_long) + band(d_clip) + hook + fer
+    xs = [mx, cx - 8 * s, cx + 8 * s, lx, ex, hx_ - rx, hx_ + rx]
+    ys = [my, cy + 27 * s, ly + 6 * s, ey + ry]
+    pad = ww / 2 + ow + 1
+    return svg, (min(xs) - pad, min(ys) - pad, max(xs) + pad, max(ys) + pad)
 
 
 def balloon(x, y, s=1.0, col=None, string_to=None, string_len=110, loose=None):
@@ -847,8 +957,55 @@ def sandwich(x, y, s=1.0, bitten=0, style=5, deep=False):
     return svg, (x - 33 * s, y - 37 * s, x + 33 * s, y + 2 * s)
 
 
+def sandwich_pulled(x, y, s, side, beak):
+    """v0.56 (templates.BirdSteals, switch STEAL): the style-6 sandwich with its top slice pulled up off the filling. The slice's end on the
+    side `side` (+1 right, -1 left) is at `beak`, the thief bird's beak; its other end still rests on the cheese. Returns the lower part and
+    the lifted slice as two drawings (the slice is drawn in front of the bird's beak or behind it by the template) and the box of both."""
+    s *= 1.1
+    lw = OW * 0.45
+    base = rect(x - 31 * s, y - 10 * s, 62 * s, 10 * s, C["wood_light"], 4 * s, lw)
+    base += rect(x - 27 * s, y - 7 * s, 54 * s, 3.5 * s, C["cream"], 2 * s, 0)
+    frill = " ".join(f"Q {P(x - 35 * s + (k + 0.5) * 7 * s, y - 6 * s)} {P(x - 35 * s + (k + 1) * 7 * s, y - 11 * s)}" for k in range(10))
+    base += shape(f"M {P(x - 35 * s, y - 11 * s)} {frill} L {P(x + 35 * s, y - 17 * s)} L {P(x - 35 * s, y - 17 * s)} Z", C["green"], lw)
+    for k in range(4):
+        base += circ(x - 21 * s + k * 14 * s, y - 18 * s, 5.5 * s, C["red"], lw)
+    base += poly([(x - 32 * s, y - 25 * s), (x + 32 * s, y - 25 * s), (x + 33 * s, y - 13 * s), (x + 25 * s, y - 20 * s), (x - 32 * s, y - 20 * s)], C["yellow"], lw)
+    # the lifted slice: a domed crust with its crumb showing along the underside, from the end that rests on the cheese up to the beak
+    hx, hy = x - side * 30 * s, y - 25 * s
+    ex, ey = beak
+    L = math.hypot(ex - hx, ey - hy) or 1.0
+    ux, uy = (ex - hx) / L, (ey - hy) / L
+    vx, vy = (uy, -ux) if -ux < 0 else (-uy, ux)          # (across the slice, toward the top of the picture)
+    th = 15.0 * s
+
+    def q(t, h):
+        return P(hx + ux * t + vx * h, hy + uy * t + vy * h)
+    top = shape(f"M {q(0, 0)} Q {q(0, th)} {q(L / 2, th)} Q {q(L, th)} {q(L, 0)} Z", C["wood_light"], lw)
+    top += f'<path d="M {q(3 * s, 1.6 * s)} L {q(L - 3 * s, 1.6 * s)}" fill="none" stroke="{C["cream"]}" stroke-width="{3.2 * s:.1f}" stroke-linecap="round"/>'
+    top += f'<path d="M {q(L * 0.18, th * 0.62)} Q {q(L * 0.5, th * 0.86)} {q(L * 0.80, th * 0.64)}" fill="none" stroke="{C["cream"]}" stroke-width="{3 * s:.1f}" stroke-linecap="round"/>'
+    xs = [x - 36 * s, x + 36 * s, hx + vx * th, ex + vx * th, ex]
+    ys = [y - 26 * s, hy + vy * th, ey + vy * th, ey]
+    return base, top, (min(xs) - 2 * s, min(ys) - 2 * s, max(xs) + 2 * s, y + 2 * s)
+
+
+def tap_seep(x, y, ground_y, s=1.0, f=1):
+    """v0.56 (templates.BlockedHose, switch SEEP): water seeping where the hose leaves its reel, two drops and a small wet patch on the ground
+    under them, on the side f of the joint: the tap is on."""
+    svg = ell(x + f * 17 * s, ground_y, 16 * s, 4.4 * s, C["water_light"], OW * 0.5)
+    svg += drop(x + f * 5 * s, y + 10 * s, s * 1.2)
+    svg += drop(x + f * 11 * s, y + (ground_y - y) * 0.66, s * 1.1)
+    return svg, (min(x, x + f * 34 * s) - 2 * s, y, max(x, x + f * 34 * s) + 2 * s, ground_y + 6 * s)
+
+
 # v0.28 bench (isolation_v028.md): "O" keeps the scoop in a puddle ("a pink hat or a pink frisbee", "flying saucer"); "A" a flat splat; "B" a splat with a low melted lump
 SPLAT28 = "A"
+
+
+def _sw56(name):
+    """v0.56: the scene's switch NAME (scenegen.scene.sw56) for a drawing whose caller passes no flag: "O" under revision REV56, and "O"
+    when the scene module is not loaded (a drawing made on its own)."""
+    scn = sys.modules.get("scenegen.scene")
+    return scn.sw56(name) if scn is not None and hasattr(scn, "sw56") else "O"
 
 
 def _splat28(x, y, s, col, lump):
@@ -858,7 +1015,13 @@ def _splat28(x, y, s, col, lump):
     mids = [((p[0] + q[0]) / 2, (p[1] + q[1]) / 2) for p, q in zip(pts, pts[1:] + pts[:1])]
     d = f"M {P(*mids[-1])} " + " ".join(f"Q {P(*p)} {P(*m)}" for p, m in zip(pts, mids)) + " Z"
     svg = shape(d, col, OW * 0.8)
-    svg += ell(x - 8 * s, y - 2 * s, 21 * s, 5 * s, C["white"], 0).replace("/>", ' fill-opacity="0.28"/>')
+    if _sw56("SPLAT") != "O":
+        # v0.56 (the scene's switch SPLAT; vision/flaws_v055.md G1): no pale wash over the splat's middle. Under it the pink (grey 134) was
+        # 167 over most of the splat, on grass at 168: in the grey picture an outline round a patch of lawn. The pink is the scoop's own
+        # (grey 134), flat, with the sprinkles on it; a small white glint in its place sat by the licking dog's muzzle like a tooth
+        pass
+    else:
+        svg += ell(x - 8 * s, y - 2 * s, 21 * s, 5 * s, C["white"], 0).replace("/>", ' fill-opacity="0.28"/>')
     top = y - 2 * s
     if lump:
         top = y - 19 * s
@@ -935,11 +1098,25 @@ def cone(x, y, s=1.0, rot=0):
     return svg, (x - 14 * s, y - 2 * s, x + 14 * s, y + 36 * s)
 
 
-def paint_tin(x, y, s=1.0, col=None):
+# v0.56 (templates, switch TRAY; vision/flaws_v055.md G8 and C5): the tin's and the tray's body. Both were C["gray"], grey 159 on a lawn at 168,
+# and the tray, a grey trough with a blue oval in it, "reads as a dog's water bowl". TIN56: a bright tin, grey 227, with a darker band
+# under its rim; the tray below
+TIN56 = "#dfe3e8"
+TIN56_BAND = "#aeb5bf"
+
+
+def paint_tin(x, y, s=1.0, col=None, v56=False):
     """A tin of paint standing on the ground at (x, y), lid off, a drip down the side (v0.9: a fence being
     painted with no paint anywhere read as odd)."""
     col = col or C["paint"]
     w, h = 30 * s, 30 * s
+    if v56:
+        svg = rect(x - w / 2, y - h, w, h, TIN56, 2 * s)
+        svg += rect(x - w / 2, y - h + 3 * s, w, 5 * s, TIN56_BAND, 0, OW * 0.35)
+        svg += ell(x, y - h, w / 2, 5 * s, col)
+        svg += shape(f"M {P(x + w / 2 - 7 * s, y - h + 2 * s)} L {P(x + w / 2 - 7 * s, y - h + 15 * s)} Q {P(x + w / 2 - 4 * s, y - h + 19 * s)} {P(x + w / 2 - 1 * s, y - h + 15 * s)} L {P(x + w / 2 - 1 * s, y - h + 2 * s)} Z", col, OW * 0.35)
+        svg += f'<path d="M {P(x - w / 2 + 2 * s, y - h)} Q {P(x, y - h - 22 * s)} {P(x + w / 2 - 2 * s, y - h)}" fill="none" stroke="{OUT}" stroke-width="{2.2 * s + 0.6:.1f}"/>'
+        return svg, (x - w / 2 - 2, y - h - 22 * s, x + w / 2 + 2, y)
     svg = rect(x - w / 2, y - h, w, h, C["gray"], 2 * s)
     svg += ell(x, y - h, w / 2, 5 * s, col)
     svg += shape(f"M {P(x + w / 2 - 7 * s, y - h + 2 * s)} L {P(x + w / 2 - 7 * s, y - h + 13 * s)} Q {P(x + w / 2 - 4 * s, y - h + 16 * s)} {P(x + w / 2 - 1 * s, y - h + 13 * s)} L {P(x + w / 2 - 1 * s, y - h + 2 * s)} Z", col, 0)
@@ -947,11 +1124,44 @@ def paint_tin(x, y, s=1.0, col=None):
     return svg, (x - w / 2 - 2, y - h - 22 * s, x + w / 2 + 2, y)
 
 
-def paint_tray(x, y, s=1.0, col=None):
+def paint_tray(x, y, s=1.0, col=None, v56=False, f=1):
     col = col or C["paint"]
+    if v56:
+        # v0.56 (switch TRAY): a roller tray seen from above at a slant, its front wall toward the viewer: a square-cornered pan in the
+        # tin's bright metal, the deep end (on the side f) full of paint and the shallow end a ramp with ribs across it and paint
+        # smeared up its foot. Nothing round in it: the oval of paint in a trough was a bowl of water
+        def X(dx):
+            return x + f * dx * s
+        svg = poly([(X(-46), y - 9 * s), (X(46), y - 9 * s), (X(43), y), (X(-43), y)], TIN56_BAND)              # the front wall
+        svg += poly([(X(-46), y - 9 * s), (X(46), y - 9 * s), (X(38), y - 33 * s), (X(-38), y - 33 * s)], TIN56)   # the rim, seen from above
+        svg += poly([(X(-41), y - 12 * s), (X(1), y - 12 * s), (X(1), y - 30 * s), (X(-35), y - 30 * s)], TIN56_BAND, OW * 0.5)   # the ramp
+        for dx in (-33, -25, -17, -9):
+            svg += line(X(dx), y - 13.5 * s, X(dx * 0.87), y - 28.5 * s, OUT, 1.6 * s + 0.4)
+        svg += poly([(X(1), y - 12 * s), (X(41), y - 12 * s), (X(35), y - 30 * s), (X(1), y - 30 * s)], col, OW * 0.5)             # the well
+        svg += shape(f"M {P(X(1), y - 12 * s)} L {P(X(-13), y - 12 * s)} Q {P(X(-8), y - 21 * s)} {P(X(-14), y - 30 * s)} L {P(X(1), y - 30 * s)} Z", col, OW * 0.5)
+        return svg, (x - 48 * s, y - 35 * s, x + 48 * s, y)
     svg = poly([(x - 44 * s, y - 16 * s), (x + 44 * s, y - 16 * s), (x + 38 * s, y), (x - 38 * s, y)], C["gray"])
     svg += ell(x - 8 * s, y - 15 * s, 30 * s, 5 * s, col, OW * 0.6)
     return svg, (x - 46 * s, y - 20 * s, x + 46 * s, y)
+
+
+def seed_tray(x, y, s=1.0, f=1, gap=3, bud=None):
+    """v0.56 (templates, switch SEEDLING; vision/flaws_v055.md C6): a nursery tray standing on the ground at (x, y), earth in it and a row of
+    seedlings, each a stem, two leaves and a bud; the place `gap` (counted from the side -f) is empty, its seedling being the one in the
+    planter's hand. Dark, as such trays are: grey 60 on a lawn at 168."""
+    bud = bud or C["pink"]
+    svg = poly([(x - 42 * s, y - 15 * s), (x + 42 * s, y - 15 * s), (x + 38 * s, y), (x - 38 * s, y)], C["charcoal"])
+    svg += poly([(x - 42 * s, y - 15 * s), (x + 42 * s, y - 15 * s), (x + 36 * s, y - 25 * s), (x - 36 * s, y - 25 * s)], C["soil"], OW * 0.7)
+    for i, dx in enumerate((-27, -9, 9, 27)):
+        if i == gap:
+            svg += ell(x + f * dx * s, y - 20 * s, 6 * s, 2.6 * s, C["hole"], OW * 0.3)
+            continue
+        px = x + f * dx * s
+        svg += stroke(poly_d([(px, y - 20 * s), (px, y - 38 * s)]), C["green"], 2.4 * s, OW * 0.45)
+        svg += ell(px - 7.5 * s, y - 33 * s, 8.5 * s, 4.2 * s, C["green"], OW * 0.55, rot=32)
+        svg += ell(px + 7.5 * s, y - 33 * s, 8.5 * s, 4.2 * s, C["green"], OW * 0.55, rot=-32)
+        svg += ell(px, y - 43 * s, 5 * s, 6 * s, bud, OW * 0.55)
+    return svg, (x - 44 * s, y - 50 * s, x + 44 * s, y)
 
 
 def paw_prints(pts, s_fn, col=None):
@@ -966,10 +1176,12 @@ def paw_prints(pts, s_fn, col=None):
     return svg
 
 
-def sprinkler(x, y, s=1.0, toward=1, reach=260, land=None, solid=False):
+def sprinkler(x, y, s=1.0, toward=1, reach=260, land=None, solid=False, v56=False):
     """land (v0.17): the point the longest arc comes down on (the soaked box's lid); the two shorter arcs fall on the
     grass short of it. solid (v0.19): unbroken arcs, outlined, with drops breaking off them (dashed arcs read as "a
-    dotted trajectory rather than water")."""
+    dotted trajectory rather than water").
+    v56 (v0.56, the scene's switch SPRAY; vision/flaws_v055.md G3): in grey the arcs were 171 on grass at 168, two thin dark lines with
+    the lawn's own grey between them. With it each arc has a white core and a slightly heavier edge, and the drops are white inside."""
     svg = ell(x, y - 6 * s, 20 * s, 8 * s, C["slate"]) + rect(x - 4 * s, y - 34 * s, 8 * s, 28 * s, C["charcoal"], 2 * s)
     svg += circ(x, y - 36 * s, 6 * s, C["gray"], OW * 0.6)
     arcs = ""
@@ -983,6 +1195,18 @@ def sprinkler(x, y, s=1.0, toward=1, reach=260, land=None, solid=False):
                 # the ground they "stop in mid-air")
                 ex, ey = x + (land[0] - x) * d, y + 4 * s
                 arcs += drops(ex, ey - 12 * s, s * 0.7, 2, 14)
+        if solid and v56:
+            q0, q1, q2 = (x, y - 38 * s), ((x + ex) / 2, y - h * s), (ex, ey)
+            d_ = f"M {P(*q0)} Q {P(*q1)} {P(*q2)}"
+            arcs += f'<path d="{d_}" fill="none" stroke="{OUT}" stroke-width="{5.0 * s + 3.0:.1f}" stroke-linecap="round"/>'
+            arcs += f'<path d="{d_}" fill="none" stroke="{C["water_light"]}" stroke-width="{5.0 * s:.1f}" stroke-linecap="round"/>'
+            arcs += f'<path d="{d_}" fill="none" stroke="{C["white"]}" stroke-width="{2.2 * s:.1f}" stroke-linecap="round"/>'
+            for t in (0.58, 0.76):
+                u = 1 - t
+                qx = u * u * q0[0] + 2 * u * t * q1[0] + t * t * q2[0]
+                qy = u * u * q0[1] + 2 * u * t * q1[1] + t * t * q2[1]
+                arcs += circ(qx + toward * 4 * s, qy - 9 * s, 2.8 * s, C["white"], OW * 0.45)
+            continue
         if solid:
             q0, q1, q2 = (x, y - 38 * s), ((x + ex) / 2, y - h * s), (ex, ey)
             d_ = f"M {P(*q0)} Q {P(*q1)} {P(*q2)}"
@@ -1012,6 +1236,23 @@ def wet_marks(x, y, s=1.0, w=74, h=50):
     for side in (-1, 1):
         cx = x + side * (w / 2 + (6 if side > 0 else 0)) * s
         svg += f'<path d="M {P(cx, y - (h + 4) * s)} q {side * 9 * s:.1f} {4 * s:.1f} {side * 11 * s:.1f} {16 * s:.1f}" fill="none" stroke="{C["water"]}" stroke-width="{3 * s:.1f}" stroke-linecap="round" stroke-dasharray="{7 * s:.1f} {5 * s:.1f}"/>'
+    return svg
+
+
+def wet_marks56(x, y, s=1.0, near=-1, w=74, h=50):
+    """v0.56 (the scene's switch PARCEL): the parcel the water has only just reached. near: the side the water comes from (-1 its left, 1 its
+    right). Drops bouncing off the lid's near edge, where the longest arc comes down, one drip from that edge down the near third of the
+    front, and water running off the near corner; the far half of the box is dry, and so is the label."""
+    svg = ""
+    ex = x + (6 + near * 31) * s            # the lid's near edge, where the template lands the arc
+    for dx, dy, r in ((near * 7, -9, 3.0), (-near * 9, -13, 2.6), (near * 15, -2, 2.4)):
+        svg += circ(ex + dx * s, y - (h + 6) * s + dy * s, r * s, C["white"], OW * 0.45)
+    fx = x + near * 0.31 * w * s
+    svg += f'<path d="M {P(fx, y - 0.98 * h * s)} L {P(fx, y - 0.60 * h * s)}" stroke="{C["water_light"]}" stroke-width="{3.4 * s:.1f}" stroke-linecap="round"/>'
+    svg += f'<path d="M {P(fx, y - 0.94 * h * s)} L {P(fx, y - 0.70 * h * s)}" stroke="{C["white"]}" stroke-width="{1.3 * s:.1f}" stroke-linecap="round"/>'
+    svg += circ(fx, y - 0.60 * h * s + 2 * s, 2.8 * s, C["water_light"], 0)
+    cx = x + near * (w / 2 + (6 if near > 0 else 0)) * s
+    svg += f'<path d="M {P(cx, y - (h + 4) * s)} q {near * 9 * s:.1f} {4 * s:.1f} {near * 11 * s:.1f} {16 * s:.1f}" fill="none" stroke="{C["water"]}" stroke-width="{3 * s:.1f}" stroke-linecap="round" stroke-dasharray="{7 * s:.1f} {5 * s:.1f}"/>'
     return svg
 
 
@@ -1123,6 +1364,33 @@ def water_stream(p0, direction, s=1.0, length=170, upward=False, spread=0.0, spl
         xs = [p0[0], c1[0], c2[0], end[0]]
         ys = [p0[1], c1[1], c2[1], end[1]]
         return svg, (min(xs) - 16, min(ys) - 22 * s, max(xs) + 16, max(ys) + 22 * s), end
+    if upward and solid and style == "up56":
+        # v0.56 (the scene's switch UPW; vision/flaws_v055.md I8): the rising water drawn as the water that falls from a can is drawn
+        # ("shower", above): four lines of short streaks leaving the rose and fanning out as they rise, drops above them, no ribbon and
+        # no outline round the whole. The line it follows and its box are UPW47's, so nothing is placed differently.
+        c1 = (p0[0] + dx * L * 0.30, p0[1] - L * 0.08)
+        c2 = (p0[0] + dx * L * 0.48, p0[1] - L * 0.42)
+        end = (p0[0] + dx * L * 0.50, p0[1] - L * 0.78)
+        g_ = 1 if dx >= 0 else -1
+        svg = ""
+        for i, off in enumerate((-1.5, -0.5, 0.5, 1.5)):
+            # (off > 0: the outer side of the bend, lower at the rose and farther out at the top)
+            a_ = (p0[0], p0[1] + off * 2.0 * s)
+            k1 = (c1[0] + g_ * off * 1.5 * s, c1[1] + off * 3.5 * s)
+            k2 = (c2[0] + g_ * off * 7.0 * s, c2[1] + off * 1.5 * s)
+            e = (end[0] + g_ * off * 9.0 * s, end[1] + abs(off) * 5.0 * s)
+            d = f"M {P(*a_)} C {P(*k1)} {P(*k2)} {P(*e)}"
+            svg += f'<path d="{d}" fill="none" stroke="{OUT}" stroke-width="{3.6 * s + 1.6:.1f}" stroke-linecap="round" stroke-dasharray="{9 * s:.1f} {7 * s:.1f}" stroke-dashoffset="{i * 5 * s:.1f}"/>'
+            svg += f'<path d="{d}" fill="none" stroke="{C["water_light"]}" stroke-width="{3.6 * s:.1f}" stroke-linecap="round" stroke-dasharray="{9 * s:.1f} {7 * s:.1f}" stroke-dashoffset="{i * 5 * s:.1f}"/>'
+        # the drops above them, each with its point trailing below it: drops on their way up (drops() draws them falling, point up)
+        ds = s * 1.1
+        for i in range(3):
+            qx, qy = end[0] + (i - 1) * 16 * ds, end[1] - 14 * s - (0 if i % 2 else 8) * ds
+            svg += shape(f"M {P(qx, qy + 9 * ds)} Q {P(qx + 6 * ds, qy - 2 * ds)} {P(qx, qy - 5 * ds)} Q {P(qx - 6 * ds, qy - 2 * ds)} {P(qx, qy + 9 * ds)} Z",
+                         C["water_light"], OW * 0.5)
+        xs = [p0[0], c1[0], c2[0], end[0]]
+        ys = [p0[1], c1[1], c2[1], end[1]]
+        return svg, (min(xs) - 16, min(ys) - 30 * s, max(xs) + 16, max(ys) + 22 * s), end
     if upward and solid:
         # v0.10: the water leaves the spout already rising, like a pour turned upside down (starting
         # down toward the flowers and curving up, it read as a spray arcing over them)
@@ -1381,9 +1649,11 @@ def laundry_basket(x, y, s=1.0, cloth=False):
         svg += ell(x + dx * s, y - 50 * s, 24 * s, 14 * s, col, OW * 0.8)
         if cloth:
             svg += f'<path d="M {P(x + (dx - 14) * s, y - 52 * s)} Q {P(x + dx * s, y - 58 * s)} {P(x + (dx + 13) * s, y - 50 * s)}" fill="none" stroke="{OUT}" stroke-width="{1.6 * s:.1f}" stroke-linecap="round"/>'
-    svg += shape(f"M {P(x - 50 * s, y - 46 * s)} L {P(x + 50 * s, y - 46 * s)} L {P(x + 40 * s, y)} L {P(x - 40 * s, y)} Z", "#c99a5a")
+    # v0.56 (the scene's switch BASKET; vision/flaws_v055.md G8): the wicker a darker brown, grey 131 for 159 on grass at 168
+    wick_, weave_ = ("#b07d42", "#85592a") if _sw56("BASKET") != "O" else ("#c99a5a", "#a87a3c")
+    svg += shape(f"M {P(x - 50 * s, y - 46 * s)} L {P(x + 50 * s, y - 46 * s)} L {P(x + 40 * s, y)} L {P(x - 40 * s, y)} Z", wick_)
     for k in (1, 2):
-        svg += line(x - 48 * s + k * 2, y - 46 * s + k * 15 * s, x + 48 * s - k * 2, y - 46 * s + k * 15 * s, "#a87a3c", 3 * s)
+        svg += line(x - 48 * s + k * 2, y - 46 * s + k * 15 * s, x + 48 * s - k * 2, y - 46 * s + k * 15 * s, weave_, 3 * s)
     if cloth:
         # a sleeve of the blue bundle over the rim, its cuff down the basket's front
         svg += shape(f"M {P(x - 30 * s, y - 49 * s)} Q {P(x - 22 * s, y - 40 * s)} {P(x - 25 * s, y - 24 * s)} L {P(x - 13 * s, y - 23 * s)} "
@@ -1413,7 +1683,27 @@ def blowing_leaves(x0, y0, x1, y1, s=1.0, n=4):
     return svg
 
 
-def pond(cx, cy, rx, ry):
+POND50 = {"bank": "#e2cf9b", "water": "#4a9bd4", "light": "#7cc0ea"}
+
+
+def pond(cx, cy, rx, ry, bank=False):
+    if bank:
+        # revision 50 (settings BANK): the near bank drawn. The water lies inside a sandy shore that is widest at the near side, so that
+        # a figure in front of the pond stands plainly on this side of the shore (v0.55: a figure whose body overlapped the flat oval
+        # was doubted in 23 readings of 13 pictures, "at a glance she could look as if she is standing in the water"). And the water
+        # darker: in grey it was 155 on grass at 168; now the shore is 207 and the water 142
+        d, m = 0.115 * ry, 0.03 * rx
+        wy, wrx, wry = cy - d, rx - m, ry - d
+        svg = ell(cx, cy, rx, ry, POND50["bank"])
+        svg += ell(cx, wy, wrx, wry, POND50["water"], OW * 0.7)
+        svg += f'<ellipse cx="{cx - wrx * 0.25:.1f}" cy="{wy - wry * 0.25:.1f}" rx="{wrx * 0.35:.1f}" ry="{wry * 0.18:.1f}" fill="{POND50["light"]}"/>'
+        svg += f'<ellipse cx="{cx + wrx * 0.35:.1f}" cy="{wy + wry * 0.25:.1f}" rx="{wrx * 0.22:.1f}" ry="{wry * 0.12:.1f}" fill="{POND50["light"]}"/>'
+        for i, (dx, h) in enumerate([(-0.92, 50), (-0.86, 38), (0.88, 46), (0.93, 34)]):
+            x = cx + dx * rx
+            y = cy + ry * 0.25
+            svg += stroke(poly_d([(x, y), (x + (i - 1.5) * 3, y - h)]), C["grass_dark"], 5, OW * 0.6)
+            svg += ell(x + (i - 1.5) * 3, y - h, 4, 10, C["brown"], OW * 0.6)
+        return svg
     svg = ell(cx, cy, rx, ry, C["pond"])
     svg += f'<ellipse cx="{cx - rx * 0.25:.1f}" cy="{cy - ry * 0.25:.1f}" rx="{rx * 0.35:.1f}" ry="{ry * 0.18:.1f}" fill="{C["water_light"]}"/>'
     svg += f'<ellipse cx="{cx + rx * 0.35:.1f}" cy="{cy + ry * 0.25:.1f}" rx="{rx * 0.22:.1f}" ry="{ry * 0.12:.1f}" fill="{C["water_light"]}"/>'
@@ -1529,16 +1819,40 @@ def slide(x, base_y, s=1.0, f=1, ladder2=False, ladder3=False):
 SEESAW_IN28 = 22
 
 
-def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False, up=(0, 0), arch=(False, False)):
+# v0.56 (templates LOWEND; vision/flaws_v055.md R2): a rubber stop on the ground under each end of the seesaw, on which the low end rests
+SEESAW_STOP56 = dict(inn=16.0, w=24.0, half=10.6)   # how far in from the plank's end it stands, its width, and half the plank's drawn thickness, in units
+
+
+def seesaw_rest(bumper, L=212):
+    """v0.56: the tilt, in degrees, at which the plank's underside lies on a stop `bumper` units tall (0: the plank's end on the ground, as
+    before: asin(82 / L))."""
+    if not bumper:
+        return math.degrees(math.asin(82 / L))
+    lo, hi = 0.0, math.asin(82 / L)
+    for _ in range(40):
+        r = (lo + hi) / 2
+        under = 82 - (L - SEESAW_STOP56["inn"]) * math.sin(r) - SEESAW_STOP56["half"] / math.cos(r)
+        lo, hi = (r, hi) if under > bumper else (lo, r)
+    return math.degrees((lo + hi) / 2)
+
+
+def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False, up=(0, 0), arch=(False, False), bumper=0.0, backs=False):
     """Seesaw on a pivot; tilt > 0 lifts the right end. Returns svg and the two seat points.
     inset (v0.28) moves the seats and handles in from the plank's ends; ground (v0.28) casts one shadow under the whole plank, for the riders too.
-    up (v0.32): how much taller each end's handle stands, in units (left, right), for a rider raised onto the plank who grips it."""
+    up (v0.32): how much taller each end's handle stands, in units (left, right), for a rider raised onto the plank who grips it.
+    bumper (v0.56): the height, in units, of a rubber stop drawn on the ground under each end (the plank rests on one at the tilt `seesaw_rest`
+    gives). backs (v0.56): a low seat back standing on the plank at each end, behind the rider."""
     ph = 82 * s
     a = math.radians(tilt)
     dx, dy = math.cos(a) * L * s, -math.sin(a) * L * s
     pv = (cx, base_y - ph)
     left, right = (pv[0] - dx, pv[1] - dy), (pv[0] + dx, pv[1] + dy)
     svg = f'<ellipse cx="{cx:.1f}" cy="{base_y + 2:.1f}" rx="{abs(dx) * 1.04:.1f}" ry="{13 * s:.1f}" fill="{OUT}" fill-opacity="0.16"/>' if ground else ""
+    if bumper:
+        rr_ = math.radians(seesaw_rest(bumper, L))
+        for sg_ in (-1, 1):
+            bx_ = cx + sg_ * (L - SEESAW_STOP56["inn"]) * math.cos(rr_) * s
+            svg += rect(bx_ - SEESAW_STOP56["w"] / 2 * s, base_y - bumper * s, SEESAW_STOP56["w"] * s, bumper * s, C["charcoal"], rx=5 * s, ow=OW * 0.7)
     svg += poly([(cx - 34 * s, base_y), (cx + 34 * s, base_y), (cx + 8 * s, base_y - ph), (cx - 8 * s, base_y - ph)], C["slate"])
     svg += stroke(poly_d([left, right]), C["red"], 14 * s, OW * 0.8)
     seats = {}
@@ -1559,6 +1873,11 @@ def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False,
             p0_ = (x - sg * 6 * s * math.cos(a) + nx_, y + sg * 6 * s * math.sin(a) + ny_)
             p1_ = (x + sg * 28 * s * math.cos(a) + nx_, y - sg * 28 * s * math.sin(a) + ny_)
             svg += stroke(poly_d([p0_, p1_]), C["wood"], 9 * s, OW * 0.7)
+        if backs:
+            # (v0.56) a low seat back on the plank, 5 units in from its end: it stands behind the rider and shows that the end is a seat
+            ex_, ey_ = x - sg * (inset - 5) * s * math.cos(a), y + sg * (inset - 5) * s * math.sin(a)
+            nx_, ny_ = -math.sin(a), -math.cos(a)
+            svg += stroke(poly_d([(ex_ + nx_ * 4 * s, ey_ + ny_ * 4 * s), (ex_ + nx_ * 30 * s, ey_ + ny_ * 30 * s)]), C["red"], 9 * s, OW * 0.7)
         seats[name] = (x + sg * 8 * s, y - 6 * s)
         seats[name + "_handle"] = (hx, hy - ht * s)
     svg += circ(pv[0], pv[1], 8 * s, C["gray"], OW * 0.7)

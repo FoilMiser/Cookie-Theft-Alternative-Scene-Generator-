@@ -137,6 +137,10 @@ def build_one(lib, tier, setting, seed, out_dir, forced=None, require_band=True,
             if not fin["checks"]["legibility"][0]:
                 why_set.append("legibility: " + fin["checks"]["legibility"][1])
                 continue
+            if SCN.sw56("GREY") == "B" and not fin["checks"]["grey"][0]:
+                # v0.56 (GREY "B"; "W" records the check and builds the picture all the same)
+                why_set.append("grey: " + fin["checks"]["grey"][1])
+                continue
             if require_band and not fin["checks"]["clutter_band"][0]:
                 why_set.append(fin["checks"]["clutter_band"][1])
                 continue

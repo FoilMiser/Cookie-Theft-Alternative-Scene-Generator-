@@ -34,6 +34,11 @@ SETS = {
     # (templates.JUMP53), and the free search on v0.52's base failed. Of four earlier releases' garden sets measured with yield_set.py under
     # revision 49 (v0.45, v0.46, v0.47, v0.49, five seeds each from the seed each was built on), only v0.46's placed in the band, on two seeds
     "v046garden": ["blocked_hose", "ball_in_tree", "bucket_hat", "square_wheel", "birds_flying", "drink_bench", "paint_fence", "sweep", "cat_on_fence"],
+    # v0.56, the tier-4 street. The free search failed on 46 bases (v0.55's 443887 first, then three ranges). v0.55's own set (bird_steals,
+    # ice_cream_drop, ball_in_tree, sitting_on_air, square_wheel, feed_birds, carry_bag, sweep) did not place on eight seeds: the bicycle with
+    # square wheels has an owner who holds it from revision 50, a ninth figure, and the man who sits on nothing and the carrier found no room.
+    # With the dog that reads a newspaper in his place it placed in the band on one seed of six, 445887. (v047street with its jump: none of six.)
+    "v056street": ["bird_steals", "ice_cream_drop", "ball_in_tree", "dog_reading", "square_wheel", "feed_birds", "carry_bag", "sweep"],
 }
 setting, tier, name, seeds = sys.argv[1], int(sys.argv[2]), sys.argv[3], [int(x) for x in sys.argv[4].split(",")]
 forced = {"modules": [], "contradictions": [], "events": []}

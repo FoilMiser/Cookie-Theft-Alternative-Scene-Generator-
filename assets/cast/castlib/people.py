@@ -112,6 +112,28 @@ SEAT55_P = dict(th_root=0.074, th_knee=0.059, sh_knee=0.058, cuff=0.051, sleeve=
                 calf=0.060, calf_dy=-0.024, ankle=0.027, wrap_pad=0.014, pel_back=0.008, seat_k=1.0, lid=0.004,
                 knee_in=0.60, hull_d=0.86, blk_d=0.92, blk_c=0.050, cuff_z=0.012)
 SEAT55_P.update(__import__("json").loads(__import__("os").environ.get("TPDB_SEAT55_P", "{}")))
+# v0.56 (TPDB_EYES56; flaws_v055.md, I7): a grown man with facial hair reads with his head up since v0.54 (actions.READ54), and his eyes then
+# look ahead over the book. "B": his eyes are carried by a bone of their own, "gaze", which lies on the head's bone and moves with it; the
+# reading poses lower it (actions.EYES56_P), so that the eyes sit low on the face, turned down to the page, with the head as v0.54 has it.
+# In every other pose the bone is at rest and the eyes are where they were. "O": no such bone, the eyes on the head's bone.
+EYES56 = __import__("os").environ.get("TPDB_EYES56", "O")
+# v0.56 (TPDB_SKIRT56; flaws_v055.md, C1): the cloth of a skirt or a dress over the two thighs of a seated figure.
+#   "O": v0.55's wrap, a tube round both thighs that stands 1.4 cm off them and is open at the hem, with a lid just inside the opening:
+#   seen from the hem, the cloth goes round each knee and under it, and each leg comes out through a line of its own.
+#   "B": a sheet laid close over both thighs, with no cloth under them and no lid: it lies on the top of each thigh, follows the outer side
+#   of each round to its underside and spans the gap between them, taut. It narrows with the thighs toward the knees, so the hem lies on
+#   them, and the hem is one straight edge from the outer side of one knee to the outer side of the other. The legs come out under that
+#   edge; a panel between the thighs just inside the hem is the cloth seen between the knees, the skirt's far inside, and draws the line
+#   where a thigh leaves it.
+#   "D": as B with the hem sagging between the knees (SKIRT56_P["hem_sag"]); the fold of the sag draws a short line of its own at the
+#   lap's top in a side view.
+SKIRT56 = __import__("os").environ.get("TPDB_SKIRT56", "O")
+# (pad, in metres of a standard adult, how far the cloth lies off a thigh; sag and hem_sag in units of the cloth's radius about a thigh;
+# alpha, in degrees, how far the cloth follows the inner side of a thigh before it hangs free in the gap; scoop, the part of the lap's
+# length over which the hem's sag develops; wall and wall_hem, how far round the outer side the cloth goes, 1 to the thigh's underside,
+# along the lap and at the hem; veil, in metres, how far inside the hem the panel between the thighs stands. TPDB_SKIRT56_P, a JSON dict, changes some for a trial)
+SKIRT56_P = dict(pad=0.005, sag=0.0, hem_sag=0.50, veil=0.004, alpha=65.0, scoop=0.30, wall=0.83, wall_hem=0.83, wall_run=0.40, hug=1, flare=0.0, n_arc=10, n_wall=6, n_span=12, n_in=6)
+SKIRT56_P.update(__import__("json").loads(__import__("os").environ.get("TPDB_SKIRT56_P", "{}")))
 # TPDB_CARDI47 "B": a cardigan shows the top under it in a V below the collar and closes in a line down the front, its buttons on the line;
 # "O" is v0.46's strip of the inner colour from collar to hem with the buttons beside it ("a plank", off the middle in a turned view)
 CARDI47 = __import__("os").environ.get("TPDB_CARDI47", "B")
@@ -247,6 +269,8 @@ def build_person(spec):
             f"shin_{side}": (P(sg * hx, -0.01 * s, J["knee"]), P(sg * hx, 0, J["ankle"]), f"thigh_{side}"),
             f"foot_{side}": (P(sg * hx, 0, J["ankle"]), P(sg * hx, -J["toe"], 0.02 * s), f"shin_{side}"),
         })
+    if EYES56 != "O" and spec.get("facial_hair") and spec.get("age") == "adult":
+        bones["gaze"] = (bones["head"][0], bones["head"][1], "head")     # v0.56 (EYES56)
     rig = Rig(root, bones)
 
     hr = J["head_r"] * S * HS
@@ -648,6 +672,18 @@ def build_person(spec):
                 open_end(seat, hem_s * S - 0.004 * S, rig, bcol, lid="SkirtSeatLid")
                 if bottom == "dress":
                     no_isect(seat)
+                if SKIRT56 != "O" and SEAT55 == "B" and "sit_ground" in __import__("os").environ.get("TPDB_SEATED56G", ""):
+                    # v0.56 (SKIRT56), a trial that is off unless TPDB_SEATED56G=sit_ground: sitting on the ground the wrap above has the
+                    # same fault as v0.55's, cloth round each thigh and a line round each leg at the hem. In the trial the skirt is this
+                    # piece, the wrap's upper end as far as the thighs' roots, and the seated postures' sheet over the standing legs
+                    # (build_seat55). It was looked at and left: the sheet's start and this piece make a block under the sitter where the
+                    # wrap's rump is round, and a top's hem shows through the sheet at the hip
+                    # (its lower end a little smaller than the sheet's own start, which lies over it)
+                    rt56 = SEAT55_P["bare_top"] * k * LB + SEAT55_P["wrap_pad"] * k
+                    seat_g = skin_object("SkirtSeatG", sv[:3], [(0, 1), (1, 2)], sr[:2] + [(hx * S + rt56 * 0.96, rt56 * 0.96)], bcol, rig, sw[:3])
+                    reweight_skirt(seat_g, hx * S, (J["hip"] + 0.030 * s) * S, hem_s * S, rt47, "S", z_full=(J["hip"] - 0.070 * s) * S)
+                    if bottom == "dress":
+                        no_isect(seat_g)
         # v0.15: the fabric over each thigh. The bell above hangs from the hips and cannot follow two legs, so
         # when a thigh swung forward (sitting, kicking, sliding) the leg below it came out of nowhere, a gap
         # between the hem and a floating leg. Each lobe runs from the hip joint past the top of the bare leg
@@ -901,6 +937,11 @@ def build_person(spec):
                                                 Vector((sg * 0.165 * S, -0.065 * S, (J["chest"] - 0.14) * S))],
                         [(0.026 * S, 0.010 * S)] * 5, spec.get("backpack2", "charcoal"), rig, bone="chest")
     build_people_face(face, eye_dx, eye_z, kf, glasses=spec.get("glasses", False), skin_key=spec["skin"], mouth_col="red" if AF else None)
+    if "gaze" in bones:
+        # v0.56 (EYES56): every shape of the eyes on the bone that a reading pose lowers; the brows stay on the head
+        for _key, _ob in face.objs.items():
+            if _key.split("_")[0] in ("eye", "catch", "half", "white", "pupil", "arcup", "arcup2", "arcdn") or _key.startswith("p_arc"):
+                rig.attach(_ob, "gaze")
     if ISECT39 == "B":
         for ob in list(bpy.context.scene.objects):
             nm = ob.name.split(".")[0]
@@ -928,6 +969,8 @@ def build_person(spec):
     # v0.55 (SEAT55): the seated lower body's objects, and the standing one's that it stands in for (build_cast shows one set or the other)
     ctx.sit55 = sit55
     ctx.std55 = [n for n in ("Pants", "Legs", "Skirt", "SkirtLap", "SkirtSeat", "SkirtSeatLid") if bpy.data.objects.get(n)] if sit55 else []
+    # v0.56 (SKIRT56): what a skirt shows and hides sitting on the ground, and what is there for that posture alone
+    ctx.gnd56 = dict(show=["SkirtSeatG", "SitWrap", "SitWrapVeilG"], hide=["SkirtSeat", "SkirtSeatLid"], only=["SkirtSeatG", "SitWrapVeilG"])         if bpy.data.objects.get("SkirtSeatG") and bpy.data.objects.get("SitWrapVeilG") else None
     rest_shade()        # v0.47 (TPDB_SHADE47): the trunk's cloth keeps its upright shading; the rig is at rest here
     return rig, states, ctx
 
@@ -968,7 +1011,8 @@ def build_seat55(rig, P, J, S, s, k, hx, B, LB, TI, dp, bottom, bcol, spec, top5
 
     r_root = p["th_root"] * k * B["hips"]
     verts, radii, wts = top55
-    rt = p["bare_top"] * k * LB + p["wrap_pad"] * k
+    # (v0.56, SKIRT56: the sheet lies close on the thighs; v0.55's wrap stood 1.4 cm off them, a box round the lap)
+    rt = p["bare_top"] * k * LB + (SKIRT56_P["pad"] if SKIRT56 != "O" and bottom in ("skirt", "dress") else p["wrap_pad"]) * k
     rz = r_root if bottom in ("pants", "shorts") else rt
     # the trunk's end, from the waist to the hips, as the standing figure has it, without the standing figure's rump: seated, with the roll
     # below, it stood out behind the line of the back (pair bench legs1: "like a cushion stuck to the hips", nine reviewers of twelve)
@@ -1016,8 +1060,63 @@ def build_seat55(rig, P, J, S, s, k, hx, B, LB, TI, dp, bottom, bcol, spec, top5
         hem_s = max(hem_z, kneez + 0.020 * s)
         w0, w1 = P(0, 0, hipz), P(0, -0.008 * s, hem_s)
         wr = "sides"
-        piece(lathe("SitWrap", w0, w1, [(0, hx * S + rt * 1.03, rt * 1.06, 0), (1, hx * S + rt, rt, 0)], bcol, cap1="open", seg=48, flat=hx * S), wr)
-        open_lid("SitWrapLid", w0, w1, hx * S + rt, rt, bcol, wr, flat=hx * S)
+        if SKIRT56 != "O":
+            # v0.56 (SKIRT56): one sheet over both thighs
+            # (it follows the bare thigh, which narrows from its middle to the knee, so the hem lies on the thigh: with one radius all the
+            # way the hem stood 2 cm off the knee and the cloth's inside showed under it)
+            rk56 = p["bare_knee"] * k * LB
+            lt56 = (P(0, -0.01 * s, kneez) - w0).length - p["knee_in"] * rk56
+            u56 = (w1 - w0).length / lt56
+            rh56 = rt - rk56 * 0.0 if u56 <= 0.5 else rt + (rk56 - p["bare_top"] * k * LB) * min(1.0, (u56 - 0.5) / 0.5)
+            if u56 > 1.0:
+                rh56 = rh56 - rk56 * (1 - math.sqrt(max(0.3, 1 - ((u56 - 1) * lt56 / rk56) ** 2)))
+            hem56 = []
+            piece(sit_sheet56("SitWrap", w0, w1, hx * S, rt, bcol, hem_sag=None if SKIRT56 == "D" else SKIRT56_P["sag"],
+                              r_hem=rh56, t_mid=min(0.9, 0.5 / u56), hem_out=hem56), wr)
+            if SKIRT56_P["veil"] > 0:
+                # the cloth seen between the thighs under the hem, the skirt's far inside: a panel just inside the hem, from the middle of
+                # one thigh to the middle of the other, its upper edge under the sheet's own edge and its lower edge at the height of the
+                # thighs' undersides. Its ends lie inside the thighs, and it draws the line where a thigh comes out of the cloth (a bare
+                # thigh draws none where it passes into the hips). Without it, or with it half way along the lap as it first stood, the
+                # far thigh's inner side showed between the knees at three-quarters, a band of skin from knee to knee
+                va = (w1 - w0).normalized()
+                vx = Vector((1, 0, 0))
+                vy = va.cross(vx)
+                vc = w1 - va * (SKIRT56_P["veil"] * k)
+                top56 = [(x_, y_ * 0.96) for x_, y_ in hem56 if x_ <= hx * S + 1e-6]
+                out56 = [(hx * S, -0.80 * rh56)] + top56 + [(-x_, y_) for x_, y_ in reversed(top56[:-1])] + [(-hx * S, -0.80 * rh56)]
+
+                def veil_row(ym):
+                    # the panel's outline in units of half the thighs' distance and of the cloth's radius: its upper edge inside each
+                    # thigh and, across the gap, at ym
+                    up = [(1, 0.60), (0.40, 0.60), (0.27, 0.60 + (ym - 0.60) * 0.5), (0.13, 0.60 + (ym - 0.60) * 0.85), (0, ym)]
+                    return [(1, -0.98)] + up + [(-x_, y_) for x_, y_ in reversed(up[:-1])] + [(-1, -0.98)]
+                bmv = bmesh.new()
+                bmv.faces.new([bmv.verts.new(vc + vx * x_ + vy * y_) for x_, y_ in out56])
+                veil = piece(_mesh_object("SitWrapVeil", bmv, bcol, smooth=False), wr)
+                try:
+                    veil.lineart.usage = "FORCE_INTERSECTION"
+                except (AttributeError, TypeError):
+                    pass
+                if bpy.data.objects.get("SkirtSeatG"):
+                    # (on the ground the legs are the standing ones, which begin a hand's width above the knee: the panel
+                    # there lies just below their upper end)
+                    vc = P(0, -0.008 * s, max(kneez + 0.085 * s, hem_s + 0.030 * s))
+                    # (so near the hem the sheet has begun to sag between the thighs, and the panel's upper edge keeps under it)
+                    tg = (vc - w0).length / (w1 - w0).length
+                    ug = max(0.0, (tg - (1 - SKIRT56_P["scoop"])) / SKIRT56_P["scoop"]) if SKIRT56_P["scoop"] > 0 else 0.0
+                    hs_ = SKIRT56_P["hem_sag"] if SKIRT56 == "D" else SKIRT56_P["sag"]
+                    ym = (1.05 - 0.05 * tg) * (1 - (SKIRT56_P["sag"] + (hs_ - SKIRT56_P["sag"]) * (3 * ug * ug - 2 * ug ** 3))) - 0.12
+                    bmv = bmesh.new()
+                    bmv.faces.new([bmv.verts.new(vc + vx * (sx_ * hx * S) + vy * (sy_ * rt)) for sx_, sy_ in veil_row(ym)])
+                    veil = piece(_mesh_object("SitWrapVeilG", bmv, bcol, smooth=False), wr)
+                    try:
+                        veil.lineart.usage = "FORCE_INTERSECTION"
+                    except (AttributeError, TypeError):
+                        pass
+        else:
+            piece(lathe("SitWrap", w0, w1, [(0, hx * S + rt * 1.03, rt * 1.06, 0), (1, hx * S + rt, rt, 0)], bcol, cap1="open", seg=48, flat=hx * S), wr)
+            open_lid("SitWrapLid", w0, w1, hx * S + rt, rt, bcol, wr, flat=hx * S)
     def knee(H, K, A, r):
         # the thigh ends and the shin begins a little short of the knee joint, each in its dome: the two domes together round the knee
         # off more than one would (legs1: "the knee is a hard square corner, which looks stiff and blocky")
@@ -1052,6 +1151,74 @@ def build_seat55(rig, P, J, S, s, k, hx, B, LB, TI, dp, bottom, bcol, spec, top5
                                              (0.68, rcf * 0.45 + ra * 0.55, rcf * 0.45 + ra * 0.55, cd * 0.42), (0.86, rcf * 0.15 + ra * 0.85, rcf * 0.15 + ra * 0.85, cd * 0.12),
                                              (1, ra, ra, 0)], skin), sw)
     return names
+
+
+def sit_sheet56(name, p0, p1, hxs, r, matkey, hem_sag=None, side=(1, 0, 0), dome=6, r_hem=None, t_mid=0.5, hem_out=None):
+    """v0.56 (SKIRT56): the cloth of a skirt over two thighs, a sheet with no underside. p0 to p1 is the line midway between the thighs,
+    from the hip joints to the hem; hxs is half the distance between the thighs' lines and r the cloth's radius about each, narrowing
+    from t_mid of the way along to r_hem at the hem. A row of the
+    sheet, across: down the outer side of one thigh, over its top, across the gap and so over the other. Built at rest, as core.lathe is:
+    the depth axis (the line's direction crossed with side) is forward at rest and up when the thighs are level."""
+    p = SKIRT56_P
+    p0, p1 = Vector(p0), Vector(p1)
+    a = (p1 - p0).normalized()
+    ex = Vector(side)
+    ex = (ex - a * ex.dot(a)).normalized()
+    ey = a.cross(ex)
+    ln = (p1 - p0).length
+    hs = p["hem_sag"] if hem_sag is None else hem_sag
+
+    def half(rr, D, wl=None):
+        # the half row at positive x, from the foot of the outer wall to the middle of the gap, as (x, y)
+        wl = p["wall"] if wl is None else wl
+        if p["hug"]:
+            # the outer side follows the thigh round, wl of the way from its widest line to its underside (hanging straight to the seat it
+            # stood beside the knee as a blade, seen from the front)
+            pts = [(hxs + rr * math.cos(-math.pi / 2 * wl * (1 - i / p["n_wall"])), rr * math.sin(-math.pi / 2 * wl * (1 - i / p["n_wall"]))) for i in range(p["n_wall"])]
+        else:
+            pts = [(hxs + rr * (1 + p["flare"] * (1 - i / p["n_wall"]) ** 2), -wl * rr * (1 - i / p["n_wall"])) for i in range(p["n_wall"])]
+        pts += [(hxs + rr * math.cos(math.pi / 2 * i / p["n_arc"]), rr * math.sin(math.pi / 2 * i / p["n_arc"])) for i in range(p["n_arc"] + 1)]
+        # how far the cloth follows the thigh's inner side: not at all for a slight sag, alpha for a deep one, and never past the gap's middle
+        al = math.radians(p["alpha"]) * max(0.0, min(1.0, (D / rr - 0.3) / 0.7)) if rr > 1e-6 else 0.0
+        if rr > 1e-6:
+            al = min(al, math.asin(max(0.0, min(1.0, 0.72 * hxs / rr))))
+        al = max(al, math.radians(2.0))     # (every row has the same count of points, so the rows join point to point)
+        na = p["n_in"]
+        pts += [(hxs - rr * math.sin(al * i / na), rr * math.cos(al * i / na)) for i in range(1, na + 1)]
+        ax, ay = pts[-1]
+        F = max(0.0, ay - (rr - D))
+        m0 = min(math.tan(al) * ax, 2.6 * F)
+        for i in range(1, p["n_span"] + 1):
+            u = i / p["n_span"]
+            pts.append((ax * (1 - u), ay - (m0 * (u ** 3 - 2 * u * u + u) + F * (-2 * u ** 3 + 3 * u * u))))
+        return pts
+
+    def row(c, rr, D, wl=None):
+        h = half(rr, D, wl)
+        return [c + ex * x + ey * y for x, y in h] + [c + ex * (-x) + ey * y for x, y in reversed(h[:-1])]
+
+    rows = []
+    # behind the hip joints the sheet closes in as the dome of v0.55's wrap did, inside the hips
+    for i in range(dome, 0, -1):
+        ph = 0.96 * math.pi / 2 * i / dome
+        rows.append(row(p0 - a * (r * 1.04 * math.sin(ph)), r * math.cos(ph), p["sag"] * r * math.cos(ph)))
+    for t in (0.0, 0.2, 0.4, 0.55, 0.7, 0.8, 0.88, 0.94, 1.0):
+        rr = r if r_hem is None or t <= t_mid else r + (r_hem - r) * (t - t_mid) / (1 - t_mid)
+        u = max(0.0, (t - (1 - p["scoop"])) / p["scoop"]) if p["scoop"] > 0 else float(t >= 1.0)
+        D = (p["sag"] + (hs - p["sag"]) * (3 * u * u - 2 * u ** 3)) * rr
+        # (the outer wall's foot rises toward the hem: hanging to the seat at the knee it stood beside the knee as a blade, seen from the front)
+        uw = max(0.0, (t - (1 - p["wall_run"])) / p["wall_run"]) if p["wall_run"] > 0 else 0.0
+        rows.append(row(p0 + a * (ln * t), rr, D, p["wall"] + (p["wall_hem"] - p["wall"]) * (3 * uw * uw - 2 * uw ** 3)))
+        if hem_out is not None and t == 1.0:
+            # (the hem's own half row, across and up, for the panel that stands just inside it)
+            hem_out.extend(half(rr, D, p["wall"] + (p["wall_hem"] - p["wall"]) * (3 * uw * uw - 2 * uw ** 3)))
+    bm = bmesh.new()
+    vr = [[bm.verts.new(c) for c in rw] for rw in rows]
+    for r0, r1 in zip(vr, vr[1:]):
+        for j in range(len(r0) - 1):
+            bm.faces.new((r0[j], r1[j], r1[j + 1], r0[j + 1]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+    return _mesh_object(name, bm, matkey, smooth=True)
 
 
 def shoe39(name, ankle, s, k, S, matkey, rig, bone):

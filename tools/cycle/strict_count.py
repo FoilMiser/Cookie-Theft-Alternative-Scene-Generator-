@@ -1,6 +1,6 @@
 """strict_count.py : the gate again with the full marks the scorers themselves listed as judgement calls halved (from v0.41; the scorers are
 asked for the list from v0.47). Fill TWO (the target beside another reading) and NEAR (a near word, or a target partly said) by hand from the
-scores_summary files of the release; the lists below are v0.55's (48 and 37). Prints the templates that would fall under 0.9 with TWO
+scores_summary files of the release; the lists below are v0.56's (33 and 46). Prints the templates that would fall under 0.9 with TWO
 halved, and with both halved. Run after the swap and vision/gate.py."""
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -8,34 +8,32 @@ from cfg import ROOT, WORK, TAG, PREV  # noqa: E402
 import collections, json, os
 os.chdir(ROOT)
 TWO = {
-    # scorer a (pic_07 i01 and pic_13 i01: the grandfather on the seesaw's low end beside "sitting on the ground in front of the seesaw end")
-    ("pic_02", "i02"), ("pic_03", "i01"), ("pic_03", "i03"), ("pic_07", "i01"), ("pic_13", "i01"), ("pic_08", "i04"), ("pic_08", "i07"),
-    ("pic_11", "i04"), ("pic_15", "i07"), ("pic_21", "i06"), ("pic_22", "i04"), ("pic_22", "i08"),
-    # scorer b (pic_49 i03 is here: pointing at the sky beside another reading, and the teenager a boy as well)
-    ("pic_27", "i03"), ("pic_38", "i03"), ("pic_38", "i04"), ("pic_46", "i03"), ("pic_46", "i04"), ("pic_29", "i02"), ("pic_29", "i04"),
-    ("pic_37", "i07"), ("pic_37", "i03"), ("pic_38", "i07"), ("pic_32", "i03"), ("pic_47", "i04"), ("pic_49", "i03"),
+    # scorer a (three are the fish in the tree, impossible beside a toy, an ornament or a kite shaped like a fish)
+    ("pic_02", "i04"), ("pic_12", "i02"), ("pic_04", "i04"), ("pic_09", "i03"), ("pic_10", "i02"), ("pic_13", "i05"), ("pic_01", "i03"), ("pic_13", "i04"), ("pic_17", "i07"), ("pic_17", "i03"), ("pic_18", "i04"), ("pic_18", "i05"), ("pic_22", "i03"), ("pic_24", "i02"), ("pic_24", "i03"),
+    # scorer b
+    ("pic_42", "i06"), ("pic_50", "i03"), ("pic_46", "i02"), ("pic_29", "i01"),
     # scorer c
-    ("pic_52", "i01"), ("pic_53", "i02"), ("pic_58", "i09"), ("pic_60", "i04"), ("pic_60", "i11"), ("pic_64", "i03"), ("pic_67", "i04"),
-    ("pic_68", "i03"), ("pic_70", "i03"), ("pic_72", "i02"), ("pic_73", "i07"), ("pic_75", "i08"),
-    # scorer d
-    ("pic_78", "i04"), ("pic_80", "i03"), ("pic_81", "i03"), ("pic_82", "i04"), ("pic_87", "i04"), ("pic_86", "i02"), ("pic_86", "i05"),
-    ("pic_89", "i07"), ("pic_98", "i03"), ("pic_90", "i01"), ("pic_97", "i18")}
+    ("pic_63", "i04"),
+    # scorer d (pic_92 i01: the grandfather reads a newspaper, and whether he sits squarely on the seesaw's seat is asked)
+    ("pic_78", "i03"), ("pic_80", "i04"), ("pic_82", "i03"), ("pic_89", "i03"), ("pic_89", "i14"), ("pic_92", "i01"), ("pic_96", "i03"), ("pic_97", "i03"),
+    # scorer e
+    ("pic_102", "i02"), ("pic_106", "i07"), ("pic_110", "i03"), ("pic_116", "i02"), ("pic_119", "i09")}
 NEAR = {
-    # scorer a (the woman in the yellow dress a girl in pic_11; four are the teenager called a boy)
-    ("pic_05", "i03"), ("pic_18", "i03"), ("pic_08", "i06"), ("pic_12", "i05"), ("pic_14", "i03"), ("pic_15", "i19"), ("pic_11", "i05"),
-    ("pic_15", "i16"),
-    # scorer b (six are the teenager called a boy, three a bird box for the birdhouse. This scorer also listed pic_38 i12, a fence named
-    #  as a gate, which is the key's own accepted phrasing, and three marks of an older man for the grandfather: not counted)
-    ("pic_37", "i13"), ("pic_41", "i07"), ("pic_42", "i05"), ("pic_30", "i03"), ("pic_34", "i02"), ("pic_35", "i01"), ("pic_36", "i02"),
-    ("pic_37", "i04"), ("pic_39", "i04"), ("pic_46", "i02"), ("pic_33", "i05"), ("pic_34", "i06"), ("pic_38", "i11"), ("pic_31", "i01"),
-    ("pic_34", "i01"),
-    # scorer c (the man in the red shirt a boy in pic_67; pic_51 i03 is the thief bird said only among the unsure things)
-    ("pic_51", "i03"), ("pic_67", "i02"),
-    # scorer d (the woman in purple a girl or young woman in pic_87; seven are the teenager called a boy. This scorer also listed eight
-    #  marks of an older woman or man for a grandparent: not counted)
-    ("pic_77", "i03"), ("pic_79", "i01"), ("pic_82", "i01"), ("pic_87", "i01"), ("pic_88", "i05"), ("pic_89", "i02"), ("pic_97", "i14"),
-    ("pic_87", "i05"), ("pic_78", "i08"), ("pic_83", "i03"), ("pic_89", "i05"), ("pic_96", "i03")}
-assert len(TWO) == 48 and len(NEAR) == 37 and not (TWO & NEAR), (len(TWO), len(NEAR), TWO & NEAR)
+    # scorer a (six are the teenager called a boy; pic_16 i10 is the man who sits on nothing, noticed only among the unsure things. This
+    #  scorer also listed seven marks of an older or elderly woman or man for a grandparent, which v0.55's count left out as the key's own
+    #  names: not counted)
+    ("pic_16", "i10"), ("pic_04", "i14"), ("pic_06", "i02"), ("pic_10", "i04"), ("pic_16", "i17"), ("pic_17", "i01"), ("pic_22", "i04"),
+    # scorer b (a man called a boy twice, a woman called a woman or an older girl)
+    ("pic_40", "i04"), ("pic_42", "i01"), ("pic_34", "i01"),
+    # scorer c (pic_73 i03 and i04 are the wheelbarrow's square wheel said only among the unsure things)
+    ("pic_53", "i06"), ("pic_57", "i02"), ("pic_57", "i04"), ("pic_60", "i04"), ("pic_73", "i03"), ("pic_73", "i04"), ("pic_74", "i03"),
+    # scorer d (eight are the teenager called a boy, one a man called a boy. This scorer also listed nine grandparents called an older
+    #  man or woman, a lead for the leash and two puppies for the dog: not counted)
+    ("pic_80", "i01"), ("pic_81", "i02"), ("pic_85", "i02"), ("pic_86", "i03"), ("pic_88", "i02"), ("pic_89", "i04"), ("pic_89", "i10"), ("pic_90", "i01"), ("pic_94", "i07"), ("pic_97", "i04"), ("pic_99", "i03"),
+    # scorer e (four are the teenager called a boy, eight a grown figure called a boy or a girl or given beside one, two a bird box for
+    #  the bird feeder; pic_114 i02 is the frying pan noticed only among the unsure things)
+    ("pic_106", "i01"), ("pic_106", "i05"), ("pic_107", "i02"), ("pic_107", "i06"), ("pic_108", "i04"), ("pic_109", "i01"), ("pic_110", "i05"), ("pic_111", "i02"), ("pic_112", "i01"), ("pic_112", "i05"), ("pic_114", "i01"), ("pic_114", "i02"), ("pic_115", "i01"), ("pic_117", "i02"), ("pic_118", "i03"), ("pic_119", "i02"), ("pic_119", "i03"), ("pic_119", "i16")}
+assert len(TWO) == 33 and len(NEAR) == 46 and not (TWO & NEAR), (len(TWO), len(NEAR), TWO & NEAR)
 km = json.load(open(f"vision/v{TAG}/key_map.json"))
 sc = json.load(open(f"vision/v{TAG}/scores.json", encoding="utf-8"))
 

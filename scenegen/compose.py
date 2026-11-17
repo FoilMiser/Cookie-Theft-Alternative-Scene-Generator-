@@ -157,6 +157,46 @@ def to_gray(img):
     return Image.fromarray(np.clip(y, 0, 255).astype(np.uint8), "L")
 
 
+# ---------------------------------------------------------------- the grey check (v0.56)
+GREY56_MIN = 20         # grey levels (Rec. 709 luma) between a thing's fill and what lies round it
+GREY56_SHARE = 0.35     # the least share of a thing's fill that must stand off by that much
+GREY56_ROLES = ("scored", "cue", "prop")
+GREY56_AREA = 150       # (mask pixels, at MASK_SCALE: 600 square units) smaller things are left to the eye
+
+
+def grey_check(sc, els, stats, mirror):
+    """v0.56 (scene switch GREY): the picture's grey version is the Rec. 709 luma of its colours, and a thing that colour alone sets
+    apart can have the grey of what is behind it (v0.55: the dropped ice cream's pink at 167 on grass at 168, the kite in the tree at
+    104 on leaves at 115, the pond at 155; vision/flaws_v055.md, G1 to G8). For every thing the scene draws with a scored, cue or prop
+    role (figures are left out: a figure has several fills) this takes the fill's pixels, without the dark outline, and the median
+    grey of a ring round the thing in the finished picture, and asks that GREY56_SHARE of the fill stand off from it by GREY56_MIN
+    levels. Returns (ok, messages, {id: (share, the fill's median grey, the ring's median grey)})."""
+    from PIL import ImageFilter
+    body = "".join(markup(e) for e in els)
+    g = np.asarray(to_gray(render_png(svg_doc(body, mirror=mirror), int(D.W * MASK_SCALE))), dtype=np.int16)
+    out, bad = {}, []
+    for e in els:
+        if e["role"] not in GREY56_ROLES or e["kind"] == "asset" or e["id"] not in stats or e.get("part_of"):
+            continue
+        m = stats[e["id"]]["mask"]
+        if m is None or m.shape != g.shape or int(m.sum()) < GREY56_AREA:
+            continue
+        im = Image.fromarray(m.astype(np.uint8) * 255)
+        ring = (np.asarray(im.filter(ImageFilter.MaxFilter(13))) > 0) & ~(np.asarray(im.filter(ImageFilter.MaxFilter(5))) > 0)
+        if int(ring.sum()) < 40:
+            continue
+        behind = float(np.median(g[ring]))
+        vals = g[m]
+        fill = vals[vals > 70]
+        if fill.size < 0.3 * vals.size:
+            fill = vals
+        share = float((np.abs(fill - behind) >= GREY56_MIN).mean())
+        out[e["id"]] = (round(share, 2), int(np.median(fill)), int(behind))
+        if share < GREY56_SHARE:
+            bad.append(f"{e['id']} grey {int(np.median(fill))} on {int(behind)} ({share:.0%} of it stands off)")
+    return not bad, bad, out
+
+
 # ---------------------------------------------------------------- legibility
 # big surfaces a head or body may be seen against without harm
 BACKDROP_IDS = {"sky", "ground", "hills", "tree_line", "house", "buildings", "fence", "path", "pond", "blanket", "sandbox", "stall",

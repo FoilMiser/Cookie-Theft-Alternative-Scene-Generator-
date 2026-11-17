@@ -6,8 +6,8 @@
  "seed": 23044,
  "mirror": true,
  "versions": {
-  "generator": "0.55.0",
-  "cast_builder": "0.55.0",
+  "generator": "0.56.0",
+  "cast_builder": "0.56.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -57,11 +57,14 @@
  },
  "features": [
   "bench",
-  "feeder"
+  "feeder",
+  "flowers",
+  "hose_reel",
+  "swing"
  ],
  "templates": [
   {
-   "id": "rake",
+   "id": "hose_water",
    "kind": "event",
    "event": "e1",
    "units": 0
@@ -72,7 +75,7 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A woman is raking leaves",
+   "text": "A woman is watering the flowers with a hose",
    "accepted": {
     "who": [
      "woman",
@@ -82,45 +85,46 @@
      "person"
     ],
     "what": [
-     "raking",
-     "raking leaves",
-     "rake",
-     "cleaning up leaves",
-     "raking grass"
+     "watering with a hose",
+     "spraying water",
+     "hosing the flowers",
+     "watering the garden"
     ]
    },
-   "key": "raking",
+   "key": "hose",
    "elements": [
-    "raker_1",
-    "leaves_2"
+    "hoser_1",
+    "hose_2",
+    "spray_4"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "rake",
+   "template": "hose_water",
    "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": 0.208,
+    "s": 0.261,
     "r": 0,
     "d": 0.0,
-    "f": -1.05,
-    "a": 5.32,
-    "zipf_raw": 2.95,
-    "aoa_raw": 5.32,
+    "f": -0.27,
+    "a": 5.33,
+    "zipf_raw": 3.73,
+    "aoa_raw": 5.33,
     "domain": null,
-    "area_px": 20504
+    "area_px": 22116
    },
-   "b": -1.169,
-   "p0": 0.763,
-   "pm1": 0.542,
+   "b": -1.429,
+   "p0": 0.807,
+   "pm1": 0.606,
    "aoi_cells": [
     "MC",
-    "BC"
+    "BC",
+    "BR"
    ]
   },
   {
@@ -317,7 +321,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.934,
+    "s": 1.877,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -325,11 +329,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 233740
+    "area_px": 215904
    },
-   "b": -1.91,
-   "p0": 0.871,
-   "pm1": 0.713,
+   "b": -1.881,
+   "p0": 0.868,
+   "pm1": 0.707,
    "aoi_cells": [
     "ML",
     "MC",
@@ -385,16 +389,15 @@
   {
    "id": "i08",
    "type": "entity",
-   "text": "There is a flower bed",
+   "text": "There is a swing set",
    "accepted": [
-    "flowers",
-    "flower bed",
-    "flowerbed",
-    "garden"
+    "swing",
+    "swings",
+    "swing set"
    ],
-   "key": "flowers",
+   "key": "swing",
    "elements": [
-    "flowers"
+    "swing"
    ],
    "cues": [],
    "effect": [],
@@ -407,22 +410,23 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.373,
+    "s": 0.602,
     "r": 0,
     "d": 0.0,
-    "f": 0.64,
-    "a": 3.11,
-    "zipf_raw": 4.64,
-    "aoa_raw": 3.11,
+    "f": 0.34,
+    "a": 4.16,
+    "zipf_raw": 4.34,
+    "aoa_raw": 4.16,
     "domain": null,
-    "area_px": 25884
+    "area_px": 35772
    },
-   "b": -1.259,
-   "p0": 0.779,
-   "pm1": 0.564,
+   "b": -1.283,
+   "p0": 0.783,
+   "pm1": 0.57,
    "aoi_cells": [
-    "BC",
-    "BR"
+    "ML",
+    "BL",
+    "BC"
    ]
   },
   {
@@ -474,11 +478,11 @@
  },
  "predicted": {
   "theta_0": {
-   "content": 0.775,
+   "content": 0.78,
    "inference": null
   },
   "theta_minus_1": {
-   "content": 0.57,
+   "content": 0.577,
    "inference": null
   }
  },
@@ -501,14 +505,18 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "16 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
+  },
+  "grey": {
+   "result": true,
+   "detail": "every scored thing stands off in grey from what is round it"
   }
  },
  "clutter": {
-  "objects": 16,
-  "edge_density": 0.0398,
-  "png_bytes": 153146,
-  "jpeg_bytes": 180991
+  "objects": 17,
+  "edge_density": 0.0408,
+  "png_bytes": 164315,
+  "jpeg_bytes": 189878
  },
  "signature": [
   [
@@ -639,23 +647,8 @@
     618.0
    ],
    "area_px": 240904,
-   "visible_px": 233740,
-   "occlusion": 0.03
-  },
-  {
-   "id": "filler_bush_mid",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
-   "bbox": [
-    526.0,
-    602.0,
-    654.0,
-    682.0
-   ],
-   "area_px": 7424,
-   "visible_px": 7424,
-   "occlusion": 0.0
+   "visible_px": 215904,
+   "occlusion": 0.104
   },
   {
    "id": "filler_bush_left",
@@ -678,28 +671,13 @@
    "role": "setting",
    "z": 652,
    "bbox": [
-    318.0,
+    158.0,
     302.0,
-    392.0,
+    232.0,
     664.0
    ],
    "area_px": 8692,
    "visible_px": 8692,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_pots",
-   "label": "Flower pots",
-   "role": "filler",
-   "z": 700,
-   "bbox": [
-    380.0,
-    596.0,
-    500.0,
-    702.0
-   ],
-   "area_px": 8080,
-   "visible_px": 8080,
    "occlusion": 0.0
   },
   {
@@ -718,38 +696,23 @@
    "occlusion": 0.0
   },
   {
-   "id": "flowers",
-   "label": "Flower bed",
-   "role": "setting",
-   "z": 836,
-   "bbox": [
-    1028.0,
-    694.0,
-    1282.0,
-    838.0
-   ],
-   "area_px": 25884,
-   "visible_px": 25884,
-   "occlusion": 0.0
-  },
-  {
-   "id": "raker_1",
-   "label": "person.ana__rake__smile__y045",
+   "id": "hoser_1",
+   "label": "person.ana__hose_spray__neutral__y090",
    "role": "scored",
-   "z": 899.98,
+   "z": 830,
    "bbox": [
-    796.0,
-    614.0,
-    902.0,
-    934.0
+    926.0,
+    554.0,
+    1038.0,
+    836.0
    ],
-   "area_px": 19464,
-   "visible_px": 19168,
-   "occlusion": 0.015,
+   "area_px": 13428,
+   "visible_px": 12960,
+   "occlusion": 0.035,
    "asset": {
-    "variant": "person.ana__rake__smile__y045",
+    "variant": "person.ana__hose_spray__neutral__y090",
     "family": "person.ana",
-    "scale": 0.4824,
+    "scale": 0.4565,
     "mirrored": false,
     "labels": {
      "everyday_name": "woman",
@@ -770,18 +733,99 @@
    }
   },
   {
-   "id": "leaves_2",
-   "label": "Pile of leaves",
-   "role": "scored",
-   "z": 922.32,
+   "id": "hosejoin_3",
+   "label": "Garden hose at the hand",
+   "role": "background",
+   "z": 831
+  },
+  {
+   "id": "flowers",
+   "label": "Flower bed",
+   "role": "setting",
+   "z": 836,
    "bbox": [
-    834.0,
-    902.0,
-    936.0,
-    930.0
+    1028.0,
+    694.0,
+    1282.0,
+    838.0
    ],
-   "area_px": 1336,
-   "visible_px": 1336,
+   "area_px": 25884,
+   "visible_px": 23360,
+   "occlusion": 0.098
+  },
+  {
+   "id": "hose_2",
+   "label": "Garden hose",
+   "role": "scored",
+   "z": 836.5,
+   "bbox": [
+    1002.0,
+    660.0,
+    1322.0,
+    884.0
+   ],
+   "area_px": 6796,
+   "visible_px": 6348,
+   "occlusion": 0.066
+  },
+  {
+   "id": "spray_4",
+   "label": "Water spraying",
+   "role": "scored",
+   "z": 837,
+   "bbox": [
+    1034.0,
+    656.0,
+    1156.0,
+    802.0
+   ],
+   "area_px": 2808,
+   "visible_px": 2808,
+   "occlusion": 0.0
+  },
+  {
+   "id": "swing_seat",
+   "label": "Empty swing seat",
+   "role": "setting",
+   "z": 845,
+   "bbox": [
+    376.0,
+    474.0,
+    466.0,
+    784.0
+   ],
+   "area_px": 4492,
+   "visible_px": 4420,
+   "occlusion": 0.016
+  },
+  {
+   "id": "swing",
+   "label": "Swing set",
+   "role": "setting",
+   "z": 846,
+   "bbox": [
+    276.0,
+    458.0,
+    568.0,
+    856.0
+   ],
+   "area_px": 35772,
+   "visible_px": 35772,
+   "occlusion": 0.0
+  },
+  {
+   "id": "hose_reel",
+   "label": "Hose reel",
+   "role": "setting",
+   "z": 886,
+   "bbox": [
+    1282.0,
+    804.0,
+    1346.0,
+    888.0
+   ],
+   "area_px": 4264,
+   "visible_px": 4264,
    "occlusion": 0.0
   },
   {
@@ -797,21 +841,6 @@
    ],
    "area_px": 13200,
    "visible_px": 13200,
-   "occlusion": 0.0
-  },
-  {
-   "id": "filler_watering_can",
-   "label": "Watering can",
-   "role": "filler",
-   "z": 960,
-   "bbox": [
-    362.0,
-    884.0,
-    458.0,
-    962.0
-   ],
-   "area_px": 4404,
-   "visible_px": 4404,
    "occlusion": 0.0
   },
   {
@@ -850,10 +879,10 @@
   "usage": {},
   "forced": {
    "events": [
-    "rake"
+    "hose_water"
    ]
   },
-  "placement_rev": 49
+  "placement_rev": 50
  },
  "probe": true
 }

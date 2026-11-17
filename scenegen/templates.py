@@ -30,6 +30,28 @@ def art(name):
     return "an" if name[0] in "aeiou" else "a"
 
 
+_PRON56 = {"she": {"s": "she", "o": "her", "p": "her", "isnt": "isn't", "doesnt": "doesn't", "is": "she's"},
+           "he": {"s": "he", "o": "him", "p": "his", "isnt": "isn't", "doesnt": "doesn't", "is": "he's"},
+           "they": {"s": "they", "o": "them", "p": "their", "isnt": "aren't", "doesnt": "don't", "is": "they're"}}
+
+
+def pron(sc, fam):
+    """v0.56 (K1, switch PRON): the words for a figure in an accepted phrase, by the figure: she, he, or they for one that readers call
+    either (the child, the teenager, the worker). v0.55's keys said "she doesn't notice the bird" and "he isn't watching his sandwich" of
+    whoever sat on the bench, and "not looking where he's going" of a woman. Under the switch's "O" the phrases are v0.55's."""
+    n = sc.name(fam)
+    return _PRON56["she" if n in ("woman", "girl", "grandmother") else "he" if n in ("man", "grandfather") else "they"]
+
+
+def _steal_acc56(sc, fam):
+    """v0.56 (K1, switch PRON): the accepted phrases of the thief bird's inference, said of the reader on the bench as that figure is."""
+    if SCN.sw56("PRON") == "O":
+        return ["the bird is stealing the food", "she doesn't notice the bird", "the bird is eating her lunch", "he isn't watching his sandwich"]
+    q = pron(sc, fam)
+    return ["the bird is stealing the food", f"{q['s']} {q['doesnt']} notice the bird", f"the bird is eating {q['p']} lunch",
+            f"{q['s']} {q['isnt']} watching {q['p']} sandwich"]
+
+
 class T:
     id = "base"
     kind = "event"            # event | inference | contradiction
@@ -130,6 +152,20 @@ class T:
             sc.add_lanes(p)
             return p
         return None
+
+
+class _Ex56:
+    """Revision 50: a template's exclusive resources with tags added when a switch of v0.56 is on (scene.sw56), read when the planner asks.
+    `base` is a tuple or another descriptor of this kind. REACH: a child jumping for joy is never in a picture with a held or a lost balloon
+    (beside one, the jumper was "reaching for it" to all three readers of v0.55's picture 73), each pair by a tag of its own, so that a held
+    and a lost balloon still go together."""
+
+    def __init__(self, base, tags, switch):
+        self.base, self.tags, self.switch = base, tuple(tags), switch
+
+    def __get__(self, obj, cls):
+        base = self.base if isinstance(self.base, tuple) else self.base.__get__(obj, cls)
+        return base + (self.tags if SCN.sw56(self.switch) != "O" else ())
 
 
 def anchor_or(p, name, default):
@@ -315,7 +351,9 @@ class WaterFlowers(T):
                     # and posts, shortened if need be (a stream reaching an awning read as dripping from it)
                     got = None
                     for L in (length, length * 0.86, length * 0.74):
-                        st_ = D.water_stream(sp, (aim[0] - sp[0], aim[1] - sp[1]), sz(Y), L, upward=True, splash=True, solid=True)
+                        # (v0.56, the switch UPW: the rising water in the falling water's streaks, draw.water_stream "up56")
+                        st_ = D.water_stream(sp, (aim[0] - sp[0], aim[1] - sp[1]), sz(Y), L, upward=True, splash=True, solid=True,
+                                             style="up56" if SCN.sw56("UPW") != "O" else None)
                         b_ = st_[1]
                         top = (b_[0] - 10, b_[1] - 16, b_[2] + 10, (b_[1] + sp[1]) / 2)
                         g_ = (top[0] - 10, top[1] - 10, top[2] + 10, top[3])
@@ -680,6 +718,9 @@ def _dig_place10(self, ep):
 Dig.place10 = _dig_place10
 
 
+SEEDLING56_DX = 80.0     # v0.56 (switch SEEDLING): how far along the bed from the seedling's hole the tray's middle stands, in units at scale 1
+
+
 class PlantFlowers(T):
     id = "plant_flowers"
     settings = ("garden", "park")
@@ -706,12 +747,20 @@ class PlantFlowers(T):
             def potxy(p, want=want, new45=new45):
                 tx, ty = p.anchor("trowel_tip")
                 s = sz(p.Y)
+                if new45 and SCN.sw56("SEEDLING") != "O":
+                    # (v0.56: the tray further along than the pot stood, clear of the hole and of the trowel in the far hand)
+                    return tx + want * SEEDLING56_DX * s, max(p.Y + 8 * s, F["depth"] + 6 * s)
                 if new45:
                     return tx + want * 52 * s, max(p.Y + 8 * s, F["depth"] + 6 * s)
                 return tx + want * 30 * s, p.Y + 8 * s
-            def potbox(p, new45=new45):
+            # v0.56 (switch SEEDLING; vision/flaws_v055.md C6, planting or digging up in 15 readings of seven pictures): where the one flower pot
+            # stood, a tray of seedlings with one place empty, the seedling in the planter's hand (castlib.actions.KNEEL56) being that one
+            tray56 = new45 and SCN.sw56("SEEDLING") != "O"
+            def potbox(p, new45=new45, tray56=tray56):
                 x, y = potxy(p)
                 s = sz(p.Y)
+                if tray56:
+                    return [(x - 40 * s, y - 45 * s, x + 40 * s, y)]
                 if new45:
                     return [(x - 24 * s, y - 68 * s, x + 24 * s, y)]
                 return [(x - 24 * s, p.Y - 60 * s, x + 24 * s, p.Y + 8 * s)]
@@ -737,7 +786,9 @@ class PlantFlowers(T):
                 s = sz(p.Y)
                 px_, py_ = potxy(p)
                 pot = D.pot(px_, py_, C["pink"], s * 0.8)
-                eo = sc.svg(sc.eid("pot"), "Flower pot", pot, py_, potbox(p)[0], "scored")
+                if tray56:
+                    pot = D.seed_tray(px_, py_, s * 0.9, f=want, gap=0)[0]
+                eo = sc.svg(sc.eid("pot"), "Tray of seedlings" if tray56 else "Flower pot", pot, py_, potbox(p)[0], "scored")
                 if new45:
                     # drawn in front of the bed, whose own depth is its front edge
                     p.z = max(p.z, F["depth"] + 2)
@@ -844,8 +895,20 @@ class Picnic(T):
         sc = self.sc
         A = sc.S.anchors["blanket"]
         ep = sc.eid("picnicker")
-        for (x, y) in A["spots"]:
+        picnic50 = SCN.sw56("PICNIC") != "O"
+        for (x, y) in (A["spots"] + A["spots"] if picnic50 else A["spots"]):
             p = sc.placed(self.vp, x, y, sc.rng.random() < 0.5, eid=ep)
+            if picnic50:
+                # revision 50 (PICNIC): the sitter and the basket together on the blanket, which is larger (settings): in its middle, or a
+                # short way to either side of it when somebody of the pond stands behind the middle
+                B_, pb_ = A["bbox"], p.bbox()
+                feet_ = [p.anchor(a)[0] for a in ("foot_L", "foot_R") if p.has_anchor(a)]
+                side_ = -1 if (feet_ and sum(feet_) / len(feet_) > x) else 1
+                g0_, g1_ = min(pb_[0], x + side_ * 78 * sz(y) - 46 * sz(y)), max(pb_[2], x + side_ * 78 * sz(y) + 46 * sz(y))
+                slack_ = max(0.0, (B_[2] - B_[0]) - (g1_ - g0_) - 50) / 2
+                x = x + (B_[0] + B_[2]) / 2 - (g0_ + g1_) / 2 + sc.rng.choice([0.0, 0.0, -1.0, 1.0]) * slack_
+                y = (B_[1] + B_[3]) / 2 + 0.2 * (B_[3] - B_[1])
+                p = sc.placed(self.vp, x, y, p.mirror, eid=ep)
             if sc.fits(p.bbox(), limit=0.15):
                 sc.assets[ep] = p
                 s = sz(y)
@@ -860,6 +923,9 @@ class Picnic(T):
                         bx = x + side * 78 * s
                 bk = D.shape(f"M {D.P(bx - 34 * s, y - 40 * s)} L {D.P(bx + 34 * s, y - 40 * s)} L {D.P(bx + 26 * s, y)} L {D.P(bx - 26 * s, y)} Z", C["wood_light"])
                 bk += D.ell(bx, y - 40 * s, 36 * s, 8 * s, C["wood"], D.OW * 0.8)
+                # (revision 50, scene switch BASKET: the picnic's basket in the laundry basket's darker wicker, grey 131 for 161 on
+                #  grass at 168; food45 below draws it)
+                self.wicker = ("#b07d42", "#85592a") if SCN.sw56("BASKET") != "O" else (C["wood_light"], C["wood"])
                 bk += f'<path d="M {D.P(bx - 26 * s, y - 42 * s)} Q {D.P(bx, y - 84 * s)} {D.P(bx + 26 * s, y - 42 * s)}" fill="none" stroke="{D.OUT}" stroke-width="5"/>'
                 if SCN.PLACEMENT_REV >= 43 and PICNIC45 == "B":
                     return self.food45(p, ep, x, y, bx, s)
@@ -876,8 +942,9 @@ class Picnic(T):
         lw = D.OW * 0.6
         top = y - 40 * s
         sd = 1 if bx > x else -1                  # the basket's outer side, away from the sitter
-        bk = D.shape(f"M {D.P(bx - 34 * s, top)} L {D.P(bx + 34 * s, top)} L {D.P(bx + 26 * s, y)} L {D.P(bx - 26 * s, y)} Z", C["wood_light"])
-        bk += D.ell(bx, top, 36 * s, 8 * s, C["wood"], D.OW * 0.8)
+        wk_, wk2_ = getattr(self, "wicker", (C["wood_light"], C["wood"]))
+        bk = D.shape(f"M {D.P(bx - 34 * s, top)} L {D.P(bx + 34 * s, top)} L {D.P(bx + 26 * s, y)} L {D.P(bx - 26 * s, y)} Z", wk_)
+        bk += D.ell(bx, top, 36 * s, 8 * s, wk2_, D.OW * 0.8)
         # the loaf, leaning out of the outer end
         lx = bx + sd * 13 * s
         loaf = D.rect(lx - 8.5 * s, top - 52 * s, 17 * s, 60 * s, "#e3ac5e", 8.5 * s, lw)
@@ -890,11 +957,11 @@ class Picnic(T):
         bk += D.rect(tx_ - 3.2 * s, top - 47 * s, 6.4 * s, 18 * s, C["green"], 2 * s, lw) + D.rect(tx_ - 7.5 * s, top - 32 * s, 15 * s, 38 * s, C["green"], 4.5 * s, lw)
         bk += D.rect(tx_ - 4.2 * s, top - 51 * s, 8.4 * s, 5.5 * s, C["yellow"], 1.5 * s, lw) + D.rect(tx_ - 7.5 * s, top - 20 * s, 15 * s, 11 * s, C["cream"], 0, lw)
         # the front wall over their feet, its weave, and the handle
-        bk += D.shape(f"M {D.P(bx - 36 * s, top)} A {36 * s:.1f} {8 * s:.1f} 0 0 0 {D.P(bx + 36 * s, top)} L {D.P(bx + 26 * s, y)} L {D.P(bx - 26 * s, y)} Z", C["wood_light"])
+        bk += D.shape(f"M {D.P(bx - 36 * s, top)} A {36 * s:.1f} {8 * s:.1f} 0 0 0 {D.P(bx + 36 * s, top)} L {D.P(bx + 26 * s, y)} L {D.P(bx - 26 * s, y)} Z", wk_)
         for t_ in (0.42, 0.72):
             hw_ = (35 - 9 * t_) * s
             bk += (f'<path d="M {D.P(bx - hw_, top + 40 * s * t_)} Q {D.P(bx, top + 40 * s * t_ + 7 * s)} {D.P(bx + hw_, top + 40 * s * t_)}" fill="none" '
-                   f'stroke="{C["wood"]}" stroke-width="{2.6 * s:.1f}"/>')
+                   f'stroke="{wk2_}" stroke-width="{2.6 * s:.1f}"/>')
         bk += f'<path d="M {D.P(bx - 26 * s, y - 42 * s)} Q {D.P(bx, y - 84 * s)} {D.P(bx + 26 * s, y - 42 * s)}" fill="none" stroke="{D.OUT}" stroke-width="5"/>'
         bb = (bx - 46 * s, y - 96 * s, bx + 46 * s, y)
         eb = sc.svg(sc.eid("basket"), "Picnic basket with a loaf and a bottle", bk, y + 1, bb, "scored")
@@ -1007,7 +1074,7 @@ class Balloon(T):
     settings = ("park", "street", "playground")
     # v0.13 (revision 11): never under the gust that blows a hat away (balloons hanging still beside it, "the
     # balloons, tree and awnings are unaffected by the gust")
-    exclusive = ("calm_balloon",) if SCN.PLACEMENT_REV >= 11 else ()
+    exclusive = _Ex56(("calm_balloon",) if SCN.PLACEMENT_REV >= 11 else (), ("jump_balloon",), "REACH")
 
     def bind(self):
         sc = self.sc
@@ -1453,6 +1520,20 @@ class PlayCatch(T):
                 for off, a_, b_ in ((0.0, u0, u1), (0.95 * r, u0 + 0.50 * (u1 - u0), u1 - 0.004), (-0.95 * r, u0 + 0.62 * (u1 - u0), u1 - 0.004)):
                     d_ = " ".join(D.P(*side(a_ + (b_ - a_) * k / 8, off)) for k in range(9))
                     arc += f'<path d="M {d_}" fill="none" stroke="{D.OUT}" stroke-width="{max(2.2, 3.0 * s):.1f}" stroke-linecap="round" stroke-opacity="0.7"/>'
+            if SCN.sw56("TRAIL") != "O":
+                # v0.56 (the switch TRAIL; vision/flaws_v055.md P7): the dashes no longer begin at the thrower's fingertip. They ran from the
+                # hand to the ball, and the ball was "tethered to the hand like a ball on a string or a yo-yo" to a reviewer of three
+                # pictures of three, and to all three readers of one. The ball is where CATCH51 "C" put it, a third of the way along its
+                # path; the dashes are the same dashes on the same path, but only the stretch just behind the ball, with two ball's
+                # widths of clear air after the hand
+                u1 = t
+                while u1 > 0.02 and math.hypot(bez(u1)[0] - bx, bez(u1)[1] - by) < 1.5 * r:
+                    u1 -= 0.005
+                u0 = 0.0
+                while u0 < u1 and (math.hypot(bez(u0)[0] - rx_, bez(u0)[1] - ry_) < 2.2 * r or math.hypot(bez(u0)[0] - bx, bez(u0)[1] - by) > 4.4 * r):
+                    u0 += 0.005
+                trail = " ".join(D.P(*bez(u0 + (u1 - u0) * k / 10)) for k in range(11))
+                arc = f'<path d="M {trail}" fill="none" stroke="{D.OUT}" stroke-width="2.4" stroke-dasharray="5 9" stroke-linecap="round" stroke-opacity="0.65"/>' if u1 > u0 else ""
             eb_ = sc.svg(sc.eid("ball"), "Ball in the air", arc + D.ball(bx, by, r), max(Y, Yb) + 1, (bx - r, by - r, bx + r, by + r), "scored")
             self.act(self.a, "throwing a ball", ["throwing a ball", "throwing", "playing catch", "playing ball"], "ball", [ea, eb_])
             self.act(self.b, "catching the ball", ["catching the ball", "catching", "playing catch", "playing ball"], "ball", [eb])
@@ -1637,7 +1718,7 @@ def _windy(sc, me):
 
 class Jump(T):
     id = "jump"
-    exclusive = _Ex53(())
+    exclusive = _Ex56(_Ex53(()), ("jump_balloon", "jump_lost_balloon", "jump_hat", "jump_box"), "REACH")
 
     def bind(self):
         sc = self.sc
@@ -1699,6 +1780,17 @@ class Jump(T):
                     return True
                 b, s_ = p.bbox(), sz(p.Y)
                 return b[2] + JUMP53_GAP * s_ < min(g[0] for g in game) or b[0] - JUMP53_GAP * s_ > max(g[2] for g in game)
+        if SCN.sw56("REACH") != "O":
+            # revision 50 (REACH): a clear figure's width from the swing's frame, the washing line and its washing, at any depth (beside
+            # the swing or in front of the line the jumper was reaching for it to all three readers of v0.55's pictures 46 and 80;
+            # revision 14 kept the jumper from under the line only near its depth). The balloons are kept apart in the plan (_Ex56)
+            base50 = accept
+
+            def accept(p, base=base50):
+                if base and not base(p):
+                    return False
+                b, s_ = p.bbox(), sz(p.Y)
+                return sc.setting_clear((b[0] - 150 * s_, b[1] - 120 * s_, b[2] + 150 * s_, b[3]), only=("swing", "swing_seat", "clothesline", "laundry"))
         # (revision 20: and in the front half of the ground, where the gap under the feet is big enough to see: at the back,
         # by the playground's fence or the street's shop fronts, the jump read as "jumping or cheering ... or just a loosely
         # placed shadow"; in front it read as "jumping in the air with both arms raised" in the test scenes)
@@ -1726,7 +1818,11 @@ class Photo(T):
         sc = self.sc
         self.p = sc.person(GROWN)
         # revision 8: a three-quarter view (seen from behind, the head read as "a plain dark round shape")
-        self.vp = sc.need(self.p, "photo", sc.rng.choice(["focused", "smile"]), 45 if SCN.PLACEMENT_REV >= 8 else 90)
+        # revision 50 (PHOTO): from the side again, the camera along the picture and straight at its subject. At three-quarters the lens
+        # faced the viewer, and with the subject near and alone on that side all four readers of the bench's two new pictures still
+        # asked what the camera was aimed at ("points out of the picture rather than at any particular person")
+        self.vp = sc.need(self.p, "photo", sc.rng.choice(["focused", "smile"]),
+                          90 if SCN.sw56("PHOTO") != "O" else 45 if SCN.PLACEMENT_REV >= 8 else 90)
 
     def place(self):
         sc = self.sc
@@ -1739,8 +1835,17 @@ class Photo(T):
             # and the gaze check confirms it (readers asked what the photographer was photographing)
             subjects = [q for k, q in sc.assets.items() if q.role == "scored" and q.family.startswith(("person.", "animal."))
                         and not q.m["variant"].get("airborne")]
+            photo50 = SCN.sw56("PHOTO") != "O"
             for X, Y in (self.stand_spots(n=150) if subjects else []):
                 near = [q for q in subjects if 220 <= abs(q.X - X) <= 650 and abs(q.Y - Y) <= 140]
+                if photo50:
+                    # revision 50 (PHOTO): the subject near, at the photographer's own depth, and the only figure on that side within
+                    # the camera's reach (all nine readings of v0.55's three photographers asked what the camera was aimed at: "possibly
+                    # at the fisherman or the pond, or possibly just the view")
+                    s_ = sz(Y)
+                    near = [q for q in subjects if 200 * s_ <= abs(q.X - X) <= 430 * s_ and abs(q.Y - Y) <= 60 * s_]
+                    near = [q for q in near if not any(o is not q and (o.X - X) * (q.X - X) > 0 and abs(o.X - X) <= 700 * s_ and abs(o.Y - Y) <= 260 * s_
+                                                       for o in subjects)]
                 if not near:
                     continue
                 q = min(near, key=lambda q: abs(abs(q.X - X) - 380))
@@ -1810,8 +1915,9 @@ class Fishing(T):
                 if SCN.PLACEMENT_REV >= 21:
                     # revision 21: no duck at the float or on the line, now or later ("a duck swimming close to the float, so the
                     # duck might go for the bait or get tangled in the line")
+                    g50 = SCN.FLOAT50_GAP if SCN.sw56("FLOAT") != "O" else 60       # revision 50 (FLOAT): a wider gap (scene.clear_of_floats)
                     if any(getattr(q_, "family", "").startswith("animal.duck") and
-                           ((lambda b: b[0] - 60 <= wx <= b[2] + 60 and b[1] - 36 <= wy <= b[3] + 36)(q_.bbox()) or sc.faces_toward(q_, wx))
+                           ((lambda b: b[0] - g50 <= wx <= b[2] + g50 and b[1] - 0.6 * g50 <= wy <= b[3] + 0.6 * g50)(q_.bbox()) or sc.faces_toward(q_, wx))
                            for k_, q_ in sc.assets.items() if k_ != ep):
                         sc.remove(ep)
                         sc.airzones.pop()
@@ -1960,6 +2066,13 @@ class IceCream(T):
 TIN51 = __import__("os").environ.get("TPDB_TIN51", "B")
 
 
+def _paint56():
+    """v0.56 (switch PAINT; vision/flaws_v055.md C5): the paint's colour and the darker tone it has on the fence's rails. "O": blue, the colour of
+    the garden's house door, a few boards along from the painted ones. "B": pink, a colour no door of the settings has; it goes with the
+    cast's pink roller sleeve (castlib.actions.ROLLER56 "B"). Grey 134 on boards at 161 and a lawn at 168 (the blue was 98)."""
+    return (C["pink"], "#c44f84", "pink") if SCN.sw56("PAINT") != "O" else (C["paint"], "#3557a8", "blue")
+
+
 class PaintFence(T):
     id = "paint_fence"
     settings = ("garden",)
@@ -1995,7 +2108,11 @@ class PaintFence(T):
             sc.assets[ep] = p
             self.paint_x = rx
             if SCN.PLACEMENT_REV >= 3:
-                stripe = self.painted_boards(rx, ry, p.facing() or 1)
+                # (v0.56, switch PAINT: the paint's colour. And with the cast's level roller, castlib.actions.ROLLER56, which carries a
+                # "roller_low" anchor at its sleeve's underside: the paint from just under the sleeve down, so that the sleeve lies on bare
+                # wood at the wet paint's edge as revision 43's upright one did)
+                stripe = self.painted_boards(rx, ry, p.facing() or 1, col=_paint56()[:2],
+                                             top56=(p.anchor("roller_low")[1] - 1.5) if (SCN.sw56("ROLLER") != "O" and p.has_anchor("roller_low")) else None)
             else:       # revision 1-2: a see-through panel that read as a blue sheet hung on the fence
                 stripe = f'<rect x="{rx - 60:.1f}" y="{ry - 40:.1f}" width="60" height="{600 - ry + 40:.1f}" fill="{C["paint"]}" fill-opacity="0.85"/>'
                 if p.facing() < 0:
@@ -2006,7 +2123,7 @@ class PaintFence(T):
                 # (p.Y is 668 before revision 43)
                 f0, s0 = p.facing() or 1, sz(p.Y)
                 for dx in ((-44, 50, -58, 64, -88, 92) if SCN.PLACEMENT_REV >= 48 and TIN51 == "B" else (-58, 64, -88, 92)):
-                    tin, tbb = D.paint_tin(x + f0 * dx * s0, p.Y + 12, s0 * 1.3)
+                    tin, tbb = D.paint_tin(x + f0 * dx * s0, p.Y + 12, s0 * 1.3, col=_paint56()[0], v56=SCN.sw56("TRAY") != "O")
                     if sc.air_clear((tbb[0] - 4, tbb[1], tbb[2] + 4, tbb[3])) and sc.fits(tbb, limit=0.05, ignore=(ep,)):
                         sc.svg(sc.eid("painttin"), "Tin of paint", tin, p.Y + 12, tbb, "prop")
                         break
@@ -2016,10 +2133,29 @@ class PaintFence(T):
         return False
 
     @staticmethod
-    def painted_boards(rx, ry, f):
+    def painted_boards(rx, ry, f, col=None, top56=None):
         """Two boards just ahead of the roller in solid paint, and the board under the roller painted from
         the roller down: paint on the fence boards themselves, not a panel over the fence, and on the side
         away from the painter's body so it stays in view."""
+        if col is not None and (col[0] != C["paint"] or top56 is not None):
+            # v0.56 (switches PAINT and ROLLER): the same boards in the given colour, the roller's own board from top56 down
+            x0, step, w = 310, 46, 44
+            k0 = int((rx - x0) // step)
+            out, full = "", []
+            for k in (k0 + f, k0 + 2 * f):
+                bx = x0 + k * step
+                if 310 <= bx <= 1394:
+                    full.append(bx)
+                    out += D.poly([(bx, 440), (bx + 22, 428), (bx + 44, 440), (bx + 44, 615), (bx, 615)], col[0], D.OW * 0.8)
+            cx = x0 + k0 * step
+            top = max(ry + 14, 444) if top56 is None else max(top56, 444)
+            out += D.rect(cx, top, w, 615 - top, col[0], 0, D.OW * 0.8)
+            for y in (480, 565):
+                xs = full + ([cx] if top <= y else [])
+                if xs:
+                    lo, hi = min(xs) - 1, max(xs) + w + 1
+                    out += D.rect(lo, y, hi - lo, 16, col[1], 2, D.OW * 0.8)
+            return out
         x0, step, w = 310, 46, 44                      # the garden fence's boards (settings.build_garden)
         k0 = int((rx - x0) // step)
         out, full = "", []
@@ -2876,6 +3012,10 @@ class DucksSwimming(T):
         A = sc.S.anchors["pond"]
         slots = list(A["swim"])
         sc.rng.shuffle(slots)
+        if SCN.sw56("DUCKNEAR") != "O":
+            # revision 50 (DUCKNEAR): the nearer places first, where the duck is larger and clear of the far rim (one small duck on the
+            # pond's far rim was a picture's only event, v0.55 picture 66)
+            slots.sort(key=lambda q: q[1] < A["center"][1])
         ed = sc.eid("duck")
         for x, y in slots:
             p = sc.placed(self.vd, x, y, sc.rng.random() < 0.5, eid=ed)
@@ -3053,6 +3193,22 @@ def low_parts(v):
     return ("body", "legs") if SCN.PLACEMENT_REV >= 30 and LOW32 == "B" and v[1] == "seesaw_low_read" else ("near", "far")
 
 
+# v0.56 (vision/flaws_v055.md R2 and C8), each behind a switch of scene.sw56:
+#   LOWEND "B": the seesaw's low end rests on a rubber stop LOWEND56_H units tall and no longer on the grass (draw.seesaw `bumper`, a stop
+#   under each end; the plank then lies at draw.seesaw_rest's tilt, 16.3 degrees for 22.8). With the end on the ground the man who holds it
+#   down had his seat on the ground too, and nothing of the plank showed under him. The cast's switch of the same name (castlib.actions.LOWEND56)
+#   sits him higher over his feet to match. "C": that, and a low seat back at each end (draw.seesaw `backs`). "O": the end on the ground
+#   TILT "B": two children of a size ride at TILT56 degrees, or at the rest tilt when the stops are drawn, for 4 or 7 degrees: the low child's
+#   feet reach the ground and the high child's hang. "O": 4 or 7 degrees
+LOWEND56_H = 16.0
+TILT56 = 15.0
+
+
+def _stops56():
+    """The height of the stops under the seesaw's ends for the record being built (0: none)."""
+    return LOWEND56_H if SCN.sw56("LOWEND") != "O" else 0.0
+
+
 class SeesawPlay(T):
     id = "seesaw"
     settings = PG
@@ -3086,9 +3242,10 @@ class SeesawPlay(T):
         ride_parts(sc, self.va)
         ride_parts(sc, self.vb)
 
-    def ride(self, tilt, ea, eb, va, vb):
-        """Redraw the seesaw at `tilt` and sit the two riders on its ends, facing each other."""
+    def ride(self, tilt, ea, eb, va, vb, bumper=0.0):
+        """Redraw the seesaw at `tilt` and sit the two riders on its ends, facing each other. bumper (v0.56, LOWEND): the stops' height."""
         sc = self.sc
+        x56 = {"bumper": bumper, **({"backs": True} if SCN.sw56("LOWEND") == "C" else {})} if bumper else {}
         A = sc.S.anchors["seesaw"]
         s = sz(A["depth"])
         rev26 = SCN.PLACEMENT_REV >= 26
@@ -3097,7 +3254,7 @@ class SeesawPlay(T):
         rise50 = {}
         if SCN.PLACEMENT_REV >= 47 and SEAT50 == "B" and rev29_ and SEESAW31 == "U":
             # revision 47 (templates.SEAT50): each child's rise measured from its own drawing, and its handle with it
-            _, info0 = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26)
+            _, info0 = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26, **x56)
             ta_, ca_ = math.tan(math.radians(tilt)), math.cos(math.radians(tilt))
             ups = list(ups)
             for i_, (v_, end_, sg_) in enumerate(((va, "left", 1), (vb, "right", -1))):
@@ -3112,7 +3269,7 @@ class SeesawPlay(T):
                 ups[i_] = rise50[end_] if v_[1] in GRIP32 else rise50[end_] - RIDE31[SEESAW31][0]
             ups = tuple(ups)
         svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26, pad=rev29_ and SEESAW31 == "P",
-                             **({"up": ups} if any(ups) else {}), **({"arch": ("left" in rise50, "right" in rise50)} if rise50 else {}))
+                             **({"up": ups} if any(ups) else {}), **({"arch": ("left" in rise50, "right" in rise50)} if rise50 else {}), **x56)
         placed = []
         for eid, v, end, want in ((ea, va, "left", 1), (eb, vb, "right", -1)):
             # revision 30: (bench) the man reading turned away from the plank
@@ -3168,12 +3325,17 @@ class SeesawPlay(T):
                 tilt = abs(tilt) if order.get(wa, 1) > order.get(wb, 1) else -abs(tilt)
                 if SCN.PLACEMENT_REV >= 8:
                     tilt = math.copysign(math.degrees(math.asin(82 / 212)), tilt)      # the low end on the ground
+                    if _stops56():
+                        tilt = math.copysign(D.seesaw_rest(_stops56()), tilt)          # (v0.56, LOWEND) on its stop
             elif SCN.PLACEMENT_REV >= 9:
                 # revision 9: two children of a kind: the bigger one's end is the low one (the bigger boy up
                 # and the smaller girl down "looks off")
                 ha = sc.placed(self.va, 0, 800).bbox(); hb = sc.placed(self.vb, 0, 800).bbox()
                 tilt = abs(tilt) if (ha[3] - ha[1]) >= (hb[3] - hb[1]) else -abs(tilt)
-        if not self.ride(tilt, ea, eb, self.va, self.vb):
+                if SCN.sw56("TILT") != "O":
+                    # v0.56 (TILT; vision/flaws_v055.md C8): "The tilt of the see-saw is quite small" (v055 pic_17)
+                    tilt = math.copysign(D.seesaw_rest(_stops56()) if _stops56() else TILT56, tilt)
+        if not self.ride(tilt, ea, eb, self.va, self.vb, **({"bumper": _stops56()} if _stops56() else {})):
             return False
         self.act(self.a, "playing on the seesaw", ["playing on the seesaw", "on the seesaw", "seesawing", "teeter-totter"], "seesaw", [ea])
         self.act(self.b, "playing on the seesaw", ["playing on the seesaw", "on the seesaw", "seesawing", "teeter-totter"], "seesaw", [eb])
@@ -3379,6 +3541,11 @@ class PushStroller(T):
             b = self.pr[1]["bbox"]
             if SCN.PLACEMENT_REV >= 11 and not sc.setting_clear((b[0] - 12, b[1] - 12, b[2] + 12, b[3] + 6), only=("stall",)):
                 return None     # revision 11: clear of the market stall (a pram "partly inside or under the stall")
+            if SCN.sw56("PRAM") != "O" and any(e["id"] == "path" for e in sc.S.elements) \
+                    and not all(sc.on_element("path", b[0] + (b[2] - b[0]) * t_, b[3] - 4) for t_ in (0.25, 0.75)):
+                # revision 50 (PRAM): where the setting has a path, the pram's wheels are on it (on the grass beside the path it was
+                # "a little unusual" to two readers of v0.55's picture 93)
+                return None
             return [b]
         p = self.place_with(ep, self.vp, self.stand_spots(), want_face=sc.rng.choice([1, -1]), extras=pram)
         if not p:
@@ -3451,7 +3618,9 @@ class BlockedHose(T):
                 if max(pinch[1] + HOSE47_GEOM["line"] * s, low + 2 * s) + (HOSE47_GEOM["clear"] + 8) * s > D.H - 4:
                     continue            # (the whole hose inside the picture)
                 sc.assets[ep], sc.assets[ea] = p, a
-                hose, hb = _pinched_hose47(sc, (rx, ry), pinch, rear[0], low, (hx, hy), Y, s)
+                # v0.56 (templates.HOSE56): "N" and "B" draw the cues that the tap is on; "B" also the hose pressed flat, with no swelling
+                h56 = SCN.sw56("HOSE")
+                hose, hb = _pinched_hose47(sc, (rx, ry), pinch, rear[0], low, (hx, hy), Y, s, flat56=h56 == "B")
                 eh = sc.svg(sc.eid("hose"), "Garden hose, pinched under the paw", hose, ay - 1, hb, "scored")
                 sc.keepout.append((hb[0], pinch[1] - 30 * s, hb[2], max(pinch[1], Y) + 34 * s))
                 nx, ny = p.anchor("nozzle")
@@ -3461,9 +3630,27 @@ class BlockedHose(T):
                 else:
                     # the dry nozzle the holder looks into: a part of the holder's own drawing
                     r_ = 15 * s
+                    if "bore" in (p.m["variant"].get("props") or ()):
+                        # (v0.56, the cast's larger nozzle, castlib.actions.NOZZLE56: its mouth is at the anchor and its barrel runs back to the fist)
+                        r_ = HOSE56_NOZZLE * p.k
                     en = sc.svg(sc.eid("nozzle"), "Dry nozzle of the hose", "", Y + 2, (nx - r_, ny - r_, nx + r_, ny + r_), "scored")
                     sc.svgs[en]["part_of"] = ep
                     sc.svgs[en]["mask_svg"] = f'<circle cx="{nx:.2f}" cy="{ny:.2f}" r="{r_:.2f}" fill="#000"/>'
+                if h56 != "O":
+                    tx, ty = p.anchor("nozzle")
+                    if SCN.sw56("DRIP") != "O":
+                        # one drop forming at the lower lip of the nozzle's mouth: all the water there is
+                        ds = s * 1.25
+                        dy_ = HOSE56_LIP * p.k
+                        sc.svg(sc.eid("nozdrop"), "Drop forming at the nozzle's mouth", D.drop(tx, ty + dy_, ds, forming=True), Y + 2.1,
+                               (tx - 5 * ds, ty + dy_ - 2 * ds, tx + 5 * ds, ty + dy_ + 14 * ds), "background")
+                    if SCN.sw56("SEEP") != "O":
+                        # water seeping where the hose leaves the reel, and a small wet patch under it: the tap is on
+                        rb = next((e_["bbox"] for e_ in sc.S.elements if e_["id"] == "hose_reel" and e_.get("bbox")), None)
+                        gy = (rb[3] if rb else ry + 22) + 5
+                        fr_ = 1 if rx > pinch[0] else -1          # (the side of the reel away from the hose's run)
+                        seep, sb = D.tap_seep(rx, ry + 2, gy, 1.0, fr_)
+                        sc.svg(sc.eid("seep"), "Water seeping at the reel", seep, gy + 0.5, sb, "background")
                 pn, pnames = self.who(self.p)
                 an = sc.name(self.a)
                 self.act(self.p, "holding a hose, looking into the nozzle", ["holding a hose", "looking at the hose", "looking into the nozzle", "puzzled", "confused"], "hose", [ep, eh])
@@ -3603,7 +3790,21 @@ HOSE47_GEOM = {"line": -3.0, "band": (19.0, 3.8), "swell": (96.0, 10.5), "clear"
 HOSE47_GEOM_D = {"line": -3.0, "band": (15.0, 3.4), "swell": (44.0, 12.5), "clear": 17.0, "lift": 0.45}
 
 
-def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
+# HOSE56 (switch HOSE, revision 50; vision/flaws_v055.md, quality check, R4): over three screens 15 readings of 15 gave the stopped hose another
+#   reading beside the planned one (the dog only stands beside the hose; the hose is not on; the swelling is a connector), and the nozzle was 14
+#   to 20 units across. "N": the hose as v0.55 drew it, with the cast's larger nozzle held out and looked into (castlib.actions.NOZZLE56) and
+#   two signs that the tap is on, each with a switch of its own: one drop forming at the nozzle's mouth (DRIP) and water seeping where the hose
+#   leaves the reel, with a small wet patch under it (SEEP). "B": N and, in place of the swelling, the hose run full and thick from the reel
+#   (HOSE50_FULL), pressed down to a flat strip in a short wedge just before the paw, flat under the paw and thin from there on. "O": v0.55.
+#   (Read before drawing: the nozzle's one falling drop was "a drop of water coming out" in v0.46 and was taken out by HOSE47; HOSE50 "B", the
+#   full run with no swelling, lost v0.50's bench, one reader of three going on to the stopped water for two of three with the swelling; a fold
+#   standing up was "a separate stray bit", KINK42. What is new here is the wedge that shows the hose squeezed, and the cues at the two ends.)
+HOSE56_WEDGE = (34.0, 4.0)     # where the wedge begins and ends, in units on the reel's side of the paw's ground point
+HOSE56_NOZZLE = 62.0           # the larger nozzle's length in the library's pixels: the radius of the scored nozzle's circle round its mouth
+HOSE56_LIP = 12.0              # how far below the mouth's centre its lower lip lies, in the library's pixels
+
+
+def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s, flat56=False):
     """Revision 44 (templates.HOSE47): the hose comes from the reel along the ground ahead of the dog, swells against the forepaw that is stepped out
     and planted on it, lies flat under that paw in a band wider than the paw, and runs on thin: turned toward the viewer just past the paw, so that
     it passes clear in front of the other three paws with grass between, and then up to the hand in the old long hanging curve. `pinch` is the
@@ -3650,6 +3851,22 @@ def _pinched_hose47(sc, reel, pinch, rear_x, low, hand, Y, s):
         bulge = ""
     # squashed flat under the paw: a thin band longer than the paw, showing on both sides of it and in front of its toes
     bw, bh = G["band"]
+    if flat56:
+        # v0.56 (templates.HOSE56 "B"): the full run from the reel, then a wedge in which the hose is pressed down to the flat strip under the paw
+        w0, w1 = px + f * HOSE56_WEDGE[0] * s, px + f * HOSE56_WEDGE[1] * s
+        up = D.hose_path([(rx, ry), (rx - f * 20, cy + 5 * s), (w0 - f * 3 * s, cy)], HOSE50_FULL)
+        h0, h1 = 4.5 * HOSE50_FULL, 2.4 * s
+        prof = [(w0 + f * 8 * s, h0)]
+        for i in range(25):
+            t = i / 24
+            prof.append((w0 + (w1 - w0) * t, h1 + (h0 - h1) * (0.5 + 0.5 * math.cos(math.pi * t))))
+
+        def edge(extra):
+            pr = prof if extra else [(prof[0][0] + f * 3 * s, prof[0][1])] + prof[1:]
+            return "M " + " L ".join(D.P(*q) for q in [(x, cy - hw - extra) for x, hw in pr] + [(x, cy + hw + extra) for x, hw in pr][::-1]) + " Z"
+        bulge = f'<path d="{edge(ow)}" fill="{D.OUT}" stroke="{D.OUT}" stroke-width="1" stroke-linejoin="round"/>'
+        bulge += f'<path d="{edge(0)}" fill="{C["hose"]}"/>'
+        bw, bh = 20.0, 3.0
     if paw51:
         bw = PAW51_BAND
     flat = D.ell(px - f * 2 * s, cy + 0.6 * s, bw * s, bh * s, C["hose"], D.OW * 0.7)
@@ -3865,6 +4082,11 @@ def _rain_line_clear(self, p, box, corridor=18, half_angle=28.0):
             # revision 32: and the washing on the line, part of the setting, which the scored check passed ("She could be pointing at
             # the storm clouds, or at the washing on the line (or both); her finger points up and to the right, roughly between the two")
             boxes += [(e["id"], e["bbox"], 0) for e in sc.S.elements if e["id"] == "laundry" and e.get("bbox")]
+        if SCN.sw56("RAINLINE") != "O":
+            # revision 50 (RAINLINE): and the garden's bird table or bird house, which is of the setting too (of fifteen readings of
+            # v0.55's five pointers eight offered a bird house, a building or a bird beside the clouds). The arm itself is drawn steeper
+            # in v0.56's cast (castlib.actions.POINT56)
+            boxes += [(e["id"], e["bbox"], 0) for e in sc.S.elements if e["id"] == "feeder" and e.get("bbox")]
         for k, b, _ in boxes:
             if "cloud" in k:
                 continue
@@ -3950,7 +4172,7 @@ class CatStalksBird(T):
                                                  else self.k3((110, 160), (150, 260), (260, 360))))
                 if not (A["x0"] < bx < A["x1"]):
                     continue
-                b = sc.placed(self.vb, bx, A["y"], sc.mirror_for(self.vb, -want), depth_y=A["depth"], eid=eb)
+                b = sc.placed(self.vb, bx, A["y"], sc.mirror_for(self.vb, self.bird_faces(want)), depth_y=A["depth"], eid=eb)
                 if SCN.PLACEMENT_REV >= 42 and CAT44 == "B" and not sc.clear_of_setting(c.bbox(), ("tree", "tree_small"), c.bbox()[2] - c.bbox()[0]):
                     continue        # revision 42 (templates.CAT44): its own length clear of a tree
                 if SCN.PLACEMENT_REV >= 12:
@@ -3983,13 +4205,13 @@ class CatStalksBird(T):
                 # revision 44 (templates.GAP47): the bird stood by the gap between the cat's front and its own near edge
                 by = Y + sc.rng.uniform(-12, 12)
                 gap47 = sc.rng.uniform(*self.k3((46, 60), (50, 80), (80, 140))) * sz(Y)
-                b0 = sc.placed(self.vb, X, by, sc.mirror_for(self.vb, -want), eid=eb)
+                b0 = sc.placed(self.vb, X, by, sc.mirror_for(self.vb, self.bird_faces(want)), eid=eb)
                 bx = (c.bbox()[2] + gap47 + (X - b0.bbox()[0])) if want > 0 else (c.bbox()[0] - gap47 - (b0.bbox()[2] - X))
             else:
                 bx, by = X + want * sc.rng.uniform(*self.k3((110, 160), (150, 240), (240, 330))) * sz(Y) * near, Y + sc.rng.uniform(-12, 12)
             if not sc.S.walkable(bx, by):
                 continue
-            b = sc.placed(self.vb, bx, by, sc.mirror_for(self.vb, -want), eid=eb)
+            b = sc.placed(self.vb, bx, by, sc.mirror_for(self.vb, self.bird_faces(want)), eid=eb)
             if not sc.fits(b.bbox(), limit=0.05):
                 continue
             if SCN.PLACEMENT_REV >= 41 and CAT43 == "B":
@@ -4037,6 +4259,13 @@ class CatStalksBird(T):
                     sc.svg(sc.eid("seeds"), "Seeds", seeds, b.Y - 0.5, box, "setting")
                 return self.items(ec, eb, "")
         return False
+
+    @staticmethod
+    def bird_faces(want):
+        """Which way the bird faces, the cat facing `want`. v0.56 (scene switch STALKBIRD; vision/flaws_v055.md, second part, I4): away from
+        the cat, its back to it, which is what says it has not seen the cat (facing the cat, as up to v0.55, the two looked at each other
+        and the cat was "just walking past" beside stalking)."""
+        return want if SCN.sw56("STALKBIRD") != "O" else -want
 
     def span_ok(self, c, b):
         """Revision 12: no kite or balloon string passes between the cat and its bird (a kite string run down between
@@ -4366,7 +4595,54 @@ class KiteInTree(StuckInTree):
         self.p = sc.person(YOUNG)
         self.vp = sc.need(self.p, "fly_kite", sc.rng.choice(["sad", "puzzled", "worried"]), 90)
 
+    def _draw56(self, x, y):
+        """v0.56 (the switch KITE; vision/flaws_v055.md I3 and G2). Of 12 readings of revision 49's kite over three screens, 8 had it perhaps
+        flying in front of the tree or behind it, and in grey the purple kite was 104 on leaves at 115. Here the kite lies on a branch that
+        grows from a limb of the trunk, as the ball's does (revision 26): tipped two thirds of the way onto its side, its top corner alone
+        under a clump of leaves, its tail hanging straight down from its outer end, and its string going from the spars' crossing out to
+        the branch's tip, twice round it, and on from there slack to the reel. The kite is yellow (grey 194), which no kite flies beside
+        it (the flown kite and this one both claim the wind)."""
+        T_ = self.sc.S.anchors["tree"]
+        k = self.k3(1.1, 0.85, 0.68)
+        g = 1 if x >= T_["canopy"][0] else -1          # the side of the trunk the kite is on: the branch grows out that way
+        rot = -g * 66                                  # (its top corner toward the trunk and up, its tail end out and down)
+        a = math.radians(rot)
+
+        def kp(px, py):
+            return (x + (px * math.cos(a) - py * math.sin(a)) * k, y + (px * math.sin(a) + py * math.cos(a)) * k)
+        top, low = kp(0, -50), kp(0, 62)
+        # the branch is a limb of the trunk (_limb_to, drawn by place() under the kite): up from the trunk, under the kite's lower corner,
+        # behind its lower half and out past its tail end, where its tip shows
+        tip = (x + g * 84 * k, y + 5 * k)
+        bw = 7 * k
+        tx0, cy0, R0 = T_["canopy"]
+        inn, bend = (tx0, cy0 + 1.04 * R0), (tx0 + (tip[0] - tx0) * 0.12, tip[1] + (cy0 + 1.04 * R0 - tip[1]) * 0.18)     # (the limb's own line)
+        # (yellow, grey 194 on leaves at 115; orange, 153, in a picture with balloons, whose default is yellow)
+        kcol = C["orange"] if any(v[1] in ("balloon", "walk_balloon", "balloon_reach") for v in self.sc.variants) else C["yellow"]
+        svg, _ = D.kite(x, y, k, kcol, rot=rot)
+        # the string: from the spars' crossing out to the branch's tip, twice round it, and its slack end hangs from under the branch
+        t_ = 0.93
+        wx = (1 - t_) ** 2 * inn[0] + 2 * (1 - t_) * t_ * bend[0] + t_ * t_ * tip[0]
+        wy = (1 - t_) ** 2 * inn[1] + 2 * (1 - t_) * t_ * bend[1] + t_ * t_ * tip[1]
+        hw = bw / 2 + D.OW + 2.5
+        c0 = kp(0, 3)
+        svg += (f'<path d="M {D.P(*c0)} Q {D.P((c0[0] + wx) / 2, (c0[1] + wy) / 2 + 12 * k)} {D.P(wx - g * 3 * k, wy - hw)}" fill="none" '
+                f'stroke="{D.OUT}" stroke-width="2.4" stroke-linecap="round"/>')
+        for j in (0, 1):
+            lx_ = wx + g * (-3 + 6.5 * j) * k
+            svg += f'<path d="M {D.P(lx_, wy - hw)} L {D.P(lx_ + g * 3.5 * k, wy + hw)}" fill="none" stroke="{D.OUT}" stroke-width="2.6" stroke-linecap="round"/>'
+        self.bridle = (wx + g * 7 * k, wy + hw)
+        self.limb_end = tip + (bw,)
+        # one clump of leaves, over the kite's top corner alone
+        ux, uy = math.sin(a), -math.cos(a)
+        lobes = [[(top[0] + ux * 5 * k, top[1] + uy * 5 * k, 19 * k), (top[0] - g * 10 * k, top[1] + 18 * k, 14 * k), (top[0] + g * 12 * k, top[1] - 15 * k, 13 * k)]]
+        svg += _leaf_clusters(T_, lobes, "kc%d%d" % (abs(int(x)), abs(int(y))))
+        pts = [top, low, kp(34, 0), kp(-34, 0), tip]
+        return svg, (min(q[0] for q in pts) - 14 * k, min(q[1] for q in pts) - 8 * k, max(q[0] for q in pts) + 14 * k, low[1] + 92 * k)
+
     def draw_thing(self, x, y):
+        if SCN.sw56("KITE") != "O":
+            return self._draw56(x, y)
         if SCN.PLACEMENT_REV >= 9:
             # revision 9: tipped askew with a clump of leaves over its top corner and the tail hanging limp,
             # so it is caught in the branches (drawn whole in front of the canopy it read as "flying there or
@@ -4416,6 +4692,12 @@ class KiteInTree(StuckInTree):
                 return sc.setting_clear((b[0] - 34, b[1] - 34, b[2] + 34, b[3] + 20), only=("house",))
             slots = [q for q in slots if off_house(q)] or slots
         x, y = sc.rng.choice(slots)
+        kite56 = SCN.sw56("KITE") != "O"
+        if kite56 and abs(x - T_["canopy"][0]) < 0.2 * T_["canopy"][2]:
+            # v0.56 (KITE): on a branch out to one side of the trunk, never over the trunk's top (the draw is kept)
+            side_ = [q for q in slots if abs(q[0] - T_["canopy"][0]) >= 0.2 * T_["canopy"][2]]
+            if side_:
+                x, y = side_[0]
         svg, bb = self.draw_thing(x, y)
         tree_base = T_["bbox"][3]
         ep = sc.eid("kitekid")
@@ -4446,6 +4728,10 @@ class KiteInTree(StuckInTree):
         if not p:
             return False
         eo = sc.svg(sc.eid("kiteintree"), "Kite caught in the tree", svg, tree_base + 0.5, bb, "scored")
+        if kite56:
+            # v0.56 (KITE): the limb the kite lies on, from the trunk to its tip beyond the kite's tail end (as the fish's, revision 28)
+            lsvg, lbb = _limb_to(T_, *self.limb_end, tip=True)
+            sc.svg(sc.eid("limb"), "Limb of the tree", lsvg, tree_base + 0.2, lbb, "background")
         if SCN.PLACEMENT_REV >= 11:
             # revision 11: leaf clusters of the same kind spread over the crown
             tex = _crown_texture(T_, bb, self.k3(1.1, 0.85, 0.68))
@@ -4539,7 +4825,9 @@ def _ice_cream_place8(self):
     dog comes at it from the far side."""
     sc = self.sc
     ep, ed = sc.eid("conekid"), sc.eid("lickdog")
-    for X, Y in self.stand_spots(n=150):
+    # revision 50 (DROPFRONT): not in the back of the ground, where the scoop on the ground is small (far back in a street it was
+    # "far back and small", v0.55 picture 15)
+    for X, Y in (self.stand_spots(y_range=(sc.S.horizon + 120, 975), n=150) if SCN.sw56("DROPFRONT") != "O" else self.stand_spots(n=150)):
         p = sc.placed(self.vp, X, Y, sc.rng.random() < 0.5, eid=ep)
         if not sc.fits(p.bbox()) or not p.has_anchor("cone_top"):
             continue
@@ -4773,7 +5061,9 @@ class AboutToTrip(T):
                 sc.keepout.append(lane)
             eo = sc.svg(sc.eid("obstacle"), f"{label} in the way", svg, oy, bb, "scored")
             n = sc.name(self.p)
-            self.act(self.p, "reading while walking", ["reading while walking", "walking and reading", "not looking where he's going", "reading a book"], "reading", [ep])
+            self.act(self.p, "reading while walking", ["reading while walking", "walking and reading",
+                                                       f"not looking where {pron(sc, self.p)['is']} going" if SCN.sw56("PRON") != "O" else "not looking where he's going",
+                                                       "reading a book"], "reading", [ep])
             self.ent(f"There is {label} on the ground in front of {art(n)} {n}", acc, key, [eo])
             self.inf(f"The {n} is going to trip over {label}", [f"going to trip over the {key}", "going to fall", "will bump into it", "isn't looking where they're going"],
                      "trip", 1, cues=[ep, eo], effect=[eo])
@@ -4904,6 +5194,9 @@ class SprinklerPackage(T):
         sc = self.sc
         if SCN.PLACEMENT_REV >= 32 and _windy(sc, self):
             return False        # revision 32: nor a sprinkler in the wind (see WaterFlowers)
+        if SCN.sw56("PARCEL") != "O":
+            return _sprinkler_place56(self)
+        spray56 = SCN.sw56("SPRAY") != "O"      # v0.56 (draw.sprinkler, v56): the arcs with a white core
         for X, Y in self.stand_spots(y_range=(sc.S.horizon + 120, 960), n=80):
             toward = 1 if X < 800 else -1
             s = sz(Y)
@@ -4918,7 +5211,7 @@ class SprinklerPackage(T):
                 if _crosses_path(sc, [(X - 24 * s, Y), (X + 24 * s, Y)]) or _crosses_path(sc, [(px - 40 * s, py), (px + 46 * s, py)]):
                     continue
                 lid = (px + 6 * s, py - 56 * s)
-                spr, arcs, sbb = D.sprinkler(X, Y, s * self.k3(1.25, 1.0, 0.85), toward, dist, land=lid, solid=SCN.PLACEMENT_REV >= 17)
+                spr, arcs, sbb = D.sprinkler(X, Y, s * self.k3(1.25, 1.0, 0.85), toward, dist, land=lid, solid=SCN.PLACEMENT_REV >= 17, v56=spray56)
             else:
                 spr, arcs, sbb = D.sprinkler(X, Y, s * self.k3(1.25, 1.0, 0.85), toward, dist, solid=SCN.PLACEMENT_REV >= 17)
             pk, pbb = D.package(px, py, s)
@@ -4975,6 +5268,10 @@ class SprinklerPackage(T):
                     if _crosses_path(sc, pts):
                         continue
                     band = (min(q[0] for q in pts) - 10 * sk, Y - 10 * sk, max(q[0] for q in pts) + 10 * sk, yb)
+                if SCN.sw56("HOSEBED") != "O" and _hose_in_bed56(sc, pts):
+                    continue        # v0.56 (HOSEBED): the hose never through a flower bed
+                if SCN.sw56("HOSERUN") != "O" and not sc.run_clear50(_hose_boxes56(pts, sk), beds=False):
+                    continue        # v0.56 (HOSERUN, scene.run_clear50): nor under a figure that is already there
                 feet = lambda q: (q.bbox()[0], q.bbox()[3] - 0.15 * (q.bbox()[3] - q.bbox()[1]), q.bbox()[2], q.bbox()[3])
                 if SCN.PLACEMENT_REV >= 20:
                     # revision 20: nor across the legs of anyone in front of it (a begging dog 40 px in front of the hose
@@ -4986,6 +5283,11 @@ class SprinklerPackage(T):
             es = sc.svg(sc.eid("sprinkler"), "Sprinkler spraying", hose + spr + arcs, Y, sbb, "scored")
             if SCN.PLACEMENT_REV >= 7:
                 sc.keepout.append(band)
+            if SCN.sw56("HOSERUN") != "O":
+                # v0.56 (HOSERUN): and no animal placed later lies down on the hose. The band is tested against the lowest quarter of a
+                # figure's box, and a dog lying with the hose behind its shoulders passed (v0.55's picture 57, where the dog was placed
+                # after the sprinkler): so the ground just in front of the hose's run is kept as well
+                sc.keepout += [(b_[0], b_[1], b_[2], b_[3] + 26) for b_ in _hose_boxes56(pts, sk)]
             if SCN.PLACEMENT_REV >= 4:      # nobody stands on the sprinkler or in its spray
                 sc.keepout.append((sbb[0] - 10, sbb[1], sbb[2] + 10, sbb[3] + 8))
             if SCN.PLACEMENT_REV >= 19:
@@ -5003,6 +5305,156 @@ class SprinklerPackage(T):
                      "wet", 1, cues=[es, ep], effect=[ep])
             return True
         return False
+
+
+def _hose_in_bed56(sc, pts):
+    """v0.56 (the switch HOSEBED; vision/flaws_v055.md P4): True if the sprinkler's hose would run through a flower bed, across its soil or
+    just in front of it. The bed is drawn over a hose that lies further back, so the hose ran under the flowers and out the other side."""
+    el = next((e for e in sc.S.elements if e["id"] == "flowers" and e.get("bbox")), None)
+    if el is None:
+        return False
+    b = el["bbox"]
+    k = (b[3] - b[1]) / 136.0
+    y0, y1 = b[3] - 78 * k, b[3] + 16
+    for (ax, ay), (bx, by) in zip(pts, pts[1:]):
+        for i in range(9):
+            x, y = ax + (bx - ax) * i / 8, ay + (by - ay) * i / 8
+            if b[0] - 12 <= x <= b[2] + 12 and y0 <= y <= y1:
+                return True
+    return False
+
+
+def _hose_boxes56(pts, s):
+    """v0.56 (the switch HOSERUN): boxes along the sprinkler's hose as draw.hose_path draws it through pts at scale s, one about every 35
+    units, each the hose's width and 10 units high, for scene.run_clear50 (no figure that is already there lies or stands on the hose: a
+    sleeping dog placed before the sprinkler lay on its hose in v0.55's picture 57, to all three readers)."""
+    hw = (9 * s * 0.8 + 1.6 * D.OW + 10) / 2
+    out = []
+    for i in range(1, len(pts) - 1, 2):
+        a, c, b = pts[i - 1], pts[i], pts[i + 1]
+        n = max(2, int(math.hypot(b[0] - a[0], b[1] - a[1]) / 35) + 1)
+        for j in range(n + 1):
+            t = j / n
+            x = (1 - t) ** 2 * a[0] + 2 * (1 - t) * t * c[0] + t * t * b[0]
+            y = (1 - t) ** 2 * a[1] + 2 * (1 - t) * t * c[1] + t * t * b[1]
+            out.append((x - 18, y - hw, x + 18, y + hw))
+    return out
+
+
+def _sprinkler_place56(self):
+    """v0.56 (the switch PARCEL; vision/flaws_v055.md I1): the box is a parcel (draw.parcel56) set down on the path, at its edge, where a
+    delivery is left, and the sprinkler stands on the lawn beside the path. The longest arc comes down on the lid's near edge: the water has
+    just reached the parcel (drops bouncing off that edge, one drip down the near third of its front, a small puddle at its near foot), and the
+    rest of it is still dry. Of 15 readings of revision 49's box on the lawn over three screens, 14 doubted that the box mattered.
+    The rules are revision 49's, but for where the two stand: the parcel wholly on the path, the sprinkler wholly off it."""
+    sc = self.sc
+    from .settings import on_path
+    A = sc.S.anchors.get("path")
+    rows = A.get("edges") if isinstance(A, dict) else None
+    if not rows:
+        return False
+    spray56 = SCN.sw56("SPRAY") != "O"
+    dist = self.k3(170, 250, 340)
+    cands = []
+    for (yr, xl, xr) in rows:
+        if not (max(sc.S.horizon + 130, 650) <= yr <= 965):
+            continue
+        s = sz(yr - 10)
+        for toward in (1, -1):
+            # (the parcel at the path's edge on the sprinkler's side, its whole foot on the paving)
+            off = sc.rng.uniform(8, 20)
+            px = xl + off + 37 * s if toward > 0 else xr - off - 49 * s
+            if px - 37 * s < xl + 6 or px + 49 * s > xr - 6:
+                continue
+            cands.append((sc.rng.random(), px, yr, toward))
+    cands.sort()
+    for _, px, py, toward in cands:
+        Y = py - 10
+        s = sz(Y)
+        X = px - toward * dist * s
+        if not (110 <= X <= D.W - 110) or not sc.S.walkable(X, Y) or sc.S.in_soft(X, Y) or not sc.feet_free(X, Y) or not sc.S.walkable(px, py):
+            continue
+        if _crosses_path(sc, [(X - 24 * s, Y), (X + 24 * s, Y)]):
+            continue        # (the sprinkler stands on the lawn: revision 15)
+        if not (on_path(A, px - 37 * s, py, margin=4) and on_path(A, px + 37 * s, py, margin=4) and on_path(A, px + 49 * s, py - 12 * s, margin=2)):
+            continue
+        lid = (px + (6 - toward * 31) * s, py - 56 * s)        # the lid's near edge
+        spr, arcs, sbb = D.sprinkler(X, Y, s * self.k3(1.25, 1.0, 0.85), toward, dist, land=lid, solid=True, v56=spray56)
+        pk, pbb = D.parcel56(px, py, s, label_side=toward)
+        if not (sc.fits(sbb, limit=0.08) and sc.fits(pbb, limit=0.05)):
+            continue
+        if not (sc.clear_of_setting(sbb, ("blanket",), margin=12) and sc.clear_of_setting(pbb, ("blanket",), margin=12)):
+            continue
+        ko = (sbb[0] - 10, sbb[1], sbb[2] + 10, sbb[3] + 8)
+
+        def in_spray(q):
+            b = q.bbox()
+            f0, f1 = b[3] - 0.25 * (b[3] - b[1]), b[3]
+            return min(b[2], ko[2]) > max(b[0], ko[0]) and min(f1, ko[3]) > max(f0, ko[1])
+        if any(in_spray(q) for q in sc.assets.values()):
+            continue
+        fz = (min(sbb[0], pbb[0]) - 10, min(sbb[1], pbb[1]), max(sbb[2], pbb[2]) + 10, max(sbb[3], pbb[3]) + 14)
+
+        def in_front(q):
+            b = q.bbox()
+            return (q.family.startswith("person.") or q.family.startswith("animal.")) and not q.m["variant"].get("airborne") \
+                and q.Y > Y and min(b[2], fz[2]) > max(b[0], fz[0]) and min(b[3], fz[3]) > max(b[1], fz[1])
+        if any(in_front(q) for q in sc.assets.values() if hasattr(q, "family")):
+            continue
+        # and nobody standing right beside the parcel on the path, now or later (a figure a step from it reads as its owner, who would move it)
+        side = (pbb[0] - 60 * s, pbb[1], pbb[2] + 60 * s, pbb[3] + 30 * s)
+
+        def beside(q):
+            b = q.bbox()
+            f0 = b[3] - 0.25 * (b[3] - b[1])
+            return (q.family.startswith("person.") or q.family.startswith("animal.")) and not q.m["variant"].get("airborne") \
+                and min(b[2], side[2]) > max(b[0], side[0]) and min(b[3], side[3]) > max(f0, side[1])
+        if any(beside(q) for q in sc.assets.values() if hasattr(q, "family")):
+            continue
+        # the hose, off the side of the picture away from the spray (revision 7), never across the path (13, 20) or through a bed (HOSEBED)
+        sk = s * self.k3(1.25, 1.0, 0.85)
+        edge = -20 if toward > 0 else D.W + 20
+        x0 = X - toward * 18 * sk
+        n = max(2, int(abs(edge - x0) / 160))
+        pts = [(x0, Y - 4 * sk)]
+        for i in range(1, 2 * n + 1):
+            t = i / (2 * n)
+            pts.append((x0 + (edge - x0) * t, Y + 6 * sk + (12 * sk if i % 2 else 0) + 10 * sk * t))
+        if len(pts) % 2 == 0:
+            pts.append((edge, Y + 16 * sk))
+        band = (min(x0, edge), Y - 10 * sk, max(x0, edge), Y + 34 * sk)
+        if _crosses_path(sc, pts):
+            continue
+        if SCN.sw56("HOSEBED") != "O" and _hose_in_bed56(sc, pts):
+            continue
+        if SCN.sw56("HOSERUN") != "O" and not sc.run_clear50(_hose_boxes56(pts, sk), beds=False):
+            continue
+        if not sc.setting_clear(band, only=("house",)):
+            # (the garden's house is drawn over a hose that lies further back than its foot: a third of the hose was hidden behind the wall,
+            # and the picture failed its last check on every layout)
+            continue
+        feet = lambda q: (q.bbox()[0], q.bbox()[3] - 0.4 * (q.bbox()[3] - q.bbox()[1]), q.bbox()[2], q.bbox()[3] + 4)
+        if any(sc.overlap(feet(q), band) > 0 for q in sc.assets.values()):
+            continue
+        hose = D.hose_path(pts, sk * 0.8)
+        es = sc.svg(sc.eid("sprinkler"), "Sprinkler spraying", hose + spr + arcs, Y, sbb, "scored")
+        sc.keepout.append(band)
+        if SCN.sw56("HOSERUN") != "O":
+            sc.keepout += [(b_[0], b_[1], b_[2], b_[3] + 26) for b_ in _hose_boxes56(pts, sk)]     # (as in place(): no animal lies down on it later)
+        sc.keepout.append((sbb[0] - 10, sbb[1], sbb[2] + 10, sbb[3] + 8))
+        sc.keepout.append(side)
+        sc.sprayzones.append(((min(sbb[0], pbb[0]) - 10, min(sbb[1], pbb[1]), max(sbb[2], pbb[2]) + 10, max(sbb[3], pbb[3]) + 14), Y))
+        wet = D.wet_marks56(px, py, s, near=-toward)
+        puddle = D.ell(px - toward * 27 * s, py + 3 * s, 25 * s, 6 * s, C["water_light"], D.OW * 0.5)
+        pbb = (pbb[0] - 18 * s, pbb[1] - 12 * s, pbb[2] + 18 * s, pbb[3] + 10 * s)
+        ep = sc.svg(sc.eid("package"), "Parcel on the path", puddle + pk + wet, py, pbb, "scored")
+        it = self.ent("A sprinkler is spraying water", ["sprinkler", "water spraying", "sprinkler is on"], "sprinkler", [es])
+        it["type"] = "action"
+        self.ent("A package has been left on the path", ["package", "box", "parcel", "delivery"], "package", [ep])
+        self.inf("The package is going to get soaked", ["the package is getting wet", "the box will get wet", "the water will ruin the package", "someone should move the package"],
+                 "wet", 1, cues=[es, ep], effect=[ep])
+        return True
+    return False
 
 
 class PaintTracks(T):
@@ -5030,7 +5482,10 @@ class PaintTracks(T):
         s = sz(p.Y)
         f = p.facing() or 1
         tx, ty = p.X - f * 95 * s, p.Y + 30 * s
-        tray, tbb = D.paint_tray(tx, ty, s)
+        if SCN.sw56("TRAY") != "O":
+            tx = p.X - f * 116 * s          # (v0.56: the wider tray clear of the tin at the painter's heel)
+        pc56, _, pn56 = _paint56()          # (v0.56, switches PAINT and TRAY: the paint's colour; the tray ribbed, its well toward the dog)
+        tray, tbb = D.paint_tray(tx, ty, s, col=pc56, v56=SCN.sw56("TRAY") != "O", f=-f)
         ed = sc.eid("paintdog")
         for dist in self.k3((260, 300, 330), (330, 400, 460, 280), (480, 540, 420)):
             dx = tx - f * dist * s
@@ -5051,18 +5506,18 @@ class PaintTracks(T):
             for i in range(n):
                 t = (i + 1) / (n + 1)
                 pts.append((tx + (hx - tx) * t, ty + 6 * s + (dy - ty) * t))
-            prints = D.paw_prints(pts, lambda y: sz(y) * 1.35)
+            prints = D.paw_prints(pts, lambda y: sz(y) * 1.35, col=pc56)
             epr = sc.svg(sc.eid("prints"), "Paint paw prints", prints, ty + 1, (min(tx, hx) - 10, ty - 10, max(tx, hx) + 10, dy + 10), "scored")
             if SCN.PLACEMENT_REV >= 6:
                 # revision 6: paint on the dog's paws too (white paws leaving blue prints read as odd)
-                dabs = "".join(D.ell(ax, ay - 2.5 * s, 7.5 * s, 4.5 * s, C["paint"], D.OW * 0.5)
+                dabs = "".join(D.ell(ax, ay - 2.5 * s, 7.5 * s, 4.5 * s, pc56, D.OW * 0.5)
                                for ax, ay in (d.anchor(k) for k in ("paw_FL", "paw_FR", "paw_BL", "paw_BR") if d.has_anchor(k)))
                 if dabs:
                     sc.svg(sc.eid("paintpaws"), "Paint on the dog's paws", dabs, d.Y + 3, d.bbox(), "setting")
             dn = sc.name(self.d)
             it = self.ent(f"A {dn} is walking away from the paint", [f"{dn} walking", f"{dn}", f"{dn} with paint on its feet"], dn, [ed], animate=True)
             it["type"] = "action"
-            self.ent("There are paw prints in paint on the grass", ["paw prints", "footprints", "paint prints", "blue prints", "tracks"], "footprints", [epr, et])
+            self.ent("There are paw prints in paint on the grass", ["paw prints", "footprints", "paint prints", pn56 + " prints", "tracks"], "footprints", [epr, et])
             self.inf(f"The {dn} stepped in the paint and left footprints", [f"the {dn} walked through the paint", f"the {dn} stepped in the tray", "the dog made the footprints", "paint on the dog's paws"],
                      "paint", 2, cues=[ed, epr, et], effect=[epr])
             return True
@@ -5079,8 +5534,9 @@ class WindyHat(T):
     kind = "inference"
     # v0.13 (revision 11): never with things that would show the same gust and do not, balloons on strings and
     # washing being hung out ("the wind blows the hat away but the laundry ... unaffected")
-    exclusive = ("wind",) + (("calm_balloon", "calm_lost_balloon", "calm_laundry") if SCN.PLACEMENT_REV >= 11 else ()) \
-        + (("calm_reader",) if SCN.PLACEMENT_REV >= 17 else ())
+    # revision 50 (REACH, the tag jump_hat): nor with a child jumping for joy ("jumps with both arms raised, as if leaping to catch the hat")
+    exclusive = _Ex56(("wind",) + (("calm_balloon", "calm_lost_balloon", "calm_laundry") if SCN.PLACEMENT_REV >= 11 else ())
+                      + (("calm_reader",) if SCN.PLACEMENT_REV >= 17 else ()), ("jump_hat",), "REACH")
     settings = ("park", "street", "garden")
     units, content = 1, 2
 
@@ -5100,6 +5556,13 @@ class WindyHat(T):
             p = sc.placed(self.vp, X, Y, sc.mirror_for(self.vp, want), eid=ep)
             if not sc.fits(p.bbox()):
                 continue
+            if SCN.sw56("HATHAND") != "O":
+                # revision 50 (HATHAND): the raised arm clear of the garden's gate (the reaching hand lay on the gate's corner: "holding
+                # the gate" to two readers and a reviewer of v0.55's picture 75)
+                pb_ = p.bbox()
+                arm_ = (pb_[0] - 24, pb_[1] - 24, pb_[2] + 24, pb_[1] + 0.4 * (pb_[3] - pb_[1]))
+                if any(min(arm_[2], g_[2]) > max(arm_[0], g_[0]) and min(arm_[3], g_[3]) > max(arm_[1], g_[1]) for g_ in sc.S.anchors.get("no_float", ())):
+                    continue
             hx, hy = p.anchor("head_top")
             s = sz(Y)
             cx, cy = hx + want * 105 * s, hy - 95 * s
@@ -5275,6 +5738,26 @@ class WindyHat(T):
         sc.airzones.append(bb)
 
 
+# STEAL56 (switch STEAL, revision 50; vision/flaws_v055.md, quality check, R3): `bird_steals` was under 1.00 in 7 screens of 12. The thief bird is
+#   42 by 38 units in the two tier-4 pictures and 48 to 64 across in the garden, the sandwich 58 to 70; over three screens the bird "just sits
+#   next to the sandwich" in 7 readings of 15. "B": the bird half as large again in the cast's pose for the theft (castlib.animals.STEAL56,
+#   `tug`: upright, leaned back, the beak shut on bread) at the bench's end, both feet on the seat and the tail out past the end; the sandwich
+#   up to 1.3 times as long, as much as the seat between the reader's back and the beak has room for, its top slice pulled up off the filling
+#   with its end in the beak (draw.sandwich_pulled), crumbs falling from it; the reader at the bench's other end. "C": the sizes and the
+#   places of B with v0.55's pecking bird and bitten sandwich (what size alone does). "O": v0.55.
+#   (Read before drawing: a torn piece in the beak was the drawing up to v0.46, "at this size a dark blob" beside a bird with its head down,
+#   and STEAL47 took it out for the bite. A whole slice is the sandwich's own length and colour, and the bird that holds it stands upright. A
+#   bench is 200 units long at full size and the reader takes over half of it, so the two cannot both be twice as large on the seat: the bird
+#   is 1.5 and the sandwich what is left.)
+# STEALAT56 (switch STEALAT, revision 50): where it is placed. "B": nobody's feet, and so no fed bird, within a figure's width of either end of
+#   the bench at the bench's depth (sc.keepout: in the tier-4 street a fed bird stood in line with the thief). In the garden the bench stands
+#   40 units from the picture's edge with the hose reel at its inner end: there the reel and its hose end are not drawn (the template does
+#   not place where another template of the picture needs the reel: `hose_water`, `blocked_hose`, the watering templates), the bench stands
+#   STEAL56_P["shift"] units further in, the reader sits at its inner end and the bird at its outer end, against the house wall. "O": v0.55
+# (the garden's shift is small: the reader's box must end 18 units inside the house wall's side edge, at 335, scene.clear_of_house_edges)
+STEAL56_P = dict(bird=1.5, sand=1.3, sand_min=0.85, frac=0.06, feet=7.0, gap=3.0, shift=15.0, room=110.0, hold=(3.0, 1.0))
+
+
 class BirdSteals(T):
     id = "bird_steals"
     kind = "inference"
@@ -5289,10 +5772,156 @@ class BirdSteals(T):
         self.vp = sc.need(self.p, "sit_read", "focused", 45)
         # revision 5: the blue bird (a red bird against the tomato and crust read as a tipped-over cup)
         self.b = sc.animal(["songbird"], prefer=("animal.bird_02",))
-        self.vb = sc.need(self.b, "peck", "neutral", animal_yaw(sc, self.id))
+        # v0.56 (templates.STEAL56 "B"): the bird's pose for the theft, where the cast has it
+        self.tug56 = SCN.sw56("STEAL") == "B" and "tug" in sc.lib.families[self.b]["poses"]
+        yaw = animal_yaw(sc, self.id)
+        if SCN.sw56("STEAL") != "O" and SCN.sw56("STEALAT") != "O" and sc.setting_id == "garden":
+            # (in the garden the larger bird stands at the bench's outer end, 54 units from the picture's edge: from the side its tail
+            # reaches past the edge, so it is drawn at three-quarters there)
+            yaw = 45
+        self.vb = sc.need(self.b, "tug" if self.tug56 else "peck", "neutral", yaw)
+
+    def _place56(self, st56, at56):
+        """v0.56 (templates.STEAL56, STEALAT56): the placement under either switch. With STEAL at "O" the drawing is revision 44's."""
+        sc = self.sc
+        G = STEAL56_P
+        B = sc.S.anchors["bench"]
+        ep, eb = sc.eid("benchreader"), sc.eid("thief")
+        be = next((e for e in sc.S.elements if e["id"] == "bench" and e.get("bbox")), None)
+        sides = ((0.3, 1), (0.7, -1))
+        if at56 != "O" and sc.setting_id == "garden" and be is not None:
+            if any(t is not self and "hose_reel" in (getattr(t, "exclusive", None) or ()) for t in sc.templates):
+                return False
+            sc.S.elements = [e for e in sc.S.elements if e["id"] not in ("hose_reel", "hose_tail")]
+            dx = G["shift"]
+            be["svg"] = f'<g transform="translate({dx:.1f} 0)">{be["svg"]}</g>'
+            be["bbox"] = (be["bbox"][0] + dx, be["bbox"][1], be["bbox"][2] + dx, be["bbox"][3])
+            B = dict(B, x0=B["x0"] + dx, x1=B["x1"] + dx)
+            sc.S.anchors["bench"] = B
+            sc.S.blocked.append((20 + dx, 820, 260 + dx, 992))
+            sides = ((0.7, -1),)
+        s = sz(B["depth"])
+        fy = B["seat_y"] - 2
+        sty = 6
+        for frac, side in sides:
+            end = (be["bbox"][2] if side > 0 else be["bbox"][0]) if be else (B["x1"] + 20 * s if side > 0 else B["x0"] - 20 * s)
+            if st56 == "O" or (sc.setting_id == "garden" and at56 == "O"):
+                # (in the garden without STEALAT the bench is at the picture's edge and the reel at its inner end: the reader where v0.55 sat)
+                p = BenchSit.seat(self, ep, frac - side * STEAL47_GEOM["frac"], wants=(-side,))
+            else:
+                p = BenchSit.seat(self, ep, G["frac"] if side > 0 else 1.0 - G["frac"], wants=(-side,))
+            if not p:
+                continue
+            crumbs = []
+            if st56 == "O":
+                # (revision 44's drawing, as place() has it)
+                fx = (B["x0"] + (B["x1"] - B["x0"]) * (frac + side * STEAL47_GEOM["off"]))
+                ss = s * 0.72
+                sw, sbb = D.sandwich(fx, fy, ss, style=sty)
+                for mir in (False, True):
+                    b = sc.placed(self.vb, fx + side * 60 * s, fy, mir, depth_y=B["depth"] + 4, eid=eb)
+                    b.k *= D.BIRD25
+                    if (b.anchor("mouth")[0] - b.X) * side < 0:
+                        break
+                bb_ = b.bbox()
+                front = bb_[0] if side > 0 else bb_[2]
+                b.X += (sbb[2] if side > 0 else sbb[0]) - side * 5 * s - front
+                b.X += fx + side * STEAL47_GEOM["beak"] * ss * 1.1 - b.anchor("mouth")[0]
+                over = max([side * (b.anchor(a)[0] - end) for a in ("foot_L", "foot_R") if b.has_anchor(a)] or [-99.0]) + STEAL47_GEOM["feet"] * s
+                if over > STEAL47_GEOM["slide"] * s:
+                    sc.remove(ep)
+                    continue
+                if over > 0:
+                    fx -= side * over
+                    b.X -= side * over
+            else:
+                # the bird at the bench's end, facing the reader's back: the foot nearer the end G["feet"] units inside it
+                for mir in (False, True):
+                    b = sc.placed(self.vb, end - side * 40 * s, fy, mir, depth_y=B["depth"] + 4, eid=eb)
+                    b.k *= D.BIRD25 * G["bird"]
+                    if (b.anchor("mouth")[0] - b.X) * side < 0:
+                        break
+                feet = [b.anchor(a)[0] for a in ("foot_L", "foot_R") if b.has_anchor(a)] or [b.X]
+                b.X += end - side * G["feet"] * s - (max(feet) if side > 0 else min(feet))
+                mx, my = b.anchor("mouth")
+                pb = p.bbox()
+                xr = (pb[2] if side > 0 else pb[0]) + side * G["gap"] * s        # the seat is free from the reader's back on
+                ss = s * 0.72 * G["sand"]
+                if self.tug56:
+                    # the sandwich from the reader's back to under the beak, its top slice's end in the beak
+                    xe = mx + side * 8 * s
+                    ss = min(ss, side * (xe - xr) / 79.2)
+                    fx = xe - side * 39.6 * ss
+                else:
+                    # ("C") the beak's tip in the bite, as revision 44 has it; the sandwich as long as the seat behind it has room for
+                    ss = min(ss, side * (mx - xr) / ((39.6 + STEAL47_GEOM["beak"] * 1.1)))
+                    fx = mx - side * STEAL47_GEOM["beak"] * ss * 1.1
+                if ss < s * 0.72 * G["sand_min"]:
+                    sc.remove(ep)
+                    continue
+            bb_ = b.bbox()
+            if not sc.fits(bb_, limit=0.15, ignore=(ep,)):
+                sc.remove(ep)
+                continue
+            if st56 != "O":
+                # what of the bird hangs out past the bench's end is clear of everything that stands there
+                out = (end, bb_[1], bb_[2] + 4, bb_[3]) if side > 0 else (bb_[0] - 4, bb_[1], end, bb_[3])
+                if out[2] > out[0] and not sc.air_clear(out, 4, use_exempt=True):
+                    sc.remove(ep)
+                    continue
+            bands = []
+            if at56 != "O" and be is not None:
+                # nobody's feet within a figure's width of either end of the bench, at the bench's depth; at the bird's end from above the back
+                x0_, y0_, x1_, y1_ = be["bbox"]
+                W_ = G["room"] * s
+                yb, yr_ = y0_ - 50 * s, B["seat_y"] - 16 * s
+                mid_ = (x0_ + x1_) / 2
+                bands = [(mid_, yb, x1_ + W_, y1_ + 12 * s), (x0_ - W_, yr_, mid_, y1_ + 12 * s)] if side > 0 else \
+                        [(x0_ - W_, yb, mid_, y1_ + 12 * s), (mid_, yr_, x1_ + W_, y1_ + 12 * s)]
+
+                def _feet_in(q):
+                    qb = q.bbox()
+                    ft = (qb[0], qb[3] - 0.25 * (qb[3] - qb[1]), qb[2], qb[3])
+                    return any(min(ft[2], k_[2]) > max(ft[0], k_[0]) and min(ft[3], k_[3]) > max(ft[1], k_[1]) for k_ in bands)
+                if any(_feet_in(q) for k_, q in sc.assets.items() if k_ != ep):
+                    sc.remove(ep)
+                    continue
+            sc.assets[eb] = b
+            sc.keepout.extend(bands)
+            if bands:
+                # and nobody placed later comes within a step of the thief bird itself, at any depth (a feeder of birds stood beside it)
+                sc.airzones.append((bb_[0] - 30 * s, bb_[1] - 20 * s, bb_[2] + 30 * s, bb_[3] + 10 * s))
+            mx, my = b.anchor("mouth")
+            if st56 == "O" or not self.tug56:
+                sw, sbb = D.sandwich(fx, fy, ss, bitten=side, style=sty, deep=True)
+                cr = [(mx + side * (4 + 6.5 * i) * s, fy + (1.5, -1.0, 1.0)[i] * s, (1.9, 1.5, 1.7)[i] * s) for i in range(3)]
+                sw += "".join(D.circ(cx_, cy_, r_, C["cream"], D.OW * 0.25) for cx_, cy_, r_ in cr)
+                sbb = (min(sbb[0], min(q[0] for q in cr) - 3 * s), sbb[1], max(sbb[2], max(q[0] for q in cr) + 3 * s), sbb[3])
+            else:
+                # the top slice's end in the beak, a little past its tip, and crumbs falling from the slice onto the seat
+                hx_, hy_ = G["hold"]
+                base, top, sbb = D.sandwich_pulled(fx, fy, ss, side, (mx + side * hx_ * s, my + hy_ * s))
+                cr = [(mx - side * (13 + 8 * i) * s, my + (21 + 5 * i) * s, (2.1, 1.7, 1.9)[i] * s) for i in range(3)]
+                sw = base + top + "".join(D.circ(cx_, cy_, r_, C["cream"], D.OW * 0.25) for cx_, cy_, r_ in cr)
+            es = sc.svg(sc.eid("sandwich"), "Sandwich on the bench", sw, B["depth"] + 3.5, sbb, "scored")
+            n, bn = sc.name(self.p), sc.name(self.b)
+            self.act(self.p, "reading on the bench", ["reading", "reading a book", "sitting on the bench", "not paying attention"], "reading", [ep])
+            if st56 != "O" and self.tug56:
+                it = self.ent(f"A {bn} is pulling a slice of bread off a sandwich on the bench",
+                              [f"{bn} eating the sandwich", f"{bn} on the bench", "bird pecking", "sandwich", f"{bn} taking the bread", f"{bn} pulling at the sandwich",
+                               f"{bn} with the bread"], "sandwich", [eb, es], animate=True)
+            else:
+                it = self.ent(f"A {bn} is pecking at a sandwich on the bench", [f"{bn} eating the sandwich", f"{bn} on the bench", "bird pecking", "sandwich"], "sandwich", [eb, es], animate=True)
+            it["type"] = "action"
+            self.inf(f"The {bn} is stealing the sandwich while the {n} is busy reading", _steal_acc56(sc, self.p),
+                     "stealing", 2, cues=[eb, ep], effect=[es])
+            return True
+        return False
 
     def place(self):
         sc = self.sc
+        if SCN.sw56("STEAL") != "O" or SCN.sw56("STEALAT") != "O":
+            return self._place56(SCN.sw56("STEAL"), SCN.sw56("STEALAT"))
         B = sc.S.anchors["bench"]
         ep, eb = sc.eid("benchreader"), sc.eid("thief")
         steal47 = SCN.PLACEMENT_REV >= 44 and STEAL47 == "B"
@@ -5363,7 +5992,7 @@ class BirdSteals(T):
             self.act(self.p, "reading on the bench", ["reading", "reading a book", "sitting on the bench", "not paying attention"], "reading", [ep])
             it = self.ent(f"A {bn} is pecking at a sandwich on the bench", [f"{bn} eating the sandwich", f"{bn} on the bench", "bird pecking", "sandwich"], "sandwich", [eb, es], animate=True)
             it["type"] = "action"
-            self.inf(f"The {bn} is stealing the sandwich while the {n} is busy reading", ["the bird is stealing the food", "she doesn't notice the bird", "the bird is eating her lunch", "he isn't watching his sandwich"],
+            self.inf(f"The {bn} is stealing the sandwich while the {n} is busy reading", _steal_acc56(sc, self.p),
                      "stealing", 2, cues=[eb, ep], effect=[es])
             return True
         return False
@@ -5374,6 +6003,7 @@ class LostBalloon(T):
     # v0.12 (revision 10): never with the storm pointer, who could be pointing at the balloon
     exclusive = ("sky_balloon",) if SCN.PLACEMENT_REV >= 10 else ()
     exclusive += ("calm_lost_balloon",) if SCN.PLACEMENT_REV >= 11 else ()     # nor with the gust (above)
+    exclusive = _Ex56(exclusive, ("jump_lost_balloon",), "REACH")              # revision 50: nor with a child jumping for joy (_Ex56)
     kind = "inference"
     settings = ("park", "street", "garden", "playground")
     units, content = 1, 2
@@ -5495,6 +6125,10 @@ def _lost_balloon_place7(self):
             # revision 13: the balloon that got away is never the colour of another child's balloon (the yellow one
             # held elsewhere: the loose yellow balloon "could belong to someone other than the girl")
             cols[2], cols[0] = cols[0], cols[2]
+        if SCN.sw56("LOSTCOL") != "O" and cols[2] == C["yellow"]:
+            # v0.56 (the switch LOSTCOL; vision/flaws_v055.md G5): the balloon that got away is never the yellow one, which is grey 194 on a
+            # sky at 211; it takes the fourth colour, which the bunch does not use (red 96, purple 105 or blue 98)
+            cols[2], cols[3] = cols[3], cols[2]
         # the bunch, above and behind the holding hand
         rise = sc.rng.uniform(150, 175) * bs * s
         b1 = (hold[0] - f * 8 * s, hold[1] - rise)
@@ -5533,6 +6167,11 @@ def _lost_balloon_place7(self):
                 continue
             if fb_ and RAIL45 == "B" and sc.S.id == "playground" and fb_[0] <= send[0] <= fb_[2] and fb_[1] - 26 * s < send[1] < fb_[3] + 6 * s:
                 continue        # (templates.RAIL45: nowhere on a railing)
+            if fb_ and SCN.sw56("BALLOONUP") != "O" and sc.S.id == "playground" and fb_[0] <= send[0] <= fb_[2] and send[1] > fb_[1] - 26 * s:
+                # revision 50 (BALLOONUP): on the playground the string's end is above the railing's top line, so that no part of the string
+                # crosses the rails (from in front of the railing the balloon rose a short way above it "with its string in the rails", v0.55
+                # picture 20)
+                continue
             if SCN.PLACEMENT_REV >= 48 and LOST51 == "B":
                 # revision 48 (templates.LOST51): on the garden's fence only on its plain boards between the two rails (the rails are at 480 to
                 # 496 and 565 to 581, settings.build_garden), never by the gate; and nowhere over the pond
@@ -5628,7 +6267,9 @@ class DucksBread(T):
     def bind(self):
         sc = self.sc
         self.p = sc.person(None)
-        self.vp = sc.need(self.p, "feed_birds", sc.rng.choice(["smile", "happy", "content"]), 90)
+        # v0.56 (switch BREAD; vision/flaws_v055.md K4): the key has the feeder throwing bread, and the feeding pose holds a slice at the waist.
+        # "B": the cast's throw_bread (castlib.actions.BREAD56), an underarm toss with a piece just leaving the open hand
+        self.vp = sc.need(self.p, "throw_bread" if SCN.sw56("BREAD") != "O" else "feed_birds", sc.rng.choice(["smile", "happy", "content"]), 90)
         self.d = sc.animal(["duck"])
         self.vd = sc.need(self.d, {"B": "swim_eat", "L": "swim_look"}.get(DUCK29, "swim") if SCN.PLACEMENT_REV >= 27 else "swim", "neutral", 90)
 
@@ -5688,17 +6329,26 @@ class DucksBread(T):
                     mx_, my_ = d.anchor("mouth")
                     far_ = abs(mx_ - sx)
                     a0, a1 = (sx + want * 10, sy - 10), (mx_ - want * min(52.0, max(6.0, far_ - 80.0)), my_ - 6)
+                    toss56 = SCN.sw56("BREAD") != "O"
+                    if toss56:
+                        a0 = (sx, sy)       # (v0.56, switch BREAD: the arc begins at the piece the cast draws just beyond the open hand)
                     span_ = abs(a1[0] - a0[0])
                     ac = ((a0[0] + a1[0]) / 2, min(a0[1], a1[1]) - (22 + 0.42 * span_))
-                    for t_ in ((0.28, 0.56, 0.82) if span_ >= 90 else ()):       # (nearer than that the crumbs on the water already lie between the hand and the bill)
+                    if toss56:
+                        ac = ((a0[0] + a1[0]) / 2, min(a0[1], a1[1]) - (14 + 0.30 * span_))       # (a flatter arc: the hand is higher than the waist was)
+                    # (v0.56, switch BREAD: the tossing hand is nearer the duck than the waist was, so a shorter arc still gets two pieces)
+                    for t_ in ((0.28, 0.56, 0.82) if span_ >= 90 else (0.38, 0.72) if (toss56 and span_ >= 55) else ()):       # (nearer than that the crumbs on the water already lie between the hand and the bill)
                         qx = (1 - t_) ** 2 * a0[0] + 2 * (1 - t_) * t_ * ac[0] + t_ * t_ * a1[0]
                         qy = (1 - t_) ** 2 * a0[1] + 2 * (1 - t_) * t_ * ac[1] + t_ * t_ * a1[1]
+                        if toss56 and 0.80 * A["rx"] < abs(qx - A["center"][0]) < 1.0 * A["rx"] and A["center"][1] - 56 < qy < A["center"][1] + 32:
+                            continue        # (v0.56: no piece over the cattails at the pond's ends, where it sat on a reed's head)
                         air51 += D.ell(qx, qy, 7.5, 5.5, crumb_c, D.OW * 0.6)
                         top51 = min(top51, qy - 8)
                     by_ = sy + 7
                     # (bench round 1: seen in the hand by all three readers, and "could also be a cup or small container" to two: a crust round it,
                     #  and a little lower in the hand)
-                    air51 += (f'<path d="M {D.P(sx - 8, by_)} L {D.P(sx - 8, by_ - 13)} Q {D.P(sx - 8, by_ - 20)} {D.P(sx, by_ - 20)} Q {D.P(sx + 8, by_ - 20)} '
+                    # (v0.56, switch BREAD: no slice in the hand, which is open; the bread is in the bag in the other hand and in the air)
+                    air51 += "" if toss56 else (f'<path d="M {D.P(sx - 8, by_)} L {D.P(sx - 8, by_ - 13)} Q {D.P(sx - 8, by_ - 20)} {D.P(sx, by_ - 20)} Q {D.P(sx + 8, by_ - 20)} '
                               f'{D.P(sx + 8, by_ - 13)} L {D.P(sx + 8, by_)} Z" fill="{C["wood_light"]}" stroke="{D.OUT}" stroke-width="{D.OW * 0.6:.1f}" stroke-linejoin="round"/>'
                               f'<path d="M {D.P(sx - 5.2, by_ - 2.8)} L {D.P(sx - 5.2, by_ - 12.6)} Q {D.P(sx - 5.2, by_ - 17.2)} {D.P(sx, by_ - 17.2)} Q {D.P(sx + 5.2, by_ - 17.2)} '
                               f'{D.P(sx + 5.2, by_ - 12.6)} L {D.P(sx + 5.2, by_ - 2.8)} Z" fill="{crumb_c}"/>')
@@ -5766,8 +6416,10 @@ class SeesawHeavy(SeesawPlay):
         tilt = self.k3(21, 19, 17)
         if SCN.PLACEMENT_REV >= 5:
             tilt = math.degrees(math.asin(82 / 212))      # the low end resting on the ground
+        if _stops56():
+            tilt = D.seesaw_rest(_stops56())              # (v0.56, LOWEND) resting on its stop
         # the grown-up takes the low end (left when the right end is up), the child the high end
-        if not self.ride(tilt, ea, eb, self.va, self.vb):
+        if not self.ride(tilt, ea, eb, self.va, self.vb, **({"bumper": _stops56()} if _stops56() else {})):
             return False
         an, bn = sc.name(self.a), sc.name(self.b)
         if SCN.PLACEMENT_REV >= 12:
@@ -5877,6 +6529,28 @@ class DogWantsWalk(T):
                 leash += (f'<ellipse cx="{lp[0]:.1f}" cy="{lp[1]:.1f}" rx="{8 * s:.1f}" ry="{13 * s:.1f}" fill="none" stroke="{D.OUT}" stroke-width="{4 * s + 2:.1f}"/>'
                           f'<ellipse cx="{lp[0]:.1f}" cy="{lp[1]:.1f}" rx="{8 * s:.1f}" ry="{13 * s:.1f}" fill="none" stroke="{lc}" stroke-width="{4 * s:.1f}"/>')
                 el_bb = (min(mx, lp[0]) - 14 * s, my - 6, max(mx, lp[0]) + 14 * s, lp[1] + 16 * s)
+            if SCN.sw56("LEAD") != "O":
+                # v0.56 (scene switch LEAD; vision/flaws_v055.md, second part, I2): the lead was a strap of about 70 units that ended in a
+                # ring in mid-air, and the dog was "just carrying" it, or a toy, beside asking for its walk. A lead held by its middle: the
+                # clip's end hanging short in front of the muzzle, the other end falling onto the door's step (the ground, where the mouth
+                # is not beside the step) and lying along it toward the door, where it closes in the hand loop (draw.dog_lead). "B" yellow,
+                # as since revision 42; "C" red, the collar's colour (v0.43's: it read as "attached" to the collar, and in grey it is the
+                # door's grey)
+                dn_ = 1 if X < 250 else -1                         # toward the door
+                lc = C["red"] if SCN.sw56("LEAD") == "C" else C["yellow"]
+                st0, st1, sty = 160, 280, 773                      # the step's ends and the middle of its top (settings.garden)
+                lx_ = mx + dn_ * 14 * s
+                if abs(min(max(lx_, st0 + 6), st1 - 6) - lx_) <= 30 * s:
+                    lx_ = min(max(lx_, st0 + 6), st1 - 6)          # (a mouth just past the step's end: the lead still falls onto the step)
+                on_step = st0 + 4 <= lx_ <= st1 - 4
+                land = (lx_, sty if on_step else gy)
+                run = 74 * s
+                if on_step:
+                    run = min(run, (st1 - 26 * s - 48 * s - lx_) if dn_ > 0 else (lx_ - st0 - 26 * s - 48 * s))
+                    if run < 30 * s:
+                        continue
+                end = (lx_ + dn_ * run, land[1] + (0 if on_step else 2))
+                leash, el_bb = D.dog_lead((mx, my), land, end, s, col=lc, dn=dn_, loop=(24.0, 6.5) if on_step else (24.0, 7.5))
             if not sc.fits(el_bb, limit=0.05, ignore=(ed,)):
                 continue
             sc.assets[ed] = d
@@ -6156,15 +6830,52 @@ class BucketHat(T):
         self.act(self.p, "standing with hands on hips", ["standing", "standing there", "hands on hips"], "standing", [ep])
         self.contra("Something is wrong with what the person has on their head",
                     "The person is wearing a bucket as a hat",
-                    ["funny hat", "something on his head", "that's strange"], ["bucket on the head", "wearing a bucket", "a bucket is not a hat"], "bucket", [ep])
+                    ["funny hat", f"something on {pron(sc, self.p)['p']} head" if SCN.sw56("PRON") != "O" else "something on his head", "that's strange"],
+                    ["bucket on the head", "wearing a bucket", "a bucket is not a hat"], "bucket", [ep])
         return True
+
+
+class _HandZone56(tuple):
+    """v0.56 (the switch BOXHAND): a floating box's zone for raised hands, kept in sc.airzones so that it goes with the layout. As a box it
+    is empty (no figure's box overlaps it); its `hand` is the zone no raised hand may be in."""
+    def __new__(cls, hand):
+        z = super().__new__(cls, (1e9, 1e9, -1e9, -1e9))
+        z.hand = tuple(hand)
+        return z
+
+
+def raised_hands56(q):
+    """v0.56: the hands of a person that are raised to the eyes' height or above (a wave, a point up, a reach, a throw, a catch)."""
+    if not getattr(q, "family", "").startswith("person."):
+        return []
+    eyes = [q.anchor(a)[1] for a in ("eye_L", "eye_R") if q.has_anchor(a)]
+    b = q.bbox()
+    ref = min(eyes) if eyes else b[1] + 0.14 * (b[3] - b[1])
+    hands = [q.anchor(a) for a in ("fingertip_L", "fingertip_R", "hand_L_grip", "hand_R_grip", "release") if q.has_anchor(a)]
+    return [h for h in hands if h[1] <= ref]
+
+
+def hand_clear56(sc, q):
+    """v0.56 (BOXHAND): True unless a raised hand of q lies in the zone a floating box has left for raised hands. The box asks it of the
+    figures placed before it; for a figure placed after it (the waver and the storm pointer always are) the scene must ask (Scene.fits)."""
+    hs = None
+    for z in getattr(sc, "airzones", ()):
+        hz = getattr(z, "hand", None)
+        if hz is None:
+            continue
+        hs = raised_hands56(q) if hs is None else hs
+        if any(hz[0] <= x <= hz[2] and hz[1] <= y <= hz[3] for x, y in hs):
+            return False
+    return True
 
 
 class FloatingBox(T):
     id = "floating_box"
     kind = "contradiction"
     domain = "physical"
-    exclusive = ("box_prop", "wind")     # nor under a gust of wind, which would explain it
+    # nor under a gust of wind, which would explain it; revision 50 (REACH, the tag jump_box): nor with a child jumping for joy, whose
+    # raised arms had thrown the box or were about to catch it to both readers of the bench's new picture
+    exclusive = _Ex56(("box_prop", "wind"), ("jump_box",), "REACH")
     # not on the playground: its frames leave no clear air at eye level, and a box beside a slide or a
     # swing read as resting on it
     settings = ("garden", "park", "street")
@@ -6228,6 +6939,15 @@ class FloatingBox(T):
                 if any(min(q.bbox()[2], zone[2]) > max(q.bbox()[0], zone[0]) and min(q.bbox()[3], zone[3]) > max(q.bbox()[1], zone[1])
                        for q in sc.assets.values()):
                     continue
+                if SCN.sw56("BOXHAND") != "O":
+                    # v0.56 (BOXHAND; vision/flaws_v055.md I10): no raised hand anywhere near the box, far beyond the zone no figure may stand
+                    # in. A boy waving 190 units to its side and 320 below it had his hand up toward it, and a reviewer had the box
+                    # thrown by him. (The box stays tilted and has no shadow on the ground: level, it was no less thrown or falling on
+                    # v0.41's bench and once left the air, BOX41; its shadow far below it was "a shadow with nothing above it", revision 11.)
+                    hz = (bb[0] - 250 * s, bb[1] - 60 * s, bb[2] + 250 * s, D.H)      # (to the picture's foot: a hand raised below the box points up at it too)
+                    if any(hz[0] <= hx_ <= hz[2] and hz[1] <= hy_ <= hz[3] for q in sc.assets.values() for hx_, hy_ in raised_hands56(q)):
+                        continue
+                    sc.airzones.append(_HandZone56(hz))
                 sc.airzones.append(zone)
             eb = sc.svg(sc.eid("floatbox"), "Box floating in the air", svg, Y, bb, "scored")
             # (revision 27: "a box": readers call it cardboard, and two scorers raised the key's "wooden")
@@ -6254,6 +6974,25 @@ WHEEL53_REV = 49        # (the whole-scene bench sets 48, to build v0.52's own r
 # v0.54 (draw.WHEEL54, draw.TREAD54): the revision from which the bicycle's larger square wheels and the barrow tyre's tread would act. Neither was
 # taken on v0.54's bench, which set this to 49 to build v0.53's own records again; with both switches at O it does nothing
 WHEEL54_REV = 50
+# v0.56 (vision/flaws_v055.md R1b; SCN.sw56("BARROW"), drawn by draw._wheelbarrow_stand): the wheelbarrow's square wheel at the plain barrow's
+# round wheel's size and place, under the tub's nose on its fork and axle. "B": solid, in the tyre's colour with the hub's grey, so that the
+# wheel's shape is the one thing changed; "C": the open square on eight spokes at that size and place. "O": v0.53's larger open square out
+# in front of the tub (draw.WHEEL53), which three reviewers of v0.55's four barrows had as a crate, a grate or a window frame beside the barrow.
+# v0.56 (G8; SCN.sw56("BARROWCOL")): the barrow's tub in BARROWCOL56 for the grey of every release before. The grey tub is 159 in the grey
+# picture (compose.to_gray) on grass at 168; red is 96, which also stands off the park's path at 219. "O": grey.
+BARROWCOL56 = "red"
+# v0.56 (vision/flaws_v055.md R1a; SCN.sw56("BIKE"), SquareWheel._bike56): the bicycle with square wheels stood on its stand with nobody near it.
+# On grass how it stands was doubted in 5 readings of 6 over three screens, and in the busiest picture its wheels were not looked at by
+# three readers of three, two of whom had it lying on its side. "H": its owner, a grown figure, stands on its far side and holds its
+# handlebar (a new pose of the cast, `hold_bike`, castlib.actions.up_hold_bike), no stand, and the bicycle as large as the hand's height
+# asks (0.9 to 1.1 of the scene's scale, where the old drawing's was 1.1), so that the wheels are part of what somebody does. "L": no
+# owner; it leans on a wooden post that stands behind its frame, with no stand and a short shadow under each wheel for the one flat
+# oval. "H" with nobody free to hold it draws "L". "O": v0.55's bicycle on its stand.
+# (The pram pusher's pose, `push`, was tried first for "H": its hands are 0.85 m up, which asks for a bicycle 1.6 times the scene's scale,
+# and a bicycle that large, drawn in front of its owner, hid 28 to 31 % of the owner in three pictures of three, over the limit of 20.)
+# (A rack hoop behind the square wheels, v0.14, read as "square wheel-holder frames that belong to the rack", and a narrow hoop between
+# them as passing through the bicycle: the post's foot is drawn further back than the wheels, and it is one upright, not a frame.)
+BIKE56 = dict(pose="hold_bike", grip="bike_grip", behind=8.0, size=(0.8, 1.45), post=146.0)
 
 
 class SquareWheel(T):
@@ -6265,6 +7004,11 @@ class SquareWheel(T):
 
     def bind(self):
         self.thing = "wheelbarrow" if self.sc.setting_id in ("garden", "park") else "bicycle"
+        if self.thing == "bicycle" and SCN.PLACEMENT_REV >= 50 and SCN.sw56("BIKE") == "H":
+            # revision 50: the bicycle's owner is cast with everybody else, so that a plan with nobody free is planned again
+            # (a record of revision 49 built again for the bench casts the owner when the bicycle is placed, _owner56)
+            self.own56 = self.sc.person(GROWN, avoid=(SCN.WORKER,))
+            self.v56 = self.sc.need(self.own56, BIKE56["pose"], self.sc.rng.choice(["neutral", "smile"]), 90)
 
     def place(self):
         sc = self.sc
@@ -6272,10 +7016,20 @@ class SquareWheel(T):
             s = sz(Y)
             f = sc.rng.choice([1, -1])
             if self.thing == "wheelbarrow":
+                k56 = {}
+                if SCN.sw56("BARROW") != "O":
+                    k56["wheel56"] = SCN.sw56("BARROW")         # (draw._wheelbarrow_stand: "B" the solid square, "C" the open one)
+                if SCN.sw56("BARROWCOL") != "O":
+                    k56["tray"] = C[BARROWCOL56]
                 svg, bb = D.wheelbarrow(X, Y, s * self.k3(1.5, 1.25, 1.05), square=True, f=f, both=SCN.PLACEMENT_REV >= 7, bracket=SCN.PLACEMENT_REV >= 10, low=SCN.PLACEMENT_REV >= 15,
-                                        v20=SCN.PLACEMENT_REV >= 20, v53=SCN.PLACEMENT_REV >= WHEEL53_REV, v54=SCN.PLACEMENT_REV >= WHEEL54_REV)
+                                        v20=SCN.PLACEMENT_REV >= 20, v53=SCN.PLACEMENT_REV >= WHEEL53_REV, v54=SCN.PLACEMENT_REV >= WHEEL54_REV, **k56)
                 acc, key = ["wheelbarrow", "cart", "barrow"], "wheelbarrow"
             else:
+                if SCN.sw56("BIKE") != "O":
+                    # v0.56 (R1a, the comment on BIKE56 above): held by its owner, or leaning on a post
+                    if self._bike56(X, Y, s, f):
+                        return True
+                    continue
                 # (revision 12: its stand drawn in front, light grey against the dark square wheel; behind the wheel it went unseen
                 # and the bicycle "stands upright by itself with no stand or rack". A rack hoop behind it was tried on the bench:
                 # its legs on the square wheels made them "square wheel-holder frames that belong to the rack")
@@ -6327,6 +7081,11 @@ class SquareWheel(T):
                         f"The {self.thing} has square wheels, so it could not roll",
                         ["something's wrong with the wheels", "funny wheels", f"weird {key}"], ["square wheels", "the wheels aren't round", "it can't roll"], "wheel", [ew])
             return True
+        if self.thing == "bicycle" and SCN.sw56("BIKE") == "H" and SCN.sw56("BIKEFALL") == "L" and getattr(self, "lay56", None) is sc.rng:
+            # v0.56 (BIKE "H"): no spot of this layout had room for the owner as well: the bicycle leans on a post at the first spot that takes it
+            for X, Y, s, f, col in self.spots56:
+                if self._bike56(X, Y, s, f, col=col, mode="L"):
+                    return True
         return False
 
 
@@ -6336,6 +7095,113 @@ class SquareWheel(T):
         h = b[3] - b[1]
         feet = (b[0], b[3] - 0.14 * h, b[2], b[3] + 4)
         return min(feet[2], bb[2] + pad) > max(feet[0], bb[0] - pad) and min(feet[3], bb[3] + pad) > max(feet[1], bb[1] - pad)
+
+    # ---- v0.56 (R1a, switch BIKE): the bicycle held by its owner ("H") or leaning on a post ("L")
+    def _owner56(self):
+        """The bicycle's owner, chosen once for this placing from the people no event has cast, by a draw of its own (the scene's own
+        stream of draws stays what the old drawing left it, so the rest of a picture built again from its record stays where it was).
+        None when nobody is free. From revision 50 the owner is cast in bind(), with everybody else."""
+        if not hasattr(self, "own56"):
+            sc = self.sc
+            rng = __import__("random").Random(f"bike56/{sc.seed}/{sc.setting_id}/{sc.tier}")
+            pool = sorted(f_ for f_ in sc.lib.people(GROWN) if f_ not in sc.fams and f_ != SCN.WORKER)
+            self.own56 = rng.choice(pool) if pool else None
+            if self.own56:
+                self.v56 = sc.need(self.own56, BIKE56["pose"], rng.choice(["neutral", "smile"]), 90)
+                sc.lib.ensure([self.v56], log=lambda *a: None)      # (cast after the plan's variants were rendered)
+        return self.own56
+
+    def _ground56(self, bb):
+        """The checks of the old drawing's place (revisions 4, 10, 20, 40 and 48 above), for the new drawing's box."""
+        sc = self.sc
+        if not sc.fits(bb, limit=0.03):
+            return False
+        if not sc.air_clear((bb[0] - 12, bb[1] - 12, bb[2] + 12, bb[3]), 4):
+            return False
+        on = {sc.on_element("path", bb[0] + (bb[2] - bb[0]) * i / 6, bb[1] + (bb[3] - bb[1]) * j / 4) for i in range(7) for j in range(1, 5)}
+        if len(on) > 1:
+            return False
+        if not sc.setting_clear((bb[0] - 10, bb[1], bb[2] + 10, bb[3] + 12), only=("sandbox", "blanket", "pond")):
+            return False
+        if not sc.setting_clear((bb[0] - 10, bb[1], bb[2] + 10, bb[3] + 12), only=("stall", "bench")):
+            return False
+        if BARROW51 == "B":
+            wide = (bb[0] - 16, bb[1], bb[2] + 16, bb[3] + 16)
+            bands = list(sc.keepout)
+            for k_, v_ in sc.svgs.items():
+                b_ = v_.get("bbox")
+                if k_.startswith("hose") and not k_.startswith(("hose_reel", "hosejoin", "hoseman", "hoseanimal")) and b_:
+                    bands.append((b_[0] - 20, b_[3] - 90, b_[2] + 20, b_[3] + 12))
+            if any(min(wide[2], k_[2]) > max(wide[0], k_[0]) and min(wide[3], k_[3]) > max(wide[1], k_[1]) for k_ in bands):
+                return False
+            if not sc.setting_clear((bb[0] - 60, bb[1] - 20, bb[2] + 60, bb[3] + 30), only=("hose_reel", "hose_tail")):
+                return False
+        if any(self._feet_over(q, bb) for q in sc.assets.values()
+               if q.family.startswith(("person.", "animal.")) and not q.m["variant"].get("airborne")):
+            return False
+        return True
+
+    def _bike56(self, X, Y, s, f, col=None, mode=None):
+        """One spot for the bicycle of v0.56: (X, Y) is the ground point between its wheels, as for the old drawing. True when it is placed."""
+        sc = self.sc
+        if col is None:
+            col = sc.rng.choice([C["red"], C["teal"]])      # (the scene's own draws as the old drawing makes them: the side, then the colour)
+            if getattr(self, "lay56", None) is not sc.rng:
+                self.lay56, self.spots56 = sc.rng, []       # (a new layout has a new stream of draws)
+            self.spots56.append((X, Y, s, f, col))          # (kept for place()'s second pass, when the owner finds no room)
+        mode = mode or SCN.sw56("BIKE")
+        if mode != "L" and self._owner56() is None:
+            if SCN.sw56("BIKEFALL") != "L":
+                return False    # (the release: no bicycle without its owner. Leaning on a post it read worse than on its stand)
+            mode = "L"          # nobody is free to hold it: it leans on a post
+        for ff in (f, -f):
+            p = None
+            if mode == "L":
+                sb = s * self.k3(1.35, 1.1, 0.9)
+                svg, bbp = D.bicycle(X, Y, sb, square=True, col=col, f=ff, wide=True, post56=BIKE56["post"])
+                # the bicycle's own box stands free as the old drawing's did; the post's top, above it, only keeps off what is scored and
+                # off the standing things of the setting (it may stand before a backdrop)
+                bb = (bbp[0], Y - 110 * sb, bbp[2], bbp[3])
+                top = (X + ff * 6 * sb - 12 * sb, bbp[1], X + ff * 6 * sb + 12 * sb, bb[1])
+                if not sc.fits(top, limit=0.03) or not sc.air_clear((top[0] - 8, top[1] - 8, top[2] + 8, top[3]), 4):
+                    continue
+            else:
+                # the owner stands on the bicycle's far side, a step behind its line, the near hand on the grip; the bicycle is as large as
+                # the hand's height asks
+                v = self.v56
+                mirror = sc.mirror_for(v, ff)
+                Yp = Y - BIKE56["behind"] * s
+                p = sc.placed(v, X, Yp, mirror, None, "owner56")
+                g = p.anchor(BIKE56["grip"])
+                sb = (Y - g[1]) / D.BIKE_GRIP56[1]
+                if not BIKE56["size"][0] <= sb / s <= BIKE56["size"][1]:
+                    continue
+                p = sc.placed(v, X + (D.bicycle_grip(X, Y, sb, ff)[0] - g[0]), Yp, mirror, None, "owner56")
+                svg, bb = D.bicycle(X, Y, sb, square=True, col=col, f=ff, wide=True, held56=True)
+                if not sc.fits(p.bbox(), limit=0.12) or not sc.lanes_ok(p):
+                    continue
+            if not self._ground56(bb):
+                continue
+            own = getattr(sc, "placing", None)
+            sc.groundthings.append((bb, own))
+            if mode == "L":
+                bb = bbp        # (the element's box takes in the post)
+            ew = sc.svg(sc.eid("square"), "Bicycle with square wheels", svg, Y, bb, "scored")
+            if p is None:
+                self.ent("There is a bicycle", ["bike", "bicycle"], "bike", [ew])
+            else:
+                ep = sc.eid("owner")
+                p.id = ep
+                sc.assets[ep] = p
+                sc.add_lanes(p)
+                sc.fams.add(self.own56)
+                # (the owner's action names the bicycle: it stands in for "There is a bicycle", so the template's content count stays 1)
+                self.act(self.own56, "holding a bicycle", ["holding a bike", "holding a bicycle", "standing with a bike", "with a bike", "has a bike",
+                                                           "pushing a bike", "wheeling a bike", "bike", "bicycle"], "bike", [ep, ew])
+            self.contra("Something is wrong with the bicycle", "The bicycle has square wheels, so it could not roll",
+                        ["something's wrong with the wheels", "funny wheels", "weird bike"], ["square wheels", "the wheels aren't round", "it can't roll"], "wheel", [ew])
+            return True
+        return False
 
 
 class FishInTree(T):
@@ -6436,6 +7302,11 @@ class SittingOnAir(T):
         return True
 
 
+LADDER50_H = float(__import__("os").environ.get("TPDB_LADDER50_H", "520"))   # revision 50 (LADDER): the ladder's length in units at the front row (300 before)
+LADDER50_SKY = float(__import__("os").environ.get("TPDB_LADDER50_SKY", "0.33"))   # the share of the ladder, from its top, that stands against open sky
+LADDER50_LEAN = float(__import__("os").environ.get("TPDB_LADDER50_LEAN", "12"))   # its lean in degrees, either way (12 or 16 before)
+
+
 class LadderNothing(T):
     """A ladder stands leaning against nothing at all."""
     id = "ladder_nothing"
@@ -6463,11 +7334,21 @@ class LadderNothing(T):
         if SCN.PLACEMENT_REV >= 27:
             # revision 27: and nowhere near a lamp post (36 px from one, it was "meant to lean on the lamp post that is simply drawn too far away from it")
             solid += [(b[0] - LADDER_LAMP29, b[1], b[2] + LADDER_LAMP29, b[3] + 60) for b in (e["bbox"] for e in sc.S.elements if e["id"] == "lamp" and e.get("bbox"))]
-        for X, Y in self.stand_spots(y_range=(sc.S.horizon + 140, 960), n=200 if SCN.PLACEMENT_REV >= 20 else 100):
+        # revision 50 (LADDER): a longer ladder, standing further back, with its top third against the open sky. Revision 20 put the top up
+        # past the lawn's far edge so that the ladder plainly stands, and it ended at the hedge's line: "at 800 x 500 it looks propped
+        # against the bushes behind it" (a reviewer of v0.55, and two more of the other two pictures; nine readings of nine offered a
+        # support behind it)
+        ladder50 = SCN.sw56("LADDER") != "O"
+        for X, Y in self.stand_spots(y_range=(sc.S.horizon + 90, 780) if ladder50 else (sc.S.horizon + 140, 960), n=200 if SCN.PLACEMENT_REV >= 20 else 100):
             s = sz(Y) * self.k3(1.2, 1.0, 0.85)
             lean = sc.rng.choice([12, 16, -12, -16])
-            svg, bb = D.ladder(X, Y, s, lean=lean)
+            if ladder50:
+                lean = LADDER50_LEAN if lean > 0 else -LADDER50_LEAN
+            svg, bb = D.ladder(X, Y, s, lean=lean, h=LADDER50_H) if ladder50 else D.ladder(X, Y, s, lean=lean)
             if any(sc.overlap(bb, b) > 0 for b in solid):
+                continue
+            if ladder50 and not sc.setting_clear((min(X, bb[0] + 8 * s) if lean < 0 else bb[2] - 8 * s - 60 * s, bb[1] - 12, (bb[0] + 8 * s + 60 * s) if lean < 0 else bb[2], bb[1] + (bb[3] - bb[1]) * LADDER50_SKY),
+                                                 only=("hills", "tree_line", "tree", "tree_small", "lamp", "clouds_white", "clouds_dark", "sun")):
                 continue
             # revision 20: and its top up past the lawn's far edge, against the hedge and hills, so it plainly stands
             if SCN.PLACEMENT_REV >= 20 and bb[1] > sc.S.horizon - 20:

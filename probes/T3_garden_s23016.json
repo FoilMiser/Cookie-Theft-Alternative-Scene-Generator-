@@ -4,10 +4,10 @@
  "setting": "garden",
  "sky": "clear",
  "seed": 23016,
- "mirror": false,
+ "mirror": true,
  "versions": {
-  "generator": "0.55.0",
-  "cast_builder": "0.55.0",
+  "generator": "0.56.0",
+  "cast_builder": "0.56.0",
   "weights": "spec-starting-v1",
   "salience_ref": {
    "mu": -4.65,
@@ -56,23 +56,25 @@
   }
  },
  "features": [
-  "swing"
+  "clothesline",
+  "laundry",
+  "laundry_short"
  ],
  "templates": [
   {
-   "id": "sprinkler_package",
-   "kind": "inference",
+   "id": "hang_laundry",
+   "kind": "event",
    "event": "e1",
-   "units": 1
+   "units": 0
   },
   {
-   "id": "swing",
+   "id": "dig",
    "kind": "event",
    "event": "e2",
    "units": 0
   },
   {
-   "id": "dog_sleeping",
+   "id": "walk_dog",
    "kind": "event",
    "event": "e3",
    "units": 0
@@ -83,93 +85,107 @@
   {
    "id": "i01",
    "type": "action",
-   "text": "A child is on the swing",
+   "text": "A man is hanging up laundry",
    "accepted": {
     "who": [
-     "child",
-     "kid",
-     "boy",
-     "girl",
-     "son",
-     "daughter"
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
     ],
     "what": [
-     "on the swing",
-     "swinging",
-     "playing on the swing",
-     "sitting on a swing"
+     "hanging laundry",
+     "hanging clothes",
+     "hanging up the washing",
+     "pinning clothes",
+     "clothesline"
     ]
    },
-   "key": "swing",
+   "key": "laundry",
    "elements": [
-    "swinger_1"
+    "hanger_1",
+    "shirt_2",
+    "washbasket_3"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "swing",
-   "event": "e2",
+   "template": "hang_laundry",
+   "event": "e1",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.509,
+    "s": 0.382,
     "r": 0,
     "d": 0.0,
-    "f": 0.34,
-    "a": 4.16,
-    "zipf_raw": 4.34,
-    "aoa_raw": 4.16,
+    "f": 0.06,
+    "a": 6.05,
+    "zipf_raw": 4.06,
+    "aoa_raw": 6.05,
     "domain": null,
-    "area_px": 7460
+    "area_px": 26216
    },
-   "b": -0.988,
-   "p0": 0.729,
-   "pm1": 0.497,
+   "b": -1.349,
+   "p0": 0.794,
+   "pm1": 0.586,
    "aoi_cells": [
-    "MR",
-    "BR"
+    "MC",
+    "BC"
    ]
   },
   {
    "id": "i02",
    "type": "action",
-   "text": "A sprinkler is spraying water",
-   "accepted": [
-    "sprinkler",
-    "water spraying",
-    "sprinkler is on"
-   ],
-   "key": "sprinkler",
+   "text": "A man is digging",
+   "accepted": {
+    "who": [
+     "man",
+     "guy",
+     "father",
+     "dad",
+     "person"
+    ],
+    "what": [
+     "digging",
+     "digging a hole",
+     "shoveling",
+     "using a shovel",
+     "spade"
+    ]
+   },
+   "key": "digging",
    "elements": [
-    "sprinkler_3"
+    "digger_4",
+    "soil_5"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
-   "animate": false,
+   "animate": true,
    "domain": null,
-   "template": "sprinkler_package",
-   "event": "e1",
+   "template": "dig",
+   "event": "e2",
    "features": {
     "type": "action",
     "chain": 0,
-    "animate": false,
-    "s": -0.081,
+    "animate": true,
+    "s": 0.328,
     "r": 0,
     "d": 0.0,
-    "f": -0.95,
-    "a": 5.53,
-    "zipf_raw": 3.05,
-    "aoa_raw": 5.53,
+    "f": -0.01,
+    "a": 4.19,
+    "zipf_raw": 3.99,
+    "aoa_raw": 4.19,
     "domain": null,
-    "area_px": 13648
+    "area_px": 24300
    },
-   "b": -0.015,
-   "p0": 0.504,
-   "pm1": 0.272,
+   "b": -1.301,
+   "p0": 0.786,
+   "pm1": 0.575,
    "aoi_cells": [
     "BL",
     "BC"
@@ -177,122 +193,42 @@
   },
   {
    "id": "i03",
-   "type": "entity",
-   "text": "A package is sitting on the grass",
-   "accepted": [
-    "package",
-    "box",
-    "parcel",
-    "delivery"
-   ],
-   "key": "package",
-   "elements": [
-    "package_4"
-   ],
-   "cues": [],
-   "effect": [],
-   "chain": 0,
-   "animate": false,
-   "domain": null,
-   "template": "sprinkler_package",
-   "event": "e1",
-   "features": {
-    "type": "entity",
-    "chain": 0,
-    "animate": false,
-    "s": -0.522,
-    "r": 0,
-    "d": 0.0,
-    "f": 0.46,
-    "a": 6.61,
-    "zipf_raw": 4.46,
-    "aoa_raw": 6.61,
-    "domain": null,
-    "area_px": 7328
-   },
-   "b": -0.517,
-   "p0": 0.626,
-   "pm1": 0.382,
-   "aoi_cells": [
-    "BC"
-   ]
-  },
-  {
-   "id": "i04",
-   "type": "inference",
-   "text": "The package is going to get soaked",
-   "accepted": [
-    "the package is getting wet",
-    "the box will get wet",
-    "the water will ruin the package",
-    "someone should move the package"
-   ],
-   "key": "wet",
-   "elements": [
-    "sprinkler_3",
-    "package_4"
-   ],
-   "cues": [
-    "sprinkler_3",
-    "package_4"
-   ],
-   "effect": [
-    "package_4"
-   ],
-   "chain": 1,
-   "animate": false,
-   "domain": null,
-   "template": "sprinkler_package",
-   "event": "e1",
-   "features": {
-    "type": "inference",
-    "chain": 1,
-    "animate": false,
-    "s": -0.081,
-    "r": 1,
-    "d": 0.227,
-    "f": 0.0,
-    "a": 4.47,
-    "zipf_raw": 4.54,
-    "aoa_raw": 2.47,
-    "domain": null,
-    "area_px": 13648
-   },
-   "b": 0.363,
-   "p0": 0.41,
-   "pm1": 0.204,
-   "aoi_cells": [
-    "BL",
-    "BC"
-   ]
-  },
-  {
-   "id": "i05",
    "type": "action",
-   "text": "A dog is sleeping",
-   "accepted": [
-    "dog sleeping",
-    "dog lying down",
-    "sleeping dog",
-    "dog resting",
-    "dog"
-   ],
+   "text": "A teenager is walking a dog",
+   "accepted": {
+    "who": [
+     "teenager",
+     "teen",
+     "boy",
+     "girl",
+     "kid",
+     "young person"
+    ],
+    "what": [
+     "walking a dog",
+     "walking the dog",
+     "dog on a leash",
+     "taking the dog for a walk"
+    ]
+   },
    "key": "dog",
    "elements": [
-    "dog_sleeping_5"
+    "walker_6",
+    "dog_7",
+    "leash_8"
    ],
    "cues": [],
    "effect": [],
    "chain": 0,
    "animate": true,
    "domain": null,
-   "template": "dog_sleeping",
+   "template": "walk_dog",
    "event": "e3",
    "features": {
     "type": "action",
     "chain": 0,
     "animate": true,
-    "s": -0.657,
+    "s": -0.055,
     "r": 0,
     "d": 0.0,
     "f": 1.1,
@@ -300,18 +236,19 @@
     "zipf_raw": 5.1,
     "aoa_raw": 2.8,
     "domain": null,
-    "area_px": 6060
+    "area_px": 14164
    },
-   "b": -1.142,
-   "p0": 0.758,
-   "pm1": 0.535,
+   "b": -1.442,
+   "p0": 0.809,
+   "pm1": 0.609,
    "aoi_cells": [
-    "BL",
-    "BC"
+    "MC",
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i06",
+   "id": "i04",
    "type": "entity",
    "text": "It is a sunny day",
    "accepted": [
@@ -350,11 +287,11 @@
    "p0": 0.708,
    "pm1": 0.471,
    "aoi_cells": [
-    "TR"
+    "TL"
    ]
   },
   {
-   "id": "i07",
+   "id": "i05",
    "type": "entity",
    "text": "There are a few white clouds",
    "accepted": [
@@ -386,7 +323,7 @@
     "zipf_raw": 4.16,
     "aoa_raw": 3.63,
     "domain": null,
-    "area_px": 19276
+    "area_px": 19280
    },
    "b": -0.77,
    "p0": 0.684,
@@ -396,7 +333,7 @@
    ]
   },
   {
-   "id": "i08",
+   "id": "i06",
    "type": "entity",
    "text": "There is a tree",
    "accepted": [
@@ -418,7 +355,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 0.733,
+    "s": 0.734,
     "r": 0,
     "d": 0.0,
     "f": 0.85,
@@ -426,18 +363,18 @@
     "zipf_raw": 4.85,
     "aoa_raw": 3.57,
     "domain": null,
-    "area_px": 43028
+    "area_px": 43040
    },
    "b": -1.262,
    "p0": 0.779,
    "pm1": 0.565,
    "aoi_cells": [
-    "TL",
-    "ML"
+    "TR",
+    "MR"
    ]
   },
   {
-   "id": "i09",
+   "id": "i07",
    "type": "entity",
    "text": "There is a fence",
    "accepted": [
@@ -460,7 +397,7 @@
     "type": "entity",
     "chain": 0,
     "animate": false,
-    "s": 1.893,
+    "s": 1.841,
     "r": 0,
     "d": 0.0,
     "f": 0.21,
@@ -468,11 +405,11 @@
     "zipf_raw": 4.21,
     "aoa_raw": 6.28,
     "domain": null,
-    "area_px": 220832
+    "area_px": 205184
    },
-   "b": -1.65,
-   "p0": 0.839,
-   "pm1": 0.657,
+   "b": -1.623,
+   "p0": 0.835,
+   "pm1": 0.651,
    "aoi_cells": [
     "ML",
     "MC",
@@ -480,7 +417,7 @@
    ]
   },
   {
-   "id": "i10",
+   "id": "i08",
    "type": "entity",
    "text": "It is the back yard of a house",
    "accepted": [
@@ -520,13 +457,13 @@
    "p0": 0.888,
    "pm1": 0.745,
    "aoi_cells": [
-    "TL",
-    "ML",
-    "BL"
+    "TR",
+    "MR",
+    "BR"
    ]
   },
   {
-   "id": "i11",
+   "id": "i09",
    "type": "entity",
    "text": "There is a flower bed",
    "accepted": [
@@ -558,31 +495,31 @@
     "zipf_raw": 4.64,
     "aoa_raw": 3.11,
     "domain": null,
-    "area_px": 25880
+    "area_px": 25884
    },
    "b": -1.018,
    "p0": 0.735,
    "pm1": 0.504,
    "aoi_cells": [
-    "BL",
-    "BC"
+    "BC",
+    "BR"
    ]
   }
  ],
  "counts": {
-  "content": 10,
-  "inference_units": 1,
+  "content": 9,
+  "inference_units": 0,
   "contradictions": 0,
-  "items_total": 11
+  "items_total": 9
  },
  "predicted": {
   "theta_0": {
-   "content": 0.725,
-   "inference": 0.41
+   "content": 0.78,
+   "inference": null
   },
   "theta_minus_1": {
-   "content": 0.507,
-   "inference": 0.204
+   "content": 0.572,
+   "inference": null
   }
  },
  "bands": {
@@ -604,14 +541,18 @@
   },
   "clutter_band": {
    "result": false,
-   "detail": "14 drawn objects (tier band 20-30)"
+   "detail": "17 drawn objects (tier band 20-30)"
+  },
+  "grey": {
+   "result": true,
+   "detail": "every scored thing stands off in grey from what is round it"
   }
  },
  "clutter": {
-  "objects": 14,
-  "edge_density": 0.0398,
-  "png_bytes": 168925,
-  "jpeg_bytes": 185692
+  "objects": 17,
+  "edge_density": 0.038,
+  "png_bytes": 187831,
+  "jpeg_bytes": 177710
  },
  "signature": [
   [
@@ -649,14 +590,6 @@
   [
    "entity",
    0
-  ],
-  [
-   "entity",
-   0
-  ],
-  [
-   "inference",
-   1
   ]
  ],
  "elements": [
@@ -672,9 +605,9 @@
    "role": "setting",
    "z": -99,
    "bbox": [
-    1352.0,
+    52.0,
     22.0,
-    1548.0,
+    248.0,
     218.0
    ],
    "area_px": 13440,
@@ -687,13 +620,13 @@
    "role": "setting",
    "z": -98,
    "bbox": [
-    560.0,
+    634.0,
     68.0,
-    966.0,
+    1040.0,
     202.0
    ],
-   "area_px": 19276,
-   "visible_px": 19276,
+   "area_px": 19280,
+   "visible_px": 19280,
    "occlusion": 0.0
   },
   {
@@ -714,13 +647,13 @@
    "role": "setting",
    "z": -80,
    "bbox": [
-    1254.0,
+    38.0,
     614.0,
-    1562.0,
+    346.0,
     1000.0
    ],
-   "area_px": 81244,
-   "visible_px": 80792,
+   "area_px": 81248,
+   "visible_px": 80796,
    "occlusion": 0.006
   },
   {
@@ -729,13 +662,13 @@
    "role": "setting",
    "z": 440,
    "bbox": [
-    296.0,
+    1056.0,
     176.0,
-    544.0,
+    1304.0,
     452.0
    ],
-   "area_px": 44984,
-   "visible_px": 43028,
+   "area_px": 44992,
+   "visible_px": 43040,
    "occlusion": 0.043
   },
   {
@@ -744,29 +677,194 @@
    "role": "setting",
    "z": 615,
    "bbox": [
-    298.0,
+    0.0,
     426.0,
-    1600.0,
+    1302.0,
     618.0
    ],
-   "area_px": 240896,
-   "visible_px": 220832,
-   "occlusion": 0.083
+   "area_px": 240904,
+   "visible_px": 205184,
+   "occlusion": 0.148
   },
   {
-   "id": "filler_bush_left",
-   "label": "Bush",
-   "role": "filler",
-   "z": 648,
+   "id": "walker_6",
+   "label": "person.leo__walk_dog__smile__y090",
+   "role": "scored",
+   "z": 681.82,
    "bbox": [
-    292.0,
-    598.0,
-    428.0,
-    684.0
+    1024.0,
+    464.0,
+    1110.0,
+    686.0
    ],
-   "area_px": 8296,
-   "visible_px": 7496,
-   "occlusion": 0.096
+   "area_px": 8876,
+   "visible_px": 8860,
+   "occlusion": 0.002,
+   "asset": {
+    "variant": "person.leo__walk_dog__smile__y090",
+    "family": "person.leo",
+    "scale": 0.4016,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "teenager",
+     "accepted_names": [
+      "teenager",
+      "teen",
+      "boy",
+      "girl",
+      "kid",
+      "young person"
+     ],
+     "category": "teen_person",
+     "person": {
+      "age_group": "teen",
+      "skin_tone": "skin1",
+      "hair": "brown_ponytail"
+     }
+    }
+   }
+  },
+  {
+   "id": "dog_7",
+   "label": "animal.dog_02__walk__neutral__y090",
+   "role": "scored",
+   "z": 687.82,
+   "bbox": [
+    1134.0,
+    600.0,
+    1244.0,
+    692.0
+   ],
+   "area_px": 4924,
+   "visible_px": 4888,
+   "occlusion": 0.007,
+   "asset": {
+    "variant": "animal.dog_02__walk__neutral__y090",
+    "family": "animal.dog_02",
+    "scale": 0.4038,
+    "mirrored": false,
+    "labels": {
+     "everyday_name": "dog",
+     "accepted_names": [
+      "dog",
+      "puppy",
+      "pup"
+     ],
+     "category": "small_animal"
+    }
+   }
+  },
+  {
+   "id": "leash_8",
+   "label": "Leash",
+   "role": "scored",
+   "z": 688.82,
+   "bbox": [
+    1102.0,
+    580.0,
+    1214.0,
+    630.0
+   ],
+   "area_px": 416,
+   "visible_px": 416,
+   "occlusion": 0.0
+  },
+  {
+   "id": "washbasket_3",
+   "label": "Basket of washing at her feet",
+   "role": "scored",
+   "z": 693.68,
+   "bbox": [
+    682.0,
+    628.0,
+    786.0,
+    696.0
+   ],
+   "area_px": 6376,
+   "visible_px": 6376,
+   "occlusion": 0.0
+  },
+  {
+   "id": "clothesline",
+   "label": "Clothesline",
+   "role": "setting",
+   "z": 705,
+   "bbox": [
+    624.0,
+    382.0,
+    994.0,
+    708.0
+   ],
+   "area_px": 13848,
+   "visible_px": 13280,
+   "occlusion": 0.041
+  },
+  {
+   "id": "laundry",
+   "label": "Clothes hanging on the line",
+   "role": "setting",
+   "z": 706,
+   "bbox": [
+    886.0,
+    392.0,
+    952.0,
+    552.0
+   ],
+   "area_px": 7856,
+   "visible_px": 7856,
+   "occlusion": 0.0
+  },
+  {
+   "id": "shirt_2",
+   "label": "Shirt being pinned up",
+   "role": "scored",
+   "z": 706.5,
+   "bbox": [
+    694.0,
+    408.0,
+    802.0,
+    542.0
+   ],
+   "area_px": 8004,
+   "visible_px": 7688,
+   "occlusion": 0.039
+  },
+  {
+   "id": "hanger_1",
+   "label": "person.ben__hang_washing__smile__y090",
+   "role": "scored",
+   "z": 707,
+   "bbox": [
+    780.0,
+    406.0,
+    874.0,
+    694.0
+   ],
+   "area_px": 12152,
+   "visible_px": 12152,
+   "occlusion": 0.0,
+   "asset": {
+    "variant": "person.ben__hang_washing__smile__y090",
+    "family": "person.ben",
+    "scale": 0.4102,
+    "mirrored": true,
+    "labels": {
+     "everyday_name": "man",
+     "accepted_names": [
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
+     ],
+     "category": "adult_person",
+     "person": {
+      "age_group": "adult",
+      "skin_tone": "skin1",
+      "hair": "short_brown"
+     }
+    }
+   }
   },
   {
    "id": "house",
@@ -774,9 +872,9 @@
    "role": "setting",
    "z": 781,
    "bbox": [
-    0.0,
+    1258.0,
     118.0,
-    342.0,
+    1600.0,
     784.0
    ],
    "area_px": 204952,
@@ -789,140 +887,64 @@
    "role": "setting",
    "z": 836,
    "bbox": [
-    318.0,
+    1028.0,
     694.0,
-    572.0,
+    1282.0,
     838.0
    ],
-   "area_px": 25880,
-   "visible_px": 25880,
+   "area_px": 25884,
+   "visible_px": 25884,
    "occlusion": 0.0
   },
   {
-   "id": "swingseat_2",
-   "label": "Swing seat and ropes",
-   "role": "setting",
-   "z": 844,
+   "id": "soil_5",
+   "label": "Hole and pile of dirt",
+   "role": "scored",
+   "z": 939.34,
    "bbox": [
-    1072.0,
-    474.0,
-    1226.0,
-    784.0
+    360.0,
+    906.0,
+    526.0,
+    960.0
    ],
-   "area_px": 4448,
-   "visible_px": 2884,
-   "occlusion": 0.352
+   "area_px": 4640,
+   "visible_px": 3904,
+   "occlusion": 0.159
   },
   {
-   "id": "swinger_1",
-   "label": "person.kai__sit_swing__laughing__y000",
+   "id": "digger_4",
+   "label": "person.dev__dig_lift__determined__y045",
    "role": "scored",
-   "z": 845,
+   "z": 940.34,
    "bbox": [
-    1086.0,
+    468.0,
+    664.0,
     644.0,
-    1164.0,
-    806.0
+    954.0
    ],
-   "area_px": 7460,
-   "visible_px": 7460,
+   "area_px": 20396,
+   "visible_px": 20396,
    "occlusion": 0.0,
    "asset": {
-    "variant": "person.kai__sit_swing__laughing__y000",
-    "family": "person.kai",
-    "scale": 0.462,
-    "mirrored": false,
+    "variant": "person.dev__dig_lift__determined__y045",
+    "family": "person.dev",
+    "scale": 0.4974,
+    "mirrored": true,
     "labels": {
-     "everyday_name": "child",
+     "everyday_name": "man",
      "accepted_names": [
-      "child",
-      "kid",
-      "boy",
-      "girl",
-      "son",
-      "daughter"
+      "man",
+      "guy",
+      "father",
+      "dad",
+      "person"
      ],
-     "category": "child_person",
+     "category": "adult_person",
      "person": {
-      "age_group": "child",
+      "age_group": "adult",
       "skin_tone": "skin3",
-      "hair": "curly_dark"
+      "hair": "buzz_beard"
      }
-    }
-   }
-  },
-  {
-   "id": "swing",
-   "label": "Swing set",
-   "role": "setting",
-   "z": 846,
-   "bbox": [
-    976.0,
-    458.0,
-    1324.0,
-    856.0
-   ],
-   "area_px": 37116,
-   "visible_px": 37116,
-   "occlusion": 0.0
-  },
-  {
-   "id": "sprinkler_3",
-   "label": "Sprinkler spraying",
-   "role": "scored",
-   "z": 913.65,
-   "bbox": [
-    0.0,
-    784.0,
-    904.0,
-    942.0
-   ],
-   "area_px": 15496,
-   "visible_px": 13648,
-   "occlusion": 0.119
-  },
-  {
-   "id": "package_4",
-   "label": "Package on the grass",
-   "role": "scored",
-   "z": 923.65,
-   "bbox": [
-    844.0,
-    858.0,
-    956.0,
-    936.0
-   ],
-   "area_px": 7328,
-   "visible_px": 7328,
-   "occlusion": 0.0
-  },
-  {
-   "id": "dog_sleeping_5",
-   "label": "animal.dog_01__sleep_paws_turn__sleepy__y045",
-   "role": "scored",
-   "z": 955.2,
-   "bbox": [
-    440.0,
-    902.0,
-    564.0,
-    970.0
-   ],
-   "area_px": 6060,
-   "visible_px": 6060,
-   "occlusion": 0.0,
-   "asset": {
-    "variant": "animal.dog_01__sleep_paws_turn__sleepy__y045",
-    "family": "animal.dog_01",
-    "scale": 0.5029,
-    "mirrored": false,
-    "labels": {
-     "everyday_name": "dog",
-     "accepted_names": [
-      "dog",
-      "puppy",
-      "pup"
-     ],
-     "category": "medium_animal"
     }
    }
   }
@@ -934,10 +956,10 @@
  "attempts": [
   [
    23016,
-   "layout 1: accepted after 0 rejected layouts"
+   "layout 5: accepted after 4 rejected layouts"
   ]
  ],
- "layout": 0,
+ "layout": 4,
  "knob": 0,
  "regen": {
   "base_seed": 23016,
@@ -947,14 +969,12 @@
   "usage": {},
   "forced": {
    "events": [
-    "swing",
-    "dog_sleeping"
-   ],
-   "modules": [
-    "sprinkler_package"
+    "hang_laundry",
+    "dig",
+    "walk_dog"
    ]
   },
-  "placement_rev": 49
+  "placement_rev": 50
  },
  "probe": true
 }

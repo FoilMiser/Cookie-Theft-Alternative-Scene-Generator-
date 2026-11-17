@@ -412,6 +412,13 @@ def lo_wide(P, lean=0.0, head_pitch=0.0):
     P.place_legs({"L": (0.05, 0.0, 0.0), "R": (-0.05, 0.0, 0.0)})
 
 
+# v0.56 (TPDB_STRIDE56; vision/flaws_v055.md C10): the walk's stride. "O": v0.55's, a grown figure's feet 36 cm apart (walking or running, to
+# 14 readings in seven pictures of three screens). "B": three quarters of that stride, both feet down, the rear foot on its toe and the
+# leading foot on its heel as before. (v0.48's bench, WALK48: the long stride with both feet down is what says walking; a walker drawn at
+# the instant of a step, "C", was standing to five readers of six. So "B" shortens the stride and changes nothing else.)
+STRIDE56 = _os44.environ.get("TPDB_STRIDE56", "O")
+
+
 def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
     if WALK48 in ("B", "C") and WALK47 == "B" and lean == 4.0:
         lean = 7.0 if WALK48 == "B" else 8.0
@@ -437,6 +444,8 @@ def lo_walk(P, lean=4.0, head_pitch=0.0, head_turn=0.0):
     w47 = foot27 and WALK47 == "B"
     if w47:
         feet = {"L": (0.0, 0.17, 0.085 * P.s), "R": (0.0, -0.19, 0.0)}
+        if STRIDE56 == "B" and WALK48 == "B":
+            feet = {"L": (0.0, 0.13, 0.075 * P.s), "R": (0.0, -0.14, 0.0)}       # v0.56 (TPDB_STRIDE56): see the switch
     P.torso(lean=lean, drop=P.drop_hips_for(feet) + (0.012 * P.u if w47 else 0.0), head_pitch=head_pitch, head_turn=head_turn)
     P.place_legs(feet, hint={"L": (0, -1, -0.1), "R": (0, -1, 0.25)} if w47 else (0, -1, 0.25))
     if foot27:
@@ -568,7 +577,49 @@ def lo_crouch(P, head_pitch=20):
     P.place_legs(feet, hint=(0, -1, 0.2))
 
 
-def lo_kneel(P):
+# v0.56 (TPDB_KNEEL56; vision/flaws_v055.md C6): the planter's kneel. "O": v0.55's, the near foot planted 30 cm ahead and the far leg stretched
+# 36 cm behind, the hips high: a lunge to all three readers of one picture, and planting or digging up in 15 readings of seven pictures.
+# "B", for kneel_plant only (the sandcastle's builder keeps v0.55's): both knees on the ground under the hips, the far knee ahead of the
+# near one, the shins and the tops of the feet flat on the ground behind, and the trunk bent forward over the knees; with it up_trowel
+# puts a seedling in the near hand.
+# "C": the far leg's foot planted flat ahead and under the body with its knee up, the near knee on the ground under the hip.
+KNEEL56 = _os44.environ.get("TPDB_KNEEL56", "B")
+# (round 1 of v0.56's pair bench, a toss-up: of the first B, the thighs upright side by side, the trunk bent 41 degrees and the arms
+# straight, "row a's straight-armed, both-knees pose looks stiff, close to being on all fours" and "The legs read as two separate legs
+# in b, while in a they merge into one flat shin and shoe slab". So the knees are staggered, the far thigh KNEEL56_P["splay"] degrees
+# forward of upright and the near one as far back, both knees still on the ground, which shows two thighs and two shins in a side view;
+# the trunk is bent 32 degrees and the elbows are bent.)
+KNEEL56_P = dict(tilt=0.0, splay=20.0, zk=0.058, lean=33.0, pitch=-16.0, foot=0.26)
+KNEEL56_P.update(__import__("json").loads(_os44.environ.get("TPDB_KNEEL56_P", "{}")))
+
+
+def _kneel56(P):
+    J, S, u, p = P.J, P.S, P.u, KNEEL56_P
+    t, sh = (J["hip"] - J["knee"]) * S, (J["knee"] - J["ankle"]) * S
+    zk, za = p["zk"] * u, 0.80 * J["ankle"] * S          # the knee's middle on the ground; the ankle of a foot lying on its top
+    ang = {"R": math.radians(p["tilt"] - p["splay"]), "L": math.radians(p["tilt"] + p["splay"])}
+    hz = zk + t * math.cos(min(abs(ang["R"]), abs(ang["L"])))      # the hips' height: the knee whose thigh is the more upright is on the ground
+    feet, hint = {}, {}
+    for sd in ("R", "L"):
+        a_ = ang[sd]
+        ky, kz = -t * math.sin(a_), hz - t * math.cos(a_)
+        run = math.sqrt(max(0.0, sh ** 2 - (kz - za) ** 2))
+        feet[sd] = ((0.02 if sd == "L" else -0.03), (ky + run) / S, (za - J["ankle"] * S) / S)
+        hint[sd] = (0, -1, -0.8)
+    if KNEEL56 == "C":
+        # the far leg: its foot flat on the ground ahead, the knee up in front of the trunk
+        feet["L"] = (0.03, -p["foot"] * P.s, 0.0)
+        hint["L"] = (0, -1, 1)
+    P.torso(lean=p["lean"], drop=J["hip"] * S - hz, back=0.0, head_pitch=p["pitch"])
+    P.place_legs(feet, hint=hint)
+    for sd in ("R",) if KNEEL56 == "C" else ("L", "R"):
+        P.rig.aim_dir(f"foot_{sd}", (0, 1, -0.10))       # the toes point back, the top of the foot on the ground
+
+
+def lo_kneel(P, plant56=False):
+    if plant56:
+        _kneel56(P)
+        return
     u = P.u
     P.torso(lean=50, drop=P.L * 0.48, back=0.10 * u, head_pitch=-14)
     P.place_legs({"L": (0.02, 0.36 * P.s, 0.02), "R": (-0.03, -0.30 * P.s, 0.0)},
@@ -626,11 +677,11 @@ def lo_sit_hang(P, head_pitch=-10.0, head_turn=-40.0):
         P.rig.aim_dir(f"foot_{sd}", (0, -0.45, -1))
 
 
-def lo_sit_low(P, lean=-10.0, head_pitch=2.0, feet=(0.15, -0.26)):
+def lo_sit_low(P, lean=-10.0, head_pitch=2.0, feet=(0.15, -0.26), seat=0.20):
     """Sitting low (on the end of a plank resting on the ground) with knees up and feet planted,
-    leaning back at ease."""
+    leaning back at ease. seat (v0.56, LOWEND56): how high the hips are above the feet's ground, in metres of a grown figure."""
     J, S, u = P.J, P.S, P.u
-    drop = J["hip"] * S - 0.20 * u
+    drop = J["hip"] * S - seat * u
     P.torso(drop=drop, back=0.02 * u, lean=lean, head_pitch=head_pitch)
     # v0.8: feet planted wide and closer in, on either side of the plank (feet far ahead crossed the
     # rising plank and read as legs passing through it); v0.10: the reader's feet wider still and
@@ -709,7 +760,23 @@ def up_point(P):
     P.hand("L", "point")
 
 
+# v0.56 (TPDB_POINT56; vision/flaws_v055.md I5): pointing up. "O": v0.55's, the far arm up and ahead at about 50 degrees from level and the head
+# tipped back 26, so that the finger aims at whatever stands ahead at head height or a little above (a painter, a birdhouse, a building).
+# "B": the arm about 60 degrees from level in the three-quarter view the scenes draw (a child's about 57), swung out from the shoulder as
+# much as forward, so that the whole arm stands clear of the head and the hair, and the head tipped back POINT56_P["pitch"] degrees (the
+# pose's head_pitch in ACTIONS). (A first B, the arm at 70 degrees and the head back 38: on the pair bench it lost to v0.55's in both
+# orders, an arm raised to ask a question and pressed against the side of the head, the chin's underside showing.)
+POINT56 = _os44.environ.get("TPDB_POINT56", "O")
+POINT56_P = dict(arm=(0.33, -0.39, 0.86), arm_child=(0.40, -0.38, 0.834), pitch=32, lean=-2)
+POINT56_P.update(__import__("json").loads(_os44.environ.get("TPDB_POINT56_P", "{}")))
+
+
 def up_point_up(P):
+    if POINT56 != "O":
+        d = POINT56_P["arm_child" if P.c.spec.get("age") == "child" else "arm"]
+        P.arms({"L": (P.lm("sh_L") + nrm(tuple(d)) * P.A * 0.99, (1, 0.4, -0.5)), "R": P.rest_arm("R")})
+        P.hand("L", "point")
+        return
     # far-side arm up and ahead of the face, index finger up
     P.arms({"L": (P.lm("sh_L") + nrm((0.20, -0.62, 0.76)) * P.A * 0.99, (1, 0.4, -0.5)), "R": P.rest_arm("R")})
     P.hand("L", "point")
@@ -747,9 +814,29 @@ def up_reach_up(P):
         P.hand(sd, "open", palm=(0, -1, 0.2))
 
 
+# v0.56 (TPDB_HANG56; vision/flaws_v055.md C3): hanging up washing. "O": v0.55's, both arms straight up and ahead side by side, the open
+# hands together. "B": the hands apart along the line and at the height they had: the near arm reaches to the shirt's shoulder as before
+# (its grip is where it was, and the scene hangs the shirt from it), a fist; the far arm is bent, its fist over the forehead with a
+# peg standing in it, HANG56_P["apart"] arm lengths nearer the body. (The far arm, since the near one bent that far crosses the face in
+# a side view.) The two grips keep their height, so the scene's rule for who reaches the line is not moved
+HANG56 = _os44.environ.get("TPDB_HANG56", "B")
+HANG56_P = dict(apart=0.24, peg=(0.026, 0.026, 0.075))
+HANG56_P.update(__import__("json").loads(_os44.environ.get("TPDB_HANG56_P", "{}")))
+
+
 def up_hang_up(P):
     """Both hands raised ahead and up to the same height, as when pinning washing to a line."""
     A = P.A
+    if HANG56 != "O":
+        u = P.u
+        v = nrm((-0.04, -0.62, 0.78)) * A * 0.98
+        w = Vector((-v.x, v.y + HANG56_P["apart"] * A, v.z))
+        P.arms({"R": (P.lm("sh_R") + v, (-1, 0.3, -0.3)), "L": (P.lm("sh_L") + w, (1, 0.3, -0.3))})
+        g = P.grip("L")
+        px, py, pz = HANG56_P["peg"]
+        # the peg: a wooden peg standing up out of the fist, the size of the pegs the scene draws on the line
+        P.prop("peg", box("peg", g + Vector((0, 0, pz * 0.62 * u)), (px * u, py * u, pz * u), "wood_light", bevel=0.004 * u), "hand_L")
+        return
     P.arms({"R": (P.lm("sh_R") + nrm((-0.04, -0.62, 0.78)) * A * 0.98, (-1, 0.3, -0.3)),
             "L": (P.lm("sh_L") + nrm((0.04, -0.62, 0.78)) * A * 0.98, (1, 0.3, -0.3))})
     for sd in ("L", "R"):
@@ -865,6 +952,24 @@ def up_push(P):
         P.panchor(f"push_{sd}", P.grip(sd), f"hand_{sd}")
 
 
+# v0.56 (vision/flaws_v055.md R1a; scenegen templates.SquareWheel, switch BIKE "H"): the owner of the bicycle with square wheels stands on its
+# far side and holds its handlebar. A new pose, `hold_bike`: no pose of v0.55 is changed by it. The near arm (the camera's side in the side
+# view, where the bicycle is) goes straight down and a little forward to the grip, the far arm rests, the trunk leans a little over the
+# bicycle and the head looks down at it. The anchor `bike_grip` is the middle of the closed hand: the scene sets the grip of the bicycle
+# there and takes the bicycle's size from the hand's height. HOLD56_P: the near arm's direction from the shoulder and its length in arms.
+# (The bicycle is drawn in front of its owner and hides a part of the figure, which the scene's rule keeps to 20 %: with the arm 27 degrees
+# forward the owner stood behind the seat tube and the back wheel's edge and 19.7 % was hidden, with it 35 degrees forward 21 to 22 %; at
+# 13 degrees the legs show through the frame's open triangle, 18.7 %.)
+HOLD56_P = dict(dir=(-0.04, -0.24, -1.0), reach=0.99)
+HOLD56_P.update(__import__("json").loads(_os44.environ.get("TPDB_HOLD56_P", "{}")))
+
+
+def up_hold_bike(P):
+    p = HOLD56_P
+    P.arms({"R": (P.lm("sh_R") + nrm(p["dir"]) * P.A * p["reach"], (-0.3, 0.6, -0.2)), "L": P.rest_arm("L")})
+    P.panchor("bike_grip", P.grip("R"), "hand_R")
+
+
 def up_balance(P):
     A = P.A
     P.arms({"R": (P.lm("sh_R") + nrm((-1, 0.2, -0.15)) * A * 0.97, (0, 0.3, -1)),
@@ -887,8 +992,28 @@ def up_lie_rest(P):
         rig.aim_dir(f"hand_{sd}", (sg * 0.1, -1, 0.1))
 
 
+# v0.56 (TPDB_SWING56; vision/flaws_v055.md C9): the child on the swing. "O": v0.55's, the fists at the chest 0.15 body units each side of the
+# middle, half the ropes' width: the scene draws each rope from the beam through the fist's anchor to the seat's end, so the ropes bent in to
+# the chest and the child held nothing ("the hands meet at the chest"). "B": a fist on each rope where the rope runs. The swing is the
+# garden's alone and its child is always drawn at one scale (0.462 of the library's 400 px a metre; settings.py "rope_top" 28.5 units each
+# side of the middle, 296 above the seat, templates.Swing's rope ends 40 each side): at the fists' height the rope is 0.205 metres from
+# the middle, whatever the child's size, and the wrists are set SWING56_P["half"] metres out, which brings the grips to it (measured on the
+# two children: 0.203 and 0.207). The elbows hang down by the ribs, the forearms rise to the ropes
+SWING56 = _os44.environ.get("TPDB_SWING56", "B")
+SWING56_P = dict(half=0.207, z=0.33, y=-0.05, hint=(0.15, 0.6, -1.0))
+SWING56_P.update(__import__("json").loads(_os44.environ.get("TPDB_SWING56_P", "{}")))
+
+
 def up_swing_hold(P):
     u = P.u
+    if SWING56 != "O":
+        z = P.lm("pelvis").z + SWING56_P["z"] * u
+        x, y = SWING56_P["half"], SWING56_P["y"] * u
+        hx, hy, hz = SWING56_P["hint"]
+        P.arms({"R": (Vector((-x, y, z)), (-hx, hy, hz)), "L": (Vector((x, y, z)), (hx, hy, hz))})
+        for sd in ("L", "R"):
+            P.panchor(f"rope_{sd}", P.grip(sd), f"hand_{sd}")
+        return
     # v0.15: the hands hold the ropes at chest height, elbows down by the sides (gripping at the shoulders, the arms
     # stuck out sideways past the ropes: "it is not clear that her hands are actually holding the chains")
     z = P.lm("pelvis").z + 0.30 * u
@@ -951,6 +1076,13 @@ PAN_V019 = True
 # deeper, on a thicker handle about as long as the pan is wide (both bench readers: "a frying pan or saucepan"); "E" the
 # v0.19 face-on pan on that handle ("the sprinkler head (rose) of a watering can ... or a frying pan"); "v19" the v0.19 pan
 PAN_STYLE = __import__("os").environ.get("TPDB_PAN", "D")   # v0.23: D, chosen on the bench (isolation_v023.md)
+# v0.56 (TPDB_PAN56; vision/flaws_v055.md I11): the frying pan was a pot or a saucepan in 6 readings of 9 over three screens. "O": v0.55's (D
+# above: 9 cm deep for 30 across, a stout handle half as long as the pan is wide, a grey inside). "B": the same pan seen at the same slant,
+# shallow (PAN56_P["depth"] each side of its middle), with a dark inside and a longer, slimmer, straight handle. (v0.23's bench: face-on
+# on a long handle the pan was a watering can's rose on its spout; so the slant is kept, and the handle is shorter than that one's 0.25.)
+PAN56 = _os44.environ.get("TPDB_PAN56", "B")
+PAN56_P = dict(L=0.21, hr=0.019, depth=0.020, inside="slate")
+PAN56_P.update(__import__("json").loads(_os44.environ.get("TPDB_PAN56_P", "{}")))
 
 
 def up_water_pan(P):
@@ -1001,13 +1133,17 @@ def _water_pan_v23(P, style):
     L = (0.25 if style in ("B", "C") else 0.14) * u
     hr = (0.022 if style in ("B", "C") else 0.028) * u
     depth = 0.045 * u if style == "D" else 0.034 * u
+    p56 = PAN56_P if (PAN56 != "O" and style == "D") else None
+    if p56:
+        # v0.56 (TPDB_PAN56): see the switch
+        L, hr, depth = p56["L"] * u, p56["hr"] * u, p56["depth"] * u
     c = g + d * (L + R * 0.96)
     n = {"B": (-0.72, -0.18, 0.67), "C": (-0.70, -0.46, 0.55), "D": (-0.40, -0.12, 0.91), "E": (-0.72, -0.18, 0.67)}[style]
     n = nrm(n)
     P.prop("grip", cyl("grip", g - d * 0.05 * u, g + d * 0.05 * u, hr + 0.007 * u, "charcoal"))
     P.prop("handle", cyl("handle", g + d * 0.04 * u, c - d * R * 0.90, hr, "charcoal"))
     P.prop("pan", cyl("pan", c - n * depth, c + n * depth, R * 0.86, "charcoal", seg=36, r1=R))
-    P.prop("panin", cyl("panin", c + n * (depth - 0.004 * u), c + n * (depth + 0.001 * u), R * 0.84, "gray", seg=36))
+    P.prop("panin", cyl("panin", c + n * (depth - 0.004 * u), c + n * (depth + 0.001 * u), R * 0.84, p56["inside"] if p56 else "gray", seg=36))
     # the pour leaves the far rim, the one tipped down and forward
     far = (d - n * d.dot(n)).normalized()
     rim = c + far * R * 0.95 + Vector((0, 0, -0.02 * u))
@@ -1015,11 +1151,36 @@ def _water_pan_v23(P, style):
     P.panchor("spout_aim", rim + Vector((0, -0.30, -0.14)) * u)
 
 
-def _nozzle(P, F, drop=0.22):
+# v0.56 (TPDB_NOZZLE56; vision/flaws_v055.md, quality check, R4): the nozzle the holder of the stopped hose looks into was 14 to 20 units across in
+# a picture, "a 20 x 18 px yellow tip held at the grandmother's chin" (review_v055/review_set.md). "B", in `hose_inspect` only: the nozzle twice
+# as thick and twice as long, a barrel that tapers from a rim at the fist to a lip round a dark mouth, held a little further out in front of the
+# eyes and turned a little to the viewer, so that the mouth shows as an opening the holder looks into. "O": v0.55's (the spraying nozzle is
+# v0.55's either way)
+NOZZLE56 = _os44.environ.get("TPDB_NOZZLE56", "B")
+# (the fist's place from the eyes; how far the barrel turns to the viewer, as a part of its length; the barrel's radius at the fist and at the
+#  mouth, its length, the rim's and the lip's radius; how far down the hose the far hand holds it)
+NOZZLE56_P = dict(hand=(-0.03, -0.26, -0.13), turn=0.42, r=0.038, r1=0.026, L=0.125, rim=0.046, lip=0.032, far=0.26)
+
+
+def _nozzle(P, F, drop=0.22, big=False):
     """A hose end held in the fist: the hose runs in from below and behind, a short brass nozzle
     sticks out in front. No pistol grip, so it can never read as a gun. drop: how far the hose hangs below the fist before the
-    template's drawn hose takes over (v0.40: longer for the far hand to hold)."""
+    template's drawn hose takes over (v0.40: longer for the far hand to hold). big (v0.56, TPDB_NOZZLE56): the looked-into nozzle."""
     u = P.u
+    if big:
+        q = NOZZLE56_P
+        pts = [F.p(0, -0.024 * u, -drop * u), F.p(0, -0.012 * u, -0.22 * u), F.p(0, 0.012 * u, -0.11 * u), F.p(0, 0.026 * u, -0.02 * u), F.p(0, -0.025 * u, 0.012 * u)]
+        P.prop("hose", tube_mesh("hose", pts, 0.030 * u, "hose"))
+        y0, y1 = -0.018 * u, -(0.018 + q["L"]) * u
+        P.prop("collar", cyl("collar", F.p(0, y0, 0.012 * u), F.p(0, y0 - 0.030 * u, 0.013 * u), q["rim"] * u, "yellow", seg=20))
+        P.prop("tip", cyl("tip", F.p(0, y0 - 0.028 * u, 0.013 * u), F.p(0, y1, 0.016 * u), q["r"] * u, "yellow", r1=q["r1"] * u, seg=20))
+        P.prop("lip", cyl("lip", F.p(0, y1 + 0.012 * u, 0.016 * u), F.p(0, y1 - 0.004 * u, 0.016 * u), q["lip"] * u, "yellow", seg=20))
+        P.prop("bore", cyl("bore", F.p(0, y1 - 0.003 * u, 0.016 * u), F.p(0, y1 - 0.007 * u, 0.016 * u), q["r1"] * 0.80 * u, "charcoal", seg=20))
+        tip = F.p(0, y1 - 0.008 * u, 0.016 * u)
+        P.panchor("nozzle", tip)
+        P.panchor("nozzle_aim", tip + F.d(0, -0.40, -0.10) * u)
+        P.panchor("hose_in", F.p(0, -0.024 * u, -drop * u))
+        return
     noz27 = __import__("os").environ.get("TPDB_NOZ", "B") == "B"
     pts = [F.p(0, 0.13 * u, -0.16 * u), F.p(0, 0.09 * u, -0.06 * u), F.p(0, 0.04 * u, -0.005 * u), F.p(0, -0.025 * u, 0.012 * u)]
     if noz27:
@@ -1047,6 +1208,16 @@ def up_hose_inspect(P):
     u = P.u
     eyes = (P.lm("eye_L") + P.lm("eye_R")) / 2
     tR = eyes + Vector((-0.03, -0.24, -0.13)) * u
+    if NOZZLE56 != "O" and __import__("os").environ.get("TPDB_HOSE40", "B") == "B":
+        # v0.56 (TPDB_NOZZLE56): see the switch. As v0.40's grip, the fist further out and the barrel turned a little to the viewer
+        tR = eyes + Vector(NOZZLE56_P["hand"]) * u
+        P.arms({"R": (tR, (-1, 0.3, -0.7))})
+        g = P.grip("R")
+        aim = (eyes - g).normalized() + Vector((-NOZZLE56_P["turn"], 0, 0))
+        F = Frame(g, frame_toward(g, aim).q)
+        _nozzle(P, F, drop=0.46, big=True)
+        P.arms({"L": (F.p(0, -0.02 * u, -NOZZLE56_P["far"] * u), (1, 0.2, -1.0))})
+        return
     if __import__("os").environ.get("TPDB_HOSE40", "B") == "B":
         # v0.40 (vision/flaws_v039.md O3): the near hand holds the nozzle up to the face, the far hand the hose below it, elbow down. Both hands
         # together at the nozzle, the two white sleeves were "one long flat white shape stretched out to the nozzle"
@@ -1529,14 +1700,38 @@ def up_empty_cone(P):
     P.panchor("cone_top", top)
 
 
+# v0.56 (TPDB_CONE56; vision/flaws_v055.md C7): the child who dropped the ice cream. "O": v0.55's, the far hand over the eye of a head bent
+# straight ahead, and the cone's mouth dark brown. "B": the head bent and turned to the side the cone is held out on, where the scene lays
+# the ice cream on the ground (the pose's head_pitch and head_turn in ACTIONS: CONE56_P["pitch"], CONE56_P["turn"]); the far hand open on
+# the far cheek, beside the mouth and under the eye (CONE56_P["cheek"]: the wrist from the mouth, to the face's left, out of the face and
+# up, in body units); the cone's mouth CONE56_P["mouth"], the wafer's own tone inside its rim (cream was tried first and was a scoop of
+# vanilla)
+CONE56 = _os44.environ.get("TPDB_CONE56", "B")
+CONE56_P = dict(pitch=-30, turn=-58, roll=0, cheek=(0.115, 0.02, -0.06), mouth="tan")
+CONE56_P.update(__import__("json").loads(_os44.environ.get("TPDB_CONE56_P", "{}")))
+
+
 def up_empty_cone_low(P):
     """v0.10: the empty cone held out to the side at chest height, away from the face, its open top
     tipped toward the viewer with a smear of ice cream on the rim; the other hand to the cheek (held to
     the mouth, the cone read as being eaten; held low and small, as pointing)."""
     u, A = P.u, P.A
     m = P.lm("mouth")
-    P.arms({"R": (P.lm("sh_R") + nrm((-0.80, -0.38, -0.42)) * A * 0.93, (-0.4, 0.5, -1)),
-            "L": (m + Vector((0.055, -0.075, 0.075)) * u, (0.4, 0.2, -1))})
+    if CONE56 != "O":
+        # v0.56 (TPDB_CONE56): the far hand flat on the far cheek, its wrist under the jaw, in the head's own frame (the head is turned)
+        upd()
+        pb = P.rig.arm.pose.bones["head"]
+        M = pb.matrix.to_3x3() @ pb.bone.matrix_local.to_3x3().inverted()
+        fl, ff, fu = M @ Vector((1, 0, 0)), M @ Vector((0, -1, 0)), M @ Vector((0, 0, 1))
+        cx, cf, cu = CONE56_P["cheek"]
+        P.arms({"R": (P.lm("sh_R") + nrm((-0.80, -0.38, -0.42)) * A * 0.93, (-0.4, 0.5, -1)),
+                "L": (m + (fl * cx + ff * cf + fu * cu) * u, (0.5, 0.1, -1))})
+        P.rig.aim_dir("hand_L", fu + fl * -0.12 + ff * -0.22)
+        # an open hand, its palm to the cheek
+        P.hand("L", "open", palm=tuple(-(fl * 0.75 + ff * 0.65)))
+    else:
+        P.arms({"R": (P.lm("sh_R") + nrm((-0.80, -0.38, -0.42)) * A * 0.93, (-0.4, 0.5, -1)),
+                "L": (m + Vector((0.055, -0.075, 0.075)) * u, (0.4, 0.2, -1))})
     g = P.grip("R")
     ax = nrm((-0.30, -0.60, 1.0))
     if ICE45 == "A":
@@ -1544,6 +1739,12 @@ def up_empty_cone_low(P):
         u = u * {"child": 1.3, "teen": 1.15}.get(P.c.spec.get("age"), 1.0)
     top, tip = g + ax * 0.09 * u, g - ax * 0.18 * u
     P.prop("cone", cyl("cone", top, tip, 0.082 * u, "wood_light", seg=24, r1=0.007 * u))
+    if CONE56 != "O":
+        # (the empty cone's mouth in the wafer's own light colour, a paler tone inside a rim: dark brown, it was a scoop of chocolate)
+        P.prop("hollow", cyl("hollow", top - ax * 0.002 * u, top + ax * 0.003 * u, 0.066 * u, CONE56_P["mouth"], seg=24))
+        P.prop("drip", ellipsoid("drip", top + nrm((-0.3, -1, 0)) * 0.072 * u - ax * 0.02 * u, (0.015 * u, 0.015 * u, 0.027 * u), "pink"))
+        P.panchor("cone_top", top)
+        return
     P.prop("hollow", cyl("hollow", top - ax * 0.002 * u, top + ax * 0.003 * u, 0.070 * u, "brown", seg=24))
     P.prop("drip", ellipsoid("drip", top + nrm((-0.3, -1, 0)) * 0.072 * u - ax * 0.02 * u, (0.015 * u, 0.015 * u, 0.027 * u), "pink"))
     P.panchor("cone_top", top)
@@ -1674,7 +1875,54 @@ def up_balloon(P):
     P.prop("knot", cyl("knot", b - Vector((0, 0, 0.18 * u)), b - Vector((0, 0, 0.155 * u)), 0.006 * u, bc, r1=0.018 * u))
 
 
+# v0.56 (TPDB_ROLLER56; vision/flaws_v055.md C5 and P10): the paint roller. "O": v0.55's, an upright sleeve 25 cm long on the end of a pole
+# raised to the forehead's height ("The roller head looks quite small and sits somewhat above the planks, almost at the top rail"; and the
+# scene walked the painter a long step forward of the fence until the raised roller lay below the boards' tops). "B": the sleeve level, its
+# axis along the fence, 33 cm by 14 with rounded ends, at the chest's height, so that it lies on the boards between the fence's two rails
+# with the painter standing at the fence; the painter upright, as v0.55's, both fists on a dark pole that rises on a diagonal from the
+# belly to the sleeve. The sleeve is pink, a colour no door of the settings has (the scene's paint with it: scenegen, switch PAINT).
+# "C": as B with v0.55's blue sleeve.
+# The "roller" anchor is, as before, 0.058 u ahead of the sleeve's middle (templates.PAINT47_SLEEVE), at the height of its axis.
+ROLLER56 = _os44.environ.get("TPDB_ROLLER56", "D")
+# (round 1 of v0.56's pair bench read a first drawing of B, the painter stooped over a sleeve hung under a handle that sloped up to fists
+# at the chest and chin, and left it in both orders: "In row a it looks as if he is blowing into the handle."; of v0.55's, "The raised
+# roller reads at once as painting a wall, and the handle stays clear of her face." So B is drawn from v0.55's stance: the trunk
+# upright, both fists on a dark pole that runs on a diagonal from the belly up and forward to the level sleeve's near end, and a wire
+# from there down, along under the sleeve and up into its far end. The sleeve's axis is at ROLLER56_P["zc"] of the chest landmark's height and never above
+# ROLLER56_P["top"] metres, the height at which, with the painter standing at the fence, the sleeve lies just under the fence's top rail.)
+ROLLER56_P = dict(zc=0.95, top=0.985, yc=0.56, hl=0.165, rr=0.068, br=0.032, rise=32.0, Lh=0.34, fr=(0.20, 0.60), cap=0.42, lean=4.0, pitch=-2.0)
+ROLLER56_P.update(__import__("json").loads(_os44.environ.get("TPDB_ROLLER56_P", "{}")))
+
+
+def _paint56(P):
+    u, p = P.u, ROLLER56_P
+    c = Vector((-0.02 * u, -p["yc"] * u, min(p["zc"] * P.lm("chest").z, p["top"])))
+    hl, rr = p["hl"] * u, p["rr"] * u
+    a = math.radians(p["rise"])
+    dn = Vector((0, math.cos(a), -math.sin(a)))          # down the pole, back toward the body
+    h1 = c + Vector((0, hl + 0.045 * u, -0.012 * u))     # where the pole meets the wire: just behind the sleeve's near end, at its axis
+    h0 = h1 + dn * p["Lh"] * u                           # the pole's end, at the belly
+    _pole_grips(P, h0, h1, p["fr"][1], p["fr"][0], hintL=(1, 0.3, -0.6), hintR=(-1, 0.3, -0.6))
+    P.prop("pole", cyl("pole", h0, h1 + dn * 0.012 * u, 0.018 * u, "slate"))
+    far = c + Vector((0, -hl - 0.045 * u, 0))
+    zw = c.z - rr - p["br"] * u                          # the wire's run under the sleeve
+    P.prop("frame", tube_mesh("frame", [h1, Vector((h1.x, h1.y, zw)), Vector((far.x, far.y, zw)), far, c + Vector((0, -hl, 0))], 0.011 * u, "slate"))
+    col = "pink" if ROLLER56 == "B" else "blue"
+    P.prop("roller", cyl("roller", c + Vector((0, hl, 0)), c + Vector((0, -hl, 0)), rr, col, seg=24))
+    for nm_, sg in (("cap0", 1), ("cap1", -1)):
+        # (the sleeve's ends rounded: with flat ends a side view drew a flat board hanging from the wire)
+        P.prop(nm_, ellipsoid(nm_, c + Vector((0, sg * hl, 0)), (rr * 0.985, rr * p["cap"], rr * 0.985), col))
+    P.panchor("roller", c + Vector((0, -0.058 * u, 0)))
+    P.panchor("roller_low", c + Vector((0, -0.058 * u, -rr)))        # the sleeve's underside: the scene's wet paint begins there
+
+
 def up_paint(P):
+    if ROLLER56 not in ("O", "D"):
+        _paint56(P)
+        return
+    # (ROLLER56 "D": v0.55's pose and roller with the sleeve in the scene's pink, templates._paint56. Both drawings of a level sleeve lost the
+    #  pair bench to this pose, twice: "The long pole raised upward reads at once as painting a wall")
+    rcol56 = "pink" if ROLLER56 == "D" else "blue"
     u = P.u
     sh = P.lm("sh_R")
     head = Vector((-0.02 * u, -0.48 * u, sh.z + 0.18 * u))
@@ -1698,9 +1946,9 @@ def up_paint(P):
             zt = c.z + (hl + 0.05) * u
             P.prop("frame", tube_mesh("frame", [e0, Vector((e0.x, by, e0.z + 0.02 * u)), Vector((e0.x, by, zt)), Vector((c.x, c.y, zt)),
                                                 Vector((c.x, c.y, c.z + hl * u))], 0.010 * u, "gray"))
-            P.prop("roller", cyl("roller", c + Vector((0, 0, -hl * u)), c + Vector((0, 0, hl * u)), rr * u, "blue", seg=24))
+            P.prop("roller", cyl("roller", c + Vector((0, 0, -hl * u)), c + Vector((0, 0, hl * u)), rr * u, rcol56, seg=24))
             for nm_, sg in (("cap0", -1), ("cap1", 1)):
-                P.prop(nm_, cyl(nm_, c + Vector((0, 0, sg * hl * u)), c + Vector((0, 0, sg * (hl + 0.016) * u)), rr * 0.80 * u, "navy" if ROLLER51 == "B" else "cream", seg=24))
+                P.prop(nm_, cyl(nm_, c + Vector((0, 0, sg * hl * u)), c + Vector((0, 0, sg * (hl + 0.016) * u)), rr * 0.80 * u, ("slate" if ROLLER56 == "D" else "navy") if ROLLER51 == "B" else "cream", seg=24))
             P.panchor("roller", c + Vector((0, -rr * u, 0)))
             return
         P.prop("frame", cyl("frame", head - d * 0.04 * u, c, 0.012 * u, "gray"))
@@ -1779,6 +2027,66 @@ def up_flowers(P):
 FEED_STYLE = __import__("os").environ.get("TPDB_FEED", "B")
 
 
+# v0.56 (TPDB_FEED56; vision/flaws_v055.md C2): the feeder's bag. "O": v0.55's, the far hand at the waist inside the top of a bag that hangs
+# behind the near forearm, so that in a side view no hand holds it ("looks pasted onto the figure"). "B": the far arm hangs a little forward
+# and its fist holds a paper bag by its rolled top: one shape, the roll running through the fist and the bag narrowing up to it, hanging a
+# hand's width in front of the thigh or the skirt and under the line of the near arm, so that in a side view its whole outline and the fist
+# on it are in the clear; its paper stands off the fist's skin and the wearer's legs (_feed_col56). In feed_birds_low the open hand's palm
+# is tipped toward the viewer, so that its fingers show (flat to the ground it was seen edge on, one finger pointing).
+# (A first B, the bag as a box under a gathered neck with the paper's end above the fist, was a toss-up on the pair bench: the grip was
+# seen, and the stack was a vase, or one brown clump with the hip and the cuff, or merged with the skirt it overlapped.)
+FEED56 = _os44.environ.get("TPDB_FEED56", "B")
+# ("hand": the far fist from the pelvis in body units, for a pose that stands upright and holds the bag the same way: up_throw_bread reads it)
+FEED56_P = dict(arm=(0.08, -0.42, -1.0), arm_low=(0.08, -0.31, -1.0), skirt=-0.09, hand=(0.09, -0.17, 0.05), palm=(-0.62, 0.0, -0.78),
+                bag=(0.115, 0.155, 0.215), taper=0.70, paper=("wood", "wood_light", "cream"), off=45.0, fist=(0.0, -0.35, -0.94))
+FEED56_P.update(__import__("json").loads(_os44.environ.get("TPDB_FEED56_P", "{}")))
+
+
+def _feed_arm56(P, key):
+    """Where the far arm hangs: a skirt or a dress stands further forward than a trouser leg, and the bag hangs a hand's width in front of
+    either, so that its whole outline is clear of the cloth in a side view."""
+    x, y, z = FEED56_P[key]
+    if P.c.spec.get("bottom") in ("dress", "skirt"):
+        y += FEED56_P["skirt"]
+    return (x, y, z)
+
+
+def _feed_col56(P):
+    """The bag's paper: the first of FEED56_P["paper"] that stands FEED56_P["off"] or more (RGB distance) from the skin of the fist that
+    holds it and from what the wearer has on the legs (a dress is the top's colour). Brown paper first, the colour v0.26's bench read as a
+    paper bag; it is the grandfather's and the woman in purple's skin and near the yellow dress, and khaki is one man's trousers."""
+    spec = P.c.spec
+
+    def rgb(key):
+        h = _PAL44[key].lstrip("#")
+        return [int(h[i:i + 2], 16) for i in (0, 2, 4)]
+    by = [spec.get("skin"), spec.get("shirt") if spec.get("bottom") == "dress" else spec.get("pants")]
+    by = [rgb(k) for k in by if k in _PAL44]
+    for col in FEED56_P["paper"]:
+        if all(math.dist(rgb(col), b) >= FEED56_P["off"] for b in by):
+            return col
+    return FEED56_P["paper"][-1]
+
+
+def _feed_prop56(P, g):
+    """The paper bag of v0.56, one shape: the bag hanging from the far fist by its rolled top, the roll running through the fist."""
+    u = P.u
+    w, d, h = FEED56_P["bag"]
+    k = FEED56_P["taper"]
+    col = _feed_col56(P)
+    top = g - Vector((0, 0, 0.014 * u))
+    bag = box("seedbag", top - Vector((0, 0, h / 2 * u)), (w * u, d * u, h * u), col)
+    # (gathered toward the roll: the bag's top is narrower than its foot, so that it is a bag and not a box)
+    for v in bag.data.vertices:
+        t = v.co.z + 0.5
+        v.co.x *= 1.0 - (1.0 - k) * t
+        v.co.y *= 1.0 - (1.0 - k) * t
+    upd()
+    P.prop("seedbag", bag, "hand_L")
+    r = (d * k / 2 + 0.008) * u
+    P.prop("seedtop", cyl("seedtop", top + Vector((0, -r, 0.006 * u)), top + Vector((0, r, 0.006 * u)), 0.021 * u, col, seg=14), "hand_L")
+
+
 def _feed_prop(P, gL):
     u = P.u
     if FEED_STYLE == "A":
@@ -1799,6 +2107,15 @@ def _feed_prop(P, gL):
 def up_feed_birds(P):
     u = P.u
     pel = P.lm("pelvis")
+    if FEED56 != "O" and not P.cur.startswith("sit"):
+        # v0.56 (TPDB_FEED56): the bag hangs from the far fist; the near arm as it was
+        # (seated, sit_feed_birds, which no scene draws, keeps v0.55's bag at the waist: a bag hung from the fist has no room over the lap)
+        tL = P.lm("sh_L") + nrm(_feed_arm56(P, "arm")) * P.A * 0.96
+        P.arms({"R": (pel + Vector((-0.14, -0.40, 0.14)) * u, (-1, 0.4, -0.6)), "L": (tL, (0.5, 0.7, 0.0))})
+        P.rig.aim_dir("hand_L", tuple(FEED56_P["fist"]))
+        _feed_prop56(P, P.grip("L"))
+        P.panchor("seed_from", P.grip("R") - Vector((0, 0, 0.02 * u)))
+        return
     P.arms({"R": (pel + Vector((-0.14, -0.40, 0.14)) * u, (-1, 0.4, -0.6)), "L": (pel + Vector((0.10, -0.22, 0.14)) * u, (1, 0.4, -0.6))})
     gL = P.grip("L")
     _feed_prop(P, gL)
@@ -1810,6 +2127,15 @@ def up_feed_birds_low(P):
     the hand at chest height and the head level, the feeder seemed to face whatever was behind the birds)."""
     u = P.u
     pel = P.lm("pelvis")
+    if FEED56 != "O":
+        # v0.56 (TPDB_FEED56): the bag hangs from the far fist; the near hand open, its palm tipped toward the viewer
+        P.arms({"R": (pel + Vector((-0.12, -0.34, 0.02)) * u, (-1, 0.4, -0.3)),
+                "L": (P.lm("sh_L") + nrm(_feed_arm56(P, "arm_low")) * P.A * 0.96, (0.5, 0.7, 0.0))})
+        P.rig.aim_dir("hand_L", tuple(FEED56_P["fist"]))
+        _feed_prop56(P, P.grip("L"))
+        P.hand("R", "open", palm=tuple(FEED56_P["palm"]))
+        P.panchor("seed_from", P.grip("R") - Vector((0, 0, 0.03 * u)))
+        return
     P.arms({"R": (pel + Vector((-0.12, -0.34, 0.02)) * u, (-1, 0.4, -0.3)), "L": (pel + Vector((0.10, -0.20, 0.10)) * u, (1, 0.4, -0.6))})
     gL = P.grip("L")
     _feed_prop(P, gL)
@@ -1854,6 +2180,14 @@ def up_read_open(P, rz=55.0, k=1.25, dz=0.0):
             P.prop(f"text{side}{i}", box(f"text{side}{i}", Fp.p(0.0, -0.009 * u * -1 + 0.0, (0.07 - i * 0.065) * k * u), (w * 0.72 * u, 0.004 * u, 0.012 * u), "charcoal", rot=q))
 
 
+# v0.56 (TPDB_LOWEND56; vision/flaws_v055.md R2; with the scene's switch of the same name, templates.LOWEND56_H): the seesaw's low end rests on
+# a rubber stop and no longer on the grass, so whoever sits on it sits higher over the feet: "B" the hips LOWEND56_SEAT metres above the
+# ground the feet stand on (lo_sit_low `seat`), for the 0.20 of an end that lies on the ground. "O": v0.55's
+LOWEND56 = _os44.environ.get("TPDB_LOWEND56", "B")
+LOWEND56_SEAT = float(_os44.environ.get("TPDB_LOWEND56_SEAT", "0.28"))
+LOWEND56_ARGS = {"seat": LOWEND56_SEAT} if LOWEND56 != "O" else {}
+
+
 def up_grip_handle(P):
     """Both hands gripping a handle just in front of the chest, holding on tight."""
     u = P.u
@@ -1862,9 +2196,46 @@ def up_grip_handle(P):
     P.panchor("handle", (P.grip("L") + P.grip("R")) / 2)
 
 
+# v0.56 (TPDB_CALL56; vision/flaws_v055.md R2): the child stuck up on the seesaw. v0.55's far hand lies flat in front of the lips, its fingers
+# pointing forward, and reads two ways (calling, or a hand at the mouth). "B": the far hand on the handle, lower than v0.55's fist so that
+# it lies on the handle that is drawn, and the near arm stretched forward and down toward the other end, the hand open; nothing at the mouth,
+# which is open. "C": both hands cupped round the open mouth, the fingers up, the near hand at the jaw behind the mouth's corner and the far
+# hand ahead of it, so that a side view shows the mouth between them (10 cm each side of the mouth and 6 cm under it at the wrist; at 6.6 cm
+# and 3.5 cm the hands met over the mouth, and a far hand cupped alone with its fingers up lay on the lips). "O": v0.55's (CALL44's)
+CALL56 = _os44.environ.get("TPDB_CALL56", "B")
+CALL56_P = dict(side=0.10, fwd=-0.01, down=0.06, reach=(-0.10, -1.0, -0.40), handle=(0.07, -0.16, -0.14))
+CALL56_P.update(__import__("json").loads(_os44.environ.get("TPDB_CALL56_P", "{}")))
+
+
+def _grip_call56(P):
+    """v0.56 (TPDB_CALL56 "B", "C"): see the switch."""
+    u = P.u
+    c = P.lm("chest")
+    m = P.lm("mouth")
+    upd()
+    pb = P.rig.arm.pose.bones["head"]
+    M = pb.matrix.to_3x3() @ pb.bone.matrix_local.to_3x3().inverted()
+    f, lf, up = (M @ Vector((0, -1, 0))).normalized(), (M @ Vector((1, 0, 0))).normalized(), (M @ Vector((0, 0, 1))).normalized()
+    q = CALL56_P
+    cup_L = m + (lf * q["side"] + f * q["fwd"] - up * q["down"]) * u
+    cup_R = m + (-lf * q["side"] + f * q["fwd"] - up * q["down"]) * u
+    if CALL56 == "C":
+        P.arms({"R": (cup_R, (-0.5, -0.4, -1)), "L": (cup_L, (0.5, -0.4, -1))})
+        P.hand("R", "open", palm=tuple(lf))
+        P.hand("L", "open", palm=tuple(-lf))
+        P.panchor("handle", c + Vector((0, -0.20, -0.02)) * u)
+        return
+    reach = P.lm("sh_R") + nrm(q["reach"]) * P.A * 0.98
+    P.arms({"R": (reach, (-1, 0.3, -0.5)), "L": (c + Vector(q["handle"]) * u, (1, 0.3, -0.7))})
+    P.hand("R", "open", palm=(0, -0.3, 1))
+    P.panchor("handle", P.grip("L"))
+
+
 def up_grip_call(P):
     """v0.44 (TPDB_CALL44): stuck up on the seesaw and calling: the near hand on the handle in front of the chest, the far hand cupped just in front
     of the open mouth, clear of the face (both hands at the chest read as nervous or praying)."""
+    if CALL56 != "O":
+        return _grip_call56(P)
     u = P.u
     c = P.lm("chest")
     m = P.lm("mouth")
@@ -1911,6 +2282,15 @@ def up_fish(P):
 # v0.20: a metal pail pulled down over the top of the head to the brows, with a rolled rim, two ridges and its wire
 # handle hanging from the lugs at the rim (the blue bucket sitting on top read as "a tall blue hat ... or a fez")
 BUCKET_V020 = "back"        # where the handle hangs: "back" of the head or "front" under the chin; None = v0.19
+# v0.56 (TPDB_BUCKET56; vision/flaws_v055.md I11): the bucket worn as a hat "has no handle" in three pictures of three, and was taken for a hat
+# or a joke in 3 readings of 9. "O": v0.55's, a thin dark wire hanging close behind the head, which a picture does not show. "B": a wire bail
+# that shows: thicker and grey, hanging from the rim's two sides in a half hoop that stands off the head (BUCKET56_P: "out" how far, "drop"
+# how low, "turn" the lugs' line turned about the upright, so that the hoop hangs behind the shoulder that is toward the viewer), a wooden
+# grip in its middle and a small boss where each end meets the rim. (v0.20: side lugs with two ridges read as "a cooking pot"; a boss is
+# the wire's own end, not a pot's handle.)
+BUCKET56 = _os44.environ.get("TPDB_BUCKET56", "O")
+BUCKET56_P = dict(out=0.21, drop=0.23, turn=28.0, r=0.0115, col="gray", grip=0.045)
+BUCKET56_P.update(__import__("json").loads(_os44.environ.get("TPDB_BUCKET56_P", "{}")))
 
 
 def up_bucket_hat(P):
@@ -1947,6 +2327,22 @@ def up_bucket_hat(P):
     z_ = rim_z + H * t
     P.prop("ridge", cyl("ridge", Vector((hc.x, hc.y, z_ - 0.007 * k)), Vector((hc.x, hc.y, z_ + 0.007 * k)), r_ * 1.025, "gray", seg=32), "head")
     lug_z = rim_z + 0.035 * k
+    if BUCKET56 != "O":
+        # v0.56 (TPDB_BUCKET56): see the switch
+        b = BUCKET56_P
+        ax, ay = math.cos(math.radians(b["turn"])), math.sin(math.radians(b["turn"]))       # the lugs' line, turned about the upright
+        pts = []
+        for i in range(11):
+            t = math.pi * i / 10
+            a_, o_ = -R * 1.02 * math.cos(t), b["out"] * k * math.sin(t)
+            pts.append(Vector((hc.x + a_ * ax - o_ * ay, hc.y + a_ * ay + o_ * ax, lug_z - b["drop"] * k * math.sin(t))))
+        P.prop("handle", tube_mesh("handle", pts, b["r"] * k, b["col"]), "head")
+        if b["grip"]:
+            m_, e_ = pts[5], Vector((ax, ay, 0)) * b["grip"] * k
+            P.prop("hgrip", cyl("hgrip", m_ - e_, m_ + e_, b["r"] * 2.1 * k, "wood_light", seg=14), "head")
+        for nm_, p_ in (("lug0", pts[0]), ("lug1", pts[-1])):
+            P.prop(nm_, ellipsoid(nm_, p_, (b["r"] * 2.0 * k,) * 3, b["col"]), "head")
+        return
     dy = 0.13 * k if BUCKET_V020 == "back" else -0.10 * k
     drop = 0.13 * k if BUCKET_V020 == "back" else 0.20 * k
     pts = [Vector((hc.x - R * 1.02, hc.y, lug_z)), Vector((hc.x - R * 0.85, hc.y + dy * 0.55, lug_z - drop * 0.6)),
@@ -1955,7 +2351,55 @@ def up_bucket_hat(P):
     P.prop("handle", tube_mesh("handle", pts, 0.0085 * k, "charcoal"), "head")
 
 
+# v0.56 (TPDB_KNEEL56, with lo_kneel): what the kneeling planter holds. "O": v0.55's, a trowel in the near hand, its point at the soil.
+# "B": a seedling in the near fist, going into the soil: a ball of roots and earth under the fist, a stem and two leaves and a bud above it
+# (SEED56_P["k"] times life size, as a child's ice cream is drawn larger); the far hand at the root ball's far side, and no trowel. (A
+# first drawing kept the trowel in the far hand, its point on the ground beyond the seedling, SEED56_P["trowel"]: in two of v0.55's
+# pictures built again its blade stood among the stems of the bed's own flowers, which is digging at them.)
+# The "trowel_tip" anchor, from which the scene draws the hole, is now the underside of the root ball.
+# (round 1 of the pair bench: "The flower and leaves show clearly against the background, and the action of planting reads at once."; and
+# of the teenager, "the bloom and one leaf are largely hidden by his arm, so at the small size the prop shrinks to a brown dot". So the
+# stem, leaves and bud stand SEED56_P["out"] toward the viewer of the fist, in front of the arm in a side view, on every figure, and a
+# teenager's seedling is a little larger again. The stem leans only a little forward: leaning 27 degrees, in two of v0.55's pictures
+# built again its leaves and bud lay on the last flower of the bed.)
+SEED56_P = dict(k=1.45, near=(-0.10, -0.36, 0.33), far=(0.07, -0.33, 0.35), trowel=False, far_trowel=(0.10, -0.47, 0.34),
+                stem=(-0.10, -0.16, 1.0), out=0.05, hole=0.03)
+SEED56_P.update(__import__("json").loads(_os44.environ.get("TPDB_SEED56_P", "{}")))
+
+
+def _trowel56(P):
+    u, p = P.u, SEED56_P
+    k = p["k"] * u * {"child": 1.25, "teen": 1.12}.get(P.c.spec.get("age"), 1.0)
+    P.arms({"R": (Vector(p["near"]) * u, (-0.8, 0.4, -0.5)), "L": (Vector(p["far_trowel"] if p["trowel"] else p["far"]) * u, (0.8, 0.4, -0.5))})
+    g = P.grip("R")
+    ball = g - Vector((0, 0, 0.078 * k))
+    P.prop("root", ellipsoid("root", ball, (0.040 * k, 0.040 * k, 0.046 * k), "soil"))
+    s_ = nrm(p["stem"])                                   # the stem's line: up, forward of the arm
+    o_ = Vector((-p["out"] * k, 0, 0))                    # toward the viewer of a side view, in front of the fist and the forearm
+    top = g + o_ + s_ * 0.100 * k
+    P.prop("stem", cyl("stem", g + o_ * 0.7 + s_ * 0.034 * k, top, 0.0075 * k, "green", seg=10))      # (from the top of the fist up: the fist is round it)
+    q_ = nrm((0, s_.z, -s_.y))                            # across the stem, in the side view's plane
+    for nm_, sg in (("leaf0", 1), ("leaf1", -1)):
+        l_ = nrm(q_ * sg + s_ * 0.55)
+        P.prop(nm_, ellipsoid(nm_, top - s_ * 0.012 * k + l_ * 0.050 * k, (0.014 * k, 0.052 * k, 0.022 * k), "green",
+                              rot=Vector((0, 1, 0)).rotation_difference(l_)))
+    P.prop("bud", ellipsoid("bud", top + s_ * 0.036 * k, (0.023 * k, 0.023 * k, 0.029 * k), _pcol(P, "pink", ("yellow", "orange", "red")),
+                            rot=Vector((0, 0, 1)).rotation_difference(s_)))
+    # (the hands are held high enough for the elbows to bend, so the root ball hangs a hand's breadth above the soil; the anchor is the
+    # ground under it, where the scene draws the hole the seedling is going into)
+    P.panchor("trowel_tip", Vector((ball.x, ball.y, min(p["hole"] * u, ball.z - 0.046 * k))))
+    if p["trowel"]:
+        gl = P.grip("L")
+        ax = nrm((0, -0.42, -1.0))
+        P.prop("handle", cyl("handle", gl - ax * 0.050 * u, gl + ax * 0.045 * u, 0.019 * u, _pcol(P, "red", ("orange", "yellow", "blue"))), "hand_L")
+        P.prop("neck", cyl("neck", gl + ax * 0.040 * u, gl + ax * 0.090 * u, 0.009 * u, "gray"), "hand_L")
+        P.prop("blade", cyl("blade", gl + ax * 0.082 * u, gl + ax * 0.246 * u, 0.056 * u, "silver", seg=20, r1=0.007 * u), "hand_L")
+
+
 def up_trowel(P):
+    if KNEEL56 != "O" and P.cur == "kneel_plant":
+        _trowel56(P)
+        return
     u = P.u
     pel = P.lm("pelvis")
     if TROWEL45 == "A":
@@ -1980,7 +2424,7 @@ UPPER = {
     "reach_up": up_reach_up, "hang_up": up_hang_up, "cheer": up_cheer, "slide_up": up_slide_up, "slide_hold": up_slide_hold,
     "hands_on_hips": up_hands_on_hips, "shrug": up_shrug,
     "hands_to_face": up_hands_to_face, "hold_front": up_hold_front, "clap": up_clap, "call_out": up_call_out,
-    "think": up_think, "cross_arms": up_cross_arms, "catch": up_catch, "push": up_push, "balance": up_balance,
+    "think": up_think, "cross_arms": up_cross_arms, "catch": up_catch, "push": up_push, "hold_bike": up_hold_bike, "balance": up_balance,
     "ground_support": up_ground_support, "lie_rest": up_lie_rest, "swing_hold": up_swing_hold,
     "crouch_hands": up_crouch_hands, "crouch_reach": up_crouch_reach, "sit_rest": up_sit_rest,
     "water_can": up_water_can, "water_pan": up_water_pan, "hose_spray": up_hose_spray, "hose_inspect": up_hose_inspect,
@@ -2011,6 +2455,42 @@ READ54 = _os44.environ.get("TPDB_READ54", "B")
 READ54_P = dict(sit=-10.0, walk=-10.0)
 READ54_P.update(__import__("json").loads(_os44.environ.get("TPDB_READ54_P", "{}")))
 READ54_POSES = ("sit_read", "seesaw_low_read", "walk_read_open", "read")
+# v0.56 (TPDB_EYES56; people.EYES56, flaws_v055.md I7): with his head up the reading man looked ahead over his book. "B": in the poses above
+# the bone that carries his eyes (people.py, "gaze") is lowered EYES56_P["down"] head units along the head, so the eyes sit low on the face,
+# turned down to the page. "O": the eyes where every other pose has them
+EYES56 = _os44.environ.get("TPDB_EYES56", "O")
+EYES56_P = dict(down=0.014, squash=0.72)      # (squash: the eyes' height in those poses, as lids half lowered)
+EYES56_P.update(__import__("json").loads(_os44.environ.get("TPDB_EYES56_P", "{}")))
+
+
+def _eyes_down56(rig, name, d, sy=1.0, h=0.0):
+    """Lower the "gaze" bone by d in the keyed pose `name` and in its side view's twin (the poses are keyed before this is known), and
+    scale it to sy along the head about the eyes' own height h above the bone's root."""
+    want = {('pose.bones["gaze"].location', 1): (1.0 - sy) * h - d, ('pose.bones["gaze"].scale', 1): sy}
+    for an in (name, name + "__p"):
+        act = bpy.data.actions.get(an)
+        if act is None:
+            continue
+        fcs = []
+        try:
+            fcs = list(act.fcurves)
+        except (AttributeError, TypeError):
+            fcs = []
+        if not fcs:
+            for layer in getattr(act, "layers", []):
+                for strip in layer.strips:
+                    for bag in getattr(strip, "channelbags", []):
+                        fcs += list(bag.fcurves)
+        n = 0
+        for fc in fcs:
+            v = want.get((fc.data_path, fc.array_index))
+            if v is not None:
+                for kp in fc.keyframe_points:
+                    kp.co[1] = kp.handle_left[1] = kp.handle_right[1] = v
+                fc.update()
+                n += 1
+        if n != len(want):
+            print("EYES56: no curve for the gaze bone in", an)
 
 
 # name: (lower, lower_args, upper, description, tags)
@@ -2024,7 +2504,8 @@ ACTIONS = [
     ("kick_low", "kick_low", {}, "kick_swing", "kicking a ball along the ground", ["ball"]),
     ("wave", "stand", {"head_roll": -6, "side": -3}, "wave", "waving", ["social"]),
     ("point", "stand", {}, "point", "pointing", ["social", "look"]),
-    ("point_up", "stand", {"head_pitch": 26}, "point_up", "pointing up at something", ["social", "look_up"]),
+    ("point_up", "stand", {"head_pitch": POINT56_P["pitch"], "lean": POINT56_P["lean"]} if POINT56 != "O" else {"head_pitch": 26}, "point_up",
+     "pointing up at something", ["social", "look_up"]),
     ("reach_up", "stand", {"head_pitch": 16, "lean": -3}, "reach_up", "reaching up", ["reach"]),
     ("hang_washing", "stand", {"head_pitch": 18, "lean": -2}, "hang_up", "hanging up washing", ["reach", "chore"]),
     ("hands_on_hips", "wide", {"lean": -3}, "hands_on_hips", "standing with hands on hips", ["emotion"]),
@@ -2037,6 +2518,8 @@ ACTIONS = [
     ("cross_arms", "wide", {}, "cross_arms", "standing with arms crossed", ["emotion"]),
     ("catch", "stand", {"head_pitch": 12}, "catch", "getting ready to catch", ["ball", "look_up"]),
     ("push", "walk", {"lean": 14}, "push", "pushing something", ["push"]),
+    # v0.56 (R1a, up_hold_bike): the bicycle's owner
+    ("hold_bike", "stand", {"lean": 9, "head_pitch": -14}, "hold_bike", "standing beside a bicycle, holding its handlebar", ["hold"]),
     # (v0.47, TPDB_HEAD47 "B": 128 degrees, the back of the head from every side; at 95 the walker coming toward the viewer showed a face in
     # pure profile, which the new head draws with no eye)
     ("look_back", "walk", {"head_turn": 128 if HEAD47 == "B" else 95}, "walk_swing", "looking back over a shoulder", ["look"]),
@@ -2045,7 +2528,7 @@ ACTIONS = [
     ("sit_ground", "sit_ground", {}, "ground_support", "sitting on the ground", ["sit", "ground"]),
     ("lie_down", "lie", {}, "lie_rest", "lying down", ["rest", "ground"]),
     ("crouch_reach", "crouch", {"head_pitch": 15}, "crouch_reach", "crouching and reaching out", ["low", "reach"]),
-    ("kneel_plant", "kneel", {}, "trowel", "planting flowers", ["garden", "low"]),
+    ("kneel_plant", "kneel", {"plant56": True} if KNEEL56 != "O" else {}, "trowel", "planting flowers", ["garden", "low"]),      # (v0.56, TPDB_KNEEL56)
     ("water_plants", "stand", {"lean": 6, "head_pitch": -22}, "water_can", "watering the plants", ["garden", "water"]),
     ("water_pan", "stand", {"lean": 6, "head_pitch": -22}, "water_pan", "watering the plants with a frying pan", ["garden", "water", "misuse"]),
     ("hose_spray", "stand", {"lean": 4, "head_pitch": -14}, "hose_spray", "spraying the hose", ["garden", "water", "hose"]),
@@ -2071,7 +2554,8 @@ ACTIONS = [
     ("hold_ball", "stand", {"head_pitch": -4}, "hold_ball", "holding a ball", ["ball"]),
     ("fly_kite", "stand", {"head_pitch": 30, "lean": -3}, "kite", "flying a kite", ["kite", "look_up"]),
     ("balloon", "stand", {"head_pitch": 6}, "balloon", "holding a balloon", ["balloon"]),
-    ("paint", "stand", {"lean": 4, "head_pitch": 8}, "paint", "painting", ["chore"]),
+    # (v0.56, TPDB_ROLLER56: the roller at the chest's height, the head level)
+    ("paint", "stand", {"lean": 4, "head_pitch": 8} if ROLLER56 == "O" else {"lean": ROLLER56_P["lean"], "head_pitch": ROLLER56_P["pitch"]}, "paint", "painting", ["chore"]),
     ("photo", "stand", {}, "photo", "taking a photo", ["look"]),
     ("give_flowers", "stand", {"lean": 4}, "flowers", "giving flowers", ["social"]),
     ("feed_birds", "stand", {"lean": 8, "head_pitch": -24}, "feed_birds", "feeding the birds", ["birds"]),
@@ -2096,21 +2580,57 @@ ACTIONS = [
     ("jump_tuck", "jump_tuck", {}, "cheer", "doing a star jump for joy", ["move", "airborne", "emotion"]),
     ("seesaw_stuck", "sit_dangle", {}, "grip_handle", "up high on a seesaw, holding on", ["sit", "seesaw"]),
     ("seesaw_stuck_call", "sit_hang", {}, "grip_call" if CALL44 == "A" else "grip_handle", "stuck up in the air, holding on tight, calling out", ["sit", "seesaw"]),
-    ("seesaw_low", "sit_low", {}, "cross_arms", "sitting on the low end of a seesaw", ["sit", "seesaw"]),
+    ("seesaw_low", "sit_low", dict(LOWEND56_ARGS), "cross_arms", "sitting on the low end of a seesaw", ["sit", "seesaw"]),
     # v0.9
     ("balloon_reach", "stand", {"head_pitch": 26, "lean": -3}, "balloon_reach", "holding balloons and reaching for one that got away", ["balloon", "reach"]),
     ("walk_read_open", "walk", {"head_pitch": WALK_READ_PITCH}, "read_open", "reading while walking", ["read", "move"]),
     # v0.32 bench (TPDB_LOW, with templates.LOW32): "O" knees up, the feet planted near the seat, so the near shin crosses the rising plank ("sitting on the
     # plank end or sitting just beside it with the plank behind his legs", v0.31); "X" the legs out along the ground under the plank; "F" the feet further out, for a
     # rider turned away from the plank, whose feet land past its end
-    ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": tuple(SIT55_P["low"]) if SIT55 == "B" else {"O": (0.20, -0.19), "X": (0.17, -0.86), "F": (0.20, -0.30)}[__import__("os").environ.get("TPDB_LOW", "O")]},
+    ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": tuple(SIT55_P["low"]) if SIT55 == "B" else {"O": (0.20, -0.19), "X": (0.17, -0.86), "F": (0.20, -0.30)}[__import__("os").environ.get("TPDB_LOW", "O")],
+                                    **LOWEND56_ARGS},
      "read_open_hi" if SIT55 == "B" else "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
     # v0.10
-    ("cone_dropped", "stand", {"head_pitch": -34, "head_roll": 4}, "empty_cone_low", "holding an empty cone, upset, looking down at the dropped ice cream", ["food", "emotion"]),
+    ("cone_dropped", "stand", {"head_pitch": CONE56_P["pitch"], "head_turn": CONE56_P["turn"], "head_roll": CONE56_P["roll"]} if CONE56 != "O" else {"head_pitch": -34, "head_roll": 4},
+     "empty_cone_low", "holding an empty cone, upset, looking down at the dropped ice cream", ["food", "emotion"]),
     # v0.24: U, chosen on the bench (isolation_v024.md); O the v0.23 arms, H hands holding the chute ("just sitting still")
     ("slide_down", "sit_slide", {}, {"U": "slide_up", "H": "slide_hold", "O": "cheer"}[__import__("os").environ.get("TPDB_SLIDE", "U")],
      "sliding down the slide with arms up", ["sit", "slide", "play", "emotion"]),
 ]
+
+
+# v0.56 (TPDB_BREAD56; vision/flaws_v055.md K4): the key has the duck feeder "throwing bread to the ducks", and v0.55's feeder (feed_birds)
+# holds a slice in a hand at the waist. "B": a pose of its own, throw_bread: an underarm toss just after the piece has left the hand, the near
+# arm swung forward and up to the chest's height, the hand open with its palm up and tipped toward the viewer, a piece of bread in the air
+# just beyond the fingers ("seed_from" is that piece's place, from which the scene draws the pieces on their arc to the duck); the far hand
+# holds the bag as the bird feeder's does (FEED56); the feet planted, the leading foot a step ahead (lo_throw51). "O": no such pose
+BREAD56 = _os44.environ.get("TPDB_BREAD56", "B")
+BREAD56_P = dict(arm=(-0.10, -0.90, -0.36), palm=(-0.55, 0.0, 0.83), piece=(0.215, 0.050), lean=9.0, pitch=-6.0)
+BREAD56_P.update(__import__("json").loads(_os44.environ.get("TPDB_BREAD56_P", "{}")))
+
+
+def up_throw_bread(P):
+    u, p = P.u, BREAD56_P
+    pel = P.lm("pelvis")
+    near = (P.lm("sh_R") + nrm(p["arm"]) * P.A * 0.98, (-1, 0.3, -0.7))
+    if FEED56 != "O":
+        P.arms({"R": near, "L": (pel + Vector(tuple(FEED56_P["hand"])) * u, (0.6, 0.6, -0.3))})
+        P.rig.aim_dir("hand_L", (0.0, -0.9, -0.45))
+        _feed_prop56(P, P.grip("L"))
+    else:
+        P.arms({"R": near, "L": (pel + Vector((0.10, -0.22, 0.14)) * u, (1, 0.4, -0.6))})
+        _feed_prop(P, P.grip("L"))
+    P.hand("R", "open", palm=tuple(p["palm"]))
+    w, d, n, t = P.hand_frame("R", tuple(p["palm"]))
+    k = u * {"child": 1.25, "teen": 1.1}.get(P.c.spec.get("age"), 1.0)
+    c = w + d * p["piece"][0] * u + Vector((0, 0, p["piece"][1] * u))
+    P.prop("piece", ellipsoid("piece", c, (0.030 * k, 0.036 * k, 0.024 * k), "cream"), "hand_R")
+    P.panchor("seed_from", c, "hand_R")
+
+
+UPPER["throw_bread"] = up_throw_bread
+if BREAD56 != "O":
+    ACTIONS.append(("throw_bread", "throw51", {"lean": BREAD56_P["lean"], "head_pitch": BREAD56_P["pitch"]}, "throw_bread", "throwing bread to the ducks", ["birds"]))
 
 
 def _x_wave(d):
@@ -2193,5 +2713,8 @@ def make_people_actions(rig, ctx):
             # v0.27: this one is only drawn in full profile, so its head can turn in the pose itself, and the cone goes to the turned mouth
             largs = dict(largs, head_turn=PROFILE47)
         P.build(name, lower, upper, lower_args=largs, description=desc, tags=tags, airborne="airborne" in tags)
+        if EYES56 != "O" and READ54 == "B" and name in READ54_POSES and "gaze" in rig.arm.pose.bones:
+            _eyes_down56(rig, name, EYES56_P["down"] * getattr(ctx, "kh", 1.0), EYES56_P["squash"],
+                         ctx.hc.z + ctx.eye_z - rig.arm.data.bones["gaze"].head_local.z)      # v0.56 (EYES56)
     rig.reset()
     return P

@@ -42,8 +42,15 @@ NEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 # hedges), for lost_balloon and paint_fence, whose placing changed (O1, O3), and for rain_coming, whose verdict rests on one inference a
 # picture. Six of v0.50's that are not on v0.50's list go back to three (dog_playing, seesaw_heavy, seesaw, slide, balloon, goat_grazing).
 # square_wheel has two carriers, the barrow and the bicycle: count them after the passes and see that each has two pictures or more
-NEED_T = {"rain_coming": 5, "play_catch": 5, "square_wheel": 5, "bird_steals": 5, "blocked_hose": 5, "ducks_bread": 5, "lost_balloon": 5,
-          "paint_fence": 5, "jump": 5, "dog_sleeping": 5, "dog_wants_walk": 5, "dog_begs": 5, "plant_flowers": 5}
+# v0.56: five for every template whose drawing or placing v0.56 changed, since the pictures are all new and the retest is by template: the
+# gate's rows (square_wheel, seesaw_heavy, bird_steals, blocked_hose: vision/flaws_v055.md R1 to R4), the inferences and contradictions
+# with a new drawing or rule (sprinkler_package, kite_in_tree, ladder_nothing, pan_watering, rain_coming, windy_hat, floating_box), the
+# cast's (feed_birds, hang_laundry, dog_sleeping, paint_fence, plant_flowers, ice_cream_drop, seesaw, swing, ducks_bread) and placement's
+# (photo, picnic, push_stroller, lost_balloon, jump). play_catch, dog_wants_walk and dog_begs, which nothing changed, go back to three
+NEED_T = {t: 5 for t in ("square_wheel", "seesaw_heavy", "bird_steals", "blocked_hose", "sprinkler_package", "kite_in_tree", "ladder_nothing",
+                         "pan_watering", "rain_coming", "windy_hat", "floating_box", "feed_birds", "hang_laundry", "dog_sleeping", "paint_fence",
+                         "plant_flowers", "ice_cream_drop", "seesaw", "swing", "ducks_bread", "photo", "picnic", "push_stroller", "lost_balloon",
+                         "jump")}
 need = lambda t: max(NEED, NEED_T.get(t, 0))
 cnt = collections.Counter()
 for f in glob.glob(f"scenes{TAG}/T*.json") + glob.glob(OUT + "/T*.json"):

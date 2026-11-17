@@ -162,7 +162,9 @@ def sample_multipliers(setting, tier, n=300, seed=1):
         for c in picked:
             feats |= c.features(setting)
         picked, feats = balance_content(tier, setting, sky, picked, feats, rng)
-        roles = [r for c in picked for r in ROLES[c.id]]
+        # (v0.56: the bicycle with square wheels has an owner who holds it, a grown figure with two faces)
+        held = TP.SCN.PLACEMENT_REV >= 50 and TP.SCN.sw56("BIKE") == "H" and setting in ("street", "playground")
+        roles = [r for c in picked for r in ([("GROWN", 2)] if held and c.id == "square_wheel" else ROLES[c.id])]
         cast.append(cast_assignments(roles))
         v = 2
         for _, ne in roles:
