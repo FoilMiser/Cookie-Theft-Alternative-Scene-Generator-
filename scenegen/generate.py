@@ -137,8 +137,9 @@ def build_one(lib, tier, setting, seed, out_dir, forced=None, require_band=True,
             if not fin["checks"]["legibility"][0]:
                 why_set.append("legibility: " + fin["checks"]["legibility"][1])
                 continue
-            if SCN.sw56("GREY") == "B" and not fin["checks"]["grey"][0]:
-                # v0.56 (GREY "B"; "W" records the check and builds the picture all the same)
+            if (SCN.sw56("GREY") == "B" or SCN.sw57("GREYFAIL") != "O") and not fin["checks"]["grey"][0]:
+                # v0.56 (GREY "B"; "W" records the check and builds the picture all the same); v0.57 (GREYFAIL): from revision 51 a
+                # layout in which a scored thing does not stand off in grey is refused, as vision/flaws_v056.md G1 asked
                 why_set.append("grey: " + fin["checks"]["grey"][1])
                 continue
             if require_band and not fin["checks"]["clutter_band"][0]:

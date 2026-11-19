@@ -1,14 +1,16 @@
-"""(v0.55's own script: its two releases are written in. Edit them.)
-retest.py : v0.55's screen beside v0.54's, item for item, in two groups of pictures: those that are v0.54's to the pixel (a second reading)
-and those that hold a seated figure drawn again (the same templates, people and places: what the new legs changed in the reading)."""
-import json, os
-from PIL import Image, ImageChops
+"""(v0.57's own script: its two releases are written in. Edit them.)
+retest.py : v0.57's screen beside v0.56's, item for item, in three groups of the pictures that were carried over (vision/v057/carry_over.json,
+from tools/cycle/carry_over.py and the count of pixels that differ): those that are v0.56's to within a few pixels (a second reading), those
+that were drawn again or moved with the same templates (what the new drawings changed in the reading), and the rest. Items are matched by
+their text, since a redrawn picture may number its items otherwise."""
+import collections, json, os
 ROOT = "E:/Cognitive_Test_Scene_Creator"
 os.chdir(ROOT)
-kmN = json.load(open("vision/v055/key_map.json")); kmP = json.load(open("vision/v054/key_map.json"))
-inv2 = {v: k for k, v in kmP.items()}
-s3 = json.load(open("vision/v055/scores.json")); s2 = json.load(open("vision/v054/scores.json"))
-k3 = json.load(open("vision/v055/keys.json")); k2 = json.load(open("vision/v054/keys.json"))
+kmN = json.load(open("vision/v057/key_map.json")); kmP = json.load(open("vision/v056/key_map.json"))
+invN = {v: k for k, v in kmN.items()}; invP = {v: k for k, v in kmP.items()}
+sN = json.load(open("vision/v057/scores.json", encoding="utf-8")); sP = json.load(open("vision/v056/scores.json", encoding="utf-8"))
+kN = json.load(open("vision/v057/keys.json")); kP = json.load(open("vision/v056/keys.json"))
+carry = json.load(open("vision/v057/carry_over.json"))
 
 
 def val(x):
@@ -16,39 +18,38 @@ def val(x):
     return 0.0 if v == "misread" else float(v)
 
 
-def items_of(k, pic):
-    e = k[pic]
-    its = e["items"] if isinstance(e, dict) and "items" in e else e
-    return {i["id"]: i for i in its}
+def by_text(k, s, pic):
+    out = collections.defaultdict(list)
+    for i in k[pic]["items"]:
+        out[i["text"]].append((i["id"], i["type"], val(s[pic]["items"][i["id"]])))
+    return out
 
 
-groups = {"same": [], "changed": []}
-for pic, name in sorted(kmN.items()):
-    f3 = next(p for p in (f"scenes/{name}.png", f"probes/{name}.png") if os.path.exists(p))
-    f2 = next((p for p in (f"scenes_v054/{name}.png", f"probes_v054/{name}.png") if os.path.exists(p)), None)
-    if not f2 or name not in inv2:
-        print("no v0.54 picture for", pic, name)
-        continue
-    a, b = Image.open(f3).convert("RGB"), Image.open(f2).convert("RGB")
-    ident = a.size == b.size and ImageChops.difference(a, b).getbbox() is None
-    groups["same" if ident else "changed"].append((pic, inv2[name], name))
-for g, pics in groups.items():
-    tot = same = up = down = 0
+groups = collections.defaultdict(list)
+for old, c in sorted(carry.items()):
+    if not c["new"] or c["new"] != old:
+        groups["replaced"].append(old); continue
+    groups["same" if c["pixels_differ"] is not None and c["pixels_differ"] <= 400 else "drawn or moved"].append(old)
+for g in ("same", "drawn or moved"):
+    tot = same = up = down = unmatched = 0
     moved = []
-    for p3, p2, name in pics:
-        i3, i2 = items_of(k3, p3), items_of(k2, p2)
-        assert set(i3) == set(i2), (p3, p2)
-        for iid in sorted(i3):
-            a, b = val(s3[p3]["items"][iid]), val(s2[p2]["items"][iid])
-            tot += 1
-            if a == b:
-                same += 1
-            else:
-                up += a > b; down += a < b
-                moved.append((name, p3, iid, b, a, i3[iid].get("type"), (i3[iid].get("target") or i3[iid].get("text") or "")[:70]))
-    print("==", g, len(pics), "pictures;", "items", tot, "same", same, "up", up, "down", down,
-          "| sum v0.54 %.1f v0.55 %.1f" % (sum(val(s2[p2]["items"][i]) for _, p2, _ in pics for i in s2[p2]["items"]),
-                                         sum(val(s3[p3]["items"][i]) for p3, _, _ in pics for i in s3[p3]["items"])))
+    for name in groups[g]:
+        a, b = by_text(kN, sN, invN[name]), by_text(kP, sP, invP[name])
+        for text in sorted(set(a) | set(b)):
+            if text not in a or text not in b or len(a[text]) != len(b[text]):
+                unmatched += len(a.get(text, [])) + len(b.get(text, []))
+                continue
+            for (i1, ty, v1), (i0, _, v0) in zip(a[text], b[text]):
+                tot += 1
+                if v1 == v0:
+                    same += 1
+                else:
+                    up += v1 > v0; down += v1 < v0
+                    moved.append((name, invN[name], i1, v0, v1, ty, text[:70]))
+    print("==", g, len(groups[g]), "pictures; items matched", tot, "same", same, "up", up, "down", down, "| items not matched by text", unmatched)
+    setting = [m for m in moved if m[5] == "entity" and ("cloud" in m[6] or "tree" in m[6].lower())]
+    print("   of the", len(moved), "that moved,", len(setting), "are the clouds or a tree")
     for m in moved:
-        print("  ", m)
-json.dump(groups, open("tpdb_work/v055/same_pics.json", "w"))
+        if m not in setting:
+            print("  ", m)
+print("== replaced", groups["replaced"])

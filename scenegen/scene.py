@@ -420,7 +420,50 @@ class PlacementError(Exception):
 # for 12, a photographer with two events 7 for 10 in the park, 8 for 11 in the playground, 9 for 10 in the street, the jumper with the
 # washing 8 for 9, the ladder with an angler 13 of 24 for 10; every other rule the same count on and off. On v0.55's four tier-4 sets,
 # six seeds each: park 4 and 4, street 5 and 5, playground 3 and 3, garden 5 and 4.
-PLACEMENT_REV = 50
+# revision 51 (v0.57): the list of v0.56's screen (vision/flaws_v056.md), each rule and each drawing of the scene behind a switch of its
+# own (sw57, below: "O" is v0.56's), read blind in v0.56's own pictures built again and in new ones before it went into scenes (175
+# readings in two rounds, vision/isolation_v057.md).
+#   R1, the game of catch, which failed the gate at 0.833 on a drawing v0.56 had not changed ("it is going up and to the right, well
+#   above the girl's hands ... or as a throw at the cat on the fence"). ARC: the flight bows 45 units over the straight line from the
+#   hand to the hands, where it bowed 150 over the higher hand. CATCHLINE: the ball's disc 10 units clear of the fence's or railing's top
+#   line, the whole flight under that line where the hand is under it, no dash along it, no cat on the fence within 150 units of the
+#   flight, the ball's disc off the pond. No doubt of any kind in 0 readings of 6 of the old arc and 4 of 6 of the flat flight; no reading
+#   of the flat flight, in 26, names the fence, a cat or the pond with the ball. CATCHCAST: the catcher is a child or a teenager and the
+#   taller of the two throws: with the flat flight the ball stands halfway, and where a grown figure with raised hands caught, who threw
+#   it was asked in 4 readings of 8, where a child caught in none of 8, and in 2 of 10 with the rule.
+#   R2, the frying pan (0.900: "a watering can" first to two readers of five). The cast's pan is hollow, dark inside, on a wooden handle,
+#   tipped (castlib TPDB_PAN57 "C"), and PANFLOW pours the water over its low rim as a sheet, the holder beside the bed and never in
+#   front of it. A watering can first in 1 reading of 20, for 3 of 10 of v0.56's pan and 4 of 10 of the same pan with a pale inside;
+#   but four readers of sixteen wrote it for every pan they were given. CANBY ("C"): an unused watering can stands on the grass behind
+#   the holder and is a second cue of both contradiction items: a frying pan, plainly, in 20 readings of 20, each saying that the can
+#   stands unused. (Revision 18 had taken the garden's own can out of every picture with the pan, when readers remarked on a can left
+#   unused: that remark is the contradiction read, and this rule puts a can back on purpose, at the holder's feet.)
+#   R3 and O4, the heavy seesaw (0.933). SEAT ("D"; castlib TPDB_SEAT57 must not be "O"): a yellow seat with a back at each end of the
+#   plank, drawn where its rider sits, and rubber buffers fixed under the plank's ends in place of the blocks on the grass. The blocks
+#   are no longer remarked on and the man is beside the seesaw or on the ground less often (5 readings of 10, then 3 and 1 of 10), but
+#   where he sits is still doubted in 9 of 10 ("slightly in front of the yellow seat rather than squarely on it"): not settled.
+#   HEAVY (castlib TPDB_HEAVY57): the man has no book; he sits with a hand on each knee and looks up at the child. With the book the
+#   child was up because he reads (his weight given plainly in 1 reading of 10 on the new seat, 5 of 10 as v0.56 drew it); without it
+#   in 6 of 10 and then 10 of 10. His item is "sitting on the low end of the seesaw, looking up at the child".
+#   R5, the kite in the tree (caught, with "flying just in front of the tree" beside it in 8 readings of 8). KITESLACK: the string drops
+#   from the reel to the grass, lies there in a curl and runs along the ground before it rises to the branch; the ground under it is
+#   kept clear. Stuck with nothing beside it in 6 readings of 8. It costs the tier-4 park its seed.
+#   O2 (PONDOWN): the bread thrower and the angler stand where at most 0.30 of their height is above the pond's near shore, as revision
+#   50 has the figures of other events (over the rim or the edge in 7 readings of 8, then 1 of 8); crumbs lie only on the water.
+#   O5 (WINDLINE): in a park the blown cap and the wind's lines are off the pond, with 70 units of open air ahead of the cap (the cap
+#   "about to land in the pond" in 4 readings of 4, then none of 4); washing in a gust hangs straight from its pegs and curves out
+#   toward its hem.
+#   G1 (GREYCOL, GREYFAIL): a deeper pink for the paint, a darker box in the walker's way, a purple cap where the draw gave orange: the
+#   five records that v0.56's grey check flagged pass it, and from this revision a layout that fails the check is refused.
+# What the rules cost, seeds placed of 12 with the band off, on and off: the game of catch alone in the park 9 and 10, in a garden with a
+# cat on the fence 10 and 11, in a park with two other events 4 and 6 (CATCHLINE); CATCHCAST places more often in three sets of five
+# (12 for 10, 10 for 7, 10 for 7) and never in a playground with two other events that need a child; the blown cap in a park with two
+# other events 10 or 11, 11 and 8 for 12, 12 and 10 (WINDLINE); every other rule the same count on and off, but KITESLACK on the tier-4
+# park's own set, 0 of 12 for 2.
+# Looked at and left: the other templates that the strict count marks down (the jumper, the begging dog, the walked dog, the fish in the
+# tree, the walker about to trip), the grown figures called young first (counted by pose: it is the ice cream and the hose's nozzle as
+# much as the drawing), the thief bird's size, the garden fence's rails behind the flat ball.
+PLACEMENT_REV = 51
 # v0.56: the revision from which v0.56's drawings of the scene act, each behind a switch of its own (TPDB_<NAME>56: "B" the new drawing,
 # "O" the drawing as v0.55 had it). The whole-scene bench sets TPDB_REV56=49, to build v0.55's own records again with them.
 REV56 = int(__import__("os").environ.get("TPDB_REV56", "50"))
@@ -435,6 +478,22 @@ def sw56(name):
     if env.get("TPDB_ONLY56") is not None and name not in env["TPDB_ONLY56"].split(","):
         return "O"         # (a bench arm: only the named switches act)
     return env.get("TPDB_" + name + "56", SW56_DEFAULT.get(name, "B"))
+# v0.57: the revision from which v0.57's drawings of the scene act, each behind a switch of its own (TPDB_<NAME>57: "B" the new drawing,
+# "O" the drawing as v0.56 had it). A whole-picture bench sets TPDB_REV57=50, to build v0.56's own records again with them.
+REV57 = int(__import__("os").environ.get("TPDB_REV57", "51"))
+SW57_DEFAULT = {"SEAT": "D", "CANBY": "C"}      # a switch that is not named here is "B"; one that its bench did not take is named here with "O"
+
+
+def sw57(name):
+    """The value of v0.57's switch NAME for the record being built: "O" under revision REV57, else TPDB_<NAME>57 or its default."""
+    env = __import__("os").environ
+    if PLACEMENT_REV < REV57:
+        return "O"
+    if env.get("TPDB_ONLY57") is not None and name not in env["TPDB_ONLY57"].split(","):
+        return "O"         # (a bench arm: only the named switches act)
+    return env.get("TPDB_" + name + "57", SW57_DEFAULT.get(name, "B"))
+
+
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px
 EDGE49_PX = int(__import__("os").environ.get("TPDB_EDGE49_PX", "8"))      # the margin; 14 was the first value
 POND48 = __import__("os").environ.get("TPDB_POND48", "B")      # "O": revision 44's pond

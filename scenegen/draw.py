@@ -675,12 +675,24 @@ def crate(x, y, s=1.0, lift=0.0, col=None):
     return svg, (x - w / 2, yb - h - 14 * s, x + w / 2 + 16 * s, yb)
 
 
-def long_box(x, y, s=1.0, w=62, h=34, dx=30, dy=62, grain=False):
+BOX57 = ("#b98349", "#74492a", "#a16b3b", "#74492a")      # v0.57 (the scene's switch GREYCOL): the walker's box, its top, side, front and the top's line
+
+
+def long_box(x, y, s=1.0, w=62, h=34, dx=30, dy=62, grain=False, cols=None):
     """v0.29: a long low box or board lying with its length across a walker's way, its ground point the middle of its footprint (a bucket on the line of the stride was "to the side of her
-    path rather than directly under her feet")."""
+    path rather than directly under her feet").
+    cols (v0.57, the scene's switch GREYCOL; vision/flaws_v056.md G1): the top, the side, the front and the line on the top, BOX57. The box was
+    tan, wood and light wood, grey 153 and 161 on a lawn at 168, and the grey check flagged it in two of v0.56's three pictures (31, 80:
+    23 % of it stood off). A darker wood: the top grey 138, the front 115, the side 80."""
     w, h, dx, dy = w * s, h * s, dx * s, dy * s
     x0, y0 = x - (w + dx) / 2, y + dy / 2
     svg = shadow(x, y + dy / 2 - 4 * s, w + dx * 0.9)
+    if cols:
+        svg += poly([(x0, y0 - h), (x0 + dx, y0 - h - dy), (x0 + w + dx, y0 - h - dy), (x0 + w, y0 - h)], cols[0])
+        svg += poly([(x0 + w, y0 - h), (x0 + w + dx, y0 - h - dy), (x0 + w + dx, y0 - dy), (x0 + w, y0)], cols[1])
+        svg += rect(x0, y0 - h, w, h, cols[2], 2 * s)
+        svg += line(x0 + w * 0.5 + dx * 0.1, y0 - h - dy * 0.1, x0 + w * 0.5 + dx * 0.9, y0 - h - dy * 0.9, cols[3], 3 * s)
+        return svg, (x0, y0 - h - dy, x0 + w + dx, y0)
     svg += poly([(x0, y0 - h), (x0 + dx, y0 - h - dy), (x0 + w + dx, y0 - h - dy), (x0 + w, y0 - h)], C["tan"])
     svg += poly([(x0 + w, y0 - h), (x0 + w + dx, y0 - h - dy), (x0 + w + dx, y0 - dy), (x0 + w, y0)], C["wood"])
     svg += rect(x0, y0 - h, w, h, C["wood_light"], 2 * s)
@@ -1006,6 +1018,12 @@ def _sw56(name):
     when the scene module is not loaded (a drawing made on its own)."""
     scn = sys.modules.get("scenegen.scene")
     return scn.sw56(name) if scn is not None and hasattr(scn, "sw56") else "O"
+
+
+def _sw57(name):
+    """v0.57: the scene's switch NAME (scenegen.scene.sw57), as _sw56 is for v0.56's."""
+    scn = sys.modules.get("scenegen.scene")
+    return scn.sw57(name) if scn is not None and hasattr(scn, "sw57") else "O"
 
 
 def _splat28(x, y, s, col, lump):
@@ -1836,19 +1854,54 @@ def seesaw_rest(bumper, L=212):
     return math.degrees((lo + hi) / 2)
 
 
-def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False, up=(0, 0), arch=(False, False), bumper=0.0, backs=False):
+# v0.57 (templates SEAT; vision/flaws_v056.md R3 and O4): the seat drawn on each end of the plank and the buffer fixed under it, in units.
+#   seat: the pad lies on the plank from u0 to u1 units in from the end, its middle line h units above the plank's axis, w thick, and turns up
+#   at the end into a back that reaches back_h above the axis and back_u past the end. buffer: `inn` in from the end (SEESAW_STOP56's), w wide,
+#   hanging `deep` under the plank's underside when nothing presses on it; on the ground it is `wide` wide and as tall as the gap
+SEESAW_SEAT57 = dict(u0=10.0, u1=60.0, h=10.5, w=7.0, back_h=42.0, back_u=5.0, col="yellow", deep=21.0, bw=24.0, wide=31.0,
+                     back_d=38.0)      # (back_d: how far above the axis the back of a seat drawn where its rider sits reaches, SEAT "D")
+
+
+def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False, up=(0, 0), arch=(False, False), bumper=0.0, backs=False, seat57=False, hide57=()):
     """Seesaw on a pivot; tilt > 0 lifts the right end. Returns svg and the two seat points.
     inset (v0.28) moves the seats and handles in from the plank's ends; ground (v0.28) casts one shadow under the whole plank, for the riders too.
     up (v0.32): how much taller each end's handle stands, in units (left, right), for a rider raised onto the plank who grips it.
     bumper (v0.56): the height, in units, of a rubber stop drawn on the ground under each end (the plank rests on one at the tilt `seesaw_rest`
-    gives). backs (v0.56): a low seat back standing on the plank at each end, behind the rider."""
+    gives). backs (v0.56): a low seat back standing on the plank at each end, behind the rider.
+    seat57 (v0.57, with bumper): a seat with a back on each end of the plank (SEESAW_SEAT57), and the stops no longer blocks on the ground: a
+    rubber buffer hangs under each end and goes up with it, and the one that the low end rests on is pressed flat and wide.
+    hide57 (v0.57): the ends ("left", "right") whose handle is not drawn: it stands between the thighs of a grown rider who sits on the low
+    end and is hidden by him but for its foot, which showed as two dark pegs under his thigh."""
     ph = 82 * s
     a = math.radians(tilt)
     dx, dy = math.cos(a) * L * s, -math.sin(a) * L * s
     pv = (cx, base_y - ph)
     left, right = (pv[0] - dx, pv[1] - dy), (pv[0] + dx, pv[1] + dy)
     svg = f'<ellipse cx="{cx:.1f}" cy="{base_y + 2:.1f}" rx="{abs(dx) * 1.04:.1f}" ry="{13 * s:.1f}" fill="{OUT}" fill-opacity="0.16"/>' if ground else ""
-    if bumper:
+    if bumper and seat57:
+        q57 = SEESAW_SEAT57
+        for (ex_, ey_), sg_ in ((left, 1), (right, -1)):
+            ux_, uy_ = sg_ * math.cos(a), -sg_ * math.sin(a)        # along the plank, in from this end
+            nx_, ny_ = -math.sin(a), -math.cos(a)                    # square to it, upward
+            mx_, my_ = ex_ + ux_ * SEESAW_STOP56["inn"] * s, ey_ + uy_ * SEESAW_STOP56["inn"] * s
+
+            def at_(du, dh, mx_=mx_, my_=my_, ux_=ux_, uy_=uy_, nx_=nx_, ny_=ny_):
+                return (mx_ + (ux_ * du + nx_ * dh) * s, my_ + (uy_ * du + ny_ * dh) * s)
+            hw_ = q57["bw"] / 2
+            low_ = max(at_(-hw_, -7 - q57["deep"])[1], at_(hw_, -7 - q57["deep"])[1])
+            if low_ >= base_y - 1.0 * s:
+                # this end is down: the buffer pressed between the plank and the ground, flat underneath and bulging at its sides
+                t0_, t1_ = at_(-q57["wide"] / 2, -5), at_(q57["wide"] / 2, -5)
+                b0_, b1_ = (t0_[0], base_y), (t1_[0], base_y)
+                g0_, g1_ = (t0_[1] + base_y) / 2, (t1_[1] + base_y) / 2
+                o_ = 5 * s * (1 if t1_[0] > t0_[0] else -1)
+                svg += shape(f"M {P(*t0_)} Q {P(t0_[0] - o_, g0_)} {P(*b0_)} L {P(*b1_)} Q {P(t1_[0] + o_, g1_)} {P(*t1_)} Z", C["charcoal"], OW * 0.7)
+            else:
+                c0_, c1_, c2_, c3_ = at_(-hw_, -5), at_(hw_, -5), at_(hw_, -7 - q57["deep"]), at_(-hw_, -7 - q57["deep"])
+                k0_, k1_ = at_(hw_ * 0.45, -7 - q57["deep"]), at_(-hw_ * 0.45, -7 - q57["deep"])
+                m0_, m1_ = at_(hw_, -7 - q57["deep"] * 0.55), at_(-hw_, -7 - q57["deep"] * 0.55)
+                svg += shape(f"M {P(*c0_)} L {P(*c1_)} L {P(*m0_)} Q {P(*c2_)} {P(*k0_)} L {P(*k1_)} Q {P(*c3_)} {P(*m1_)} Z", C["charcoal"], OW * 0.7)
+    elif bumper:
         rr_ = math.radians(seesaw_rest(bumper, L))
         for sg_ in (-1, 1):
             bx_ = cx + sg_ * (L - SEESAW_STOP56["inn"]) * math.cos(rr_) * s
@@ -1860,9 +1913,28 @@ def seesaw(cx, base_y, s=1.0, tilt=0.0, L=212, inset=0, ground=False, pad=False,
         x, y = x + sg * inset * s * math.cos(a), y - sg * inset * s * math.sin(a)
         hx, hy = x + sg * 34 * s * math.cos(a), y - sg * 34 * s * math.sin(a)
         ht = 42 + (up[0] if name == "left" else up[1])
-        svg += stroke(poly_d([(hx, hy - 6 * s), (hx, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
-        svg += stroke(poly_d([(hx - 9 * s, hy - ht * s), (hx + 9 * s, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
-        if arch[0 if name == "left" else 1]:
+        if seat57:
+            # (v0.57) the seat: a pad on the plank that turns up into a back at the plank's end, behind the rider's hips
+            q57 = SEESAW_SEAT57
+            e0_ = (x - sg * inset * s * math.cos(a), y + sg * inset * s * math.sin(a))          # the plank's end
+
+            def st_(du, dh, e0_=e0_, sg=sg):
+                return (e0_[0] + (sg * math.cos(a) * du - math.sin(a) * dh) * s, e0_[1] + (-sg * math.sin(a) * du - math.cos(a) * dh) * s)
+            d57 = (f"M {P(*st_(q57['u1'], q57['h']))} L {P(*st_(q57['u0'], q57['h']))} Q {P(*st_(0.5, q57['h']))} {P(*st_(-1.0, q57['h'] + 11))} "
+                   f"L {P(*st_(-q57['back_u'], q57['back_h']))}")
+            g57 = seat57.get(name) if isinstance(seat57, dict) else None
+            if g57:
+                # (templates SEAT "D") the seat where its rider sits: the back at g57["ub"] units in from the end, the pad on to g57["u1"].
+                # The back stands upright in the picture whatever the tilt: square to the plank it leaned away from a rider on the low
+                # end, who sits upright, and a wedge of air and pad showed between them
+                b57 = st_(g57["ub"], q57["h"])
+                d57 = (f"M {P(*st_(g57['u1'], q57['h']))} L {P(*st_(g57['ub'] + 15, q57['h']))} Q {P(*b57)} "
+                       f"{P(b57[0], b57[1] - 15 * s)} L {P(b57[0], b57[1] - (q57['back_d'] - q57['h']) * s)}")
+            svg += stroke(d57, C[q57["col"]], q57["w"] * s, OW * 0.7)
+        if name not in hide57:
+            svg += stroke(poly_d([(hx, hy - 6 * s), (hx, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
+            svg += stroke(poly_d([(hx - 9 * s, hy - ht * s), (hx + 9 * s, hy - ht * s)]), C["charcoal"], 6 * s, OW * 0.7)
+        if arch[0 if name == "left" else 1] and name not in hide57:
             # (v0.50, templates.SEAT50) the handle is a grab bar: from its top it comes down to the plank ahead of the rider's knees, where it
             # shows (a rider who sits on the plank hides the post in the lap: "Neither child seems to have handles to hold", bench round 1)
             fx, fy = hx + sg * 22 * s * math.cos(a), hy - sg * 22 * s * math.sin(a) - 6 * s

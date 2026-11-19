@@ -1,48 +1,51 @@
-"""strict_count.py : the gate again with the full marks the scorers themselves listed as judgement calls halved (from v0.41; the scorers are
-asked for the list from v0.47). Fill TWO (the target beside another reading) and NEAR (a near word, or a target partly said) by hand from the
-scores_summary files of the release; the lists below are v0.56's (33 and 46). Prints the templates that would fall under 0.9 with TWO
-halved, and with both halved. Run after the swap and vision/gate.py."""
+"""strict_count.py : the gate again with the full marks the scorers themselves flagged as judgement calls halved.
+
+From v0.57 the scorers write the flag beside each score ("call": "two" where a score of 1 has another reading beside the target, "near"
+where it rests on a near word or a target partly said; tools/cycle/prompts/scorer_template.txt), and this script reads the flags from
+vision/v<TAG>/scores.json and the parts scores_<a..f>.json. From v0.41 to v0.56 the two lists were sorted by hand from the scorers'
+prose (v0.56's 33 and 46 are in this file's history). DROP is for flags that are not calls by the rule (a name the key accepts), each
+with its reason; it should stay empty. Prints the templates that would fall under 0.9 with the "two" calls halved, and with both
+halved, and how many each scorer flagged. Run after the swap and vision/gate.py."""
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from cfg import ROOT, WORK, TAG, PREV  # noqa: E402
-import collections, json, os
+import collections, glob, json
 os.chdir(ROOT)
-TWO = {
-    # scorer a (three are the fish in the tree, impossible beside a toy, an ornament or a kite shaped like a fish)
-    ("pic_02", "i04"), ("pic_12", "i02"), ("pic_04", "i04"), ("pic_09", "i03"), ("pic_10", "i02"), ("pic_13", "i05"), ("pic_01", "i03"), ("pic_13", "i04"), ("pic_17", "i07"), ("pic_17", "i03"), ("pic_18", "i04"), ("pic_18", "i05"), ("pic_22", "i03"), ("pic_24", "i02"), ("pic_24", "i03"),
-    # scorer b
-    ("pic_42", "i06"), ("pic_50", "i03"), ("pic_46", "i02"), ("pic_29", "i01"),
-    # scorer c
-    ("pic_63", "i04"),
-    # scorer d (pic_92 i01: the grandfather reads a newspaper, and whether he sits squarely on the seesaw's seat is asked)
-    ("pic_78", "i03"), ("pic_80", "i04"), ("pic_82", "i03"), ("pic_89", "i03"), ("pic_89", "i14"), ("pic_92", "i01"), ("pic_96", "i03"), ("pic_97", "i03"),
-    # scorer e
-    ("pic_102", "i02"), ("pic_106", "i07"), ("pic_110", "i03"), ("pic_116", "i02"), ("pic_119", "i09")}
-NEAR = {
-    # scorer a (six are the teenager called a boy; pic_16 i10 is the man who sits on nothing, noticed only among the unsure things. This
-    #  scorer also listed seven marks of an older or elderly woman or man for a grandparent, which v0.55's count left out as the key's own
-    #  names: not counted)
-    ("pic_16", "i10"), ("pic_04", "i14"), ("pic_06", "i02"), ("pic_10", "i04"), ("pic_16", "i17"), ("pic_17", "i01"), ("pic_22", "i04"),
-    # scorer b (a man called a boy twice, a woman called a woman or an older girl)
-    ("pic_40", "i04"), ("pic_42", "i01"), ("pic_34", "i01"),
-    # scorer c (pic_73 i03 and i04 are the wheelbarrow's square wheel said only among the unsure things)
-    ("pic_53", "i06"), ("pic_57", "i02"), ("pic_57", "i04"), ("pic_60", "i04"), ("pic_73", "i03"), ("pic_73", "i04"), ("pic_74", "i03"),
-    # scorer d (eight are the teenager called a boy, one a man called a boy. This scorer also listed nine grandparents called an older
-    #  man or woman, a lead for the leash and two puppies for the dog: not counted)
-    ("pic_80", "i01"), ("pic_81", "i02"), ("pic_85", "i02"), ("pic_86", "i03"), ("pic_88", "i02"), ("pic_89", "i04"), ("pic_89", "i10"), ("pic_90", "i01"), ("pic_94", "i07"), ("pic_97", "i04"), ("pic_99", "i03"),
-    # scorer e (four are the teenager called a boy, eight a grown figure called a boy or a girl or given beside one, two a bird box for
-    #  the bird feeder; pic_114 i02 is the frying pan noticed only among the unsure things)
-    ("pic_106", "i01"), ("pic_106", "i05"), ("pic_107", "i02"), ("pic_107", "i06"), ("pic_108", "i04"), ("pic_109", "i01"), ("pic_110", "i05"), ("pic_111", "i02"), ("pic_112", "i01"), ("pic_112", "i05"), ("pic_114", "i01"), ("pic_114", "i02"), ("pic_115", "i01"), ("pic_117", "i02"), ("pic_118", "i03"), ("pic_119", "i02"), ("pic_119", "i03"), ("pic_119", "i16")}
-assert len(TWO) == 33 and len(NEAR) == 46 and not (TWO & NEAR), (len(TWO), len(NEAR), TWO & NEAR)
+DROP = {
+    # ("pic_NN", "iNN"): "why this flag is not a call",
+}
 km = json.load(open(f"vision/v{TAG}/key_map.json"))
 sc = json.load(open(f"vision/v{TAG}/scores.json", encoding="utf-8"))
+TWO, NEAR, odd = set(), set(), []
+for pic, v in sc.items():
+    for iid, s in v["items"].items():
+        c = s.get("call")
+        if c in (None, "", "null", "none"):
+            continue
+        if (pic, iid) in DROP:
+            continue
+        if s.get("score") != 1:
+            odd.append((pic, iid, s.get("score"), c))      # a flag on a score that is not 1: not counted, printed
+            continue
+        if c == "two":
+            TWO.add((pic, iid))
+        elif c == "near":
+            NEAR.add((pic, iid))
+        else:
+            odd.append((pic, iid, s.get("score"), c))
+print("flags: two", len(TWO), "near", len(NEAR), "dropped", len(DROP), "odd", odd)
+for p in sorted(glob.glob(f"vision/v{TAG}/scores_?.json")):
+    part = json.load(open(p, encoding="utf-8"))
+    n2 = sum(1 for pic, v in part.items() for s in v["items"].values() if s.get("call") == "two" and s.get("score") == 1)
+    nn = sum(1 for pic, v in part.items() for s in v["items"].values() if s.get("call") == "near" and s.get("score") == 1)
+    print("  scorer", os.path.basename(p)[7:-5], "two", n2, "near", nn, "of", sum(len(v["items"]) for v in part.values()), "items")
 
 
 def run(label, hedged):
     vals, tmpl_of, seen = collections.defaultdict(list), {}, set()
     for pic, name in km.items():
         f = next(p for p in (f"scenes/{name}.json", f"probes/{name}.json") if os.path.exists(p))
-        r = json.load(open(f))
+        r = json.load(open(f, encoding="utf-8"))
         for it in r["items"]:
             key = (pic, it["id"])
             if key in hedged:

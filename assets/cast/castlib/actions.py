@@ -884,6 +884,26 @@ def up_shrug(P):
         P.hand(sd, "open", palm=(0, 0, 1))
 
 
+HEAVY57_P = dict(pitch=18.0, lean=2.0, back=0.05, up=0.075, out=0.0)
+HEAVY57_P.update(__import__("json").loads(_os44.environ.get("TPDB_HEAVY57_P", "{}")))
+
+
+def up_knees_low(P):
+    """v0.57 (TPDB_HEAVY57): seated on the seesaw's low end with nothing in the hands: a hand on each knee, the head up toward the child at
+    the other end. (A first trial with both forearms out and the palms up, a shrug, was two flat hands held out over the knees in a side
+    view, where a palm turned up cannot be told from one turned down.)"""
+    upd()
+    u = P.u
+    q = HEAVY57_P
+    tg = {}
+    for sd, sg in (("L", 1), ("R", -1)):
+        k = P.rig.head(f"shin_{sd}")
+        tg[sd] = (Vector((k.x + sg * q["out"] * u, k.y + q["back"] * u, k.z + q["up"] * u)), (sg * 0.8, 0.5, -0.4))
+    P.arms(tg)
+    for sd in ("L", "R"):
+        P.hand(sd, "open", palm=(0, 0, -1))
+
+
 def up_hands_to_face(P):
     u = P.u
     m = P.lm("mouth")
@@ -1090,6 +1110,9 @@ def up_water_pan(P):
     -X), so it reads as a round pan with a silver inside; edge-on it read as a hose wand."""
     u = P.u
     pel = P.lm("pelvis")
+    if PAN57 != "O":
+        _water_pan_v57(P, PAN57)
+        return
     if PAN_STYLE in ("B", "C", "D", "E"):
         _water_pan_v23(P, PAN_STYLE)
         return
@@ -1149,6 +1172,78 @@ def _water_pan_v23(P, style):
     rim = c + far * R * 0.95 + Vector((0, 0, -0.02 * u))
     P.panchor("spout", rim)
     P.panchor("spout_aim", rim + Vector((0, -0.30, -0.14)) * u)
+
+
+# v0.57 (TPDB_PAN57; vision/flaws_v056.md R2): v0.56's shallow pan was a watering can first to two screen readers of five ("held by a long
+# thin handle out in front like a frying pan or ladle, and the water seems to come from its far side"; "dark grey and fairly flat").
+# "O": v0.56's pan (PAN56 above, its code untouched; with TPDB_PAN56=O as well, v0.55's deep pan). "B": a pan that is hollow, the rim a
+# rolled ring, a flared wall and a flat base of pale metal inside a dark outside, on a wooden handle that rises from the rim to the fist
+# and ends behind it; the pan is tipped away from the holder and toward the viewer, so that its round inside shows, and water lies in it
+# against the low rim. The scene pours the water over that rim as a sheet (templates.PanWatering, the switch PANFLOW), between the anchors
+# pour_0 to pour_4. "C": B with a dark inside (the non-stick pan), for a bench arm.
+# (v0.19's and v0.23's benches: a pan drawn as a flat disc, face-on on a long handle, was a watering can's rose on its spout, a wand or a
+#  magnifying glass; what read as a pan was its depth showing. So the depth here is the pan's own hollow, and the handle is wood.)
+PAN57 = _os44.environ.get("TPDB_PAN57", "C")      # (the bench took "C", the dark inside: vision/isolation_v057.md)
+# (the fist from the pelvis; the pan's radius, depth and how much narrower its base is; how far its far side is tipped down and how far
+#  its face is turned to the viewer, in degrees; how far the handle rises from the pan's plane; the handle's length from rim to fist, its
+#  radius and what shows behind the fist; the inside's and the handle's colour; the pool's half angle round the low point of the rim and
+#  its height in the pan as a part of the depth; the half angle of the arc the water leaves over)
+PAN57_P = dict(hand=(-0.22, -0.33, 0.36), R=0.165, depth=0.046, flare=0.80, pitch=18.0, roll=28.0, rise=8.0, L=0.24, hr=0.019, butt=0.055,
+               inside="gray", handle="brown", pool=66.0, pool_h=0.78, arc=27.0)
+# (a first try, the face turned 36 degrees to the viewer on a short handle of pale wood: at a picture's size a grey disc pouring water with
+#  hardly a handle, which could be a bowl or a bucket being emptied. So the slant is v0.23's again, a little more, and the handle is long
+#  and dark, in line with the pan.)
+PAN57_P.update(__import__("json").loads(_os44.environ.get("TPDB_PAN57_P", "{}")))
+_PAL44.setdefault("water_light", "#6cb8e6")       # the scene's own colour of poured water (scenegen/draw.py C["water_light"]), for the pool in the pan
+
+
+def _water_pan_v57(P, style):
+    """v0.57 (TPDB_PAN57): the hollow frying pan tipped to pour, see the switch."""
+    u = P.u
+    q = PAN57_P
+    pel = P.lm("pelvis")
+    P.arms({"R": (pel + Vector(q["hand"]) * u, (-1, 0.5, -0.3)), "L": P.rest_arm("L")})
+    g = P.grip("R")
+    R, D = q["R"] * u, q["depth"] * u
+    Rb = R * q["flare"]
+    p_, r_, ri = math.radians(q["pitch"]), math.radians(q["roll"]), math.radians(q["rise"])
+    a = Vector((0.0, -math.cos(p_), -math.sin(p_)))             # along the pan, away from the holder, its far side down
+    b0 = Vector((-1.0, 0.0, 0.0))                                 # across the pan, toward the viewer (the character's right)
+    n0 = b0.cross(a)
+    n = (n0 * math.cos(r_) + b0 * math.sin(r_)).normalized()     # the pan's face, turned to the viewer
+    b = (b0 * math.cos(r_) - n0 * math.sin(r_)).normalized()
+    h = (-a * math.cos(ri) + n * math.sin(ri)).normalized()      # the handle, from the rim up to the fist
+    A = g - h * (q["L"] * u)                                      # where the handle meets the rim
+    ct = A + a * R                                                # the rim's centre
+    cb = ct - n * D                                               # the base's
+    dark = style == "C"
+    inside = "charcoal" if dark else q["inside"]
+    t = 0.005 * u
+    P.prop("pan", cyl("pan", cb, ct, Rb, "charcoal", seg=40, r1=R, caps=False))
+    P.prop("panbot", cyl("panbot", cb - n * t, cb, Rb, "charcoal", seg=40))
+    P.prop("panwall", cyl("panwall", cb + n * t, ct, Rb - t, "slate" if dark else inside, seg=40, r1=R - t, caps=False))
+    P.prop("panin", cyl("panin", cb + n * (t * 0.5), cb + n * t, Rb - t, inside, seg=40))
+    P.prop("rim", tube_mesh("rim", [ct + (a * math.cos(2 * math.pi * k / 28) + b * math.sin(2 * math.pi * k / 28)) * R for k in range(28)],
+                            0.0065 * u, "charcoal", closed=True))
+    P.prop("neck", cyl("neck", A - h * 0.012 * u, A + h * 0.05 * u, 0.014 * u, "charcoal"))
+    P.prop("handle", cyl("handle", A + h * 0.04 * u, g + h * q["butt"] * u, q["hr"] * u * 0.88, q["handle"], r1=q["hr"] * u * 1.08))
+    # the low point of the rim, and the water lying against it: a flat piece just under the rim's height, cut off along a chord
+    up = Vector((0.0, 0.0, 1.0))
+    lo = (n * n.dot(up) - up).normalized()
+    w = n.cross(lo)
+    hp = q["pool_h"]
+    rp = Rb + (R - Rb) * hp - 1.6 * t
+    k_ = math.radians(q["pool"])
+    outline = [(rp * math.cos(k_ * (i / 12.0 - 1.0)), rp * math.sin(k_ * (i / 12.0 - 1.0))) for i in range(25)]
+    P.prop("pool", flat_prism("pool", outline, cb + n * (D * hp), lo, w, n, 0.5 * t, "water_light"))
+    spout = ct + lo * R
+    P.panchor("spout", spout)
+    P.panchor("spout_aim", spout + Vector((0.0, -0.06, -0.30)) * u)
+    ar = math.radians(q["arc"])
+    for i in range(5):
+        k = ar * (i - 2) / 2.0
+        P.panchor("pour_%d" % i, ct + (lo * math.cos(k) + w * math.sin(k)) * R)
+    P.panchor("pan_c", ct)
 
 
 # v0.56 (TPDB_NOZZLE56; vision/flaws_v055.md, quality check, R4): the nozzle the holder of the stopped hose looks into was 14 to 20 units across in
@@ -2186,6 +2281,16 @@ def up_read_open(P, rz=55.0, k=1.25, dz=0.0):
 LOWEND56 = _os44.environ.get("TPDB_LOWEND56", "B")
 LOWEND56_SEAT = float(_os44.environ.get("TPDB_LOWEND56_SEAT", "0.28"))
 LOWEND56_ARGS = {"seat": LOWEND56_SEAT} if LOWEND56 != "O" else {}
+# v0.57 (TPDB_SEAT57; vision/flaws_v056.md R3; with the scene's switch SEAT, templates.SEAT57_LOW): the seesaw's ends carry a seat, and whoever
+# sits on the low end is set down on its pad, the underside of the drawing on the pad's top, where v0.56 drew the hips over the plank. "B":
+# the hips SEAT57_UP metres higher over the feet than LOWEND56_SEAT, which is what the scene lifts him by, so that the feet stay on the
+# ground. "O": v0.56's. THE CAST'S DEFAULT AND THE SCENE'S GO TOGETHER.
+SEAT57 = _os44.environ.get("TPDB_SEAT57", "B")
+SEAT57_UP = float(_os44.environ.get("TPDB_SEAT57_UP", "0.087"))
+SEAT57_ARGS = {"seat": LOWEND56_SEAT + SEAT57_UP} if SEAT57 != "O" and LOWEND56 != "O" else LOWEND56_ARGS
+# v0.57 (TPDB_HEAVY57; vision/flaws_v056.md R3; the scene's switch HEAVY): "B" adds the pose seesaw_low_look, the grown rider on the low end
+# with no book, a hand on each knee and his head up toward the child (up_knees_low). "O": no such pose (v0.56's cast)
+HEAVY57 = _os44.environ.get("TPDB_HEAVY57", "B")
 
 
 def up_grip_handle(P):
@@ -2422,7 +2527,7 @@ def up_trowel(P):
 UPPER = {
     "walk_swing": up_walk_swing, "run_swing": up_run_swing, "wave": up_wave, "point": up_point, "point_up": up_point_up, "feel_rain": up_feel_rain,
     "reach_up": up_reach_up, "hang_up": up_hang_up, "cheer": up_cheer, "slide_up": up_slide_up, "slide_hold": up_slide_hold,
-    "hands_on_hips": up_hands_on_hips, "shrug": up_shrug,
+    "hands_on_hips": up_hands_on_hips, "shrug": up_shrug, "knees_low": up_knees_low,
     "hands_to_face": up_hands_to_face, "hold_front": up_hold_front, "clap": up_clap, "call_out": up_call_out,
     "think": up_think, "cross_arms": up_cross_arms, "catch": up_catch, "push": up_push, "hold_bike": up_hold_bike, "balance": up_balance,
     "ground_support": up_ground_support, "lie_rest": up_lie_rest, "swing_hold": up_swing_hold,
@@ -2580,7 +2685,7 @@ ACTIONS = [
     ("jump_tuck", "jump_tuck", {}, "cheer", "doing a star jump for joy", ["move", "airborne", "emotion"]),
     ("seesaw_stuck", "sit_dangle", {}, "grip_handle", "up high on a seesaw, holding on", ["sit", "seesaw"]),
     ("seesaw_stuck_call", "sit_hang", {}, "grip_call" if CALL44 == "A" else "grip_handle", "stuck up in the air, holding on tight, calling out", ["sit", "seesaw"]),
-    ("seesaw_low", "sit_low", dict(LOWEND56_ARGS), "cross_arms", "sitting on the low end of a seesaw", ["sit", "seesaw"]),
+    ("seesaw_low", "sit_low", dict(SEAT57_ARGS), "cross_arms", "sitting on the low end of a seesaw", ["sit", "seesaw"]),
     # v0.9
     ("balloon_reach", "stand", {"head_pitch": 26, "lean": -3}, "balloon_reach", "holding balloons and reaching for one that got away", ["balloon", "reach"]),
     ("walk_read_open", "walk", {"head_pitch": WALK_READ_PITCH}, "read_open", "reading while walking", ["read", "move"]),
@@ -2588,8 +2693,10 @@ ACTIONS = [
     # plank end or sitting just beside it with the plank behind his legs", v0.31); "X" the legs out along the ground under the plank; "F" the feet further out, for a
     # rider turned away from the plank, whose feet land past its end
     ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": tuple(SIT55_P["low"]) if SIT55 == "B" else {"O": (0.20, -0.19), "X": (0.17, -0.86), "F": (0.20, -0.30)}[__import__("os").environ.get("TPDB_LOW", "O")],
-                                    **LOWEND56_ARGS},
+                                    **SEAT57_ARGS},
      "read_open_hi" if SIT55 == "B" else "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
+    *([("seesaw_low_look", "sit_low", {"head_pitch": HEAVY57_P["pitch"], "lean": HEAVY57_P["lean"], "feet": tuple(SIT55_P["low"]), **SEAT57_ARGS},
+        "knees_low", "sitting on the low end of the seesaw, hands on the knees, looking up", ["sit", "seesaw"])] if HEAVY57 != "O" else []),
     # v0.10
     ("cone_dropped", "stand", {"head_pitch": CONE56_P["pitch"], "head_turn": CONE56_P["turn"], "head_roll": CONE56_P["roll"]} if CONE56 != "O" else {"head_pitch": -34, "head_roll": 4},
      "empty_cone_low", "holding an empty cone, upset, looking down at the dropped ice cream", ["food", "emotion"]),

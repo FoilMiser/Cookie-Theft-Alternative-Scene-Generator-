@@ -49,69 +49,59 @@ DESCR = {
 }
 
 # the screens the page compares: the current one and the one before it
-PREV, CUR = "v055", "v056"
+PREV, CUR = "v056", "v057"
 
-# v0.56: the brief was the whole list of the check of v0.55 (vision/flaws_v055.md, its second part). Twelve poses of the cast are drawn again and
-# three added (builder 0.56.0), placement revision 50 holds the placement rows, and the drawings of the scene are behind scene.sw56; three
-# blind benches read each one first (vision/isolation_v056.md, vision/design_tests_v056.md), and the screen is vision/flaws_v056.md
+# v0.57: the brief was the list of the screen of v0.56 (vision/flaws_v056.md). The drawings and rules of the scene are behind scene.sw57 (placement
+# revision 51) and three poses of the cast behind TPDB_<NAME>57 (builder 0.57.0); two blind benches read each one first (vision/isolation_v057.md,
+# vision/design_tests_v057.md). The release is like for like: the records of v0.56 were built again one by one, and the screen is vision/flaws_v057.md
 REDRAWN_NOTES = {
-    "square_wheel": "The bicycle is held by its owner, and the square wheel of the wheelbarrow is the size of a round one and open on its spokes. On the bench six readers of six named the wheels of the held bicycle as wrong, for four of ten on its stand and none of eight leaning on a post. 1.00 in ten pictures, where v0.55 had 0.938 and a misread: 'At the far left an older man in a flat cap and brown waistcoat stands holding a teal bicycle whose wheels are square, which is impossible.'",
-    "blocked_hose": "A nozzle twice the size with one drop at its mouth, water seeping at the reel, and the swelling kept. The dog was the one cause to eight bench readers of ten, for none of four. 1.00 in five pictures, for 0.975.",
-    "bird_steals": "The bird is half as large again and pulls the top slice away. On the bench it was no likelier to be read as stealing, 12 readings of 24 for 12 of 31, and no longer small. 1.00 in six pictures, for 0.967, with the old doubt beside two full marks: 'The bird could be eating the sandwich or just standing next to it; it looks like it is pecking at it.'",
-    "seesaw_heavy": "The ends of the plank rest on stops, and the child stretches an arm down to the man. 0.933 in five pictures, for 1.00: two readers give no weight as the reason, and three have the man perched on the end of the plank or beside it. On the next list.",
-    "ladder_nothing": "Longer, its top third against open sky, in a park with no lamp post. 1.00 in five pictures with no judgement call, where a support behind it was offered in nine readings of nine: 'In the middle of the grass, a tall wooden ladder stands upright on its own, leaning against nothing, which is impossible.'",
-    "sprinkler_package": "The box is a taped parcel with a blank label, set down on the path where the water just reaches it. 1.00 in five pictures with no judgement call.",
-    "kite_in_tree": "The kite lies tipped on a limb at the edge of the crown, yellow or orange so that it stands off the leaves in grey. Read as it was: caught, with flying in front of the tree beside it, in four pictures of five.",
-    "pan_watering": "A shallow pan with a long handle, a frying pan to eight bench readers of eight. In the screen it is a watering can first to two readers of five, and 0.900 for 1.00: 'It could be read as a pan or a scoop rather than a watering can.' On the next list.",
-    "photo": "The photographer is drawn from the side, with a subject near and alone on that side. 1.00 in five pictures and no oddity logged, where nine readings of nine had asked what the camera was aimed at.",
-    "picnic": "The blanket is half as large again, and the sitter and the basket are in its middle. 1.00 in five pictures.",
-    "hang_laundry": "The hands are apart along the line, a peg in one. 1.00 in five pictures.",
-    "ice_cream_drop": "The child looks at the cone with a hand at the cheek, and the cone is empty and pale. 1.00 in six pictures, for 0.982.",
-    "plant_flowers": "Kneeling on both knees with a seedling in the hand, a tray of seedlings by the bed. 1.00 in five pictures, and no scorer lists a second reading.",
-    "feed_birds": "The paper bag is held by its neck in the other hand. 1.00 in five pictures.",
-    "dog_sleeping": "Curled, chin on the paws, the eyes two closed arcs. 1.00 in five pictures; two readers add that it could be playing, or a lamb.",
-    "swing": "A fist on each rope. 1.00 in five pictures.",
-    "seesaw": "Tilted fifteen degrees, its ends on stops. 1.00 in five pictures, and no reader calls it level.",
-    "paint_fence": "The paint is pink, a colour no door has, with a ribbed tray. 1.00 in nine pictures.",
-    "ducks_bread": "The bread is thrown underarm, pieces in the air. 1.00 in five pictures.",
-    "lost_balloon": "The loose balloon is never yellow, so that it stands off the sky in grey. 1.00 in five pictures.",
-    "play_catch": "Not drawn again. 0.833 in three pictures and under the gate: in two gardens the ball stands at the top of the fence above the catcher: 'the throw seems to be going the wrong way/over the fence'.",
+    "play_catch": "A flat flight toward the hands of the catcher, kept off the top line of a fence or railing and away from a cat on the fence; the catcher is a child or a teenager, and the taller of the two throws. On the bench no reading of the old arc was free of doubt, none of six, and four of six of the flat flight were. 1.00 in six pictures with no judgement call, where v0.56 had 0.833 in three and failed the gate: 'A boy in a red cap and blue hoodie has thrown a red ball (dotted arc line) toward a small girl in a pink dress, who has her arms out to catch it.'",
+    "pan_watering": "A hollow pan, dark inside, on a wooden handle, the water over its rim as a sheet, and an unused watering can on the grass behind the holder. On the bench four readers of sixteen called every pan they were given a watering can, whichever of four was drawn; with the can beside the holder, 20 readings of 20 call the vessel a frying pan. 1.00 in five pictures with no judgement call, for 0.900: 'A man in a red T-shirt and blue jeans stands by the flower bed next to the house, pouring water onto the flowers out of a frying pan instead of a watering can.'",
+    "seesaw_heavy": "The man has no book: he sits with a hand on each knee and looks up at the child. With the book his weight was given plainly in one bench reading of ten, without it in six of ten and then in ten of ten. 1.00 in five pictures, for 0.933, with five judgement calls: 'That balance makes sense because he is much heavier.' Where he sits is not settled: nine bench readers of ten have him in front of his seat, and in the screen his seat is doubted once in five pictures. On the next list.",
+    "seesaw": "A yellow seat with a back at each end, drawn where its rider sits, and rubber buffers under the ends of the plank. 1.00 in five pictures, as it was.",
+    "kite_in_tree": "The string drops from the reel to the grass, lies there in a curl and rises to the branch. Stuck, with nothing beside it, in six bench readings of eight, for none of eight. 1.00 in six pictures, with a judgement call in three of them, for four of five: 'The string runs from his hand down to the ground, makes a loop, and goes back up to the kite in the tree, so the kite looks caught and slack.' The ground under the string is kept clear, which cost the busiest park its seed.",
+    "ducks_bread": "The bread thrower and the angler stand lower on the lawn in front of the pond. Over its rim in one bench reading of eight, for seven of eight. 1.00 in six pictures, and no reader of the screen remarks on where either stands, in eleven pictures of the two.",
+    "fishing": "The angler stands lower in front of the pond, as the bread thrower does. 1.00 in five pictures.",
+    "windy_hat": "In a park the blown cap and the lines of the wind are off the pond, with open air ahead of the cap, and washing in a gust hangs straight from its pegs and curves out toward the hem. The cap was about to land in the pond in none of four bench readings, for four of four. 1.00 in five pictures, and no oddity of the wind logged.",
+    "paint_fence": "The paint is a deeper pink, one of three colours changed for the grey check. 0.958 in twelve pictures, for 1.00 in nine: one scorer of six gave a half mark where the painter, a grown man, is called a boy: '- Left-centre: boy with brown hair in red T-shirt and blue jeans, painting the fence pink with a roller.'",
+    "paint_tracks": "The same deeper pink in the tracks. 1.00 in five pictures.",
+    "about_to_trip": "The box in the way of the walker is darker, for the grey check. 1.00 in five pictures.",
+    "sitting_on_air": "Not changed. 1.00 in three pictures, for 0.958 in four.",
+    "square_wheel": "Not changed. 0.967 in ten pictures, for 1.00: the small open wheel of the wheelbarrow lost two half marks in one garden, and is hedged in three of its five pictures: 'It may just be a stylised wheel seen from an angle, or it may be an odd shape.' The five bicycles read in full. First on the next list.",
+    "carry_bag": "Not changed. 0.938 in eight pictures, for 1.00: one scorer of six gave a half mark where a grown man is called a boy, now that the key lists the names each figure may be called by: '- Centre front: boy with brown hair in red T-shirt and blue jeans, walking left, holding a yellow shopping bag.'",
 }
 
-# the next list: every template under 0.9, and every one that fails the gate
-WEAK_NOTES = {
-    "play_catch": "Under the gate at 0.833 in three pictures, on a drawing that v0.56 did not change: the ball a third of the way along its arc, at the end of a dashed line from the hand of the thrower. In two gardens it stands at the top of the fence, above the hands of the catcher, and each reader gave the catch a half mark: 'the throw seems to be going the wrong way/over the fence'. In v0.55 it read 1.00 in five pictures. For v0.57: a flatter arc, the ball between the heads of the two players and clear of the top of the fence, read in whole pictures.",
-}
-SCREEN_NOTE = ("The v0.56 screen read the set pictures and enough probe pictures that every template appeared in at least three "
+# the next list: every template under 0.9, and every one that fails the gate. v0.57 has none of either; the list for v0.58 is vision/flaws_v057.md
+WEAK_NOTES = {}
+SCREEN_NOTE = ("The v0.57 screen read the set pictures and enough probe pictures that every template appeared in at least three "
                "screened pictures, and every angle an animal is drawn at in at least two. "
-               "1,292 of 1,320 items had full marks and none was misread. 63 of the 64 templates pass the gate. The square wheel, under the gate in three of the last four screens, reads 1.00 in ten pictures with the bicycle held by its owner. "
-               "The game of catch, which was not drawn again, reads 0.833 in three pictures and fails: in two gardens the ball stands at the top of the fence above the catcher. Nothing was mended, swapped or read again after the screen. "
-               "Every picture is new, since the cast and placement revision 50 move every figure, so the comparison with v0.55 is by template. "
-               "Three benches read every drawing before it went into scenes, 46 reviews of pairs and 318 readings of whole pictures, and about half of what the list proposed was not taken. "
-               "With the 33 full marks that stand beside another reading halved, 55 of the 64 pass. "
-               "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the pilot's job.")
+               "1,391 of 1,435 items had full marks and none was misread. All 64 templates pass the gate, for the first time since v0.53. "
+               "The game of catch, the frying pan, the heavy seesaw and the man who sits on nothing, the four that v0.56 had under 1.00, read 1.00. "
+               "Three templates are under 1.00: the square wheel at 0.967, on the wheelbarrow in one garden, and two actions at 0.94 and 0.96, each on one half mark where a grown man is called a boy. "
+               "Forty of the 44 items under full marks are the clouds or a tree that a reader left out. Nothing was mended, swapped or read again after the screen. "
+               "The release is like for like: of the 126 pictures of v0.56, 65 came back to the pixel and 17 more within 24 pixels, 41 were drawn again or moved, and three were replaced. "
+               "In the 82, 791 of 823 items have the score they had, and 31 of the 32 others are the clouds or a tree. "
+               "Two benches read every drawing before it went into scenes, 175 readings of whole pictures. "
+               "With the 57 full marks that the scorers flagged as standing beside another reading halved, 54 of the 64 pass; the scorers set the flags themselves for the first time, so that count compares only roughly with the 55 of v0.56. "
+               "AI readers describe exhaustively, so the screen filters illegible drawing but cannot rank the templates by difficulty, which is the job of the pilot.")
 
 
-FIXES = [("crop:scenes_v055/T4_playground_s512950.png@1040,700,1360,980>scenes/T4_playground_s568007.png@0,520,300,910", "The bicycle with square wheels",
-          "v0.55: on its stand in the corner of the busiest picture, where two readers had it lying on its side. v0.56: its owner holds it: 'At the far left an older man in a flat cap and brown waistcoat stands holding a teal bicycle whose wheels are square, which is impossible.'"),
-         ("crop:probes_v055/T3_garden_s51701.png@900,760,1300,1000>probes/T3_garden_s56701.png@560,760,920,1000", "The wheelbarrow with a square wheel",
-          "v0.55: a large dark square frame beside the tub. v0.56: a square the size of a round wheel, under the nose of the tub and open on its spokes. Five bench readers of six named it as wrong, and all five pictures of the screen read in full."),
-         ("crop:scenes_v055/T4_garden_s552986.png@648,540,1370,940>scenes/T4_garden_s552986.png@648,540,1370,940", "The stopped hose",
-          "v0.55: a small nozzle, and nothing to say the tap is on. v0.56: a nozzle twice the size with one drop at its mouth, and water seeping at the reel: 'The dog on the hose: it is probably pinching the hose so the water stops, which explains why the woman peers into the nozzle.'"),
-         ("crop:scenes_v055/T4_street_s464887.png@700,550,1000,820>scenes/T4_street_s445887.png@650,550,1020,820", "The thief bird",
-          "v0.55: a small bird pecking beside a small sandwich. v0.56: half as large again, pulling the top slice away. No likelier to be read as stealing, and no longer small."),
-         ("crop:probes_v055/T3_park_s25029.png@980,300,1360,780>probes/T3_park_s23074.png@720,150,1110,760", "The ladder that leans on nothing",
-          "v0.55: its top ended at the line of the hedge, and readers offered a support behind it. v0.56: longer, its top third against open sky, in a park with no lamp post: 'In the middle of the grass, a tall wooden ladder stands upright on its own, leaning against nothing, which is impossible.'"),
-         ("crop:scenes_v055/T1_street_s031.png@140,640,960,1000>scenes/T1_street_s031.png@240,600,930,960", "The photographer",
-          "v0.55: at three-quarters, the lens toward the viewer, and no reader could say what the camera was aimed at. v0.56: from the side, with a subject near and alone on that side."),
-         ("hang_washing", "Hanging the washing",
-          "v0.55: both arms up with the palms together. v0.56: the hands apart along the line, a peg in one. Chosen by both reviewers of the pairs."),
-         ("cone_dropped", "The child with the dropped cone",
-          "v0.55: the hand over the face. v0.56: the head bent toward the cone, a hand at the cheek, and the cone empty and pale."),
-         ("sleep_paws_turn", "The sleeping dog",
-          "v0.55: lying with the head turned down. v0.56: curled, chin on the paws, the eyes two closed arcs."),
+FIXES = [("crop:probes_v056/T3_garden_s23012.png@470,330,960,720>probes/T3_garden_s23012.png@520,410,1020,810", "The game of catch",
+          "v0.56: the ball a third of the way along a high arc, at the top of the fence above the catcher, a throw over the fence or at the cat to its readers. v0.57: a flat flight toward the hands of the catcher, under the top line of the fence and away from the cat. No bench reading of the flat flight names a fence or a cat with the ball."),
+         ("crop:probes_v056/T3_garden_s24046.png@330,500,720,900>probes/T3_garden_s24046.png@370,500,840,900", "The frying pan",
+          "v0.56: a shallow pan on a thin handle, the water leaving its far tip; a watering can first to two readers of five. v0.57: a hollow pan, dark inside, the water over its rim as a sheet, and an unused watering can on the grass behind the holder. A frying pan in 20 bench readings of 20: 'The strange thing is that he waters the flowers with a frying pan while the watering can is right beside him.'"),
+         ("crop:probes_v056/T3_playground_s23708.png@180,540,670,930>probes/T3_playground_s23708.png@180,540,670,930", "The heavy seesaw",
+          "v0.56: the man reads a book, and two readers of five had him ignoring the child and gave no weight. v0.57: no book, a hand on each knee, looking up at her, on a yellow seat with a back. Every reader of the screen gives his weight. Nine bench readers of ten still have him in front of his seat."),
+         ("crop:scenes_v056/T2_park_s1022.png@150,380,680,860>scenes/T2_park_s1022.png@150,380,680,860", "The kite in the tree",
+          "v0.56: the string sags from the reel to the kite, and flying in front of the tree was offered beside caught in four pictures of five. v0.57: the string drops to the grass, lies there in a curl and rises to the branch. Stuck, with nothing beside it, in six bench readings of eight, for none of eight."),
+         ("crop:probes_v056/T3_park_s23701.png@340,470,820,950>probes/T3_park_s23701.png@340,470,820,950", "The angler at the pond",
+          "v0.56: the figure stands across the rim of the pond, over it in seven bench readings of eight. v0.57: lower on the lawn, in front of the near shore; over the rim in one reading of eight, and no reader of the screen remarks on it."),
+         ("crop:probes_v056/T3_park_s23711.png@780,480,1260,1000>probes/T3_park_s23711.png@300,260,780,780", "The blown cap",
+          "v0.56: the cap and the lines of the wind over the pond, where the cap was about to land in the water in four bench readings of four. v0.57: in a park both are off the pond, with open air ahead of the cap; none of four."),
          ("water_pan", "The pan",
-          "v0.55: a deep pan with a short handle, a pot or a saucepan to most readers. v0.56: shallow, with a long handle. Eight bench readers of eight called it a frying pan; in the screen two of five had a watering can first. On the next list.")]
+          "v0.56: shallow, on a thin handle. v0.57: hollow and dark inside, on a wooden handle. No pan stopped the readers who call it a watering can, four of sixteen on the bench with every pan they were given; the unused can beside the holder did."),
+         ("pair:person.dev__seesaw_low_read__focused__y090>person.dev__seesaw_low_look__worried__y090", "The man on the low end",
+          "v0.56: reading a book. v0.57: a hand on each knee, looking up, and 9 cm higher on his seat.")]
 
 
 

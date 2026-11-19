@@ -374,6 +374,18 @@ class WaterFlowers(T):
                     stream, sbb, end = D.water_stream(sp, (aim[0] - sp[0], aim[1] - sp[1]), sz(Y), length, upward=self.upward,
                                                       splash=SCN.PLACEMENT_REV >= 4,
                                                       style=(("pour" if self.id == "pan_watering" else "shower") if SCN.PLACEMENT_REV >= 14 else None))
+                    if self.id == "pan_watering" and SCN.sw57("PANFLOW") != "O" and p.has_anchor("pour_0"):
+                        # v0.57 (the switch PANFLOW, with the cast's TPDB_PAN57): the water leaves the tipped pan over its low rim as a sheet,
+                        # and the holder stands beside the bed. From in front of it (revision 5's stand) the tipped pan's low rim is already at
+                        # the bed's front edge: the sheet was a stub in front of the flowers and its drops fell on the grass ("F": that stand too)
+                        if Y > bb[3] + 50 and SCN.sw57("PANFLOW") != "F":
+                            continue
+                        stream, sbb, end = _pan_sheet57(p, sz(Y), length)
+                    if self.id == "pan_watering" and SCN.sw57("CANBY") != "O":
+                        # v0.57 (the switch CANBY): a watering can stands unused on the grass by the holder's feet, or the holder stands elsewhere
+                        self._can57 = _can_by57(sc, p, sz(Y), bb, sbb, want)
+                        if self._can57 is None:
+                            continue
                 if not self.upward and not (bb[0] - 40 <= end[0] <= bb[2] + 40):
                     continue
                 # revision 4: the water lands on the soil, not in front of the bed or on the path
@@ -1375,6 +1387,10 @@ class HangLaundry(T):
 #   with the trial cast's poses and v0.50's ball (D) in 4 of 8 and 3; with those poses and the ball early (C) in 7 of 8 and none
 CATCH51 = __import__("os").environ.get("TPDB_CATCH51S", "C")
 CATCH51_REV = 48        # (the whole-scene bench sets 47, to build v0.50's own records again with the switch)
+# v0.57 (scene switches ARC and CATCHLINE, PlayCatch.place and PlayCatch._line_clear57; "O" is v0.56's flight and no rule)
+ARC57_BOW = float(__import__("os").environ.get("TPDB_ARC57_BOW", "45"))      # how far the flat flight bows above the straight line from hand to hands, in units at scale 1 (v0.56: 150 above the higher hand)
+CATCHLINE57_GAP = 10    # how far the ball's disc keeps from the top line of a fence or railing behind the game, in px
+CATCHLINE57_CAT = 150   # how far a cat on the fence keeps from every point of the flight, in px
 
 
 class _Ex53:
@@ -1397,8 +1413,61 @@ class PlayCatch(T):
         sc = self.sc
         self.a = sc.person(YOUNG)
         self.b = sc.person(YOUNG + ("adult",))
+        if SCN.sw57("CATCHCAST") != "O" and self.b in sc.lib.people(("adult",)):
+            # v0.57 (the switch CATCHCAST; vision/isolation_v057.md, the game of catch): the catcher is a child or a teenager, as the
+            # thrower is. With the flat flight (ARC) the ball stands halfway between the two, and where the catcher was a grown
+            # figure with raised hands, who threw it was asked in 4 readings of 8 ("The ball could be thrown by the child to the
+            # woman, or thrown by the woman to the child"); where the catcher was a child, in none of 8. The first draw is kept,
+            # so that a game whose catcher was young already is cast as it was.
+            sc.fams.discard(self.b)
+            self.b = sc.person(YOUNG)
+        if SCN.sw57("CATCHCAST") != "O" and self.a in sc.lib.people(("child",)) and self.b in sc.lib.people(("teen",)):
+            # (and the taller of the two throws: a teenager who catches a child's throw stands with raised hands over the ball as the
+            #  grown catcher did)
+            self.a, self.b = self.b, self.a
         self.va = sc.need(self.a, "throw_ball", sc.rng.choice(["happy", "determined", "smile"]), 90)
         self.vb = sc.need(self.b, "catch", sc.rng.choice(["happy", "surprised", "smile"]), 90)
+
+    def _line_clear57(self, pa, pb, bez, t, r):
+        """v0.57 (the switch CATCHLINE; vision/flaws_v056.md R1): the ball and the dashes behind it keep off the top line of the fence or
+        railing behind the game, and the game keeps away from a cat on the fence. In a garden of v0.56 the ball stood at the fence's top:
+        "The ball is near the fence top and slightly overlaps the line of the fence, so it is hard to tell whether it is in front of or
+        above the fence", and with the cat above the thrower it could be "a throw at the cat on the fence". The ball's disc is
+        CATCHLINE57_GAP units clear of the line; where the hand that throws is under the line (the garden's tall fence) the whole
+        flight stays under it; the dashes from the hand to the ball never run along it; and no cat on the fence stands within
+        CATCHLINE57_CAT units of any point of the flight (a cat over a game played well below the fence's top is left where it is:
+        kept clear of the whole game to both sides, picture 86 of v0.56 placed on none of six seeds)."""
+        sc = self.sc
+        bx, by = bez(t)
+        if "pond" in sc.S.anchors and not sc.setting_clear((bx - r - CATCHLINE57_GAP, by - r - CATCHLINE57_GAP, bx + r + CATCHLINE57_GAP, by + r + CATCHLINE57_GAP), only=("pond",)):
+            # (the park's line of this kind is the pond's near rim: revision 14 keeps the flight's own line off the pond, and the flat
+            #  flight then ran along the rim with half the ball's disc on the shore, in the first park built with it)
+            return False
+        A = sc.S.anchors.get("fence_top")
+        if A is None:
+            return True
+        yl = A["y"]
+        x0, x1 = A.get("x0", 0) - 60, A.get("x1", D.W) + 60
+        fl = [bez(k / 24) for k in range(25)]
+        if any(x0 <= qx <= x1 for qx, _ in fl):
+            if abs(by - yl) < r + CATCHLINE57_GAP:
+                return False
+            if fl[0][1] > yl and min(qy for _, qy in fl) - r < yl + CATCHLINE57_GAP:
+                return False
+            if any(abs(bez(t * k / 12)[1] - yl) < CATCHLINE57_GAP / 2 for k in range(13)):
+                return False
+        for k_, q_ in sc.assets.items():
+            if k_.startswith("fencecat"):
+                cb = q_.bbox()
+                if any(math.hypot(max(cb[0] - qx, 0, qx - cb[2]), max(cb[1] - qy, 0, qy - cb[3])) < CATCHLINE57_CAT for qx, qy in fl):
+                    return False
+        return True
+
+    @staticmethod
+    def _cat_span57(fl, yl):
+        """(CATCHLINE) The stretch of the fence's top that lies within CATCHLINE57_CAT units of the flight `fl`, as (x0, x1), or None."""
+        xs = [(qx, math.sqrt(CATCHLINE57_CAT ** 2 - (qy - yl) ** 2)) for qx, qy in fl if abs(qy - yl) < CATCHLINE57_CAT]
+        return (min(x - d for x, d in xs), max(x + d for x, d in xs)) if xs else None
 
     def place(self):
         sc = self.sc
@@ -1430,6 +1499,17 @@ class PlayCatch(T):
                 # of a high arc, "already above the man's hands, so it may sail over his head")
                 ctrl = ((rx_ + cx) / 2, min(ry_, cy) - 150 * s)
                 t = 0.72
+            arc57 = SCN.sw57("ARC")
+            if arc57 != "O":
+                # v0.57 (the switch ARC; vision/flaws_v056.md R1, play_catch 0.833 and under the gate): a flat flight. The path bowed
+                # 150 units above the higher of the two hands, so that the ball, a third of the way along it (CATCH51 "C"), was still
+                # rising above the thrower's hand and far above a small catcher's: "it is going up and to the right, well above the
+                # girl's hands. Could be read as a throw to the girl that is going too high (over her head / over the fence)". Now the
+                # path bows ARC57_BOW units above the straight line from hand to hands: it leaves the hand about level and comes down
+                # to the catcher, and the ball is between the two heads, where CATCH51 "C" has it: five and a half of its widths from
+                # the hand at the end of the dashes, which on the flat path is about halfway to the catcher's hands (a second arm
+                # with the ball halfway was built and was this drawing to a few pixels, so there is none)
+                ctrl = ((rx_ + cx) / 2, (ry_ + cy) / 2 - ARC57_BOW * s)
 
             def bez(t):
                 return ((1 - t) ** 2 * rx_ + 2 * (1 - t) * t * ctrl[0] + t * t * cx, (1 - t) ** 2 * ry_ + 2 * (1 - t) * t * ctrl[1] + t * t * cy)
@@ -1445,6 +1525,8 @@ class PlayCatch(T):
                 while t < 0.46 and math.hypot(bez(t)[0] - rx_, bez(t)[1] - ry_) < 5.5 * r:
                     t += 0.02
             bx, by = bez(t)
+            if SCN.sw57("CATCHLINE") != "O" and not self._line_clear57(pa, pb, bez, t, r):
+                continue
             if not sc.fits((bx - r * 2, by - r * 2, bx + r * 2, by + r * 2), limit=0.02, ignore=(ea, eb)):
                 continue
             # revision 4: the whole flight from hand to hand stays clear of trees, lamps and frames
@@ -1488,6 +1570,13 @@ class PlayCatch(T):
                        for k_, q_ in sc.assets.items() if k_ not in (ea, eb) for b in (q_.bbox(),)):
                     continue
             sc.assets[ea], sc.assets[eb] = pa, pb
+            if SCN.sw57("CATCHLINE") != "O" and "fence_top" in sc.S.anchors and min(pa.bbox()[1], pb.bbox()[1]) > sc.S.anchors["fence_top"]["y"]:
+                # (CATCHLINE: and a cat or a bird that comes later keeps off the stretch of the fence's top that is near the flight;
+                #  only under a fence taller than both players, so that the zone holds nobody who stands on the ground)
+                yl_ = sc.S.anchors["fence_top"]["y"]
+                cs_ = self._cat_span57([bez(k / 24) for k in range(25)], yl_)
+                if cs_ is not None:
+                    sc.airzones.append((cs_[0], yl_ - 110, cs_[1], yl_ + 2))
             if SCN.PLACEMENT_REV >= 16:
                 sc.airzones.append(behind)
             if SCN.PLACEMENT_REV >= 8:
@@ -1880,6 +1969,42 @@ class Photo(T):
         return True
 
 
+# v0.57 (the scene's switch PONDOWN; vision/flaws_v056.md O2): where the pond's own figures stand, the angler and the one who throws bread.
+# "O": on the pond's shore spots as they are (settings, the park's anchors): in front of the pond the feet are 115 to 130 units under the
+#   near shore, which lies across a grown figure at the hips and across a teenager at the waist. "The boy's legs overlap the pond's rim, so
+#   he seems to be standing right on (or just inside) the pond edge", "The man stands on the pond's rim, and his lower body overlaps the
+#   water's edge. He could be standing just in front of the pond or partly in it." (v0.56's pictures 57 and 118; 72 the same of an angler).
+# "B": a figure in front of the pond stands as far down as revision 50 puts the figures of other events (scene.clear_of_pond_v50): no more
+#   than POND57_SHARE of its height, from the feet to the top of the head, lies above the near shore at its own place, so the shore passes
+#   behind the shoulders and the legs and hips are on grass. A spot beside the pond is as it was.
+POND57_SHARE = float(__import__("os").environ.get("TPDB_POND57_SHARE", "0.30"))
+
+
+def _shore57(sc, v, A, x, y, want):
+    """PONDOWN: the depth at which the figure v, set down at the pond's shore spot (x, y), has POND57_SHARE of its height above the near
+    shore and no more. The figure grows as it comes forward, so the depth is found by stepping; it stops short of the picture's foot
+    (revision 50's EDGE)."""
+    (cx, cy), rx, ry = A["center"], A["rx"], A["ry"]
+    if abs(x - cx) >= rx + 12 or y < cy:
+        return y
+    near = cy + ry * (1 - min(1.0, abs(x - cx) / rx) ** 2) ** 0.5
+    Y = y
+    while Y < SCN.EDGE50_Y - 22:
+        p = sc.placed(v, x, Y, sc.mirror_for(v, want))
+        top = p.anchor("head_top")[1] if p.has_anchor("head_top") else p.bbox()[1]
+        if near - top <= POND57_SHARE * (Y - top):
+            break
+        Y += 6
+    return Y
+
+
+def _on_water57(A, x, y, margin=10.0):
+    """PONDOWN: is the point on the pond's water, margin units inside the shore that draw.pond draws round it (bank=True)?"""
+    (cx, cy), rx, ry = A["center"], A["rx"], A["ry"]
+    d, m = 0.115 * ry, 0.03 * rx
+    return ((x - cx) / max(1.0, rx - m - margin)) ** 2 + ((y - (cy - d)) / max(1.0, ry - d - margin)) ** 2 < 1.0
+
+
 class Fishing(T):
     id = "fishing"
     exempt_extra = ("pond",)      # revision 10: stands at the water's edge on purpose
@@ -1896,6 +2021,8 @@ class Fishing(T):
         ep = sc.eid("fisher")
         for (x, y) in A["shore"]:
             want = 1 if A["center"][0] > x else -1
+            if SCN.sw57("PONDOWN") != "O":
+                y = _shore57(sc, self.vp, A, x, y, want)       # (v0.57: a good step back from the near shore)
             p = sc.try_put(ep, self.vp, [(x, y), (x + 20, y + 10), (x - 20, y + 10)], want_face=want, limit=0.15)
             if p:
                 tx, ty = p.anchor("rod_tip")
@@ -2070,7 +2197,17 @@ def _paint56():
     """v0.56 (switch PAINT; vision/flaws_v055.md C5): the paint's colour and the darker tone it has on the fence's rails. "O": blue, the colour of
     the garden's house door, a few boards along from the painted ones. "B": pink, a colour no door of the settings has; it goes with the
     cast's pink roller sleeve (castlib.actions.ROLLER56 "B"). Grey 134 on boards at 161 and a lawn at 168 (the blue was 98)."""
+    if SCN.sw57("GREYCOL") != "O" and SCN.sw56("PAINT") != "O":
+        return PAINT57 + ("pink",)
     return (C["pink"], "#c44f84", "pink") if SCN.sw56("PAINT") != "O" else (C["paint"], "#3557a8", "blue")
+
+
+# v0.57 (the scene's switch GREYCOL; vision/flaws_v056.md G1): the paint's pink and its darker tone on the rails. "O": v0.56's pink, grey 134,
+# which is 27 levels from the bare boards (161) and less from what stands before a fence (v0.56's picture 65, two plant pots at the painted
+# boards: grey 134 on 142, and the record was flagged). "B": a deeper pink, grey 108 with 86 on the rails: 53 levels from the bare boards and 60
+# from a lawn, and still a colour no door of the settings has. (A deep pink at grey 94, #d0387f, was tried first: nearer to magenta than to the
+# roller's sleeve, which the cast draws in the palette's pink.)
+PAINT57 = tuple(__import__("os").environ.get("TPDB_PAINT57", "#d9488a,#b9366f").split(","))
 
 
 class PaintFence(T):
@@ -3209,6 +3346,63 @@ def _stops56():
     return LOWEND56_H if SCN.sw56("LOWEND") != "O" else 0.0
 
 
+# v0.57 (vision/flaws_v056.md R3 and O4), each behind a switch of scene.sw57:
+#   SEAT "B": each end of the plank carries a seat, a pad that turns up into a back behind the rider (draw.seesaw `seat57`, draw.SEESAW_SEAT57),
+#   and whoever sits on the low end is set down on it as the children were in v0.50: the underside of his own drawing on the pad's top, where
+#   v0.56 drew his hips over the plank and hid it ("he could be read as sitting on the plank or just leaning/perched on it", v056 pic_51;
+#   "sitting just in front of / beside the low end of the seesaw rather than squarely on its seat", pic_92). The cast's switch of the same
+#   name (castlib.actions.SEAT57) lifts his hips over his feet by as much, so that the feet stay on the ground: THE TWO GO TOGETHER. The stops
+#   are no longer blocks standing on the grass, one of them alone far below the raised end ("small dark blocks under each end", pic_92): a
+#   rubber buffer hangs under each end and goes up with it, so nothing stands under the child, and the one under the low end is pressed flat.
+#   The handle of the low rider's end is not drawn (draw.seesaw `hide57`). "O": v0.56's.
+#   SEAT "D" (round 2): "B", and each seat is drawn where its rider sits (`_seat57`): the back upright in the picture with its face just
+#   inside the rear of the rider's hips, and under a low rider the pad on under his thighs to the back of his knee. With the seat at the plank's
+#   end and its back leaning away, the bench's readers had him before it: "The man appears to sit on the beam in front of the yellow seat
+#   rather than on the seat itself", "The man sits slightly inboard of his seat". The riders are where "B" has them.
+#   HEAVY "B" (SeesawHeavy): the grown rider has no book; he sits with a hand on each knee and looks up at the child (the cast's pose
+#   seesaw_low_look, castlib.actions.HEAVY57). Both of v0.56's half marks were a reader who had the man reading and "ignoring" the child
+#   and gave no weight. "O": he reads, as since revision 7.
+SEAT57_LOW = ("seesaw_low", "seesaw_low_read", "seesaw_low_look")
+SEAT57_D = dict(over=6.0, knee=42.0, pad=46.0, lo=1.0, hi=26.0)     # (D) how far inside the hips' rear the back's face stands; how far short
+#                                                                     of a low rider's near foot the pad ends; a child's pad; the back's range
+
+
+def _seat57(lib, q, v, s, a, inset, low):
+    """v0.57 (SEAT "D"): where the seat of the placed rider `q` (drawing `v`) is drawn on its end of the plank, for draw.seesaw `seat57`: `ub`,
+    how far in from the plank's end the middle line of the seat's back stands, and `u1`, where the pad ends, both in units along the plank.
+    The back's face lies SEAT57_D["over"] units inside the rearmost point of the drawing behind its seat anchor, measured over the rows of
+    the hips (12 render px above the anchor to its underside); a low rider's pad runs on to SEAT57_D["knee"] units short of his near foot.
+    s: the scale; a: the tilt in radians; inset: draw.seesaw's."""
+    import numpy as np
+    A_ = q.m["anchors"]
+    sx_, sy_ = A_["seat"]["px"]
+    al = np.asarray(lib.image(v))[:, :, 3] > 127
+    f0 = 1
+    if "gaze_target" in A_ and "eye_L" in A_:
+        f0 = 1 if A_["gaze_target"]["px"][0] >= (A_["eye_L"]["px"][0] + A_["eye_R"]["px"][0]) / 2 else -1
+    c0 = int(round(sx_))
+    rear = 0
+    y_ = int(round(sy_)) - 12
+    while 0 <= y_ < al.shape[0] and (y_ <= int(round(sy_)) or al[y_, c0]):
+        c_ = c0
+        if 0 <= c_ < al.shape[1] and al[y_, c_]:
+            while 0 <= c_ - f0 < al.shape[1] and al[y_, c_ - f0]:
+                c_ -= f0
+            rear = max(rear, abs(c_ - c0))
+        y_ += 1
+    ca = math.cos(a)
+    useat = inset + 8 / ca                                        # the seat anchor, along the plank from its end (draw.seesaw's seat point)
+    face = useat - rear * q.k / s / ca + SEAT57_D["over"]
+    ub = min(SEAT57_D["hi"], max(SEAT57_D["lo"], face - D.SEESAW_SEAT57["w"] / 2 - 3.0))
+    u1 = ub + SEAT57_D["pad"]
+    if low:
+        feet = [A_[f_]["px"] for f_ in ("foot_L", "foot_R") if f_ in A_]
+        if feet:
+            fx_ = max(feet, key=lambda p_: p_[1])[0]              # the near foot: the lower of the two in the drawing
+            u1 = max(u1, useat + abs(fx_ - sx_) * q.k / s / ca - SEAT57_D["knee"])
+    return {"ub": ub, "u1": u1}
+
+
 class SeesawPlay(T):
     id = "seesaw"
     settings = PG
@@ -3246,6 +3440,11 @@ class SeesawPlay(T):
         """Redraw the seesaw at `tilt` and sit the two riders on its ends, facing each other. bumper (v0.56, LOWEND): the stops' height."""
         sc = self.sc
         x56 = {"bumper": bumper, **({"backs": True} if SCN.sw56("LOWEND") == "C" else {})} if bumper else {}
+        seat57 = bool(bumper) and SCN.sw57("SEAT") != "O"
+        if seat57:
+            x56["seat57"] = True          # (v0.57, SEAT) a seat with a back on each end and the buffers under the plank
+            x56["hide57"] = tuple(e_ for e_, v_ in (("left", va), ("right", vb)) if v_[1] in SEAT57_LOW)
+        geo57 = {}
         A = sc.S.anchors["seesaw"]
         s = sz(A["depth"])
         rev26 = SCN.PLACEMENT_REV >= 26
@@ -3258,16 +3457,28 @@ class SeesawPlay(T):
             ta_, ca_ = math.tan(math.radians(tilt)), math.cos(math.radians(tilt))
             ups = list(ups)
             for i_, (v_, end_, sg_) in enumerate(((va, "left", 1), (vb, "right", -1))):
-                if v_[1] not in SEAT50_POSES:
+                if v_[1] not in SEAT50_POSES and not (seat57 and v_[1] in SEAT57_LOW):
                     continue
                 q_ = sc.placed(v_, 0, 0, sc.mirror_for(v_, sg_), depth_y=A["depth"] + 2)
-                under_ = _under50(sc.lib, q_, vid(v_[0], v_[1] + "~near", v_[2], v_[3]))
+                vn_ = vid(v_[0], v_[1] + "~" + (low_parts(v_)[0] if v_[1] in SEAT57_LOW else "near"), v_[2], v_[3])
+                under_ = _under50(sc.lib, q_, vn_)
+                if seat57 and SCN.sw57("SEAT") == "D":
+                    # (v0.57, SEAT "D") the seat drawn where this rider sits
+                    geo57[end_] = _seat57(sc.lib, q_, vn_, s, math.radians(tilt), D.SEESAW_IN28 if rev26 else 0, v_[1] in SEAT57_LOW)
                 if under_ <= 0:
                     continue
                 # (the plank's top edge straight under the seat point lies 6 - 8 tan - 7 / cos units from it: draw.seesaw)
-                rise50[end_] = (-6 * s + sg_ * 8 * s * ta_ + 7 * s / ca_ - SEAT50_SINK * s + under_) / s - D.RIDE24["seesaw"]
+                # (v0.57, SEAT) the low rider on the seat's top. A child stays where v0.50 set it, on the plank, and the seat's pad shows
+                # behind and ahead of it: lifted onto the pad, 7 units, the children moved what was placed after them in three of v0.56's
+                # five pictures of the seesaw at play
+                top_ = D.SEESAW_SEAT57["h"] + D.SEESAW_SEAT57["w"] / 2 if v_[1] in SEAT57_LOW else 7
+                rise50[end_] = (-6 * s + sg_ * 8 * s * ta_ + top_ * s / ca_ - SEAT50_SINK * s + under_) / s - D.RIDE24["seesaw"]
+                if v_[1] in SEAT57_LOW:
+                    continue                     # (his handle is not drawn: draw.seesaw `hide57`)
                 ups[i_] = rise50[end_] if v_[1] in GRIP32 else rise50[end_] - RIDE31[SEESAW31][0]
             ups = tuple(ups)
+        if geo57:
+            x56["seat57"] = geo57
         svg, info = D.seesaw(A["cx"], A["base_y"], s, tilt=tilt, inset=D.SEESAW_IN28 if rev26 else 0, ground=rev26, pad=rev29_ and SEESAW31 == "P",
                              **({"up": ups} if any(ups) else {}), **({"arch": ("left" in rise50, "right" in rise50)} if rise50 else {}), **x56)
         placed = []
@@ -4640,6 +4851,37 @@ class KiteInTree(StuckInTree):
         pts = [top, low, kp(34, 0), kp(-34, 0), tip]
         return svg, (min(q[0] for q in pts) - 14 * k, min(q[1] for q in pts) - 8 * k, max(q[0] for q in pts) + 14 * k, low[1] + 92 * k)
 
+    def _slack57(self, p, bx, by, tree_base):
+        """v0.57 (the switch KITESLACK; vision/flaws_v056.md R5). The string of the kite that is caught hung in one sagging curve from the
+        branch to the child's raised hand, which is how a kite's line looks while it flies low: in v0.56's screen the kite was stuck with
+        'flying just in front of the tree' beside it in four pictures of five, and in v0.55's bench in 8 readings of 8. Here the line
+        hangs straight down from the branch to the grass, lies along the grass in a loose wave, and comes up to the reel from the
+        ground: a line that lies on the ground holds no kite in the air. Returns the points of the path (for the checks), its svg path
+        data, its box and its segments."""
+        sx, sy = p.anchor("string_end")
+        s = sz(p.Y)
+        d = 1 if bx >= sx else -1
+        gy = p.Y - 2 * s
+        g1 = (sx + d * 30 * s, gy)                       # where the line from the reel meets the grass, a step in front of the child
+        ga = (g1[0] + d * 24 * s, gy - 16 * s)           # the top of a loose curl of slack on the grass
+        g2 = (g1[0] + d * 86 * s, gy - 1 * s)            # where the line leaves the curl, still on the grass
+
+        def cub(a, b, c, e, n):
+            return [((1 - u) ** 3 * a[0] + 3 * (1 - u) ** 2 * u * b[0] + 3 * (1 - u) * u * u * c[0] + u ** 3 * e[0],
+                     (1 - u) ** 3 * a[1] + 3 * (1 - u) ** 2 * u * b[1] + 3 * (1 - u) * u * u * c[1] + u ** 3 * e[1]) for u in (k / n for k in range(n + 1))]
+        span = bx - g2[0]
+        c1 = ((sx + d * 3 * s, sy + 70 * s), (g1[0] - d * 12 * s, g1[1] - 34 * s))                   # reel to the grass, a slack drop
+        c2 = ((g1[0] + d * 50 * s, gy + 12 * s), (g1[0] + d * 54 * s, gy - 25 * s))                  # the curl, out
+        c2b = ((g1[0] - d * 8 * s, gy - 9 * s), (g1[0] + d * 40 * s, gy + 9 * s))                    # the curl, back and on
+        c3 = ((g2[0] + span * 0.50, gy + 3 * s), (bx - span * 0.10, by + (gy - by) * 0.50))          # low along the grass, then up to the branch
+        pts = (cub((sx, sy), c1[0], c1[1], g1, 8) + cub(g1, c2[0], c2[1], ga, 5)[1:] + cub(ga, c2b[0], c2b[1], g2, 5)[1:]
+               + cub(g2, c3[0], c3[1], (bx, by), 18)[1:])
+        dd = (f"M {D.P(sx, sy)} C {D.P(*c1[0])} {D.P(*c1[1])} {D.P(*g1)} C {D.P(*c2[0])} {D.P(*c2[1])} {D.P(*ga)} "
+              f"C {D.P(*c2b[0])} {D.P(*c2b[1])} {D.P(*g2)} C {D.P(*c3[0])} {D.P(*c3[1])} {D.P(bx, by)}")
+        bb = (min(q[0] for q in pts) - 3, min(q[1] for q in pts) - 3, max(q[0] for q in pts) + 3, max(q[1] for q in pts) + 3)
+        low = cub(g2, c3[0], c3[1], (bx, by), 18)[6]     # (a third of the way up: the stretch from the curl to here runs along the grass)
+        return pts, dd, bb, [((sx, sy), g1), (g1, low), (low, (bx, by))]
+
     def draw_thing(self, x, y):
         if SCN.sw56("KITE") != "O":
             return self._draw56(x, y)
@@ -4705,6 +4947,7 @@ class KiteInTree(StuckInTree):
         cands = [c for c in cands if abs(c[0] - x) > 160]
         cands.sort(key=lambda q: abs(abs(q[0] - x) - 330))
         bx, by = self.bridle
+        slack57 = SCN.sw57("KITESLACK") != "O"
 
         def string_clear(p):
             """Revision 9: the slack string passes clear of everyone else (a string run past a man hanging
@@ -4714,7 +4957,15 @@ class KiteInTree(StuckInTree):
             sx, sy = p.anchor("string_end")
             cx_, cy_ = (sx + bx) / 2, max(sy, by) + 60
             pts = [((1 - t) ** 2 * sx + 2 * (1 - t) * t * cx_ + t * t * bx, (1 - t) ** 2 * sy + 2 * (1 - t) * t * cy_ + t * t * by) for t in (k / 24 for k in range(2, 23))]
-            if any(q.bbox()[0] - 12 <= px <= q.bbox()[2] + 12 and q.bbox()[1] - 12 <= py <= q.bbox()[3] + 12
+            if slack57:
+                # v0.57 (KITESLACK): the line on the grass: its own path, clear of everybody else and of the child's own feet's far side
+                pts = self._slack57(p, bx, by, tree_base)[0][3:-2]
+                if any(q is not p and q.bbox()[0] - 12 <= px <= q.bbox()[2] + 12 and q.bbox()[1] - 12 <= py <= q.bbox()[3] + 12
+                       for q in sc.assets.values() for px, py in pts):
+                    return False
+                if not all(sc.fits((px - 5, py - 5, px + 5, py + 5), limit=0.02) for px, py in pts[4:-8:3]):
+                    return False
+            elif any(q.bbox()[0] - 12 <= px <= q.bbox()[2] + 12 and q.bbox()[1] - 12 <= py <= q.bbox()[3] + 12
                    for q in sc.assets.values() for px, py in pts):
                 return False
             # (revision 12: nor between a stalking cat and its bird)
@@ -4738,8 +4989,18 @@ class KiteInTree(StuckInTree):
             if tex:
                 sc.svg(sc.eid("crownleaves"), "Leaves on the tree", _leaf_clusters(T_, tex, "ct%d" % abs(int(x))), tree_base + 0.3, T_["bbox"], "background")
         sx, sy = p.anchor("string_end")
-        sc.strings = getattr(sc, "strings", []) + [((sx, sy), (bx, by))]
-        if SCN.PLACEMENT_REV >= 9:
+        if slack57:
+            pts57, d57, bb57, segs57 = self._slack57(p, bx, by, tree_base)
+            sc.strings = getattr(sc, "strings", []) + segs57
+            string = f'<path d="{d57}" fill="none" stroke="{D.OUT}" stroke-width="2.4" stroke-linecap="round"/>'
+            es = sc.svg(sc.eid("kitestring"), "Kite string", string, p.Y + 0.5, bb57, "scored")
+            g1_, g2_ = segs57[1]
+            sc.airzones.append((min(g1_[0], g2_[0]) - 8, min(g1_[1], g2_[1]) - 26, max(g1_[0], g2_[0]) + 8, max(g1_[1], g2_[1]) + 12))      # (nobody steps on the line later)
+        else:
+            sc.strings = getattr(sc, "strings", []) + [((sx, sy), (bx, by))]
+        if slack57:
+            pass
+        elif SCN.PLACEMENT_REV >= 9:
             # revision 9: the string hangs slack, sagging below the straight line (a taut string said flying)
             cy_ = max(sy, by) + 60
             string = f'<path d="M {D.P(sx, sy)} Q {D.P((sx + bx) / 2, cy_)} {D.P(bx, by)}" fill="none" stroke="{D.OUT}" stroke-width="2.4"/>'
@@ -4982,7 +5243,9 @@ class AboutToTrip(T):
                     sh = D.shadow(ox, oy, 2 * r) if SCN.PLACEMENT_REV >= 25 else ""
                     return sh + D.ball(ox, oy - r, r, C["red"]), (ox - r, oy - 2 * r, ox + r, oy), "a ball", ["ball", "a ball on the ground"], "ball"
                 if self.obj == "long_box":
-                    svg, bb = D.long_box(ox, oy, s, w=TRIP_W30 if SCN.PLACEMENT_REV >= 28 else 72, h=38, dx=14, dy=40)
+                    # (v0.57, switch GREYCOL: the box in a darker wood, draw.BOX57, so that it stands off from a lawn in grey)
+                    svg, bb = D.long_box(ox, oy, s, w=TRIP_W30 if SCN.PLACEMENT_REV >= 28 else 72, h=38, dx=14, dy=40,
+                                         **({"cols": D.BOX57} if SCN.sw57("GREYCOL") != "O" else {}))
                     return svg, bb, "a box", ["box", "crate", "a box in the way"], "box"
                 if self.obj == "plank":
                     svg, bb = D.long_box(ox, oy, s, w=30, h=8, dx=24, dy=100, grain=True)
@@ -5527,6 +5790,12 @@ class PaintTracks(T):
 
 
 HAT_STRUCT9 = ("lamp", "stall", "tree", "tree_small", "clothesline", "laundry", "swing", "swing_seat", "slide", "seesaw", "feeder", "house")
+HAT57 = __import__("os").environ.get("TPDB_HAT57", C["purple"])      # v0.57 (GREYCOL): the blown cap's colour where it was orange
+HAT57_AHEAD = float(__import__("os").environ.get("TPDB_HAT57_AHEAD", "70"))      # v0.57 (WINDLINE, in a park): open air ahead of the cap, at scale 1
+# (priced alone and with a reader and a runner, seeds placed of twelve: 70 units 12 and 8, 95 units 7 and 7, 130 units 6 and 7; with neither rule 12 and 10)
+HAT57_UNDER = float(__import__("os").environ.get("TPDB_HAT57_UNDER", "14"))      # and how far under the cap's line that air reaches, at scale 1
+# (14 is the cap's own margin. 30 and 60, tried so that a cap does not fly just over the big tree's crown, each cost four seeds of the eight
+#  with a reader and a runner, and are left to a bench)
 
 
 class WindyHat(T):
@@ -5574,9 +5843,30 @@ class WindyHat(T):
                 if SCN.PLACEMENT_REV >= 22:
                     worn["person.leo"] = C["red"]
                 cols = [c_ for c_ in cols if c_ not in {worn[f] for f in sc.fams if f in worn}] or cols
-            svg, bb = D.cap(cx, cy, s * self.k3(1.45, 1.1, 0.85), sc.rng.choice(cols), rot=want * 35)
+            ks57 = s * self.k3(1.45, 1.1, 0.85)
+            hcol57 = sc.rng.choice(cols)
+            if SCN.sw57("GREYCOL") != "O" and hcol57 == C["orange"]:
+                # v0.57 (GREYCOL; vision/flaws_v056.md G1): no orange cap. Orange is grey 153, which is the lawn's (168) and the pond's (141)
+                # within twenty levels, and both of v0.56's orange caps were flagged by the grey check (pictures 66 and 126). Purple, grey
+                # 105, in its place: nobody of the cast wears a purple cap, and the draw is the same draw, so a layout does not move
+                hcol57 = HAT57
+            svg, bb = D.cap(cx, cy, ks57, hcol57, rot=want * 35)
             if not sc.fits(bb, limit=0.05):
                 continue
+            if SCN.sw57("WINDLINE") != "O" and "pond" in sc.S.anchors:
+                # v0.57 (WINDLINE; vision/flaws_v056.md O5): the cap and the band of the wind's lines off the pond. Drawn across the
+                # water the lines "could be read as ripples on the water rather than wind", and a cap above it "could be about to land
+                # in the pond or just passing over it" (v0.56's pictures 66 and 126, the two parks)
+                wb57 = tuple(sorted([hx - want * 205 * s, cx]))
+                if not sc.setting_clear((bb[0] - 14, bb[1] - 14, bb[2] + 14, bb[3] + 14), only=("pond",)) or \
+                        not sc.setting_clear((wb57[0], hy - 95 * s, wb57[1], hy - 20 * s), only=("pond",)):
+                    continue
+                # and open air ahead of the cap: off the pond the park leaves the lawn between the big tree and the lamp post, and there the
+                # cap flew at the post, 50 units short of it (both parks, rebuilt). No standing thing within HAT57_AHEAD of the cap downwind
+                # (HAT57_UNDER: how far under the cap's line that air reaches; see the constant for what a deeper box costs)
+                ah57 = (bb[2], bb[1] - 14, bb[2] + HAT57_AHEAD * s, bb[3] + HAT57_UNDER * s) if want > 0 else (bb[0] - HAT57_AHEAD * s, bb[1] - 14, bb[0], bb[3] + HAT57_UNDER * s)
+                if not sc.setting_clear(ah57, only=HAT_STRUCT9):
+                    continue
             # revision 6: the hat flies in open air, clear of lamp posts and trees (a cap over the top of a
             # lamp post read as caught on it)
             if SCN.PLACEMENT_REV >= 6 and not sc.air_clear(bb, 10):
@@ -6279,6 +6569,8 @@ class DucksBread(T):
         ep, ed = sc.eid("duckfeeder"), sc.eid("hungryduck")
         for (x, y) in A["shore"]:
             want = 1 if A["center"][0] > x else -1
+            if SCN.sw57("PONDOWN") != "O":
+                y = _shore57(sc, self.vp, A, x, y, want)       # (v0.57, above Fishing: a good step back from the near shore)
             p = sc.try_put(ep, self.vp, [(x, y), (x + 25, y + 15)], want_face=want, limit=0.15)
             if not p:
                 continue
@@ -6303,6 +6595,10 @@ class DucksBread(T):
                 if SCN.PLACEMENT_REV >= 28 and CRUMB30 == "W":
                     # revision 28: only those on the water, clear of its edge ("several crumbs lie on the grass past the pond edge", "unclear whether floating or on the bank")
                     crumb_at = [q for q in crumb_at if all(sc.on_element("pond", q[0] + a_, q[1] + b_) for a_, b_ in ((-12, 0), (12, 0), (0, 8), (0, -8)))]
+                if SCN.sw57("PONDOWN") != "O":
+                    # v0.57 (PONDOWN): and on the water, not on the sand that revision 50 draws round it, which the test above takes for
+                    # pond ("One crumb seems to sit on the sand rim or grass below the water line, outside the pond", v0.56's picture 118)
+                    crumb_at = [q for q in crumb_at if _on_water57(A, q[0], q[1])]
                 crumbs = "".join(D.ell(q[0], q[1], 6, 4, crumb_c, D.OW * 0.5) for q in crumb_at)
                 # the wake trails behind the duck, on the side away from the shore it swims to
                 wk = 1.0
@@ -6336,12 +6632,22 @@ class DucksBread(T):
                     ac = ((a0[0] + a1[0]) / 2, min(a0[1], a1[1]) - (22 + 0.42 * span_))
                     if toss56:
                         ac = ((a0[0] + a1[0]) / 2, min(a0[1], a1[1]) - (14 + 0.30 * span_))       # (a flatter arc: the hand is higher than the waist was)
+                    far57 = toss56 and SCN.sw57("PONDOWN") != "O" and a0[1] - a1[1] > 40
+                    if far57:
+                        # v0.57 (PONDOWN): the thrower stands back from the shore, so the hand is on this side of it and the duck beyond: the
+                        # pieces fly up the picture, away from the viewer. The span is then the whole way and not its width, and the arc
+                        # tops out a little above the duck's bill and comes down on it; a piece is drawn only where it is over the water
+                        # (over the sand or the lawn it would lie there)
+                        span_ = math.hypot(a1[0] - a0[0], a1[1] - a0[1])
+                        ac = ((a0[0] + a1[0]) / 2, a1[1] - 0.22 * span_)
                     # (v0.56, switch BREAD: the tossing hand is nearer the duck than the waist was, so a shorter arc still gets two pieces)
                     for t_ in ((0.28, 0.56, 0.82) if span_ >= 90 else (0.38, 0.72) if (toss56 and span_ >= 55) else ()):       # (nearer than that the crumbs on the water already lie between the hand and the bill)
                         qx = (1 - t_) ** 2 * a0[0] + 2 * (1 - t_) * t_ * ac[0] + t_ * t_ * a1[0]
                         qy = (1 - t_) ** 2 * a0[1] + 2 * (1 - t_) * t_ * ac[1] + t_ * t_ * a1[1]
                         if toss56 and 0.80 * A["rx"] < abs(qx - A["center"][0]) < 1.0 * A["rx"] and A["center"][1] - 56 < qy < A["center"][1] + 32:
                             continue        # (v0.56: no piece over the cattails at the pond's ends, where it sat on a reed's head)
+                        if far57 and not _on_water57(A, qx, qy, 6.0):
+                            continue
                         air51 += D.ell(qx, qy, 7.5, 5.5, crumb_c, D.OW * 0.6)
                         top51 = min(top51, qy - 8)
                     by_ = sy + 7
@@ -6386,6 +6692,11 @@ class SeesawHeavy(SeesawPlay):
             self.a = sc.person(ADULTS, avoid=("person.ben",), prefer=("person.dev", "person.tomas"))
             self.b = sc.person(KIDS, prefer=("person.nia",))
             self.va = sc.need(self.a, "seesaw_low_read", sc.rng.choice(["content", "focused"]), 90)
+            if SCN.sw57("HEAVY") != "O":
+                # v0.57 (HEAVY): no book. He sits with his hands on his knees and looks up at her (the draw above is kept, so that the
+                # rest of the picture is cast and placed as it was)
+                sc.variants.remove(self.va)
+                self.va = sc.need(self.a, "seesaw_low_look", "worried", 90)
             # revision 12: the girl's legs hang straight down, her face turned to us, one hand gripping the handle and
             # the other arm reaching out to the man (bent over the handle with her knees bent, her face showed only
             # hair: "sits on the raised end ... nothing looks wrong there")
@@ -6447,6 +6758,15 @@ class SeesawHeavy(SeesawPlay):
                     kick += f'<path d="M {D.P(*p0)} A {R:.1f} {R:.1f} 0 0 1 {D.P(*p1)}" fill="none" stroke="{D.OUT}" stroke-width="{2.4 * s:.1f}" stroke-linecap="round" stroke-opacity="0.75"/>'
                     xs += [p0[0], p1[0]]; ys += [p0[1], p1[1]]
                 sc.svg(sc.eid("kicklines"), "Motion lines by the dangling feet", kick, A["depth"] + 3, (min(xs) - 4, min(ys) - 4, max(xs) + 4, max(ys) + 4), "setting")
+        if SCN.PLACEMENT_REV >= 7 and SCN.sw57("HEAVY") != "O":
+            # v0.57 (HEAVY): the same three items for a man who does not read
+            self.act(self.a, "sitting on the low end of the seesaw, looking up at the child", ["sitting on the seesaw", "on the seesaw", "sitting on the low end", f"looking up at the {bn}", f"looking at the {bn}"], "seesaw", [ea])
+            self.act(self.b, "stuck up in the air on the seesaw, calling out", ["up in the air", "stuck at the top", "calling out", "shouting", "scared", "can't get down"], "air", [eb])
+            self.inf(f"The {an} is much heavier, so the {bn} is stuck up in the air",
+                     [f"the {an} is too heavy", "the grown-up is heavier", "the child can't get down", "stuck because he is sitting on the other end",
+                      "the seesaw won't go up and down", "too heavy for the seesaw"],
+                     "heavy", 1, cues=[eb, ea], effect=[eb])
+            return True
         if SCN.PLACEMENT_REV >= 7:
             self.act(self.a, "sitting on the low end of the seesaw, reading", ["sitting on the seesaw", "reading on the seesaw", "sitting on the low end", "reading a book"], "seesaw", [ea])
             self.act(self.b, "stuck up in the air on the seesaw, calling out", ["up in the air", "stuck at the top", "calling out", "shouting", "scared", "can't get down"], "air", [eb])
@@ -6593,6 +6913,126 @@ class WaterUpward(WaterFlowers):
                     ["water going up", "water going the wrong way", "water should fall down", "water flowing upward"], "water", [ew])
 
 
+# v0.57 (the switch PANFLOW; vision/flaws_v056.md R2): how far inside the rim the sheet's top edge lies, as a part of the way to the pan's
+# middle; how far the sheet drifts the way it leaves, as a part of its fall; and how narrow its end is, as a part of its width at the rim
+PAN57_IN, PAN57_DRIFT, PAN57_END = 0.13, 0.10, 0.34
+
+
+def _pan_sheet57(p, s, length):
+    """v0.57 (PANFLOW): the water of the hollow pan (castlib TPDB_PAN57), a sheet that leaves over the low rim between the sprite's anchors
+    pour_0 and pour_4 and falls, narrowing, with drops breaking off its end. Its top edge lies just inside the rim, on the water that
+    lies in the pan, so that the rim is covered where the water runs over it. Returns what draw.water_stream returns: svg, box, end.
+    (v0.56's pour left the far tip of a level pan as a ribbon 12 px wide, and the pan with its handle was "held by a long thin handle out
+    in front like a frying pan or ladle, and the water seems to come from its far side": a watering can's spout, to two readers of five.)"""
+    rim = [p.anchor("pour_%d" % i) for i in range(5)]
+    cx, cy = p.anchor("pan_c")
+    top = [(x + (cx - x) * PAN57_IN, y + (cy - y) * PAN57_IN) for x, y in rim]
+    m0 = rim[2]
+    L = length * s
+    drift = (1 if m0[0] >= cx else -1) * PAN57_DRIFT * L
+    ey = m0[1] + L * 0.92
+
+    def side(q, t):
+        k = 1.0 - (1.0 - PAN57_END) * t ** 0.8
+        return (m0[0] + drift * t * t + (q[0] - m0[0]) * k, q[1] + (ey - 7 * s - q[1]) * t)
+    N = 16
+    ea = [side(rim[0], k / N) for k in range(N + 1)]
+    eb = [side(rim[4], k / N) for k in range(N + 1)]
+    end = ((ea[-1][0] + eb[-1][0]) / 2, ey)
+    # the tip is rounded off between the two edges, and ends where draw.water_stream's pour ends, the drops as far below it as that one's
+    tip = (end[0], ey)
+    fill = "M " + " L ".join(D.P(*q) for q in top + eb) + f" Q {D.P(*tip)} {D.P(*ea[-1])} L " + " L ".join(D.P(*q) for q in ea[::-1][1:]) + " Z"
+    svg = f'<path d="{fill}" fill="{C["water_light"]}" stroke="none"/>'
+    # the outline runs down one edge, round the tip and up the other; none across the top, where the sheet joins the water in the pan
+    line = "M " + " L ".join(D.P(*q) for q in ea) + f" Q {D.P(*tip)} {D.P(*eb[-1])} L " + " L ".join(D.P(*q) for q in eb[::-1][1:])
+    svg += f'<path d="{line}" fill="none" stroke="{D.OUT}" stroke-width="{D.OW * 0.55:.1f}" stroke-linejoin="round" stroke-linecap="round"/>'
+    # two white glints down the sheet, from just under the rim
+    for u_, t0, t1 in ((0.30, 0.06, 0.62), (0.68, 0.12, 0.44)):
+        g_ = " ".join(D.P(ea[k][0] + (eb[k][0] - ea[k][0]) * u_, ea[k][1] + (eb[k][1] - ea[k][1]) * u_) for k in range(int(t0 * N), int(t1 * N) + 1))
+        svg += f'<path d="M {g_}" fill="none" stroke="{C["white"]}" stroke-width="{1.8 * s:.1f}" stroke-linecap="round" stroke-opacity="0.85"/>'
+    svg += D.drops(end[0], ey + 8 * s, s * 1.0, 3, 14)
+    xs = [q[0] for q in top + ea + eb]
+    ys = [q[1] for q in top + ea + eb]
+    return svg, (min(xs) - 22 * s, min(ys) - 22 * s, max(xs) + 22 * s, max(ys) + 26 * s), end
+
+
+# v0.57 (the switch CANBY, in pan_watering only): a watering can stands unused on the grass beside the bed, at the feet of the one who waters
+# with the pan, so that the picture shows the right tool beside the wrong one. "O": no can. "B": the can is drawn, and the items are as they
+# were. "C": the can is also a second cue of the two contradiction items (their redundancy feature goes from 0 to 1).
+# (Revision 18 took this very thing out: in v0.19's screen the garden's filler can stood on the lawn in pictures of the pan, and three
+#  readers wrote it down, "a proper watering can sits unused on the grass while she waters with a pan"; it was listed as an oddity then.
+#  The garden's filler can is still left out of a picture with the pan, by that rule, so there is one can and it is this one.)
+# The can's colour (a name of draw.C) and its size as a part of the holder's scale
+CAN57_COL, CAN57_K = "teal", 1.0
+
+
+def _can57(x, y, k, f, col=None):
+    """v0.57 (CANBY): a watering can standing on the ground at (x, y), seen from the side, its spout to the side f (1 right, -1 left): a
+    tapered body with an open top, a carrying handle over the top and a grip behind, and a spout that rises from the foot of the body to a
+    flared rose. k: its scale (at 1 the body is 44 wide and 60 tall). Returns svg and box."""
+    col = C[col or CAN57_COL]
+    dark = "#%02x%02x%02x" % tuple(int(int(col[i:i + 2], 16) * 0.62) for i in (1, 3, 5))
+
+    def X(dx):
+        return x + f * dx * k
+
+    def Y(dy):
+        return y - dy * k
+    ow = D.OW * 0.85
+    svg = D.shadow(x + f * 6 * k, y, 96 * k, k)
+    # the grip behind, and the spout with its rose (the body is drawn over where they join it)
+    svg += D.stroke(f"M {D.P(X(-18), Y(48))} C {D.P(X(-52), Y(52))} {D.P(X(-52), Y(12))} {D.P(X(-18), Y(16))}", col, 7 * k, ow)
+    svg += D.poly([(X(16), Y(30)), (X(16), Y(8)), (X(69), Y(62)), (X(61), Y(70))], col, ow)
+    svg += D.poly([(X(60), Y(71)), (X(70), Y(61)), (X(85), Y(64)), (X(63), Y(86))], C["gray"], ow)
+    svg += D.shape(f"M {D.P(X(-22), Y(56))} L {D.P(X(-20), Y(4))} Q {D.P(X(0), Y(-5))} {D.P(X(20), Y(4))} L {D.P(X(22), Y(56))} Z", col, ow)
+    svg += f'<path d="M {D.P(X(-21), Y(38))} Q {D.P(X(0), Y(31))} {D.P(X(21), Y(38))}" fill="none" stroke="{D.OUT}" stroke-width="{1.6 * k:.1f}" stroke-opacity="0.45"/>'
+    svg += D.ell(x, Y(56), 22 * k, 6.5 * k, dark, ow)
+    svg += D.stroke(f"M {D.P(X(-15), Y(57))} Q {D.P(X(1), Y(94))} {D.P(X(17), Y(57))}", col, 6 * k, ow)
+    xs = (X(-58), X(90))
+    return svg, (min(xs), y - 100 * k, max(xs), y + 5 * k)
+
+
+def _can_by57(sc, p, s, bed, sheet, want):
+    """v0.57 (CANBY): where the unused can stands, measured from the holder's drawing: behind the heels, away from the bed, its grip to the
+    holder and its spout away; or, where that has no room, a step nearer the viewer on that side. On the grass (no path, pond or sandbox
+    under it), clear of the bed, of the sheet of water, of the holder's own legs, of every scored thing and of others' feet. want: the side
+    of the holder the bed is on. Returns svg and box, or None."""
+    from . import compose as K
+    import numpy as np
+    m = K.asset_mask(p, False)
+    ms = K.MASK_SCALE
+    r0, r1 = max(0, int((p.Y - 40 * s) * ms)), min(m.shape[0], int((p.Y + 2) * ms) + 1)
+    cols = np.nonzero(m[r0:r1].any(axis=0))[0]
+    if not len(cols):
+        return None
+    fx0, fx1 = cols.min() / ms, (cols.max() + 1) / ms
+    k = CAN57_K * s
+    f = -want
+
+    def hits(a, b, pad=0):
+        return min(a[2], b[2] + pad) > max(a[0], b[0] - pad) and min(a[3], b[3] + pad) > max(a[1], b[1] - pad)
+    spots = [((fx0 - gap * s - 58 * k) if want > 0 else (fx1 + gap * s + 58 * k), p.Y + dy * s) for gap in (14, 32, 54) for dy in (10, 22, -2)]
+    spots += [((fx0 + fx1) / 2 - want * dx * s, p.Y + dy * s) for dy in (52, 68) for dx in (70, 105, 40)]
+    for x, y in spots:
+        svg, cb = _can57(x, y, k, f)
+        if cb[0] < 12 or cb[2] > D.W - 12 or cb[3] > D.H - 12:
+            continue
+        if not all(sc.S.walkable(x_, y) for x_ in (cb[0], x, cb[2])):
+            continue
+        if hits(cb, bed, 8) or hits(cb, sheet):
+            continue
+        if int(m[max(0, int(cb[1] * ms)):int(cb[3] * ms) + 1, max(0, int(cb[0] * ms)):int(cb[2] * ms) + 1].sum()) > 2:
+            continue
+        if not sc.setting_clear(cb, only=("path", "pond", "sandbox", "blanket")):
+            continue
+        if not sc.setting_clear(cb, skip=sc.SKY_SKIP + ("fence", "hills", "tree_line", "buildings", "house", "clouds_white", "clouds_dark", "sun", "flowers")):
+            continue
+        if not sc.fits(cb, limit=0.04) or not sc.feet_clear_of(cb):
+            continue
+        return svg, cb
+    return None
+
+
 class PanWatering(WaterFlowers):
     id = "pan_watering"
     kind = "contradiction"
@@ -6615,6 +7055,21 @@ class PanWatering(WaterFlowers):
 
     def items(self, ep, ew):
         self.act(self.p, "watering the flowers", ["watering the flowers", "watering the plants", "pouring water"], "flowers", [ep, ew])
+        can = getattr(self, "_can57", None) if SCN.sw57("CANBY") != "O" else None
+        if can is not None:
+            # v0.57 (CANBY): the unused watering can at the holder's feet; a thing of this event on the ground, which others keep their feet off
+            sc = self.sc
+            ec = sc.svg(sc.eid("sparecan"), "Watering can standing unused on the grass", can[0], can[1][3], can[1], "scored")
+            sc.groundthings.append((can[1], sc.placing))
+            if SCN.sw57("CANBY") == "C":
+                # ("C": the can as a second cue of both items; the item's elements and effect are the holder, as they were)
+                for kind_, text_, acc_, chain_ in (
+                        ("contradiction_notice", "Something is wrong with what the person is watering with",
+                         ["something odd about the pan", "that's strange", "the watering can is wrong"], 0),
+                        ("contradiction_explain", "The person is watering the flowers with a frying pan instead of a watering can",
+                         ["watering with a frying pan", "using a pan to water", "a pan isn't for watering"], 1)):
+                    sc.item(kind_, text_, acc_, "pan", [ep], chain=chain_, cues=[ep, ec], effect=[ep], domain=self.domain, template=self.id, event=self.ev)
+                return
         self.contra("Something is wrong with what the person is watering with",
                     "The person is watering the flowers with a frying pan instead of a watering can",
                     ["something odd about the pan", "that's strange", "the watering can is wrong"],

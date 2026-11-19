@@ -1,18 +1,12 @@
-"""(v0.56's own script, kept in tools/cycle as the model for the next whole-picture bench: its arms and paths are written in. Edit them.)
-bench_build.py ARM name,name,... [SLICE/OF] : v0.56's whole-picture bench. Builds v0.55's pictures again, each on its own record's plan only
-(same base seed, same forced set, revision 49; an isomorph through its source), into tpdb_work/v056/bench/sc_ARM, with the trial cast and
-v0.56's drawings of the scene made to act at revision 49 (TPDB_REV56=49) and nothing else: TPDB_ONLY56 names the drawing switches, so that
-the placement rules of revision 50 stay off and a picture stays where it was unless a new drawing's own box moves it.
-ARM B: the trial cast (tpdb_work/v056/bench/out_B) and every drawing switch at its first value (the bicycle leaning on its post, the hose
-       with v0.55's swelling).
-ARM C: the alternatives, for the pictures that hold them: the wheelbarrow's open square wheel, the bicycle held by its owner, the hose
-       pressed flat with no swelling, the thief bird's size alone, the seesaw's seat backs with the child's cupped hands (cast out_C), the
-       red lead.
-ARM L: the bicycle leaning on its post and nothing else, with v0.55's cast: picture 51, which must hold still round its bicycle.
-ARM O: nothing changed (a check that a record rebuilds as it was).
+"""(v0.57's own script, kept in tools/cycle as the model for the next whole-picture bench: its arms and paths are written in. Edit them.)
+bench_build.py ARM name,name,... [SLICE/OF] : v0.57's whole-picture bench. Builds v0.56's pictures again, each on its own record's plan only
+(same base seed, same forced set, revision 50; an isomorph through its source), into tpdb_work/v057/bench/sc_ARM, with v0.57's drawings of
+the scene made to act at revision 50 (TPDB_REV57=50) and nothing else: TPDB_ONLY57 names the switches of the arm, so that a picture stays
+where it was unless a new drawing's own box or rule moves it. An arm is a row's drawing: its switches, its cast and the poses that its
+cast draws anew (ARMS below). Arm O changes nothing (a check that a record rebuilds as it was).
 A picture that does not place on its record's own plan is reported as FAILED and left out. The library of an arm starts as a copy of
-lib055 without the variants whose drawing changed; they render on demand from the arm's cast. With SLICE/OF (2/5) only every OFth picture
-from the SLICEth is built, so that five runs can share an arm."""
+lib056 without the variants whose drawing changed; they render on demand from the arm's cast. With SLICE/OF (2/5) only every OFth picture
+from the SLICEth is built, so that several runs can share an arm."""
 import json, os, re, shutil, sys, time
 ROOT = "E:/Cognitive_Test_Scene_Creator"
 sys.path.insert(0, ROOT); os.chdir(ROOT)
@@ -20,49 +14,45 @@ arm, picks = sys.argv[1], [p for p in sys.argv[2].split(",") if p]
 if len(sys.argv) > 3:
     a_, n_ = (int(x) for x in sys.argv[3].split("/"))
     picks = picks[a_ - 1::n_]
-W = "tpdb_work/v056/bench/"
-DRAW = "BARROW,BARROWCOL,BIKE,STEAL,STEALAT,HOSE,DRIP,SEEP,LOWEND,TILT,STALKBIRD,LEAD,PAINT,TRAY,ROLLER,SEEDLING,BREAD,PARCEL,SPRAY,HOSEBED,HOSERUN," \
-       "KITE,UPW,BOXHAND,TRAIL,LOSTCOL,SPLAT,BASKET,BANK,SUN"
+W = "tpdb_work/v057/bench/"
+C56 = "assets/cast/out056"
+# arm: (environment, cast folder, poses the cast draws anew, library folder's name)
+DRAW = "ARC,CATCHLINE,PANFLOW,SEAT,PONDOWN,WINDLINE,GREYCOL,KITESLACK"
+POSES57 = ["water_pan", "seesaw_low", "seesaw_low_read", "seesaw_low_look"]
 ARMS = {
-    "O": ({}, "assets/cast/out055"),
-    "B": ({"TPDB_REV56": "49", "TPDB_ONLY56": DRAW, "TPDB_BIKE56": "L", "TPDB_HOSE56": "N"}, W + "out_B"),
-    "L": ({"TPDB_REV56": "49", "TPDB_ONLY56": "BIKE", "TPDB_BIKE56": "L"}, "assets/cast/out055"),
-    "C": ({"TPDB_REV56": "49", "TPDB_ONLY56": DRAW, "TPDB_BIKE56": "H", "TPDB_BARROW56": "C", "TPDB_HOSE56": "B", "TPDB_STEAL56": "C",
-           "TPDB_LOWEND56": "C", "TPDB_LEAD56": "C"}, W + "out_C"),
-    # round 2: arm B again with no water at the reel (the seep), and nothing else changed (arm B's library)
-    "N": ({"TPDB_REV56": "49", "TPDB_ONLY56": DRAW, "TPDB_BIKE56": "L", "TPDB_HOSE56": "N", "TPDB_SEEP56": "O", "TPDB_BARROW56": "B",
-           "TPDB_LEAD56": "B", "TPDB_STALKBIRD56": "B", "TPDB_UPW56": "B", "TPDB_TRAIL56": "B"}, W + "out_B"),
+    "O": [{}, C56, [], "O"],
+    # round 1. B: the trial cast (out_B: out056 with every person built again, the pan's inside pale) and every drawing of the scene;
+    # C: the alternatives (cast out_C, the pan's inside dark; the heavy seesaw's man without his book); P: v0.55's deep pan (a cast
+    # built with TPDB_PAN56=O TPDB_PAN57=O) in v0.56's pictures
+    "B": [{"TPDB_REV57": "50", "TPDB_ONLY57": DRAW}, W + "out_B", POSES57, "B"],
+    "C": [{"TPDB_REV57": "50", "TPDB_ONLY57": DRAW + ",HEAVY"}, W + "out_C", POSES57, "C"],
+    "P": [{}, "tpdb_work/v057/g_pan/cast_O55", ["water_pan"], "P"],
+    # round 2. E: the seat drawn where its rider sits, and no book; D: the dark pan with an unused watering can beside the holder
+    "E": [{"TPDB_REV57": "50", "TPDB_ONLY57": "SEAT,HEAVY", "TPDB_SEAT57": "D"}, W + "out_B", POSES57, "B"],
+    "D": [{"TPDB_REV57": "50", "TPDB_ONLY57": "PANFLOW,CANBY"}, W + "out_C", POSES57, "C"],
 }
-# (round 1's arm B was built before the bench's defaults were set: it had the wheelbarrow's solid square, the long lead, the bird turned
-#  from the cat, the rising streaks and the short trail, which the "B" above no longer names. To build it again, name them as arm N does.)
-env, cast_dir = ARMS[arm]
+env, cast_dir, poses, libname = ARMS[arm]
 os.environ.update(env)
-# the poses whose drawing changed in the trial cast: every person's, the three skirted figures' seated ones, the animals'
-POSES = {"paint", "kneel_plant", "water_pan", "bucket_hat", "feed_birds", "feed_birds_low", "hang_washing", "point_up", "cone_dropped", "sit_swing",
-         "hose_inspect", "seesaw_low", "seesaw_low_read", "seesaw_stuck_call", "stalk_paw", "sleep_paws_turn", "sit_wait", "read", "sit_read", "walk_read_open"}
-SKIRT = {"sit", "sit_clap", "sit_drink", "sit_feed_birds", "sit_ice_cream", "sit_read", "sit_swing", "seesaw_stuck", "seesaw_stuck_call", "seesaw_low",
-         "seesaw_low_read", "slide_down"}
+POSES = set(poses)
 
 
 def changed(f):
     if "__" not in f:
         return False
-    fam, pose, expr = f.split("__")[:3]
-    pose = pose.split("~")[0]
-    return pose in POSES or (fam in ("person.mei", "person.rosa", "person.nia") and pose in SKIRT) or (fam.startswith("animal.dog") and expr == "sleepy")
+    return f.split("__")[1].split("~")[0] in POSES
 
 
-lib_dir, out = W + "lib_" + ("B" if arm == "N" else arm), W + "sc_" + arm
+lib_dir, out = W + "lib_" + libname, W + "sc_" + arm
 if not os.path.exists(lib_dir):
     os.makedirs(lib_dir, exist_ok=True)
     n = k = 0
-    for f in os.listdir("assets/cast/lib055"):
+    for f in os.listdir("assets/cast/lib056"):
         if f.startswith("."):
             continue
-        if arm not in ("O", "L") and changed(f):
+        if changed(f):
             k += 1
             continue
-        shutil.copy2("assets/cast/lib055/" + f, lib_dir + "/" + f); n += 1
+        shutil.copy2("assets/cast/lib056/" + f, lib_dir + "/" + f); n += 1
     print("seeded", lib_dir, n, "files, left out", k, flush=True)
 os.makedirs(out, exist_ok=True)
 from scenegen.library import Library
@@ -72,7 +62,7 @@ from scenegen.batch import build_isomorph
 from scenegen.planner import plan
 from scenegen.scene import PlacementError
 lib = Library(cast_dir=cast_dir, lib_dir=lib_dir)
-km = json.load(open("vision/v055/key_map.json"))
+km = json.load(open("vision/v056/key_map.json"))
 for pic in picks:
     name = km.get(pic, pic)
     if os.path.exists(f"{out}/{name}.json"):

@@ -91,6 +91,9 @@ def sky_layer(S, sky, horizon, sun_at=(1450, 120), clouds=((640, 120, 0.7), (900
 
 
 # ======================================================================= garden
+LAUNDRY57_DEG = 21.0     # v0.57 (WINDLINE): how far the hem of the washing is carried in a hat's gust, as an angle from the pegs (28 before)
+
+
 def laundry_svg(blow=0, lines=True, short=False, drip=False):
     """The jeans and the striped towel pegged on the garden line. blow (v0.14, -1 or 1): swung out with a gust, the hems
     lifted and carried downwind, with short wind lines past them (hanging straight down in a gust that blew a hat away,
@@ -121,19 +124,37 @@ def laundry_svg(blow=0, lines=True, short=False, drip=False):
             laundry += D.rect(px - 3, line_y(px) - 9, 7, 16, C["wood_light"], 1, D.OW * 0.6)
         return laundry
     tan = math.tan(math.radians(28))
+    # v0.57 (the scene's switch WINDLINE; vision/flaws_v056.md O5): the washing in a hat's gust hangs straight from its pegs and sweeps out
+    # downwind toward the hem, a cloth and not a board. It was sheared as a whole, 28 degrees from the pegs down: "the clothes point
+    # right/downward at a steep angle, which is a little odd for clothes pegged to a line" (v0.56's picture 95). The hem is carried
+    # three quarters as far as it was (LAUNDRY57_DEG), so the old box still holds it. The kite's breeze (lines=False) is as it was
+    curve57 = bool(lines) and abs(blow) == 1 and _sw57("WINDLINE") != "O"
+    tan57 = math.tan(math.radians(LAUNDRY57_DEG))
 
     def sw(px, py, top):
         d = py - top
+        if curve57:
+            return (px + blow * d * tan57 * (max(d, 0.0) / 120.0) ** 0.5, top + d * 0.84)
         return (px + blow * d * tan, top + d * 0.84)
+
+    def cloth57(pts, tops):
+        """A polygon's corners carried by sw; under WINDLINE each edge in eight steps, since sw then bends a straight edge."""
+        if not curve57:
+            return [sw(px, py, t) for (px, py), t in zip(pts, tops)]
+        out, n = [], len(pts)
+        for i in range(n):
+            (ax, ay), (bx, by), ta, tb = pts[i], pts[(i + 1) % n], tops[i], tops[(i + 1) % n]
+            out += [sw(ax + (bx - ax) * k / 8, ay + (by - ay) * k / 8, ta + (tb - ta) * k / 8) for k in range(8)]
+        return out
     laundry = ""
     x0 = 652
     jeans = [(x0, line_y(x0)), (x0 + 58, line_y(x0 + 58)), (x0 + 60, line_y(x0) + 120), (x0 + 36, line_y(x0) + 120),
              (x0 + 29, line_y(x0) + 40), (x0 + 22, line_y(x0) + 120), (x0 - 2, line_y(x0) + 120)]
-    laundry += D.poly([sw(px, py, line_y(px) if i < 2 else line_y(x0)) for i, (px, py) in enumerate(jeans)], C["blue"])
+    laundry += D.poly(cloth57(jeans, [line_y(px) if i < 2 else line_y(x0) for i, (px, py) in enumerate(jeans)]), C["blue"])
     x0 = 724
     top = line_y(x0 + 25) - 2
     towel = [(x0, top), (x0 + 52, top), (x0 + 52, top + 92), (x0, top + 92)]
-    laundry += D.poly([sw(px, py, top) for px, py in towel], C["yellow"])
+    laundry += D.poly(cloth57(towel, [top] * 4), C["yellow"])
     for k_ in range(3):
         yy = line_y(x0 + 25) + 20 + k_ * 24
         a, b = sw(x0 + 4, yy, top), sw(x0 + 48, yy, top)
@@ -164,6 +185,12 @@ def _sw56(name):
     """v0.56's switch NAME for the record being built (scene.sw56)."""
     from . import scene as _SCN
     return _SCN.sw56(name)
+
+
+def _sw57(name):
+    """v0.57's switch NAME for the record being built (scene.sw57)."""
+    from . import scene as _SCN
+    return _SCN.sw57(name)
 
 
 # v0.45 (revision 43; bench round 1): SLIDE45 "B": the slide's ladder is the frame's own end, in the frame's red, its near rail running on up into the

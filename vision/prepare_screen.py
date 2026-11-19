@@ -4,7 +4,9 @@
     python vision/prepare_screen.py scenes,probes vision/v06      # several folders, shuffled together
 
 Writes <out>/blind/pic_NN.png (no file names, records or code nearby), <out>/key_map.json
-(pic -> scene name) and <out>/keys.json (pic -> scored items with accepted phrasings).
+(pic -> scene name) and <out>/keys.json (pic -> scored items with accepted phrasings and, from v0.57, the names an action
+item's figure may be called by: the scorers are told that such a name is not a judgement call, and until v0.56 the key did
+not show them which names those are).
 Describers get only the blind images; a separate scorer gets their descriptions and keys.json.
 """
 import glob
@@ -32,7 +34,8 @@ for i, n in enumerate(names, 1):
     shutil.copy(os.path.join(src, n + ".png"), os.path.join(out, "blind", k + ".png"))
     r = json.load(open(os.path.join(src, n + ".json")))
     keys[k] = {"items": [{"id": it["id"], "type": it["type"], "text": it["text"],
-                          "accepted": (it["accepted"] if isinstance(it["accepted"], list) else it["accepted"].get("what", []))[:8]}
+                          "accepted": (it["accepted"] if isinstance(it["accepted"], list) else it["accepted"].get("what", []))[:8],
+                          **({"names": it["accepted"]["who"]} if isinstance(it["accepted"], dict) and it["accepted"].get("who") else {})}
                          for it in r["items"]]}
     # (v0.39: every animal drawn, with its angle, for the scorers' oddity tally by angle)
     an = []

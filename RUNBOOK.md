@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.56 was made, written so that a fresh session can make the next one (v0.57) from this
+How each release from v0.12 to v0.57 was made, written so that a fresh session can make the next one (v0.58) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -90,6 +90,12 @@ changes (a new placement revision, step 3).
   own lines on a row's words. Analysts who never see a picture, told the arms and the intended reading, count each row from those files (the briefs are kept in
   `vision/isolation_v056/digest/`); read their closing paragraph against the tally when a number surprises, and count the gate's rows again yourself. What the round leaves open
   goes to a second round on the same seeds, each scene in every arm and each reader with each scene once (Lessons, v0.56).
+- A short list is benched the same way, with the last screen's own reading as an arm (v0.57; the three `bench_*.py`, `bench_round2.py` and `bench_tally2.py` as they now stand).
+  The scene's switch is `scene.sw57(NAME)`, and `TPDB_REV57=50 TPDB_ONLY57=<names>` makes the drawings act in the last screen's records. The arms are written into
+  `bench_build.py` (`ARMS`: the environment, the cast, the poses that cast draws anew, the library's name); `bench_prepare.py` names its pictures by row (`ROWS`) and deals a
+  fresh reading of each picture as the last release drew it (arm O) beside the screen's own (arm S, which `bench_tally.py` prints from `vision/v<PREV>`), two readings of
+  each new drawing and three of an older one; new pictures are built on one seed with the new drawing and with the old (arms F and G). Count a naming fault by reader as
+  well as by arm before deciding, and in the round that follows give a reader pictures of one arm only (Lessons, v0.57).
 - `python tools/cycle/crops.py OUT.png [SCALE] NAME:substr[:pad] ...` cuts named elements out of built pictures onto one sheet (`CROP_DIRS` for other folders):
   the flagged pictures of the last screen at full size, before anything is drawn.
 - The age bench, whenever heads, proportions or marks of age change, reads whole scenes (v0.50). Build each trial cast into its own folder
@@ -141,6 +147,11 @@ python tools/cycle/set_prior.py       # rewrites the PRIOR block in scenegen/pla
                                       # (Lessons, v0.55)
 cp $TPDB_WORK/calibration$TAG.json calibration.json
 bash tools/cycle/build_set.sh         # showcase pass into scenes<TAG>, then searches for missing tier 1-3 cells
+python tools/cycle/carry_over.py scenes scenes$TAG; python tools/cycle/carry_over.py probes probes$TAG   # INSTEAD of the showcase pass and the probe passes, in a
+                                      # like-for-like release (v0.57): every record of the last release built again under the new revision from its own
+                                      # regeneration data (SAME, DRAWN, MOVED, OTHER or FAILED in <OUT>/carry_over.json). The priors are left (run set_prior.py
+                                      # on a copy of planner.py to say which would move); only the FAILED cells are searched for, and probes are added by
+                                      # extra_probes.py for the templates that changed. An isomorph is built again from its source's new record
 bash tools/cycle/t4_search.sh street <previous street base seed> 400000   # one per tier-4 cell still missing
 python tools/cycle/yield_set.py 6 playground 6043 3 '<forced set as JSON>'   # does a forced set place and land in the band? (seconds)
 python tools/cycle/forced_cell.py street 4 v047street 430752,447752        # a cell from a forced set, when the free search has failed
@@ -191,6 +202,9 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   `vision/v<TAG>/desc_pic_NN.md`. When a scorer's pictures are all described, give it its scorer prompt; it writes
   `scores_<a|b|c>.json` and `scores_summary_<a|b|c>.md`. Readers and scorers must never see the code, the keys (readers)
   or the pictures (scorers).
+- From v0.57 the key lists the names an action item's figure may be called by (`names`, from `vision/prepare_screen.py`), and the scorer's prompt asks for a flag beside
+  each score, `"call": "two"` (a score of 1 with another reading beside the target), `"near"` (a near word or a target partly said) or `null`; `strict_count.py` reads the
+  flags from `scores.json` and no longer holds lists sorted by hand.
 - Merge `scores_a/b/c.json` into `vision/v<TAG>/scores.json`, then `bash tools/cycle/summarize.sh` and
   `python vision/gate.py vision/v<TAG> scenes,probes`.
 - Then the three counts beside the gate: `python tools/cycle/gate_yaw.py vision/v<TAG> scenes,probes` (the gate per template and angle, and the
@@ -960,3 +974,30 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   the figure's names, so three of five listed them as before.
 - A patch whose text holds an apostrophe, a backslash or a line continuation goes through a file written with the editor's own tool, not a shell heredoc: three heredocs failed
   on them in this release, one after its first replacement had been applied. And a `cd` into a subfolder inside a chain stays for the next command.
+- Count a naming fault by reader before believing an arm's count (v0.57). Four pans were benched, and a reading that called the vessel a watering can was 1 of 10 for one pan and
+  4 of 10 for another; but all ten such readings came from four readers of sixteen, each in every pan picture it had, whichever pan. An arm's count then says which readers it
+  drew. In the round that follows give a reader pictures of one arm only, and more readers before more pictures.
+- What converts a reader's habit may not be a better drawing of the thing but a second thing beside it. No pan stopped "watering can"; an unused watering can on the grass behind
+  the holder did, in 20 readings of 20. Revision 18 had taken the garden's can out of such pictures because readers remarked on it: a remark that names the contradiction is the
+  reading, not an oddity. Before a bench, read the old removals of the template's history again.
+- New pictures show what the last screen's pictures cannot. v0.56's three games of catch all had a child catching, and the flat flight read well in each; where a grown figure
+  caught, in new pictures, who threw the ball was asked. Build a rule's new pictures on several casts and settings, and build each twice on one seed, with the old drawing too.
+- A like-for-like release carries records over one by one (`carry_over.py`), each from its own regeneration data, and leaves the priors. Run it dry on a trial cast and a scratch
+  library (`CARRY_CAST`, `CARRY_LIB`) as soon as the drawings exist: it says which pictures a drawing moves and which cells it costs before the bench has chosen. The library
+  rendered from the new cast differed from the last in single pixels of three variants, and seventeen pictures differ from the last release's by a few pixels for that alone:
+  count the pixels (`tools/cycle/carry_px.py`) and say so, and do not call a picture the same that is not.
+- A drawing that keeps ground clear is paid for in tier 4. The kite's string on the grass cost the tier-4 park its seed, and its own set placed on none of twelve seeds where it had placed on two. And a tier-4 cell is
+  not always one that can have an isomorph: the first new park held three inferences of one class, which no second setting can cast, and 260 tries from the other cells placed
+  none. Search for the cell and its isomorph together (`t4_cell_iso.py`), several ranges side by side.
+- Do not wait for a search with the screen. The other 134 pictures were prepared, read and scored while the tier-4 pair was searched for, and the pair was added as pictures 135
+  and 136 with a reader each (the reader's template for one picture) and a scorer of its own (`tools/cycle/add_to_screen.py`: the blind copies, the key and the prompts).
+- A change to the key or to the scorer's prompt changes the measure. With each figure's names in the key, calls on a near word fell from 46 to 10, and one scorer of six gave a
+  half mark where a man was called a boy, which no earlier scorer had; with a flag beside each score, calls on a second reading rose from 33 to 57, since a hedge in a reader's
+  unsure section is a flag to most scorers. Say what was changed word for word (`vision/screen_prompts.md`) and do not compare the strict count across the change.
+- When two rounds of a mend leave the same share of readers doubting, look at what they doubt. With a seat on the seesaw nine readers of ten still remarked on where the man
+  sits, as nine of ten had before; but "beside the seesaw or on the ground" had become "in front of his seat". Count the reading that would break the item, not every remark of
+  an unsure section, which always has one.
+- A worker called back with the readers' own words mends faster than a new one briefed from the list: two were resumed after round 1, each with the quotes of its row, and each
+  was back within sixteen minutes. A worker's report file may be refused by the harness: its last message is the report, so write it into the notes at once.
+- The coordinator keeps to the workers' rule. I ran one Python patch over `templates.py` while four workers were editing it with single replacements; nothing was lost, and it
+  could have been. A shared file is changed by exact replacement only, by everyone, for as long as anyone else has it open.
