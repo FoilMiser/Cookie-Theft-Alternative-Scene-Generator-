@@ -1,16 +1,20 @@
-"""(v0.57's own script: its rows and paths are written in.)
-bench_tally2.py : the second round of v0.57's bench (vision/isolation_v057/bench2). Writes tpdb_work/v057/bench/tally2_<row>.txt, as
-bench_tally.py does for the first round: for each reading, by arm (pan: C the dark hollow pan alone, D the same with an unused watering can
-beside the holder; seesaw_heavy: E the seat where its rider sits and the man without his book; catch: H the catcher cast young), the
-sentences and lines that hold one of the row's words, and prints the readings by row, arm and reader."""
+"""(v0.58's own script: its rows and paths are written in.)
+bench_tally2.py [ROW ...] : the second round of v0.58's bench (tools/cycle/bench_round2.py). For every row writes
+tpdb_work/v058/bench/tally2_<row>.txt: by arm (barrow O and H, kite B and C, heavy E and B) and then by reader, the sentences of the
+free description, the inventory lines and the lines of the unsure section that hold one of the row's words. A reader has a row's
+pictures in one arm only. Nothing is counted here."""
 import collections, json, os, re, sys
 ROOT = "E:/Cognitive_Test_Scene_Creator/"
-rows = json.load(open(ROOT + "tpdb_work/v057/maps/bench2_map.json"))
+rows = json.load(open(ROOT + "tpdb_work/v058/maps/bench2_map.json"))
 WORDS = {
-    "catch": r"ball|throw|catch|toss|pitch",
-    "pan": r"\bpan\b|pot\b|saucepan|frying|skillet|watering|ladle|scoop|bowl|dish|shovel|spade|wok|water|\bcan\b",
-    "seesaw_heavy": r"see-?saw|teeter|plank|stuck|heav|weigh|seat|book|newspaper|reading",
+    "barrow": r"barrow|wheel|push|gardener|cart\b|trolley|square|boxy|spoke|tyre|tire|frame|crate",
+    "heavy": r"see-?saw|teeter|plank|stuck|heav|weigh|seat|handle|climb|ground|down\b|balance|purpose|teas",
+    "plain": r"see-?saw|teeter|plank|seat|handle|float",
+    "kite": r"kite|string|line\b|reel|spool|handle|reach|point",
+    "catch": r"ball|throw|catch|toss|pitch|fence|rail",
 }
+ORDER = "OHEBC"
+want = sys.argv[1:] or ["barrow", "kite", "heavy"]
 cnt = collections.Counter()
 
 
@@ -34,16 +38,18 @@ def lines_of(f, pat):
     return out
 
 
-for row in sorted(WORDS):
+for row in want:
     pat = re.compile(WORDS[row], re.I)
     out = []
-    for r in sorted((r for r in rows if row in r["rows"]), key=lambda r: (r["arm"], r["name"], r["reader"])):
-        f = ROOT + "vision/isolation_v057/bench2/desc_%s.md" % r["pic"]
+    mine = [r for r in rows if row in r["rows"]]
+    for r in sorted(mine, key=lambda r: (ORDER.index(r["arm"]), r["reader"], r["name"])):
+        f = ROOT + "vision/isolation_v058/bench2/desc_%s.md" % r["pic"]
         if not os.path.exists(f):
             out.append("== %s arm %s reader %d (%s): NO DESCRIPTION" % (r["name"], r["arm"], r["reader"], r["pic"]))
             continue
         cnt[(row, r["arm"])] += 1
         out.append("== %s arm %s reader %d (%s)" % (r["name"], r["arm"], r["reader"], r["pic"]))
         out += lines_of(f, pat)
-    open(ROOT + "tpdb_work/v057/bench/tally2_%s.txt" % row, "w", encoding="utf-8", newline="\n").write("\n".join(out) + "\n")
-print(dict(cnt))
+    open(ROOT + "tpdb_work/v058/bench/tally2_%s.txt" % row, "w", encoding="utf-8", newline="\n").write("\n".join(out) + "\n")
+for row in want:
+    print(row, {a: cnt[(row, a)] for a in ORDER if cnt[(row, a)]})

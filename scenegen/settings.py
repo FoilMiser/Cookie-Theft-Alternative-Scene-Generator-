@@ -193,6 +193,12 @@ def _sw57(name):
     return _SCN.sw57(name)
 
 
+def _sw58(name):
+    """v0.58's switch NAME for the record being built (scene.sw58)."""
+    from . import scene as _SCN
+    return _SCN.sw58(name)
+
+
 # v0.45 (revision 43; bench round 1): SLIDE45 "B": the slide's ladder is the frame's own end, in the frame's red, its near rail running on up into the
 # hand rail over the deck (draw.slide ladder3); "O" as revision 42, a slate ladder leaning across the red upright ("drawn in front of/beside the red
 # frame", "slightly separate from/behind the red frame", "slanted and separate from the frame": three of six readers)
@@ -296,6 +302,9 @@ def build_garden(features, sky):
     fence += D.rect(1442, 432, 116, 183, C["wood"], 4) + D.line(1442, 432, 1558, 615, D.OUT, 4) + D.circ(1540, 525, 7, C["charcoal"])
     S.add("fence", "Wooden fence with a gate", fence, 615, "setting", (300, 428, 1610, 615), entity=E("There is a fence", ["fence", "wooden fence", "gate"], "fence"))
     S.anchors["fence_top"] = {"y": 437, "x0": 340, "x1": 1420, "depth": 612}
+    # v0.58 (templates.PlayCatch._rail_clear58, the scene's switch CATCHRAIL): the fence's two rails as they are drawn above, top and bottom of
+    # each and the stretches they run over (not the gate). Read by that rule only; it draws nothing
+    S.anchors["fence_rails"] = {"bands": ((480, 496), (565, 581)), "spans": ((300, 1440), (1560, 1620))}
     S.anchors["balloon_max_y"] = 265      # a loose balloon's string ends well above the fence top, not on it
     S.anchors["no_float"] = [(1442, 432, 1558, 615)]      # the gate: nothing hangs in the air in front of it
     S.anchors["gate_knob"] = (1540, 525)                  # revision 34: no head beside it (it read as "a hair bun", twice)
@@ -572,6 +581,10 @@ def build_playground(features, sky):
     S.add("fence", "Railing around the playground", rail, 618, "setting", (-10, rtop - 6, 1610, 618),
           entity=E("There is a railing around the playground", ["fence", "railing", "playground fence"], "fence"))
     S.anchors["fence_top"] = {"y": rtop - 4, "x0": 60, "x1": 1540, "depth": 616}
+    # v0.58 (templates.PlayCatch._rail_clear58): the railing's lower rails as draw.railing draws them, 8 units deep at the shares `mids` of its
+    # height (its top bar is fence_top's line). Read by that rule only; it draws nothing
+    S.anchors["fence_rails"] = {"bands": tuple((rtop + (618 - rtop) * f_, rtop + (618 - rtop) * f_ + 8) for f_ in ((0.36, 0.68) if _rev() >= 14 else (0.55,))),
+                                "spans": ((-10, 1610),)}
     tsvg, tinfo = D.tree_with_branch(1460, 700, sz(700), side=-1, smooth=_rev() >= 6)
     S.add("tree", "Big tree", tsvg, 700, "setting", tinfo["bbox"], entity=E("There is a big tree", ["tree", "trees", "big tree"], "tree"),
           blocked=(1410, 670, 1510, 730))

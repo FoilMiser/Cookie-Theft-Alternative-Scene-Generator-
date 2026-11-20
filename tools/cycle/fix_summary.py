@@ -8,15 +8,14 @@ from scenegen.batch import SHOWCASE
 OPEN = {("garden", 4), ("park", 4), ("street", 4), ("playground", 4)}
 # a cell built from a forced template set (regen.forced) carries this note in place of the search notes
 FORCED = {("garden", 4), ("street", 4)}
-NOTES = {("garden", 4): "v0.46's set on v0.46's seed, 552986 (tools/cycle/forced_cell.py, v046garden), as in v0.53 to v0.56: carried over from "
-                        "v0.56's record (tools/cycle/carry_over.py), with the paint a deeper pink",
-         ("park", 4): "v0.56's cell (base 732977) no longer places: it held the kite in the tree, whose string now lies on the grass. The first "
-                      "new cell found (base 740941, s762941) holds three inferences of one class and has no isomorph in any setting, so the cell "
-                      "and its isomorph were searched for together (tools/cycle/t4_cell_iso.py): base 905959, its thirty-fourth step (s938959), "
-                      "while 39 other bases of that search gave no cell",
+NOTES = {("garden", 4): "v0.46's set with the man who sits on nothing in place of the wheelbarrow with a square wheel, on v0.46's seed, 552986 "
+                        "(tools/cycle/forced_cell.py, v058garden): the barrow is now wheeled by a grown figure, and with it the old set placed "
+                        "on none of twelve seeds with the band",
+         ("park", 4): "v0.57's cell, found together with its isomorph (tools/cycle/t4_cell_iso.py; base 905959, its thirty-fourth step, "
+                      "s938959): carried over from v0.57's record (tools/cycle/carry_over.py), to the pixel",
          ("street", 4): "v0.55's street set with the dog that reads a newspaper in place of the man who sits on nothing "
-                        "(tools/cycle/forced_cell.py, v056street), on base 445887: carried over from v0.56's record, to the pixel",
-         ("playground", 4): "v0.56's cell, base 560007, its ninth step (s568007): carried over from v0.56's record, to the pixel"}
+                        "(tools/cycle/forced_cell.py, v056street), on base 445887: carried over from v0.57's record, to the pixel",
+         ("playground", 4): "v0.56's cell, base 560007, its ninth step (s568007): carried over from v0.57's record, to the pixel"}
 recs = {}
 for f in glob.glob(f"scenes{TAG}/T*.json"):
     r = json.load(open(f))

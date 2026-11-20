@@ -1391,6 +1391,9 @@ CATCH51_REV = 48        # (the whole-scene bench sets 47, to build v0.50's own r
 ARC57_BOW = float(__import__("os").environ.get("TPDB_ARC57_BOW", "45"))      # how far the flat flight bows above the straight line from hand to hands, in units at scale 1 (v0.56: 150 above the higher hand)
 CATCHLINE57_GAP = 10    # how far the ball's disc keeps from the top line of a fence or railing behind the game, in px
 CATCHLINE57_CAT = 150   # how far a cat on the fence keeps from every point of the flight, in px
+# v0.58 (the scene's switch CATCHRAIL, PlayCatch._rail_clear58; "O" is v0.57's, no rule): how far the ball's disc keeps from the band of each
+# rail of the fence or railing behind the game (settings' anchor fence_rails), in px
+CATCHRAIL58_GAP = 10
 
 
 class _Ex53:
@@ -1463,6 +1466,22 @@ class PlayCatch(T):
                     return False
         return True
 
+    def _rail_clear58(self, bez, t, r):
+        """v0.58 (the switch CATCHRAIL; vision/flaws_v057.md O6 and the last line of its last section): the ball's disc keeps CATCHRAIL58_GAP
+        units clear of the band of each rail of the fence behind the game, where the rail runs (settings' anchor fence_rails: the garden's
+        two rails, the playground railing's two lower ones). CATCHLINE keeps the ball off the fence's top line only, and on the flat flight
+        it stood on a rail of the garden's fence in two of v0.57's three gardens: "The ball and the thrower's hand are drawn at fence
+        height against the fence, but read as in front of it" (picture 101, the ball on the lower rail; in picture 134 its foot is on the
+        upper one). A spot where the ball would stand on a rail is passed over; nothing is drawn differently."""
+        A = self.sc.S.anchors.get("fence_rails")
+        if A is None:
+            return True
+        bx, by = bez(t)
+        g = r + float(CATCHRAIL58_GAP)
+        if not any(x0 - g <= bx <= x1 + g for x0, x1 in A["spans"]):
+            return True
+        return all(by + g <= y0 or by - g >= y1 for y0, y1 in A["bands"])
+
     @staticmethod
     def _cat_span57(fl, yl):
         """(CATCHLINE) The stretch of the fence's top that lies within CATCHLINE57_CAT units of the flight `fl`, as (x0, x1), or None."""
@@ -1526,6 +1545,8 @@ class PlayCatch(T):
                     t += 0.02
             bx, by = bez(t)
             if SCN.sw57("CATCHLINE") != "O" and not self._line_clear57(pa, pb, bez, t, r):
+                continue
+            if SCN.sw58("CATCHRAIL") != "O" and not self._rail_clear58(bez, t, r):
                 continue
             if not sc.fits((bx - r * 2, by - r * 2, bx + r * 2, by + r * 2), limit=0.02, ignore=(ea, eb)):
                 continue
@@ -3363,6 +3384,15 @@ def _stops56():
 #   seesaw_low_look, castlib.actions.HEAVY57). Both of v0.56's half marks were a reader who had the man reading and "ignoring" the child
 #   and gave no weight. "O": he reads, as since revision 7.
 SEAT57_LOW = ("seesaw_low", "seesaw_low_read", "seesaw_low_look")
+# v0.58 (vision/flaws_v057.md R3 and O2), each behind a switch of scene.sw58:
+#   RIDE "B" (SeesawPlay): the rider of the raised end of a seesaw at play sits in the cast's pose seesaw_high (castlib.actions.RIDE58: THE CAST
+#   MUST HOLD IT), set on the plank and its handle raised to the fists as a stuck child's is. "O": `sit`, or seesaw_stuck beside a teenager.
+#   SEATFIT "B" (`_seat57`): under a low rider the pad runs on to SEATFIT58_KNEE units short of his near foot. It goes with the cast's
+#   LOWSIT58 "B", which sets that foot under the knee. "O": 42 units short (SEAT57_D["knee"]).
+RIDE58_POSE = "seesaw_high"
+SEATFIT58_KNEE = 15.0
+SEAT50_POSES += (RIDE58_POSE,)
+GRIP32 += (RIDE58_POSE,)
 SEAT57_D = dict(over=6.0, knee=42.0, pad=46.0, lo=1.0, hi=26.0)     # (D) how far inside the hips' rear the back's face stands; how far short
 #                                                                     of a low rider's near foot the pad ends; a child's pad; the back's range
 
@@ -3399,6 +3429,12 @@ def _seat57(lib, q, v, s, a, inset, low):
         feet = [A_[f_]["px"] for f_ in ("foot_L", "foot_R") if f_ in A_]
         if feet:
             fx_ = max(feet, key=lambda p_: p_[1])[0]              # the near foot: the lower of the two in the drawing
+            if SCN.sw58("SEATFIT") != "O":
+                # v0.58 (SEATFIT; with the cast's LOWSIT58, whose near shin stands upright over its foot): the pad on under the whole thigh
+                # to the back of that shin, SEATFIT58_KNEE units short of the foot. With v0.57's 42 units, which fitted a foot set far ahead
+                # of the knee, the pad ends under the middle of the thigh and grass shows between its end, the thigh and the plank
+                u1 = max(u1, useat + abs(fx_ - sx_) * q.k / s / ca - SEATFIT58_KNEE)
+                return {"ub": ub, "u1": u1}
             u1 = max(u1, useat + abs(fx_ - sx_) * q.k / s / ca - SEAT57_D["knee"])
     return {"ub": ub, "u1": u1}
 
@@ -3435,6 +3471,17 @@ class SeesawPlay(T):
         self.vb = sc.need(self.b, pb, sc.rng.choice(["happy", "laughing", "smile"]), 90)
         ride_parts(sc, self.va)
         ride_parts(sc, self.vb)
+        self.hi58 = {}
+        if SCN.sw58("RIDE") != "O":
+            # v0.58 (RIDE; vision/flaws_v057.md O2): whoever is on the raised end rides in the cast's pose seesaw_high (castlib.actions.RIDE58),
+            # the thighs along the falling plank and both fists on the handle, where a child sat as on a bench with the thighs level over a
+            # plank that falls away ("sits slightly above the see-saw seat", v057 pic_07; "her placement looks a little floating", pic_79)
+            # or bowed over fists at the chin (seesaw_stuck). Which end rises is known in place(): the pose is asked for both riders here,
+            # beside the draws above, which stay as they were
+            for v_ in (self.va, self.vb):
+                if v_[1] in ("sit", "seesaw_stuck"):
+                    self.hi58[v_] = sc.need(v_[0], RIDE58_POSE, v_[2], 90)
+                    ride_parts(sc, self.hi58[v_])
 
     def ride(self, tilt, ea, eb, va, vb, bumper=0.0):
         """Redraw the seesaw at `tilt` and sit the two riders on its ends, facing each other. bumper (v0.56, LOWEND): the stops' height."""
@@ -3546,7 +3593,14 @@ class SeesawPlay(T):
                 if SCN.sw56("TILT") != "O":
                     # v0.56 (TILT; vision/flaws_v055.md C8): "The tilt of the see-saw is quite small" (v055 pic_17)
                     tilt = math.copysign(D.seesaw_rest(_stops56()) if _stops56() else TILT56, tilt)
-        if not self.ride(tilt, ea, eb, self.va, self.vb, **({"bumper": _stops56()} if _stops56() else {})):
+        va, vb = self.va, self.vb
+        if getattr(self, "hi58", None):
+            # (v0.58, RIDE) the rider of the raised end in seesaw_high: a tilt above 0 lifts the right end, which is b's
+            if tilt > 0:
+                vb = self.hi58.get(vb, vb)
+            else:
+                va = self.hi58.get(va, va)
+        if not self.ride(tilt, ea, eb, va, vb, **({"bumper": _stops56()} if _stops56() else {})):
             return False
         self.act(self.a, "playing on the seesaw", ["playing on the seesaw", "on the seesaw", "seesawing", "teeter-totter"], "seesaw", [ea])
         self.act(self.b, "playing on the seesaw", ["playing on the seesaw", "on the seesaw", "seesawing", "teeter-totter"], "seesaw", [eb])
@@ -4804,7 +4858,11 @@ class KiteInTree(StuckInTree):
     def bind(self):
         sc = self.sc
         self.p = sc.person(YOUNG)
-        self.vp = sc.need(self.p, "fly_kite", sc.rng.choice(["sad", "puzzled", "worried"]), 90)
+        if SCN.sw58("KITEREEL") != "O":
+            # v0.58 (KITEREEL, see _slack58): the child has stopped flying: the reel lowered at the side ("B") or on the grass ("C")
+            self.vp = sc.need(self.p, self.KITEREEL58_POSE.get(SCN.sw58("KITEREEL"), "kite_lost"), sc.rng.choice(["sad", "puzzled", "worried"]), 90)
+        else:
+            self.vp = sc.need(self.p, "fly_kite", sc.rng.choice(["sad", "puzzled", "worried"]), 90)
 
     def _draw56(self, x, y):
         """v0.56 (the switch KITE; vision/flaws_v055.md I3 and G2). Of 12 readings of revision 49's kite over three screens, 8 had it perhaps
@@ -4858,6 +4916,8 @@ class KiteInTree(StuckInTree):
         hangs straight down from the branch to the grass, lies along the grass in a loose wave, and comes up to the reel from the
         ground: a line that lies on the ground holds no kite in the air. Returns the points of the path (for the checks), its svg path
         data, its box and its segments."""
+        if SCN.sw58("KITEREEL") != "O":
+            return self._slack58(p, bx, by, tree_base)      # v0.58: from a lowered reel, or from one on the grass
         sx, sy = p.anchor("string_end")
         s = sz(p.Y)
         d = 1 if bx >= sx else -1
@@ -4871,6 +4931,69 @@ class KiteInTree(StuckInTree):
                      (1 - u) ** 3 * a[1] + 3 * (1 - u) ** 2 * u * b[1] + 3 * (1 - u) * u * u * c[1] + u ** 3 * e[1]) for u in (k / n for k in range(n + 1))]
         span = bx - g2[0]
         c1 = ((sx + d * 3 * s, sy + 70 * s), (g1[0] - d * 12 * s, g1[1] - 34 * s))                   # reel to the grass, a slack drop
+        c2 = ((g1[0] + d * 50 * s, gy + 12 * s), (g1[0] + d * 54 * s, gy - 25 * s))                  # the curl, out
+        c2b = ((g1[0] - d * 8 * s, gy - 9 * s), (g1[0] + d * 40 * s, gy + 9 * s))                    # the curl, back and on
+        c3 = ((g2[0] + span * 0.50, gy + 3 * s), (bx - span * 0.10, by + (gy - by) * 0.50))          # low along the grass, then up to the branch
+        pts = (cub((sx, sy), c1[0], c1[1], g1, 8) + cub(g1, c2[0], c2[1], ga, 5)[1:] + cub(ga, c2b[0], c2b[1], g2, 5)[1:]
+               + cub(g2, c3[0], c3[1], (bx, by), 18)[1:])
+        dd = (f"M {D.P(sx, sy)} C {D.P(*c1[0])} {D.P(*c1[1])} {D.P(*g1)} C {D.P(*c2[0])} {D.P(*c2[1])} {D.P(*ga)} "
+              f"C {D.P(*c2b[0])} {D.P(*c2b[1])} {D.P(*g2)} C {D.P(*c3[0])} {D.P(*c3[1])} {D.P(bx, by)}")
+        bb = (min(q[0] for q in pts) - 3, min(q[1] for q in pts) - 3, max(q[0] for q in pts) + 3, max(q[1] for q in pts) + 3)
+        low = cub(g2, c3[0], c3[1], (bx, by), 18)[6]     # (a third of the way up: the stretch from the curl to here runs along the grass)
+        return pts, dd, bb, [((sx, sy), g1), (g1, low), (low, (bx, by))]
+
+    # v0.58 (KITEREEL): the pose the child is cast in, by the switch's value
+    KITEREEL58_POSE = {"B": "kite_lost", "C": "kite_dropped"}
+    # (C) the reel on the grass, in units of the size at the child's depth: the flanges' radius and width, the spool's radius and half length,
+    # the handle's radius and length (fly_kite's reel in a child's hand, seen from the side)
+    KITEREEL58_REEL = dict(fr=9.5, fw=4.6, sr=5.4, sl=6.3, hr=2.3, hl=11.0, ahead=8.0)      # (ahead: the spool's middle ahead of the anchor)
+
+    def _reel58(self, p, d):
+        """v0.58 (KITEREEL "C"): the reel lying on the grass ahead of the child's feet, at the pose's anchor string_end: on its two flanges,
+        its axis level, the handle toward the child and the spool toward the tree (d: +1 when the tree is to the right). Returns its svg,
+        its box and the point on the spool where the line leaves it."""
+        q = self.KITEREEL58_REEL
+        s = sz(p.Y)
+        cx = p.anchor("string_end")[0] + d * q["ahead"] * s
+        yb = p.Y - 1 * s
+        ya = yb - q["fr"] * s
+        x0, x1 = cx - d * q["sl"] * s, cx + d * q["sl"] * s          # the spool's two ends
+        xh = x0 - d * (q["fw"] + q["hl"]) * s                        # the handle's free end
+        ow = 2.0
+
+        def bar(xa, xb, r, col, rx):
+            return D.rect(min(xa, xb), ya - r * s, abs(xb - xa), 2 * r * s, col, rx * s, ow)
+        svg = (bar(xh, x0 - d * q["fw"] * s, q["hr"], C["brown"], 2.0) + bar(x0, x1, q["sr"], C["cream"], 0.0)
+               + bar(x0 - d * q["fw"] * s, x0, q["fr"], C["red"], 1.4) + bar(x1, x1 + d * q["fw"] * s, q["fr"], C["red"], 1.4))
+        xs = (xh, x1 + d * q["fw"] * s)
+        return svg, (min(xs) - 2, ya - q["fr"] * s - 2, max(xs) + 2, yb + 2), (cx, ya - q["sr"] * s)
+
+    def _slack58(self, p, bx, by, tree_base):
+        """v0.58 (the switch KITEREEL; vision/flaws_v057.md R2 and O6). v0.57's line dropped from a reel held up in front of the chest, as a
+        child holds it who is flying a kite ("though the girl still holds her reel up as if flying it"). "B": the child stands in kite_lost, the reel
+        hanging in the lowered near hand, and the line falls the short way from the reel to the grass a step ahead of the feet. "C": in
+        kite_dropped, the near hand open and empty, and the line starts on the spool of a reel that lies on the grass under that hand
+        (_reel58, drawn by place()). From where the line meets the grass (g1) the curl and the rise to the branch are _slack57's own.
+        Returns what _slack57 returns."""
+        sx, sy = p.anchor("string_end")
+        s = sz(p.Y)
+        d = 1 if bx >= sx else -1
+        gy = p.Y - 2 * s
+
+        def cub(a, b, c, e, n):
+            return [((1 - u) ** 3 * a[0] + 3 * (1 - u) ** 2 * u * b[0] + 3 * (1 - u) * u * u * c[0] + u ** 3 * e[0],
+                     (1 - u) ** 3 * a[1] + 3 * (1 - u) ** 2 * u * b[1] + 3 * (1 - u) * u * u * c[1] + u ** 3 * e[1]) for u in (k / n for k in range(n + 1))]
+        if SCN.sw58("KITEREEL") == "C":
+            sx, sy = self._reel58(p, d)[2]
+            g1 = (sx + d * 30 * s, gy)                       # where the line from the spool meets the grass
+            c1 = ((sx + d * 6 * s, sy - 9 * s), (g1[0] - d * 13 * s, gy - 1 * s))                    # off the spool, over its flange, down to the grass
+        else:
+            h = max(8 * s, gy - sy)                          # the reel's height over the grass
+            g1 = (sx + d * 30 * s, gy)                       # where the line from the reel meets the grass, a step in front of the child
+            c1 = ((sx + d * 5 * s, sy + 0.66 * h), (g1[0] - d * 13 * s, gy - 0.02 * h))              # down from the reel, clear of the toes, then out along the grass
+        ga = (g1[0] + d * 24 * s, gy - 16 * s)           # the top of a loose curl of slack on the grass
+        g2 = (g1[0] + d * 86 * s, gy - 1 * s)            # where the line leaves the curl, still on the grass
+        span = bx - g2[0]
         c2 = ((g1[0] + d * 50 * s, gy + 12 * s), (g1[0] + d * 54 * s, gy - 25 * s))                  # the curl, out
         c2b = ((g1[0] - d * 8 * s, gy - 9 * s), (g1[0] + d * 40 * s, gy + 9 * s))                    # the curl, back and on
         c3 = ((g2[0] + span * 0.50, gy + 3 * s), (bx - span * 0.10, by + (gy - by) * 0.50))          # low along the grass, then up to the branch
@@ -4960,6 +5083,8 @@ class KiteInTree(StuckInTree):
             if slack57:
                 # v0.57 (KITESLACK): the line on the grass: its own path, clear of everybody else and of the child's own feet's far side
                 pts = self._slack57(p, bx, by, tree_base)[0][3:-2]
+                if SCN.sw58("KITEREEL") == "C" and not sc.fits(self._reel58(p, 1 if bx >= sx else -1)[1], limit=0.02):
+                    return False        # v0.58 (KITEREEL "C"): the reel lies on open grass
                 if any(q is not p and q.bbox()[0] - 12 <= px <= q.bbox()[2] + 12 and q.bbox()[1] - 12 <= py <= q.bbox()[3] + 12
                        for q in sc.assets.values() for px, py in pts):
                     return False
@@ -4993,6 +5118,11 @@ class KiteInTree(StuckInTree):
             pts57, d57, bb57, segs57 = self._slack57(p, bx, by, tree_base)
             sc.strings = getattr(sc, "strings", []) + segs57
             string = f'<path d="{d57}" fill="none" stroke="{D.OUT}" stroke-width="2.4" stroke-linecap="round"/>'
+            if SCN.sw58("KITEREEL") == "C":
+                # v0.58 (KITEREEL "C"): the reel on the grass is drawn with the line that starts on it, as one element
+                rsvg58, rbb58, _ = self._reel58(p, 1 if bx >= sx else -1)
+                string = rsvg58 + string
+                bb57 = (min(bb57[0], rbb58[0]), min(bb57[1], rbb58[1]), max(bb57[2], rbb58[2]), max(bb57[3], rbb58[3]))
             es = sc.svg(sc.eid("kitestring"), "Kite string", string, p.Y + 0.5, bb57, "scored")
             g1_, g2_ = segs57[1]
             sc.airzones.append((min(g1_[0], g2_[0]) - 8, min(g1_[1], g2_[1]) - 26, max(g1_[0], g2_[0]) + 8, max(g1_[1], g2_[1]) + 12))      # (nobody steps on the line later)
@@ -7448,6 +7578,16 @@ BARROWCOL56 = "red"
 # (A rack hoop behind the square wheels, v0.14, read as "square wheel-holder frames that belong to the rack", and a narrow hoop between
 # them as passing through the bicycle: the post's foot is drawn further back than the wheels, and it is one upright, not a frame.)
 BIKE56 = dict(pose="hold_bike", grip="bike_grip", behind=8.0, size=(0.8, 1.45), post=146.0)
+# v0.58 (the scene's switch BARROW of sw58, values "H" and "HC"; SquareWheel._barrow58, draw.wheelbarrow_held58): the wheelbarrow with the
+# square wheel is being wheeled, as the bicycle is held (BIKE56 "H"). Parked at the side it was a prop nobody uses, and its wheel a detail of
+# a prop. A grown figure that no event has cast walks behind it between the handles, a hand on each (the dog walker's pose, `walk_dog`:
+# a walk with both fists low and a little forward; its hands are 0.60 to 0.73 m up, and the barrow, lifted by its handles so that its legs
+# are off the ground, is as large as that height asks: `size` of the scene's scale, where the parked one's is 1.25). "H": v0.57's wheel;
+# "HC": the larger wheel of draw.BARROW58_P["C"]. With nobody free to wheel it the barrow is not placed, as the bicycle is not.
+# `front`: how far nearer than the barrow's line the figure stands, in units, so that the fists are drawn over the grips. `lane`: how far
+# ahead of the wheel the ground is kept clear of other events and of standing things, in units (a walker's own lane is 170 from the foot;
+# at 120 v0.57's tier-4 garden set placed the barrow on none of its seeds, at 90 on its third, as with no lane at all).
+BARROW58H = dict(pose="walk_dog", expr="smile", size=(1.1, 1.65), front=3.0, lane=90.0)
 
 
 class SquareWheel(T):
@@ -7464,6 +7604,11 @@ class SquareWheel(T):
             # (a record of revision 49 built again for the bench casts the owner when the bicycle is placed, _owner56)
             self.own56 = self.sc.person(GROWN, avoid=(SCN.WORKER,))
             self.v56 = self.sc.need(self.own56, BIKE56["pose"], self.sc.rng.choice(["neutral", "smile"]), 90)
+        if self.thing == "wheelbarrow" and SCN.PLACEMENT_REV >= 52 and SCN.sw58("BARROW") in ("H", "HC") and SCN.sw56("BARROW") != "O":
+            # revision 52 (BARROW58H): whoever wheels the barrow is cast with everybody else, as the bicycle's owner is
+            # (a record of revision 51 built again for the bench casts the figure when the barrow is placed, _owner58)
+            self.own58 = self.sc.person(GROWN, avoid=(SCN.WORKER,))
+            self.v58 = self.sc.need(self.own58, BARROW58H["pose"], BARROW58H["expr"], 90)
 
     def place(self):
         sc = self.sc
@@ -7476,6 +7621,15 @@ class SquareWheel(T):
                     k56["wheel56"] = SCN.sw56("BARROW")         # (draw._wheelbarrow_stand: "B" the solid square, "C" the open one)
                 if SCN.sw56("BARROWCOL") != "O":
                     k56["tray"] = C[BARROWCOL56]
+                if SCN.sw58("BARROW") != "O" and "wheel56" in k56:
+                    # v0.58 (vision/flaws_v057.md R1; draw.BARROW58_P): the barrow's square wheel drawn as the bicycle's is, "B" at the size
+                    # it had, "C" larger with the tub raised (its box 8 units taller). "O": v0.57's wheel
+                    k56["wheel58"] = SCN.sw58("BARROW")
+                if k56.get("wheel58") in ("H", "HC"):
+                    # v0.58 (the comment on BARROW58H above): wheeled by a grown figure, or not placed
+                    if self._barrow58(X, Y, s, f, k56.get("tray")):
+                        return True
+                    continue
                 svg, bb = D.wheelbarrow(X, Y, s * self.k3(1.5, 1.25, 1.05), square=True, f=f, both=SCN.PLACEMENT_REV >= 7, bracket=SCN.PLACEMENT_REV >= 10, low=SCN.PLACEMENT_REV >= 15,
                                         v20=SCN.PLACEMENT_REV >= 20, v53=SCN.PLACEMENT_REV >= WHEEL53_REV, v54=SCN.PLACEMENT_REV >= WHEEL54_REV, **k56)
                 acc, key = ["wheelbarrow", "cart", "barrow"], "wheelbarrow"
@@ -7655,6 +7809,76 @@ class SquareWheel(T):
                                                            "pushing a bike", "wheeling a bike", "bike", "bicycle"], "bike", [ep, ew])
             self.contra("Something is wrong with the bicycle", "The bicycle has square wheels, so it could not roll",
                         ["something's wrong with the wheels", "funny wheels", "weird bike"], ["square wheels", "the wheels aren't round", "it can't roll"], "wheel", [ew])
+            return True
+        return False
+
+    # ---- v0.58 (the scene's switch BARROW, "H" and "HC"; the comment on BARROW58H): the wheelbarrow wheeled by a grown figure
+    def _owner58(self):
+        """Whoever wheels the barrow, as _owner56 is the bicycle's owner: cast in bind() from revision 52; for a record of revision 51 built
+        again for the bench, chosen once here from the grown figures no event has cast, by a draw of its own, so that the rest of the
+        picture stays where it was. None when nobody is free."""
+        if not hasattr(self, "own58"):
+            sc = self.sc
+            rng = __import__("random").Random(f"barrow58/{sc.seed}/{sc.setting_id}/{sc.tier}")
+            pool = sorted(f_ for f_ in sc.lib.people(GROWN) if f_ not in sc.fams and f_ != SCN.WORKER)
+            self.own58 = rng.choice(pool) if pool else None
+            if self.own58:
+                self.v58 = sc.need(self.own58, BARROW58H["pose"], BARROW58H["expr"], 90)
+                sc.lib.ensure([self.v58], log=lambda *a: None)      # (cast after the plan's variants were rendered)
+        return self.own58
+
+    @staticmethod
+    def _hands58(p):
+        """The grip points of a placed figure's near hand and far hand (the far one is the deeper in the render)."""
+        A = p.m["anchors"]
+        a, b = sorted(("hand_L_grip", "hand_R_grip"), key=lambda n_: -A[n_]["depth_m"])
+        return p.pt(A[a]["px"]), p.pt(A[b]["px"])
+
+    def _barrow58(self, X, Y, s, f, tray):
+        """One spot for the wheeled barrow: (X, Y) is the ground point under its wheel, as for the parked one. True when it is placed."""
+        sc = self.sc
+        if self._owner58() is None:
+            return False        # (nobody is free to wheel it: no barrow, as there is no bicycle without its owner)
+        wheel = "C" if SCN.sw58("BARROW") == "HC" else None
+        v = self.v58
+        for ff in (f, -f):
+            mirror = sc.mirror_for(v, -ff)          # the figure stands at the handles, on the side ff of the wheel, and faces the wheel
+            Yp = Y + BARROW58H["front"] * s
+            p = sc.placed(v, X, Yp, mirror, None, "owner58")
+            near, far = self._hands58(p)
+            # the barrow is as large as the near hand's height asks, and the figure stands where that hand is on the near grip
+            sb = (Y - near[1]) / -D.barrow_grip58(0.0, 0.0, 1.0, ff, wheel)[1]
+            if not BARROW58H["size"][0] <= sb / s <= BARROW58H["size"][1]:
+                continue
+            p = sc.placed(v, X + (D.barrow_grip58(X, Y, sb, ff, wheel)[0] - near[0]), Yp, mirror, None, "owner58")
+            near, far = self._hands58(p)
+            svg, bb = D.wheelbarrow_held58(X, Y, sb, ff, far=(far[0] - near[0], far[1] - near[1]), wheel58=wheel, tray=tray)
+            if not sc.S.walkable(p.X, p.Y) or not sc.fits(p.bbox(), limit=0.12) or not sc.lanes_ok(p):
+                continue
+            if not self._ground56(bb):
+                continue
+            # (the barrow's own lane: the ground ahead of its wheel is kept as clear as the ground ahead of a walker's foot, scene.lanes_ok,
+            #  whose lane ends short of the wheel; a pram's reaches past the pram)
+            wf = X - ff * 34 * sb
+            zl = (max(0.0, min(wf, wf - ff * BARROW58H["lane"] * s)), Y - SCN.LANE50_BACK * s, min(float(D.W), max(wf, wf - ff * BARROW58H["lane"] * s)), Y + 30 * s)
+            if any(k_ in sc.ev_of and sc.overlap(zl, a_.bbox()) > 0 for k_, a_ in sc.assets.items()) or not sc.setting_clear(zl, only=sc.LANE_STRUCT) \
+                    or any(k_ in sc.ev_of and e_.get("bbox") and e_["role"] in ("scored", "filler", "setting") and sc.overlap(zl, e_["bbox"]) > 0 for k_, e_ in sc.svgs.items()):
+                continue
+            own = getattr(sc, "placing", None)
+            sc.groundthings.append((bb, own))
+            sc.lanes.append((zl, own))
+            ew = sc.svg(sc.eid("square"), "Wheelbarrow with square wheels", svg, Y, bb, "scored")
+            ep = sc.eid("owner")
+            p.id = ep
+            sc.assets[ep] = p
+            sc.add_lanes(p)
+            sc.fams.add(self.own58)
+            # (as the bicycle's owner: the action names the barrow and stands in for "There is a wheelbarrow", so the template's content
+            #  count stays 1)
+            self.act(self.own58, "pushing a wheelbarrow", ["pushing a wheelbarrow", "pushing a barrow", "wheeling a wheelbarrow", "pushing a cart", "with a wheelbarrow",
+                                                           "has a wheelbarrow", "wheelbarrow", "barrow", "cart"], "wheelbarrow", [ep, ew])
+            self.contra("Something is wrong with the wheelbarrow", "The wheelbarrow has square wheels, so it could not roll",
+                        ["something's wrong with the wheels", "funny wheels", "weird wheelbarrow"], ["square wheels", "the wheels aren't round", "it can't roll"], "wheel", [ew])
             return True
         return False
 

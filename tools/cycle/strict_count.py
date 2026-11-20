@@ -2,6 +2,9 @@
 
 From v0.57 the scorers write the flag beside each score ("call": "two" where a score of 1 has another reading beside the target, "near"
 where it rests on a near word or a target partly said; tools/cycle/prompts/scorer_template.txt), and this script reads the flags from
+(from v0.58 "two" is another reading in the description or the inventory and "unsure" one offered only in the unsure section; the strict
+count halves "two" alone, and "two" with "unsure" is what v0.57 called "two"; an action item also has "who", the describer's word for
+its figure where that is outside the item's names, which costs nothing and is counted here)
 vision/v<TAG>/scores.json and the parts scores_<a..f>.json. From v0.41 to v0.56 the two lists were sorted by hand from the scorers'
 prose (v0.56's 33 and 46 are in this file's history). DROP is for flags that are not calls by the rule (a name the key accepts), each
 with its reason; it should stay empty. Prints the templates that would fall under 0.9 with the "two" calls halved, and with both
@@ -16,9 +19,11 @@ DROP = {
 }
 km = json.load(open(f"vision/v{TAG}/key_map.json"))
 sc = json.load(open(f"vision/v{TAG}/scores.json", encoding="utf-8"))
-TWO, NEAR, odd = set(), set(), []
+TWO, UNS, NEAR, odd, WHO = set(), set(), set(), [], []
 for pic, v in sc.items():
     for iid, s in v["items"].items():
+        if s.get("who") not in (None, "", "null", "none"):
+            WHO.append((pic, iid, s["who"], s.get("score")))
         c = s.get("call")
         if c in (None, "", "null", "none"):
             continue
@@ -29,16 +34,21 @@ for pic, v in sc.items():
             continue
         if c == "two":
             TWO.add((pic, iid))
+        elif c == "unsure":
+            UNS.add((pic, iid))
         elif c == "near":
             NEAR.add((pic, iid))
         else:
             odd.append((pic, iid, s.get("score"), c))
-print("flags: two", len(TWO), "near", len(NEAR), "dropped", len(DROP), "odd", odd)
+print("flags: two", len(TWO), "unsure", len(UNS), "near", len(NEAR), "dropped", len(DROP), "odd", odd)
+print("who-words outside the names:", len(WHO), [(p_, i_, w_, km.get(p_)) for p_, i_, w_, s_ in WHO])
 for p in sorted(glob.glob(f"vision/v{TAG}/scores_?.json")):
     part = json.load(open(p, encoding="utf-8"))
     n2 = sum(1 for pic, v in part.items() for s in v["items"].values() if s.get("call") == "two" and s.get("score") == 1)
     nn = sum(1 for pic, v in part.items() for s in v["items"].values() if s.get("call") == "near" and s.get("score") == 1)
-    print("  scorer", os.path.basename(p)[7:-5], "two", n2, "near", nn, "of", sum(len(v["items"]) for v in part.values()), "items")
+    nu = sum(1 for pic, v in part.items() for s in v["items"].values() if s.get("call") == "unsure" and s.get("score") == 1)
+    nw = sum(1 for pic, v in part.items() for s in v["items"].values() if s.get("who") not in (None, "", "null", "none"))
+    print("  scorer", os.path.basename(p)[7:-5], "two", n2, "unsure", nu, "near", nn, "who", nw, "of", sum(len(v["items"]) for v in part.values()), "items")
 
 
 def run(label, hedged):
@@ -71,4 +81,5 @@ def run(label, hedged):
 
 
 run("TWO", TWO)
-run("ALL", TWO | NEAR)
+run("TWO+UNSURE", TWO | UNS)
+run("ALL", TWO | UNS | NEAR)

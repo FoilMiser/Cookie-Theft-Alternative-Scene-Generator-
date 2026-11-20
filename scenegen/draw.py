@@ -385,14 +385,17 @@ def wheel(cx, cy, r, square=False, col=None, v12=None):
     return circ(cx, cy, r, col) + circ(cx, cy, r * 0.3, C["gray"], OW * 0.6)
 
 
-def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False, v20=False, v53=False, v54=False, wheel56=None, tray=None):
+def wheelbarrow(x, y, s=1.0, square=False, f=1, both=False, bracket=False, low=False, stand=False, v20=False, v53=False, v54=False, wheel56=None, tray=None, wheel58=None):
     """Ground point x,y under the wheel's center; f = +1 handles to the right. both = also draw the far
     handle and leg (v0.9: with one handle showing it read as "a one-handled wheelbarrow"). stand (v0.20): the tub raised
     on a bigger wheel and two long legs (low on the grass it read as "very flat ... with no visible legs, looks tipped").
     wheel56 (v0.56, templates' switch BARROW): the square wheel at the plain barrow's wheel's size and place, "B" solid in the tyre's
-    colour, "C" the open square with spokes. tray (v0.56, switch BARROWCOL): the tub's colour, None for the grey of every release before."""
+    colour, "C" the open square with spokes. tray (v0.56, switch BARROWCOL): the tub's colour, None for the grey of every release before.
+    wheel58 (v0.58, the scene's switch BARROW of sw58; BARROW58_P): wheel56's barrow on the bicycle's square wheel, "B" at the same size, "C" larger."""
     if stand and not square:
         return _wheelbarrow_stand(x, y, s, f, both, tray=tray)
+    if square and wheel56 and wheel58 in BARROW58_P:
+        return _wheelbarrow_stand58(x, y, s, f, both, wheel58, tray=tray)
     if square and wheel56:
         return _wheelbarrow_stand(x, y, s, f, both, square56=wheel56, tray=tray)
     # v0.53 (WHEEL53 "B"): the square wheel larger by `big` units of radius, and everything that stands on it raised by as much
@@ -526,6 +529,134 @@ def _wheelbarrow_stand(x, y, s, f, both, square56=None, tray=None):
     svg += leg(0, 0) + foot(0, 0)
     e = 34 * s
     return svg, (min(x - f * e, x + f * 152 * s), tb - 50 * s, max(x - f * e, x + f * 152 * s), y)
+
+
+# v0.58 (vision/flaws_v057.md R1; the scene's switch BARROW of scene.sw58, passed by templates.SquareWheel as wheel58): the barrow's square wheel
+# drawn as the bicycle's square wheel is (wheel(), v12 "bike"): eight thin spokes set off the diagonals, a round hub, a sharp-cornered tyre
+# over the spokes' ends, and the fork's two struts ending on the hub at a round axle. v0.57's (v0.56's "C") has a square hub under a square
+# axle plate and spokes to its corners and the middles of its sides: "square or boxy with a cross inside rather than round. It may just be a
+# stylised wheel seen from an angle" (v0.57 picture 38). Units at s = 1: r from hub to side, t the tyre's thickness, hub and axle as shares
+# of r, lift how far the tub, the handles and the legs' tops are raised. "O" (any other value): v0.57's wheel, _wheelbarrow_stand's.
+#   "B": at v0.57's size and place (42 across), the tyre as thick as it was: 13 px in a picture, which is what a held bicycle's tyre measures
+#        there (v0.57 pictures 38 and 66), so the spokes, the hub and the axle are what changes.
+#   "C": 54 across, a held bicycle's wheel's size in the same picture (30 units at about 1.1 of the scene's scale against the barrow's 1.25),
+#        still under the tub's nose with the tub drawn over its top corner, the tub raised by 8 so that the barrow stands on its wheel and its
+#        two legs as it did; the tyre is B's in px, which at this size is the bicycle's share of the wheel (0.23 for 0.22). The element's box
+#        is 8 units taller. (v0.53's wheel was 68 across and out in front of the tub: a crate or a window frame beside the barrow.)
+BARROW58_P = {"B": dict(r=21.0, t=6.3, hub=0.30, axle=0.14, lift=0.0), "C": dict(r=27.0, t=6.3, hub=0.28, axle=0.12, lift=8.0)}
+
+
+def _wheelbarrow_stand58(x, y, s, f, both, wheel58, tray=None):
+    """v0.58 (BARROW58_P): _wheelbarrow_stand's barrow, on its strut legs of v0.23, with the square wheel `wheel58`. The same ground point
+    and, for "B", the same box."""
+    p = BARROW58_P[wheel58]
+    r = p["r"] * s
+    wy = y - r
+    tb = y - (34 + p["lift"]) * s       # the tub's bottom
+    tub = [(x - f * 16 * s, tb - 46 * s), (x + f * 92 * s, tb - 46 * s), (x + f * 76 * s, tb), (x + f * 6 * s, tb)]
+    h0, h1 = (x + f * 22 * s, tb - 4 * s), (x + f * 150 * s, y - (52 + p["lift"]) * s)
+    leg = lambda dx, dy: stroke(poly_d([(x + f * 82 * s + dx, tb - 2 * s + dy), (x + f * 87 * s + dx, y - 1 * s + dy)]), C["slate"], 3.6 * s)
+    svg = shadow(x + f * 55 * s, y, BARROW_SHADOW25 * s)
+    if both:
+        dx, dy = -f * 4 * s, -5 * s
+        svg += stroke(poly_d([(h0[0] + dx, h0[1] + dy), (h1[0] + dx, h1[1] + dy)]), C["wood"], 7 * s)
+        svg += leg(dx, dy)
+    svg += stroke(poly_d([h0, h1]), C["wood"], 7 * s)
+    t = p["t"] * s
+    for k in range(8):
+        a = math.radians(22.5 + 45 * k)
+        c, sn = math.cos(a), math.sin(a)
+        L = (r - t * 0.6) / max(abs(c), abs(sn))
+        svg += line(x, wy, x + c * L, wy + sn * L, OUT, max(1.8, r * 0.085))
+    box_ = f'x="{x - r + t / 2:.1f}" y="{wy - r + t / 2:.1f}" width="{2 * r - t:.1f}" height="{2 * r - t:.1f}" fill="none" stroke-linejoin="miter"'
+    svg += f'<rect {box_} stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} stroke="{C["charcoal"]}" stroke-width="{t - OW * 0.2:.1f}"/>'
+    svg += circ(x, wy, r * p["hub"], C["charcoal"], OW * 0.6)
+    svg += poly(tub, tray or C["gray"])
+    svg += stroke(poly_d([(x + f * 40 * s, tb - 2 * s), (x + f * 66 * s, tb - 2 * s)]), C["slate"], 4 * s)
+    for bx in (x + f * 8 * s, x + f * 30 * s):
+        svg += stroke(poly_d([(bx, tb - 2 * s), (x, wy)]), C["slate"], 6 * s, OW * 0.8)
+    # (the axle at the fork's end: the grey middle of the bicycle's hub, drawn over the struts' ends)
+    svg += circ(x, wy, max(1.8, r * p["axle"]), C["gray"], OW * 0.5)
+    svg += leg(0, 0)
+    e = 34 * s
+    return svg, (min(x - f * e, x + f * 152 * s), tb - 50 * s, max(x - f * e, x + f * 152 * s), y)
+
+
+# v0.58 (the scene's switch BARROW, values "H" and "HC"; templates.SquareWheel._barrow58): the barrow being wheeled. It is _wheelbarrow_stand's
+# barrow lifted by its handles: the tub, the handles, the fork and the two legs turned BARROW58H["tilt"] degrees about the wheel's hub, so
+# that the legs are off the ground and the tub tips a little toward the wheel; the square wheel stays flat on the ground where it was. Each
+# handle ends in a dark grip BARROW58H["grip"] units long, the near one at barrow_grip58() and the far one at the far hand of whoever wheels it.
+# "H": v0.57's wheel (v0.56's "C"); "HC": the larger wheel of BARROW58_P["C"], drawn as the bicycle's.
+BARROW58H = dict(tilt=15.0, grip=15.0)
+
+
+def _held58(wheel58):
+    """The held barrow's hub height and tub lift (units at s = 1), and the turn about the hub: a point (u, w) of the parked drawing, units
+    toward the handles from the wheel's middle and up from the ground, to its place in the held one."""
+    p = BARROW58_P.get(wheel58) or dict(r=21.0, lift=0.0)
+    r = p["r"]
+    a = math.radians(BARROW58H["tilt"])
+    return r, p["lift"], (lambda u, w: (u * math.cos(a) - (w - r) * math.sin(a), r + u * math.sin(a) + (w - r) * math.cos(a)))
+
+
+def barrow_grip58(x, y, s=1.0, f=1, wheel58=None):
+    """v0.58: where the near hand closes on the near handle of wheelbarrow_held58(x, y, s, f, wheel58=wheel58)."""
+    r, lift, rot = _held58(wheel58)
+    u, w = rot(150.0, 52.0 + lift)
+    return x + f * u * s, y - w * s
+
+
+def wheelbarrow_held58(x, y, s=1.0, f=1, far=None, wheel58=None, tray=None):
+    """v0.58 (BARROW58H): the wheelbarrow lifted by its handles and wheeled. Ground point x, y under the square wheel's middle; f = +1 handles
+    to the right (whoever wheels it stands there and faces the wheel). far: how far the far hand is from the near one, in px (dx, dy),
+    so that the far handle ends in it; None for the parked drawing's own offset. wheel58: "C" the larger wheel, else v0.57's."""
+    r, lift, rot = _held58(wheel58)
+    tb = 34.0 + lift                    # the parked tub's bottom
+    R = lambda u, w: (x + f * rot(u, w)[0] * s, y - rot(u, w)[1] * s)
+    wx, wy, rr = x, y - r * s, r * s
+    g = R(150.0, 52.0 + lift)
+    gf = (g[0] + far[0], g[1] + far[1]) if far else R(146.0, 57.0 + lift)
+    h0, h0f = R(22.0, tb + 4.0), R(18.0, tb + 9.0)
+
+    def handle(a, b):
+        # the wooden shaft and, over its last stretch, the grip the hand closes on
+        L = math.hypot(b[0] - a[0], b[1] - a[1]) or 1.0
+        k = max(0.0, 1.0 - BARROW58H["grip"] * s / L)
+        m = (a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k)
+        return stroke(poly_d([a, b]), C["wood"], 7 * s) + (stroke(poly_d([m, b]), C["charcoal"], 7 * s) if k < 1.0 else "")
+    svg = shadow(x + f * 58 * s, y, BARROW_SHADOW25 * s)
+    svg += handle(h0f, gf)
+    svg += stroke(poly_d([R(78.0, tb + 7.0), R(83.0, 6.0)]), C["slate"], 3.6 * s)
+    svg += handle(h0, g)
+    if wheel58 in BARROW58_P:
+        p = BARROW58_P[wheel58]
+        t = p["t"] * s
+        for k in range(8):
+            a = math.radians(22.5 + 45 * k)
+            c, sn = math.cos(a), math.sin(a)
+            L = (rr - t * 0.6) / max(abs(c), abs(sn))
+            svg += line(wx, wy, wx + c * L, wy + sn * L, OUT, max(1.8, rr * 0.085))
+        box_ = f'x="{wx - rr + t / 2:.1f}" y="{wy - rr + t / 2:.1f}" width="{2 * rr - t:.1f}" height="{2 * rr - t:.1f}" fill="none" stroke-linejoin="miter"'
+        svg += f'<rect {box_} stroke="{OUT}" stroke-width="{t + OW * 1.2:.1f}"/><rect {box_} stroke="{C["charcoal"]}" stroke-width="{t - OW * 0.2:.1f}"/>'
+        svg += circ(wx, wy, rr * p["hub"], C["charcoal"], OW * 0.6)
+    else:
+        svg += wheel(wx, wy, rr, True, v12="barrow20")
+    tub = [R(-16.0, tb + 46.0), R(92.0, tb + 46.0), R(76.0, tb), R(6.0, tb)]
+    svg += poly(tub, tray or C["gray"])
+    svg += stroke(poly_d([R(40.0, tb + 2.0), R(66.0, tb + 2.0)]), C["slate"], 4 * s)
+    for u in (8.0, 30.0):
+        svg += stroke(poly_d([R(u, tb + 2.0), (wx, wy)]), C["slate"], 6 * s, OW * 0.8)
+    if wheel58 in BARROW58_P:
+        svg += circ(wx, wy, max(1.8, rr * BARROW58_P[wheel58]["axle"]), C["gray"], OW * 0.5)
+    else:
+        # (v0.22: a square axle plate, nothing round at a square wheel's middle)
+        a_ = max(4.0, rr * 0.26)
+        svg += rect(wx - a_, wy - a_, 2 * a_, 2 * a_, C["slate"], 0, OW * 0.7) + rect(wx - a_ * 0.35, wy - a_ * 0.35, a_ * 0.7, a_ * 0.7, OUT, 0, 0)
+    foot = R(87.0, 1.0)
+    svg += stroke(poly_d([R(82.0, tb + 2.0), foot]), C["slate"], 3.6 * s)
+    pts = tub + [g, gf, h0f, foot, (wx - rr, wy - rr), (wx + rr, y)]
+    m = 6 * s
+    return svg, (min(q[0] for q in pts) - m, min(q[1] for q in pts) - m, max(q[0] for q in pts) + m, y)
 
 
 def bicycle(x, y, s=1.0, square=False, col=None, f=1, rack=False, wide=False, heavy_stand=False, front_stand=False, center_stand=False, v54=False,
@@ -1024,6 +1155,12 @@ def _sw57(name):
     """v0.57: the scene's switch NAME (scenegen.scene.sw57), as _sw56 is for v0.56's."""
     scn = sys.modules.get("scenegen.scene")
     return scn.sw57(name) if scn is not None and hasattr(scn, "sw57") else "O"
+
+
+def _sw58(name):
+    """v0.58: the scene's switch NAME (scenegen.scene.sw58), as _sw57 is for v0.57's."""
+    scn = sys.modules.get("scenegen.scene")
+    return scn.sw58(name) if scn is not None and hasattr(scn, "sw58") else "O"
 
 
 def _splat28(x, y, s, col, lump):

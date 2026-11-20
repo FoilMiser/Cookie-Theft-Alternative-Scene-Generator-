@@ -1,6 +1,6 @@
 # TPDB release runbook
 
-How each release from v0.12 to v0.57 was made, written so that a fresh session can make the next one (v0.58) from this
+How each release from v0.12 to v0.58 was made, written so that a fresh session can make the next one (v0.59) from this
 repository (https://github.com/FoilMiser/Cookie-Theft-Alternative-Scene-Generator-; clone it to start). The README describes the package; this file describes the work. The scripts named here are in
 `tools/cycle/`, and the work list for the next release is the newest `vision/flaws_v0XX.md`.
 
@@ -96,6 +96,13 @@ changes (a new placement revision, step 3).
   fresh reading of each picture as the last release drew it (arm O) beside the screen's own (arm S, which `bench_tally.py` prints from `vision/v<PREV>`), two readings of
   each new drawing and three of an older one; new pictures are built on one seed with the new drawing and with the old (arms F and G). Count a naming fault by reader as
   well as by arm before deciding, and in the round that follows give a reader pictures of one arm only (Lessons, v0.57).
+- From its first round a bench gives a reader a row's pictures in one arm only (v0.58; the three `bench_*.py`, `bench_round2.py` and `bench_tally2.py` as they now stand).
+  `bench_prepare.py` deals fifteen readers eight pictures each: two of every row that has three arms and one of every row that has two, the arms crossed between the rows
+  (reader i has row r in arm (i + r) mod 3), so that a reader's habit is one reader's count in one arm and shows across the rows. `bench_tally.py` writes a row by arm and
+  then by reader. The analysts' briefs are files (`vision/isolation_v<TAG>/digest/brief_common.md` and one a row): classes of which a reading falls into exactly one, every
+  count by reading and by reader, the readers' words for each class, and a closing paragraph on what the numbers cannot show. The second round sets two drawings of a row
+  against each other with sixteen readers, two for each combination of arms, and the drawing that the last release had is one of the two wherever a new one has not beaten
+  it (Lessons, v0.58). The switch is `scene.sw58(NAME)`, and `TPDB_REV58=51 TPDB_ONLY58=<names>` makes the drawings act in the last screen's records.
 - `python tools/cycle/crops.py OUT.png [SCALE] NAME:substr[:pad] ...` cuts named elements out of built pictures onto one sheet (`CROP_DIRS` for other folders):
   the flagged pictures of the last screen at full size, before anything is drawn.
 - The age bench, whenever heads, proportions or marks of age change, reads whole scenes (v0.50). Build each trial cast into its own folder
@@ -180,7 +187,7 @@ python tools/cycle/more_probes.py       # the templates probes.py gave up, force
 python tools/cycle/extra_probes.py 51700 garden:square_wheel,sprinkler_package,rake park:square_wheel,fly_kite   # probes forced whatever the counts say: a carrier
                                         # the passes cannot count (the wheelbarrow, where three square wheels of four were bicycles)
 python tools/cycle/verify_all.py scenes<TAG>   # every record rebuilt and compared; writes <WORK>/variants_used.json
-python tools/cycle/verify_probes.py probes<TAG>
+python tools/cycle/verify_probes.py probes<TAG>      # (both take the folder: without it they verify nothing and print "0 identical")
 python tools/cycle/prune_lib.py               # lib<TAG> keeps only the variants the set and probes use
 cd assets && python validate_assets.py cast/lib<TAG>   # then move validation_report.json out of the library
 python -m scenegen.combos --out combos.json
@@ -1001,3 +1008,31 @@ python tools/cycle/make_scorers.py 1-22,23-44,45-66,67-87   # scorer_a..d.txt an
   was back within sixteen minutes. A worker's report file may be refused by the harness: its last message is the report, so write it into the notes at once.
 - The coordinator keeps to the workers' rule. I ran one Python patch over `templates.py` while four workers were editing it with single replacements; nothing was lost, and it
   could have been. A shared file is changed by exact replacement only, by everyone, for as long as anyone else has it open.
+- Check a list's premise before drawing to it (v0.58). The list asked for a wheel "with a rim as thick as the bicycle's"; the worker counted the pixels and the two rims were
+  the same, 13 px. Two wheels were drawn all the same, and in thirty fresh readings neither changed what was written. Measure what the list names in the last release's own
+  pictures first; a proposal in a flaws file is a guess made from one reader's sentence.
+- A wrong detail of a thing that nobody uses is not read: put somebody at it. A parked barrow is "parked, empty" in an inventory and its square wheel is a line of the unsure
+  section, or is not seen (four readers of fifteen). Wheeled by a figure it is in the description in 9 readings of 16 for none of 16, as v0.56's bicycle read once its owner
+  held it. Before a prop's detail is drawn a third time, ask what a figure in the picture does with the prop.
+- A drawing that the list proposes can lose to the one it replaces. Both new poses of the child stuck on the seesaw read worse than v0.57's: the pose the list asked for hid
+  her face and made the picture a game. Round 1 showed neither was better; only round 2, with the old child as an arm beside the new man, showed how much worse (stuck in 1
+  reading of 24 for 20). Keep the last release's drawing as an arm of the second round, and take nothing because it is new.
+- The better count on a row is not always the drawing to take. The kite's reel on the grass gave "stuck" alone in 30 readings of 34, for 24 with the reel in the hand; it also
+  left the child holding nothing, so that the action item was false and three readers of eight doubted whose kite it was. Count what a drawing does to every item of its
+  template, and what it adds to the unsure sections, before the row's own number decides.
+- A bench's gain need not show in the screen. The kite read 24 of 34 for 7 of 16 on the bench and has a hedge in three screen pictures of six, as it had. A bench counts
+  readings and readers; the screen's flag is one scorer's judgement of one reading a picture. Say both, and do not promise the screen what the bench found.
+- A like-for-like release keeps the library. v0.57 rendered every variant again from its new cast and seventeen pictures then differed from v0.56's by a few pixels of
+  render noise. v0.58 rendered them all into a scratch folder as a CHECK (`tpdb_work/v058/lib_all.sh`, `lib_cmp.py`: only the poses drawn again differ, and three single
+  pixels), and built `lib<TAG>` as a copy of `lib<PREV>` without the poses that were drawn again. 113 pictures of 136 came back to the pixel, for 65 of 126.
+- A pricing run renders into the library it is pointed at. `yield_set.py`, `forced_cell.py` and a worker's `price.py` use the default library, and while `scenegen/library.py`
+  still named the last release's folders they rendered 26 variants into `lib057`, a released folder. Point `library.py` at a scratch copy until the release's own library
+  exists, and look at `git status` of the old cast folders before they are moved away.
+- Fresh agents with a rules file draw as well as forks, for less. Three workers were started from `tpdb_work/v058/FORK_RULES.md` and a brief each, without this session's
+  context, and each came back in under half an hour with old paths intact. And a worker called back with the bench's own counts kept what it knew: the barrow's worker drew
+  the wheeled barrow, priced it and found that the tier-4 garden cannot hold it in one more turn.
+- When a change of the scorers' rule moves a mean, say so beside the mean. Two templates read 1.00 for 0.94 and 0.96 because a man called a boy now costs nothing, in
+  pictures that are the same to the pixel. And the strict count's flag was split, so its number is not the last release's: give the old count beside the new one.
+- A sentence of counts is checked against the file that holds them before it is packed. v0.57's README said two readers where the scores had three, and it was found a day
+  later while the spec section was written. For every count in the README's text there is a script that prints it (`strict_count.py`, `retest.py`, `who_cmp.py`, the gate):
+  read the sentence beside the printout, and the scorers' notes for any sentence about what readers said.

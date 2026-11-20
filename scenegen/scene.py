@@ -463,7 +463,50 @@ class PlacementError(Exception):
 # Looked at and left: the other templates that the strict count marks down (the jumper, the begging dog, the walked dog, the fish in the
 # tree, the walker about to trip), the grown figures called young first (counted by pose: it is the ice cream and the hose's nozzle as
 # much as the drawing), the thief bird's size, the garden fence's rails behind the flat ball.
-PLACEMENT_REV = 51
+# revision 52 (v0.58): the list of v0.57's screen (vision/flaws_v057.md), each rule and each drawing of the scene behind a switch of its
+# own (sw58, below: "O" is v0.57's), read blind in v0.57's own pictures built again before it went into scenes (248 readings in two
+# rounds, a reader's pictures of a thing all of one arm: vision/isolation_v058.md).
+#   R1, the wheelbarrow's square wheel (0.967; hedged in three of its five pictures). BARROW ("H"): a grown figure that no event has
+#   cast wheels the barrow, a hand on each handle, the barrow's legs off the ground and the square wheel on the ground in front
+#   (templates.SquareWheel._barrow58, draw.wheelbarrow_held58; the pose is the cast's walk_dog, whose fists are low and forward). As the
+#   bicycle's owner does, the figure has an action, "pushing a wheelbarrow", in place of the entity "There is a wheelbarrow". The list
+#   had asked for a wheel with a thicker rim: the rim was already the bicycle's (13 px each), and the two wheels that were drawn, "B"
+#   with the bicycle's round hub and spokes at the old size and "C" the same at the bicycle's size, changed nothing: of ten readings an
+#   arm the square wheel stood in no description, only in the unsure section ("- The wheelbarrow's wheel looks square rather than round,
+#   which looks unintentionally odd."), and was not seen at all in 2 readings of 10 as v0.57 drew it, 4 with B and 2 with C. A parked
+#   barrow is a prop ("- Red wheelbarrow (centre, front): parked, empty."). Wheeled, the square wheel is in the description or the
+#   inventory in 9 readings of 16 (five readers of eight) for none of 16 parked, and unseen in none of 16 for 4 ("Its wheel is a square,
+#   not a round wheel, so it could not roll properly."). Other readers read each arm, and the wheeled barrow also stands elsewhere in
+#   its picture: the bench cannot part the two. B, C and "HC" (wheeled, with C's wheel; not benched) stay behind the switch.
+#   R2, the kite in the tree (caught, with another reading beside it in three pictures of six). KITEREEL ("B"; castlib TPDB_REEL58 "B",
+#   the pose kite_lost): the reel hangs in the child's lowered hand and the other arm is raised toward the kite, where the child held
+#   the reel up before the chest as one does who is flying ("the boy holds the reel up as if still flying it"). Stuck with nothing
+#   beside it in 24 readings of 34 over the two rounds, for 7 of 16 of the old pose; every one of the 34 says that the child holds the
+#   reel or the string. "C", the reel lying on the grass at the child's feet: 30 of 34, but no reading says what the child holds, 22 of
+#   24 remark on the spool on the ground, and three readers of eight doubt whose kite it is. Not taken: the gap to B is one reader's.
+#   R3, the heavy seesaw. SEATFIT (with castlib TPDB_LOWSIT58 "B"): the man's thighs lie along his seat's pad with the shins upright
+#   under the knees, and the pad runs on to 15 units short of his near foot (42 before). Off his seat or not surely seated in 6
+#   readings of 15 of v0.57's drawing ("slightly in front of the yellow seat, on the beam, rather than squarely on it") and in 1 of 68
+#   of the new one; kept up on purpose in 7 of 15 and then 5 of 68. The child is v0.57's: two new poses of her were read and lost
+#   (castlib TPDB_STUCK58: both fists on the handle and leaning back, an ordinary game to four readers of eight and stuck in 1 reading
+#   of 24, where v0.57's child with the new man is stuck or kept up in 20 of 24; bent forward and feeling for the ground, slipping off
+#   her seat in 4 of 10).
+#   O2, the plain seesaw. RIDE (castlib TPDB_RIDE58 "B", the pose seesaw_high): the child on the raised end sits on her pad with the
+#   thighs along the falling plank, the shins hanging and both fists on the handle. Off or above her seat, floating or beside the
+#   handle in 3 readings of 12 as v0.57 drew her and none of 8.
+#   The fence's rails (the list's last line). CATCHRAIL: the thrown ball's disc keeps 10 units off the band of each rail of the
+#   garden's fence and of the playground's railing where the rail runs (settings' new anchor fence_rails). The ball tied to the fence
+#   in 3 readings of 9 ("at fence height") and none of 8.
+# What the rules cost, seeds placed of 12 with the band off, on and off: CATCHRAIL 12 and 12 for the game alone in a garden, 11 and 12
+# with a painter and a cat on the fence, 11 and 12 alone in a playground; BARROW "H" 12 and 12 alone in a garden or a park and with a
+# swing and a painter, 6 and 11 in a garden beside a raker and a digger; KITEREEL the same count on and off but 9 for 8 in the tier-2
+# park. And with the band, v0.57's tier-4 garden set of nine: 0 of 12 with the wheeled barrow for 5 parked. The cell now holds the man
+# who sits on nothing in the barrow's place (tools/cycle/forced_cell.py, "v058garden").
+# Looked at and left: the other templates that the strict count marks down (the lost balloon, the stalking cat, the floating box, whose
+# tilt and missing ground shadow are benches already run, the windy hat, the upward water, the dog at the door); the grown figures
+# called young first (the scorers now write the word into a field of its own); the seep at the hose's reel; the fence's foot line,
+# which the ball lies across a little more often now that it keeps off the rails.
+PLACEMENT_REV = 52
 # v0.56: the revision from which v0.56's drawings of the scene act, each behind a switch of its own (TPDB_<NAME>56: "B" the new drawing,
 # "O" the drawing as v0.55 had it). The whole-scene bench sets TPDB_REV56=49, to build v0.55's own records again with them.
 REV56 = int(__import__("os").environ.get("TPDB_REV56", "50"))
@@ -492,6 +535,22 @@ def sw57(name):
     if env.get("TPDB_ONLY57") is not None and name not in env["TPDB_ONLY57"].split(","):
         return "O"         # (a bench arm: only the named switches act)
     return env.get("TPDB_" + name + "57", SW57_DEFAULT.get(name, "B"))
+
+
+# v0.58: the revision from which v0.58's drawings of the scene act, each behind a switch of its own (TPDB_<NAME>58: "B" the new drawing,
+# "O" the drawing as v0.57 had it). A whole-picture bench sets TPDB_REV58=51, to build v0.57's own records again with them.
+REV58 = int(__import__("os").environ.get("TPDB_REV58", "52"))
+SW58_DEFAULT = {"BARROW": "H"}      # a switch that is not named here is "B"; one that its bench did not take is named here with "O"
+
+
+def sw58(name):
+    """The value of v0.58's switch NAME for the record being built: "O" under revision REV58, else TPDB_<NAME>58 or its default."""
+    env = __import__("os").environ
+    if PLACEMENT_REV < REV58:
+        return "O"
+    if env.get("TPDB_ONLY58") is not None and name not in env["TPDB_ONLY58"].split(","):
+        return "O"         # (a bench arm: only the named switches act)
+    return env.get("TPDB_" + name + "58", SW58_DEFAULT.get(name, "B"))
 
 
 EDGE49 = __import__("os").environ.get("TPDB_EDGE49", "B")      # "O": revision 45's 4 px

@@ -665,10 +665,55 @@ def lo_sit_dangle(P):
     P.place_legs(feet, hint=(0, -1, 0.6))
 
 
-def lo_sit_hang(P, head_pitch=-10.0, head_turn=-40.0):
+# v0.58 (TPDB_STUCK58; vision/flaws_v057.md R3): the child stuck up on the heavy seesaw (seesaw_stuck_call). "O": v0.57's, upright, the far
+# hand on the handle and the near arm stretched toward the man. "B": both fists on the handle (up_grip_bar58), the trunk leaning back from
+# it on straight arms, the legs hanging, the head bent down toward the man at the other end. "C": bent forward over the handle that both
+# fists hold, looking down at the ground, the near leg stretched straight down with its toes pointed and the far leg tucked back: feeling
+# for the ground with a foot. In every value the mouth is the template's (calling).
+#   lean, pitch, turn: lo_sit_hang's; thigh: how far below level each thigh slopes (far, near), in degrees; shin: how far back of plumb each
+#   shin hangs (far, near; negative: forward); grip: how far forward of the chest the fists close on the bar (STUCK58_GRIP)
+# The bench (vision/isolation_v058.md): neither was taken, and the default is "O". With the new man on his seat and v0.57's child she is
+# stuck or kept up in 20 readings of 24 (7 readers of 8); with B's child in 1 of 24, where an ordinary game is the reading to four readers
+# of eight and no reading has a word of her face, which the bowed head hides. C's child was slipping off her seat in 4 readings of 10.
+STUCK58 = _os44.environ.get("TPDB_STUCK58", "O")
+# (B's first trial leaned 17 degrees back: in a picture it stood too near the upright child of a seesaw at play, seesaw_high)
+STUCK58_P = {"B": dict(lean=-25.0, pitch=-26.0, turn=-28.0, thigh=(26.0, 40.0), shin=(-6.0, 12.0)),
+             "C": dict(lean=9.0, pitch=-38.0, turn=-22.0, thigh=(36.0, 58.0), shin=(26.0, 4.0))}.get(STUCK58, {})
+# (C's first trial, the far thigh 14 degrees and the near one 60 under level: the far thigh came through a girl's skirt as a patch of skin)
+STUCK58_P.update(__import__("json").loads(_os44.environ.get("TPDB_STUCK58_P", "{}")))
+# v0.58 (TPDB_RIDE58; vision/flaws_v057.md O2; the scene's switch RIDE): "B" adds the pose seesaw_high, the child on the raised end of a
+# seesaw at play: the thighs along the plank that falls away ahead, the shins hanging, both fists on the handle, upright, the head level.
+# (The raised child sat as on a bench, pose `sit`, the thighs level over a plank that falls 16 degrees: "sits slightly above the see-saw
+# seat", v057 pic_07; "her placement looks a little floating", pic_79.) "O": no such pose (v0.57's cast)
+RIDE58 = _os44.environ.get("TPDB_RIDE58", "B")
+RIDE58_P = dict(lean=3.0, pitch=-4.0, turn=0.0, thigh=(17.0, 19.0), shin=(-14.0, 16.0))
+RIDE58_P.update(__import__("json").loads(_os44.environ.get("TPDB_RIDE58_P", "{}")))
+
+
+def _sit_hang58(P, q):
+    """v0.58 (TPDB_STUCK58, TPDB_RIDE58): seated on the raised end of a seesaw with the legs hanging, by the angles of q (see STUCK58_P)."""
+    J, S, s = P.J, P.S, P.s
+    drop = J["hip"] * S - J["knee"] * S
+    P.torso(drop=drop, back=0.04 * S * s, lean=q["lean"], head_pitch=q["pitch"], head_turn=q["turn"])
+    t, sh = J["hip"] - J["knee"], J["knee"] - J["ankle"]
+    feet = {}
+    for i, sd in enumerate(("L", "R")):
+        a, b = math.radians(q["thigh"][i]), math.radians(q["shin"][i])
+        y = 0.04 * s - t * math.cos(a) + sh * math.sin(b)                # (the hips are 0.04 s behind the feet's origin)
+        z = J["knee"] - t * math.sin(a) - sh * math.cos(b)                # (and at the knee's standing height)
+        feet[sd] = ((0.03 if sd == "L" else -0.03), y, z - J["ankle"])
+    P.place_legs(feet, hint=(0, -1, 0.6))
+    for sd in ("L", "R"):
+        P.rig.aim_dir(f"foot_{sd}", (0, -0.45, -1))
+
+
+def lo_sit_hang(P, head_pitch=-10.0, head_turn=-40.0, hang58=None):
     """v0.14: stuck high up: the legs hanging straight down, toes pointing down, one foot a little ahead, the
     head turned toward the viewer and level (the head bowed over the handle showed only the hair at 90 degrees,
-    and knees bent with the feet tucked read as sitting comfortably: "nothing looks wrong there")."""
+    and knees bent with the feet tucked read as sitting comfortably: "nothing looks wrong there").
+    hang58 (v0.58): the angles of _sit_hang58, which then draws the posture."""
+    if hang58 is not None:
+        return _sit_hang58(P, hang58)
     J, S, s = P.J, P.S, P.s
     drop = J["hip"] * S - J["knee"] * S
     P.torso(drop=drop, back=0.04 * S * s, lean=6, head_pitch=head_pitch, head_turn=head_turn)
@@ -677,12 +722,29 @@ def lo_sit_hang(P, head_pitch=-10.0, head_turn=-40.0):
         P.rig.aim_dir(f"foot_{sd}", (0, -0.45, -1))
 
 
-def lo_sit_low(P, lean=-10.0, head_pitch=2.0, feet=(0.15, -0.26), seat=0.20):
+# v0.58 (TPDB_LOWSIT58; vision/flaws_v057.md R3): the legs of whoever sits on the seesaw's low end (seesaw_low_look, seesaw_low). "O": v0.57's,
+# the feet 20 cm out to each side and 34 cm ahead, so that a side view shows a short thigh and one long limb slanting from the hip across the
+# plank to a foot far ahead: "The man appears to be sitting on the end of the plank rather than squarely on the yellow seat" (v057 pic_52),
+# "The man's feet are on the ground in front of his seat" (pic_90). "B": the thighs side by side along the seat's pad, rising to the knees
+# as the plank does (14 degrees is as far as the shin lets a foot stay on the ground), the near shin upright under its knee and the far foot
+# LOWSIT58_P["far"] ahead of the near one, so that a side view shows the whole thigh on the pad, a knee and two shins.
+#   feet: lo_sit_low's (how far out to the side of the hip joint, how far ahead of the hips, in metres of a grown figure); far: see above
+LOWSIT58 = _os44.environ.get("TPDB_LOWSIT58", "B")
+LOWSIT58_P = dict(feet=(0.05, -0.31), far=0.05)
+LOWSIT58_P.update(__import__("json").loads(_os44.environ.get("TPDB_LOWSIT58_P", "{}")))
+LOWSIT58_ARGS = {"feet": tuple(LOWSIT58_P["feet"]), "far58": LOWSIT58_P["far"]} if LOWSIT58 != "O" else {}
+
+
+def lo_sit_low(P, lean=-10.0, head_pitch=2.0, feet=(0.15, -0.26), seat=0.20, far58=None):
     """Sitting low (on the end of a plank resting on the ground) with knees up and feet planted,
-    leaning back at ease. seat (v0.56, LOWEND56): how high the hips are above the feet's ground, in metres of a grown figure."""
+    leaning back at ease. seat (v0.56, LOWEND56): how high the hips are above the feet's ground, in metres of a grown figure.
+    far58 (v0.58, LOWSIT58): the far foot this much ahead of the near one, which stands at `feet`."""
     J, S, u = P.J, P.S, P.u
     drop = J["hip"] * S - seat * u
     P.torso(drop=drop, back=0.02 * u, lean=lean, head_pitch=head_pitch)
+    if far58 is not None:
+        P.place_legs({"L": (feet[0], (feet[1] - far58) * P.s, 0.0), "R": (-feet[0], feet[1] * P.s, 0.0)}, hint=(0, -1, 1.4))
+        return
     # v0.8: feet planted wide and closer in, on either side of the plank (feet far ahead crossed the
     # rising plank and read as legs passing through it); v0.10: the reader's feet wider still and
     # nearer the seat (its shins still crossed the board)
@@ -2293,6 +2355,23 @@ SEAT57_ARGS = {"seat": LOWEND56_SEAT + SEAT57_UP} if SEAT57 != "O" and LOWEND56 
 HEAVY57 = _os44.environ.get("TPDB_HEAVY57", "B")
 
 
+STUCK58_GRIP = dict(far=(0.05, -0.185, -0.14), near=(-0.05, -0.135, -0.14))
+STUCK58_GRIP.update(__import__("json").loads(_os44.environ.get("TPDB_STUCK58_GRIP", "{}")))
+
+
+def up_grip_bar58(P):
+    """v0.58 (TPDB_STUCK58, TPDB_RIDE58): both fists on the seesaw's handle where the scene draws it, side by side, however the trunk leans. The
+    place is v0.57's (CALL56_P["handle"]: 16 cm ahead of and 14 cm under the chest of a rider who leans 6 degrees forward), reckoned from
+    the pelvis, which a lean does not move."""
+    upd()
+    u = P.u
+    pel = P.lm("pelvis")
+    r = (P.lm("chest") - pel).length
+    c0 = pel + Vector((0.0, -math.sin(math.radians(6.0)), math.cos(math.radians(6.0)))) * r
+    P.arms({"R": (c0 + Vector(STUCK58_GRIP["near"]) * u, (-1, 0.3, -0.7)), "L": (c0 + Vector(STUCK58_GRIP["far"]) * u, (1, 0.3, -0.7))})
+    P.panchor("handle", (P.grip("L") + P.grip("R")) / 2)
+
+
 def up_grip_handle(P):
     """Both hands gripping a handle just in front of the chest, holding on tight."""
     u = P.u
@@ -2539,7 +2618,7 @@ UPPER = {
     "hold_ball": up_hold_ball, "kite": up_kite, "balloon": up_balloon, "paint": up_paint, "photo": up_photo,
     "flowers": up_flowers, "feed_birds": up_feed_birds, "walk_dog": up_walk_dog, "fish": up_fish,
     "bucket_hat": up_bucket_hat, "trowel": up_trowel, "empty_cone": up_empty_cone, "empty_cone_low": up_empty_cone_low,
-    "sweep_dinner_fork": up_sweep_dinner_fork, "sweep_giant_fork": up_sweep_giant_fork, "spade_pat": up_spade_pat, "feed_birds_low": up_feed_birds_low, "grip_handle": up_grip_handle, "grip_call": up_grip_call, "grip_reach": up_grip_reach, "balloon_reach": up_balloon_reach, "read_open": up_read_open, "read_open_hi": lambda P: up_read_open(P, dz=SIT55_P["book"]),
+    "sweep_dinner_fork": up_sweep_dinner_fork, "sweep_giant_fork": up_sweep_giant_fork, "spade_pat": up_spade_pat, "feed_birds_low": up_feed_birds_low, "grip_handle": up_grip_handle, "grip_bar58": up_grip_bar58, "grip_call": up_grip_call, "grip_reach": up_grip_reach, "balloon_reach": up_balloon_reach, "read_open": up_read_open, "read_open_hi": lambda P: up_read_open(P, dz=SIT55_P["book"]),
 }
 
 # v0.18: the reading walker's head bent 20 degrees, not 30 (bent further, the dark-haired woman's face was hidden: "no
@@ -2684,8 +2763,12 @@ ACTIONS = [
     ("feed_birds_low", "stand", {"lean": 16, "head_pitch": -40}, "feed_birds_low", "feeding the birds", ["birds"]),
     ("jump_tuck", "jump_tuck", {}, "cheer", "doing a star jump for joy", ["move", "airborne", "emotion"]),
     ("seesaw_stuck", "sit_dangle", {}, "grip_handle", "up high on a seesaw, holding on", ["sit", "seesaw"]),
-    ("seesaw_stuck_call", "sit_hang", {}, "grip_call" if CALL44 == "A" else "grip_handle", "stuck up in the air, holding on tight, calling out", ["sit", "seesaw"]),
-    ("seesaw_low", "sit_low", dict(SEAT57_ARGS), "cross_arms", "sitting on the low end of a seesaw", ["sit", "seesaw"]),
+    # (v0.58, TPDB_STUCK58: leaning back on both fists, or feeling for the ground with a foot; TPDB_LOWSIT58: the low rider's thighs along the pad;
+    # TPDB_RIDE58: seesaw_high, the raised child of a seesaw at play)
+    ("seesaw_stuck_call", "sit_hang", {"hang58": dict(STUCK58_P)} if STUCK58 != "O" else {},
+     "grip_bar58" if STUCK58 != "O" else "grip_call" if CALL44 == "A" else "grip_handle", "stuck up in the air, holding on tight, calling out", ["sit", "seesaw"]),
+    *([("seesaw_high", "sit_hang", {"hang58": dict(RIDE58_P)}, "grip_bar58", "up on the raised end of a seesaw, holding the handle", ["sit", "seesaw"])] if RIDE58 != "O" else []),
+    ("seesaw_low", "sit_low", {**SEAT57_ARGS, **LOWSIT58_ARGS}, "cross_arms", "sitting on the low end of a seesaw", ["sit", "seesaw"]),
     # v0.9
     ("balloon_reach", "stand", {"head_pitch": 26, "lean": -3}, "balloon_reach", "holding balloons and reaching for one that got away", ["balloon", "reach"]),
     ("walk_read_open", "walk", {"head_pitch": WALK_READ_PITCH}, "read_open", "reading while walking", ["read", "move"]),
@@ -2695,7 +2778,7 @@ ACTIONS = [
     ("seesaw_low_read", "sit_low", {"head_pitch": -26, "lean": -4, "feet": tuple(SIT55_P["low"]) if SIT55 == "B" else {"O": (0.20, -0.19), "X": (0.17, -0.86), "F": (0.20, -0.30)}[__import__("os").environ.get("TPDB_LOW", "O")],
                                     **SEAT57_ARGS},
      "read_open_hi" if SIT55 == "B" else "read_open", "sitting on the low end of the seesaw, reading", ["sit", "seesaw", "read"]),
-    *([("seesaw_low_look", "sit_low", {"head_pitch": HEAVY57_P["pitch"], "lean": HEAVY57_P["lean"], "feet": tuple(SIT55_P["low"]), **SEAT57_ARGS},
+    *([("seesaw_low_look", "sit_low", {"head_pitch": HEAVY57_P["pitch"], "lean": HEAVY57_P["lean"], "feet": tuple(SIT55_P["low"]), **SEAT57_ARGS, **LOWSIT58_ARGS},
         "knees_low", "sitting on the low end of the seesaw, hands on the knees, looking up", ["sit", "seesaw"])] if HEAVY57 != "O" else []),
     # v0.10
     ("cone_dropped", "stand", {"head_pitch": CONE56_P["pitch"], "head_turn": CONE56_P["turn"], "head_roll": CONE56_P["roll"]} if CONE56 != "O" else {"head_pitch": -34, "head_roll": 4},
@@ -2738,6 +2821,60 @@ def up_throw_bread(P):
 UPPER["throw_bread"] = up_throw_bread
 if BREAD56 != "O":
     ACTIONS.append(("throw_bread", "throw51", {"lean": BREAD56_P["lean"], "head_pitch": BREAD56_P["pitch"]}, "throw_bread", "throwing bread to the ducks", ["birds"]))
+
+
+# v0.58 (TPDB_REEL58; vision/flaws_v057.md R2 and O6; the scene's switch KITEREEL, templates.KiteInTree): the child whose kite is caught in the
+# tree stood in fly_kite, the reel held up in front of the chest as a child holds it who is flying, over a line that lies slack on the grass
+# ("though the girl still holds her reel up as if flying it"). "B" adds the pose kite_lost: the near arm down along the body and a little forward, the reel
+# hanging from its fist below the hip, its axis forward and down; the far arm up toward the kite, the hand open; the head up as fly_kite's.
+# The far hand's palm is turned to the viewer (edge on, palm up, the hand was a thin blade in the side view the scene draws).
+# "C" adds kite_lost and kite_dropped as well: the same arms with nothing in the near hand, which hangs open, the fingers down; the reel lies
+# on the grass under it, ahead of the feet, where the scene draws it. "O": neither pose (v0.57's cast). No pose of v0.57 is changed by either.
+# The anchor string_end is where the line leaves the reel, as fly_kite's: in kite_lost on the hanging spool's underside, in kite_dropped a
+# point on the ground ahead of the near foot (REEL58_P["drop"], in body units: sideways, forward, up), where the scene sets the reel down.
+REEL58 = _os44.environ.get("TPDB_REEL58", "B")
+REEL58_P = dict(arm=(-0.10, -0.16, -1.0), axis=(-0.02, -0.62, -0.78), reach=(0.12, -0.62, 0.78), palm=(-1.0, 0.0, 0.15), pitch=30.0, lean=-3.0,
+                drop=(-0.06, -0.36, 0.035))
+REEL58_P.update(__import__("json").loads(_os44.environ.get("TPDB_REEL58_P", "{}")))
+
+
+def up_kite_lost(P):
+    """v0.58 (TPDB_REEL58 "B"): see the switch. The reel is fly_kite's own (up_kite, KITE45 "A"), turned to hang from the lowered fist."""
+    u, q = P.u, REEL58_P
+    P.arms({"R": (P.lm("sh_R") + nrm(tuple(q["arm"])) * P.A * 0.985, (-0.2, 0.6, 0)),
+            "L": (P.lm("sh_L") + nrm(tuple(q["reach"])) * P.A * 0.995, (1, 0.5, -0.2))})
+    P.hand("L", "open", palm=tuple(q["palm"]))
+    g = P.grip("R")
+    ax = nrm(tuple(q["axis"]))
+    k = u * {"child": 1.25, "teen": 1.1}.get(P.c.spec.get("age"), 1.0)
+    col = _pcol(P, "red", ("blue", "orange", "purple"))
+    P.prop("handle", cyl("handle", g - ax * 0.055 * k, g + ax * 0.060 * k, 0.014 * k, "brown"))
+    P.prop("spool", cyl("spool", g + ax * 0.062 * k, g + ax * 0.150 * k, 0.034 * k, "cream", seg=20))
+    for nm_, a0 in (("flange0", 0.052), ("flange1", 0.146)):
+        P.prop(nm_, cyl(nm_, g + ax * a0 * k, g + ax * (a0 + 0.016) * k, 0.060 * k, col, seg=24))
+    P.panchor("string_end", g + ax * 0.106 * k + Vector((0, 0, -0.034)) * k)
+
+
+def up_kite_dropped(P):
+    """v0.58 (TPDB_REEL58 "C"): see the switch. kite_lost's arms with nothing in the near hand, which is open, its fingers down. (Two trials
+    with both hands at the head were looked at and left: beside the jaw the near hand lay over the mouth in a side view, a hand at the
+    mouth; on top of the head a child's arms, short for the large head, were hidden behind it.)"""
+    u, q = P.u, REEL58_P
+    P.arms({"R": (P.lm("sh_R") + nrm(tuple(q["arm"])) * P.A * 0.985, (-0.2, 0.6, 0)),
+            "L": (P.lm("sh_L") + nrm(tuple(q["reach"])) * P.A * 0.995, (1, 0.5, -0.2))})
+    P.hand("L", "open", palm=tuple(q["palm"]))
+    P.hand("R", "open", palm=(1, 0, 0))
+    P.panchor("string_end", Vector(tuple(q["drop"])) * u, "foot_R")
+
+
+UPPER["kite_lost"] = up_kite_lost
+UPPER["kite_dropped"] = up_kite_dropped
+if REEL58 != "O":
+    ACTIONS.append(("kite_lost", "stand", {"head_pitch": REEL58_P["pitch"], "lean": REEL58_P["lean"]}, "kite_lost",
+                    "holding a kite's reel down at their side and reaching up", ["kite", "look_up", "reach"]))
+if REEL58 == "C":
+    ACTIONS.append(("kite_dropped", "stand", {"head_pitch": REEL58_P["pitch"], "lean": REEL58_P["lean"]}, "kite_dropped",
+                    "reaching up with one hand, the other open and empty at their side", ["look_up", "reach"]))
 
 
 def _x_wave(d):

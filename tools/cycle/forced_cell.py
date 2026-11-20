@@ -39,6 +39,10 @@ SETS = {
     # square wheels has an owner who holds it from revision 50, a ninth figure, and the man who sits on nothing and the carrier found no room.
     # With the dog that reads a newspaper in his place it placed in the band on one seed of six, 445887. (v047street with its jump: none of six.)
     "v056street": ["bird_steals", "ice_cream_drop", "ball_in_tree", "dog_reading", "square_wheel", "feed_birds", "carry_bag", "sweep"],
+    # the tier-4 garden of v0.58: v0.46's set with the man who sits on nothing in place of the wheelbarrow with a square wheel. Wheeled by a
+    # grown figure (revision 52, BARROW "H") the barrow needs a strip of about 430 px and a tenth figure, and the set placed on 0 seeds of 12
+    # with the band (parked: 5 of 12); with sitting_on_air it places on 6 of 12, the cell's own seed 552986 among them (dog_reading: 5 of 12)
+    "v058garden": ["blocked_hose", "ball_in_tree", "bucket_hat", "sitting_on_air", "birds_flying", "drink_bench", "paint_fence", "sweep", "cat_on_fence"],
 }
 setting, tier, name, seeds = sys.argv[1], int(sys.argv[2]), sys.argv[3], [int(x) for x in sys.argv[4].split(",")]
 forced = {"modules": [], "contradictions": [], "events": []}

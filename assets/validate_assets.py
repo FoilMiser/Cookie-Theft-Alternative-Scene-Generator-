@@ -27,7 +27,7 @@ PALETTE_TOL = 10          # max RGB distance to count as on-palette
 PALETTE_MIN_SHARE = 0.90
 SOFT_PER_EDGE_MAX = 4.5   # semi-transparent pixels per outline pixel (this pipeline runs ~3.6)
 FRONTAL_GAZE_COS = 0.7
-SUPPORTED_POSES = {"sit_swing", "seesaw_stuck_call"}  # held off the ground by scenery (the swing seat; the raised end of a seesaw, the legs hanging)    # gaze within ~45 deg of the camera = looking at the viewer
+SUPPORTED_POSES = {"sit_swing", "seesaw_stuck_call", "seesaw_high"}  # held off the ground by scenery (the swing seat; the raised end of a seesaw, the legs hanging)    # gaze within ~45 deg of the camera = looking at the viewer
 
 
 def sha256(path):
